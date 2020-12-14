@@ -39,7 +39,7 @@ body.scheme_cyber {
 	color: gray;
 	margin-bottom: 6px; /* default margin-bottom: 10px; */
 	background-color: transparent;
-	border: solid 1px transparent;	
+	border: solid 1px transparent;
     /* default padding: 5px; */
     /* default width: 170px; */
 }
@@ -59,9 +59,9 @@ body.scheme_cyber {
 	border-top-color: #404040;
 	border-bottom-color: #404040;
 	border-image: linear-gradient(90deg, transparent 0%, #404040 50%, transparent 100%) 1;
-	background: radial-gradient(farthest-corner at 50% 100%, rgba(64, 64, 64, 0.2) 0%, rgba(64, 64, 64, 0.1) 10%, rgba(0, 0, 0, 0.5) 70%, rgba(0, 0, 0, 0.9) 100%), 
-				linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
-				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
+	background: radial-gradient(farthest-corner at 50% 100%, rgba(64, 64, 64, 0.2) 0%, rgba(64, 64, 64, 0.1) 10%, rgba(0, 0, 0, 0.5) 70%, rgba(0, 0, 0, 0.9) 100%),
+				linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
+				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
 				local repeat top left url('img/theme_cyber_texture_03.png'), #0b0b0b;
 }
 .scheme_cyber .btn.modern.disabled span.btnTitle { /* to change only the properties of the button name for buttons disabled */
@@ -78,17 +78,17 @@ body.scheme_cyber {
 }
 .scheme_cyber .btn.modern:not(.disabled) {
 	border: solid 1px transparent;
-	background:	linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
-				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
+	background:	linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
+				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
 				local repeat top left url('img/theme_cyber_texture_02.png'), #0b0b0b;
 }
 .scheme_cyber .btn.modern:not(.disabled):hover {
 	border-top-color: #79d9ff;
 	border-bottom-color: #79d9ff;
 	border-image: linear-gradient(90deg, transparent 0%, #79d9ff 50%, transparent 100%) 1;
-	background: radial-gradient(farthest-corner at 50% 100%, rgba(121, 217, 255, 0.2) 0%, rgba(121, 217, 255, 0.1) 10%, rgba(0, 0, 0, 0.5) 70%, rgba(0, 0, 0, 0.9) 100%), 
-				linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
-				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
+	background: radial-gradient(farthest-corner at 50% 100%, rgba(121, 217, 255, 0.2) 0%, rgba(121, 217, 255, 0.1) 10%, rgba(0, 0, 0, 0.5) 70%, rgba(0, 0, 0, 0.9) 100%),
+				linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
+				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
 				local repeat top left url('img/theme_cyber_texture_02.png'), #0b0b0b;
 }
 .scheme_cyber .btn.modern:not(.disabled) span.btnTitle { /* to change only the properties of the button name for buttons enabled */
@@ -137,51 +137,51 @@ body.scheme_cyber {
 	border: none; /* also allows you to remove the height difference with the other buttons (they have no border on div.content) */
 }
 .scheme_cyber .btn.disabled.bldlackResConvert { /* color for lack resources convertion */
-	background: no-repeat padding-box linear-gradient(90deg, #e30002 0%, rgba(227, 0, 2, 0.5) 5px, transparent 20px, transparent 100%), 
+	background: no-repeat padding-box linear-gradient(90deg, #e30002 0%, rgba(227, 0, 2, 0.5) 5px, transparent 20px, transparent 100%),
 				local repeat top left url('img/theme_cyber_texture_03.png'), #0b0b0b;
 }
 .scheme_cyber .btn.disabled.bldlackResConvert:hover {
-	background: no-repeat border-box linear-gradient(90deg, #e30002 0%, rgba(227, 0, 2, 0.5) 4px, transparent 16px, transparent 100%), 
-				radial-gradient(farthest-corner at 50% 100%, rgba(64, 64, 64, 0.2) 0%, rgba(64, 64, 64, 0.1) 10%, rgba(0, 0, 0, 0.5) 70%, rgba(0, 0, 0, 0.9) 100%), 
-				linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
-				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
+	background: no-repeat border-box linear-gradient(90deg, #e30002 0%, rgba(227, 0, 2, 0.5) 4px, transparent 16px, transparent 100%),
+				radial-gradient(farthest-corner at 50% 100%, rgba(64, 64, 64, 0.2) 0%, rgba(64, 64, 64, 0.1) 10%, rgba(0, 0, 0, 0.5) 70%, rgba(0, 0, 0, 0.9) 100%),
+				linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
+				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
 				local repeat top left url('img/theme_cyber_texture_03.png'), #0b0b0b;
 }
 .scheme_cyber .btn:not(.disabled).bldlackResConvert {
-	background: no-repeat padding-box linear-gradient(90deg, #e30002 0%, rgba(227, 0, 2, 0.5) 5px, transparent 20px, transparent 100%), 
-				linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
-				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
+	background: no-repeat padding-box linear-gradient(90deg, #e30002 0%, rgba(227, 0, 2, 0.5) 5px, transparent 20px, transparent 100%),
+				linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
+				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
 				local repeat top left url('img/theme_cyber_texture_02.png'), #0b0b0b;
 }
 .scheme_cyber .btn:not(.disabled).bldlackResConvert:hover {
 	background: no-repeat border-box linear-gradient(90deg, #e30002 0%, rgba(227, 0, 2, 0.5) 4px, transparent 16px, transparent 100%),
-	radial-gradient(farthest-corner at 50% 100%, rgba(121, 217, 255, 0.2) 0%, rgba(121, 217, 255, 0.1) 10%, rgba(0, 0, 0, 0.5) 70%, rgba(0, 0, 0, 0.9) 100%), 
-				linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
-				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
+	radial-gradient(farthest-corner at 50% 100%, rgba(121, 217, 255, 0.2) 0%, rgba(121, 217, 255, 0.1) 10%, rgba(0, 0, 0, 0.5) 70%, rgba(0, 0, 0, 0.9) 100%),
+				linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
+				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
 				local repeat top left url('img/theme_cyber_texture_02.png'), #0b0b0b;
 }
 .scheme_cyber .btn.disabled.bldEnabled {
-	background: no-repeat padding-box linear-gradient(90deg, #00e26e 0%, rgba(0, 226, 110, 0.5) 5px, transparent 20px, transparent 100%), 
+	background: no-repeat padding-box linear-gradient(90deg, #00e26e 0%, rgba(0, 226, 110, 0.5) 5px, transparent 20px, transparent 100%),
 				local repeat top left url('img/theme_cyber_texture_03.png'), #0b0b0b;
 }
 .scheme_cyber .btn.disabled.bldEnabled:hover {
 	background: no-repeat border-box linear-gradient(90deg, #00e26e 0%, rgba(0, 226, 110, 0.5) 4px, transparent 16px, transparent 100%),
-				radial-gradient(farthest-corner at 50% 100%, rgba(64, 64, 64, 0.2) 0%, rgba(64, 64, 64, 0.1) 10%, rgba(0, 0, 0, 0.5) 70%, rgba(0, 0, 0, 0.9) 100%), 
-				linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
-				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
-				local repeat top left url('img/theme_cyber_texture_03.png'), #0b0b0b;				
+				radial-gradient(farthest-corner at 50% 100%, rgba(64, 64, 64, 0.2) 0%, rgba(64, 64, 64, 0.1) 10%, rgba(0, 0, 0, 0.5) 70%, rgba(0, 0, 0, 0.9) 100%),
+				linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
+				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
+				local repeat top left url('img/theme_cyber_texture_03.png'), #0b0b0b;
 }
 .scheme_cyber .btn:not(.disabled).bldEnabled {
-				background: no-repeat padding-box linear-gradient(90deg, #00e26e 0%, rgba(0, 226, 110, 0.5) 5px, transparent 20px, transparent 100%), 				
-				linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
-				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
+				background: no-repeat padding-box linear-gradient(90deg, #00e26e 0%, rgba(0, 226, 110, 0.5) 5px, transparent 20px, transparent 100%),
+				linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
+				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
 				local repeat top left url('img/theme_cyber_texture_02.png'), #0b0b0b;
 }
 .scheme_cyber .btn:not(.disabled).bldEnabled:hover {
-	background: no-repeat border-box linear-gradient(90deg, #00e26e 0%, rgba(0, 226, 110, 0.5) 4px, transparent 16px, transparent 100%), 
-				radial-gradient(farthest-corner at 50% 100%, rgba(121, 217, 255, 0.2) 0%, rgba(121, 217, 255, 0.1) 10%, rgba(0, 0, 0, 0.5) 70%, rgba(0, 0, 0, 0.9) 100%), 
-				linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
-				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
+	background: no-repeat border-box linear-gradient(90deg, #00e26e 0%, rgba(0, 226, 110, 0.5) 4px, transparent 16px, transparent 100%),
+				radial-gradient(farthest-corner at 50% 100%, rgba(121, 217, 255, 0.2) 0%, rgba(121, 217, 255, 0.1) 10%, rgba(0, 0, 0, 0.5) 70%, rgba(0, 0, 0, 0.9) 100%),
+				linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
+				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
 				local repeat top left url('img/theme_cyber_texture_02.png'), #0b0b0b;
 }
 /* *** end of green light for machine on/off *** */
@@ -222,7 +222,7 @@ body.scheme_cyber {
 .scheme_cyber label i { /* information text in option windows */
     /* default font size = font-size: 90%; */
 	color: #909090;
-	opacity: 0.8;	
+	opacity: 0.8;
 }
 .scheme_cyber label:hover {
 	opacity: 1;/* default opacity: 0.7; */
@@ -233,8 +233,8 @@ body.scheme_cyber {
 }
 .scheme_cyber select { /* dropdown list on settlement tab and options windows */
 	background-color: transparent;
-	background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
-				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
+	background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
+				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
 				local repeat top left url(img/theme_cyber_texture_01.png),  transparent;
     color: #b0b0b0;
 	border: solid 1px transparent;
@@ -244,7 +244,7 @@ body.scheme_cyber {
 }
 .scheme_cyber select:hover { /* dropdown list on settlement tab and options windows */
 	background-color: #010101;
-	background: linear-gradient(90deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.6) 75%, rgba(0, 0, 0, 0.9) 100%), 
+	background: linear-gradient(90deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.6) 75%, rgba(0, 0, 0, 0.9) 100%),
 				local repeat top left url(img/theme_cyber_texture_02.png), #010101;
     color: #79d9ff;
 	box-shadow: inset 0 1px 1px rgba(121, 217, 255, 0.75);
@@ -295,7 +295,7 @@ body.scheme_cyber {
 }
 .scheme_cyber input:active,
 .scheme_cyber select:active,
-.scheme_cyber textarea:active { 
+.scheme_cyber textarea:active {
     border-color: #79d9ff !important;
 }
 
@@ -303,7 +303,7 @@ body.scheme_cyber {
 /* ******************* TOP BAR ******************* */
 /* *********************************************** */
 .scheme_cyber #topBar {
-    /* default height: 26px; */		
+    /* default height: 26px; */
 	top: 0; /* for no shadow on top */
 	box-shadow: none; /* default box-shadow: 1px 0px 2px #888; */
 	border: none;
@@ -323,10 +323,10 @@ body.scheme_cyber {
 	color: transparent;
 }
 .scheme_cyber #topBar div,
-.scheme_cyber #topBar #sorrowTooltip { /* counter of BLS (Black Liquid Sorrow) */
+.scheme_cyber #topBar .toolbarIcon.sorrow div { /* counter of BLS (Black Liquid Sorrow) */
 	color: #b0b0b0;
 }
-.scheme_cyber #sorrowTooltip.max {
+.scheme_cyber .toolbarIcon.sorrow.max div {
     color: #e30002 !important; /* in default.js !important needed */
 }
 .scheme_cyber #topBar > div:first-child > span:first-child:after {
@@ -383,11 +383,11 @@ body.scheme_cyber {
 	/* font-size: 13px; /* for center tooltip except title, effects and flavor */
 /* } */
 .scheme_cyber #tooltip,
-.scheme_cyber .tooltip-block div {
+.scheme_cyber .tooltip-block > div {
 	padding-left: 9px; /* default padding-left: 3px; */
 	padding-bottom: 5px;
 	background: padding-box rgba(16, 17, 18, 0.85);
-	backdrop-filter: blur(2px);	
+	backdrop-filter: blur(2px);
 	color: #e8e8e8; /* tooltip windows == left column : left text */
 	border: 3px solid transparent;
 	border-image-source: url('img/theme_cyber_frame_01.png');
@@ -397,7 +397,7 @@ body.scheme_cyber {
 	border-image-repeat: round;
 	/* margin-left: 20px; /* for offset tooltip due to larger buttons .btn.modern */
 }
-.scheme_cyber .tooltip-block div { /* tooltip on ? top right column */
+.scheme_cyber .tooltip-block > div { /* tooltip on ? top right column */
 	padding: 5px;
 }
 .scheme_cyber .button_tooltip {
@@ -433,7 +433,7 @@ body.scheme_cyber {
 	margin-bottom: 2px !important; /* in core.js margin-bottom: 8px; !important needed */
 	color: #79d9ff !important; /* text centered : Tooltip name */
 }
-.scheme_cyber .tooltip-divider.resEffectsTxt { /* text centered : res.effects */	
+.scheme_cyber .tooltip-divider.resEffectsTxt { /* text centered : res.effects */
 	font-size: 14px;
 	color: #707070 !important;
 	padding-bottom: 0 !important; /* in core.js padding-bottom: 4px; !important needed */
@@ -549,10 +549,10 @@ body.scheme_cyber {
 	border-top: 1px solid transparent;
 	border-image: linear-gradient(90deg, transparent 0%, #404040 50%, transparent 100%) 1;
 }
-.scheme_cyber input[type='button'] {	
+.scheme_cyber input[type='button'] {
 	background-color: #0b0b0b !important; /* !important in default.css */
-	background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
-				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
+	background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
+				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
 				local repeat top left url('img/theme_cyber_texture_02.png'), #0b0b0b !important; /* !important in default.css */
     border: solid 1px transparent !important; /* for no offset when border on */ /* !important in default.css */
     border-radius: 0 !important; /* !important in default.css */
@@ -563,25 +563,25 @@ body.scheme_cyber {
 }
 .scheme_cyber input[type='button']:hover {
 	background-color: #1c1b20 !important; /* !important in default.css */
-	background: no-repeat linear-gradient(0deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.6) 75%, rgba(0, 0, 0, 0.9) 100%), 
+	background: no-repeat linear-gradient(0deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.6) 75%, rgba(0, 0, 0, 0.9) 100%),
 				local repeat top left url('img/theme_cyber_texture_02.png'), #0b0b0b !important; /* !important in default.css */
 	color: #79d9ff;
 	border-bottom-color: #79d9ff !important; /* !important in default.css */
 	cursor: pointer !important;
 }
 /* button observer different from other input buttons */
-.scheme_cyber input[type='button']#observeBtn {	
+.scheme_cyber input[type='button']#observeBtn {
 	background-color: rgba(255, 158, 65, 0.3) !important; /* !important in default.css */
-	background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
-				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
+	background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
+				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
 				local repeat top left url('img/theme_cyber_texture_04.png'), rgba(255, 158, 65, 0.3) !important; /* !important in default.css */
 	color: rgba(255, 158, 65, 0.75);
 	border: 1px solid transparent !important; /* !important in default.css */
 }
 .scheme_cyber input[type='button']#observeBtn:hover {
 	background-color: rgba(121, 217, 255, 0.3) !important; /* !important in default.css */
-	background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
-				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
+	background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
+				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
 				local repeat top left url('img/theme_cyber_texture_04.png'), rgba(121, 217, 255, 0.3) !important; /* !important in default.css */
 	color: #79d9ff;
 	border: 1px solid transparent !important; /* !important in default.css */
@@ -592,7 +592,7 @@ body.scheme_cyber {
     /* default overflow-x: hidden; */
     /* default text-overflow: ellipsis; */
 /* } */
-.scheme_cyber .btn.modern a {	
+.scheme_cyber .btn.modern a {
 	font-weight: normal;
 	line-height: 16px;
 	background-color: transparent;
@@ -607,7 +607,7 @@ body.scheme_cyber {
 	border-left: 1px solid transparent;
 }
 .scheme_cyber .btn.modern.disabled a {
-    color: #707070;	
+    color: #707070;
 	border-left: 1px solid transparent;
 }
 .scheme_cyber .btn.modern:not(.disabled) a:hover {
@@ -620,7 +620,7 @@ body.scheme_cyber {
 }
 .scheme_cyber .btn.modern:not(.disabled):active,
 .scheme_cyber input[type='button']:active,
-.scheme_cyber input[type='button']#observeBtn:active { 
+.scheme_cyber input[type='button']#observeBtn:active {
     border-color: #79d9ff !important;
 }
 .scheme_cyber .linkContent { /* dropdown list on button */
@@ -628,8 +628,8 @@ body.scheme_cyber {
     width: auto !important;
     border-radius: 0;
 	border: solid 1px transparent;
-	background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
-				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
+	background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
+				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
 				local repeat top left url('img/theme_cyber_texture_02.png'), #0b0b0b; /* color pick from button not disabled and hover */
 	box-shadow: inset 0 -1px 2px rgba(121, 217, 255, 0.7), inset 0 1px 2px rgba(121, 217, 255, 0.7);
 }
@@ -641,8 +641,8 @@ body.scheme_cyber {
 	border-left: none !important; /* default border-left: 1px solid #888; */
 }
 .scheme_cyber .btn.modern.disabled .linkContent { /* dropdown list on button disabled */
-	background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
-				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
+	background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
+				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
 				local repeat top left url('img/theme_cyber_texture_03.png'), #0b0b0b;  /* color pick from button disabled and hover */
 	box-shadow: inset 0 -1px 2px rgba(64, 64, 64, 0.7), inset 0 1px 2px rgba(64, 64, 64, 0.7);
 }
@@ -709,9 +709,9 @@ body.scheme_cyber {
 	margin-left: 12px;
 	padding: 9px;
 	color: #b6bec0;
-	background: linear-gradient(0deg, rgba(121, 217, 255, 0.3) 0%, rgba(121, 217, 255, 0.1) 3px, rgba(0, 0, 0, 0.1) 4px, rgba(0, 0, 0, 0.5) 65%, rgba(0, 0, 0, 0.75) 100%), 
-				linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
-				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
+	background: linear-gradient(0deg, rgba(121, 217, 255, 0.3) 0%, rgba(121, 217, 255, 0.1) 3px, rgba(0, 0, 0, 0.1) 4px, rgba(0, 0, 0, 0.5) 65%, rgba(0, 0, 0, 0.75) 100%),
+				linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
+				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
 				local repeat top left url('img/theme_cyber_texture_01.png'), #0b0b0b;
 	border: 2px solid transparent;
 	border-image-source: url('img/theme_cyber_frame_01.png');
@@ -743,7 +743,7 @@ body.scheme_cyber {
 	color: #c0c0c0;
 }
 .scheme_cyber .panelContainer .toggle:hover {
-	background: radial-gradient(rgba(121, 217, 255, 0.1) 0%, transparent 25%, rgba(0, 0, 0, 0.1) 35%, rgba(0, 0, 0, 1) 95%, rgba(0, 0, 0, 1) 100%), 				 
+	background: radial-gradient(rgba(121, 217, 255, 0.1) 0%, transparent 25%, rgba(0, 0, 0, 0.1) 35%, rgba(0, 0, 0, 1) 95%, rgba(0, 0, 0, 1) 100%),
 				local repeat top left url('img/theme_cyber_texture_02.png'), #0b0b0b;
 	border-radius: 5px;
 	color: #79d9ff;
@@ -946,12 +946,12 @@ body.scheme_cyber {
 	margin-bottom: 7px; /* default margin-bottom: 10px; */
 	height: 37px;
 	background-color: #0b0b0b;
-	color: #b0b0b0;	
+	color: #b0b0b0;
 	letter-spacing: 1px;
 	border: solid 1px transparent;
 	background: local repeat top left url('img/theme_cyber_texture_03.png'), #0b0b0b;
 }
-.scheme_cyber .achievement:hover {	
+.scheme_cyber .achievement:hover {
 	border-image-source: url('img/theme_cyber_frame_06.png');
 	border-image-width: 16px 16px 16px 16px;
 	border-image-slice: 16 16 16 16;
@@ -964,9 +964,9 @@ body.scheme_cyber {
 .scheme_cyber .achievement:not(.unethical).unlocked:hover {
 	color: #79d9ff;
 	text-shadow: #79d9ff 0 0 10px;
-	background: radial-gradient(farthest-corner at 50% 100%, rgba(121, 217, 255, 0.4) 0%, rgba(121, 217, 255, 0.2) 10%, rgba(0, 0, 0, 0.3) 70%, rgba(0, 0, 0, 0.6) 100%), 
-	linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
-	linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
+	background: radial-gradient(farthest-corner at 50% 100%, rgba(121, 217, 255, 0.4) 0%, rgba(121, 217, 255, 0.2) 10%, rgba(0, 0, 0, 0.3) 70%, rgba(0, 0, 0, 0.6) 100%),
+	linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
+	linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
 	local repeat top left url('img/theme_cyber_texture_03.png'), #0b0b0b;
 }
 .scheme_cyber .achievement.unethical {
@@ -976,18 +976,18 @@ body.scheme_cyber {
 .scheme_cyber .achievement.unethical:hover {
 	color: #e30002;
 	text-shadow: #e30002 0 0 10px;
-	background: radial-gradient(farthest-corner at 50% 100%, rgba(227, 0, 2, 0.4) 0%, rgba(227, 0, 2, 0.2) 10%, rgba(0, 0, 0, 0.3) 70%, rgba(0, 0, 0, 0.6) 100%), 
-	linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
-	linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
+	background: radial-gradient(farthest-corner at 50% 100%, rgba(227, 0, 2, 0.4) 0%, rgba(227, 0, 2, 0.2) 10%, rgba(0, 0, 0, 0.3) 70%, rgba(0, 0, 0, 0.6) 100%),
+	linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
+	linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
 	local repeat top left url('img/theme_cyber_texture_03.png'), #0b0b0b;
 }
 .scheme_cyber .achievement:not(.unlocked) {
 	color: #909090;
 }
-.scheme_cyber .achievement:not(.unlocked):hover {	
-	background: radial-gradient(farthest-corner at 50% 100%, rgba(64, 64, 64, 0.2) 0%, rgba(64, 64, 64, 0.1) 10%, rgba(0, 0, 0, 0.3) 70%, rgba(0, 0, 0, 0.6) 100%), 
-				linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
-				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%), 
+.scheme_cyber .achievement:not(.unlocked):hover {
+	background: radial-gradient(farthest-corner at 50% 100%, rgba(64, 64, 64, 0.2) 0%, rgba(64, 64, 64, 0.1) 10%, rgba(0, 0, 0, 0.3) 70%, rgba(0, 0, 0, 0.6) 100%),
+				linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
+				linear-gradient(270deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%, transparent 100%),
 				local repeat top left url('img/theme_cyber_texture_03.png'), #0b0b0b;
 }
 .scheme_cyber .achievement:after {
@@ -998,7 +998,7 @@ body.scheme_cyber {
 	color: #e8e8e8;
 	text-shadow: none;
 }
-@media screen {	
+@media screen {
 	.scheme_cyber .achievement[title]:hover::after {
 	  opacity: 0.8; /* default opacity: 0.6; */
 	}
@@ -1306,7 +1306,7 @@ body.scheme_cyber {
 	font-size: larger;
 }
 .scheme_cyber #fastPraiseContainer >a:hover {
-	color: #e8e8e8;	
+	color: #e8e8e8;
 	text-shadow: 0 0 4px #e8e8e8;
 }
 .scheme_cyber .res-cell.positive-weather { /* to change the color for bonus cell according to the season */
@@ -1342,29 +1342,29 @@ body.scheme_cyber {
 }
 .scheme_cyber ::-webkit-scrollbar-thumb {
 	border-radius: 0;
-	background-color: rgba(128, 128, 128, 0.15);	
+	background-color: rgba(128, 128, 128, 0.15);
 }
 .scheme_cyber .dialog::-webkit-scrollbar-thumb {
 	border-radius: 0;
 	background-color: rgba(128, 128, 128, 0.1);
-	background: no-repeat padding-box linear-gradient(0deg, #79d9ff 0%, transparent 5px, rgba(0, 0, 0, 0.75) 6px, transparent 50%, transparent 100%), 
-				no-repeat padding-box linear-gradient(180deg, #79d9ff 0%, rgba(0, 0, 0, 0) 5px, rgba(0, 0, 0, 0.75) 6px, transparent 50%, transparent 100%), 
-				no-repeat padding-box linear-gradient(90deg, rgba(121, 217, 255, 0.5) 0%, transparent 2px, transparent 100%), 
-				no-repeat padding-box linear-gradient(270deg, rgba(121, 217, 255, 0.5) 0%, transparent 2px, transparent 100%), 
+	background: no-repeat padding-box linear-gradient(0deg, #79d9ff 0%, transparent 5px, rgba(0, 0, 0, 0.75) 6px, transparent 50%, transparent 100%),
+				no-repeat padding-box linear-gradient(180deg, #79d9ff 0%, rgba(0, 0, 0, 0) 5px, rgba(0, 0, 0, 0.75) 6px, transparent 50%, transparent 100%),
+				no-repeat padding-box linear-gradient(90deg, rgba(121, 217, 255, 0.5) 0%, transparent 2px, transparent 100%),
+				no-repeat padding-box linear-gradient(270deg, rgba(121, 217, 255, 0.5) 0%, transparent 2px, transparent 100%),
 				local repeat top left url('img/theme_cyber_texture_03.png'), #0b0b0b;
 }
 .scheme_cyber textarea#importData::-webkit-scrollbar-thumb,
 .scheme_cyber textarea#exportData::-webkit-scrollbar-thumb {
 	border-radius: 0;
 	background-color: rgba(128, 128, 128, 0.1);
-	background: no-repeat padding-box linear-gradient(0deg, #79d9ff 0%, transparent 2px, rgba(0, 0, 0, 0.75) 3px, transparent 50%, transparent 100%), 
-				no-repeat padding-box linear-gradient(180deg, #79d9ff 0%, rgba(0, 0, 0, 0) 2px, rgba(0, 0, 0, 0.75) 3px, transparent 50%, transparent 100%), 
-				no-repeat padding-box linear-gradient(90deg, rgba(121, 217, 255, 0.5) 0%, transparent 2px, transparent 100%), 
-				no-repeat padding-box linear-gradient(270deg, rgba(121, 217, 255, 0.5) 0%, transparent 2px, transparent 100%), 
+	background: no-repeat padding-box linear-gradient(0deg, #79d9ff 0%, transparent 2px, rgba(0, 0, 0, 0.75) 3px, transparent 50%, transparent 100%),
+				no-repeat padding-box linear-gradient(180deg, #79d9ff 0%, rgba(0, 0, 0, 0) 2px, rgba(0, 0, 0, 0.75) 3px, transparent 50%, transparent 100%),
+				no-repeat padding-box linear-gradient(90deg, rgba(121, 217, 255, 0.5) 0%, transparent 2px, transparent 100%),
+				no-repeat padding-box linear-gradient(270deg, rgba(121, 217, 255, 0.5) 0%, transparent 2px, transparent 100%),
 				local repeat top left url('img/theme_cyber_texture_03.png'), #0b0b0b;
 }
 .scheme_cyber #gameLog::-webkit-scrollbar {
-	width: 6px;	
+	width: 6px;
 }
 .scheme_cyber #gameLog::-webkit-scrollbar-thumb {
 	border-radius: 0;

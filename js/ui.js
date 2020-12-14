@@ -1,5 +1,6 @@
-/* global 
-    WLeftPanel 
+/* global
+    WLeftPanel
+    WMidPanel
     WToolbar
 */
 /**
@@ -194,6 +195,13 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                     control: false
                 },
                 {
+                    name: "Challenges",
+                    key: "C",
+                    shift: true,
+                    alt: false,
+                    control: false
+                },
+                {
                     name: "Close Options",
                     key: "Escape",
                     shift: false,
@@ -242,6 +250,24 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 }
                 if (this.game.tabs[tabIndex].visible){
                     this.game.ui.activeTabId = this.game.tabs[tabIndex].tabId;
+                    this.game.ui.render();
+                }
+            } else if (!isInputElement && (event.keyCode == 37 || event.keyCode == 39)){ //left arrow, right arrow
+                var visibleTabs = [];
+                var activeTabIndex = 0;
+                for (var i = 0; i < this.game.tabs.length; i++){
+                    var tab = this.game.tabs[i];
+                    if (tab.visible){
+                        if (tab.tabId == this.game.ui.activeTabId){
+                            activeTabIndex = visibleTabs.length;
+                        }
+                        visibleTabs.push(tab);
+                    }
+                }
+                var jump = event.keyCode == 37 ? -1 : 1;
+                var switchTab = visibleTabs[activeTabIndex + jump];
+                if (switchTab){
+                    this.game.ui.activeTabId = switchTab.tabId;
                     this.game.ui.render();
                 }
             } else if (!isInputElement && keybind && keybind.name != this.game.ui.activeTabId ) {
@@ -485,6 +511,10 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         React.render($r(WLeftPanel, {
             game: this.game
         }), document.getElementById("leftColumnViewport"));
+
+        React.render($r(WMidPanel, {
+            game: this.game
+        }), document.getElementById("midColumnViewport"));
 
         React.render($r(WToolbar, {
             game: this.game
@@ -893,8 +923,6 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
         $("#autosaveTooltip").text($I("ui.autosave.tooltip"));
         $("#saveTooltip").text($I("ui.save.tooltip"));
-        $("#energyTooltip").attr("title", $I("ui.energy.tooltip"));
-        $("#sorrowTooltip").attr("title", $I("resources.sorrow.full"));
         $("#logLink").text($I("ui.log.link"));
         $("#chatLink").text($I("ui.chat.link"));
         $("#clearLogHref").text($I("ui.clear.log"));
@@ -946,7 +974,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#appText").text($I("ui.option.app.text"));
         $("#appAndroid").text($I("ui.option.app.android"));
         $("#appIOS").text($I("ui.option.app.ios"));
-        $("#optionNotation").text($I("ui.option.notation"));        
+        $("#optionNotation").text($I("ui.option.notation"));
     },
 
     _createFilter: function(filter, fId, filtersDiv){

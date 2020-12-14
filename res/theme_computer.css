@@ -32,7 +32,7 @@ body.scheme_computer {
 	/* default font-family: Helvetica; */
     /* default border: solid 1px transparent; */
     /* default padding: 0; */
-	border-radius: 5px;/* default border-radius: 3px; */	
+	border-radius: 5px;/* default border-radius: 3px; */
 	/* default width: 264px; */
 }
 .scheme_computer .btn.modern.disabled {
@@ -119,7 +119,7 @@ body.scheme_computer {
 	padding: 10px 0 10px 16px; /* 16px left for power background-image */
 	border: none; /* also allows you to remove the height difference with the other buttons (they have no border on div.content) */
 }
-.scheme_computer .btn.disabled.bldlackResConvert { /* color for lack resources convertion */	
+.scheme_computer .btn.disabled.bldlackResConvert { /* color for lack resources convertion */
 	background: no-repeat border-box linear-gradient(90deg, #f05858 0%, #f05858 12px, #313131 15px, #313131 100%);
 }
 .scheme_computer .btn.disabled.bldlackResConvert:hover {
@@ -149,7 +149,7 @@ body.scheme_computer {
 	background-color:  #222222;
     box-shadow: -1px -1px 2px #424242, 1px 1px 1px #020202, 0 0 3px 2px #000000;
 	border: 3px outset #1b1c1e;
-	border-radius: 5px;	
+	border-radius: 5px;
 }
 .scheme_computer .dialog a {
     text-transform: capitalize;
@@ -216,11 +216,11 @@ body.scheme_computer {
 	border-radius: 5px;
 	box-shadow: inset 2px 0 3px #000000, inset -2px 0 3px #000000, inset 0 1px 1px #000000, inset 0 -1px 1px #000000;
 	padding: 5px;
-	margin-bottom: 3px;	
+	margin-bottom: 3px;
 }
 .scheme_computer input:active,
 .scheme_computer select:active,
-.scheme_computer textarea:active { 
+.scheme_computer textarea:active {
     border-color: #f8edd0 !important;
 }
 
@@ -228,7 +228,7 @@ body.scheme_computer {
 /* ******************* TOP BAR ******************* */
 /* *********************************************** */
 .scheme_computer #topBar {
-    /* default height: 26px; */	
+    /* default height: 26px; */
 	background-color: #222222;
 	border-bottom: 1px solid #121212;
 	border-top: 1px solid #121212;
@@ -251,10 +251,10 @@ body.scheme_computer {
 	color: transparent;
 }
 .scheme_computer #topBar div,
-.scheme_computer #topBar #sorrowTooltip { /* counter of BLS (Black Liquid Sorrow) */
+.scheme_computer #topBar .toolbarIcon.sorrow div { /* counter of BLS (Black Liquid Sorrow) */
 	color: #c0c0c0;
 }
-.scheme_computer #sorrowTooltip.max {
+.scheme_computer .toolbarIcon.sorrow.max div {
     color: #f05858 !important; /* in default.js !important needed */
 }
 .scheme_computer #topBar > div:first-child > span:first-child:after {
@@ -313,15 +313,15 @@ body.scheme_computer {
 	padding-right: 5px;
 }
 .scheme_computer #tooltip,
-.scheme_computer .tooltip-block div {
+.scheme_computer .tooltip-block > div {
 	color: #f0a258; /* tooltip windows == left column : left text */
 	background-color: #2b2c2d;
 	border: 3px outset #1b1c1e;
 	border-radius: 5px;
 	box-shadow: inset 1px 1px 2px #424242, inset -1px -1px 1px #020202;
-	margin-left: 3px; /* for offset tooltip due to larger buttons .btn.modern */	
+	margin-left: 3px; /* for offset tooltip due to larger buttons .btn.modern */
 }
-.scheme_computer .tooltip-block div { /* tooltip on ? top right column */
+.scheme_computer .tooltip-block > div { /* tooltip on ? top right column */
 	padding: 5px;
 }
 .scheme_computer .button_tooltip {
@@ -384,7 +384,7 @@ body.scheme_computer {
 }
 .scheme_computer .effectName { /* Tooltip Window : effects text */
 	color: #58a6f0 !important;
-	/* default font size = font-size: 14px; */	
+	/* default font size = font-size: 14px; */
 }
 .scheme_computer .rawRes { /* Tooltip Window == text for all missing resources for primary resource */
     color: #909090;
@@ -504,7 +504,7 @@ body.scheme_computer {
 	cursor: pointer !important;
 }
 /* button observer different from other input buttons  */
-.scheme_computer input[type='button']#observeBtn {	
+.scheme_computer input[type='button']#observeBtn {
 	font-size: 17px;
 }
 /* .scheme_computer .btn .btnContent a { */
@@ -512,7 +512,7 @@ body.scheme_computer {
     /* default overflow-x: hidden; */
     /* default text-overflow: ellipsis; */
 /* } */
-.scheme_computer .btn.modern a {	
+.scheme_computer .btn.modern a {
 	font-weight: normal;
 	line-height: 16px;
 	background-color: transparent;
@@ -530,7 +530,7 @@ body.scheme_computer {
 	border-left: 1px solid #6a7480
 }
 .scheme_computer .btn.modern.disabled a {
-    color: #707070;	
+    color: #707070;
 	border-left: 1px solid #292929;
 }
 .scheme_computer .btn.modern:not(.disabled) a:hover {
@@ -541,7 +541,7 @@ body.scheme_computer {
 }
 .scheme_computer .btn.modern:not(.disabled):active,
 .scheme_computer input[type='button']:active,
-.scheme_computer input[type='button']#observeBtn:active { 
+.scheme_computer input[type='button']#observeBtn:active {
     border-color: #ffffff !important;
 }
 .scheme_computer .linkContent { /* dropdown list on button */
@@ -561,7 +561,7 @@ body.scheme_computer {
 }
 .scheme_computer .btn.modern.disabled .linkContent { /* dropdown list on button disabled */
 	background-color: #313131; /* color pick from button disabled and hover */
-	box-shadow: inset 0 0 3px 1px #101010;	
+	box-shadow: inset 0 0 3px 1px #101010;
 }
 .scheme_computer .btn.modern.disabled .linkContent a {
 	border-left: none !important;
@@ -865,7 +865,7 @@ body.scheme_computer {
 }
 .scheme_computer td.craftStuffPanel > span { /* title of craft stuff panel */
 	color: #e8e8e8;
-	font-size: 15px;	
+	font-size: 15px;
 }
 /* .scheme_computer td.craftStuffPanel { /* craft stuff td */
 	/* default padding-left: 50px; */
@@ -908,7 +908,7 @@ body.scheme_computer {
 	border: none; /* default border: 1px solid gray; */
 	color: #030303;
 	letter-spacing: 1px;
-	border-bottom: 1px solid #777777;  
+	border-bottom: 1px solid #777777;
 }
 .scheme_computer .achievement.unethical {
 	color: #b00005;
@@ -1016,7 +1016,7 @@ body.scheme_computer {
 	/* padding: 5px 10px 10px 3px !important; */
 	/* 3 lines of code below if border with an image */
 	min-height: 5% !important;
-	height: unset !important; 
+	height: unset !important;
 	max-height: calc(100% - 100px) !important;
 	margin-top: 5px;
 	padding: 7px;
@@ -1024,7 +1024,7 @@ body.scheme_computer {
 	border: 2px inset #1b1c1e;
 	border-bottom : 1px solid #777777;
 	border-radius: 5px;
-	box-shadow: inset 2px 0 5px #000000, inset -2px 0 5px #000000, inset 0 1px 2px #000000, inset 0 -1px 2px #000000;	
+	box-shadow: inset 2px 0 5px #000000, inset -2px 0 5px #000000, inset 0 1px 2px #000000, inset 0 -1px 2px #000000;
 }
 .scheme_computer #gameLog span.msg:not(.type_date)  {
 	margin-left: 1.2em;
@@ -1041,7 +1041,7 @@ body.scheme_computer {
 	color: #404040;
 }
 .scheme_computer .msg.type_notice {
-	color: #0053a0; /* default color: #01A9DB; */	
+	color: #0053a0; /* default color: #01A9DB; */
 }
 .scheme_computer .msg.type_important {
     color: #c06f00; /* default color: coral; */
@@ -1101,7 +1101,7 @@ body.scheme_computer {
 	border: 2px inset #1b1c1e;
 	border-bottom : 1px solid #777777;
 	border-radius: 5px;
-	box-shadow: inset 2px 0 5px #000000, inset -2px 0 5px #000000, inset 0 1px 2px #000000, inset 0 -1px 2px #000000;	
+	box-shadow: inset 2px 0 5px #000000, inset -2px 0 5px #000000, inset 0 1px 2px #000000, inset 0 -1px 2px #000000;
 	margin-top: 5px;
 	margin-left: 10px;
 	padding-top: 5px;
@@ -1112,8 +1112,8 @@ body.scheme_computer {
 .scheme_computer #leftColumnViewport div[data-reactid=".0.5.1"] {
 	margin-bottom: 20px;
 }
-.scheme_computer .res-table {	
-    border-collapse: collapse; /* gain of 3 pixel by border -> no margin bottom after */	
+.scheme_computer .res-table {
+    border-collapse: collapse; /* gain of 3 pixel by border -> no margin bottom after */
 	/* max-width: 378px; /* default max-width: 340px; */
 	max-width: unset; /* default max-width: 340px; */
 	/* table-layout: fixed; */
@@ -1141,7 +1141,7 @@ body.scheme_computer {
 	opacity: 1;
 }
 .scheme_computer .res-row {
-	padding-bottom: 2px; /* default padding-bottom: 4px; */	
+	padding-bottom: 2px; /* default padding-bottom: 4px; */
 }
 .scheme_computer .res-row:hover {
     background-color: rgba(32, 32, 32, 0.1);
@@ -1275,7 +1275,7 @@ body.scheme_computer {
 	font-size: larger;
 }
 .scheme_computer #fastPraiseContainer >a:hover {
-	color: #f0f0f0;	
+	color: #f0f0f0;
 	text-shadow: 1px 1px 4px #f0f0f0, -1px -1px 4px #f0f0f0;
 }
 .scheme_computer #leftColumnViewport .left {
@@ -1295,8 +1295,8 @@ body.scheme_computer {
 /* ************************************************* */
 .scheme_computer ::-webkit-scrollbar-track {
 	border-radius: 8px;
-	box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);	
-	background-color: #454647; 
+	box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+	background-color: #454647;
 }
 .scheme_computer ::-webkit-scrollbar {
 	width: 10px;
@@ -1309,8 +1309,8 @@ body.scheme_computer {
 }
 .scheme_computer .dialog::-webkit-scrollbar-track {
 	border-radius: 8px;
-	box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);	
-	background-color: #1e1e1e; 
+	box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+	background-color: #1e1e1e;
 }
 .scheme_computer .dialog::-webkit-scrollbar {
 	width: 10px;
@@ -1325,7 +1325,7 @@ body.scheme_computer {
 .scheme_computer textarea#exportData::-webkit-scrollbar-track {
 	border-radius: 0;
 	box-shadow: inset 1px 0 1px #404040, inset -1px 0 1px #404040, inset 0 1px 1px #000000, inset 0 -1px 1px #000000;
-	background-color: #c0c0c0; 
+	background-color: #c0c0c0;
 }
 .scheme_computer textarea#importData::-webkit-scrollbar,
 .scheme_computer textarea#exportData::-webkit-scrollbar {

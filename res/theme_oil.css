@@ -95,7 +95,7 @@ body.scheme_oil,
 	padding-left: 20px;
 }
 .scheme_oil h1:first-child {
-    margin-top: 10px; 
+    margin-top: 10px;
 }
 .scheme_oil .modern .btnContent {
 	/* 10px left not necessary for buttons without on/off */
@@ -110,7 +110,7 @@ body.scheme_oil,
 .scheme_oil .btn.bldlackResConvert div.btnContent {
 	background: no-repeat local left 3px top 8px url('img/theme_oil_drop_off.png'); /* source of images for graphic design : https://pngtree.com/freepng/cartoon-oil-drop-product_4438330.html Volkeyrn: permanent premium member */
 }
-.scheme_oil .btn.bldEnabled div.btnContent { 
+.scheme_oil .btn.bldEnabled div.btnContent {
 	background: no-repeat local left 3px top 8px url('img/theme_oil_drop_on.png'); /* source of images for graphic design : https://pngtree.com/freepng/cartoon-oil-drop-product_4438330.html Volkeyrn: permanent premium member */
 }
 /*** end of green light for machine on ***/
@@ -170,7 +170,7 @@ body.scheme_oil,
     padding: 3px 1px 3px 5px;
     margin-right: 5px;
 	border: 2px inset #181818;
-    box-shadow: inset -1px -1px 2px #202020, 
+    box-shadow: inset -1px -1px 2px #202020,
                 inset 2px 2px 5px #000000;
 	margin-top: 3px;
 	margin-bottom: 3px;
@@ -212,10 +212,10 @@ body.scheme_oil,
 	color: #333342;
 }
 .scheme_oil #topBar div,
-.scheme_oil #topBar #sorrowTooltip { /* counter of BLS (Black Liquid Sorrow) */
+.scheme_oil #topBar .toolbarIcon.sorrow div { /* counter of BLS (Black Liquid Sorrow) */
 	color: #999999;
 }
-.scheme_oil #sorrowTooltip.max {
+.scheme_oil .toolbarIcon.sorrow.max div {
     color: #a90909 !important; /* in default.js !important needed */
 }
 .scheme_oil #topBar > div:first-child > span:first-child:after {
@@ -267,7 +267,7 @@ body.scheme_oil,
 /******************** TOOLTIP ********************/
 /*************************************************/
 .scheme_oil #tooltip,
-.scheme_oil .tooltip-block div {
+.scheme_oil .tooltip-block > div {
 	background-color: #101010;
 	font-size: 14px;
 	color: #898989; /* tooltip windows == left column : left text */
@@ -279,7 +279,7 @@ body.scheme_oil,
 	box-shadow: inset 0 0 40px 12px #000000,
 	-1px -1px 2px #797979, 1px 1px 2px #191919;
 }
-.scheme_oil .tooltip-block div {
+.scheme_oil .tooltip-block > div {
 	padding: 5px;
 }
 .scheme_oil .button_tooltip {
@@ -330,7 +330,7 @@ body.scheme_oil,
 /*******************************************************/
 /******************** CENTER COLUMN ********************/
 /*******************************************************/
-.scheme_oil .tab { 
+.scheme_oil .tab {
 	font-size: 15px;
 }
 .scheme_oil .tabInner {
@@ -441,7 +441,7 @@ body.scheme_oil,
 	color: #C9C9C9 !important;
 	border: solid 1px #ffc900 !important;
 	border-radius: 16px 8px;
-	box-shadow: 0 2px 4px rgba(255, 201, 0, 0.8), -1px -1px 2px #797979, 
+	box-shadow: 0 2px 4px rgba(255, 201, 0, 0.8), -1px -1px 2px #797979,
 				inset 1px 1px 2px #000000 !important;	/* color #ffc900; */
 }
 .scheme_oil input[type='button']#observeBtn:hover {
@@ -463,7 +463,7 @@ body.scheme_oil,
 	min-width: 22px; /* default min-width: 20px; */
 	border-left: none; /* default border-left: 1px solid #888; */
 	font-size: 12px;
-	font-weight: 300;	
+	font-weight: 300;
 	background-color: transparent;
 	padding: 10px 3px 10px 3px !important; /* default :  padding: 10px 6px 10px 6px !important; */
 	text-shadow: none;
@@ -637,7 +637,7 @@ body.scheme_oil,
 	color: #ffc900;
 	font-weight: normal !important;
 }
-.scheme_oil .census-block.simLeader .info span.name {  /* Leader name */ 
+.scheme_oil .census-block.simLeader .info span.name {  /* Leader name */
 	font-size: 1.2em;
 }
 .scheme_oil .census-block.simLeader .skill:first-of-type { /* Leader job assigned */
@@ -850,7 +850,7 @@ body.scheme_oil,
     text-decoration: none;
 	border-top: 1px solid #292929;
 	border-left: 1px solid #292929;
-	border-right: 1px solid #191919;	
+	border-right: 1px solid #191919;
 	border-bottom: 1px solid #000000;
 	border-radius: 9px 9px 0 0;
 	box-shadow: 0 3px #000000, -1px -1px 1px #494949, 1px 0 2px #191919;
@@ -890,7 +890,7 @@ body.scheme_oil,
 	box-shadow: -1px -1px 1px #393939, 1px 1px 1px #191919;
 	/* 3 lines of code below if border with an image */
 	min-height: 5% !important;
-	height: unset !important; 
+	height: unset !important;
 	max-height: calc(100% - 100px) !important;
 	scrollbar-width: thin; /* only Firefox */
 }
