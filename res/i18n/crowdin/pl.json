@@ -419,6 +419,7 @@
     "effectsMgr.type.resGlobalCraftRatio": "{0} Efektywność rzemiosła",
     "effectsMgr.type.resProduction": "{0} produkcja",
     "effectsMgr.type.resRatio": "{0} premia",
+    "effectsMgr.statics.titaniumPolicyRatio.title": "Bonus do produkcji tytanu",
     "general.copy.to.clipboard.prompt": "Kopiuj do schowka: Ctrl + C, Enter",
     "general.food.advisor.text": "Doradca ds. Żywności: „Za mało zapasów kocimiętki!'",
     "iron.will.break.confirmation.msg": "To zakończy żelazną wolę. Jesteś pewny?",
