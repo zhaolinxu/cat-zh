@@ -311,6 +311,7 @@
     "navbar.res.amount": "Quantité",
     "notification.save.title": "Jeu sauvegardé",
     "notification.save.desc": "Le jeu a été sauvegardé avec succès",
+    "opts.hideSell.desc": "Le jeu cachera le bouton Vendre pour tous les bâtiments",
     "opts.lang": "Langue",
     "opts.theme.dark": "Inversé",
     "opts.theme.default": "Classique",
