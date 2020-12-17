@@ -986,7 +986,7 @@
     "resources.sorrow.short": "BLS",
 
     "gift.get": "XOXOXO! 上古神送给你一个礼物盒!",
-    "gift.repaire": "上古神修好了你的礼物盒",
+    "gift.repaired": "上古神修好了你的礼物盒",
     "gift.resources": "获得 {1} 个 {0}!",
     "gift.apocrypha": "新月外传加成增加 {0}%!",
     "gift.transcendence": "超越等级增加 4!",
