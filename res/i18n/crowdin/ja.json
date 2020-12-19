@@ -395,6 +395,7 @@
     "effectsMgr.type.resProduction": "{0} 生産",
     "effectsMgr.type.resRatio": "{0} ボーナス",
     "effectsMgr.statics.faithPolicyRatio.title": "信仰の生産ボーナス",
+    "effectsMgr.statics.mineralsPolicyRatio.title": "鉱物生産ボーナス",
     "general.copy.to.clipboard.prompt": "クリップボードへコピー: Ctrl+C, Enter",
     "general.food.advisor.text": "食糧アドバイザー: 「キャットニップ供給が低すぎます!」",
     "kittens.craft.confirmation.title": "本当にしますか?",
