@@ -960,15 +960,8 @@ dojo.declare("classes.diplomacy.ui.autoPinnedButtonController", com.nuclearunico
 	},
 
 	getName: function(model){
-		var name = this.inherited(arguments);
-		var res = "";
-		if(model.options.race.autoPinned){
-			res = $I("trade.autopinned.labelOn");
-		}
-		else{
-			res = $I("trade.autopinned.labelOff");
-		}
-		return res;
+		var isAutoPinned = model.options.race.autoPinned;
+		return isAutoPinned ? $I("trade.autopinned.labelOn") : $I("trade.autopinned.labelOff");
 	},
 
 	hasSellLink: function(model){

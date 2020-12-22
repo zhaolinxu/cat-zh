@@ -2779,7 +2779,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		var content = craftPanel.render(tabContainer);
 
 		var table = dojo.create("table", {}, content);
-		var tr = dojo.create("tr", {}, table);
+		dojo.create("tr", {}, table);
 
 		//buttons go there
 		var td = dojo.create("td", {}, table);
@@ -2838,8 +2838,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 			if (res.craftable && res.value){
 				var tr = dojo.create("tr", {}, table);
 
-				var td = dojo.create("td", { innerHTML: res.title || res.name + ":" }, tr);
-				var td = dojo.create("td", { innerHTML: this.game.getDisplayValueExt(res.value) }, tr);
+				dojo.create("td", { innerHTML: res.title || res.name + ":" }, tr);
+				dojo.create("td", { innerHTML: this.game.getDisplayValueExt(res.value) }, tr);
 			}
 		}
 	},

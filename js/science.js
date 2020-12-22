@@ -1843,7 +1843,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 			width: "100%"
 		}}, tabContainer);
 
-		var tr = dojo.create("tr", null, table);
+		dojo.create("tr", null, table);
 
 		var tdTop = dojo.create("td", { colspan: 2 },
 			dojo.create("tr", null, table));
