@@ -562,7 +562,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		if (ncorns.value >= 1){
 			elders.energy++;
 
-			var markerCap = this.getMarkerCap ();
+			var markerCap = this.game.diplomacy.getMarkerCap();
 			 
 			if (elders.energy > markerCap){
 				elders.energy = markerCap;
@@ -1294,7 +1294,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 
 		if (this.leviathansInfo) {
 			var leviathans = this.game.diplomacy.get("leviathans");
-			var markerCap = this.getMarkerCap();
+			var markerCap = this.game.diplomacy.getMarkerCap();
 			var leviathansInfoEnergy = leviathans.energy ? leviathans.energy + " / " + markerCap : "N/A";
 			this.leviathansInfo.innerHTML = $I("trade.leviathans.energy") + leviathansInfoEnergy +
 				"<br />" + $I("trade.leviathans.timeToLeave") + this.game.toDisplayDays(leviathans.duration);
