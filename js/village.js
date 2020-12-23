@@ -467,7 +467,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 								diff *= (1 + (this.getLeaderBonus(this.game.village.leader.rank) - 1) 
 								* this.game.getEffect("boostFromLeader"));
                             }
-							diff *= this.happiness;	//alter positive resource production from jobs
+							diff *= this.happiness + (this.happiness - 1) 
+							* this.game.getEffect("happinessKittenProductionRatio");	//alter positive resource production from jobs
 						}
 
 						if (!res[jobResMod]){
@@ -498,7 +499,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 								diff *= (1 + (this.getLeaderBonus(this.game.village.leader.rank) - 1)
 								 * this.game.getEffect("boostFromLeader"));
                             }
-							diff *= this.happiness;	//alter positive resource production from jobs
+							diff *= (this.game.science.getPolicy("liberty").researched)? 
+							this.happiness + (this.happiness - 1) * 0.1 : this.happiness;
 						}
 
 						if (!res[jobResMod]){
@@ -627,9 +629,6 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 	getUnhappiness: function(){
 		var populationPenalty = 2;
-		if (this.game.science.getPolicy("liberty").researched){
-			populationPenalty = 1;
-		}
 		if (this.game.science.getPolicy("fascism").researched) {
 			return 0;
 		}
@@ -1522,7 +1521,7 @@ dojo.declare("classes.village.KittenSim", null, {
 					kitten.skills[kitten.job] = 0;
 				}
 				//Learning job's skill
-				if (!(kitten.job == "engineer" && kitten.engineerSpeciality == null)) {// Engineers who don't craft don't learn
+				if (kitten.job != "engineer" || kitten.engineerSpeciality != null) {// Engineers who don't craft don't learn
 					if (kitten.skills[kitten.job] < skillsCap){
 						kitten.skills[kitten.job] = Math.min(kitten.skills[kitten.job] + skillXP, skillsCap);
 					}
@@ -2587,7 +2586,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.addButton(btn);
 		//------------------------------------------------------------
 
-		var tr = dojo.create("tr", null, table);
+		dojo.create("tr", null, table);
 
 		var tdTop = dojo.create("td", { colspan: 2 },
 			dojo.create("tr", null, table));

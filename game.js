@@ -1168,6 +1168,23 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "ratio",
 				calculation: "nonProportional"
 			},
+			//age 1 policy effects
+			"happinessKittenProductionRatio": {
+				title: $I("effectsMgr.statics.happinessKittenProductionRatio.title"),
+				type: "ratio"
+			},
+			"cultureFromManuscripts": {
+				title: $I("effectsMgr.statics.cultureFromManuscripts.title"),
+				type: "ratio"
+			},
+			"manuscriptParchmentCost": {
+				title: $I("effectsMgr.statics.manuscriptCost.title", [$I("resources.parchment.title")]),
+				type: "fixed"
+			},
+			"manuscriptCultureCost": {
+				title: $I("effectsMgr.statics.manuscriptCost.title",[$I("resources.culture.title")]),
+				type: "fixed"
+			},
 			//age 2 policy effects
 			"rankLeaderBonusConversion": {
 				title: $I("effectsMgr.statics.rankLeaderBonusConversion.title"),
@@ -4385,6 +4402,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if(this.bld.get("chronosphere").on) {
 			gift = "Compendiums";
 		}
+		if(this.diplomacy.get("leviathans").energy == this.diplomacy.getMarkerCap()){
+			gift = "BurnedParagon";
+		}
 		var ucfirst = function (string) { return string.charAt(0).toUpperCase() + string.slice(1); };
 
 		switch (gift) {
@@ -4473,8 +4493,34 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				} else {
 					var amt = 100000;
 				}
-				var msg = $I("gift.resources", [this.getDisplayValueExt(amt), ucfirst($I("resources.karma.title"))]);
+				var unicornGraveyard = this.religion.getZU("unicornGraveyard");
+				var unicornNecropolis = this.religion.getZU("unicornNecropolis");
+				var getSumOfPrices = function(item, resName){ //this function should return how much of one resource was spent on a stackable
+					var priceRatio = item.priceRatio;
+					var resPrice = 0;
+					var num = item.on;
+					for (var i in item.prices){
+						if (item.prices[i].name == resName){
+							resPrice = item.prices[i].val;
+						}
+					}
+					return resPrice * (Math.pow(priceRatio,1+ num) - 1)/(priceRatio - 1);
+				};
+				var amt1 = Math.max(getSumOfPrices(unicornGraveyard, "necrocorn") + getSumOfPrices(unicornNecropolis, "necrocorn"), 
+				Math.max(this.resPool.get("necrocorn").value, 10));
+				var msg = $I("gift.resources", [this.getDisplayValueExt(amt), ucfirst($I("resources.compedium.title"))]);
+				msg += $I("gift.resources", [this.getDisplayValueExt(amt1), ucfirst($I("resources.necrocorn.title"))]);
 				this.resPool.addResEvent("compedium", amt);
+				this.resPool.addResEvent("necrocorn", amt1);
+				break;
+			case "BurnedParagon":
+				if(this.resPool.get("burnedParagon").value > 500){
+					var amt = Math.min(this.resPool.get("burnedParagon").value, 1500);
+				} else {
+					var amt = 150;
+				}
+				var msg = $I("gift.resources", [this.getDisplayValueExt(amt), ucfirst($I("resources.burnedParagon.title"))]);
+				this.resPool.addResEvent("burnedParagon", amt);
 			break;
 		}
 
