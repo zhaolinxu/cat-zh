@@ -990,7 +990,7 @@
     "gift.resources": "获得 {1} 个 {0}!",
     "gift.apocrypha": "新月外传加成增加 {0}%!",
     "gift.transcendence": "超越等级增加 4!",
-    "gift.metaphysics": "解锁 {0}!",
+    "gift.metaphysics": "获得 {0}!",
 
     "save.export.msg": "存档导出成功!",
     "save.import.confirmation.msg": "确定吗?这样做会覆盖你当前游戏数据!",

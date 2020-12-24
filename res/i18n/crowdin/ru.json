@@ -945,7 +945,7 @@
     "gift.resources": "Получен {0} {1}!",
     "gift.apocrypha": "Бонус апокрифе увеличен на {0}%!",
     "gift.transcendence": "Уровень восхождения увеличен на 4!",
-    "gift.metaphysics": "Разблокирован {0}!",
+    "gift.metaphysics": "Получен {0}!",
     "save.export.msg": "Экспорт удачен!",
     "save.import.confirmation.msg": "Точно? Это перезапишет твоё сохранение!",
     "save.import.msg": "Импорт удачен!",
