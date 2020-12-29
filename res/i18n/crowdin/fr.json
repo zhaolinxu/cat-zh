@@ -873,6 +873,7 @@
     "ui.filter.all": "Enabled",
     "ui.filter.available": "Enabled",
     "ui.filter.enabled": "Activé",
+    "ui.loading.msg.9": "Ajustement de la précession de Yarn",
     "left.font.inc": "taille+",
     "village.bonus.desc.engineer": "Bonus artisanal",
     "village.bonus.desc.manager": "Bonus de chasse",
