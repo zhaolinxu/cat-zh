@@ -980,7 +980,6 @@ dojo.declare("classes.diplomacy.ui.autoPinnedButton", com.nuclearunicorn.game.ui
 
 	constructor: function(opts, game){
 		this.race = opts.race;
-		console.log("race:", this.race);
 	},
 
 
@@ -992,7 +991,6 @@ dojo.declare("classes.diplomacy.ui.autoPinnedButton", com.nuclearunicorn.game.ui
 					return;
 				}
 				this.race.pinned = !this.race.pinned;
-				console.log("toggled pin for race:", this.game.diplomacy.races);
 			}
 		});
 	},
