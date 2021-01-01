@@ -1580,6 +1580,7 @@
     "wipe.confirmation.title": "Полный сброс",
     "wipe.confirmation.msg1": "Вся сохраненная информация будет УНИЧТОЖЕНА. Продолжить?",
     "wipe.confirmation.msg2": "Вы АБСОЛЮТНО уверены?",
+    "iron.will.warning.msg": "Это действие завершит режим \"Железная воля\". Вы уверены?",
     "workshop.upgradePanel.label": "Улучшения",
     "workshop.all.upgrades.unlocked": "Открыты все улучшения!",
     "workshop.toggleResearched.label": "Спрятать сделанные улучшения",
