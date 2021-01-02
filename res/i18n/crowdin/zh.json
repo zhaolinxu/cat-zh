@@ -288,6 +288,7 @@
     "challendge.btn.desc": "<br />奖励: {0}<br /><br />为开启此挑战，当前游戏将被重置。 {1}",
     "challendge.btn.log.message.on.complete": "恭喜你!你完成了挑战: {0}.",
     "challendge.btn.name.complete": "{0} (已完成)",
+    "challendge.btn.name.current": "{0} (进行中)",
     "common.collapse.all": "全部收起",
     "common.expand.all": "全部展开",
     "common.warning": " <span class='genericWarning'>(!)</span>",
