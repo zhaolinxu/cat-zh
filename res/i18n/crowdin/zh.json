@@ -258,6 +258,8 @@
     "calendar.year.tooltip": "日历年:",
     "challendge.panel.label": "挑战",
     "challendge.pending": "选中",
+    "challendge.applyPending.label": "应用选中挑战 ({0})",
+    "challendge.applyPending.desc": "立即重置时间线，开始选定的挑战",
     "challendge.1000Years.label": "千禧年",
     "challendge.1000Years.desc": "重启游戏，进入半衰期时间<br><br>目标: 抵达第 1000 年",
     "challendge.1000Years.effect.desc": "燃烧时间水晶释放的热量减少",
