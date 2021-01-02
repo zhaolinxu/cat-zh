@@ -194,10 +194,10 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             description: $I("achievements.cathammer.desc"),
             starDescription: $I("achievements.cathammer.starDesc"),
             condition: function () {
-                return this.game.stats.getStat("totalYears").val >= 40000;
+                return this.game.stats.getStat("totalYears").val >= this.game.calendar.darkFutureBeginning;
             },
             starCondition: function () {
-                return (this.game.calendar.trueYear() >= 40000);
+                return (this.game.calendar.trueYear() >= this.game.calendar.darkFutureBeginning);
             },
     }],
 
@@ -537,7 +537,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.AchTab", com.nuclearunicorn.game.ui
 			} else {
 				uncompletedStars++;
 			}
-			var star = dojo.create("div", {
+			dojo.create("div", {
 				className: "star",
 				innerHTML: ach.starUnlocked ? "&#9733;" : "&#9734;",
 				title: ach.starUnlocked ? ach.starDescription : "???"

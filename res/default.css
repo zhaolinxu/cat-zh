@@ -99,7 +99,8 @@ img.loader {
 }
 
 #rightColumn {
-    width: 250px;
+    min-width: 250px;
+    max-width: 400px;
     vertical-align: top;
     padding-left: 8px;
     top: 20px;
@@ -156,7 +157,6 @@ div#gameLog {
 }
 
 .dialog input[type="button"] {
-    cursor: pointer;
     background-color: #fff !important;
     cursor: pointer !important;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3), 0 2px 10px 0 rgba(0, 0, 0, 0.3) !important;
@@ -226,6 +226,15 @@ select>option {
     display: inline-block;
 }
 
+.btn .btnContent a.small {
+    font-size: 0.7em;
+    line-height: 16px;
+}
+
+/*.btn .btnContent .btnTitle {
+
+}*/
+
 .btn.small-text span {
     font-size: 90%;
 }
@@ -265,6 +274,7 @@ select>option {
 
     background-color: #FFF;
     padding: 20px;
+    box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
 }
 
 .help {
@@ -279,8 +289,17 @@ select>option {
     width: 600px;
     height: 400px;
 
+
+    overflow-y: scroll;
+
     margin-top: -200px;
     margin-left: -300px;
+}
+
+.credits li {
+    text-decoration: underline;
+    text-decoration-color: gainsboro;
+    cursor: pointer;
 }
 
 .disabled {
@@ -292,12 +311,6 @@ select>option {
     background-color: #F6F6F6;
     padding: 3px;
     margin: 2px;
-}
-
-.button_tooltip {
-    background-color: #FFF;
-    color: black;
-    z-index: 9000;
 }
 
 .panelContainer {
@@ -364,11 +377,24 @@ td.resLimitWarn, .res-cell.resLimitWarn  {
     opacity: 0.75;
 }
 
-.tooltipExt {
-    position: absolute;
+#tooltip {
+    position: absolute !important;
     border: 1px solid gray;
     padding: 5px;
     pointer-events: none;
+}
+
+#tooltip.tooltip-in-right-column {
+    min-height: initial !important;
+    max-height: initial !important;
+    height: auto !important;
+    min-width: initial !important;
+    max-width: initial !important;
+    width: auto !important;
+    top: 30px !important;
+    right: 20px !important;
+    bottom: auto !important;
+    left: auto !important;
 }
 
 .msg {
@@ -385,6 +411,10 @@ td.resLimitWarn, .res-cell.resLimitWarn  {
 
 .msg.type_alert {
     color: red;
+}
+
+.msg.type_urgent {
+    color: blueviolet;
 }
 
 .msg.type_date {
@@ -465,13 +495,17 @@ td.resLimitWarn, .res-cell.resLimitWarn  {
 .tabInner {
 	margin-bottom: 20px;
     padding: 15px;
-    border: 1px solid gray;
+    border: 1px solid #B0B0B0;
 }
 
-.toggleCenter {
+#toggleCenter {
     opacity: 0.2;
-    cursor:pointer;
-    width:200px;
+    cursor: pointer;
+}
+
+#toggleCenter:hover {
+    opacity: 0.8;
+    text-decoration: underline;
 }
 
 table.craftTable tr:hover td {
@@ -486,10 +520,116 @@ table.craftTable tr:hover td {
     display: inline-block;
 }
 
+.icons-container > div{
+    display: inline-block;
+}
+
 .toolbarIcon {
     padding-right: 15px;
     font-size: 12px;
     cursor: default;
+}
+
+.toolbarIcon.happiness div {
+    color: coral;
+}
+
+.toolbarIcon.energy div,
+.button_tooltip .energyProduction {
+    color: green;
+}
+
+.toolbarIcon.energy.warningWinter div {
+    color: coral;
+}
+
+.toolbarIcon .status-indicator-online {
+    color: green;
+}
+
+.toolbarIcon .status-indicator-offline {
+    color: red;
+}
+
+/* kgnet login form */
+.login-popup {
+    position: absolute;
+    top: 20px;
+    border: 1px solid gray;
+    padding: 5px;
+    background: white;
+    z-index: 1;
+
+    margin-left: -35px;
+    font-size: 15px;
+}
+
+.login-popup a.link {
+    text-decoration: underline;
+}
+
+.login-popup .row {
+    display: block;
+}
+
+.login-popup .row a, input {
+    margin-right: 10px;
+}
+
+.login-popup .userProfile {
+    line-height: 15px;
+}
+
+.login-popup .userProfile a {
+    vertical-align: top;
+}
+.login-popup .userProfile img{
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.tooltip-block, .tooltip-block > div {
+    z-index: 9999;
+    display: inline-block;
+    cursor: pointer;
+    padding-left: 3px;
+}
+
+.save-record-container {
+    display: table !important;
+}
+
+.save-record {
+    display: table-row;
+}
+
+.save-record.header {
+    display: table-row;
+    font-style: italic;
+    opacity: 0.25;
+    border-bottom: 1px solid lightgray;
+}
+
+.save-record-cell {
+    display: table-cell;
+    padding-right: 10px;
+}
+
+.userProfile .save-record {
+    display: block;
+    padding-top: 10px;
+}
+
+.save-record span, a {
+    display: inline-block;
+    padding-right: 5px;
+}
+
+span.genericWarning,
+.toolbarIcon.energy.warning div,
+.button_tooltip .energyConsumption,
+.button_tooltip .energyPenalty {
+    color: red;
 }
 
 .attitude {
@@ -527,15 +667,15 @@ table.craftTable tr:hover td {
     display: inline-block;
 }
 
-.trade-race .ammount {
+.trade-race .tradeAmount {
     color: #777;
 }
 
-.trade-race .ammount:before {
+.trade-race .tradeAmount:before {
     content: "(";
 }
 
-.trade-race .ammount:after {
+.trade-race .tradeAmount:after {
     content: ")";
 }
 
@@ -557,19 +697,25 @@ label:hover {
     opacity: 0.7;
 }
 
-input[type="checkbox"] {
+#optionsDiv {
+    overflow-y: scroll;
+    height: 400px;
+    margin-top:-170px;
+}
+
+#optionsDiv input[type="checkbox"] {
 	display: none;
 }
 
-input[type="checkbox"] + label:before {
-	content: "x";
+#optionsDiv input[type="checkbox"] + label:before {
+    content: "·";
 	display: inline-block;
 	font: 16px sans-serif;
 	margin: 0px 6px 0px 2px;
 }
 
-input[type="checkbox"]:checked + label:before {
-	content: "\2713";
+#optionsDiv input[type="checkbox"]:checked + label:before {
+	content: "v";
 	font: 12px sans-serif;
 }
 
@@ -628,15 +774,33 @@ h1 {
 }
 
 .right-tab-header {
-    padding: 5px;
+    margin-top: 10px;
 }
 
 .right-tab-header a {
     padding: 5px;
+    padding-left: 30px;
+    padding-right: 30px;
 }
 
 .right-tab-header a.active {
     text-decoration: none;
+    border-top: 1px solid rgba(128,128,128, 0.4);
+
+    /*Looks a bit visually noisy - vvv*/
+
+    /*border-right: 1px solid rgba(128,128,128, 0.4);
+    border-left: 1px solid rgba(128,128,128, 0.4);*/
+}
+.right-tab-header a:not(.active) {
+    text-decoration: none;
+    /*border-bottom: 1px solid lightgray;*/
+}
+
+#observeButton {
+    text-align: center;
+    margin-top: 15px;
+    height: 30px;
 }
 
 .right-tab {
@@ -644,8 +808,12 @@ h1 {
     overflow-y: hidden;
 }
 
-#sorrowTooltip {
+.toolbarIcon.sorrow div {
 	color: black;
+}
+
+.toolbarIcon.sorrow.max div {
+    color: red !important;
 }
 
 #adsColumn {
@@ -798,11 +966,13 @@ progress[value]::-webkit-progress-value {
 
 /*======================================================================*/
 
-.tooltip-block, .tooltip-block div {
-    z-index: 9999;
-    display: inline-block;
-    cursor: pointer;
-    padding-left: 3px;
+.button_tooltip {
+    /* TODO consider performance */
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(2px);
+
+    color: black;
+    z-index: 9000;
 }
 
 .tooltip-content {
@@ -836,12 +1006,17 @@ a.link.collapse:hover {
 
 .res-toolbar {
     display: inline-block;
+    user-select: none;
 }
 
 .res-toolbar.right {
     text-align: right;
     margin-right:-18px;
     float: right;
+}
+
+.res-toolbar .link.toggled {
+    color: darkred;
 }
 
 .res-toolbar.left {
@@ -854,6 +1029,10 @@ a.link.collapse:hover {
     display: table;
     border-collapse: separate;
     border-spacing: 3px;
+}
+
+.res-toggle-hidden {
+    margin-top: 10px;
 }
 
 .res-row {
@@ -878,6 +1057,11 @@ a.link.collapse:hover {
 .res-cell.resource-name {
     width: 60px;
     max-width: 85px;
+}
+
+.res-row.hidden .res-cell.resource-name {
+    text-decoration: underline;
+    text-decoration-style: dotted;
 }
 
 .res-cell.resource-value {
@@ -908,7 +1092,7 @@ a.link.collapse:hover {
 }
 
 .res-cell.craft-link.all{
-    font-size: 80%;
+    font-size: 85%;
     opacity: 0.4;
 }
 
@@ -943,6 +1127,43 @@ a.link.collapse:hover {
     height: 250px;
     padding: 20px;
 }
+
+/*--------------------------------------
+                Village
+---------------------------------------*/
+
+.census-block {
+    border: 1px solid gray;
+	margin-bottom: 5px;
+	padding: 5px;
+	min-height: 80px;
+}
+
+
+.census-block .info {
+    padding-bottom: 5px;
+}
+
+.census-block .skill{
+    font-size: 0.8em;
+}
+
+.name.color-brown {
+    color:#856341;
+}
+.name.color-cream {
+    color:lightcoral;
+}
+.name.color-black {
+    color:darkgrey;
+}
+.name.color-fawn {
+    color:gainsboro;
+}
+.name.color-white {
+    color:floralwhite
+}
+
 
 /*--------------------------------------
                 Map
@@ -1377,4 +1598,20 @@ div.leet {
     0 0 15px red,
     0 0 20px red,
     0 0 25px red;}
+}
+
+.pin-link {
+    padding-left: 5px;
+}
+
+#crowdjet-expand-container{
+    bottom: 40px;
+    right: 20px;
+    width: 60px !important;
+    height: 15px !important;
+    cursor: pointer;
+}
+
+#crowdjet-expand-container iframe {
+    display: none;
 }

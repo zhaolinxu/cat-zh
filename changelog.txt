@@ -1,4 +1,73 @@
-v 1.4.7.0.b
+v 1.4.8.3 (16 nov 2020)
+
+Major:
+* Repeatable challenges (phase 1)
+* Chiral aka KGNet integration
+
+Minor:
+* Theme bugfixes
+
+v 1.4.8.2 (15 aug 2020)
+Major:
+* Repeatable challenges (alpha backport, phase 0)
+
+Themes:
+* New themes: Vintage, Wood v2 (permanent unlock), Computer, Arctic, Cyber, Bluish, Grayish, Greenish, Factory
+
+Minor:
+* Added an option for the scientific notation (Cirn09)
+* Shark embassies scaling was reduced from 5-5-5 to 5-3-1
+* Added translation widget
+
+v 1.4.8.1 (18 july 2020)
+Major:
+* Fix per-tick resources that were not gained if offline progression is performed during a Temporal Paradox
+* Make gamma the new mainline
+* Make engineers work during time skips
+* Add new challenge: Black Sky
+* Implement Zebra Outpost
+* Add embassies
+* Double timeout of the “Observe the sky” button for Iron Will
+* Clarify interactions between Praise, Solar Revolution, Apocrypha and Transcend
+
+Themes:
+* New themes: Anthracite, Black, Chocolate
+
+Minor:
+* Caravanserai does not count anymore as a free Tradepost
+* Fix display of Standing ratio for Tradeposts
+* Increase years in stats during offline progression
+* Arrange price lists in buildings and upgrades in the same order as in the left column
+* Prevent food advisor to move stuff in left column
+* Fix effect of Atheism and Black Obelisks
+
+v 1.4.8.0 (11 june 2020)
+Major:
+* Fix precrafted amount
+* Implement Metallurgist and Chemist traits
+* Allow to crash BC market
+* Make BC market evolve during offline progression
+* Make Divine Proportion 16:9 (all hail TV!)
+
+Themes:
+* New theme: Unicorn
+* Add an option in order to move tooltip in right column, like Sleek does by default
+
+Minor:
+* Gear icon will now have a toggle indicator
+* Fix options dialog overflow
+* Clear up checkbox indicators
+* Clear up chat/log slightly
+* Fix tooltip out of window in some conditions
+* Add option allowing to modify the ×10 purchase multiplier for Ctrl key
+* Add option allowing to hide downgrade buttons
+* Fix failing load of very old save files
+* Complete description of the “no confirmation” option
+* Add option allowing to always show festivals/trade/sacrifice/shatter buttons even if not applicable
+* Add option allowing to display craft/trade/sacrifice buttons as percentage
+* In case of unassigned engineers, display the actual number instead of just (!)
+
+v 1.4.7.1 (19 apr 2020)
 Major:
 * Allow to burn paragon without breaking Iron Will mode if insane Space Oddity has already been achieved
 * Improve kittens' save compression
@@ -7,9 +76,10 @@ Major:
 * Do not refund AM if energy is negative
 
 Themes:
-* New themes: Gold, Space, Wood, School, Fluid, Vessel
-* All themes except Classic and Inverted have to be unlocked (permanent unlock)
+* New themes: Gold, Space, Wood, School, Fluid, Vessel, Minimalist, Oil
+* All themes except Classic/Inverted/Grassy/Sleek have to be unlocked (permanent unlock)
 * Add an option in order to hide background image (if applicable)
+* Theme will now apply to the loading screen
 
 Minor:
 * Add confirmation pop-up for present box unwrapping
@@ -25,6 +95,11 @@ Minor:
 * Fix base skill XP not being multiplied by number of ticks in case of offline progression
 * Remove regular faith consumption by OotV, making it a pure bonus as originally implemented
 * Fix confusion about regular faith in left column vs. accumulated faith in Order of the Sun panel (all languages)
+* Fix a lot of visual issues related to large resource values, layout and localization
+* Saves bigger than 5MB should now fit into the localstorage
+* Add option for even better compression, but generates save files incompatible with older versions
+* Players now have a small chance of getting a rare kitten
+* Make Molten Cores 10 times cheaper in science
 
 v 1.4.7.0
 Major:

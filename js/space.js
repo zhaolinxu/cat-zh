@@ -21,10 +21,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		label: $I("space.orbitalLaunch.label"),
 		description: $I("space.orbitalLaunch.desc"),
 		prices: [
-			{name: "starchart", val: 250},
+			{name: "oil", val: 15000},
 			{name: "manpower", val: 5000},
 			{name: "science", val: 100000},
-			{name: "oil", val: 15000}
+			{name: "starchart", val: 250}
 		],
         unlocks: {
             planet: ["cath"],
@@ -35,10 +35,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		label: $I("space.moonMission.label"),
 		description: $I("space.moonMission.desc"),
 		prices: [
-			{name: "starchart", val: 500},
 			{name: "titanium", 	val: 5000},
+			{name: "oil", 		val: 45000},
 			{name: "science", 	val: 125000},
-			{name: "oil", 		val: 45000}
+			{name: "starchart", val: 500}
 		],
         unlocks: {
             planet: ["moon"],
@@ -49,23 +49,24 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		label: $I("space.duneMission.label"),
 		description: $I("space.duneMission.desc"),
 		prices: [
-			{name: "starchart", val: 1000},
 			{name: "titanium", val: 7000},
 			{name: "science", val: 175000},
+			{name: "starchart", val: 1000},
 			{name: "kerosene", val: 75}
 		],
 		unlocks: {
             planet: ["dune"],
-            spaceMission: ["heliosMission"]
+            spaceMission: ["heliosMission"],
+			policies:["technocracy", "theocracy", "expansionism"]
         }
 	},{
 		name: "piscineMission",
 		label: $I("space.piscineMission.label"),
 		description: $I("space.piscineMission.desc"),
 		prices: [
-			{name: "starchart", val: 1500},
 			{name: "titanium", val: 9000},
 			{name: "science", val: 200000},
+			{name: "starchart", val: 1500},
 			{name: "kerosene", val: 250}
 		],
         unlocks: {
@@ -77,9 +78,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		label: $I("space.heliosMission.label"),
 		description: $I("space.heliosMission.desc"),
 		prices: [
-			{name: "starchart", val: 3000},
 			{name: "titanium", val: 15000},
 			{name: "science", val: 250000},
+			{name: "starchart", val: 3000},
 			{name: "kerosene", val: 1250}
 		],
         unlocks: {
@@ -91,9 +92,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		label: $I("space.terminusMission.label"),
 		description: $I("space.terminusMission.desc"),
 		prices: [
-			{name: "starchart", val: 2500},
 			{name: "titanium", val: 12000},
 			{name: "science", val: 225000},
+			{name: "starchart", val: 2500},
 			{name: "kerosene", val: 750}
 		],
         unlocks: {
@@ -105,9 +106,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		label: $I("space.kairoMission.label"),
 		description: $I("space.kairoMission.desc"),
 		prices: [
-			{name: "starchart", val: 5000},
 			{name: "titanium", 	val: 20000},
 			{name: "science", 	val: 300000},
+			{name: "starchart", val: 5000},
 			{name: "kerosene", 	val: 7500}
 		],
 		unlocks: {
@@ -119,9 +120,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		label: $I("space.rorschachMission.label"),
 		description: $I("space.rorschachMission.desc"),
 		prices: [
-			{name: "starchart", val: 15000},
 			{name: "titanium", 	val: 80000},
 			{name: "science", 	val: 500000},
+			{name: "starchart", val: 15000},
 			{name: "kerosene", 	val: 25000}
 		],
 		unlocks: {
@@ -132,9 +133,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		label: $I("space.yarnMission.label"),
 		description: $I("space.yarnMission.desc"),
 		prices: [
-			{name: "starchart", val: 7500},
 			{name: "titanium", 	val: 35000},
 			{name: "science", 	val: 350000},
+			{name: "starchart", val: 7500},
 			{name: "kerosene", 	val: 12000}
 		],
 		unlocks: {
@@ -146,8 +147,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		label: $I("space.umbraMission.label"),
 		description: $I("space.umbraMission.desc"),
 		prices: [
-			{name: "starchart", val: 25000},
 			{name: "science", 	val: 500000},
+			{name: "starchart", val: 25000},
 			{name: "kerosene", 	val: 25000},
 			{name: "thorium",   val: 15000}
 		],
@@ -160,8 +161,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		label: $I("space.charonMission.label"),
 		description: $I("space.charonMission.desc"),
 		prices: [
-			{name: "starchart", val: 75000},
 			{name: "science", 	val: 750000},
+			{name: "starchart", val: 75000},
 			{name: "kerosene", 	val: 35000},
 			{name: "thorium",   val: 35000}
 		],
@@ -174,9 +175,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		label: $I("space.centaurusSystemMission.label"),
 		description: $I("space.centaurusSystemMission.desc"),
 		prices: [
-			{name: "starchart", val: 100000},
 			{name: "titanium", 	val: 40000},
 			{name: "science", 	val: 800000},
+			{name: "starchart", val: 100000},
 			{name: "kerosene", 	val: 50000},
 			{name: "thorium",   val: 50000}
 		],
@@ -189,8 +190,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		label: $I("space.furthestRingMission.label"),
 		description: $I("space.furthestRingMission.desc"),
 		prices: [
-			{name: "starchart", val: 500000},
 			{name: "science", 	val: 1250000},
+			{name: "starchart", val: 500000},
 			{name: "kerosene", 	val: 75000},
 			{name: "thorium",   val: 75000}
 		],
@@ -214,8 +215,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			priceRatio: 1.15,
 			prices: [
 				{name: "titanium", val: 6000},
-				{name: "science", val: 75000},
-				{name: "unobtainium", val: 50}
+				{name: "unobtainium", val: 50},
+				{name: "science", val: 75000}
 			],
 			requiredTech: ["orbitalEngineering", "nanotechnology"],
 			effects: {
@@ -236,10 +237,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			description: $I("space.planet.cath.sattelite.desc"),
 			unlocked: false,
 			prices: [
-				{name: "starchart", val: 325},
 				{name: "titanium", val: 2500},
+				{name: "oil", val: 15000},
 				{name: "science", val: 100000},
-				{name: "oil", val: 15000}
+				{name: "starchart", val: 325}
 			],
 			priceRatio: 1.08,
 			requiredTech: ["sattelites"],
@@ -249,14 +250,17 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"energyConsumption": 0,
 				"energyProduction": 0
 			},
+            unlocks:{
+                policies:["outerSpaceTreaty","militarizeSpace"]
+            },
 			calculateEffects: function(self, game){
+                var observatoryRatioTemp = 0.05 * (1 + game.getEffect("satelliteSynergyBonus"));
 				self.effects = {
-					"observatoryRatio": 0.05,
+					"observatoryRatio": observatoryRatioTemp,
 					"starchartPerTickBaseSpace": 0.001,
 					"energyConsumption": 0,
 					"energyProduction": 0
 				};
-
 				if (game.workshop.get("solarSatellites").researched) {
 					self.effects["energyProduction"] = 1;
 					self.on = self.val;
@@ -264,9 +268,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				}
 				else {
 					self.effects["energyConsumption"] = 1;
-					if (game.challenges.currentChallenge == "energy") {
-						self.effects["energyConsumption"] *= 2;
-					}
 				}
 			},
 			unlockScheme: {
@@ -279,27 +280,24 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			description: $I("space.planet.cath.spaceStation.desc"),
 			unlocked: false,
 			prices: [
-				{name: "starchart", val: 425},
-				{name: "alloy", 	val: 750},
+				{name: "oil", val: 35000},
 				{name: "science", val: 150000},
-				{name: "oil", val: 35000}
+				{name: "starchart", val: 425},
+				{name: "alloy", 	val: 750}
 			],
 			priceRatio: 1.12,
 			requiredTech: ["orbitalEngineering"],
 			effects: {
-				"maxKittens": 0,
 				"scienceRatio": 0,
+				"maxKittens": 0,
 				"energyConsumption": 0
 			},
 			calculateEffects: function(self, game){
 				var effects = {
-					"maxKittens": 2,
-					"scienceRatio": 0.5
+					"scienceRatio": 0.5,
+					"maxKittens": 2
 				};
 				effects["energyConsumption"] = 10;
-				if (game.challenges.currentChallenge == "energy") {
-					effects["energyConsumption"] *= 2;
-				}
 				self.effects = effects;
 			},
 			unlocks: {
@@ -318,39 +316,37 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			unlocked: false,
 			priceRatio: 1.12,
 			prices: [
-				{name: "starchart", val: 650},
+				{name: "oil", val: 55000},
 				{name: "uranium",  val: 500},
-				{name: "alloy",    val: 750},
-				{name: "concrate", val: 150},
 				{name: "science", val: 100000},
-				{name: "oil", val: 55000}
+				{name: "starchart", val: 650},
+				{name: "concrate", val: 150},
+				{name: "alloy",    val: 750}
 			],
 			effects: {
-				"energyConsumption": 0,
 				"uraniumPerTickCon": 0,
-				"unobtainiumPerTickSpace": 0
+				"unobtainiumPerTickSpace": 0,
+				"energyConsumption": 0
 			},
 			calculateEffects: function(self, game){
 				var effects = {
 					"uraniumPerTickCon": -0.35,
-					"unobtainiumPerTickSpace": 0.007 * (1+ game.getEffect("lunarOutpostRatio"))
+					"unobtainiumPerTickSpace": 0.007 * (1 + game.getEffect("lunarOutpostRatio"))
 				};
 				effects["energyConsumption"] = 5;
-				if (game.challenges.currentChallenge == "energy") {
-					effects["energyConsumption"] *= 2;
-				}
+				
 				self.effects = effects;
 			},
 			lackResConvert: false,
 			action: function(self, game){
 				self.effects["uraniumPerTickCon"] = -0.35;
-				self.effects["unobtainiumPerTickSpace"] = 0.007 * (1+ game.getEffect("lunarOutpostRatio"));
+				self.effects["unobtainiumPerTickSpace"] = 0.007 * (1 + game.getEffect("lunarOutpostRatio"));
 				var amt = game.resPool.getAmtDependsOnStock(
 					[{res: "uranium", amt: -self.effects["uraniumPerTickCon"]}],
 					self.on
 				);
-				self.effects["uraniumPerTickCon"]*=amt;
-				self.effects["unobtainiumPerTickSpace"]*=amt;
+				self.effects["uraniumPerTickCon"] *= amt;
+				self.effects["unobtainiumPerTickSpace"] *= amt;
 
 				return amt;
 			}
@@ -361,19 +357,19 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			unlocked: false,
 			priceRatio: 1.12,
 			prices: [
-				{name: "starchart", 	val: 700},
 				{name: "titanium", 		val: 9500},
-				{name: "concrate", 		val: 250},
-				{name: "science", 		val: 100000},
+				{name: "oil", 			val: 70000},
 				{name: "unobtainium", 	val: 50},
-				{name: "oil", 			val: 70000}
+				{name: "science", 		val: 100000},
+				{name: "starchart", 	val: 700},
+				{name: "concrate", 		val: 250}
 			],
 			effects: {
 				"catnipMax"         : 0,
 				"woodMax"           : 0,
 				"mineralsMax"       : 0,
-				"ironMax"           : 0,
 				"coalMax"           : 0,
+				"ironMax"           : 0,
 				"titaniumMax"       : 0,
 				"oilMax"            : 0,
 				"unobtainiumMax"    : 0,
@@ -384,22 +380,20 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"catnipMax"         : 45000,
 					"woodMax"           : 25000,
 					"mineralsMax"       : 30000,
-					"ironMax"           : 9000,
 					"coalMax"           : 3500,
+					"ironMax"           : 9000,
 					"titaniumMax"       : 1250,
 					"oilMax"            : 3500,
 					"unobtainiumMax"    : 150,
 					"energyConsumption" : 0
 				};
 				effects["energyConsumption"] = game.workshop.get("amBases").researched ? 5 : 10;
-				if (game.challenges.currentChallenge == "energy") {
-					effects["energyConsumption"] *= 2;
-				}
 
 				if (game.workshop.get("aiBases").researched){
+                    var aiBasesModifier = 1 + game.getEffect("aiCoreUpgradeBonus");
 					for (var key in effects){
 						if (key != "energyConsumption" ){
-							effects[key] *= (1 + game.bld.get("aiCore").on * 0.1);
+							effects[key] *= (1 + game.bld.get("aiCore").on * 0.1 * aiBasesModifier);
 						}
 					}
 				}
@@ -417,9 +411,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             unlocked: false,
             priceRatio: 1.18,
             prices: [
+                {name: "science", val: 125000},
                 {name: "starchart", val: 2500},
                 {name: "alloy",  val: 1750},
-                {name: "science", val: 125000},
                 {name: "kerosene", val: 50}
             ],
             effects: {
@@ -439,9 +433,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             unlocked: false,
             priceRatio: 1.18,
             prices: [
+                {name: "science", val: 150000},
                 {name: "starchart", val: 750},
                 {name: "alloy",  val: 1025},
-                {name: "science", val: 150000},
                 {name: "kerosene", val: 100}
             ],
             effects: {
@@ -463,9 +457,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			unlocked: false,
 			priceRatio: 1.15,
 			prices: [
+				{name: "science", val: 75000},
 				{name: "starchart", val: 500},
 				{name: "alloy",  val: 500},
-				{name: "science", val: 75000},
 				{name: "kerosene", val: 125}
 			],
 			effects: {
@@ -488,19 +482,19 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             unlocked: false,
             priceRatio: 1.15,
             prices: [
+                {name: "titanium", val: 12500},
                 {name: "starchart", val: 100},
                 {name: "alloy",  val: 2500},
-                {name: "titanium", val: 12500},
                 {name: "kerosene", val: 250}
             ],
             effects: {
-				"starchartPerTickBaseSpace": 0,
-				"scienceMax": 0
+				"scienceMax": 0,
+				"starchartPerTickBaseSpace": 0
 			},
-            calculateEffects: function(self, game){
+			calculateEffects: function(self, game) {
 				self.effects = {
-					"starchartPerTickBaseSpace": 0.01,
-					"scienceMax": 10000 * (1 + game.getEffect("spaceScienceRatio"))
+					"scienceMax": 10000 * (1 + game.getEffect("spaceScienceRatio")),
+					"starchartPerTickBaseSpace": game.challenges.isActive("blackSky") ? 0 : 0.01
 				};
             },
 			unlockScheme: {
@@ -514,9 +508,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             unlocked: false,
             priceRatio: 1.15,
             prices: [
+                {name: "science", val: 250000},
 				{name: "starchart", val: 2000},
                 {name: "eludium",  val: 100},
-                {name: "science", val: 250000},
                 {name: "kerosene", val: 500}
             ],
             effects: {
@@ -528,9 +522,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"spaceRatio": 0.02
 				};
 				effects["energyConsumption"] = 20;
-				if (game.challenges.currentChallenge == "energy") {
-					effects["energyConsumption"] *= 2;
-				}
 				self.effects = effects;
             }
         }]
@@ -570,18 +561,15 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				{name: "kerosene", val: 2500}
 			],
 			effects: {
-				"energyConsumption": 0,
-				"antimatterMax": 0
+				"antimatterMax": 0,
+				"energyConsumption": 0
 			},
 			calculateEffects: function(self, game){
 				var effects = {
-					"antimatterMax": 100 * (1+ game.space.getBuilding("heatsink").val * 0.02),
-					"energyConsumption" : 50 * (1+ game.space.getBuilding("heatsink").val * 0.01)
+					"antimatterMax": 100 * (1 + game.space.getBuilding("heatsink").val * 0.02),
+					"energyConsumption" : 50 * (1 + game.space.getBuilding("heatsink").val * 0.01)
 				};
 
-				if (game.challenges.currentChallenge == "energy") {
-					effects["energyConsumption"] *= 2;
-				}
 				self.effects = effects;
 			}
 		},{
@@ -592,9 +580,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			priceRatio: 1.12,
 			prices: [
 				{name: "science", val: 125000},
-				{name: "thorium", val: 12500 },
 				{name: "relic",   val: 1},
-				{name: "kerosene", val: 5000}
+				{name: "kerosene", val: 5000},
+				{name: "thorium", val: 12500 }
 			],
 			effects: {
 			},
@@ -610,10 +598,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			unlocked: false,
 			priceRatio: 1.12,
 			prices: [
+				{name: "antimatter", val: 250},
 				{name: "science", val: 100000},
 				{name: "relic",   val: 1},
-				{name: "kerosene", val: 1250},
-				{name: "antimatter", val: 250}
+				{name: "kerosene", val: 1250}
 			],
 			effects: {
 				"baseMetalMaxRatio": 0.01
@@ -636,34 +624,38 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             unlocked: false,
             priceRatio: 1.12,
             prices: [
-                {name: "eludium", val: 25       },
-                {name: "concrate", val: 1500    },
                 {name: "science", val: 200000   },
+                {name: "concrate", val: 1500    },
+                {name: "eludium", val: 25       },
                 {name: "kerosene", val: 500   }
             ],
             effects: {
 				"woodMax"       : 0,
 				"mineralsMax"   : 0,
-				"ironMax"       : 0,
 				"coalMax"       : 0,
-				"uraniumMax"    : 0,
+				"ironMax"       : 0,
 				"titaniumMax"   : 0,
 				"oilMax"        : 0,
+				"uraniumMax"    : 0,
 				"unobtainiumMax": 0
 			},
             calculateEffects: function(self, game){
 				self.effects = {
 					"woodMax"       : 200000,
 					"mineralsMax"   : 200000,
-					"ironMax"       : 50000,
 					"coalMax"       : 25000,
-					"uraniumMax"    : 5000,
+					"ironMax"       : 50000,
 					"titaniumMax"   : 7500,
 					//"oilMax"        : 25000,
 					"oilMax"        : 7500,
+					"uraniumMax"    : 5000,
 					"unobtainiumMax": 750
 				};
-            }
+            },
+			unlockScheme: {
+				name: "arctic",
+				threshold: 10
+			}
         }
         ]
 	},{
@@ -678,20 +670,20 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				unlocked: false,
 				priceRatio: 1.15,
 				prices: [
-					{name: "starchart", 	val: 25000 },
 					{name: "antimatter", 	val: 50 },
+					{name: "starchart", 	val: 25000 },
 					{name: "alloy", 		val: 25000 },
 					{name: "kerosene", 		val: 7500   }
 				],
 				effects: {
-					"starchartPerTickBaseSpace": 0.125,
 					"scienceMax": 25000,
+					"starchartPerTickBaseSpace": 0.025,
 					"relicPerDay": 0
 				},
 				action: function(self, game){
 
 					var rPerDay = game.getEffect("beaconRelicsPerDay");
-					var rrBoost = (1 + game.getEffect("relicRefineRatio") * game.religion.getZU("blackPyramid").val * 0.1);	//10% per BP * BN combo
+					var rrBoost = 1 + game.getEffect("relicRefineRatio") * game.religion.getZU("blackPyramid").getEffectiveValue(game) * 0.1;	//10% per BP * BN combo
 
 					//lol
 					var amMax = game.resPool.get("antimatter").maxValue;
@@ -703,8 +695,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					var entBoost = (1 + game.space.getBuilding("entangler").effects["hashRateLevel"] * 0.25);	//25% per entangler hashrate
 
 					self.effects = {
-						"starchartPerTickBaseSpace": 0.025,
 						"scienceMax": 25000 * (1 + game.getEffect("spaceScienceRatio")),
+						"starchartPerTickBaseSpace": 0.025,
 						"relicPerDay": rPerDay * rrBoost * entBoost
 					};
 				}
@@ -722,15 +714,15 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				unlocked: false,
 				priceRatio: 1.25,
 				prices: [
-					{name: "antimatter", val: 25  },
 					{name: "uranium", val: 5000  },
+					{name: "antimatter", val: 25  },
 					{name: "kerosene", val: 5000  }
 				],
 				requiredTech: ["terraformation"],
 				effects: {
 					"maxKittens": 1
 				},
-				calculateEffects: function(self, game) {
+				action: function(self, game) {
 					self.effects["maxKittens"] = 1 + game.getEffect("terraformingMaxKittensRatio");
 				},
 				unlocks: {
@@ -745,17 +737,30 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				unlocked: false,
 				priceRatio: 1.15,
 				prices: [
-					{name: "kerosene", val: 500 },
-					{name: "unobtainium", val: 1 }
+					{name: "unobtainium", val: 1 },
+					{name: "kerosene", val: 500 }
 				],
 				requiredTech: ["hydroponics"],
 				effects: {
-					"catnipMaxRatio": 0.1,
 					"catnipRatio": 0.025,
-					"terraformingMaxKittensRatio": 0.01
+					"catnipMaxRatio": 0.1,
+					"terraformingMaxKittensRatio": 0
 				},
 				upgrades: {
 					spaceBuilding: ["terraformingStation"]
+				},
+				// TODO Actually "action" is almost always just updating effects (unclear from the name), better separate the 2 concerns: update effects (can be done several times per tick) and perform specific action (only once per tick!)
+				// TODO Separation of concerns currently done only for AI Core, Time Boilers and Hydroponics (REQUIRED by non-proportional effect!), will be systematized later
+				updateEffects: function(self, game) {
+					// 0 HP = +0%
+					// 100 HP = +100%
+					// 300 HP = +200%
+					self.effects["terraformingMaxKittensRatio"] = game.getUnlimitedDR(self.on, 100) / self.on;
+					// Reset each tick because of cycle effect (from Yarn and Piscine) being applied continuously, due to presence of method "action"
+					self.effects["catnipRatio"] = 0.025;
+				},
+				action: function(self, game) {
+					self.updateEffects(self, game);
 				}
 			}
 		]
@@ -771,8 +776,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				unlocked: true,
 				priceRatio: 1.15,
 				prices: [
-					{name: "relic", val: 25 },
-					{name: "antimatter", val: 1250 }
+					{name: "antimatter", val: 1250 },
+					{name: "relic", val: 25 }
 				],
 				effects: {
 					"energyProduction": 1
@@ -784,8 +789,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					}
 
 					self.effects["energyProduction"] =
-						1 * ( 1 + game.getTriValue(yearBonus, 0.075) * 0.01) *
-							( 1 + game.getEffect("umbraBoostRatio"));
+						(1 + game.getUnlimitedDR(yearBonus, 0.075) * 0.01) *
+						(1 + game.getEffect("umbraBoostRatio"));
 				}
 			}
 		]
@@ -801,18 +806,18 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				unlocked: false,
 				priceRatio: 1.15,
 				prices: [
-					{name: "relic", val: 1250 },
 					{name: "antimatter", val: 5250 },
+					{name: "relic", val: 1250 },
 					{name: "eludium", val: 5000 }
 				],
 				requiredTech: ["quantumCryptography"],
 				effects: {
-					"energyConsumption": 25,
 					"gflopsConsumption": 0.1,
 					"hashrate": 0,
 					"hashRateLevel": 0,
 					"nextHashLevelAt": 0,
-					"hrProgress": 0
+					"hrProgress": 0,
+					"energyConsumption": 25
 				},
 				action: function(self, game){
 					var gflopsPerTick = self.effects["gflopsConsumption"] * self.on;
@@ -833,7 +838,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					self.effects["nextHashLevelAt"] = difficulty * Math.pow(rate, self.effects["hashRateLevel"] + 1);
 					self.effects["hrProgress"] = hr / (difficulty * Math.pow(rate, self.effects["hashRateLevel"] + 1));
 					if (hr > difficulty){
-						self.effects["hashRateLevel"] = Math.floor(Math.log(hr/difficulty) / Math.log(rate));
+						self.effects["hashRateLevel"] = Math.floor(Math.log(hr / difficulty) / Math.log(rate));
 					} else {
 						self.effects["hashRateLevel"] = 0;
 					}
@@ -872,8 +877,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				unlocked: false,
 				priceRatio: 1.25,
 				prices: [
-					{name: "science", val: 250000000 },
-					{name: "uranium", val: 5000000 }
+					{name: "uranium", val: 5000000 },
+					{name: "science", val: 25000000 }
 				],
 				effects: {
 					"tectonicBonus": 0.05
@@ -933,7 +938,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		for (var i = 0; i < this.programs.length; i++){
 			var program = this.programs[i];
 
-			program.unlocked = (program.name == "orbitalLaunch") ? true : false;
+			program.unlocked = program.name == "orbitalLaunch";
 			program.noStackable = true;
 
 			this.resetStateStackable(program);
@@ -1031,7 +1036,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				if (bld.action && bld.val > 0){
 					var amt = bld.action(bld, this.game);
 					if (typeof(amt) != "undefined") {
-						bld.lackResConvert = (amt == 1 || bld.on == 0) ? false : true;
+						bld.lackResConvert = amt != 1 && bld.on != 0;
 					}
 					this.game.calendar.cycleEffectsBasics(bld.effects, bld.name);
 				}
@@ -1066,6 +1071,20 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				}
 			}
 		}
+
+		var entangler = this.getBuilding("entangler");
+
+		var existingGFlops = this.game.resPool.get("gflops").value;
+		var gflopsPerTick = entangler.effects.gflopsConsumption * entangler.on;
+		var gflopsAttemptConsume = gflopsPerTick * times;
+
+		var gflopsConsume = Math.min(existingGFlops, gflopsAttemptConsume);
+		if (gflopsConsume <= 0) {
+			return;
+		}
+		
+		this.game.resPool.addResEvent("gflops", -gflopsConsume);
+		this.game.resPool.addResEvent("hashrates", gflopsConsume);
 	},
 
 	getProgram: function(name){
@@ -1134,13 +1153,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtnController", com.nuclearunicorn.game.ui.BuildingStackableBtnController, {
-	defaults: function() {
-		var result = this.inherited(arguments);
-
-		result.simplePrices = false;
-		return result;
-	},
-
     getMetadata: function(model){
         if (!model.metaCached){
             model.metaCached = this.game.space.getProgram(model.options.id);
@@ -1153,13 +1165,20 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtnController", com.nuclear
 
         for (var i = 0; i < prices.length; i++){
             if (prices[i].name == "oil"){
-                var reductionRatio = this.game.getHyperbolicEffect(this.game.getEffect("oilReductionRatio"), 0.75);
+                var reductionRatio = this.game.getLimitedDR(this.game.getEffect("oilReductionRatio"), 0.75);
                 prices[i].val *= (1 - reductionRatio);
-            }
-        }
+			}
+		}
 
-        return prices;
-    },
+		if (this.game.challenges.isActive("blackSky")
+		 && model.metadata.name == "orbitalLaunch") {
+			for (var i = 0; i < prices.length; i++) {
+				prices[i].val *= prices[i].name == "starchart" ? 0 : 11;
+			}
+		}
+
+		return prices;
+	},
 
 	updateVisible: function(model){
 		var meta = model.metadata;
@@ -1228,18 +1247,31 @@ dojo.declare("classes.ui.space.PlanetBuildingBtnController", com.nuclearunicorn.
         var ratio = meta.priceRatio || 1.15;
 
         var prices = dojo.clone(meta.prices);
-        for (var i = 0; i< prices.length; i++){
+		var pricesDiscount = this.game.getLimitedDR((this.game.getEffect(meta.name + "CostReduction")), 1);
+		var priceModifier = 1 - pricesDiscount;
+        for (var i = 0; i < prices.length; i++){
             if (prices[i].name !== "oil") {
                 prices[i].val = prices[i].val * Math.pow(ratio, meta.val);
              } else {
                 prices[i].val = prices[i].val * Math.pow(1.05, meta.val);
-                var reductionRatio = this.game.getHyperbolicEffect(this.game.getEffect("oilReductionRatio"), 0.75);
+                var reductionRatio = this.game.getLimitedDR(this.game.getEffect("oilReductionRatio"), 0.75);
                 prices[i].val *= (1 - reductionRatio);
              }
-        }
+			 var resPriceDiscount = this.game.getLimitedDR(this.game.getEffect(prices[i].name + "CostReduction"), 1);
+			 var resPriceModifier = 1 - resPriceDiscount;
+			 prices[i].val *= priceModifier * resPriceModifier; //CostReduction effects
+		}
 
-        return prices;
-    }
+		if (this.game.challenges.isActive("blackSky")
+		 && meta.name == "sattelite"
+		 && meta.val == 0) {
+			for (var i = 0; i < prices.length; i++) {
+				prices[i].val *= prices[i].name == "starchart" ? 0 : 14;
+			}
+		}
+
+		return prices;
+	}
 });
 
 dojo.declare("classes.ui.space.PlanetPanel", com.nuclearunicorn.game.ui.Panel, {
@@ -1347,7 +1379,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
                 var planetPanel = new classes.ui.space.PlanetPanel(planetTitle, self.game.space);
                 planetPanel.planet = planet;
                 planetPanel.setGame(self.game);
-                var content = planetPanel.render(container);
+                planetPanel.render(container);
 
                 self.planetPanels.push(planetPanel);
             }

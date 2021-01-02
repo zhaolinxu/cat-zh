@@ -146,8 +146,6 @@
 
 			function dev_boostCalendar() {
 				gamePage.calendar.ticksPerDay = 1/3;
-				// TODO Temporarily kept
-				gamePage.calendar.dayPerTick = 3;
 			}
 
 			function wipe(){
@@ -204,8 +202,6 @@
 					<div id="headerToolbar" style="font-size: 12px; display: inline-block">
 						<!-- toolbar panel goes there -->
 					</div>
-					<span id="energyTooltip" style="padding-right: 15px; font-size: 12px;" title="Energy"></span>
-					<span id="sorrowTooltip" style="padding-right: 15px; font-size: 12px;" title="Black liquid sorrow"></span>
 					<span id="autosaveTooltip" style="padding-right: 15px; font-size: 12px; opacity: 0;">autosaving...</span>
 					<span id="saveTooltip" style="padding-right: 15px; font-size: 12px; opacity: 0;">Saved!</span>
 
@@ -296,7 +292,7 @@
 						<a id="dev_boostCalendar" href="#" onclick="dev_boostCalendar();" style="display: none; text-decoration: none; position: relative; left: 5px;">&gt;&gt;&gt;</a>
 					</div>
 					<div class="right-tab-header">
-						<a href="#" onclick="gamePage.ui.hideChat();">Log</a>&nbsp;|
+						<a href="#" onclick="gamePage.ui.hideChat();">Log</a>
 						<a href="#" onclick="gamePage.ui.loadChat();">Chat</a>
 					</div>
 					<div id="observeButton" style="text-align: center; margin-top: 5px; height: 30px;"></div>
@@ -388,7 +384,7 @@
 			</div>
 
 
-			<div id="optionsDiv" style="display: none; height: 360px; margin-top:-180px" class="dialog help">
+			<div id="optionsDiv" style="display: none;" class="dialog help">
 				<a href="#" onclick="gamePage.closeOptions()" style="position: absolute; top: 10px; right: 15px;">close</a>
 
 				<label for="schemeToggle">Color scheme:</label>

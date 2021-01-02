@@ -12,6 +12,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	 * Those flags are not mutually exclusive
 	 *
 	 *  transient: will not be affected by magneto production bonus (and other bonuses)
+	 *  persists: affects how resources are carried over through reset
+	 *  * undefined: carries over depending on Chronospheres
+	 *  * true: carries over untouched
+	 *  * false: does not carry over
 	 *  type: common/uncommon/rare/exotic
 	 */
 	resourceData: [
@@ -51,9 +55,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		calculatePerTick: true,
 		aiCanDestroy: true,
-		tags:{
-			baseMetal: true
-		}
+		tag: "baseMetal"
 	},{
 		name : "titanium",
 		title: $I("resources.titanium.title"),
@@ -61,9 +63,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		calculatePerTick: true,
 		aiCanDestroy: true,
-		tags:{
-			baseMetal: true
-		}
+		tag: "baseMetal"
 	},{
 		name : "gold",
 		title: $I("resources.gold.title"),
@@ -71,9 +71,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		calculatePerTick: true,
 		aiCanDestroy: true,
-		tags:{
-			baseMetal: true
-		}
+		tag: "baseMetal"
 	},{
 		name : "oil",
 		title: $I("resources.oil.title"),
@@ -90,9 +88,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		color: "#4EA24E",
 		calculatePerTick: true,
 		aiCanDestroy: true,
-		tags:{
-			baseMetal: true
-		}
+		tag: "baseMetal"
 	},{
 		name : "unobtainium",
 		title: $I("resources.unobtainium.title"),
@@ -102,9 +98,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		color: "#A00000",
 		calculatePerTick: true,
 		aiCanDestroy: true,
-		tags:{
-			baseMetal: true
-		}
+		tag: "baseMetal"
 	},
 
 	//=========================================
@@ -157,13 +151,15 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		title: $I("resources.kittens.title"),
 		type : "common",
 		transient: true,
-		visible: true
+		visible: true,
+		persists: false
 	},{
 		name : "zebras",
 		title: $I("resources.zebras.title"),
 		type : "common",
 		transient: true,
-		visible: true
+		visible: true,
+		persists: false
 	},{
 		name : "starchart",
 		title: $I("resources.starchart.title"),
@@ -185,14 +181,16 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		type : "common",
 		transient: true,
 		craftable: false,
-		visible: false
+		visible: false,
+		persists: false
 	},{
 		name : "hashrates",
 		title: "hashrates",
 		type : "common",
 		transient: true,
 		craftable: false,
-		visible: false
+		visible: false,
+		persists: false
 	},
 	//=========================================
 	// 			  luxury resources
@@ -203,6 +201,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		type : "uncommon",
 		transient: true,
 		visible: true,
+		persists: false,
 		calculatePerTick: true,
 		aiCanDestroy: true
 	},{
@@ -211,6 +210,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		type : "uncommon",
 		transient: true,
 		visible: true,
+		persists: false,
 		calculatePerTick: true,
 		aiCanDestroy: true
 	},{
@@ -219,6 +219,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		type : "uncommon",
 		transient: true,
 		visible: true,
+		persists: false,
 		calculatePerTick: true,
 		aiCanDestroy: true
 	},{
@@ -227,6 +228,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		type : "rare",
 		transient: true,
 		visible: true,
+		persists: false,
 		calculatePerTick: true,
 		aiCanDestroy: true
 	},{
@@ -234,6 +236,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		title: $I("resources.alicorn.title"),
 		type : "rare",
 		visible: true,
+		persists: false,
 		calculatePerTick: true,
 		aiCanDestroy: true
 	},{
@@ -241,17 +244,20 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		title: $I("resources.necrocorn.title"),
 		type : "rare",			//todo: some special FX
 		visible: true,
-		color: "#E00000"
+		color: "#E00000",
+		persists: false
 	},{
 		name : "tears",
 		title: $I("resources.tears.title"),
 		type : "rare",
-		visible: true
+		visible: true,
+		persists: false
 	},{
 		name : "karma",
 		title: $I("resources.karma.title"),
 		type : "rare",
-		visible: true
+		visible: true,
+		persists: false
 	},{
 		name : "paragon",
 		title: $I("resources.paragon.title"),
@@ -287,12 +293,12 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		craftable: false,
 		visible: true,
 		color: "#5A0EDE",
-		style: {
+		/*style: {
 			         animation : "neon-purple 1.5s ease-in-out infinite alternate",
 			"-webkit-animation": "neon-purple 1.5s ease-in-out infinite alternate",
 			   "-moz-animation": "neon-purple 1.5s ease-in-out infinite alternate",
 			     "-o-animation": "neon-purple 1.5s ease-in-out infinite alternate"
-		}/*,
+		}*//*,
 		aiCanDestroy: true*/
 	},{
 		name : "void",
@@ -301,12 +307,12 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		craftable: false,
 		visible: true,
 		color: "#5A0EDE",
-		style: {
+		/*style: {
 			         animation : "neon-purple 1.5s ease-in-out infinite alternate",
 			"-webkit-animation": "neon-purple 1.5s ease-in-out infinite alternate",
 			   "-moz-animation": "neon-purple 1.5s ease-in-out infinite alternate",
 			     "-o-animation": "neon-purple 1.5s ease-in-out infinite alternate"
-		}
+		}*/
 	},{
 		name : "elderBox",
 		title: $I("resources.elderBox.title"),
@@ -315,12 +321,12 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		craftable: false,
 		visible: true,
 		color: "#FA0EDE",
-		style: {
+		/*style: {
 			         animation : "neon-pink 1.5s ease-in-out infinite alternate",
 			"-webkit-animation": "neon-pink 1.5s ease-in-out infinite alternate",
 			   "-moz-animation": "neon-pink 1.5s ease-in-out infinite alternate",
 			     "-o-animation": "neon-pink 1.5s ease-in-out infinite alternate"
-		},
+		},*/
 		persists: true
 	},{
 		name : "wrappingPaper",
@@ -329,12 +335,12 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		craftable: false,
 		visible: true,
 		color: "#FA0EDE",
-		style: {
+		/*style: {
 			         animation : "neon-pink 1.5s ease-in-out infinite alternate",
 			"-webkit-animation": "neon-pink 1.5s ease-in-out infinite alternate",
 			   "-moz-animation": "neon-pink 1.5s ease-in-out infinite alternate",
 			     "-o-animation": "neon-pink 1.5s ease-in-out infinite alternate"
-		},
+		},*/
 		persists: true
 	},{
 		name : "blackcoin",
@@ -342,14 +348,13 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		type : "exotic",
 		craftable: false,
 		visible: true,
-		color: "gold",
-		style: {
+		color: "gold"
+		/*style: {
 			         animation : "neon-gold 1.5s ease-in-out infinite alternate",
 			"-webkit-animation": "neon-gold 1.5s ease-in-out infinite alternate",
 			   "-moz-animation": "neon-gold 1.5s ease-in-out infinite alternate",
 			     "-o-animation": "neon-gold 1.5s ease-in-out infinite alternate"
-},
-		persists: false
+		}*/
 	},
 	{
 		name: "bloodstone",
@@ -357,14 +362,13 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		type : "exotic",
 		craftable: true,
 		visible: true,
-		color: "red",
-		style: {
+		color: "red"
+		/*style: {
 			         animation : "neon-red 1.5s ease-in-out infinite alternate",
 			"-webkit-animation": "neon-red 1.5s ease-in-out infinite alternate",
 			   "-moz-animation": "neon-red 1.5s ease-in-out infinite alternate",
 			     "-o-animation": "neon-red 1.5s ease-in-out infinite alternate"
-		},
-		persists: false
+		}*/
 	},
 	//=========================================
 	// 				    CRAFT
@@ -383,7 +387,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		name : "plate",
 		title: $I("resources.plate.title"),
 		type : "common",
-		craftable: true
+		craftable: true,
+		tag: "metallurgist"
 	},{
 		name : "steel",
 		title: $I("resources.steel.title"),
@@ -391,32 +396,37 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		craftable: true,
 		visible: false,
 		color: "gray",
-		calculatePerTick: true
+		calculatePerTick: true,
+		tag: "metallurgist"
 	},{
 		name : "concrate",
 		title: $I("resources.concrate.title"),
 		type : "common",
-		craftable: true
+		craftable: true,
+		tag: "chemist"
 	},{
 		name : "gear",
 		title: $I("resources.gear.title"),
 		type : "common",
 		craftable: true,
-		color: "gray"
+		color: "gray",
+		tag: "metallurgist"
 	},{
 		name : "alloy",
 		title: $I("resources.alloy.title"),
 		type : "common",
 		craftable: true,
 		visible: false,
-		color: "gray"
+		color: "gray",
+		tag: "metallurgist"
 	},{
 		name : "eludium",
 		title: $I("resources.eludium.title"),
 		type : "common",
 		craftable: true,
 		visible: false,
-		color: "darkViolet"
+		color: "darkViolet",
+		tag: "chemist"
 	},{
 		name : "scaffold",
 		title: $I("resources.scaffold.title"),
@@ -441,7 +451,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
         type: "common",
         craftable: true,
         color: "darkYellow",
-		isNotRefundable: true
+		isNotRefundable: true,
+		tag: "chemist"
 	},{
 		name : "parchment",
 		title: $I("resources.parchment.title"),
@@ -477,7 +488,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		craftable: true,
 		color: "#4EA24E",
 		calculatePerTick: true,
-		isNotRefundable: true
+		isNotRefundable: true,
+		tag: "chemist"
 	},{
 		name : "megalith",
 		title: $I("resources.megalith.title"),
@@ -503,7 +515,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		this.resources = [];
 		this.resourceMap = {};
 
-		for (var i = 0; i< this.resourceData.length; i++){
+		for (var i = 0; i < this.resourceData.length; i++){
 			var res = dojo.clone(this.resourceData[i]);
 			res.value = 0;
 			res.unlocked = false;
@@ -527,7 +539,28 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		// }
 
 		//if no resource found, return false
-		return res? res : false;
+		return res ? res : false;
+	},
+
+	//put your custom fake resources there
+	getPseudoResources: function(){
+		return [
+			{
+				name: "worship",
+				title: $I("resources.worship.title"),
+				value: this.game.religion.faith,
+				unlocked: true,
+				visible: false
+			},
+			{
+				name: "epiphany",
+				title: $I("resources.epiphany.title"),
+				value: this.game.religion.faithRatio,
+				unlocked: true,
+				visible: false
+			}
+		];
+		//TODO: mixin unlocked and visible automatically
 	},
 
 	createResource: function(name){
@@ -543,27 +576,18 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		return res;
 	},
 
-	addRes: function(res, addedValue, event, preventLimitCheck) {
-		if (this.game.calendar.day < 0 && !event || addedValue == 0) {
+	addRes: function(res, addedValue, allowDuringParadoxes, preventLimitCheck) {
+		if (this.game.calendar.day < 0 && !allowDuringParadoxes || addedValue == 0) {
 			return 0;
 		}
 
 		var prevValue = res.value || 0;
 
-		if(res.maxValue) {
-			//if already overcap, allow to remain that way unless removing resources.
-			if(res.value > res.maxValue) {
-				if(addedValue < 0 ) {
-					res.value += addedValue;
-				}
-			} else {
-				res.value += addedValue;
-				if(res.value > res.maxValue && !preventLimitCheck) {
-					res.value = res.maxValue;
-				}
-			}
-		} else {
-			res.value += addedValue;
+		//if already overcap, allow to remain that way unless removing resources.
+		var limit = Math.max(res.value, res.maxValue || Number.POSITIVE_INFINITY);
+		res.value += addedValue;
+		if (!preventLimitCheck) {
+			res.value = Math.min(res.value, limit);
 		}
 
 		if (res.name == "void") { // Always an integer
@@ -575,8 +599,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		}
 
 		if (res.name == "karma"){
-			this.game.karmaKittens = Math.round(this.game.getTriValueOrigin(res.value, 5));
-			res.value = this.game.getTriValue(this.game.karmaKittens, 5);
+			this.game.karmaKittens = Math.round(this.game.getInverseUnlimitedDR(res.value, 5));
+			res.value = this.game.getUnlimitedDR(this.game.karmaKittens, 5);
 		}
 
 		return res.value - prevValue;
@@ -654,6 +678,9 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			var maxValue = game.getEffect(res.name + "Max") || 0;
 
 			maxValue = this.addResMaxRatios(res, maxValue);
+			
+			var challengeEffect = this.game.getLimitedDR(this.game.getEffect(res.name + "MaxChallenge"), maxValue);
+			maxValue += challengeEffect;
 
 			if (maxValue < 0 ){
 				maxValue = 0;
@@ -668,17 +695,18 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		game.updateKarma();
 
 		//--------
-		var energyRatio = 1 + game.getEffect("energyProductionRatio");
-		this.energyProd = game.getEffect("energyProduction") * energyRatio;
+		var energyProdRatio = 1 + game.getEffect("energyProductionRatio");
+		this.energyProd = game.getEffect("energyProduction") * energyProdRatio;
 		this.energyWinterProd = this.energyProd;
-		this.energyCons = game.getEffect("energyConsumption");
+		var energyConsRatio = 1 + game.getLimitedDR(game.getEffect("energyConsumptionRatio"), 1) + game.getEffect("energyConsumptionIncrease");
+		this.energyCons = game.getEffect("energyConsumption") * energyConsRatio * (this.game.challenges.isActive("energy") ? 2 : 1);
 
 		var currentSeason = game.calendar.season;
 		var solarFarm = game.bld.getBuildingExt("pasture");
 		var calculateEnergyProduction = solarFarm.get("calculateEnergyProduction");
 		if (currentSeason != 3 && calculateEnergyProduction) {
 			var energyLoss = calculateEnergyProduction(game, currentSeason) - calculateEnergyProduction(game, 3);
-			this.energyWinterProd -= solarFarm.get("on") * energyLoss * energyRatio;
+			this.energyWinterProd -= solarFarm.get("on") * energyLoss * energyProdRatio;
 		}
 	},
 
@@ -689,13 +717,13 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		var limits = {};
 		for (var i in this.resources) {
 			var res = this.resources[i];
-			if (res.perTickCached && !(res.name == "catnip" && res.perTickCached < 0)) {
+			if (res.perTickCached && (res.name != "catnip" || res.perTickCached >= 0)) {
 				if (res.maxValue) {
 					limits[res.name] = Math.max(res.value, res.maxValue);
 				}
 				//console.log("Adjusting resource", res.name, "delta",res.perTickCached, "max value", res.maxValue, "days offset", daysOffset);
 				//console.log("resource before adjustment:", res.value);
-				this.addRes(res, res.perTickCached * daysOffset * this.game.calendar.ticksPerDay, false/*event?*/, true/*preventLimitCheck*/);
+				this.addRes(res, res.perTickCached * daysOffset * this.game.calendar.ticksPerDay, true/*allowDuringParadoxes*/, true/*preventLimitCheck*/);
 				//console.log("resource after adjustment:", res.value);
 			}
 		}
@@ -752,7 +780,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 				effect *= warehouseRatio;
 			}
 
-			if (name == "coalMax" || name == "goldMax" || name == "titaniumMax"){
+			if (name == "coalMax" || name == "titaniumMax" || name == "goldMax"){
 				effect *= warehouseRatio;
 			}
 			newEffects[name] = effect;
@@ -764,31 +792,39 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	 * Multiplies maxValue by global ratios
 	 * Called in tooltips for more accurate per-building resMax increases
 	 */
-	addResMaxRatios: function(res, maxValue){
-		if (res && res.name == "temporalFlux") {
+	addResMaxRatios: function(res, maxValue) {
+		if (res.name == "temporalFlux") {
 			return maxValue;
 		}
 
-		maxValue += maxValue * this.game.prestige.getParagonStorageRatio();
+		maxValue *= 1 + this.game.prestige.getParagonStorageRatio();
 
 		//+COSMIC RADIATION
 		if (!this.game.opts.disableCMBR) {
-			maxValue *= (1 + this.game.getCMBRBonus());
+			maxValue *= 1 + this.game.getCMBRBonus();
 		}
 
-		if (res){
-			//Stuff for Refrigiration and (potentially) similar effects
-			maxValue *= ( 1 + this.game.getEffect(res.name + "MaxRatio") );
+		//Stuff for Refrigiration and (potentially) similar effects
+		maxValue *= 1 + this.game.getEffect(res.name + "MaxRatio");
 
-			if (!this.isNormalCraftableResource(res) && !res.transient){
-				maxValue *= (1 + this.game.getEffect("globalResourceRatio"));
-			}
+		if (!this.isNormalCraftableResource(res) && !res.transient) {
+			maxValue *= 1 + this.game.getEffect("globalResourceRatio");
 		}
 
-		if (res.tags && res.tags.baseMetal){
-			maxValue *= ( 1 + this.game.getEffect("baseMetalMaxRatio") );
+		if (res.tag == "baseMetal") {
+			maxValue *= 1 + this.game.getEffect("baseMetalMaxRatio");
+		}
+		
+        //policies
+		//technocracy policy bonus
+		if(res.name == "science"){
+			maxValue *= (1 + this.game.getEffect("technocracyScienceCap"));
 		}
 
+        //city on a hill bonus
+        if(res.name == "culture"){
+            maxValue *= (1 + this.game.getEffect("onAHillCultureCap"));
+        }
 		return maxValue;
 	},
 
@@ -882,7 +918,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	},
 
 	maxAll: function(){
-		for(var i = 0; i< this.resources.length; i++){
+		for(var i = 0; i < this.resources.length; i++){
 			var res = this.resources[i];
 			if (res.maxValue && res.value < res.maxValue){
 				res.value = res.maxValue;
@@ -906,24 +942,18 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
     },
 
     getVoidQuantity: function() {
-		// -1, 0, 1, 2, 3 at start, 1 on average
-		var maxPerDay = 2 + this.game.getEffect("temporalParadoxVoid");
-		var i = this.game.rand(maxPerDay + 2) - 1;
-
-		// Only integer
-		return i;
+		// -1, 0, 1, 2 at start, 0.5 on average
+		return this.game.rand(this.game.getEffect("temporalParadoxVoid") + 4) - 1;
     },
 
     // getVoidQuantity is good for day -by day evaluation but it cannot be used for redshift which requires statistical distribution over large number of days
-    // The valus range of getVoidQuantity is: -1, 0, 1, 2 .. n, where n is (2 + temporalParadoxVoid -1) . The values are  equally distributed so we can get a median out of them. (-1 + n) /2
+    // The values range of getVoidQuantity is: -1, 0, 1, 2 .. n, where n is (2 + temporalParadoxVoid) . The values are  equally distributed so we can get a median out of them. (-1 + n) /2
     getVoidQuantityStatistically: function() {
-		// -1, 0, 1, 2, 3 at start, 1 on average
-		// Only integer
-		return (2 + this.game.getEffect("temporalParadoxVoid") - 1) / 2 ;
+		return (this.game.getEffect("temporalParadoxVoid") + 1) / 2 ;
     },
 
 	setDisplayAll: function() {
-		for(var i = 0; i< this.resources.length; i++){
+		for(var i = 0; i < this.resources.length; i++){
 			this.resources[i].isHidden = false;
 		}
 	},

@@ -39,8 +39,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 			"perks": ["codexAgrum", "codexLeviathanianus"]
 		},
 		effects:{
-			"compediumCraftRatio" : 0.25,
 			"manuscriptGlobalCraftRatio": 0.05,
+			"compediumCraftRatio" : 0.25,
 			"compediumGlobalCraftRatio": 0.05
 
 		}
@@ -52,9 +52,9 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		researched: false,
 		effects:{
-			"blueprintCraftRatio" : 0.25,
 			"manuscriptGlobalCraftRatio": 0.05,
 			"compediumGlobalCraftRatio": 0.05,
+			"blueprintCraftRatio" : 0.25,
 			"blueprintGlobalCraftRatio": 0.05
 		}
 	}, {
@@ -111,7 +111,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 			"perks": ["vitruvianFeline"]
 		},
 		effects:{
-			"priceRatio" : -0.017
+			"priceRatio" : -16 / 900
 		}
 	},{
 		name: "vitruvianFeline",
@@ -144,6 +144,9 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		unlocked: true,
 		defaultUnlocked: true,
 		researched: false,
+		effects:{
+			"standingRatio" : 0.1
+		},
 		unlocks: {
 			"perks": ["zebraDiplomacy"]
 		}
@@ -162,6 +165,16 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		label: $I("prestige.zebraCovenant.label"),
 		description: $I("prestige.zebraCovenant.desc"),
 		prices: [{ name: "paragon", val: 75 }],
+		unlocked: false,
+		researched: false,
+		unlocks: {
+			"perks": ["navigationDiplomacy"]
+		}
+	},{
+		name: "navigationDiplomacy",
+		label: $I("prestige.navigationDiplomacy.label"),
+		description: $I("prestige.navigationDiplomacy.desc"),
+		prices: [{ name: "paragon", val: 300 }],
 		unlocked: false,
 		researched: false
 	},{
@@ -449,7 +462,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 
 		this.loadMetadata(this.perks, saveData.prestige.perks);
 
-		for (var i = 0; i< this.perks.length; i++){
+		for (var i = 0; i < this.perks.length; i++){
 			var perk = this.perks[i];
 			if (perk.researched){
 				this.game.unlock(perk.unlocks);
@@ -481,18 +494,18 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
     },
 
 	getBurnedParagonRatio: function(){
-		return this.game.getTriValue(this.game.resPool.get("burnedParagon").value, 500);
+		return this.game.getUnlimitedDR(this.game.resPool.get("burnedParagon").value, 500);
 	},
 
 	getParagonProductionRatio: function(){
 		var paragonRatio = this.getParagonRatio();
 
 		var productionRatioParagon = (this.game.resPool.get("paragon").value * 0.010) * paragonRatio;
-		productionRatioParagon = this.game.getHyperbolicEffect(productionRatioParagon, 2 * paragonRatio);
+		productionRatioParagon = this.game.getLimitedDR(productionRatioParagon, 2 * paragonRatio);
 
 		var ratio = this.game.calendar.darkFutureYears() >= 0 ? 4 : 1;
 		var productionRatioBurnedParagon = this.game.resPool.get("burnedParagon").value * 0.010 * paragonRatio;
-		productionRatioBurnedParagon = this.game.getHyperbolicEffect(productionRatioBurnedParagon, ratio * paragonRatio);
+		productionRatioBurnedParagon = this.game.getLimitedDR(productionRatioBurnedParagon, ratio * paragonRatio);
 
 		return productionRatioParagon + productionRatioBurnedParagon;
 	},
@@ -535,11 +548,7 @@ dojo.declare("classes.ui.PrestigeBtnController", com.nuclearunicorn.game.ui.Buil
 
 	updateVisible: function(model){
 		var meta = model.metadata;
-		if (!meta.unlocked || (!meta.researched && !this.game.science.get("metaphysics").researched)){
-			model.visible = false;
-		} else{
-			model.visible = true;
-		}
+		model.visible = meta.unlocked && (meta.researched || this.game.science.get("metaphysics").researched);
 
 		if (meta.researched && this.game.science.hideResearched){
 			model.visible = false;

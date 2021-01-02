@@ -26,7 +26,7 @@ dojo.declare("classes.game.Timer", null, {
 	},
 
 	update: function(){
-		for (var i= 0; i < this.handlers.length; i++){
+		for (var i = 0; i < this.handlers.length; i++){
 			var h = this.handlers[i];
 			h.phase--;
 			if (h.phase <= 0){
@@ -77,32 +77,32 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 	guid: null,
 	game: null,
 
-	constructor: function(game){
+	constructor: function(game) {
 		this.guid = this.generateGuid();
 		this.game = game;
 	},
 
-	generateGuid: function(){
-		return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-			var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
-			return v.toString(16);
+	// See https://www.ietf.org/rfc/rfc4122.txt, section 4.4
+	generateGuid: function() {
+		return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
+			return (c == "x" ? 16 * Math.random() | 0 : 4 * Math.random() | 8).toString(16);
 		});
 	},
 
-	save: function(data){
+	save: function(data) {
 		data["telemetry"] = {
 			guid: this.guid
 		};
 	},
 
-	load: function(data){
-		if (data["telemetry"]){
+	load: function(data) {
+		if (data["telemetry"]) {
 			this.guid = data["telemetry"].guid || this.generateGuid();
 		}
 	},
 
-	logEvent: function(eventType, payload){
-		var event = {
+	logEvent: function(eventType, payload) {
+		/*var event = {
 			guid: this.guid,
 			type: eventType,
 			timestamp: Date.now(),
@@ -111,34 +111,25 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 		};
 
 		if (!this.game.opts.disableTelemetry) {
-
 			if (window.FirebasePlugin) {
 				window.FirebasePlugin.logEvent(eventType, event);
-			} else if (this.game.server.telemetryUrl) {
-				/*$.ajax({
-					url: this.game.server.telemetryUrl,
-					type: "POST",
-					crossOrigin: true,
-					data: JSON.stringify(event),
-					dataType: "json",
-					contentType: "text/plain"
-				});*/
 			}
-		}
+		}*/
 	}
 });
 
 
-//TODO: to be replaced with actual server call
+/**
+ * Server is a mediator between client and KGNet
+ * It supports fetching data about saves, syncing using info, etc
+ * 
+ * Please see toolbar.jsx.js#WLogin widget for rendering part
+ */
 
 dojo.declare("classes.game.Server", null, {
 
 	// Server datas
 	//---->
-	donateAmt: 0,
-	telemetryUrl: null,
-	telemetryAppId: "KG",
-
 	showMotd: true,
 	motdTitle: null,
 	motdContent: null,
@@ -148,9 +139,38 @@ dojo.declare("classes.game.Server", null, {
 	motdContentPrevious: null,
 	motdFreshMessage: false,
 
+	//chiral stuff
+
+	/**
+	 * KGNet user profile
+	 * Represents an active session, if not null, all XHR calls will be made
+	 * using session cookies
+	 */
+	userProfile: null,
+
+	/**
+	 * Current client snapshot of the save data
+	 * All operations with the cloud saves should return the save snapshot?
+	 */
+	saveData: null,
+
 	constructor: function(game){
 		this.game = game;
 	},
+
+	setUserProfile: function(userProfile){
+		this.userProfile = userProfile;
+	},
+
+    getServerUrl: function(){
+		var host = window.location.hostname;
+		var isLocalhost = window.location.protocol == "file:" || host == "localhost" || host == "127.0.0.1";
+        if (isLocalhost){
+            //if you are running chilar locally you should know what you are doing
+            return "http://localhost:7780";
+        }
+        return "";
+    },
 
 	refresh: function(){
 		var self = this;
@@ -161,10 +181,6 @@ dojo.declare("classes.game.Server", null, {
 			url: "server.json",
 			dataType: "json",
 			success: function(json) {
-				self.donateAmt = json.donateAmt || 0;
-				self.telemetryUrl = json.telemetryUrl;
-				self.telemetryAppId = json.telemetryAppId;
-
 				self.showMotd = json.showMotd;
 				self.motdTitle = json.motdTitle;
 				self.motdContent = json.motdContent;
@@ -178,6 +194,87 @@ dojo.declare("classes.game.Server", null, {
 			console.log("Unable to parse server.json configuration:", err);
 		});
 
+		//-- fetch UID from KGNet if HTTP session is established ---
+		if (!this.userProfile){
+			this.syncUserProfile();
+		}
+		
+	},
+
+	/**
+	 * Make an XHR request to KGNet server
+	 * 
+	 * @param {A s} url - relative endpoint URL
+	 * @param {*} method - "GET" or "POST"
+	 * @param {*} data - post data
+	 * @param {*} handler - onDone callback handler
+	 */
+	_xhr: function(url, method, data, handler){
+		$.ajax({
+            cache: false,
+            type: method || "GET",
+            dataType: "JSON",
+			url: this.getServerUrl() + url,
+			xhrFields: {
+				withCredentials: true
+			},
+			data: data
+		}).done(function(resp){
+			handler(resp);
+		});
+	},
+
+	/**
+	 * Fetch user profile from the chiral server, 
+	 * User must be logged in and session cookie should be set beforehead
+	 */
+	syncUserProfile: function(){
+		var self = this;
+
+		//TODO: use some XHR snippet, this is getting too verbose
+		this._xhr("/user/", "GET", {}, function(resp){
+            if (resp && resp.id){
+                self.setUserProfile(resp);
+            }
+		});
+	},
+
+	syncSaveData: function(){
+		var self = this;
+		this._xhr("/kgnet/save/", "GET", {}, function(resp){
+			self.saveData = resp;
+		});
+	},
+
+	pushSave: function(){
+		var self = this;
+		var saveData = this.game.save();
+		this._xhr("/kgnet/save/upload/", "POST", 
+		{
+			//pre-parsing guid to avoid checking it on the backend side
+			guid: this.game.telemetry.guid,
+			saveData: this.game.compressLZData(JSON.stringify(saveData), true)
+		}, 
+		function(resp){
+			console.log("save successful?");
+			self.saveData = resp;
+			self.game.msg($I("save.export.msg"));
+		});
+	},
+
+	loadSave: function(guid){
+		var self = this;
+		this._xhr("/kgnet/save/" + guid + "/download/", "GET", {}, function(resp){
+			if (!resp.data){
+				console.error("unable to load game data", resp);
+			}
+			var data = resp.data;
+			LCstorage["com.nuclearunicorn.kittengame.savedata"] = data;
+			console.log("load successful?");
+
+			self.game.load();
+			self.game.msg($I("save.import.msg"));
+		});
 	},
 
 	save: function(saveData) {
@@ -252,6 +349,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 					type: "perTick"
 				};
 			case type == "Max":
+				return {
+					title: $I("effectsMgr.type.resMax", [restitle]),
+					resName: resname
+				};
+			case type == "MaxChallenge": //for when challenges change Max of resources; LDR to all other sources of Max
 				return {
 					title: $I("effectsMgr.type.resMax", [restitle]),
 					resName: resname
@@ -430,6 +532,16 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "fixed"
 			},
 
+			"festivalRatio":{
+				title: $I("effectsMgr.statics.festivalRatio.title"),
+				type: "ratio"
+			},
+
+			"festivalArrivalRatio":{
+				title: $I("effectsMgr.statics.festivalArrivalRatio.title"),
+				type: "ratio"
+			},
+
 			// energy
 
 			"energyProduction": {
@@ -446,6 +558,14 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				title: $I("effectsMgr.statics.energyProductionRatio.title"),
 				type: "ratio"
 			},
+			"energyConsumptionRatio": {
+				title: $I("effectsMgr.statics.energyConsumptionRatio.title"),
+				type: "ratio"
+			},
+			"energyConsumptionIncrease": {
+				title: $I("effectsMgr.statics.energyConsumptionIncrease.title"),
+				type: "ratio"
+            },
 
 			//production
 
@@ -608,6 +728,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "ratio"
             },
 
+            "masterSkillMultiplier" : {
+                title: $I("effectsMgr.statics.masterSkillMultiplier.title"),
+                type: "ratio"
+            },
+
             "uraniumRatio" : {
                 title: $I("effectsMgr.statics.uraniumRatio.title"),
                 type: "ratio"
@@ -685,12 +810,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
 			"riftChance" :  {
                 title: $I("effectsMgr.statics.riftChance.title"),
-                type: "fixed"
+                type: "ratio"
             },
 
 			"ivoryMeteorChance" :  {
                 title: $I("effectsMgr.statics.ivoryMeteorChance.title"),
-                type: "fixed"
+                type: "ratio"
             },
 
             "ivoryMeteorRatio" :  {
@@ -705,7 +830,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
 			"alicornChance" :  {
                 title: $I("effectsMgr.statics.alicornChance.title"),
-                type: "fixed"
+                type: "ratio"
             },
 
 			"tcRefineRatio" :  {
@@ -725,6 +850,21 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
 			"faithRatioReligion" :  {
                 title: $I("effectsMgr.statics.faithRatioReligion.title"),
+                type: "ratio"
+            },
+
+            "solarRevolutionLimit" : {
+                title: $I("effectsMgr.statics.solarRevolutionLimit.title"),
+                type: "ratio"
+            },
+
+            "solarRevolutionRatio" : {
+                title: $I("effectsMgr.statics.solarRevolutionRatio.title"),
+                type: "ratio"
+            },
+
+            "faithSolarRevolutionBoost" : {
+                title: $I("effectsMgr.statics.faithSolarRevolutionBoost.title"),
                 type: "ratio"
             },
 
@@ -938,6 +1078,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "ratio"
 			},
 
+			"corruptionBoostRatioChallenge": {
+				title: $I("effectsMgr.statics.corruptionBoostRatioChallenge.title"),
+				type: "ratio"
+			},
+
 			"blsCorruptionRatio": {
 				title: $I("effectsMgr.statics.blsCorruptionRatio.title"),
 				type: "ratio"
@@ -1020,7 +1165,232 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
 			"terraformingMaxKittensRatio": {
 				title: $I("effectsMgr.statics.terraformingMaxKittens.title"),
+				type: "ratio",
+				calculation: "nonProportional"
+			},
+			//age 1 policy effects
+			"happinessKittenProductionRatio": {
+				title: $I("effectsMgr.statics.happinessKittenProductionRatio.title"),
 				type: "ratio"
+			},
+			"cultureFromManuscripts": {
+				title: $I("effectsMgr.statics.cultureFromManuscripts.title"),
+				type: "ratio"
+			},
+			"manuscriptParchmentCost": {
+				title: $I("effectsMgr.statics.manuscriptCost.title", [$I("resources.parchment.title")]),
+				type: "fixed"
+			},
+			"manuscriptCultureCost": {
+				title: $I("effectsMgr.statics.manuscriptCost.title",[$I("resources.culture.title")]),
+				type: "fixed"
+			},
+			//age 2 policy effects
+			"rankLeaderBonusConversion": {
+				title: $I("effectsMgr.statics.rankLeaderBonusConversion.title"),
+                type: "ratio"
+			},
+			"boostFromLeader": {
+                title: $I("effectsMgr.statics.boostFromLeader.title"),
+                type: "ratio"
+			},
+			//age 3 policy effects
+			"goldCostReduction": {
+                title: $I("effectsMgr.statics.goldCostReduction.title"),
+                type: "ratio"
+			},
+			"factoryCostReduction":{
+                title: $I("effectsMgr.statics.factoryCostReduction.title"),
+                type: "ratio"
+			},
+			"logHouseCostReduction":{
+                title: $I("effectsMgr.statics.logHouseCostReduction.title"), //yes, it is log house!
+                type: "ratio"
+			},
+			"communismProductionBonus":{
+                title: $I("effectsMgr.statics.communismProductionBonus.title"),
+                type: "ratio"
+			},
+			//age 4 policy effects
+			"technocracyScienceCap":{
+                title: $I("effectsMgr.statics.technocracyScienceCap.title"),
+                type: "ratio"
+			},
+			//age 5 policy effects
+			"aiCoreProductivness":{
+                title: $I("effectsMgr.statics.aiCoreProductivity.title"),
+                type: "ratio"
+			},
+			"aiCoreUpgradeBonus":{
+				title: $I("effectsMgr.statics.aiCoreUpgradeBonus.title"),
+				type: "ratio"
+			},
+			"blsProductionBonus":{
+                title: $I("effectsMgr.statics.blsProductionBonus.title"),
+                type: "ratio"
+			},
+			"leviathansEnergyModifier":{
+                title: $I("effectsMgr.statics.leviathansEnergyModifier.title"),
+                type: "ratio"
+			},
+			"holyGenocideBonus":{
+                title: $I("effectsMgr.statics.holyGenocideBonus.title"),
+                type: "ratio"
+			},
+            //foreign policy effects
+            "tradeCatpowerDiscount":{
+                title: $I("effectsMgr.statics.tradeCatpowerDiscount.title"),
+                type: "fixed"
+            },
+            "tradeGoldDiscount":{
+                title: $I("effectsMgr.statics.tradeGoldDiscount.title"),
+                type: "fixed"
+            },
+            "zebraRelationModifier":{
+                title: $I("effectsMgr.statics.zebraRelationModifier.title"),
+                type: "fixed"
+            },
+            "nonZebraRelationModifier":{
+                title: $I("effectsMgr.statics.nonZebraRelationModifier.title"),
+                type: "fixed"
+            },
+            "sharedKnowledgeBonus":{
+                title: $I("effectsMgr.statics.sharedKnowledgeBonus.title"),
+                type: "ratio"
+            },
+            "culturalExchangeBonus":{
+                title: $I("effectsMgr.statics.culturalExchangeBonus.title"),
+                type: "ratio"
+            },
+            "embassyCostReduction":{
+                title: $I("effectsMgr.statics.embassyCostReduction.title"),
+                type: "ratio"
+            },
+            "onAHillCultureCap":{
+                title: $I("effectsMgr.statics.onAHillCultureCap.title"),
+                type: "ratio"
+            },
+            "satelliteSynergyBonus":{
+                title: $I("effectsMgr.statics.satelliteSynergyBonus.title"),
+                type: "ratio"
+            },
+            "globalRelationsBonus":{
+            title: $I("effectsMgr.statics.globalRelationsBonus.title"),
+                type: "fixed"
+            },
+            //philosophy
+            "luxuryConsuptionReduction":{
+                title: $I("effectsMgr.statics.luxuryConsuptionReduction.title"),
+                type: "ratio"
+            },
+            "luxuryHappinessBonus":{
+                title: $I("effectsMgr.statics.luxuryHappinessBonus.title"),
+                type: "fixed"
+            },
+            "rationalityBonus":{
+                title: $I("effectsMgr.statics.rationalityBonus.title"),
+                type: "ratio"
+             },
+             "mysticismBonus":{
+                title: $I("effectsMgr.statics.mysticismBonus.title"),
+                type: "ratio"
+             },
+             //environment policy
+             "environmentMineralBonus":{
+                title: $I("effectsMgr.statics.environmentMineralBonus.title"),
+                type: "ratio"
+             },
+            "environmentWoodBonus":{
+				title: $I("effectsMgr.statics.environmentWoodBonus.title"),
+				type: "ratio"
+            },
+            "environmentHappinessBonus":{
+                title: $I("effectsMgr.statics.environmentHappinessBonus.title"),
+                type: "fixed"
+            },
+            "environmentUnhappiness":{
+                title: $I("effectsMgr.statics.environmentUnhappiness.title"),
+                type: "fixed"
+            },
+            "environmentFactoryCraftBonus":{
+				title: $I("effectsMgr.statics.environmentFactoryCraftBonus.title"),
+				type: "ratio"
+			},
+            "coalPolicyRatio":{
+				title: $I("effectsMgr.statics.coalPolicyRatio.title"),
+				type: "ratio"
+            },
+            "ironPolicyRatio":{
+				title: $I("effectsMgr.statics.ironPolicyRatio.title"),
+				type: "ratio"
+            },
+            "titaniumPolicyRatio":{
+				title: $I("effectsMgr.statics.titaniumPolicyRatio.title"),
+				type: "ratio"
+            },
+            "faithPolicyRatio":{
+				title: $I("effectsMgr.statics.faithPolicyRatio.title"),
+				type: "ratio"
+            },
+            "unobtainiumPolicyRatio":{
+				title: $I("effectsMgr.statics.unobtainiumPolicyRatio.title"),
+				type: "ratio"
+            },
+            "sciencePolicyRatio":{
+				title: $I("effectsMgr.statics.sciencePolicyRatio.title"),
+				type: "ratio"
+            },
+            "culturePolicyRatio":{
+				title: $I("effectsMgr.statics.culturePolicyRatio.title"),
+				type: "ratio"
+            },
+            "mineralsPolicyRatio":{
+				title: $I("effectsMgr.statics.mineralsPolicyRatio.title"),
+				type: "ratio"
+            },
+            "woodPolicyRatio":{
+				title: $I("effectsMgr.statics.woodPolicyRatio.title"),
+				type: "ratio"
+            },
+            "goldPolicyRatio":{
+				title: $I("effectsMgr.statics.goldPolicyRatio.title"),
+				type: "ratio"
+			},
+			//challenges
+			"springCatnipRatio": {
+				title: $I("effectsMgr.statics.springCatnipRatio.title"),
+				type: "ratio"
+			},
+            "summerSolarFarmRatio": {
+                title: $I("effectsMgr.statics.summerSolarFarmRatio.title"),
+				type: "ratio"
+            },
+            "shatterCostReduction": {
+                title: $I("effectsMgr.statics.shatterCostReduction.title"),
+                type: "ratio"
+			},
+            "shatterCostIncreaseChallenge": {
+                title: $I("effectsMgr.statics.shatterCostIncreaseChallenge.title"),
+                type: "ratio"
+			},
+			"coldChance": {
+                title: $I("effectsMgr.statics.coldChance.title"),
+                type: "ratio"
+			},
+			"coldHarshness": {
+                title: $I("effectsMgr.statics.coldHarshness.title"),
+                type: "ratio"
+			},
+			"kittenLaziness": {
+                title: $I("effectsMgr.statics.kittenLaziness.title"),
+                type: "ratio"
+			},
+			"shatterVoidCost":{
+                title: $I("effectsMgr.statics.shatterVoidCost.title"),
+                type: "fixed"
+			},
+			"challengeHappiness":{
+                title: $I("effectsMgr.statics.challengeHappiness.title")
 			}
 		}
 	}
@@ -1067,9 +1437,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	//in ticks
 	autosaveFrequency: 400,
-
-	//ctrl-click batch size
-	batchSize: 10,
 
 	//current building selected in the Building tab by a mouse cursor, should affect resource table rendering
 	//TODO: move me to UI
@@ -1118,6 +1485,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	totalUpdateTime: [0, 0, 0, 0, 0],	//total time spent on update cycle in milliseconds, useful for debug/fps counter. 1 ticks per second have more calculations
 	totalUpdateTimeTicks: 5,
 	totalUpdateTimeCurrent : 0,
+	fps: null,	//fps breakdows of a render cycle
 
 	pauseTimestamp: 0, //time of last pause
 
@@ -1136,8 +1504,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
     //==========    external API's ========
     dropBoxClient: null,
 
-    kongregate: null,
-
 	/*
 		Whether the game is in developer mode or no
 	 */
@@ -1148,25 +1514,32 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	constructor: function(containerId){
 		this.id = containerId;
 
+		this.fps = {};
 		this.tabs = [];
         this.managers = [];
 
 		this.opts = {
 			usePerSecondValues: true,
+			notation: "si",
 			forceHighPrecision: false,
 			usePercentageResourceValues: false,
+			showNonApplicableButtons: false,
+			usePercentageConsumptionValues: false,
 			highlightUnavailable: true,
 			hideSell: false,
+			hideDowngrade: false,
 			hideBGImage: false,
+			tooltipsInRightColumn: false,
 			noConfirm: false,
 			IWSmelter: true,
 			disableCMBR: false,
-			disableTelemetry: false,
 			enableRedshift: false,
+			enableRedshiftGflops: false,
+			batchSize: 10,
 			// Used only in KG Mobile, hence it's absence in the rest of the code
 			useLegacyTwoInRowLayout: false,
-			//if true, save file will always be compressed
-			forceLZ: false
+			forceLZ: false,
+			compressSaveFile: false
 		};
 
 		this.console = new com.nuclearunicorn.game.log.Console(this);
@@ -1176,9 +1549,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		this.resPool = new classes.managers.ResourceManager(this);
 		this.calendar = new com.nuclearunicorn.game.Calendar(this, dojo.byId("calendarDiv"));
-
-		// TODO Temporarily kept for compatibility with scripts, WILL BE REMOVED in next minor version (1.4.6.0)
-		this.rate = this.ticksPerSecond;
 
 		this.village = new classes.managers.VillageManager(this);
 		this.resPool.setVillage(this.village);
@@ -1205,51 +1575,85 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 
             this[manager.id] = new window["classes"]["managers"][manager.class](this);
-
-            this.managers.push(this[manager.id]);
+			var managerRef = this[manager.id];
+			managerRef.id = manager.id;
+            this.managers.push(managerRef);
         }
 
 		//very sloppy design, could we just use an array for tab managers?
-		var bldTabV2 = new com.nuclearunicorn.game.ui.tab.BuildingsModern({name:$I("buildings.tabName"),id:"Bonfire"}, this);
-		this.addTab(bldTabV2);
 
-		this.villageTab = new com.nuclearunicorn.game.ui.tab.Village({name:$I("village.tab.title.smallvillage"),id:"Village"}, this);
-		this.villageTab.visible = false;
-		this.addTab(this.villageTab);
+		var tabRegistry = [
+			{class: com.nuclearunicorn.game.ui.tab.BuildingsModern,
+				name: "buildings.tabName",
+				id: "Bonfire",
+				prop: "bldTab"
+			},
+			{class: com.nuclearunicorn.game.ui.tab.Village,
+				name: "village.tab.title.smallvillage",
+				id: "Village",
+				prop: "villageTab"
+			},
+			{class: com.nuclearunicorn.game.ui.tab.Library,
+				name: "tab.name.science",
+				id: "Science",
+				prop: "libraryTab"
+			},
+			{class: com.nuclearunicorn.game.ui.tab.Workshop,
+				name: "tab.name.workshop",
+				id: "Workshop",
+				prop: "workshopTab"
+			},
+			{class: com.nuclearunicorn.game.ui.tab.Diplomacy,
+				name: "tab.name.trade",
+				id: "Trade",
+				prop: "diplomacyTab"
+			},
+			{class: com.nuclearunicorn.game.ui.tab.ReligionTab,
+				name: "tab.name.religion",
+				id: "Religion",
+				prop: "religionTab"
+			},
+			{class: com.nuclearunicorn.game.ui.tab.SpaceTab,
+				name: "tab.name.space",
+				id: "Space",
+				prop: "spaceTab"
+			},
+			{class: classes.tab.TimeTab,
+				name: "tab.name.time",
+				id: "Time",
+				prop: "timeTab"
+			},
+			{class: classes.tab.ChallengesTab,
+				name: "tab.name.challenges",
+				id: "Challenges",
+				prop: "challengesTab"
+			},
+			{class: com.nuclearunicorn.game.ui.tab.AchTab,
+				name: "tab.name.achievements",
+				id: "Achievements",
+				prop: "achievementTab"
+			},
+			{class: classes.tab.StatsTab,
+				name: "tab.name.stats",
+				id: "Stats",
+				prop: "statsTab"
+			}
+		];
 
-		this.libraryTab = new com.nuclearunicorn.game.ui.tab.Library({name:$I("tab.name.science"),id:"Science"}, this);
-		this.libraryTab.visible = false;
-		this.addTab(this.libraryTab);
+		var game = this;
+		dojo.forEach(tabRegistry, function(tab){
+			var tabProp = new tab.class({
+				name: $I(tab.name),
+				id: tab.id
+			}, game);
+			tabProp.visible = true;
+			game[tab.prop] = tabProp;
+			//TODO: please don't rely on game.xxxTab, it's a candidate for removal
 
-		this.workshopTab = new com.nuclearunicorn.game.ui.tab.Workshop({name:$I("tab.name.workshop"), id:"Workshop"}, this);
-		this.workshopTab.visible = false;
-		this.addTab(this.workshopTab);
+			game.addTab(tabProp);
+		});
 
-		this.diplomacyTab = new com.nuclearunicorn.game.ui.tab.Diplomacy({name:$I("tab.name.trade"), id:"Trade"}, this);
-		this.diplomacyTab.visible = false;
-		this.addTab(this.diplomacyTab);
-
-		this.religionTab = new com.nuclearunicorn.game.ui.tab.ReligionTab({name:$I("tab.name.religion"), id:"Religion"}, this);
-		this.religionTab.visible = false;
-		this.addTab(this.religionTab);
-
-		this.spaceTab = new com.nuclearunicorn.game.ui.tab.SpaceTab({name:$I("tab.name.space"), id:"Space"}, this);
-		this.spaceTab.visible = false;
-		this.addTab(this.spaceTab);
-
-		this.timeTab = new classes.tab.TimeTab({name:$I("tab.name.time"), id:"Time"}, this);
-		this.timeTab.visible = false;
-		this.addTab(this.timeTab);
-
-		this.achievementTab = new com.nuclearunicorn.game.ui.tab.AchTab({name:$I("tab.name.achievements"), id:"Achievements"}, this);
-		this.achievementTab.visible = false;
-		this.addTab(this.achievementTab);
-
-        this.statsTab = new classes.tab.StatsTab({name:$I("tab.name.stats"), id:"Stats"}, this);
-        this.statsTab.visible = false;
-        this.addTab(this.statsTab);
-
-		//vvvv do not forget to toggle tab visibility below
+		//vvvv do not forget to toggle tab visibility below (see load method)
 
 		this.timer = new classes.game.Timer();
 
@@ -1299,7 +1703,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 		}
 	},
-
 	getEffect: function(effectName){
 		 return this.globalEffectsCached[effectName] || 0;
 	},
@@ -1315,13 +1718,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.space.updateEffectCached();
 		this.time.updateEffectCached();
 		this.village.updateEffectCached();
+        this.science.updateEffectCached();
 
 		this.updateResources();
 	},
 
-	// Returns a parabolic-approaching value of the effect that heads to the limit, but unable to approach it completely
-	// Updated 7/8/2014: Update for limits that aren't 1. They would scale at the same speed as a limit of 1 and wouldn't properly approach the limit.
-	getHyperbolicEffect: function(effect, limit){
+	// Unlimited Diminishing Return
+	//getHyperbolicEffect
+	getLimitedDR: function(effect, limit) {
 		var absEffect = Math.abs(effect);
 
 		var maxUndiminished = 0.75 * limit; //first 75% is free from diminishing returns
@@ -1336,19 +1740,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var delta = 0.25 * limit; //Lower values will approach 1 more quickly.
 
 		// The last 25% will approach .25 but cannot actually reach it
-		var diminishedEffect = (1-(delta/(diminishedPortion+delta)))*0.25*limit;
+		var diminishedEffect = (1 - (delta / (diminishedPortion + delta))) * delta;
 
-		var totalEffect = maxUndiminished+diminishedEffect;
+		var totalEffect = maxUndiminished + diminishedEffect;
 
 		return effect < 0 ? -totalEffect : totalEffect;
-	},
-
-	isHyperbolic: function(name) {
-		return (name == "catnipDemandRatio" ||
-			name == "fursDemandRatio" ||
-			name == "ivoryDemandRatio" ||
-			name == "spiceDemandRatio" ||
-			name == "unhappinessRatio");
 	},
 
 	/**
@@ -1381,7 +1777,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	clearLog: function(){
-		dojo.empty('gameLog');
+		dojo.empty("gameLog");
 		this.console.clear();
 		this.lastDateMessage = null;
 	},
@@ -1418,20 +1814,27 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		this.opts = {
 			usePerSecondValues: true,
+			notation: "si",
 			forceHighPrecision: false,
 			usePercentageResourceValues: false,
+			showNonApplicableButtons: false,
+			usePercentageConsumptionValues: false,
 			highlightUnavailable: true,
 			hideSell: false,
+			hideDowngrade: false,
 			hideBGImage: false,
+			tooltipsInRightColumn: false,
 			noConfirm: false,
 			IWSmelter: true,
 			disableCMBR: false,
 			disableTelemetry: false,
 			enableRedshift: false,
+			enableRedshiftGflops: false,
+			batchSize: 10,
 			// Used only in KG Mobile, hence it's absence in the rest of the code
 			useLegacyTwoInRowLayout: false,
-			//if true, save file will always be compressed
-			forceLZ: false
+			forceLZ: false,
+			compressSaveFile: false
 		};
 
 		this.resPool.resetState();
@@ -1475,6 +1878,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.village.save(saveData);
 		this.calendar.save(saveData);
 		this.console.save(saveData);
+		this.telemetry.save(saveData);
 
         for (var i in this.managers){
             this.managers[i].save(saveData);
@@ -1499,7 +1903,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		//5mb limit workaround
 		if (saveDataString.length > 5000000 || this.opts.forceLZ) {
 			console.log("compressing the save file...");
-			saveDataString = this.compressLZData(saveDataString);	
+			saveDataString = this.compressLZData(saveDataString, true);
 		}
 
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = saveDataString;
@@ -1529,7 +1933,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	closeOptions: function() {
-		$('#optionsDiv').hide();
+		$("#optionsDiv").hide();
 		this.render();
 	},
 
@@ -1541,7 +1945,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	togglePause: function(){
 		var pauseBtn = dojo.byId("pauseBtn");
 		this.isPaused = !this.isPaused;
-		pauseBtn.innerHTML = this.isPaused ? "unpawse" : "pawse";
+		pauseBtn.innerHTML = this.isPaused ? $I("ui.unpause") : $I("ui.pause");
 
 		if (this.isPaused){
 			this.pauseTimestamp = Date.now();
@@ -1561,31 +1965,32 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	 * Use this instead of LZString.decompressX
 	 */
 	decompressLZData: function(lzData) {
-		return lzData.slice(0, 16) == "N4IgzghgbgpgajAT"
-			? LZString.decompressFromBase64(lzData)
+		var decompressedAsBase64 = LZString.decompressFromBase64(lzData);
+		return decompressedAsBase64 && decompressedAsBase64[0] == "{"
+			? decompressedAsBase64
 			: LZString.decompressFromUTF16(lzData);
 	},
 
-	compressLZData: function(json, useBase64) {
+	compressLZData: function(json, useUTF16) {
 		//todo check game compatibility flags
 		//console.log("base64 length:", LZString.compressToBase64(json).length, "utf-16 length:", LZString.compressToUTF16(json).length);
-		return useBase64
-			? LZString.compressToBase64(json)
-			: LZString.compressToUTF16(json);
+		return useUTF16
+			? LZString.compressToUTF16(json)
+			: LZString.compressToBase64(json);
 	},
 
 	_parseLSSaveData: function(){
 		var data = null;
 		var localStorageData = LCstorage["com.nuclearunicorn.kittengame.savedata"];
 
-		if (localStorageData && localStorageData[0] == '{'){
+		if (localStorageData && localStorageData[0] == "{"){
 			data = localStorageData;
 		} else {
 			data = this.decompressLZData(localStorageData);
 		}
 		var saveData = JSON.parse(data);
-		
-		console.log("Parse complete, data:", data, "saveData:", saveData);
+
+		//console.log("Parse _parseLSSaveData complete, data:", data, "saveData:", saveData);
 		return saveData;
 	},
 
@@ -1601,9 +2006,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		try {
 			var saveData = this._parseLSSaveData();
-
-			//console.log("restored save data:", localStorage);
 			if (saveData){
+
+				console.log("game#load - Successfully parsed local storage data, loading tab managers...");
 
 				if (saveData.server){
 					this.server.motdContentPrevious = saveData.server.motdContent;
@@ -1617,9 +2022,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				this.village.load(saveData);
 				this.calendar.load(saveData);
 				this.console.load(saveData);
+				this.telemetry.load(saveData);
 				this.ui.renderFilters();
 
                 for (var i in this.managers){
+					console.log("game#load - Processing", this.managers[i].id, "...");
                     this.managers[i].load(saveData);
                 }
 
@@ -1633,12 +2040,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				console.trace();
 			}
 
-			this.msg("Unable to load save data. Close the page and contact the dev.");
+			this.msg("Unable to load save data. Contact the devs and provide the faulty save file.", "important");
 			success = false;
 		}
 
-		// Calculate effects (needs to be done after all managers are loaded)
-		this.calculateAllEffects();
 
 		if (saveData && saveData.game){
 			var data = saveData.game;
@@ -1659,14 +2064,19 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.isCMBREnabled = (data.isCMBREnabled !== undefined) ? data.isCMBREnabled : true;	//true for all existing games
 
 			// ora ora
-			if (data.opts){
-				for (var opt in data.opts){
+			if (data.opts) {
+				for (var opt in data.opts) {
 					this.opts[opt] = data.opts[opt];
+				}
+				if (data.opts.tooltipsInRightColumn == undefined) {
+					this.opts.tooltipsInRightColumn = this.colorScheme == "sleek";
 				}
 			}
 
 			this.updateOptionsUI();
 		}
+		// Calculate effects (needs to be done after all managers and save data are loaded)
+		this.calculateAllEffects();
 		//------------------------------------
 
 		this.villageTab.visible = (this.bld.get("hut").on > 0
@@ -1679,9 +2089,19 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.statsTab.visible = (this.karmaKittens > 0 || this.science.get("math").researched);
 
 		this.diplomacyTab.visible = (this.diplomacy.hasUnlockedRaces());
-		this.religionTab.visible = (this.resPool.get("faith").value > 0 || this.challenges.currentChallenge == "atheism" && this.bld.get("ziggurat").val > 0);
+		this.religionTab.visible = (
+			this.resPool.get("faith").value > 0 || 
+			this.challenges.isActive("atheism") && 
+			this.bld.get("ziggurat").val > 0);
+
 		this.spaceTab.visible = (this.science.get("rocketry").researched);
-		this.timeTab.visible = (this.science.get("calendar").researched || this.time.getVSU("usedCryochambers").val > 0);
+		this.timeTab.visible = (
+			this.science.get("calendar").researched || 
+			this.time.getVSU("usedCryochambers").val > 0);
+			
+		this.challengesTab.visible = (
+			this.prestige.getPerk("adjustmentBureau").researched || 
+			this.prestige.getPerk("adjustmentBureau").reserve);
 
 		this.ui.load();
 
@@ -1693,7 +2113,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var data = this.save();
 		data = JSON.stringify(data);
 
-        var encodedData = this.compressLZData(data, true /*base64*/);
+        var encodedData = this.compressLZData(data);
         this.ui.saveExport(encodedData);
 
 	},
@@ -1704,53 +2124,62 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			var data = $("#importData").val().replace(/\s/g, "");
 			if (data) {
 				game.saveImportDropboxText(data, function(error) {
-					$('#importDiv').hide();
-					$('#optionsDiv').hide();
+					$("#importDiv").hide();
+					$("#optionsDiv").hide();
 				});
 			}
 		});
 	},
 
     saveToFile: function(withFullName) {
-        var $link = $('#download-link');
+        var $link = $("#download-link");
 
         var data = JSON.stringify(this.save());
-        var lzdata = this.compressLZData(data, true /*base64*/);
-        var blob = new Blob([lzdata], {type: 'text/plain'});
-        $link.attr('href', window.URL.createObjectURL(blob));
+        var lzdata = this.compressLZData(data);
+        var blob = new Blob([lzdata], {type: "text/plain"});
+        $link.attr("href", window.URL.createObjectURL(blob));
 
-        var filename = 'Kittens Game';
+        var filename = "Kittens Game";
         if (withFullName) {
-            filename += ' - Run ' + (this.stats.getStat('totalResets').val + 1)
-                + ' - ' + $I('calendar.year.full', [this.calendar.year, this.calendar.getCurSeasonTitle(), Math.floor(this.calendar.day)]);
+            filename += " - Run " + (this.stats.getStat("totalResets").val + 1)
+                + " - " + $I("calendar.year.full", [this.calendar.year, this.calendar.getCurSeasonTitle(), Math.floor(this.calendar.day)]);
         }
-        $link.attr('download', filename + '.txt');
+        $link.attr("download", filename + ".txt");
 
-        $link.get(0).dispatchEvent(new MouseEvent('click'));
+        $link.get(0).dispatchEvent(new MouseEvent("click"));
 	},
 
 	saveExportDropbox: function(){
 		this.save();
 		var data = this.save();
 		data = JSON.stringify(data);
-		var lzdata = this.compressLZData(data, true /*base64*/);
+		var lzdata = this.compressLZData(data);
 
 
         var callback = function() {
-            $('#exportDiv').hide();
-            $('#optionsDiv').hide();
+            $("#exportDiv").hide();
+            $("#optionsDiv").hide();
         };
 
 		this.exportToDropbox(lzdata, callback);
 	},
 
+	getDropboxAuthUrl: function (){
+		var host = window.location.host;
+		var redirectUrl = "/games/kittens/dropboxauth_v2.html";
+		if (host.indexOf("kittensgame") > -1){
+			redirectUrl = "/dropboxauth_v2.html";
+		}
+		var authUrl = this.dropBoxClient.getAuthenticationUrl("https://" + window.location.host + redirectUrl);
+		return authUrl;
+	},
+
 	exportToDropbox: function(lzdata, callback) {
 		var game = this;
-		var authUrl = game.dropBoxClient.getAuthenticationUrl('https://' + window.location.host + '/games/kittens/dropboxauth_v2.html');
-
-		window.open(authUrl, 'DropboxAuthPopup', 'dialog=yes,dependent=yes,scrollbars=yes,location=yes');
+		var authUrl = game.getDropboxAuthUrl();
+		window.open(authUrl, "DropboxAuthPopup", "dialog=yes,dependent=yes,scrollbars=yes,location=yes");
 		var handler = function(e) {
-			window.removeEventListener('message', handler);
+			window.removeEventListener("message", handler);
 
 			if (window.location.origin !== e.origin) {
 				callback("Unable to save file");
@@ -1759,7 +2188,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				dbxt.filesUpload({
 					path: "/kittens.save",
 					contents: lzdata,
-					mode: 'overwrite'
+					mode: "overwrite"
 				}).then(function (response) {
 					game.msg($I("save.export.msg"));
 					callback();
@@ -1768,26 +2197,26 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				});
 			}
 		};
-		window.addEventListener('message', handler ,false);
+		window.addEventListener("message", handler ,false);
 	},
 
 	saveImportDropbox: function() {
 		var game = this;
 		this.ui.confirm("", $I("save.import.confirmation.msg"), function() {
 			game.importFromDropbox(function(error) {
-				$('#importDiv').hide();
-				$('#optionsDiv').hide();
+				$("#importDiv").hide();
+				$("#optionsDiv").hide();
 			});
 		});
 	},
 
 	importFromDropbox: function (callback) {
 		var game = this;
-		var authUrl = game.dropBoxClient.getAuthenticationUrl('https://' + window.location.host + '/games/kittens/dropboxauth_v2.html');
+		var authUrl = game.getDropboxAuthUrl();
 
-		window.open(authUrl, 'DropboxAuthPopup', 'dialog=yes,dependent=yes,scrollbars=yes,location=yes');
+		window.open(authUrl, "DropboxAuthPopup", "dialog=yes,dependent=yes,scrollbars=yes,location=yes");
 		var handler = function(e) {
-			window.removeEventListener('message', handler);
+			window.removeEventListener("message", handler);
 			if (window.location.origin !== e.origin) {
 				callback("Unable to load file");
 			} else {
@@ -1804,12 +2233,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				});
 			}
 		};
-		window.addEventListener('message', handler ,false);
+		window.addEventListener("message", handler ,false);
 	},
 
     saveImportDropboxFileRead: function(callback){
         var game = this;
-        this.dropBoxClient.readFile('kittens.save', {}, function (error, lzdata){
+        this.dropBoxClient.readFile("kittens.save", {}, function (error, lzdata){
             if (error) {
                 callback(error);
             } else {
@@ -1826,16 +2255,16 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	_loadSaveJson: function(lzdata, callback){
         try {
 			var jsonString = this.decompressLZData(lzdata);
-			if (jsonString && jsonString[0] == '{'){
+			if (jsonString && jsonString[0] == "{"){
 				LCstorage["com.nuclearunicorn.kittengame.savedata"] = lzdata;
 			} else {
 				throw "Integrity check failure";
 			}
 
-    		this.load();
-    		this.msg($I("save.import.msg"));
+			this.load();
+			this.msg($I("save.import.msg"));
 
-    		this.render();
+			this.render();
 
             callback();
         } catch (e) {
@@ -1843,6 +2272,17 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
             callback(e);
         }
 	},
+
+	/**
+	 * Oh brave and noble soul, before adding a line to this method, please read this:
+	 * 
+	 * My intention for KG was to have a game where you would never have a method called a 'migrate save'
+	 * I lost this battle long time ago and here we are.
+	 * 
+	 * Save migration must be considered as a measure of a last resolve, when everything else fails
+	 * Whenever possible, we should resolve to the code being backward compatible. Every time we bump a save version,
+	 * god kills a kitten somewhere.
+	 */
 
 	migrateSave: function(save) {
 		if (save.saveVersion === undefined) {
@@ -1957,7 +2397,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				if (!changement) {
 					var resTE = {
 						name : "temporalFlux",
-						title: "temporal flux",
+						title:  $I("resources.temporalFlux.title"),
 						description: "",
 						type : "exotic",
 						craftable: false,
@@ -2011,7 +2451,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				save.challenges = [];
 			}
 			save.challenges.currentChallenge = null;
-
 			save.saveVersion = 9;
 		}
 
@@ -2041,7 +2480,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		if (save.saveVersion == 10) {
 			if (save.resources){
-				for(var i = 0; i< save.resources.length; i++){
+				for(var i = 0; i < save.resources.length; i++){
 					save.resources[i].unlocked = false;
 				}
 			}
@@ -2075,11 +2514,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		if (save.saveVersion == 12) {
 			if (save.religion && save.religion.tcratio && save.religion.tu) {
-				var transcendenceLevel = this.religion.getTriValueReligion(save.religion.tcratio) * 100;
-				transcendenceLevel = Math.round(Math.log(transcendenceLevel));
-					if (transcendenceLevel < 0) {
-						transcendenceLevel = 0;
-					}
+				var transcendenceLevel = Math.max(0, Math.round(Math.log(10 * this.game.getUnlimitedDR(save.religion.tcratio, 0.1))));
 				for (var i = 0; i < save.religion.tu.length; i++) {
 					if (transcendenceLevel >= this.religion.getTU(save.religion.tu[i].name).tier) {
 						save.religion.tu[i].unlocked = true;
@@ -2210,29 +2645,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		// SPACE RATIO CALCULATION
 		var spaceRatio = 1 + this.getEffect("spaceRatio");
-		if (this.workshop.get("spaceManufacturing").researched && res.name!="uranium"){
+		if (this.workshop.get("spaceManufacturing").researched && res.name != "uranium"){
 			var factory = this.bld.get("factory");
 			spaceRatio *= (1 + factory.on * factory.effects["craftRatio"] * 0.75);
 		}
 
 		// +SPACE PerTickBase
-		var perTickBaseSpace = this.getEffect(res.name + "PerTickBaseSpace") *spaceRatio;
+		var perTickBaseSpace = this.getEffect(res.name + "PerTickBaseSpace") * spaceRatio;
 
 		perTick += perTickBaseSpace;
 
 		// *SEASON MODIFIERS
-		if (!season){
-			var season = this.calendar.getCurSeason();
-		}
-		var weatherMod = this.calendar.getWeatherMod();
-		    weatherMod = (season.modifiers[res.name] + weatherMod);
-		if (weatherMod < -0.95){
-			weatherMod = -0.95;
-		}
-
-		if (season.modifiers[res.name]){
-			perTick *= weatherMod;
-		}
+		perTick *= this.calendar.getWeatherMod(res);
 
 		// +VILLAGE JOB PRODUCTION
 		var resMapProduction = this.village.getResProduction();
@@ -2241,12 +2665,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		perTick += resProduction;
 
 		// +VILLAGE JOB PRODUCTION (UPGRADE EFFECTS JOBS)
-		var workshopResRatio = this.getEffect(res.name+"JobRatio");
+		var workshopResRatio = this.getEffect(res.name + "JobRatio");
 
 		perTick += resProduction * workshopResRatio;
 
 		// +*BEFORE PRODUCTION BOOST (UPGRADE EFFECTS GLOBAL)
-		perTick *= 1 + this.getEffect(res.name+"GlobalRatio");
+		perTick *= 1 + this.getEffect(res.name + "GlobalRatio");
 
 		// +*BUILDINGS AND SPACE PRODUCTION
 		perTick *= 1 + this.getEffect(res.name + "Ratio");
@@ -2255,18 +2679,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		perTick *= 1 + this.getEffect(res.name + "RatioReligion");
 
 		// +*AFTER PRODUCTION BOOST (UPGRADE EFFECTS SUPER)
-		perTick *= 1 + this.getEffect(res.name+"SuperRatio");
+		perTick *= 1 + this.getEffect(res.name + "SuperRatio");
 
 		// +*AFTER PRODUCTION REDUCTION (SPECIAL STEAMWORKS HACK FOR COAL)
 		var steamworks = this.bld.get("steamworks");
-		var swEffectGlobal = steamworks.effects[res.name+"RatioGlobal"];
+		var swEffectGlobal = steamworks.effects[res.name + "RatioGlobal"];
 		if (steamworks.on > 0 && swEffectGlobal) {
 			perTick *= 1 + swEffectGlobal;
 		}
 
 		// *PARAGON BONUS
 		var paragonProductionRatio = this.prestige.getParagonProductionRatio();
-		if (resName == "catnip" && this.challenges.currentChallenge == "winterIsComing") {
+		if (resName == "catnip" && this.challenges.isActive("winterIsComing")) {
 			paragonProductionRatio = 0; //winter has come
 		}
 
@@ -2278,14 +2702,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// +BUILDING AUTOPROD
 		var perTickAutoprod = this.getEffect(res.name + "PerTickAutoprod");
 		    perTickAutoprod *= paragonSpaceProductionRatio;
-
+			perTickAutoprod *= (1 + this.getEffect("rankLeaderBonusConversion") * ((this.village.leader) ? this.village.leader.rank : 0));
 		perTick += perTickAutoprod;
 
 		// *MAGNETOS PRODUCTION BONUS
 		if (!res.transient && this.bld.get("magneto").on > 0 && res.name != "catnip"){
 
 			var steamworks = this.bld.get("steamworks");
-			var swRatio = steamworks.on > 0 ? (1+ steamworks.effects["magnetoBoostRatio"] * steamworks.on) : 1;
+			var swRatio = steamworks.on > 0 ? (1 + steamworks.effects["magnetoBoostRatio"] * steamworks.on) : 1;
 			if (res.name != "oil"){
 				perTick *= 1 + (this.getEffect("magnetoRatio") * swRatio);
 			}
@@ -2304,23 +2728,23 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		// +*FAITH BONUS
-		perTick *= 1 + (this.religion.getProductionBonus() / 100);
+		perTick *= 1 + this.religion.getSolarRevolutionRatio();
 
 		//+COSMIC RADIATION
 		if (!this.opts.disableCMBR && res.name != "coal") {
-			perTick *= (1 + this.getCMBRBonus());
+			perTick *= 1 + this.getCMBRBonus();
 		}
 
 		//ParagonSpaceProductionRatio definition 4/4
-		paragonSpaceProductionRatio += paragonSpaceProductionRatio * this.religion.getProductionBonus() / 100;
+		paragonSpaceProductionRatio *= 1 + this.religion.getSolarRevolutionRatio();
 
 		// +AUTOMATED PRODUCTION BUILDING
 		perTick += this.getEffect(res.name + "PerTickProd");
 
 		// +AUTOMATED PRODUCTION SPACE (FULL BONUS)
-		perTick += (this.getEffect(res.name + "PerTickAutoprodSpace") * spaceRatio) * (1 + (paragonSpaceProductionRatio-1) * this.getEffect("prodTransferBonus"));
+		perTick += (this.getEffect(res.name + "PerTickAutoprodSpace") * spaceRatio) * (1 + (paragonSpaceProductionRatio - 1) * this.getEffect("prodTransferBonus"));
 		// +AUTOMATED PRODUCTION SPACE (NOT FULL BONUS)
-		perTick += this.getEffect(res.name + "PerTickSpace") *spaceRatio;
+		perTick += this.getEffect(res.name + "PerTickSpace") * spaceRatio;
 
 
 		//CYCLE EFFECTS
@@ -2342,15 +2766,20 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		resConsumption *= 1 + this.getEffect(res.name + "DemandRatio");
 		if (res.name == "catnip" && this.village.sim.kittens.length > 0 && this.village.happiness > 1) {
 			var hapinnessConsumption = Math.max(this.village.happiness - 1, 0);
-			if (this.challenges.currentChallenge == "anarchy") {
+			if (this.challenges.isActive("anarchy")) {
 				resConsumption += resConsumption * hapinnessConsumption * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal"));
 			} else {
 				resConsumption += resConsumption * hapinnessConsumption * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal")) * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length);
 			}
 		}
+		// +POLICY EFFECTS
+
+		//necrocracy global effect
+		perTick *= (1 + (this.resPool.get("sorrow").value * this.getEffect("blsProductionBonus"))); 
+		//policy ratio effects
+		perTick *= (1 + this.getEffect(res.name + "PolicyRatio"));
 
 		perTick += resConsumption;
-
 		if (isNaN(perTick)){
 			return 0;
 		}
@@ -2409,19 +2838,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		stack.push(perTickBaseSpaceStack);
 
 		// *SEASON MODIFIERS
-		if (!season){
-			var season = this.calendar.getCurSeason();
-		}
-		var weatherMod = this.calendar.getWeatherMod();
-		    weatherMod = (season.modifiers[res.name] + weatherMod);
-		if (weatherMod < -0.95){
-			weatherMod = -0.95;
-		}
-
 		stack.push({
 			name: $I("res.stack.weather"),
 			type: "ratio",
-			value: weatherMod - 1
+			value: this.calendar.getWeatherMod(res) - 1
 		});
 
 		// +VILLAGE JOB PRODUCTION
@@ -2471,7 +2891,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		// +*AFTER PRODUCTION REDUCTION (SPECIAL STEAMWORKS HACK FOR COAL)
 		var steamworks = this.bld.get("steamworks");
-		var swEffectGlobal = steamworks.effects[res.name+"RatioGlobal"];
+		var swEffectGlobal = steamworks.effects[res.name + "RatioGlobal"];
 		if (steamworks.on > 0 && swEffectGlobal ){
 			stack.push({
 				name: $I("res.stack.steamworks"),
@@ -2482,7 +2902,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		// *PARAGON BONUS
 		var paragonProductionRatio = this.prestige.getParagonProductionRatio();
-		if (resName == "catnip" && this.challenges.currentChallenge == "winterIsComing") {
+		if (resName == "catnip" && this.challenges.isActive("winterIsComing")) {
 			paragonProductionRatio = 0; //winter has come
 		}
 
@@ -2494,7 +2914,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		//ParagonSpaceProductionRatio definition 1/4
 		var paragonSpaceProductionRatio = 1 + paragonProductionRatio * 0.05;
-
+		var rankLeaderBonusConversion = this.getEffect("rankLeaderBonusConversion") * ((this.village.leader) ? this.village.leader.rank : 0);
 		// +BUILDING AUTOPROD
 		var buildingAutoprod = [];
 		// ---->
@@ -2508,6 +2928,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				type: "ratio",
 				value: paragonProductionRatio * 0.05
 			});
+			buildingAutoprod.push({
+				name: $I("res.stack.rankLeaderBonusConversion"),
+				type: "ratio",
+				value: rankLeaderBonusConversion
+			});
 		//<----
 		stack.push(buildingAutoprod);
 
@@ -2515,7 +2940,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (!res.transient && this.bld.get("magneto").on > 0 && res.name != "catnip"){
 
 			var steamworks = this.bld.get("steamworks");
-			var swRatio = steamworks.on > 0 ? (1+ steamworks.effects["magnetoBoostRatio"] * steamworks.on) : 1;
+			var swRatio = steamworks.on > 0 ? (1 + steamworks.effects["magnetoBoostRatio"] * steamworks.on) : 1;
 			if (res.name != "oil"){
 				stack.push({
 					name: $I("res.stack.magnetos"),
@@ -2543,9 +2968,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		// +*FAITH BONUS
 		stack.push({
-			name: $I("res.stack.faith"),
+			name: $I("res.stack.solarRevolution"),
 			type: "ratio",
-			value: this.religion.getProductionBonus() / 100
+			value: this.religion.getSolarRevolutionRatio()
 		});
 
 		if (!this.opts.disableCMBR && res.name != "coal") {
@@ -2557,8 +2982,25 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		//ParagonSpaceProductionRatio definition 4/4
-		paragonSpaceProductionRatio += paragonSpaceProductionRatio * this.religion.getProductionBonus() / 100;
-
+		paragonSpaceProductionRatio *= 1 + this.religion.getSolarRevolutionRatio();
+		
+        //policy effects:
+		//necrocracy global effect
+		//TODO: consider moving it to calculateEffects
+        if(this.science.getPolicy("necrocracy").researched){
+            stack.push({
+                name: $I("res.stack.necrocracy"),
+                type: "ratio",
+                value: this.getEffect("blsProductionBonus") * this.resPool.get("sorrow").value,
+            });
+		}
+		// +*POLICY
+		stack.push({
+			name: $I("res.stack.policy"),
+			type: "ratio",
+			value: this.getEffect(res.name + "PolicyRatio")
+		});
+		
 		// +AUTOMATED PRODUCTION BUILDING
 		stack.push({
 			name: $I("res.stack.convProd"),
@@ -2622,7 +3064,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var effects = {};
 		effects[res.name] = 1;
 		this.calendar.cycleEffectsFestival(effects);
-		var cycleEffect = effects[resName]-1;
+		var cycleEffect = effects[resName] - 1;
 
 		stack.push({
 			name: $I("res.stack.festival"),
@@ -2643,14 +3085,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			type: "fixed",
 			value: this.workshop.getEffectEngineer(res.name, true)
 		});
-
 		// -EARTH CONSUMPTION && -SPACE CONSUMPTION
 		var resMapConsumption = this.village.getResConsumption();
 		var resConsumption = resMapConsumption[res.name] || 0;
 		resConsumption *= 1 + this.getEffect(res.name + "DemandRatio");
 		if (res.name == "catnip" && this.village.sim.kittens.length > 0 && this.village.happiness > 1) {
 			var hapinnessConsumption = Math.max(this.village.happiness - 1, 0);
-			if (this.challenges.currentChallenge == "anarchy") {
+			if (this.challenges.isActive("anarchy")) {
 				resConsumption += resConsumption * hapinnessConsumption * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal"));
 			} else {
 				resConsumption += resConsumption * hapinnessConsumption * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal")) * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length);
@@ -2669,55 +3110,44 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			type: "ratio",
 			value: this.timeAccelerationRatio()
 		});
-
 		return stack;
 	},
 
-	//CMBR is capped by 20%
-
-	getCMBRBonus: function(){
-		if (this.isCMBREnabled) {
-			return this.getHyperbolicEffect(1.0, 0.2);
-		}
-		return 0;
+	getCMBRBonus: function() {
+		return this.isCMBREnabled ? 0.2 : 0;
 	},
 
-	getCraftRatio: function() {
-		return this.getEffect("craftRatio") + this.village.getEffectLeader("engineer", 0);
+	getCraftRatio: function(tag) {
+		return this.getEffect("craftRatio") + this.village.getEffectLeader("engineer", 0) + this.village.getEffectLeader(tag, 0);
 	},
 
-	getResCraftRatio: function(res){
-		if (res.name == "wood"){
+	getResCraftRatio: function(craftedResName) {
+		if (craftedResName == "wood") {
 			var refineRatio = this.getEffect("refineRatio");
-			if (this.ironWill){
-				return ( (1 + refineRatio) * (1 + this.getEffect("woodRatio")) ) - 1;
-			} else {
-				return refineRatio;
-			}
+			return this.ironWill
+				? ((1 + refineRatio) * (1 + this.getEffect("woodRatio"))) - 1
+				: refineRatio;
 		}
 
-		var ratio = this.getCraftRatio();
+		var ratio = this.getCraftRatio(this.resPool.get(craftedResName).tag);
 
-		if (res.name == "blueprint"){
+		if (craftedResName == "blueprint") {
 			var bpRatio = this.getEffect("cadBlueprintCraftRatio");
-			var scienceBldAmt = this.bld.get("library").val + this.bld.get("academy").val +
-				this.bld.get("observatory").val + this.bld.get("biolab").val;
-
+			var scienceBldAmt = this.bld.get("library").val + this.bld.get("academy").val + this.bld.get("observatory").val + this.bld.get("biolab").val;
 			ratio += scienceBldAmt * bpRatio;
 		}
 
-		if (res.name == "kerosene"){
-			var fRatio = this.getEffect("factoryRefineRatio");
-
+		if (craftedResName == "kerosene") {
+			var fRatio = 0.75 * this.getEffect("factoryRefineRatio");	//25% penalty
 			var amt = this.bld.get("factory").on;
-
-			ratio *= (1 + amt * fRatio * 0.75);	//25% penalty
+			ratio *= 1 + amt * fRatio;
 		}
 
-        //get resource specific craft ratio (like factory bonus)
-        var resCraftRatio = this.getEffect(res.name + "CraftRatio") || 0;
+		//get resource specific craft ratio (like factory bonus)
+		ratio += this.getEffect(craftedResName + "CraftRatio") || 0;
+		ratio *= 1 + this.getEffect(craftedResName + "GlobalCraftRatio") || 0;
 
-		return (ratio + resCraftRatio) * (1 + ( this.getEffect(res.name + "GlobalCraftRatio") || 0 ));
+		return ratio;
 	},
 
 	/**
@@ -2759,11 +3189,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.timer.afterUpdate();
 	},
 
-	// TODO Temporarily kept for compatibility with scripts, WILL BE REMOVED in next minor version (1.4.6.0)
-	getRateUI: function() {
-		return this.getTicksPerSecondUI();
-	},
-
 	getTicksPerSecondUI: function() {
 		return this.ticksPerSecond * (1 + this.timeAccelerationRatio());
 	},
@@ -2789,6 +3214,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.resPool.update();
 
 		this.bld.update();
+		//this.science.update();
 
 		//business logic goes there
 		//maybe it will be a good idea to move it elsewhere?
@@ -2901,7 +3327,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			if (this.getResourcePerTick(resRef.name, false) != 0
 				|| this.getResourcePerTickConvertion(resRef.name) != 0
 				|| this.workshop.getEffectEngineer(resRef.name) != 0
-				){
+			){
 
 				tooltip.innerHTML = this.getDetailedResMap(resRef);
 
@@ -3024,12 +3450,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         }
 
 	    var timeFormated = "";
-        if ( years ) { timeFormated = years + "y "; }
-	    if ( days ) { timeFormated += days + "d "; }
+        if ( years ) { timeFormated = years + $I("unit.y") + " "; }
+	    if ( days ) { timeFormated += days + $I("unit.d") + " "; }
         if ( !years ){
-            if ( hours ) {  timeFormated += hours + "h "; }
-            if ( minutes) { timeFormated += minutes + "m "; }
-            if ( seconds ) { timeFormated += seconds + "s "; }
+            if ( hours ) {  timeFormated += hours + $I("unit.h") + " "; }
+            if ( minutes) { timeFormated += minutes + $I("unit.m") + " "; }
+            if ( seconds ) { timeFormated += seconds + $I("unit.s") + " "; }
         }
 
 	    return timeFormated;
@@ -3051,8 +3477,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		var timeFormated = "";
-		if ( years ) { timeFormated = years + "y "; }
-		if ( days ) { timeFormated += days + "d "; }
+		if ( years ) { timeFormated = years + $I("unit.y") + " "; }
+		if ( days ) { timeFormated += days + $I("unit.d") + " "; }
 
 		return timeFormated;
 	},
@@ -3070,19 +3496,19 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			// Seek optimal precision
 			if (percentage - Math.floor(percentage) != 0) {
 				precision = 1;
-				if (percentage*10 - Math.floor(percentage*10) != 0) {
+				if (percentage * 10 - Math.floor(percentage * 10) != 0) {
 					precision = 2;
-					if (percentage*100 - Math.floor(percentage*100) != 0) {
+					if (percentage * 100 - Math.floor(percentage * 100) != 0) {
 						precision = 3;
-						if (percentage*1000 - Math.floor(percentage*1000) != 0) {
+						if (percentage * 1000 - Math.floor(percentage * 1000) != 0) {
 							precision = 4;
-							if (percentage*10000 - Math.floor(percentage*10000) != 0) {
+							if (percentage * 10000 - Math.floor(percentage * 10000) != 0) {
 								precision = 5;
-								if (percentage*100000 - Math.floor(percentage*100000) != 0) {
+								if (percentage * 100000 - Math.floor(percentage * 100000) != 0) {
 									precision = 6;
-									if (percentage*1000000 - Math.floor(percentage*1000000) != 0) {
+									if (percentage * 1000000 - Math.floor(percentage * 1000000) != 0) {
 										precision = 7;
-										if (percentage*10000000 - Math.floor(percentage*10000000) != 0) {
+										if (percentage * 10000000 - Math.floor(percentage * 10000000) != 0) {
 											precision = 8;
 										}
 									}
@@ -3099,22 +3525,22 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	//shamelessly copied from Sandcastle Builder code
 	postfixes: [
-		{limit:1e210,divisor:1e210,postfix:['Q',' Quita']},
-		{limit:1e42,divisor:1e42,postfix:['W',' Wololo']},
-		{limit:1e39,divisor:1e39,postfix:['L',' Lotta']},
-		{limit:1e36,divisor:1e36,postfix:['F',' Ferro']},
-		{limit:1e33,divisor:1e33,postfix:['H',' Helo']}, //or Ballard
-		{limit:1e30,divisor:1e30,postfix:['S',' Squilli']},
-		{limit:1e27,divisor:1e27,postfix:['U',' Umpty']},
+		{limit:1e210,divisor:1e210,postfix:["Q"," Quita"]},
+		{limit:1e42,divisor:1e42,postfix:["W"," Wololo"]},
+		{limit:1e39,divisor:1e39,postfix:["L"," Lotta"]},
+		{limit:1e36,divisor:1e36,postfix:["F"," Ferro"]},
+		{limit:1e33,divisor:1e33,postfix:["H"," Helo"]}, //or Ballard
+		{limit:1e30,divisor:1e30,postfix:["S"," Squilli"]},
+		{limit:1e27,divisor:1e27,postfix:["U"," Umpty"]},
 
-		{limit:1e24,divisor:1e24,postfix:['Y',' Yotta']},
-		{limit:1e21,divisor:1e21,postfix:['Z',' Zeta']},
-		{limit:1e18,divisor:1e18,postfix:['E',' Exa']},
-		{limit:1e15,divisor:1e15,postfix:['P',' Peta']},
-		{limit:1e12,divisor:1e12,postfix:['T',' Tera']},
-		{limit:1e9,divisor:1e9,postfix:['G',' Giga']},
-		{limit:1e6,divisor:1e6,postfix:['M',' Mega']},
-		{limit:9e3,divisor:1e3,postfix:['K',' Kilo']} //WHAT
+		{limit:1e24,divisor:1e24,postfix:["Y"," Yotta"]},
+		{limit:1e21,divisor:1e21,postfix:["Z"," Zeta"]},
+		{limit:1e18,divisor:1e18,postfix:["E"," Exa"]},
+		{limit:1e15,divisor:1e15,postfix:["P"," Peta"]},
+		{limit:1e12,divisor:1e12,postfix:["T"," Tera"]},
+		{limit:1e9,divisor:1e9,postfix:["G"," Giga"]},
+		{limit:1e6,divisor:1e6,postfix:["M"," Mega"]},
+		{limit:9e3,divisor:1e3,postfix:["K"," Kilo"]} //WHAT
 	],
 
 	/**
@@ -3129,21 +3555,54 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (usePerTickHack) {
 			value = value * this.ticksPerSecond;
 		}
-
 		postfix = postfix || "";
-		var absValue = Math.abs(value);
-		for(var i = 0; i < this.postfixes.length; i++) {
-			var p = this.postfixes[i];
-			if(absValue >= p.limit){
-				if (usePerTickHack) { // Prevent recursive * this.ticksPerSecond;
-					value = value / this.ticksPerSecond;
+
+		switch (this.opts.notation) {
+			case "e":
+				var l = Math.floor(Math.log10(value));
+				if (l >= 4) {
+					value /= Math.pow(10, l);
+					postfix = "e" + l;
 				}
-				return this.getDisplayValueExt(value / p.divisor, prefix, usePerTickHack, precision, postfix + p.postfix[0]);
-			}
+				break;
+			case "sie":
+				var l = Math.floor(Math.log10(value));
+				if (value < 9000) {
+					postfix = "";
+				} else if (9000 <= value && l < 6) {
+					value /= 1000;
+					postfix = "K";
+				} else if (6 <= l && l < 9) {
+					value /= 1000 * 1000;
+					postfix = "M";
+				} else if (9 <= l && l < 12) {
+					value /= 1000 * 1000 * 1000;
+					postfix = "G";
+				} else if (12 <= l && l < 15) {
+					value /= 1000 * 1000 * 1000 * 1000;
+					postfix = "T";
+				} else {
+					value = value / Math.pow(10, l);
+					postfix = "e" + l;
+				}
+				break;
+			case "si":
+			default:
+				var absValue = Math.abs(value);
+				for(var i = 0; i < this.postfixes.length; i++) {
+					var p = this.postfixes[i];
+					if(absValue >= p.limit){
+						if (usePerTickHack) { // Prevent recursive * this.ticksPerSecond;
+							value = value / this.ticksPerSecond;
+						}
+						return this.getDisplayValueExt(value / p.divisor, prefix, usePerTickHack, precision, postfix + p.postfix[0]);
+					}
+				}
+				break;
 		}
 
 		var _value = this.getDisplayValue(value, prefix, precision);
-		return _value + postfix + (usePerTickHack ? $I("res.per.sec") : "");
+		return _value + postfix + (usePerTickHack ? "/" + $I("unit.sec") : "");
 	},
 
 	/**
@@ -3196,6 +3655,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		tab.game = this;
 	},
 
+	getTabById: function(tabId){
+		for (var i in this.tabs){
+			if (this.tabs[i].id == tabId){
+				return this.tabs[i];
+			}
+		}
+	},
+
 	isWebWorkerSupported: function(){
 		//return false;
 		return !dojo.isIE && window.Worker;
@@ -3213,7 +3680,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			var blobURL = window.URL.createObjectURL(blob);
 
 			this.worker = new Worker(blobURL);
-			this.worker.addEventListener('message', dojo.hitch(this, function(e) {
+			this.worker.addEventListener("message", dojo.hitch(this, function(e) {
 				this.tick();
 			}));
 			this.worker.postMessage("tick");
@@ -3282,18 +3749,35 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.totalUpdateTimeCurrent = this.totalUpdateTimeCurrent == 4 ? 0 : this.totalUpdateTimeCurrent + 1;
 
 			var avg = (this.totalUpdateTime[0] + this.totalUpdateTime[1] + this.totalUpdateTime[2] + this.totalUpdateTime[3] + this.totalUpdateTime[4]) / this.totalUpdateTimeTicks;
-			var avg0 = this.totalUpdateTime[0] / Math.floor((this.totalUpdateTimeTicks -1) / 5);
-			var avg1 = this.totalUpdateTime[1] / Math.floor((this.totalUpdateTimeTicks -2) / 5);
-			var avg2 = this.totalUpdateTime[2] / Math.floor((this.totalUpdateTimeTicks -3) / 5);
-			var avg3 = this.totalUpdateTime[3] / Math.floor((this.totalUpdateTimeTicks -4) / 5);
-			var avg4 = this.totalUpdateTime[4] / Math.floor((this.totalUpdateTimeTicks -5) / 5);
+			var avg0 = this.totalUpdateTime[0] / Math.floor((this.totalUpdateTimeTicks - 1) / 5);
+			var avg1 = this.totalUpdateTime[1] / Math.floor((this.totalUpdateTimeTicks - 2) / 5);
+			var avg2 = this.totalUpdateTime[2] / Math.floor((this.totalUpdateTimeTicks - 3) / 5);
+			var avg3 = this.totalUpdateTime[3] / Math.floor((this.totalUpdateTimeTicks - 4) / 5);
+			var avg4 = this.totalUpdateTime[4] / Math.floor((this.totalUpdateTimeTicks - 5) / 5);
 
-			if (tsDiff < 10) {tsDiff = 10;}
-            fpsElement = $("#devPanelFPS")[0];
+			if (tsDiff < 10) {
+				tsDiff = 10;
+			}
+			this.fps = {
+				ms: tsDiff,
+				avg: avg,
+				avg0: avg0,
+				avg1: avg1,
+				avg2: avg2,
+				avg3: avg3,
+				avg4: avg4
+			};
+
+            /*fpsElement = $("#devPanelFPS")[0];
             if (fpsElement) {
-                fpsElement.textContent = "update time: " + tsDiff + " ms,"
-                + " avg: " + avg.toFixed() + " ms [ " + avg0.toFixed() + " | " + avg1.toFixed() + " | " + avg2.toFixed() + " | " + avg3.toFixed() + " | " + avg4.toFixed() + "] (click to restart)";
-            }
+                fpsElement.textContent = "fps: " + tsDiff + " ms,"
+				+ " avg: " + avg.toFixed() + 
+				" ms [" + avg0.toFixed() + 
+				"." + avg1.toFixed() + 
+				"." + avg2.toFixed() + 
+				"." + avg3.toFixed() + 
+				"." + avg4.toFixed() + "] (Cl. to res.)";
+            }*/
 		}
 	},
 
@@ -3319,18 +3803,22 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 		var game = this;
 		game.ui.confirm($I("reset.confirmation.title"), msg, function() {
-			if (game.challenges.currentChallenge == "atheism" && game.time.getVSU("cryochambers").on > 0) {
+			if (game.challenges.isActive("atheism") && game.time.getVSU("cryochambers").on > 0) {
+				game.challenges.researchChallenge("atheism");
+			}
+			/*if (game.challenges.isActive("atheism") && game.time.getVSU("cryochambers").on > 0) {
 				game.challenges.getChallenge("atheism").researched = true;
 
 				if (game.ironWill) {
 					game.achievements.unlockHat("ivoryTowerHat");
 				}
-			}
+			}*/
 			if (game.calendar.day < 0) {
 				game.achievements.unlockHat("fezHat");
 			}
-
-			game.challenges.currentChallenge = null;
+			for (var i = 0; i < game.challenges.challenges.length; i++){
+				game.challenges.challenges[i].pending = false;
+			}
 			game.resetAutomatic();
 		});
 	},
@@ -3426,7 +3914,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				}
 			}
 		}
-		bonusZebras += Math.floor(this.getHyperbolicEffect(totalScience / 10000, 100));
+		bonusZebras += Math.floor(this.getLimitedDR(totalScience / 10000, 100));
 		return bonusZebras;
 	},
 
@@ -3485,9 +3973,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			karmaZebras += bonusZebras;
 		}
 
-		var faithRatio = this.religion.faithRatio;
 		//pre-reset faith so people who forgot to do it properly would not be screwed
-		if (this.religion.getRU("apocripha").on){
+		var faithRatio = this.religion.faithRatio;
+		if (this.religion.getRU("apocripha").on) {
 			faithRatio += this.religion.getApocryphaResetBonus(1);
 		}
 		//------------------------------------------------------------------------------------------------------
@@ -3517,29 +4005,26 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		//------------ we can now carry some of the resources through reset ------------
 		var newResources = [];
 
-		//TODO: use persists flag
-		var ignoreResources = ["kittens", "zebras", "unicorns", "alicorn", "tears", "furs", "ivory", "spice", "karma", "necrocorn", "gflops", "hashrates"];
-
-
 		var anachronomancy = this.prestige.getPerk("anachronomancy");
 		var fluxCondensator = this.workshop.get("fluxCondensator");
-		for (var i in this.resPool.resources){
+		for (var i in this.resPool.resources) {
 			var res = this.resPool.resources[i];
 
-			if ((res.craftable && res.name != "wood" && !fluxCondensator.researched) ||
-				dojo.indexOf(ignoreResources, res.name) >= 0){
+			// undefined is NOT falsy here
+			if (res.persists === false
+			 || (res.craftable && res.name != "wood" && !fluxCondensator.researched)) {
 				continue;	//>:
 			}
 			var value = 0;
 
-			if (res.name == "timeCrystal"){
-				if (anachronomancy.researched){
+			if (res.name == "timeCrystal") {
+				if (anachronomancy.researched) {
 					value = res.value;
 				}
-			} else if (res.persists){
+			} else if (res.persists) {
 				value = res.value;
 			} else {
-				if (!res.craftable || res.name == "wood"){
+				if (!res.craftable || res.name == "wood") {
 					value = res.value * saveRatio;
 					if (res.name == "void") {
 						value = Math.floor(value);
@@ -3549,11 +4034,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				}
 			}
 
-			if (addRes[res.name] > 0){
+			if (addRes[res.name] > 0) {
 				value += addRes[res.name];
 			}
 
-			if (value > 0){
+			if (value > 0) {
 				var newRes = this.resPool.createResource(res.name);
 				newRes.value = value;
 				newResources.push(newRes);
@@ -3567,6 +4052,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			newKittens = this.village.sim.kittens.slice(-cryochambers);
 			for (var i in newKittens) {
 				delete newKittens[i].job;
+				delete newKittens[i].engineerSpeciality;
 			}
 		}
 
@@ -3580,6 +4066,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			usedCryochambers_reset[0]["on"] = 0;
 		}
 
+		// Set the challenge for after reset
+		for (var i = 0; i < this.challenges.challenges.length; i++){
+			var challenge = this.challenges.challenges[i];
+			if (challenge.pending){
+				challenge.pending = false;
+				challenge.active = true;
+			}
+			else{
+				challenge.active = false;
+			}
+		}
+		var reservesSaveData = this.challenges.reserves.getSaveData();
 		var saveData = {
 			saveVersion: this.saveVersion,
 			game : lsData.game,
@@ -3590,7 +4088,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			},
 			challenges: {
 				challenges: this.challenges.challenges,
-				currentChallenge: this.challenges.currentChallenge
+				reserves: reservesSaveData
 			},
 			diplomacy: {
 				races: []
@@ -3599,14 +4097,16 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				perks: this.prestige.perks
 			},
 			religion: {
+				transcendenceTier: this.religion.transcendenceTier,
 				faithRatio: faithRatio,
-				tcratio: this.religion.tcratio,
 				zu: [],
 				ru: [],
 				tu: this.religion.filterMetadata(this.religion.transcendenceUpgrades, ["name", "val", "on", "unlocked"])
 			},
 			science: {
 				hideResearched: this.science.hideResearched,
+				policyToggleResearched: this.science.policyToggleResearched,
+				policyToggleBlocked: this.science.policyToggleBlocked,
 				techs: [],
 				policies: []
 			},
@@ -3636,7 +4136,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			},
 			achievements: lsData.achievements,
 			stats: stats,
-			statsCurrent: statsCurrent
+			statsCurrent: statsCurrent,
+			telemetry: {
+				guid: this.telemetry.guid
+			}
 		};
 
 		if (anachronomancy.researched){
@@ -3656,21 +4159,23 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	//Karma has no menu. You get served what you deserve.
 	updateKarma: function(){
 		var stripe = 5;	//initial amount of kittens per stripe
-		var karma = this.getTriValue(this.karmaKittens, stripe);
+		var karma = this.getUnlimitedDR(this.karmaKittens, stripe);
 
 		this.resPool.get("karma").value = karma;
 
 		if (this.karmaZebras){
-			this.resPool.get("zebras").maxValue = this.karmaZebras+1;
+			this.resPool.get("zebras").maxValue = this.karmaZebras + 1;
 		}
 	},
 
-	getTriValue: function(value, stripe){
-		return (Math.sqrt(1+8 * value / stripe)-1)/2;
+	// Unlimited Diminishing Return
+	//getTriValue
+	getUnlimitedDR: function(value, stripe) {
+		return (Math.sqrt(1 + 8 * value / stripe) - 1) / 2;
 	},
 
-	getTriValueOrigin: function(value, stripe) {
-		return (Math.pow(value * 2 + 1, 2) - 1) * stripe / 8;
+	getInverseUnlimitedDR: function(value, stripe) {
+		return value * (value + 1) * stripe / 2;
 	},
 
 	getTab: function(name) {
@@ -3694,6 +4199,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// TODO: delegate this to managers? Can't be done in load unfortunately.
 		this.upgrade({
 			tech: this.science.techs.map(function(item){return item.name;}),
+			policies: this.science.policies.map(function(item){return item.name;}),
 			perks: this.prestige.perks.map(function(item){return item.name;}),
 			jobs: this.village.jobs.map(function(item){return item.name;}),
 			crafts: this.workshop.crafts.map(function(item){return item.name;}),
@@ -3715,6 +4221,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		switch(type) {
 			case "tech":
 				return this.science.get(unlockId);
+			case "policies":
+				return this.science.getPolicy(unlockId);
 			case "perks":
 				return this.prestige.getPerk(unlockId);
 			case "jobs":
@@ -3753,6 +4261,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	unlock: function(list) {
+		var game = this; 
 		for (var type in list) {
 			if (list[type].length == 0) {
 				return;
@@ -3760,17 +4269,41 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			for (var i = list[type].length - 1; i >= 0; i--) {
 				var unlockId = list[type][i];
 				var newUnlock = this.getUnlockByName(unlockId, type);
+
+				/** 
+				 * Multi-unlock mechanism:
+				 * 
+				 * Source provides _SIGNAL_ throught the .unlocks property
+				 * 
+				 * e.g.:
+				 * 
+				 * meta1 -> game.unlock() ->	target meta
+				 * meta2 -> game.unlock() /
+				 * 
+				 * by default any unlock() signal from source should mark target meta as unlocked
+				 * 
+				 * in case there are complex unlock conditions (say policies),
+				 * target meta should evaluate the signal through the evaluateLocks()
+				 * and return cancel if not all unlock conditions are satisfied
+				 * 
+				*/
+				if (!newUnlock){
+					console.trace();
+					console.error("unable to evaluate locks for unlockId", unlockId, "type", type);
+				}
+				if (newUnlock.evaluateLocks && !newUnlock.evaluateLocks(game)){
+					continue;
+				}
+
 				if (type == "tabs") {
 					newUnlock.visible = true;
 				} else if (type == "buildings") {
 					newUnlock.unlockable = true;
 				} else if (type == "stages") {
 					newUnlock.stages[unlockId.stage].stageUnlocked = true;
-				} else if (type == "jobs" && unlockId == "priest" && this.challenges.currentChallenge == "atheism") {
-					// do nothing
 				} else {
 					if (!newUnlock){
-						console.warn("unable to evaluate unlock '", newUnlock, "', skipping");
+						console.warn("unable to evaluate unlock '", unlockId, "', skipping");
 						continue;
 					}
 					newUnlock.unlocked = true;
@@ -3801,7 +4334,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var filtersDiv = $("#logFilters");
 		filtersDiv.toggle();
 
-		$("#filterIcon")[0].innerHTML = filtersDiv.is(':visible') ? "-" : "+";
+		$("#filterIcon")[0].innerHTML = filtersDiv.is(":visible") ? "-" : "+";
 	},
 
     registerUndoChange: function(){
@@ -3840,22 +4373,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this._publish("server/undoStateChanged");
     },
 
-    //-----------------------------------------------------------------
-
-    initKongregateApi: function(){
-        var self = this;
-        kongregateAPI.loadAPI(function(){
-            self.kongregate = kongregateAPI.getAPI();
-
-            console.log("Kongregate API initialized successfully, updating stats...");
-
-            self.kongregate.stats.submit("paragon", self.resPool.get("paragon").value);
-            self.kongregate.stats.submit("karma", self.karmaKittens);
-
-            self.achievements.updateStatistics();
-        });
-    },
-
+	//-----------------------------------------------------------------
+	
 	redeemGift: function(){
 		if (this.resPool.get("elderBox").value == 0) {
 			return;
@@ -3874,7 +4393,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if(this.religion.getRU("apocripha").on) {
 			gift = "Apocrypha";
 		}
-		if(this.religion.getRU("transcendence").on && this.religion.getTranscendenceLevel() <= 10) {
+		if (this.religion.getRU("transcendence").on && this.religion.transcendenceTier <= 10) {
 			gift = "Transcendence";
 		}
 		if(this.prestige.getPerk("engeneering").researched && !this.prestige.getPerk("renaissance").researched) {
@@ -3883,6 +4402,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if(this.bld.get("chronosphere").on) {
 			gift = "Compendiums";
 		}
+		if(this.diplomacy.get("leviathans").energy == this.diplomacy.getMarkerCap()){
+			gift = "BurnedParagon";
+		}
+		var ucfirst = function (string) { return string.charAt(0).toUpperCase() + string.slice(1); };
 
 		switch (gift) {
 			case "Karma":
@@ -3891,8 +4414,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				} else {
 					var amt = 5000;
 				}
-				var karmaGained = this.getTriValue(this.karmaKittens + amt, 5) - this.getTriValue(this.karmaKittens, 5);
-				var msg = "Got " + this.getDisplayValueExt(karmaGained) + " Karma!";
+				var karmaGained = this.getUnlimitedDR(this.karmaKittens + amt, 5) - this.getUnlimitedDR(this.karmaKittens, 5);
+				var msg = $I("gift.resources", [this.getDisplayValueExt(karmaGained), ucfirst($I("resources.karma.title"))]);
+
 				this.karmaKittens += amt;
 				break;
 
@@ -3902,7 +4426,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				} else {
 					var amt = 100;
 				}
-				var msg = "Got " + this.getDisplayValueExt(amt) + " Paragon!";
+				var msg = $I("gift.resources", [this.getDisplayValueExt(amt), ucfirst($I("resources.paragon.title"))]);
 				this.resPool.addResEvent("paragon", amt);
 				break;
 
@@ -3912,13 +4436,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				} else {
 					var amt = 50;
 				}
-				var msg = "Got " + this.getDisplayValueExt(amt) + " Time Crystals!";
+				var msg = $I("gift.resources", [this.getDisplayValueExt(amt), ucfirst($I("resources.timeCrystal.title"))]);
 				this.resPool.addResEvent("timeCrystal", amt);
 				break;
 
 			case "BLS" :
 				amt = this.resPool.get("sorrow").maxValue - this.resPool.get("sorrow").value;
-				var msg = "Got " + this.getDisplayValueExt(amt) + " Black Liquid Sorrow!";
+				var msg = $I("gift.resources", [this.getDisplayValueExt(amt), ucfirst($I("resources.sorrow.full"))]);
 				this.resPool.addResEvent("sorrow", amt);
 				break;
 
@@ -3931,15 +4455,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				var pre = this.religion.getApocryphaBonus();
 				this.religion.faithRatio += amt;
 				var post = this.religion.getApocryphaBonus();
-				var apocryphaGained = (post-pre)*100;
-				var msg = "Apocrypha Bonus increased by " + this.getDisplayValueExt(apocryphaGained) + "%!";
+				var apocryphaGained = (post - pre) * 100;
+				var msg = $I("gift.apocrypha", [this.getDisplayValueExt(apocryphaGained)]);
 				break;
 
 			case "Transcendence":
-				var amt = this.religion.getTranscendenceRatio(this.religion.getTranscendenceLevel() + 4) - this.religion.getTranscendenceRatio(this.religion.getTranscendenceLevel());
-				this.religion.tcratio += amt;
-				this.religion.tclevel += 4;
-				var msg = "Transcendence Level increased by 4!";
+				this.religion.transcendenceTier += 4;
+				var msg = $I("gift.transcendence");
 				break;
 
 			case "Metaphysics":
@@ -3962,17 +4484,43 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					this.prestige.getPerk("renaissance").researched = true;
 					var perk = "Renaissance";
 				}
-				var msg = "Unlocked " + perk + "!";
+				var msg = $I("gift.metaphysics", [perk]);
 				break;
 
 			case "Compendiums":
-				if(this.resPool.get("compedium").value>500000) {
+				if(this.resPool.get("compedium").value > 500000) {
 					var amt = 4 * this.resPool.get("compedium").value;
 				} else {
 					var amt = 100000;
 				}
-				var msg = "Got " + this.getDisplayValueExt(amt) + " Compendiums!";
+				var unicornGraveyard = this.religion.getZU("unicornGraveyard");
+				var unicornNecropolis = this.religion.getZU("unicornNecropolis");
+				var getSumOfPrices = function(item, resName){ //this function should return how much of one resource was spent on a stackable
+					var priceRatio = item.priceRatio;
+					var resPrice = 0;
+					var num = item.val;
+					for (var i in item.prices){
+						if (item.prices[i].name == resName){
+							resPrice = item.prices[i].val;
+						}
+					}
+					return resPrice * (Math.pow(priceRatio, num) - 1)/(priceRatio - 1);
+				};
+				var amt1 = Math.max(getSumOfPrices(unicornGraveyard, "necrocorn") + getSumOfPrices(unicornNecropolis, "necrocorn"), 
+				Math.max(this.resPool.get("necrocorn").value, 10));
+				var msg = $I("gift.resources", [this.getDisplayValueExt(amt), ucfirst($I("resources.compedium.title"))]);
+				msg += $I("gift.resources", [this.getDisplayValueExt(amt1), ucfirst($I("resources.necrocorn.title"))]);
 				this.resPool.addResEvent("compedium", amt);
+				this.resPool.addResEvent("necrocorn", amt1);
+				break;
+			case "BurnedParagon":
+				if(this.resPool.get("burnedParagon").value > 500){
+					var amt = Math.min(this.resPool.get("burnedParagon").value, 1500);
+				} else {
+					var amt = 150;
+				}
+				var msg = $I("gift.resources", [this.getDisplayValueExt(amt), ucfirst($I("resources.burnedParagon.title"))]);
+				this.resPool.addResEvent("burnedParagon", amt);
 			break;
 		}
 

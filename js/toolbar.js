@@ -1,3 +1,16 @@
+//------------------------------------------
+
+
+
+
+/**
+ * Deprecated, use toolbar.jsx.js
+ */
+
+
+
+//keeping it here in case some 3rd party scripts rely on this
+//---------------------------------------- 
 dojo.declare("classes.ui.Toolbar", null, {
 
 	icons: null,
@@ -6,7 +19,7 @@ dojo.declare("classes.ui.Toolbar", null, {
 	constructor: function(game){
 		this.game = game;
 
-		this.icons= [];
+		this.icons = [];
 
 		this.addIcon(new classes.ui.toolbar.ToolbarMOTD(game));
 		this.addIcon(new classes.ui.toolbar.ToolbarHappiness(game));
@@ -25,9 +38,20 @@ dojo.declare("classes.ui.Toolbar", null, {
 			var icon = this.icons[i];
 			if (icon.getOpts().hasTooltip) {
 				this.attachToolbarTooltip(iconContainer, this.icons[i]);
+				dojo.connect(iconContainer, "onclick", this.icons[i], "onClick");
 			}
+			switch (i) {
+				case "0": // MOTD
+					dojo.addClass(iconContainer, "motd");
+					break;
+				case "1": // Happiness
+					dojo.addClass(iconContainer, "happiness");
+					break;
+				case "2": // Energy
+					dojo.addClass(iconContainer, "energy");
+					break;				
+			}		
 		}
-
 		this.update(true /*forceUpdate*/);
 	},
 
@@ -42,11 +66,11 @@ dojo.declare("classes.ui.Toolbar", null, {
 		var sorrowRes = this.game.resPool.get("sorrow"),
 			sorrow = sorrowRes.value;
 		$("#sorrowTooltip").html(sorrow ?
-			"BLS: " + sorrow.toFixed() + "%" :
+			$I("resources.sorrow.short") + ": " + sorrow.toFixed() + "%" :
 			""
 		);
 		var isMax = (sorrowRes.value == sorrowRes.maxValue);
-		$("#sorrowTooltip").css("color", isMax ? "red" : "");
+		$("#sorrowTooltip").addClass(isMax ? "max" : "");
 	},
 
 
@@ -111,6 +135,10 @@ dojo.declare("classes.ui.ToolbarIcon", null, {
 		return "Unimplemented";
 	},
 
+	onClick: function(){
+
+	},
+
 	getOpts: function(){
 		return {
 			needUpdate: true,
@@ -128,7 +156,6 @@ dojo.declare("classes.ui.toolbar.ToolbarHappiness", classes.ui.ToolbarIcon, {
 		}
 
 		this.container.innerHTML = "(:3)&nbsp;" + Math.floor(this.game.village.happiness * 100) + "%";
-		$(this.container).css("color", "Coral");
 	},
 
 	getTooltip: function(){
@@ -140,11 +167,14 @@ dojo.declare("classes.ui.toolbar.ToolbarHappiness", classes.ui.ToolbarIcon, {
 		//----------------------
 		var resHappiness = 0;
 		var resources = this.game.resPool.resources;
+        var happinessPerLuxury = 10;
+        //philosophy epicurianism effect
+        happinessPerLuxury += this.game.getEffect("luxuryHappinessBonus");
 		for (var i = resources.length - 1; i >= 0; i--) {
 			if (resources[i].type != "common" && resources[i].value > 0){
-				resHappiness += 10;
-				if(resources[i].name=="elderBox" && this.game.resPool.get("wrappingPaper").value){
-					resHappiness -= 10; // Present Boxes and Wrapping Paper do not stack.
+				resHappiness += happinessPerLuxury;
+				if(resources[i].name == "elderBox" && this.game.resPool.get("wrappingPaper").value){
+					resHappiness -= happinessPerLuxury; // Present Boxes and Wrapping Paper do not stack.
 				}
 			}
 		}
@@ -156,21 +186,25 @@ dojo.declare("classes.ui.toolbar.ToolbarHappiness", classes.ui.ToolbarIcon, {
 		}
 
 		if (this.game.calendar.festivalDays > 0){
-			tooltip += $I("village.happiness.festival") + ": +30%<br>";
+			var festivalHappinessEffect = (30 * (1 + this.game.getEffect("festivalRatio"))).toFixed();
+			tooltip += $I("village.happiness.festival") + ": +" + festivalHappinessEffect + "%<br>";
 		}
 
-        var unhappiness = ( this.game.village.getKittens()-5 ) * 2;
-        var unhappiness = unhappiness;
-
-		var unhappinessReduction = unhappiness * this.game.getEffect("unhappinessRatio", true);
-		tooltip += $I("village.happiness.penalty") + ": -" + this.game.getDisplayValueExt(unhappiness+unhappinessReduction, false, false, 0) + "%<br>";
+        var unhappiness = this.game.village.getUnhappiness() / (1 + this.game.getEffect("unhappinessRatio")),
+			unhappinessReduction = unhappiness * this.game.getEffect("unhappinessRatio", true);
+		var environmentEffect = this.game.village.getEnvironmentEffect();
+		var challengeEffect = this.game.getEffect("challengeHappiness");
+		tooltip += $I("village.happiness.penalty") + ": -" + this.game.getDisplayValueExt(unhappiness + unhappinessReduction, false, false, 0) + "%<br>";
 
         tooltip += "* " + $I("village.happiness.penalty.base") + ": -" + this.game.getDisplayValueExt(unhappiness, false, false, 0) + "%<br>";
 		tooltip += "* " + $I("village.happiness.penalty.mitigated") + ": " + this.game.getDisplayValueExt(-unhappinessReduction, false, false, 0) + "%<br>";
-
+		tooltip += $I("village.happiness.environment") + ": " + this.game.getDisplayValueExt(environmentEffect, false, false, 0) + "%<br>";
+		if(challengeEffect){
+			tooltip += $I("village.happiness.challenges") + ": " + this.game.getDisplayValueExt(challengeEffect, false, false, 0) + "%<br>";
+		}
         var overpopulation = this.game.village.getKittens() - this.game.village.maxKittens;
         if (overpopulation > 0){
-            tooltip += $I("village.happiness.overpopulation") + ": -" + overpopulation*2 + "%<br>";
+            tooltip += $I("village.happiness.overpopulation") + ": -" + overpopulation * 2 + "%<br>";
         }
 
         return tooltip;
@@ -186,14 +220,17 @@ dojo.declare("classes.ui.toolbar.ToolbarEnergy", classes.ui.ToolbarIcon, {
 		}
 
 		var resPool = this.game.resPool;
-		this.container.innerHTML = "&#9889;&nbsp;" + this.game.getDisplayValueExt(resPool.energyProd - resPool.energyCons) + "Wt";
+		this.container.innerHTML = "&#9889;&nbsp;" + this.game.getDisplayValueExt(resPool.energyProd - resPool.energyCons) + $I("unit.watt");
 
 		if (resPool.energyProd < resPool.energyCons) {
-			$(this.container).css("color", "red");
+			$(this.container).removeClass("warningWinter");
+			$(this.container).addClass("warning");
 		} else if (resPool.energyWinterProd < resPool.energyCons) {
-			$(this.container).css("color", "Coral");
+			$(this.container).removeClass("warning");
+			$(this.container).addClass("warningWinter");
 		} else {
-			$(this.container).css("color", "green");
+			$(this.container).removeClass("warning");
+			$(this.container).removeClass("warningWinter");
 		}
 	},
 	getTooltip: function(){
@@ -201,10 +238,10 @@ dojo.declare("classes.ui.toolbar.ToolbarEnergy", classes.ui.ToolbarIcon, {
 		var energy = resPool.energyProd - resPool.energyCons;
 
         var delta = this.game.resPool.getEnergyDelta();
-		var penalty = energy >= 0 ? "" :"<br><br>Production bonuses cuts: <span style='color:red;'>-" + Math.floor( (1-delta) * 100) + "%</span>";
+		var penalty = energy >= 0 ? "" : "<br><br>" + $I("navbar.energy.penalty") + "<span class='energyPenalty'>-" + Math.floor( (1 - delta) * 100) + "%</span>";
 
-		return "Production: <span style='color:green;'>" +  this.game.getDisplayValueExt(resPool.energyProd, true, false) + "Wt</span>" +
-			   "<br>Consumption: <span style='color:#D00000;'>-" +  this.game.getDisplayValueExt(resPool.energyCons) + "Wt</span>" + penalty;
+		return $I("navbar.energy.prod") + "<span class='energyProduction'>" +  this.game.getDisplayValueExt(resPool.energyProd, true, false) + $I("unit.watt") + "</span>" +
+			   "<br>" + $I("navbar.energy.cons") + "<span class='energyConsumption'>-" +  this.game.getDisplayValueExt(resPool.energyCons) + $I("unit.watt") + "</span>" + penalty;
 	}
 });
 
