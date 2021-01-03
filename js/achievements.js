@@ -540,7 +540,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.AchTab", com.nuclearunicorn.game.ui
 			} else {
 				uncompletedStars++;
 			}
-			var star = dojo.create("div", {
+			dojo.create("div", {
 				className: "star",
 				innerHTML: ach.starUnlocked ? "&#9733;" : "&#9734;",
 				title: ach.starUnlocked ? ach.starDescription : "???"

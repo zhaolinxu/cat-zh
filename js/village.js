@@ -467,8 +467,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 								diff *= (1 + (this.getLeaderBonus(this.game.village.leader.rank) - 1) 
 								* this.game.getEffect("boostFromLeader"));
                             }
-							diff *= this.happiness + this.game.getLimitedDR((this.happiness - 1) 
-							* this.game.getEffect("happinessKittenProductionRatio"), 0.25);	//alter positive resource production from jobs
+							diff *= this.happiness + (this.happiness - 1) 
+							* this.game.getEffect("happinessKittenProductionRatio");	//alter positive resource production from jobs
 						}
 
 						if (!res[jobResMod]){
@@ -500,7 +500,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 								 * this.game.getEffect("boostFromLeader"));
                             }
 							diff *= (this.game.science.getPolicy("liberty").researched)? 
-							this.happiness + this.game.getLimitedDR((this.happiness - 1) * 0.1, 0.25) : this.happiness;
+							this.happiness + (this.happiness - 1) * 0.1 : this.happiness;
 						}
 
 						if (!res[jobResMod]){
@@ -793,6 +793,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			this.game.village.leader.job = "priest";
 			situationJobs["priest"] = situationJobs["priest"] - 1;
 			this.game.village.getJob("priest").value += 1;
+			if (situationJobs["priest"] == 0) {
+				delete situationJobs["priest"];
+			}
 		}
 			// Optimisation share between each jobs by assigning 1 kitten per job until all jobs are reassigned
 			while (Object.getOwnPropertyNames(situationJobs).length !== 0) {
@@ -2589,7 +2592,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.addButton(btn);
 		//------------------------------------------------------------
 
-		var tr = dojo.create("tr", null, table);
+		dojo.create("tr", null, table);
 
 		var tdTop = dojo.create("td", { colspan: 2 },
 			dojo.create("tr", null, table));

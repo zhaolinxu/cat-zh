@@ -284,7 +284,6 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 					reserveKittens.unshift(newKitten);
 				}
 				this.game.challenges.reserves.reserveKittens = reserveKittens;
-				var reserveRes = saveData.challenges.reserves.reserveResources;
 				this.game.challenges.reserves.reserveResources = saveData.challenges.reserves.reserveResources;
 		}
 	},
