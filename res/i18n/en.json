@@ -1034,7 +1034,7 @@
     "gift.resources": "Got {0} {1}!",
     "gift.apocrypha": "Apocrypha Bonus increased by {0}%!",
     "gift.transcendence": "Transcendence Tier increased by 4!",
-    "gift.metaphysics": "Unlocked {0}!",
+    "gift.metaphysics": "Got {0}!",
 
     "save.export.msg": "Save export successful!",
     "save.import.confirmation.msg": "Are your sure? This will overwrite your save!",
