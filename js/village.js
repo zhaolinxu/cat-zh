@@ -790,6 +790,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			this.game.village.leader.job = "priest";
 			situationJobs["priest"] = situationJobs["priest"] - 1;
 			this.game.village.getJob("priest").value += 1;
+			if (situationJobs["priest"] == 0) {
+				delete situationJobs["priest"];
+			}
 		}
 			// Optimisation share between each jobs by assigning 1 kitten per job until all jobs are reassigned
 			while (Object.getOwnPropertyNames(situationJobs).length !== 0) {
