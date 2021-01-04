@@ -780,7 +780,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			if (warmChance < 0) {
 				warmChance = 0;
 			}
-			if (this.getCurSeason().name == "winter" && this.game.challenges.getChallenge("winterIsComing").researched){
+			if (this.getCurSeason().name == "winter" && this.game.challenges.getChallenge("winterIsComing").researched && !this.game.challenges.isActive("winterIsComing")){
 				coldChance = 0;
 			}
 
