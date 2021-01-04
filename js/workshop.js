@@ -657,6 +657,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			"manpowerJobRatio" : 0.5
 		},
+		calculateEffects: function(self, game){
+			self.effects["manpowerJobRatio"] = 0.5 * Math.max(0, (1 + game.getEffect("weaponEfficency"))); 
+		},
 		prices:[
 			{ name : "wood", val: 200 },
 			{ name : "iron", val: 100 },
@@ -669,6 +672,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			"manpowerJobRatio" : 0.25
 		},
+		calculateEffects: function(self, game){
+			self.effects["manpowerJobRatio"] = 0.25 * Math.max(0, (1 + game.getEffect("weaponEfficency")));
+		},
 		prices:[
 			{ name : "iron", val: 1500 },
 			{ name : "science", val: 12000 }
@@ -679,6 +685,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		description: $I("workshop.railgun.desc"),
 		effects: {
 			"manpowerJobRatio" : 0.25
+		},
+		calculateEffects: function(self, game){
+			self.effects["manpowerJobRatio"] = 0.25 * Math.max(0, (1 + game.getEffect("weaponEfficency")));
 		},
 		prices:[
 			{ name : "titanium", val: 5000 },
@@ -2383,9 +2392,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		var cultureBonusRaw = Math.floor(this.game.resPool.get("manuscript").value);
 		this.effectsBase["cultureMax"] = this.game.getUnlimitedDR(cultureBonusRaw, 0.01);
 
-		if (this.game.science.getPolicy("tradition").researched){
-			this.effectsBase["cultureMax"] *= 2;
-		}
+		this.effectsBase["cultureMax"] *= 1 + this.game.getEffect("cultureCapFromManuscripts");
 
 		//sanity check
 		if (this.game.village.getFreeEngineers() < 0){
@@ -2781,7 +2788,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		var content = craftPanel.render(tabContainer);
 
 		var table = dojo.create("table", {}, content);
-		var tr = dojo.create("tr", {}, table);
+		dojo.create("tr", {}, table);
 
 		//buttons go there
 		var td = dojo.create("td", {}, table);
@@ -2840,8 +2847,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 			if (res.craftable && res.value){
 				var tr = dojo.create("tr", {}, table);
 
-				var td = dojo.create("td", { innerHTML: res.title || res.name + ":" }, tr);
-				var td = dojo.create("td", { innerHTML: this.game.getDisplayValueExt(res.value) }, tr);
+				dojo.create("td", { innerHTML: res.title || res.name + ":" }, tr);
+				dojo.create("td", { innerHTML: this.game.getDisplayValueExt(res.value) }, tr);
 			}
 		}
 	},

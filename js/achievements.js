@@ -144,6 +144,9 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             description: $I("achievements.youMonster.desc"),
             condition: function () {
                 return (this.game.deadKittens >= 100);
+            },
+            starCondition: function () {
+                return (this.game.deadKittens >= 666666);
             }
         }, {
             name: "superUnethicalClimax",
@@ -187,7 +190,7 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             },
             starCondition: function () {
                 return (this.game.village.happiness >= 5 && this.game.resPool.get("kittens").value > 35);
-            },
+            }
         }, {
             name: "cathammer",
             title: $I("achievements.cathammer.title"),
@@ -198,7 +201,7 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             },
             starCondition: function () {
                 return (this.game.calendar.trueYear() >= this.game.calendar.darkFutureBeginning);
-            },
+            }
     }],
 
     hats: [
@@ -537,7 +540,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.AchTab", com.nuclearunicorn.game.ui
 			} else {
 				uncompletedStars++;
 			}
-			var star = dojo.create("div", {
+			dojo.create("div", {
 				className: "star",
 				innerHTML: ach.starUnlocked ? "&#9733;" : "&#9734;",
 				title: ach.starUnlocked ? ach.starDescription : "???"

@@ -522,6 +522,15 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			//TODO: make meteors give titanium on higher levels
 		}
 
+		//------------------------- 0.035% chance of spawning unicorns in pacifism -----------------
+		if(this.game.challenges.isActive("pacifism")){
+			var animal = this.game.science.get("animal");
+			var unicorns = this.game.resPool.get("unicorns");
+			if (this.game.rand(100000) <= 17 * unicornChanceRatio && unicorns.value < 2 && animal.researched){
+				this.game.resPool.addResEvent("unicorns", 1);
+				this.game.msg($I("calendar.msg.unicorn"));
+			}
+		}
 		//------------------------- 0.035% chance of spawning unicorns in Iron Will -----------------
 		var zebras = this.game.resPool.get("zebras");
 
@@ -572,6 +581,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 		//----------------------------------------------
 		var aliChance = this.game.getEffect("alicornChance");	//0.2 OPTK
+		aliChance *= 1 + this.game.getLimitedDR(this.game.getEffect("alicornPerTickRatio"), 1.2);
 		if (this.game.rand(100000) < aliChance * 100000){
 			this.game.msg($I("calendar.msg.alicorn"), "important", "alicornRift");
 
@@ -652,11 +662,11 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				mineralsAmt += mineralsAmt * 0.1;	//+10% of minerals for iron will
 			}
 
-			var mineralsGain = this.game.resPool.addResEvent("minerals", numberEvents * mineralsAmt);
+			this.game.resPool.addResEvent("minerals", numberEvents * mineralsAmt);
 
 			if (this.game.workshop.get("celestialMechanics").researched) {
 				var sciBonus = 15 * (1 + this.game.getEffect("scienceRatio"));
-				var sciGain = this.game.resPool.addResEvent("science", numberEvents * sciBonus);
+				this.game.resPool.addResEvent("science", numberEvents * sciBonus);
 			}
 
 			//TODO: make meteors give titanium on higher levels
@@ -694,6 +704,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		//----------------------------------------------
 		var aliChance = this.game.getEffect("alicornChance");	//0.2 OPTK
+		aliChance *= 1 + this.game.getLimitedDR(this.game.getEffect("alicornPerTickRatio"), 1.2);
 		numberEvents = Math.round(daysOffset * aliChance);
 		if (numberEvents >= 1) {
 			this.game.resPool.addResEvent("alicorn", numberEvents);
@@ -943,50 +954,28 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		return this.seasons[this.season];
 	},
 
-	getCurSeasonTitle: function(){
-		var title = this.getCurSeason().title;
-		if (this.game.challenges.isActive("winterIsComing")){
-			var numeral = "";
-			switch(this.season){
-				case 0:
-					numeral = "I";
-					break;
-				case 1:
-					numeral = "II";
-					break;
-				case 2:
-					numeral = "III";
-					break;
-				case 3:
-					numeral = "IV";
-					break;
-			}
-			title += " " + numeral;
-		}
-		return title;
+	getCurSeasonTitle: function() {
+		var winterIsComingNumeral = this.game.challenges.isActive("winterIsComing") ? this.getWinterIsComingNumeral() : "";
+		return this.getCurSeason().title + winterIsComingNumeral;
 	},
 
-	getCurSeasonTitleShorten: function(){
-		var title = this.getCurSeason().shortTitle;
-		if (this.game.challenges.isActive("winterIsComing")){
-			var numeral = "";
-			switch(this.season){
-				case 0:
-					numeral = "I";
-					break;
-				case 1:
-					numeral = "II";
-					break;
-				case 2:
-					numeral = "III";
-					break;
-				case 3:
-					numeral = "IV";
-					break;
-			}
-			title += " " + numeral;
+	getCurSeasonTitleShorten: function() {
+		var winterIsComingNumeral = this.game.challenges.isActive("winterIsComing") ? this.getWinterIsComingNumeral() : "";
+		return this.getCurSeason().shortTitle + winterIsComingNumeral;
+	},
+
+	getWinterIsComingNumeral: function() {
+		switch (this.season) {
+			case 0:
+				return " I";
+			case 1:
+				return " II";
+			case 2:
+				return " III";
+			case 3:
+				return " IV";
 		}
-		return title;
+		return "";
 	},
 
 

@@ -317,10 +317,9 @@ WCraftShortcut = React.createClass({
     },
 
     componentDidMount: function(){
-        var res = this.props.resource,
-            recipe = this.props.recipe,
-            ratio = this.props.craftPercent,
-            num = this.props.craftFixed;
+        var recipe = this.props.recipe;
+        var ratio = this.props.craftPercent;
+        var num = this.props.craftFixed;
 
         //no craftAll tooltip    
         if (this.props.craftPercent == 1){
@@ -347,12 +346,12 @@ WCraftShortcut = React.createClass({
 					var priceItemNode = dojo.create("div", {style: {clear: "both"}}, tooltip);
 					var res = game.resPool.get(price.name);
 
-					var nameSpan = dojo.create("span", {
+					dojo.create("span", {
 							innerHTML: res.title || res.name,
 							style: { float: "left"}
 						}, priceItemNode );
 
-					var priceSpan = dojo.create("span", {
+					dojo.create("span", {
 							innerHTML: game.getDisplayValueExt(price.val * num),
 							style: {float: "right", paddingLeft: "6px" }
 						}, priceItemNode );
@@ -414,8 +413,7 @@ WCraftRow = React.createClass({
     },
 
     shouldComponentUpdate: function(nextProp, nextState){
-        var oldRes = this.oldRes || {},
-            newRes = nextProp.resource;
+        var newRes = nextProp.resource;
 
         /*var isEqual = 
             oldRes.value == newRes.value &&

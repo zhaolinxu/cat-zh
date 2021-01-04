@@ -820,7 +820,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "culture", val: 150}
 		],
 		effects: {
-			"maxKittens": 0
+			"maxKittens": 0,
+			"happinessKittenProductionRatio": 0.1
 		},
 		unlocked: false,
 		blocked: false,
@@ -838,6 +839,11 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		prices: [
 			{name : "culture", val: 150}
 		],
+		effects: {
+			"cultureFromManuscripts": 1,
+			"manuscriptParchmentCost": -5, //visual,
+			"manuscriptCultureCost": -100 //just for the players
+		},
 		unlocked: false,
 		blocked: false,
 		blocks:["liberty"],
@@ -1175,7 +1181,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         blocked: false,
         blocks:["cityOnAHill"],
 		evaluateLocks: function(game){
-			return game.science.getPolicy("isolationism").researched && game.science.get("astronomy").researched; 
+			return game.science.getPolicy("isolationism").researched && game.science.get("astronomy").researched && !game.challenges.isActive("pacifism"); 
 		}
     }, {
         name: "cityOnAHill",
@@ -1227,7 +1233,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         blocked: false,
         blocks:["outerSpaceTreaty"],
 		evaluateLocks: function(game){
-			return game.space.getBuilding("sattelite").val > 0;
+			return game.space.getBuilding("sattelite").val >0 && !game.challenges.isActive("pacifism");
 		}
     },
     //----------------   Philosophy   --------------------
@@ -1538,8 +1544,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	load: function(saveData){
 		if (saveData.science){
 			this.hideResearched = saveData.science.hideResearched;
-			this.policyToggleResearched = saveData.science.policyToggleResearched,
-			this.policyToggleBlocked = saveData.science.policyToggleBlocked,
+			this.policyToggleResearched = saveData.science.policyToggleResearched;
+			this.policyToggleBlocked = saveData.science.policyToggleBlocked;
 			this.loadMetadata(this.techs, saveData.science.techs, "technologies");
 			this.loadMetadata(this.policies, saveData.science.policies, "policies");
 		}
@@ -1633,7 +1639,18 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 
 		return this.inherited(arguments);
 	},
-	
+	getPrices: function(model){
+		var meta = model.metadata;
+		var policyCostRatio = this.game.getEffect("policyCostRatio");
+		var prices = [];
+		for (var i = 0; i < meta.prices.length; i++){
+            prices.push({
+            	val: meta.prices[i].val * (1 + policyCostRatio),
+            	name: meta.prices[i].name
+			});
+		}
+        return prices;
+	},
 	updateVisible: function(model){
 		var meta = model.metadata;
 		model.visible = meta.unlocked;
@@ -1837,7 +1854,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 			width: "100%"
 		}}, tabContainer);
 
-		var tr = dojo.create("tr", null, table);
+		dojo.create("tr", null, table);
 
 		var tdTop = dojo.create("td", { colspan: 2 },
 			dojo.create("tr", null, table));

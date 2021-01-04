@@ -411,7 +411,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 					dojo.style(cycleSpan, "borderBottom", "1px solid gray");
 					dojo.style(cycleSpan, "paddingBottom", "4px");
 
-					var cycleSpan = dojo.create("div", {
+					dojo.create("div", {
 						innerHTML: $I("cycle.effects.title") + ":",
 						style: { textAlign: "center", paddingTop: "4px"}
 					}, tooltip );
@@ -424,7 +424,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 						var effectMeta = game.getEffectMeta(effect);
 						var effectTitle = effectMeta.title + ":";
 
-						var nameSpan = dojo.create("span", {
+						dojo.create("span", {
 							innerHTML: effectTitle,
 							style: {
 								float: "left",
@@ -435,7 +435,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 						var effectMod = effects[effect] > 1 ? "+" : "";
 						effectMod += ((effects[effect] - 1) * 100).toFixed(0) + "%";
 
-						var effectSpan = dojo.create("span", {
+						dojo.create("span", {
 							innerHTML: effectMod,
 							style: {
 								float: "right",
@@ -453,7 +453,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
 				if (game.prestige.getPerk("numeromancy").researched && this.festivalDays) {
 					// Cycle Festival Effects
-					var cycleSpan = dojo.create("div", {
+					dojo.create("div", {
 						innerHTML: $I("cycle.effects.festival.title"),
 						style: { textAlign: "center"}
 					}, tooltip );
@@ -466,7 +466,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 						var effectMeta = game.getEffectMeta(effect);
 						var effectTitle = effectMeta.title + ":";
 
-						var nameSpan = dojo.create("span", {
+						dojo.create("span", {
 							innerHTML: effectTitle,
 							style: {
 								float: "left",
@@ -477,7 +477,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 						var effectMod = effects[effect] > 1 ? "+" : "";
 						effectMod += ((effects[effect] - 1) * 100).toFixed(0) + "%";
 
-						var effectSpan = dojo.create("span", {
+						dojo.create("span", {
 							innerHTML: effectMod,
 							style: {
 								float: "right",
@@ -594,7 +594,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         }
 
         var catpower = this.game.resPool.get("manpower");
-        var showFastHunt = (catpower.value >= 100);
+        var showFastHunt = (catpower.value >= 100) && (!this.game.challenges.isActive("pacifism"));
 
         //blazing fast vanilla toggle
         if (showFastHunt){

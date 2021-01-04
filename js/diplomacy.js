@@ -254,8 +254,9 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	 */
 	isValidTrade: function(sell, race){
 		var resName = sell.name;
-		return !(sell.minLevel && race.embassyLevel < sell.minLevel)
-			&& (this.game.resPool.get(resName).unlocked || resName === "uranium" || race.name === "leviathans");
+		var hasHighEnoughEmbassyLevel = !sell.minLevel || race.embassyLevel >= sell.minLevel;
+		var isResourceTradeable = this.game.resPool.get(resName).unlocked || resName === "uranium" || race.name === "leviathans";
+		return hasHighEnoughEmbassyLevel && isResourceTradeable;
 	},
 
 	unlockRandomRace: function(){
@@ -396,7 +397,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		}
 
 		var boughtResources = {};
-		var tradeRatio = 1 + this.game.diplomacy.getTradeRatio() + this.game.diplomacy.calculateTradeBonusFromPolicies(race.name, this.game);
+		var tradeRatio = 1 + this.game.diplomacy.getTradeRatio() + this.game.diplomacy.calculateTradeBonusFromPolicies(race.name, this.game) + this.game.challenges.getChallenge("pacifism").getTradeBonusEffect(this.game);
 		var raceRatio = 1 + race.energy * 0.02;
 		var currentSeason = this.game.calendar.getCurSeason().name;
 
@@ -549,17 +550,19 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		}
 		return min;
 	},
-
+	getMarkerCap: function(){
+		return Math.floor(
+			(this.game.religion.getZU("marker").getEffectiveValue(this.game) * 5 + 5) *
+			(1 + this.game.getEffect("leviathansEnergyModifier"))
+		);
+	},
 	feedElders: function(){
 		var ncorns = this.game.resPool.get("necrocorn");
 		var elders = this.game.diplomacy.get("leviathans");
 		if (ncorns.value >= 1){
 			elders.energy++;
 
-			var markerCap = Math.floor(
-				(this.game.religion.getZU("marker").getEffectiveValue(this.game) * 5 + 5) *
-				(1 + this.game.getEffect("leviathansEnergyModifier"))
-			);
+			var markerCap = this.game.diplomacy.getMarkerCap();
 			 
 			if (elders.energy > markerCap){
 				elders.energy = markerCap;
@@ -957,15 +960,8 @@ dojo.declare("classes.diplomacy.ui.autoPinnedButtonController", com.nuclearunico
 	},
 
 	getName: function(model){
-		var name = this.inherited(arguments);
-		var res = "";
-		if(model.options.race.autoPinned){
-			res = $I("trade.autopinned.labelOn");
-		}
-		else{
-			res = $I("trade.autopinned.labelOff");
-		}
-		return res;
+		var isAutoPinned = model.options.race.autoPinned;
+		return isAutoPinned ? $I("trade.autopinned.labelOn") : $I("trade.autopinned.labelOff");
 	},
 
 	hasSellLink: function(model){
@@ -984,7 +980,6 @@ dojo.declare("classes.diplomacy.ui.autoPinnedButton", com.nuclearunicorn.game.ui
 
 	constructor: function(opts, game){
 		this.race = opts.race;
-		console.log("race:", this.race);
 	},
 
 
@@ -996,7 +991,6 @@ dojo.declare("classes.diplomacy.ui.autoPinnedButton", com.nuclearunicorn.game.ui
 					return;
 				}
 				this.race.pinned = !this.race.pinned;
-				console.log("toggled pin for race:", this.game.diplomacy.races);
 			}
 		});
 	},
@@ -1121,7 +1115,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			if (!race.unlocked) {
 				continue;
 			}
-			var tradeRatio = baseTradeRatio + this.game.diplomacy.calculateTradeBonusFromPolicies(race.name, this.game);
+			var tradeRatio = baseTradeRatio + this.game.diplomacy.calculateTradeBonusFromPolicies(race.name, this.game) + this.game.challenges.getChallenge("pacifism").getTradeBonusEffect(this.game);
 			var racePanel = this.racePanels[i];
 			if (!racePanel) {
 				racePanel = race.name === "leviathans" ? new classes.diplomacy.ui.EldersPanel(race) : new classes.diplomacy.ui.RacePanel(race);
@@ -1291,10 +1285,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 
 		if (this.leviathansInfo) {
 			var leviathans = this.game.diplomacy.get("leviathans");
-			var markerCap = Math.floor(
-				(this.game.religion.getZU("marker").getEffectiveValue(this.game) * 5 + 5) *
-				(1 + this.game.getEffect("leviathansEnergyModifier"))
-			);
+			var markerCap = this.game.diplomacy.getMarkerCap();
 			var leviathansInfoEnergy = leviathans.energy ? leviathans.energy + " / " + markerCap : "N/A";
 			this.leviathansInfo.innerHTML = $I("trade.leviathans.energy") + leviathansInfoEnergy +
 				"<br />" + $I("trade.leviathans.timeToLeave") + this.game.toDisplayDays(leviathans.duration);
