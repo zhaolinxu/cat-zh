@@ -602,6 +602,7 @@
     "policy.confirmation.title": "你确定吗? 猫史不能重来。\n政策效果是永久的，只有在重置后才能切换政策",
     "policy.panel.label": "政策",
     "policy.autocracy.label": "专制",
+    "policy.autocracy.desc": "最适合有高等级猫猫的社会。领袖的工作能力翻倍。基于未达到建筑上限的猫口建筑种类数量给予转化加成。",
     "policy.bigStickPolicy.label": "巨棒外交",
     "policy.bigStickPolicy.desc": "温言在口，大棒在手，故而致远。大使馆价格降低",
     "policy.cityOnAHill.label": "山巅之城",
