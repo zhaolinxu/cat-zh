@@ -1539,8 +1539,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			// Used only in KG Mobile, hence it's absence in the rest of the code
 			useLegacyTwoInRowLayout: false,
 			forceLZ: false,
-			compressSaveFile: false,
-			fastShatter: false
+			compressSaveFile: false
 		};
 
 		this.console = new com.nuclearunicorn.game.log.Console(this);
@@ -1835,8 +1834,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			// Used only in KG Mobile, hence it's absence in the rest of the code
 			useLegacyTwoInRowLayout: false,
 			forceLZ: false,
-			compressSaveFile: false,
-			fastShatter: false
+			compressSaveFile: false
 		};
 
 		this.resPool.resetState();
@@ -4315,7 +4313,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	upgrade: function(list){
-		// this.updateCaches();
+		this.updateCaches();
 		for (var type in list) {
 			if (list[type].length == 0) {
 				return;
@@ -4330,7 +4328,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				}
 			}
 		}
-		this.updateCaches();
 	},
 
 	toggleFilters: function(){
