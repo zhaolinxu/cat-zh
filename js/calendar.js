@@ -652,11 +652,11 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				mineralsAmt += mineralsAmt * 0.1;	//+10% of minerals for iron will
 			}
 
-			var mineralsGain = this.game.resPool.addResEvent("minerals", numberEvents * mineralsAmt);
+			this.game.resPool.addResEvent("minerals", numberEvents * mineralsAmt);
 
 			if (this.game.workshop.get("celestialMechanics").researched) {
 				var sciBonus = 15 * (1 + this.game.getEffect("scienceRatio"));
-				var sciGain = this.game.resPool.addResEvent("science", numberEvents * sciBonus);
+				this.game.resPool.addResEvent("science", numberEvents * sciBonus);
 			}
 
 			//TODO: make meteors give titanium on higher levels
@@ -769,16 +769,28 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	onNewSeason: function(){
 		this.eventChance = 0;
 
-		if (this.game.rand(100) < 35 && this.year > 3){
-			var warmChance = 50;
-			if (this.game.challenges.getChallenge("winterIsComing").researched  && !this.game.challenges.isActive("winterIsComing")){
-				warmChance += 15;
+		
+		if (this.year > 3){
+			var coldChance = 175;
+			var warmChance = 175;
+
+			var effect = this.game.getLimitedDR(this.game.getEffect("coldChance") * 1000, 825);
+			coldChance += effect;
+			warmChance -= effect;
+			if (warmChance < 0) {
+				warmChance = 0;
+			}
+			if (this.getCurSeason().name == "winter" && this.game.challenges.getChallenge("winterIsComing").researched){
+				coldChance = 0;
 			}
 
-			if (this.game.rand(100) < warmChance){
+			var rand = this.game.rand(1000);
+			if (rand < warmChance){
 				this.weather = "warm";
-			} else {
+			} else if (rand < warmChance + coldChance){
 				this.weather = "cold";
+			} else{
+				this.weather = null;
 			}
 		}else{
 			this.weather = null;
@@ -977,7 +989,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		} else if (this.weather == "cold"){
 			mod += -0.15;
 		}
-
+		if (this.game.challenges.getChallenge("winterIsComing").on && this.weather == "cold") {
+			mod *= 1 + this.game.getLimitedDR(this.game.getEffect("coldHarshness"),1);
+		}
 		if (this.getCurSeason().name == "spring") {
                         mod *= (1 + this.game.getLimitedDR(this.game.getEffect("springCatnipBonus"), 2));
                 }
@@ -992,50 +1006,28 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		return this.seasons[this.season];
 	},
 
-	getCurSeasonTitle: function(){
-		var title = this.getCurSeason().title;
-		if (this.game.challenges.isActive("winterIsComing")){
-			var numeral = "";
-			switch(this.season){
-				case 0:
-					numeral = "I";
-					break;
-				case 1:
-					numeral = "II";
-					break;
-				case 2:
-					numeral = "III";
-					break;
-				case 3:
-					numeral = "IV";
-					break;
-			}
-			title += " " + numeral;
-		}
-		return title;
+	getCurSeasonTitle: function() {
+		var winterIsComingNumeral = this.game.challenges.isActive("winterIsComing") ? this.getWinterIsComingNumeral() : "";
+		return this.getCurSeason().title + winterIsComingNumeral;
 	},
 
-	getCurSeasonTitleShorten: function(){
-		var title = this.getCurSeason().shortTitle;
-		if (this.game.challenges.isActive("winterIsComing")){
-			var numeral = "";
-			switch(this.season){
-				case 0:
-					numeral = "I";
-					break;
-				case 1:
-					numeral = "II";
-					break;
-				case 2:
-					numeral = "III";
-					break;
-				case 3:
-					numeral = "IV";
-					break;
-			}
-			title += " " + numeral;
+	getCurSeasonTitleShorten: function() {
+		var winterIsComingNumeral = this.game.challenges.isActive("winterIsComing") ? this.getWinterIsComingNumeral() : "";
+		return this.getCurSeason().shortTitle + winterIsComingNumeral;
+	},
+
+	getWinterIsComingNumeral: function() {
+		switch (this.season) {
+			case 0:
+				return " I";
+			case 1:
+				return " II";
+			case 2:
+				return " III";
+			case 3:
+				return " IV";
 		}
-		return title;
+		return "";
 	},
 
 

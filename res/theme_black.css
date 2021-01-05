@@ -84,7 +84,7 @@ body.scheme_black {
 	padding: 10px 0 10px 13px; /* 13px left for power background-image (linear-gradient) */
 	border: none; /* also allows you to remove the height difference with the other buttons (they have no border on div.content) */
 }
-.scheme_black .btn.disabled.bldlackResConvert { /* color for lack resources convertion */	
+.scheme_black .btn.disabled.bldlackResConvert { /* color for lack resources convertion */
 	background: no-repeat border-box linear-gradient(90deg, #b00029 0%, #b00029 10px, transparent 12px, transparent 100%);
 }
 .scheme_black .btn.disabled.bldlackResConvert:hover {
@@ -170,7 +170,7 @@ body.scheme_black {
     padding: 3px 1px 3px 5px;
     margin-right: 5px;
 	border: 2px inset #181818;
-    box-shadow: inset -1px -1px 2px #505050, 
+    box-shadow: inset -1px -1px 2px #505050,
                 inset 2px 2px 5px #000000;
 	margin-top: 3px;
 	margin-bottom: 3px;
@@ -206,15 +206,15 @@ body.scheme_black {
 	color: transparent;
 }
 .scheme_black #topBar div,
-.scheme_black #topBar #sorrowTooltip { /* counter of BLS (Black Liquid Sorrow) */
+.scheme_black #topBar .toolbarIcon.sorrow div { /* counter of BLS (Black Liquid Sorrow) */
 	color: #d0d0d0;
 }
-.scheme_black #sorrowTooltip.max {
+.scheme_black .toolbarIcon.sorrow.max div {
     color: #f9002b !important;
 }
-.scheme_black #headerLinks>div:first-child:before {
+.scheme_black #topBar > div:first-child > span:first-child:after {
     color: #6e42ff;
-    content: 'Theme by Volkeyrn\00a0\00a0\00a0';
+    content: '\00a0\00a0\00a0Theme by Volkeyrn\00a0\00a0\00a0';
     text-decoration: none;
 	font-weight: normal;
 }
@@ -230,17 +230,17 @@ body.scheme_black {
 .scheme_black .links-block {
 	padding-top: 5px !important;
 }
-.scheme_black .toolbarIcon.happiness {
+.scheme_black #topBar .toolbarIcon.happiness div {
     color: #ff6e42;
 }
-.scheme_black .toolbarIcon.energy,
+.scheme_black #topBar .toolbarIcon.energy div,
 .scheme_black .button_tooltip .energyProduction {
     color: #00b029;
 }
-.scheme_black .toolbarIcon.energy.warningWinter {
+.scheme_black #topBar .toolbarIcon.energy.warningWinter div {
     color: #ff6e42;
 }
-.scheme_black .toolbarIcon.energy.warning,
+.scheme_black #topBar .toolbarIcon.energy.warning div,
 .scheme_black .button_tooltip .energyConsumption {
 	color: #b00029;
 }
@@ -261,14 +261,14 @@ body.scheme_black {
 /* ******************* TOOLTIP ******************* */
 /* *********************************************** */
 .scheme_black #tooltip,
-.scheme_black .tooltip-block div {
+.scheme_black .tooltip-block > div {
 	background-color: #000000;
 	color: #808080; /* tooltip windows == left column : left text */
 	border: 1px solid #404040;
 	border-radius: 3px;
 	box-shadow: 0 0 5px 1px #000000;
 }
-.scheme_black .tooltip-block div { /* tooltip on ? top right column */
+.scheme_black .tooltip-block > div { /* tooltip on ? top right column */
 	padding: 5px;
 }
 .scheme_black .button_tooltip {
@@ -316,7 +316,7 @@ body.scheme_black {
 /* ***************************************************** */
 /* ******************* CENTER COLUMN ******************* */
 /* ***************************************************** */
-.scheme_black .tab { 
+.scheme_black .tab {
     font-size: 13px;
 }
 .scheme_black .tabInner {
@@ -342,6 +342,27 @@ body.scheme_black {
 .scheme_black .tab.traitLeaderBonus::before {
 	content: "\2605"; /* BLACK STAR */
 	color: #4275FF;
+}
+.scheme_black .tab.engineer::before { /* artisan bonus */
+	content: "\2692\00a0"; /* HAMMER AND PICK */
+}
+.scheme_black .tab.metallurgist::before {
+	content: "\267B\00a0"; /* BLACK UNIVERSAL RECYCLING SYMBOL */
+}
+.scheme_black .tab.chemist::before {
+	content: "\2623\00a0"; /* BIOHAZARD SIGN */
+}
+.scheme_black .tab.merchant::before {
+	content: "\2696\00a0"; /* SCALES */
+}
+.scheme_black .tab.manager::before { /* hunting bonus */
+	content: "\27B4\00a0"; /* BLACK-FEATHERED SOUTH EAST ARROW */
+}
+.scheme_black .tab.scientist::before {
+	content: "\269B\00a0"; /* ATOM SYMBOL */
+}
+.scheme_black .tab.wise::before {
+	content: "\2600\00a0"; /* BLACK SUN WITH RAYS */
 }
 .scheme_black .tabsContainer a.activeTab {
 	color: #f0f0f0;
@@ -391,7 +412,7 @@ body.scheme_black {
 	cursor: pointer !important;
 }
 /* button observer different from other input buttons  */
-.scheme_black input[type='button']#observeBtn {	
+.scheme_black input[type='button']#observeBtn {
 	font-size: 15px;
 	border-radius: 5px !important; /* !important in default.css */
 	text-shadow: 2px 2px 2px #000000;
@@ -400,7 +421,7 @@ body.scheme_black {
 	border: solid 2px #6e42ff !important; /* !important in default.css */
 	box-shadow: 3px 3px 5px #000000,
 				0 1px #6e42ff,
-				0 0 5px 1px #6e42ff !important; /* !important in default.css */	
+				0 0 5px 1px #6e42ff !important; /* !important in default.css */
 }
 .scheme_black .btn.modern a {
 	font-weight: normal;
@@ -555,7 +576,7 @@ body.scheme_black {
 	border-color: #606060;
 }
 .scheme_black .census-block.simLeader {
-    background: rgba(0, 0, 0, 0.2); 
+    background: rgba(0, 0, 0, 0.2);
 	border: solid 1px #1e0080;
 }
 .scheme_black .census-block.simLeader:hover {
@@ -674,9 +695,9 @@ body.scheme_black {
 	font-size: 15px;
 	height: 34px;
 	background-color: transparent;
-	color: #a0a0a0;	
+	color: #a0a0a0;
 	letter-spacing: 1px;
-	border: 2px solid rgba(110, 66, 255, 0.3); /* color #6e42ff */	
+	border: 2px solid rgba(110, 66, 255, 0.3); /* color #6e42ff */
 	border-radius: 3px;
 }
 .scheme_black .achievement:hover {

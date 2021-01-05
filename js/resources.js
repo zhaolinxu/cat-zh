@@ -678,6 +678,9 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			var maxValue = game.getEffect(res.name + "Max") || 0;
 
 			maxValue = this.addResMaxRatios(res, maxValue);
+			
+			var challengeEffect = this.game.getLimitedDR(this.game.getEffect(res.name + "MaxChallenge"), maxValue);
+			maxValue += challengeEffect;
 
 			if (maxValue < 0 ){
 				maxValue = 0;
@@ -714,7 +717,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		var limits = {};
 		for (var i in this.resources) {
 			var res = this.resources[i];
-			if (res.perTickCached && !(res.name == "catnip" && res.perTickCached < 0)) {
+			if (res.perTickCached && (res.name != "catnip" || res.perTickCached >= 0)) {
 				if (res.maxValue) {
 					limits[res.name] = Math.max(res.value, res.maxValue);
 				}

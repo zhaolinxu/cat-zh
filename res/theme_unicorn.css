@@ -103,7 +103,7 @@ body.scheme_unicorn.with_background_image {
 	padding: 10px 0 10px 13px; /* 13px left for power background-image (linear-gradient) */
 	border: none; /* also allows you to remove the height difference with the other buttons (they have no border on div.content) */
 }
-.scheme_unicorn .btn.disabled.bldlackResConvert { /* color #e43011 */ /* color for lack resources convertion */	
+.scheme_unicorn .btn.disabled.bldlackResConvert { /* color #e43011 */ /* color for lack resources convertion */
 	background: no-repeat border-box linear-gradient(90deg, #e43011 0%, #e43011 11px, #223244 12px, #223244 100%);
 }
 .scheme_unicorn .btn.disabled.bldlackResConvert:hover {
@@ -200,7 +200,7 @@ body.scheme_unicorn.with_background_image {
     margin-right: 5px;
 	border: 2px inset #8491a0;
 	border-radius: 3px;
-    box-shadow: inset -1px -1px 2px #505050, 
+    box-shadow: inset -1px -1px 2px #505050,
                 inset 2px 2px 5px #111922;
 	margin-top: 3px;
 	margin-bottom: 3px;
@@ -240,15 +240,15 @@ body.scheme_unicorn.with_background_image {
 	color: transparent;
 }
 .scheme_unicorn #topBar div,
-.scheme_unicorn #topBar #sorrowTooltip { /* counter of BLS (Black Liquid Sorrow) */
+.scheme_unicorn #topBar .toolbarIcon.sorrow div { /* counter of BLS (Black Liquid Sorrow) */
 	color: #7d8497;
 }
-.scheme_unicorn #sorrowTooltip.max {
+.scheme_unicorn .toolbarIcon.sorrow.max div {
     color: #e43011 !important;
 }
-.scheme_unicorn #headerLinks>div:first-child:before {
+.scheme_unicorn #topBar > div:first-child > span:first-child:after {
     color: #eae2d4;
-    content: 'Theme by Volkeyrn\00a0\00a0\00a0\00a0';
+    content: '\00a0\00a0\00a0Theme by Volkeyrn\00a0\00a0\00a0';
 	text-shadow: none;
     text-decoration: none;
 	font-weight: normal;
@@ -265,17 +265,17 @@ body.scheme_unicorn.with_background_image {
 .scheme_unicorn .links-block {
 	padding-top: 5px !important;
 }
-.scheme_unicorn .toolbarIcon.happiness {
+.scheme_unicorn #topBar .toolbarIcon.happiness div {
     color: #7292b9;
 }
-.scheme_unicorn .toolbarIcon.energy,
+.scheme_unicorn #topBar .toolbarIcon.energy div,
 .scheme_unicorn .button_tooltip .energyProduction {
     color: #7AA738;
 }
-.scheme_unicorn .toolbarIcon.energy.warningWinter {
+.scheme_unicorn #topBar .toolbarIcon.energy.warningWinter div {
     color: #b97900;
 }
-.scheme_unicorn .toolbarIcon.energy.warning,
+.scheme_unicorn #topBar .toolbarIcon.energy.warning div,
 .scheme_unicorn .button_tooltip .energyConsumption {
 	color: #e43011;
 }
@@ -296,7 +296,7 @@ body.scheme_unicorn.with_background_image {
 /* ******************* TOOLTIP ******************* */
 /* *********************************************** */
 .scheme_unicorn #tooltip,
-.scheme_unicorn .tooltip-block div {
+.scheme_unicorn .tooltip-block > div {
 	background-color: #223144;
 	color: #798797; /* tooltip windows == left column : left text */
 	border-style: groove;
@@ -306,7 +306,7 @@ body.scheme_unicorn.with_background_image {
 	box-shadow: 4px 4px 9px #111922;
 	margin-left: 5px; /* for offset tooltip due to larger buttons .btn.modern */
 }
-.scheme_unicorn .tooltip-block div { /* tooltip on ? top right column */
+.scheme_unicorn .tooltip-block > div { /* tooltip on ? top right column */
 	padding: 5px;
 }
 .scheme_unicorn .button_tooltip {
@@ -384,7 +384,7 @@ body.scheme_unicorn.with_background_image {
 	font-size: 14px;
 	color: #547aa9;
 	padding: 3px 4px 0 4px;
-	border: 1px solid transparent; /* for no offset when border on */	
+	border: 1px solid transparent; /* for no offset when border on */
 }
 .scheme_unicorn .tabsContainer span:not(.genericWarning) { /* separator | for tab */
 	color: transparent;
@@ -414,6 +414,27 @@ body.scheme_unicorn.with_background_image {
 .scheme_unicorn .tab.traitLeaderBonus::before {
 	content: "\2605"; /* BLACK STAR */
 	color: #4f8fdd;
+}
+.scheme_unicorn .tab.engineer::before { /* artisan bonus */
+	content: "\2692\00a0"; /* HAMMER AND PICK */
+}
+.scheme_unicorn .tab.metallurgist::before {
+	content: "\267B\00a0"; /* BLACK UNIVERSAL RECYCLING SYMBOL */
+}
+.scheme_unicorn .tab.chemist::before {
+	content: "\2623\00a0"; /* BIOHAZARD SIGN */
+}
+.scheme_unicorn .tab.merchant::before {
+	content: "\2696\00a0"; /* SCALES */
+}
+.scheme_unicorn .tab.manager::before { /* hunting bonus */
+	content: "\27B4\00a0"; /* BLACK-FEATHERED SOUTH EAST ARROW */
+}
+.scheme_unicorn .tab.scientist::before {
+	content: "\269B\00a0"; /* ATOM SYMBOL */
+}
+.scheme_unicorn .tab.wise::before {
+	content: "\2600\00a0"; /* BLACK SUN WITH RAYS */
 }
 .scheme_unicorn span.genericWarning { /* number of kittens free or engineering free on tab */
 	color: #e43011;
@@ -454,7 +475,7 @@ body.scheme_unicorn.with_background_image {
                  0 1px 0 #eae3d5 !important; /* !important in default.css */
 }
 /* button observer different from other input buttons */
-.scheme_unicorn input[type='button']#observeBtn {	
+.scheme_unicorn input[type='button']#observeBtn {
 	font-size: 15px;
 	border-radius: 7px !important; /* !important in default.css */
 	text-shadow: 1px 1px 3px #111922;
@@ -463,7 +484,7 @@ body.scheme_unicorn.with_background_image {
 	border: ridge 2px #f8f6f1 !important; /* !important in default.css */
 	box-shadow: 3px 3px 5px #111922,
 				0 1px #7292B9,
-				0 0 4px 1px rgba(114, 146, 185, 1) !important; /* !important in default.css */	
+				0 0 4px 1px rgba(114, 146, 185, 1) !important; /* !important in default.css */
 	position: absolute;
 	left: 60px;
 }
@@ -472,7 +493,7 @@ body.scheme_unicorn.with_background_image {
 	text-shadow: 1px 1px 1px #111922;
 	background-color: rgba(114, 146, 185, 0.8) !important; /* !important in default.css */
 	color: #f0e8db;
-	border: groove 2px #f0e8db !important; /* !important in default.css */	
+	border: groove 2px #f0e8db !important; /* !important in default.css */
 	box-shadow: inset 1px 1px 2px #111922, 0 0 2px 2px rgba(114, 146, 185, 0.8) !important; /* !important in default.css */
 }
 .scheme_unicorn .btn .btnContent a {
@@ -541,7 +562,7 @@ body.scheme_unicorn.with_background_image {
 /* Apply the right border radius of the button to the rightmost link */
 .scheme_unicorn .btn.modern span.btnTitle + a,
 .scheme_unicorn .btn.modern:not(.hasSellLink) a.off1Link, /* link minus on buildings buttons */
-.scheme_unicorn .btn.modern:not(.hasSellLink) a.unassignLink { /* link minus on kittens jobs buttons */	
+.scheme_unicorn .btn.modern:not(.hasSellLink) a.unassignLink { /* link minus on kittens jobs buttons */
 	border-radius: 0 5px 5px 0; /* buttons border-radius: 5px; */
 }
 .scheme_unicorn .btn.modern .btnContent a.rightestLink { /* for Combust TC button in Time tab and Hold Festival in Settlement tab */
@@ -767,7 +788,7 @@ body.scheme_unicorn.with_background_image {
 	margin: 10px; /* default margin-bottom: 10px; */
 	height: 34px;
 	background-color: rgba(114, 146, 185, 0.7);
-	color: #f0eae0;	
+	color: #f0eae0;
 	letter-spacing: 1px;
 	border : 3px ridge #e8dbc7;
 	border-radius: 5px;

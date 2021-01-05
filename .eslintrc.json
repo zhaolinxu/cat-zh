@@ -1,4 +1,5 @@
 {
+    "root": true,
     "env": {
         "browser": true
     },
@@ -16,10 +17,6 @@
     ],
     "ignorePatterns": ["lib/**/*", "node_modules/**/*"],
     "rules": {
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
         "quotes": [
             "warn",
             "double"
@@ -53,7 +50,7 @@
         "ButtonModernHelper": "writable",
 
         "config": "readonly",
-        
+
         "com": "readonly",
         "classes": "readonly",
         "mixin": "readonly"

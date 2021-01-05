@@ -24,16 +24,25 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 
 		this.availableLocaleLabels = {
 			"en" : "English",
-			"ru": "Русский",
-			"zh": "中文",
-			"ja": "日本語",
+
 			"br": "Português",
+			"cz": "Čeština",
+			"de": "Deutsch",
 			"es": "Español",
 			"fr": "Français",
 			"fro": "Ancien Français",
-			"cz": "Čeština",
+			"it": "Italiano",
+			"ja": "日本語",
+			"ko": "한국어",
+			"nl": "NL",
+			"no": "NO",
 			"pl": "Polski",
-			"de": "Deutsch"
+			"ro": "RO",
+			"ru": "Русский",
+			"tr": "TR",
+			"uk": "Українська",
+			"zh": "中文",
+			"zht": "漢語"
 		};
 	},
 
@@ -88,37 +97,35 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 		this._deferred = $.Deferred();
 		// now we can try to load it
 
-		var getLocaleDef = $.getJSON( "res/i18n/" + this.fallbackLocale + ".json?_=" + timestamp);
-		var fallbackLocale = this.fallbackLocale;		
-		if (this.language != fallbackLocale ) {
-			getLocaleDef = $.getJSON( "res/i18n/" + lang + ".json?_=" + timestamp).
-				then(function(legacyLocale){
+		// fallback
+		$.getJSON( "res/i18n/" + this.fallbackLocale + ".json?_=" + timestamp).done(function(fallbackLocale){
+			self.messages = fallbackLocale;
+			if (self.language != self.fallbackLocale ) {
+				// legacy
+				$.getJSON( "res/i18n/" + lang + ".json?_=" + timestamp).
+					then(function(legacyLocale){
 
-					console.log("loaded legacy locale for lang", lang, legacyLocale);
+						console.log("loaded legacy locale for lang", lang, legacyLocale);
 
-					return $.getJSON( "res/i18n/crowdin/" + lang + ".json?_=" + timestamp).then(function(crowdinLocale){
-						console.log("loaded crowdin locale for lang", lang, crowdinLocale);
+						$.extend(self.messages, legacyLocale);
 
-						var messages = legacyLocale;
-						console.log("Overriding locale with community translation...");
-						var crowdinKeys = Object.keys(crowdinLocale);
-						for(var i in crowdinKeys){
-							if(crowdinLocale[crowdinKeys[i]]){
-								messages[crowdinKeys[i]] = crowdinLocale[crowdinKeys[i]];
-							}
-						}
-						return messages;
+						// crowdin
+						$.getJSON( "res/i18n/crowdin/" + lang + ".json?_=" + timestamp).then(function(crowdinLocale){
+							console.log("loaded crowdin locale for lang", lang, crowdinLocale);
 
-					}).fail(function(){
-						console.log("legacyLocale:", legacyLocale);
-						self.messages = legacyLocale;
-						self._deferred.resolve();
+							$.extend(self.messages, crowdinLocale);
+
+							self._deferred.resolve();
+
+						}).fail(function(){
+							console.log("legacyLocale:", legacyLocale);
+							self.messages = legacyLocale;
+							self._deferred.resolve();
+						});
 					});
-				});
-		}
-		getLocaleDef.done(function(messages){
-			self.messages = messages;
-			self._deferred.resolve();
+			} else {
+				self._deferred.resolve();
+			}
 		}).fail(function(error){
 			console.error("Unable to load locale chain for  '" + lang + "', error:", error);
 		});

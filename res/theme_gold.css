@@ -46,13 +46,13 @@ body.scheme_gold {
 	color: #C83B00;
 }
 .scheme_gold .btn.modern:not(.disabled) {
-    border: solid 1px #696451;	
+    border: solid 1px #696451;
     background-color: rgba(87, 78, 64, 0.1); /* color #574E40 */
     cursor: pointer;
 }
 .scheme_gold .btn.modern:not(.disabled):hover
 {
-    background-color: rgba(223, 206, 153, 0.3); /* color #DFCE99 */	
+    background-color: rgba(223, 206, 153, 0.3); /* color #DFCE99 */
     border: solid 1px #DFCE99;
     cursor: pointer;
     text-shadow: 0 1px 1px #000000;
@@ -113,7 +113,7 @@ body.scheme_gold {
 .scheme_gold .btn.disabled.bldEnabled {
 	background: no-repeat padding-box linear-gradient(90deg, #7CB342 0%, #7cb342 10px, rgba(32, 32, 32, 0.4) 12px, rgba(32, 32, 32, 0.4) 100%);
 }
-.scheme_gold .btn:not(.disabled).bldEnabled {	
+.scheme_gold .btn:not(.disabled).bldEnabled {
 	background: no-repeat border-box linear-gradient(90deg, #7cb342 0%, #7cb342 10px, rgba(87, 78, 64, 0.1) 12px, rgba(87, 78, 64, 0.1) 100%);
 }
 .scheme_gold .btn:not(.disabled).bldEnabled:hover {
@@ -190,7 +190,7 @@ body.scheme_gold {
     padding: 3px 1px 3px 5px;
     margin-right: 5px;
 	border: 2px inset #181818;
-    box-shadow: inset -1px -1px 2px #505050, 
+    box-shadow: inset -1px -1px 2px #505050,
                 inset 2px 2px 5px #000000;
 	margin-top: 3px;
 	margin-bottom: 3px;
@@ -213,7 +213,7 @@ body.scheme_gold {
 .scheme_gold input:active,
 .scheme_gold select:active,
 .scheme_gold textarea:active,
-.scheme_gold input#batchSize:active { 
+.scheme_gold input#batchSize:active {
     border-color: #f0e8cf !important;
 }
 
@@ -238,22 +238,22 @@ body.scheme_gold {
 .scheme_gold #topBar a.copyright:hover {
 	color: #DFCE99;
 }
-.scheme_gold #topBar div {	
+.scheme_gold #headerLinks .links-block { /* a link separator : | on header links */
+	color: #404040;
+}
+.scheme_gold #topBar div {
 	color: #E7AF4F;
 }
-.scheme_gold #headerLinks .links-block { /* a link separator : | on header links */
-	color: #404040 !important;
-}
-.scheme_gold #topBar #headerLinks div, /* MOTD on top bar */
-.scheme_gold #topBar #sorrowTooltip { /* counter of BLS (Black Liquid Sorrow) */
+.scheme_gold #topBar .toolbarIcon.null div, /* MOTD */
+.scheme_gold #topBar .toolbarIcon.sorrow div { /* counter of BLS (Black Liquid Sorrow) */
 	color: #d9d9d9;
 }
-.scheme_gold #sorrowTooltip.max {
+.scheme_gold .toolbarIcon.sorrow.max div {
     color: #C83B00 !important; /* in default.js !important needed */
 }
-.scheme_gold #headerLinks>div:first-child:before {
+.scheme_gold #topBar > div:first-child > span:first-child:after {
     color: #DFCE99;
-    content: 'Theme by Volkeyrn\00a0\00a0\00a0';
+    content: '\00a0\00a0\00a0Theme by Volkeyrn\00a0\00a0\00a0';
     text-decoration: none;
 	font-weight: normal;
 }
@@ -266,17 +266,17 @@ body.scheme_gold {
 .scheme_gold #getTheApp-link:hover {
     color: #DFCE99 !important;
 }
-.scheme_gold .toolbarIcon.happiness {
+.scheme_gold #topBar .toolbarIcon.happiness div {
     color: #E7AF4F;
 }
-.scheme_gold .toolbarIcon.energy,
+.scheme_gold #topBar .toolbarIcon.energy div,
 .scheme_gold .button_tooltip .energyProduction {
     color: #7cb342;
 }
-.scheme_gold .toolbarIcon.energy.warningWinter {
+.scheme_gold #topBar .toolbarIcon.energy.warningWinter div {
     color: #E7AF4F;
 }
-.scheme_gold .toolbarIcon.energy.warning,
+.scheme_gold #topBar .toolbarIcon.energy.warning div,
 .scheme_gold .button_tooltip .energyConsumption,
 .scheme_gold .button_tooltip .energyPenalty {
 	color: #C83B00;
@@ -296,7 +296,7 @@ body.scheme_gold {
 /******************** TOOLTIP ********************/
 /*************************************************/
 .scheme_gold #tooltip,
-.scheme_gold .tooltip-block div {
+.scheme_gold .tooltip-block > div {
     background-color: #383838;
     color: #9F9E94; /* tooltip windows == left column : left text */
     border-color:  rgba(223, 206, 153, 0.8); /* color #DFCE99 */
@@ -305,7 +305,7 @@ body.scheme_gold {
                  0 1px 2px rgba(200, 200, 200, 0.1);
     text-shadow: 0 1px 1px #181818;
 }
-.scheme_gold .tooltip-block div { /* tooltip on ? top right column */
+.scheme_gold .tooltip-block > div { /* tooltip on ? top right column */
 	padding: 5px;
 }
 .scheme_gold .button_tooltip {
@@ -402,6 +402,27 @@ body.scheme_gold {
 	content: "\2605"; /* BLACK STAR */
 	color: #99AADF;
 }
+.scheme_gold .tab.engineer::before { /* artisan bonus */
+	content: "\2692\00a0"; /* HAMMER AND PICK */
+}
+.scheme_gold .tab.metallurgist::before {
+	content: "\267B\00a0"; /* BLACK UNIVERSAL RECYCLING SYMBOL */
+}
+.scheme_gold .tab.chemist::before {
+	content: "\2623\00a0"; /* BIOHAZARD SIGN */
+}
+.scheme_gold .tab.merchant::before {
+	content: "\2696\00a0"; /* SCALES */
+}
+.scheme_gold .tab.manager::before { /* hunting bonus */
+	content: "\27B4\00a0"; /* BLACK-FEATHERED SOUTH EAST ARROW */
+}
+.scheme_gold .tab.scientist::before {
+	content: "\269B\00a0"; /* ATOM SYMBOL */
+}
+.scheme_gold .tab.wise::before {
+	content: "\2600\00a0"; /* BLACK SUN WITH RAYS */
+}
 .scheme_gold .bldGroupContainer { /* container for all buttons on center column */
     padding-top: 7px; /* default 15px */
     border-top: 1px solid #404040;
@@ -452,7 +473,7 @@ body.scheme_gold {
     border-color: #645F4F; /* color pick from button not disabled and hover */
 }
 .scheme_gold .btn.modern.disabled a {
-    color: #725e55;	
+    color: #725e55;
 	border-left: 1px solid rgba(160, 160, 160, 0.2); /* color #A0A0A0 */
 }
 .scheme_gold .btn.modern a:hover {
@@ -668,7 +689,7 @@ body.scheme_gold {
 .scheme_gold td.craftStuffPanel > span { /* title of craft stuff panel */
 	color: #E7AF4F;
     text-shadow: 1px 1px 2px #000000;
-	font-size: 15px;	
+	font-size: 15px;
 }
 .scheme_gold td.craftStuffPanel > table { /* craft stuff panel */
     margin-top: 2px;
@@ -820,7 +841,7 @@ body.scheme_gold {
                  0 1px 2px rgba(200, 200, 200, 0.1);
     padding: 0 8px 5px 8px;
     min-height: 5% !important;
-	height: unset !important; 
+	height: unset !important;
 	max-height: calc(100% - 100px) !important;
 	scrollbar-width: thin; /* only Firefox */
 }
@@ -828,6 +849,9 @@ body.scheme_gold {
     margin-left: 1.2em;
 	list-style-type: '\276F'; /* HEAVY RIGHT-POINTING ANGLE QUOTATION MARK ORNAMENT */
     padding-left: 0.3em;
+}
+.scheme_gold #gameLog span.msg:not(.type_date)::marker {
+	font-size: 10px;
 }
 .scheme_gold #gameLog span.noBullet {
 	margin-left: 2em !important;
@@ -969,7 +993,7 @@ body.scheme_gold {
     text-shadow: 1px 1px 1px #E7AF4F, 1px 1px 4px #DFCE99, -1px -1px 4px #DFCE99;
 }
 .scheme_gold #fastHuntContainer > a:hover {
-	color: #E7AF4F;	
+	color: #E7AF4F;
 	text-shadow: 1px 1px #404040;
 }
 .scheme_gold .res-cell.positive-weather { /* to change the color for bonus cell according to the season */
@@ -977,7 +1001,7 @@ body.scheme_gold {
 	color: #7CB342;
 }
 .scheme_gold .res-cell.negative-weather { /* to change the color for penalty cell according to the season */
-	font-size: 85%;	
+	font-size: 85%;
 	color: #C83B00;
 }
 .scheme_gold .resource_faith .resource-name,

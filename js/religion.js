@@ -415,7 +415,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		flavor: $I("religion.zu.blackPyramid.flavor"),
 		getEffectiveValue: function(game) {
-			return this.val + (game.challenges.getChallenge("blackSky").researched ? 1 : 0);
+			return this.val + (game.challenges.getChallenge("blackSky").researched && !game.challenges.isActive("blackSky") ? 1 : 0);
 		}
 	}],
 
@@ -678,7 +678,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			"compendiaTTBoostRatio" : 0.02
 		},
 		unlocked: false,
-		flavor: $I("religion.tu.blackLibary.flavor")
+		flavor: $I("religion.tu.blackLibrary.flavor")
 	},{
 		name: "blackRadiance",
 		label: $I("religion.tu.blackRadiance.label"),
@@ -759,7 +759,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 	getSolarRevolutionRatio: function() {
 		var uncappedBonus = this.getRU("solarRevolution").on ? this.game.getUnlimitedDR(this.faith, 1000) / 100 : 0;
-		return this.game.getLimitedDR(uncappedBonus, 10 + this.game.getEffect("solarRevolutionLimit") + (this.game.challenges.getChallenge("atheism").researched ? 1 : 0)) * (1 + this.game.getLimitedDR(this.game.getEffect("faithSolarRevolutionBoost"), 4));
+		return this.game.getLimitedDR(uncappedBonus, 10 + this.game.getEffect("solarRevolutionLimit") + (this.game.challenges.getChallenge("atheism").researched ? (this.game.religion.transcendenceTier) : 0)) * (1 + this.game.getLimitedDR(this.game.getEffect("faithSolarRevolutionBoost"), 4));
 	},
 
 	getApocryphaBonus: function(){

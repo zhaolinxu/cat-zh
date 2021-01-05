@@ -417,14 +417,10 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         priceRatio: 1.25,
         effects: {
 			"temporalParadoxDay": 0,
-			"energyConsumption": 0
+			"energyConsumption": 15
         },
 		calculateEffects: function(self, game){
-			var effects = {
-				"temporalParadoxDay": 1 + game.getEffect("temporalParadoxDayBonus")
-			};
-			effects["energyConsumption"] = 15;
-			self.effects = effects;
+			self.effects["temporalParadoxDay"] = 1 + game.getEffect("temporalParadoxDayBonus");
 		},
 		unlockScheme: {
 			name: "vintage",
@@ -1355,7 +1351,7 @@ dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAwar
         this.timeSpan.innerHTML = $I("time.flux") + ": " + this.game.getDisplayValueExt(temporalFlux.value) + " / " + temporalFlux.maxValue;
 
         var remainingTemporalFluxInSeconds = temporalFlux.value / this.game.ticksPerSecond;
-        this.timeSpan.innerHTML += " (" + (remainingTemporalFluxInSeconds < 1 ? "0s" : this.game.toDisplaySeconds(remainingTemporalFluxInSeconds)) + " / " + this.game.toDisplaySeconds(temporalFlux.maxValue / this.game.ticksPerSecond) + ")";
+        this.timeSpan.innerHTML += " (" + (remainingTemporalFluxInSeconds < 1 ? "0" + $I("unit.s") : this.game.toDisplaySeconds(remainingTemporalFluxInSeconds)) + " / " + this.game.toDisplaySeconds(temporalFlux.maxValue / this.game.ticksPerSecond) + ")";
 
         if (this.game.workshop.get("chronoforge").researched) {
             this.timeSpan.innerHTML += "<br>" + $I("time.heat") + ": ";
@@ -1370,7 +1366,7 @@ dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAwar
 
             var heatPerSecond = this.game.getEffect("heatPerTick") * this.game.ticksPerSecond;
             var remainingHeatDissipationInSeconds = this.game.time.heat / heatPerSecond;
-            this.timeSpan.innerHTML += " (" + (remainingHeatDissipationInSeconds < 1 ? "0s" : this.game.toDisplaySeconds(remainingHeatDissipationInSeconds)) + " / " + this.game.toDisplaySeconds(heatMax / heatPerSecond) + ")";
+            this.timeSpan.innerHTML += " (" + (remainingHeatDissipationInSeconds < 1 ? "0" + $I("unit.s") : this.game.toDisplaySeconds(remainingHeatDissipationInSeconds)) + " / " + this.game.toDisplaySeconds(heatMax / heatPerSecond) + ")";
         }
 
         this.inherited(arguments);
@@ -1396,7 +1392,10 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
     _newLink: function(model, shatteredQuantity) {
         var self = this;
         return {
-            visible: this.game.opts.showNonApplicableButtons || this.getPricesMultiple(model, shatteredQuantity) <= this.game.resPool.get("timeCrystal").value,
+            visible: this.game.opts.showNonApplicableButtons || 
+                (this.getPricesMultiple(model, shatteredQuantity).timeCrystal <= this.game.resPool.get("timeCrystal").value &&
+                (this.getPricesMultiple(model, shatteredQuantity).void <= this.game.resPool.get("void").value)
+            ),
             title: "x" + shatteredQuantity,
             handler: function(event) {
                 self.doShatterAmt(model, shatteredQuantity);
@@ -1415,9 +1414,16 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
     getPrices: function(model) {
 		var prices_cloned = $.extend(true, [], model.options.prices);
 
-		for (var i = 0; i < prices_cloned.length; i++) {
+        if(this.game.getEffect("shatterVoidCost")){
+            var shatterVoidCost = this.game.getEffect("shatterVoidCost");
+            prices_cloned.push({
+                name: "void",
+                val: shatterVoidCost
+            });
+        }
+
+		for (var i in prices_cloned) {
 			var price = prices_cloned[i];
-            var impedance = this.game.getEffect("timeImpedance");
 			if (price["name"] == "timeCrystal") {
                 var darkYears = this.game.calendar.darkFutureYears(true);
                 if (darkYears > 0) {
@@ -1428,24 +1434,39 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
                     price["val"] *= (1 + (this.game.time.heat - heatMax) * 0.01);  //1% per excessive heat unit
                 }
 
-                price["val"] *= (1 + this.game.getLimitedDR(this.game.getEffect("shatterCostReduction"),1) + this.game.getEffect("shatterCostIncrease"));
-			}
-		}
-
+                price["val"] *= (1 + this.game.getLimitedDR(this.game.getEffect("shatterCostReduction"),1) + this.game.getEffect("shatterCostIncreaseChallenge"));
+            }
+            else if(price["name"] == "void"){
+                var heatMax = this.game.getEffect("heatMax");
+                if (this.game.time.heat > heatMax) {
+                    price["val"] *= (1 + (this.game.time.heat - heatMax) * 0.01);  //1% per excessive heat unit
+                }
+            }
+        }
 		return prices_cloned;
 	},
 
 	getPricesMultiple: function(model, amt) {
-		var pricesTotal = 0;
+		var pricesTotal = {
+            void: 0,
+            timeCrystal: 0
+        };
 
 		var prices_cloned = $.extend(true, [], model.options.prices);
-        var impedance = this.game.getEffect("timeImpedance");
         var heatMax = this.game.getEffect("heatMax");
 
         var heatFactor = this.game.challenges.getChallenge("1000Years").researched ? 5 : 10;
 
+        if(this.game.getEffect("shatterVoidCost")){
+            var shatterVoidCost = this.game.getEffect("shatterVoidCost");
+            prices_cloned.push({
+                name: "void",
+                val: shatterVoidCost
+            });
+        }
+        
 		for (var k = 0; k < amt; k++) {
-			for (var i = 0; i < prices_cloned.length; i++) {
+			for (var i in prices_cloned) {
 				var price = prices_cloned[i];
 				if (price["name"] == "timeCrystal") {
 					var priceLoop = price["val"];
@@ -1457,19 +1478,30 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
 	                    priceLoop *= (1 + (this.game.time.heat + k * heatFactor - heatMax) * 0.01);  //1% per excessive heat unit
 	                }
 
-                        priceLoop *= (1 + this.game.getLimitedDR(this.game.getEffect("shatterCostReduction"),1));
-					pricesTotal += priceLoop;
-				}
+                    priceLoop *= (1 + this.game.getLimitedDR(this.game.getEffect("shatterCostReduction"),1) + 
+                        this.game.getEffect("shatterCostIncrease"));
+
+                    pricesTotal.timeCrystal += priceLoop;
+                    
+				}else if (price["name"] == "void"){
+                    var priceLoop = price["val"];
+	                if ((this.game.time.heat + k * heatFactor) > heatMax) {
+	                    priceLoop *= (1 + (this.game.time.heat + k * heatFactor - heatMax) * 0.01);  //1% per excessive heat unit
+                    }
+                    pricesTotal.void += priceLoop;
+                }
 			}
 		}
-
+        pricesTotal.void = Math.round(pricesTotal.void * 1000) / 1000;
 		return pricesTotal;
 	},
 
     buyItem: function(model, event, callback){
         if (model.enabled && this.hasResources(model)) {
             var price = this.getPrices(model);
-            this.game.resPool.addResEvent("timeCrystal", -price[0].val);
+            for (var i in price){
+                this.game.resPool.addResEvent(price[i].name, -price[i].val);
+            }
             callback(this.doShatter(model, 1));
         }
         callback(false);
@@ -1481,8 +1513,16 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
             return;
         }
         var price = this.getPricesMultiple(model, amt);
-        if (price <= this.game.resPool.get("timeCrystal").value) {
-            this.game.resPool.addResEvent("timeCrystal", -price);
+        if(price.void){
+            if (price.timeCrystal <= this.game.resPool.get("timeCrystal").value &&
+            price.void || -1 <= this.game.resPool.get("void").value) {
+                this.game.resPool.addResEvent("timeCrystal", -price.timeCrystal);
+                this.game.resPool.addResEvent("void", -price.void);
+                this.doShatter(model, amt);
+            }
+        }
+        else if (price.timeCrystal <= this.game.resPool.get("timeCrystal").value) {
+            this.game.resPool.addResEvent("timeCrystal", -price.timeCrystal);
             this.doShatter(model, amt);
         }
     },
@@ -1515,11 +1555,12 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
         dojo.style(this.previousCycle.link, "display", this.model.previousCycleLink.visible ? "" : "none");
         dojo.style(this.tenEras.link, "display", this.model.tenErasLink.visible ? "" : "none");
 
-        dojo.query(".btnContent a.rightestLink").removeClass("rightestLink");
         if  (this.model.tenErasLink.visible) {
             dojo.addClass(this.tenEras.link,"rightestLink");
+            dojo.removeClass(this.previousCycle.link,"rightestLink");
         } else if (this.model.previousCycleLink.visible) {
             dojo.addClass(this.previousCycle.link,"rightestLink");
+            dojo.removeClass(this.nextCycle.link,"rightestLink");
         } else if (this.model.nextCycleLink.visible) {
             dojo.addClass(this.nextCycle.link,"rightestLink");
         }
@@ -1612,14 +1653,26 @@ dojo.declare("classes.ui.time.FixCryochamberBtnController", com.nuclearunicorn.g
         return result;
     },
 
-    buyItem: function(model, event, callback){
-        if (model.enabled && this.hasResources(model)) {
-            this.payPrice(model);
+	buyItem: function(model, event, callback) {
+		if (!model.enabled) {
+			callback(false);
+			return;
+		}
 
-            callback(this.doFixCryochamber(model));
-        }
-        callback(false);
-    },
+		var fixCount = event.shiftKey
+			? 1000
+			: event.ctrlKey || event.metaKey /*osx tears*/
+				? this.game.opts.batchSize || 10
+				: 1;
+		fixCount = Math.min(fixCount, this.game.time.getVSU("usedCryochambers").val);
+
+		var fixHappened = false;
+		for (var count = 0; count < fixCount && this.hasResources(model); ++count) {
+			this.payPrice(model);
+			fixHappened |= this.doFixCryochamber(model);
+		}
+		callback(fixHappened);
+	},
 
     doFixCryochamber: function(model){
 		var cry = this.game.time.getVSU("cryochambers");
