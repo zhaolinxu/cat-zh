@@ -1535,7 +1535,7 @@
     "ui.option.hide.bgimage": "Hide background image <i>(for color schemes where applicable)</i>",
     "ui.option.tooltips.right": "Move tooltips in right column",
     "ui.option.more": "More..",
-    "ui.option.no.confirm": "Do not confirm when clearing all jobs, researching policy or when buying or selling all (Shift-click)",
+    "ui.option.no.confirm": "Do not confirm when clearing all jobs, researching policy, upgrading buildings, or when buying or selling all (Shift-click)",
     "ui.option.iw.smelter": "Smelters turn off at 95% max Iron in Iron Will mode",
     "ui.option.disable.telemetry": "Disable game telemetry",
     "ui.option.enable.redshift": "Enable offline progression",
