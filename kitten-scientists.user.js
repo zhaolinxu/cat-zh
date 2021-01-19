@@ -5,6 +5,8 @@
 // @include     *bloodrizer.ru/games/kittens/*
 // @include     file:///*kitten-game*
 // @include     *kittensgame.com/web/*
+// @include     *kittensgame.com/beta/*
+// @include     *kittensgame.com/alpha/*
 // @version     1.5.0
 // @grant       none
 // @copyright   2015, cameroncondry
@@ -15,7 +17,7 @@
 // ==========================================
 
 var kg_version = 'Kitten Scientists version 1.5.0';
-var address = '1MC7Vj5ovpq3mzn9JhyhYMPEBRFoRZgDwa';
+var address = '1HDV6VEnXH9m8PJuT4eQD7v8jRnucbneaq';
 
 // Game will be referenced in loadTest function
 var game = null;
@@ -36,6 +38,7 @@ var run = function() {
             'option.embassies': 'Build Embassies (Beta)',
             'option.explore': 'Explore (Deprecated)',
             'option.style': 'View Full Width',
+            'option.steamworks': 'Turn on Steamworks',
 
             'filter.build': 'Building',
             'filter.craft': 'Crafting',
@@ -239,6 +242,7 @@ var run = function() {
             'option.embassies': '建造大使馆 (Beta)',
             'option.explore': '探索 (废弃)',
             'option.style': '占满屏幕',
+            'option.steamworks': '启动蒸汽工房',
 
             'filter.build': '建筑',
             'filter.craft': '工艺',
@@ -612,7 +616,12 @@ var run = function() {
                     // storage
                     barn:           {require: 'wood',        enabled: true, max:-1, checkForReset: true, triggerForReset: -1},
                     harbor:         {require: false,         enabled: false,max:-1,  checkForReset: true, triggerForReset: -1},
-                    warehouse:      {require: false,         enabled: false,max:-1,  checkForReset: true, triggerForReset: -1}
+                    warehouse:      {require: false,         enabled: false,max:-1,  checkForReset: true, triggerForReset: -1},
+			
+		    // zebras
+                    zebraOutpost:   {require: 'bloodstone',  enabled: true, max:-1, checkForReset: true, triggerForReset: -1},
+                    zebraWorkshop:  {require: 'bloodstone',  enabled: false, max:-1, checkForReset: true, triggerForReset: -1},
+                    zebraForge:     {require: 'bloodstone',  enabled: false, max:-1, checkForReset: true, triggerForReset: -1}
                 }
             },
             space: {
@@ -676,6 +685,7 @@ var run = function() {
                     // Chronoforge has variant chrono.
                     temporalBattery:     {require: false,          enabled: false, variant: 'chrono', checkForReset: true, triggerForReset: -1},
                     blastFurnace:        {require: false,          enabled: false, variant: 'chrono', checkForReset: true, triggerForReset: -1},
+                    timeBoiler:          {require: false,          enabled: false, variant: 'chrono', checkForReset: true, triggerForReset: -1},
                     temporalAccelerator: {require: false,          enabled: false, variant: 'chrono', checkForReset: true, triggerForReset: -1},
                     temporalImpedance:   {require: false,          enabled: false, variant: 'chrono', checkForReset: true, triggerForReset: -1},
                     ressourceRetrieval:  {require: false,          enabled: false, variant: 'chrono', checkForReset: true, triggerForReset: -1},
@@ -801,7 +811,8 @@ var run = function() {
                     fixCry:             {enabled: false,                   misc: true, label: i18n('option.fix.cry')},
                     buildEmbassies:     {enabled: true, subTrigger: 0.9,   misc: true, label: i18n('option.embassies')},
                     style:              {enabled: true,                    misc: true, label: i18n('option.style')},
-                    explore:            {enabled: false,                   misc: true, label: i18n('option.explore')}
+                    explore:            {enabled: false,                   misc: true, label: i18n('option.explore')},
+                    _steamworks:        {enabled: false,                   misc: true, label: i18n('option.steamworks')}
                 }
             },
             distribute: {
@@ -2059,6 +2070,7 @@ var run = function() {
         },
         miscOptions: function () {
             var craftManager = this.craftManager;
+            var buildManager = this.buildManager;
             var optionVals = options.auto.options.items;
 
             AutoEmbassy:
@@ -2129,6 +2141,15 @@ var run = function() {
                 if (fixed > 0) {
                     iactivity('act.fix.cry', [fixed], 'ks-fixCry');
                     storeForSummary('fix.cry', fixed);
+                }
+            }
+            
+            // auto turn on steamworks
+            if (optionVals._steamworks.enabled) {
+                var st = game.bld.get('steamworks');
+                if (st.val && st.on == 0) {
+                    var button = buildManager.getBuildButton('steamworks');
+                    button.controller.onAll(button.model);
                 }
             }
         },
@@ -2628,12 +2649,12 @@ var run = function() {
             if (!materials) return 0;
 
             if (name==='steel' && limited) {
-                var plateRatio=game.getResCraftRatio('plate');
+                var plateRatio=game.getResCraftRatio("plate");
                 if (this.getValueAvailable('plate')/this.getValueAvailable('steel') < ((plateRatio+1)/125)/((ratio+1)/100)) {
                     return 0;
                 }
             } else if (name==='plate' && limited) {
-                var steelRatio=game.getResCraftRatio('steel');
+                var steelRatio=game.getResCraftRatio("steel");
                 if (game.getResourcePerTick('coal', true) > 0) {
                     if (this.getValueAvailable('plate')/this.getValueAvailable('steel') > ((ratio+1)/125)/((steelRatio+1)/100)) {
                         var ironInTime = ((this.getResource('coal').maxValue*trigger - this.getValue('coal'))/game.getResourcePerTick('coal', true))*Math.max(game.getResourcePerTick('iron', true), 0);
