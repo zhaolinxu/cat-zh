@@ -394,7 +394,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 			if (this.season >= this.seasonsPerYear) {
 				this.season = 0;
-				this.year += this.game.challenges.currentChallenge == "1000Years" && this.year >= 500 ? 0 : 1;
+				this.year += this.game.challenges.isActive("1000Years") && this.year >= 500 ? 0 : 1;
 				newYear = true;
 			}
 		}
@@ -454,7 +454,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				}
 
 				// nice reminder that astronomical events don't happen
-				if (this.game.challenges.currentChallenge == "blackSky") {
+				if (this.game.challenges.isActive("blackSky")) {
 					// ...however it gets spammy after some progress
 					if (this.game.bld.get("observatory").val < 30) {
 						this.game.msg($I("challendge.blackSky.event"), "astronomicalEvent");
@@ -564,7 +564,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		//-------------------------  -------------------
 
 		var riftChance = this.game.getEffect("riftChance");	//5 OPTK
-		if (this.game.rand(10000) < riftChance * unicornChanceRatio){
+		if (this.game.rand(10000) < riftChance * 10000 * unicornChanceRatio){
 			var unicornBonus = 500 * (1 + this.game.getEffect("unicornsRatioReligion") * 0.1);
 			this.game.msg($I("calendar.msg.rift", [this.game.getDisplayValueExt(unicornBonus)]), "notice", "unicornRift");
 
@@ -572,7 +572,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 		//----------------------------------------------
 		var aliChance = this.game.getEffect("alicornChance");	//0.2 OPTK
-		if (this.game.rand(100000) < aliChance){
+		if (this.game.rand(100000) < aliChance * 100000){
 			this.game.msg($I("calendar.msg.alicorn"), "important", "alicornRift");
 
 			this.game.resPool.addResEvent("alicorn", 1);
@@ -583,7 +583,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		// -------------- ivory meteors ---------------
 		var meteorChance = 0 + this.game.getEffect("ivoryMeteorChance");	//5 OPTK
-		if (this.game.rand(10000) < meteorChance * unicornChanceRatio){
+		if (this.game.rand(10000) < meteorChance * 10000 * unicornChanceRatio){
 
 			var ivory = (250 + this.game.rand(1500) * (1 + this.game.getEffect("ivoryMeteorRatio")));
 			this.game.msg($I("calendar.msg.ivoryMeteor", [this.game.getDisplayValueExt(ivory)]), "notice", "ivoryMeteor");
@@ -621,7 +621,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
             //console.log("eventChance="+eventChance+", autoChance="+autoChance);
             numberEvents = Math.round(daysOffset * eventChance * autoChance);
             //console.log("number of startcharts="+numberEvents);
-            if (numberEvents && this.game.challenges.currentChallenge != "blackSky") {
+            if (numberEvents && !this.game.challenges.isActive("blackSky")) {
                 this.game.resPool.addResEvent("starchart", numberEvents);
             }
 
@@ -652,11 +652,11 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				mineralsAmt += mineralsAmt * 0.1;	//+10% of minerals for iron will
 			}
 
-			var mineralsGain = this.game.resPool.addResEvent("minerals", numberEvents * mineralsAmt);
+			this.game.resPool.addResEvent("minerals", numberEvents * mineralsAmt);
 
 			if (this.game.workshop.get("celestialMechanics").researched) {
 				var sciBonus = 15 * (1 + this.game.getEffect("scienceRatio"));
-				var sciGain = this.game.resPool.addResEvent("science", numberEvents * sciBonus);
+				this.game.resPool.addResEvent("science", numberEvents * sciBonus);
 			}
 
 			//TODO: make meteors give titanium on higher levels
@@ -688,13 +688,13 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		//-------------------------  -------------------
 
 		var riftChance = this.game.getEffect("riftChance");	//5 OPTK
-		numberEvents = Math.round(daysOffset * riftChance * unicornChanceRatio / 10000);
+		numberEvents = Math.round(daysOffset * riftChance * unicornChanceRatio);
 		this.game.resPool.addResEvent("unicorns", numberEvents * 500);
 		totalNumberOfEvents += numberEvents;
 
 		//----------------------------------------------
 		var aliChance = this.game.getEffect("alicornChance");	//0.2 OPTK
-		numberEvents = Math.round(daysOffset * aliChance / 100000);
+		numberEvents = Math.round(daysOffset * aliChance);
 		if (numberEvents >= 1) {
 			this.game.resPool.addResEvent("alicorn", numberEvents);
 			this.game.upgrade({
@@ -705,7 +705,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		// -------------- ivory meteors ---------------
 		var meteorChance = 0 + this.game.getEffect("ivoryMeteorChance");	//5 OPTK
-		numberEvents = Math.round(daysOffset * meteorChance * unicornChanceRatio / 10000);
+		numberEvents = Math.round(daysOffset * meteorChance * unicornChanceRatio);
 		if (numberEvents){
 			var ivory = (250 + this.game.rand(1500) * (1 + this.game.getEffect("ivoryMeteorRatio")));
 			this.game.resPool.addResEvent("ivory", ivory * numberEvents);
@@ -749,7 +749,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		//==================== other calendar stuff ========================
 		//cap years skipped in 1000 years
-		if (this.game.challenges.currentChallenge == "1000Years" && this.year + yearsOffset > 500){
+		if (this.game.challenges.isActive("1000Years") && this.year + yearsOffset > 500){
 			yearsOffset = Math.max(500 - this.year, 0);
 		}
 
@@ -769,16 +769,28 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	onNewSeason: function(){
 		this.eventChance = 0;
 
-		if (this.game.rand(100) < 35 && this.year > 3){
-			var warmChance = 50;
-			if (this.game.challenges.getChallenge("winterIsComing").researched){
-				warmChance += 15;
+		
+		if (this.year > 3){
+			var coldChance = 175;
+			var warmChance = 175;
+
+			var effect = this.game.getLimitedDR(this.game.getEffect("coldChance") * 1000, 825);
+			coldChance += effect;
+			warmChance -= effect;
+			if (warmChance < 0) {
+				warmChance = 0;
+			}
+			if (this.getCurSeason().name == "winter" && this.game.challenges.getChallenge("winterIsComing").researched){
+				coldChance = 0;
 			}
 
-			if (this.game.rand(100) < warmChance){
+			var rand = this.game.rand(1000);
+			if (rand < warmChance){
 				this.weather = "warm";
-			} else {
+			} else if (rand < warmChance + coldChance){
 				this.weather = "cold";
+			} else{
+				this.weather = null;
 			}
 		}else{
 			this.weather = null;
@@ -811,53 +823,60 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 	},
 
-	onNewYearStackable: function(years){
+	onNewYear: function(updateUI){
+
 		var ty = this.game.stats.getStat("totalYears");
-		ty.val += years;
+		ty.val++;
 
 		if (ty.val < this.year){
 			ty.val = this.year;
 		}
 
-		// if (this.year % 1000 === 0 || ){
-		var years1000Passby = Math.floor(this.year / 1000) - Math.floor((this.year - years) / 1000);
-		if (years1000Passby !== 0) {
-			this.game.resPool.addResEvent("paragon", years1000Passby);
-			this.game.stats.getStat("totalParagon").val += years1000Passby;
+		if (this.darkFutureYears() >= 0) {
+			this.game.unlock({chronoforge: ["temporalImpedance"]});
+		}
+
+		if (this.game.bld.get("steamworks").jammed) {
+			this.game.bld.get("steamworks").jammed = false;	//reset jammed status
+		}
+
+		if ( this.year % 1000 === 0 ){
+			this.game.resPool.addResEvent("paragon", 1);
+			this.game.stats.getStat("totalParagon").val++;
 		}
 
 		var pyramidVal = this.game.religion.getZU("blackPyramid").getEffectiveValue(this.game);
 		var markerVal = this.game.religion.getZU("marker").getEffectiveValue(this.game);
 
 		//3.5% per year per BP, +10% per marker
-		if (pyramidVal > 0 && !this.game.diplomacy.get("leviathans").duration) {
-			var p = 35 * pyramidVal * (1 + 0.1 * markerVal);
-			if (p < 1 && years > 1) {
-				p = 1 - Math.pow(1-p, years); // time to Leviathans leave is static during shatter
-			}
-			if (this.game.rand(1000) < p) {
+		if (pyramidVal > 0) {
+			if (this.game.rand(1000) < 35 * pyramidVal * (1 + 0.1 * markerVal)) {
 				this.game.diplomacy.unlockElders();
 			}
 		}
-	},
 
-	getPruductionPerYear: function(){
+		if (this.game.diplomacy.get("leviathans").unlocked) {
+			this.game.challenges.getChallenge("blackSky").unlocked = true;
+		}
+
+		if (++this.cycleYear >= this.yearsPerCycle) {
+			this.cycleYear = 0;
+			if (++this.cycle >= this.cyclesPerEra) {
+				this.cycle = 0;
+			}
+		}
+
+		// Apply cycleEffect for the newYear
+		this.game.upgrade({
+			spaceBuilding: this.game.space.spaceBuildingsMap
+		});
+
 		var resPool = this.game.resPool;
-		var production = {};
 		if (resPool.energyProd >= resPool.energyCons) {
-			production["antimatter"] = this.game.getEffect("antimatterProduction");
+			resPool.addResEvent("antimatter", this.game.getEffect("antimatterProduction"));
 		}
-		production["temporalFlux"] = this.game.getEffect("temporalFluxProduction");
 
-		return production;
-	},
-
-	onNewYearAddResources: function() {
-		var resPool = this.game.resPool;
-		var resPerYear = this.getPruductionPerYear();
-		for (var resName in resPerYear){
-			resPool.addResEvent(resName, resPerYear[resName]);
-		}
+		resPool.addResEvent("temporalFlux", this.game.getEffect("temporalFluxProduction"));
 
 		var aiLevel = this.game.bld.get("aiCore").effects["aiLevel"];
 		if ((aiLevel > 14) && (this.game.science.getPolicy("transkittenism").researched != true)){
@@ -870,52 +889,6 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				}
 			}
 		}
-	},
-
-	onNewYearNotStackable: function(){
-		if (this.darkFutureYears() >= 0) {
-			this.game.unlock({chronoforge: ["temporalImpedance"]});
-		}
-
-		if (this.game.bld.get("steamworks").jammed) {
-			this.game.bld.get("steamworks").jammed = false;	//reset jammed status
-		}
-
-		if (this.game.diplomacy.get("leviathans").unlocked) {
-			this.game.challenges.getChallenge("blackSky").unlocked = true;
-		}
-
-	},
-
-	updateCycle(years){
-		this.cycleYear += years;
-		if (this.cycleYear >= this.yearsPerCycle) {
-			// new cycle
-			this.cycle += Math.floor(this.cycleYear / this.yearsPerCycle);
-			this.cycleYear %= this.yearsPerCycle
-			if (this.cycle >= this.cyclesPerEra) {
-				this.cycle %= this.cyclesPerEra;
-			}
-
-			// Apply cycleEffect for the new cycle
-			this.game.upgrade({
-				spaceBuilding: this.game.space.spaceBuildingsMap
-			});
-		}
-
-	},
-
-	onNewYear: function(updateUI){
-		// split origin onNewYear funtion to [onNewYearStackable, getPruductionPerYear, onNewYearAddResources, onNewYearNotStackable, updateCycle]
-		// in order to improve the efficieny of time.js: shatter();
-		// shatter() will call onNewYearStackable, getPruductionPerYear, onNewYearNotStackable and updateCycle;
-		// shatter() copy some of aiApocalypse code from the onNewYearAddResources and this.game.ui.render();
-		this.onNewYearStackable(1, true);
-
-		this.updateCycle(1);
-		this.onNewYearAddResources();
-
-		this.onNewYearNotStackable();
 
 		if (updateUI) {
 			this.game.ui.render();
@@ -937,71 +910,61 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		this.game.msg($I("trade.correct.bcoin"), "important");
 	},
 
-	getWeatherMod: function(){
-		var mod = 0;
-		if (this.weather == "warm"){
-			mod =  0.15;
-		} else if (this.weather == "cold"){
-			mod = -0.15;
+	getWeatherMod: function(res){
+		var mod = this.getCurSeason().modifiers[res.name] ? this.getCurSeason().modifiers[res.name] : 1;
 
-			if (this.game.science.getPolicy("communism").researched && this.season == 3){
-				mod = -0.95;
-			}
+		if (res.name != "catnip") {
+			return mod;
 		}
+
+		if (this.game.science.getPolicy("communism").researched && this.getCurSeason().name == "winter" && this.weather == "cold"){
+			return 0;
+		}
+
+		if (this.weather == "warm"){
+			mod +=  0.15;
+		} else if (this.weather == "cold"){
+			mod += -0.15;
+		}
+		if (this.game.challenges.getChallenge("winterIsComing").on && this.weather == "cold") {
+			mod *= 1 + this.game.getLimitedDR(this.game.getEffect("coldHarshness"),1);
+		}
+		if (this.getCurSeason().name == "spring") {
+                        mod *= (1 + this.game.getLimitedDR(this.game.getEffect("springCatnipBonus"), 2));
+                }
+
 		return mod;
 	},
 
 	getCurSeason: function(){
-		if (this.game.challenges.currentChallenge == "winterIsComing"){
+		if (this.game.challenges.isActive("winterIsComing")){
 			return this.seasons[3];	//eternal winter
 		}
 		return this.seasons[this.season];
 	},
 
-	getCurSeasonTitle: function(){
-		var title = this.getCurSeason().title;
-		if (this.game.challenges.currentChallenge == "winterIsComing"){
-			var numeral = "";
-			switch(this.season){
-				case 0:
-					numeral = "I";
-					break;
-				case 1:
-					numeral = "II";
-					break;
-				case 2:
-					numeral = "III";
-					break;
-				case 3:
-					numeral = "IV";
-					break;
-			}
-			title += " " + numeral;
-		}
-		return title;
+	getCurSeasonTitle: function() {
+		var winterIsComingNumeral = this.game.challenges.isActive("winterIsComing") ? this.getWinterIsComingNumeral() : "";
+		return this.getCurSeason().title + winterIsComingNumeral;
 	},
 
-	getCurSeasonTitleShorten: function(){
-		var title = this.getCurSeason().shortTitle;
-		if (this.game.challenges.currentChallenge == "winterIsComing"){
-			var numeral = "";
-			switch(this.season){
-				case 0:
-					numeral = "I";
-					break;
-				case 1:
-					numeral = "II";
-					break;
-				case 2:
-					numeral = "III";
-					break;
-				case 3:
-					numeral = "IV";
-					break;
-			}
-			title += " " + numeral;
+	getCurSeasonTitleShorten: function() {
+		var winterIsComingNumeral = this.game.challenges.isActive("winterIsComing") ? this.getWinterIsComingNumeral() : "";
+		return this.getCurSeason().shortTitle + winterIsComingNumeral;
+	},
+
+	getWinterIsComingNumeral: function() {
+		switch (this.season) {
+			case 0:
+				return " I";
+			case 1:
+				return " II";
+			case 2:
+				return " III";
+			case 3:
+				return " IV";
 		}
-		return title;
+		return "";
 	},
 
 

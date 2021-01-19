@@ -102,7 +102,7 @@ WResourceRow = React.createClass({
         
         var perTick = isTimeParadox ? 0 : game.getResourcePerTick(res.name, true);
         perTick = game.opts.usePerSecondValues ? perTick * game.getTicksPerSecondUI() : perTick;
-        var postfix = game.opts.usePerSecondValues ? "/" + $I("unit.sec") : "";
+        var postfix = game.opts.usePerSecondValues ? "/" + $I("unit.s") : "";
         if (game.opts.usePercentageResourceValues && res.maxValue){
             perTick = (perTick / res.maxValue * 100).toFixed(2);
             postfix = "%" + postfix;
@@ -111,7 +111,8 @@ WResourceRow = React.createClass({
         var perTickVal = 
             game.getResourcePerTick(res.name, false) || 
             game.getResourcePerTickConvertion(res.name) ? 
-            "(" + game.getDisplayValueExt(perTick, true, false) + postfix + ")" : "";
+            game.getDisplayValueExt(perTick, true, false) + postfix : "";
+            // "(" + game.getDisplayValueExt(perTick, true, false) + postfix + ")" : "";
 
         //----------------------------------------------------------------------------
 
@@ -157,7 +158,12 @@ WResourceRow = React.createClass({
 
         if (season.modifiers[res.name] && perTick !== 0 ){
 
-            var modifier = (season.modifiers[res.name] + game.calendar.getWeatherMod() - 1) * 100;
+            var modifier = game.calendar.getWeatherMod(res);
+            if (modifier == 0) {
+                modifier = -100;
+            } else {
+                modifier = Math.max(Math.round((modifier - 1) * 100), -99);
+            }
             weatherModValue = modifier ? "[" + (modifier > 0 ? "+" : "") + modifier.toFixed() + "%]" : "";
 
             if (modifier > 0) {
@@ -311,10 +317,9 @@ WCraftShortcut = React.createClass({
     },
 
     componentDidMount: function(){
-        var res = this.props.resource,
-            recipe = this.props.recipe,
-            ratio = this.props.craftPercent,
-            num = this.props.craftFixed;
+        var recipe = this.props.recipe;
+        var ratio = this.props.craftPercent;
+        var num = this.props.craftFixed;
 
         //no craftAll tooltip    
         if (this.props.craftPercent == 1){
@@ -341,12 +346,12 @@ WCraftShortcut = React.createClass({
 					var priceItemNode = dojo.create("div", {style: {clear: "both"}}, tooltip);
 					var res = game.resPool.get(price.name);
 
-					var nameSpan = dojo.create("span", {
+					dojo.create("span", {
 							innerHTML: res.title || res.name,
 							style: { float: "left"}
 						}, priceItemNode );
 
-					var priceSpan = dojo.create("span", {
+					dojo.create("span", {
 							innerHTML: game.getDisplayValueExt(price.val * num),
 							style: {float: "right", paddingLeft: "6px" }
 						}, priceItemNode );
@@ -408,8 +413,7 @@ WCraftRow = React.createClass({
     },
 
     shouldComponentUpdate: function(nextProp, nextState){
-        var oldRes = this.oldRes || {},
-            newRes = nextProp.resource;
+        var newRes = nextProp.resource;
 
         /*var isEqual = 
             oldRes.value == newRes.value &&

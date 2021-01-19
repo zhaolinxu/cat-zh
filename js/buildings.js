@@ -136,7 +136,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	constructor: function(game){
 		this.game = game;
         this.metaCache = {};
-        var self = this;
         this.registerMeta(false, this.buildingsData, {
 			getEffect: function(bld, effectName){
 				var effect = 0;
@@ -340,7 +339,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					};
 				},
 				calculateEnergyProduction: function(game, season) {
-					if (game.challenges.currentChallenge == "winterIsComing"){
+					if (game.challenges.isActive("winterIsComing")){
 						season = 3;
 					}
 					var energyProduction = 2 * (1 + game.getEffect("solarFarmRatio"));
@@ -348,6 +347,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 						energyProduction *= 0.75;
 					} else if (season == 1) {
 						energyProduction /= 0.75;
+						energyProduction *= (1 + game.getLimitedDR(game.getEffect("summerSolarFarmRatio"), 2));
 					}
 
 					var seasonRatio = game.getEffect("solarFarmSeasonRatio");
@@ -431,6 +431,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			//unlock village tab
 			tabs: ["village"]
 		},
+		upgrades:{
+            policies: ["authocracy"]
+        },
 		effects: {
 			"manpowerMax": 75,
 			"maxKittens": 2
@@ -455,6 +458,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		unlocks: {
 			tabs: ["village"]
 		},
+		upgrades:{
+            policies: ["authocracy"]
+        },
 		breakIronWill: true,
 		flavor : $I("buildings.logHouse.flavor")
 	},{
@@ -474,6 +480,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		unlocks: {
 			tabs: ["village"]
 		},
+		upgrades:{
+            policies: ["authocracy"]
+        },
 		breakIronWill: true,
 		flavor: $I("buildings.mansion.flavor")
 	},
@@ -506,6 +515,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					"scienceMaxCompendia": 1000,
 					"cultureMax": 25,
 					"energyConsumption": 2
+				},
+				unlockScheme: {
+					name: "computer",
+					threshold: 100
 				},
 				stageUnlocked : false
 			}
@@ -545,9 +558,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				effects["energyConsumption"] = 2;
 				if (game.workshop.get("cryocomputing").researched){
 					effects["energyConsumption"] = 1;
-				}
-				if (game.challenges.currentChallenge == "energy") {
-					effects["energyConsumption"] *= 2;
 				}
 
 				if (game.workshop.get("machineLearning").researched){
@@ -634,9 +644,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			var energyCons = 0;
 			if (game.workshop.get("biofuel").researched){
 				energyCons = 1;
-				if (game.challenges.currentChallenge == "energy") {
-					energyCons *= 2;
-				}
 				self.togglable = true;
 			}
 			self.effects["energyConsumption"] = energyCons;
@@ -959,9 +966,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		calculateEffects: function(self, game) {
 			self.effects["energyConsumption"] = 1;
-			if (game.challenges.currentChallenge == "energy") {
-				self.effects["energyConsumption"] *= 2;
-			}
 		},
 		lackResConvert: false,
 		action: function(self, game){
@@ -1179,11 +1183,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		calculateEffects: function(self, game){
 			self.effects["woodRatio"] = 0.1 + game.getEffect("lumberMillRatio") * 0.1;
 		},
-		flavor: $I("buildings.lumberMill.flavor"),
-		unlockScheme: {
-			name: "wood",
-			threshold: 100
-		}
+		flavor: $I("buildings.lumberMill.flavor")
 	},
 	{
 		name: "oilWell",
@@ -1215,8 +1215,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["oilPerTickBase"] = 0.02 * oilRatio;
 
 			self.effects["energyConsumption"] = self.isAutomationEnabled
-				? game.challenges.currentChallenge == "energy" ? 2 : 1
-				: 0;
+				? 1 : 0;
 		},
 		flavor: $I("buildings.oilWell.flavor"),
 		unlockScheme: {
@@ -1258,7 +1257,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"energyConsumption": 0
 		},
 		unlocks:{
-			policies:[]
+			policies:["liberalism", "communism", "fascism"]
+		},
+		unlockScheme: {
+			name: "factory",
+			threshold: 20
 		},
 		calculateEffects: function(self, game){
 			var effects = {
@@ -1270,32 +1273,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 
 			effects["energyConsumption"] = 2;
-			if (game.challenges.currentChallenge == "energy") {
-				effects["energyConsumption"] *= 2;
-			}
 
 			self.effects = effects;
-			if(game.science.getPolicy("monarchy").researched == true){
-				var unlocksTemp = {
-					policies:["liberalism", "fascism"]
-				};
-				self.unlocks = unlocksTemp;
-			}
-			if(game.science.getPolicy("republic").researched == true){
-				var unlocksTemp = {
-					policies:["liberalism", "communism"]
-				};
-				self.unlocks = unlocksTemp;
-			}
-			if(game.science.getPolicy("authocracy").researched == true){
-				var unlocksTemp = {
-					policies:["communism", "fascism"]
-				};
-				self.unlocks = unlocksTemp;
-			}
-        	if(self.val > 0){
-				game.unlock(self.unlocks);
-			}
 		}
 	},{
 		name: "reactor",
@@ -1365,9 +1344,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		calculateEffects: function(self, game){
 			self.effects["energyConsumption"] = 2;
-			if (game.challenges.currentChallenge == "energy") {
-				self.effects["energyConsumption"] *= 2;
-			}
 
 			self.effects["scienceMax"] = 0;
 			if (game.workshop.get("lhc").researched){
@@ -1582,7 +1558,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					if (energyRatio > 1.75){
 						energyRatio = 1.75;
 					}
-					btower.effects["culturePerTickBase"] = Math.floor( (1 * energyRatio) * 1000) / 1000;
+					btower.effects["culturePerTickBase"] = Math.floor(energyRatio * 1000) / 1000;
 					btower.effects["cultureMax"] = Math.floor( (300 * energyRatio) * 1000) / 1000;
 				}
 
@@ -1610,7 +1586,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"cultureMax" : 0
 		},
 		calculateEffects: function(self, game) {
-			if (game.challenges.currentChallenge != "atheism") {
+			if (!game.challenges.isActive("atheism")) {
 				var effects = {
 					"culturePerTickBase" : 0.05,
 					"faithPerTickBase" : 0.005,
@@ -1646,7 +1622,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"faithMax": 0
 		},
 		calculateEffects: function(self, game){
-			if (game.challenges.currentChallenge != "atheism") {
+			if (!game.challenges.isActive("atheism")) {
 				var effects = {
 					"culturePerTickBase" : 0.1,
 					"faithPerTickBase" : 0,
@@ -1762,9 +1738,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		calculateEffects: function(self, game) {
 			self.effects["energyConsumption"] = 20;
-			if (game.challenges.currentChallenge == "energy") {
-				self.effects["energyConsumption"] *= 2;
-			}
 			self.effects["temporalFluxProduction"] = game.getEffect("temporalFluxProductionChronosphere");
 		}
 	},{
@@ -1785,6 +1758,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			buildings: ["library"],
 			spaceBuilding: ["moonBase"]
 		},
+		unlockScheme: {
+			name: "cyber",
+			threshold: 5
+		},
 		// TODO Actually "action" is almost always just updating effects (unclear from the name), better separate the 2 concerns: update effects (can be done several times per tick) and perform specific action (only once per tick!)
 		// TODO Separation of concerns currently done only for AI Core, Time Boilers and Hydroponics (REQUIRED by non-proportional effect!), will be systematized later
 		updateEffects: function(self, game) {
@@ -1794,9 +1771,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			// Core #4: 6.5; Total: 17  ; Average: 4.25 = 17/4 = (3*4+5)/4
 			// etc.
 			self.effects["energyConsumption"] = (3 * self.on + 5) / 4;
-			if (game.challenges.currentChallenge == "energy") {
-				self.effects["energyConsumption"] *= 2;
-			}
             var gflopsPerTickBase = 0.02 * (1 + game.getEffect("aiCoreProductivness"));
             self.effects["gflopsPerTickBase"] = gflopsPerTickBase;
 			self.effects["aiLevel"] = Math.round(Math.log(Math.max(game.resPool.get("gflops").value, 1)));
@@ -1962,7 +1936,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		var priceModifier = 1 - pricesDiscount;
 
 		for (var i = 0; i < bldPrices.length; i++) {
-			var resPriceDiscount = this.game.getLimitedDR(this.game.getEffect(bldPrices[i].name+"CostReduction"), 1);
+			var resPriceDiscount = this.game.getLimitedDR(this.game.getEffect(bldPrices[i].name + "CostReduction"), 1);
 			var resPriceModifier = 1 - resPriceDiscount;
 			prices.push({
 				val: bldPrices[i].val * Math.pow(ratio, bld.get("val")) * priceModifier * resPriceModifier,
@@ -1970,7 +1944,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			});
 		}
 
-		if (this.game.challenges.currentChallenge == "blackSky"
+		if (this.game.challenges.isActive("blackSky")
 		 && bld.get("name") == "calciner"
 		 && bld.get("val") == 0) {
 			for (var i = 0; i < prices.length; i++) {
@@ -2002,7 +1976,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (bld.action && (bld.on > 0 || bld.name == "biolab" || bld.name == "aiCore")){
 				var amt = bld.action(bld, this.game);
 				if (typeof(amt) != "undefined") {
-					bld.lackResConvert = (amt == 1 || bld.on == 0) ? false : true;
+					bld.lackResConvert = amt != 1 && bld.on != 0;
 				}
 			}
 
@@ -2101,10 +2075,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				bld.jammed = false;
 			}
 
-			if (bld.isAutomationEnabled != undefined){
-				bld.isAutomationEnabled = true;
-			}
-
 			this.resetStateStackable(bld);
 		}
 	},
@@ -2198,6 +2168,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		plateCrafter.craft();
 		slabCrafter.craft();
 		beamCrafter.craft();
+		if(game.opts.enableRedshiftGflops){
+			var aiCore = this.get("aiCore");
+			game.resPool.get("gflops").value += aiCore.effects["gflopsPerTickBase"] * aiCore.on * daysOffset * game.calendar.ticksPerDay;
+		}
 	},
 
 	undo: function(data){
@@ -2268,7 +2242,7 @@ dojo.declare("classes.game.ui.RefineCatnipButtonController", com.nuclearunicorn.
 		var catnipCost = model.prices[0].val;
 		model.x100Link = {
 			title: "x100",
-			visible: !(catnipVal < (catnipCost * 100)),
+			visible: catnipVal >= (catnipCost * 100),
 			handler: function(btn){
 				self.handleX100Click(model);
 			}

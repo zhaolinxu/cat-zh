@@ -1,9 +1,23 @@
+v 1.4.8.3 (16 nov 2020)
+
+Major:
+* Repeatable challenges (phase 1)
+* Chiral aka KGNet integration
+
+Minor:
+* Theme bugfixes
+
 v 1.4.8.2 (15 aug 2020)
 Major:
+* Repeatable challenges (alpha backport, phase 0)
+
+Themes:
+* New themes: Vintage, Wood v2 (permanent unlock), Computer, Arctic, Cyber, Bluish, Grayish, Greenish, Factory
 
 Minor:
 * Added an option for the scientific notation (Cirn09)
 * Shark embassies scaling was reduced from 5-5-5 to 5-3-1
+* Added translation widget
 
 v 1.4.8.1 (18 july 2020)
 Major:

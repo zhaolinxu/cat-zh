@@ -220,6 +220,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			race.embassyLevel = 0;
 			race.unlocked = false;
 			race.collapsed = false;
+			race.pinned = false;
 			race.energy = 0;
 			race.duration = 0;
 		}
@@ -253,8 +254,9 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	 */
 	isValidTrade: function(sell, race){
 		var resName = sell.name;
-		return !(sell.minLevel && race.embassyLevel < sell.minLevel)
-			&& (this.game.resPool.get(resName).unlocked || resName === "uranium" || race.name === "leviathans");
+		var hasHighEnoughEmbassyLevel = !sell.minLevel || race.embassyLevel >= sell.minLevel;
+		var isResourceTradeable = this.game.resPool.get(resName).unlocked || resName === "uranium" || race.name === "leviathans";
+		return hasHighEnoughEmbassyLevel && isResourceTradeable;
 	},
 
 	unlockRandomRace: function(){
@@ -315,7 +317,9 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	update: function() {
 		if (!this.hasUnlockedRaces()) {
 
-			var unlockYear = this.game.prestige.getPerk("diplomacy").researched ? 
+			var unlockYear = (this.game.prestige.getPerk("navigationDiplomacy").researched
+					&& this.game.resPool.get("ship").value > 0) ?
+				0 : this.game.prestige.getPerk("diplomacy").researched ?
 				1 : this.game.karmaKittens > 0 ? 5 : 20;
 
 			if (this.game.calendar.year < unlockYear) {
@@ -341,14 +345,17 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
         elders.unlocked = true;
         // 5 years + 1 year per energy unit
         elders.duration = this.game.calendar.daysPerSeason * this.game.calendar.seasonsPerYear *  (5  + elders.energy);
+		
+		if(elders.autoPinned){elders.pinned = true;}
 
-        this.game.msg($I("trade.msg.elders"), "notice");
+        this.game.msg($I("trade.msg.elders"), "urgent");
     },
 
     onNewDay: function(){
         var elders = this.get("leviathans");
         if (elders.duration <= 0  && elders.unlocked){
 			elders.unlocked = false;
+			elders.pinned = false;
 			this.game.msg($I("trade.msg.elders.departed"), "notice");
 
 			this.game.render();
@@ -543,17 +550,19 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		}
 		return min;
 	},
-
+	getMarkerCap: function(){
+		return Math.floor(
+			(this.game.religion.getZU("marker").getEffectiveValue(this.game) * 5 + 5) *
+			(1 + this.game.getEffect("leviathansEnergyModifier"))
+		);
+	},
 	feedElders: function(){
 		var ncorns = this.game.resPool.get("necrocorn");
 		var elders = this.game.diplomacy.get("leviathans");
 		if (ncorns.value >= 1){
 			elders.energy++;
 
-			var markerCap = Math.floor(
-				(this.game.religion.getZU("marker").getEffectiveValue(this.game) * 5 + 5) *
-				(1 + this.game.getEffect("leviathansEnergyModifier"))
-			);
+			var markerCap = this.game.diplomacy.getMarkerCap();
 			 
 			if (elders.energy > markerCap){
 				elders.energy = markerCap;
@@ -572,7 +581,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		var amt = this.game.resPool.get("relic").value / this.game.calendar.cryptoPrice;
 		this.game.resPool.get("blackcoin").value += amt;
 		this.game.resPool.get("relic").value = 0;
-		this.game.msg($I("trade.buy.bcoin.msg", [this.game.getDisplayValueExt(amt)]));
+		this.game.msg($I("trade.bcoin.buy.msg", [this.game.getDisplayValueExt(amt)]));
 
 	},
 
@@ -646,6 +655,9 @@ dojo.declare("classes.diplomacy.ui.RacePanel", com.nuclearunicorn.game.ui.Panel,
 		}
 		if (this.embassyButton){
 			this.embassyButton.update();
+		}
+		if (this.autoPinnedButton){
+			this.autoPinnedButton.update();
 		}
 	}
 });
@@ -936,6 +948,62 @@ dojo.declare("classes.diplomacy.ui.EmbassyButton", com.nuclearunicorn.game.ui.Bu
 });
 
 /** -------------------------------------
+ * 			Auto Pinned Button
+----------------------------------------- */
+
+dojo.declare("classes.diplomacy.ui.autoPinnedButtonController", com.nuclearunicorn.game.ui.ButtonModernController, {
+	defaults: function() {
+		var result = this.inherited(arguments);
+		result.hasResourceHover = false;
+		result.simplePrices = false;
+		return result;
+	},
+
+	getName: function(model){
+		var isAutoPinned = model.options.race.autoPinned;
+		return isAutoPinned ? $I("trade.autopinned.labelOn") : $I("trade.autopinned.labelOff");
+	},
+
+	hasSellLink: function(model){
+		return false;
+	},
+
+	updateVisible: function(model){
+		model.visible = true;
+	}
+});
+
+
+dojo.declare("classes.diplomacy.ui.autoPinnedButton", com.nuclearunicorn.game.ui.ButtonModern, {
+	pinLinkHref: null,
+	race: null,
+
+	constructor: function(opts, game){
+		this.race = opts.race;
+	},
+
+
+	renderLinks: function(){
+		this.pinLinkHref = this.addLink({
+			title: "&#9733;",
+			handler: function() {
+				if (this.race.name != "leviathans"){
+					return;
+				}
+				this.race.pinned = !this.race.pinned;
+			}
+		});
+	},
+
+	update: function(){
+		this.inherited(arguments);
+		this.pinLinkHref.link.textContent = this.race.pinned ? "[v]" : "[ ]";
+		this.pinLinkHref.link.title = this.race.pinned ? 
+			$I("trade.embassy.pinned") : $I("trade.embassy.unpinned");
+	}
+});
+
+/** -------------------------------------
  * 			Explore Button
 ----------------------------------------- */
 
@@ -1040,14 +1108,14 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 
 		dojo.create("div", { class: "clear"}, tabContainer);
 
-		var tradeRatio = 1 + this.game.diplomacy.getTradeRatio();
+		var baseTradeRatio = 1 + this.game.diplomacy.getTradeRatio();
 		var currentSeason = this.game.calendar.getCurSeason().name;
 		for (var i = 0; i < races.length; i++) {
 			var race = races[i];
 			if (!race.unlocked) {
 				continue;
 			}
-			tradeRatio += this.game.diplomacy.calculateTradeBonusFromPolicies(race.name, this.game);
+			var tradeRatio = baseTradeRatio + this.game.diplomacy.calculateTradeBonusFromPolicies(race.name, this.game);
 			var racePanel = this.racePanels[i];
 			if (!racePanel) {
 				racePanel = race.name === "leviathans" ? new classes.diplomacy.ui.EldersPanel(race) : new classes.diplomacy.ui.RacePanel(race);
@@ -1142,6 +1210,19 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				}, this.game);
 				racePanel.embassyButton = embassyButton;
 				embassyButton.render(rightColumn);
+			} else{
+				var autoPinnedButton = new classes.diplomacy.ui.autoPinnedButton({
+					name: $I("trade.autopinned.labelOff"),
+					description: $I("trade.autopinned.desc"),
+					race: race,
+					controller: new classes.diplomacy.ui.autoPinnedButtonController(this.game),
+					handler: dojo.partial(function(race){
+						race.autoPinned = !race.autoPinned;
+						self.game.ui.render();
+					}, race)
+					}, this.game);
+					racePanel.autoPinnedButton = autoPinnedButton;
+					autoPinnedButton.render(rightColumn);
 			}
 
 			if (racePanel.buyBcoin && racePanel.sellBcoin) {
@@ -1204,10 +1285,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 
 		if (this.leviathansInfo) {
 			var leviathans = this.game.diplomacy.get("leviathans");
-			var markerCap = Math.floor(
-				(this.game.religion.getZU("marker").getEffectiveValue(this.game) * 5 + 5) *
-				(1 + this.game.getEffect("leviathansEnergyModifier"))
-			);
+			var markerCap = this.game.diplomacy.getMarkerCap();
 			var leviathansInfoEnergy = leviathans.energy ? leviathans.energy + " / " + markerCap : "N/A";
 			this.leviathansInfo.innerHTML = $I("trade.leviathans.energy") + leviathansInfoEnergy +
 				"<br />" + $I("trade.leviathans.timeToLeave") + this.game.toDisplayDays(leviathans.duration);

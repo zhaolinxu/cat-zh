@@ -1,6 +1,6 @@
-/*
-*			Chocolate 1.0.0 Theme © Volkeyrn
-*/
+/* ******************************************************** */
+/* ***			Chocolate 1.0.1 Theme © Volkeyrn        *** */
+/* ******************************************************** */
 
 @import url(https://fonts.googleapis.com/css?family=Ruluko);
 
@@ -42,7 +42,7 @@ body.scheme_chocolate.with_background_image {
 	width: 280px; /* +8px gained from padding default width: 264px; */
 }
 .scheme_chocolate .btn.modern.disabled {
-	background-color: #c3ae99;/*#a38463;*/
+	background-color: #c3ae99;
 	border: 2px solid rgba(128, 128, 128, 0.8);
 	border-right-color: rgba(128, 128, 128, 0.6);
 	border-bottom-color: rgba(128, 128, 128, 0.6);
@@ -108,14 +108,13 @@ body.scheme_chocolate.with_background_image {
     margin-top: 10px;
 }
 .scheme_chocolate .modern .btnContent {
-	/* 10px left not necessary for buttons without on/off */
-	padding: 10px 0 10px 1px; /* default :  padding: 10px 0 10px 10px; */
+	padding: 10px 0 10px 1px; /* 1px left for buttons without power background-image */
 }
 /*** green and red light for machine on/off ***/
 .scheme_chocolate .btn.bldEnabled div.btnContent,
 .scheme_chocolate .btn.bldlackResConvert div.btnContent {
-	padding: 10px 0 10px 14px !important; /* 14px left for power background-image (linear-gradient) */
-	border: none;
+	padding: 10px 0 10px 13px; /* 13px left for power background-image (linear-gradient) */
+	border: none; /* also allows you to remove the height difference with the other buttons (they have no border on div.content) */
 }
 .scheme_chocolate .btn.disabled.bldlackResConvert { /* color #991A22 */ /* color for lack resources convertion */
 	background: no-repeat border-box linear-gradient(90deg, #930000 0%, #930000 10px, #c3ae99 12px, #c3ae99 100%);
@@ -145,13 +144,13 @@ body.scheme_chocolate.with_background_image {
 .scheme_chocolate .dialog { /* window options, credits and get the app */
 	background-color: #403022;
 	margin-right: 12px;
-	border: 1px solid transparent;
+	border: 10px solid transparent;
 	border-image-width: 66px 66px 66px 66px;
 	border-image-slice: 66 66 66 66;
 	border-image-repeat: round;
 	border-image-source: url('img/theme_chocolate_frame_white.png'); /* source of images for graphic design : https://pngtree.com/freepng/white-square-frame-border_5054088.html Volkeyrn: permanent premium member */
-	border-image-outset: 10px 12px 10px 10px;
-	padding: 15px;
+	border-image-outset: 10px 12px 12px 10px;
+	padding: 15px;  /* default padding: 20px; */
 }
 .scheme_chocolate .dialog a {
     text-transform: capitalize;
@@ -207,6 +206,18 @@ body.scheme_chocolate.with_background_image {
 	font: 14px sans-serif;
 	color: #6cdfd2;
 }
+.scheme_chocolate .dialog input#batchSize {
+	background-color: #584230;
+    color: #edddcf;
+    padding: 3px 1px 3px 5px;
+    margin-right: 5px;
+	border: 2px inset #d6b591;
+	border-radius: 5px;
+    box-shadow: inset -1px -1px 2px #505050,
+                inset 1px 1px 3px #202020;
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
 .scheme_chocolate textarea#importData,
 .scheme_chocolate textarea#exportData {
 	background-color: #c3ae99;/*#a38463;*/
@@ -241,7 +252,7 @@ body.scheme_chocolate.with_background_image {
 	color: #e8969f;
 }
 .scheme_chocolate #topBar a.copyright {
-	color: #eb000b;
+	color: #930000;
 }
 .scheme_chocolate #topBar a.copyright:hover {
 	color: #e8969f;
@@ -253,24 +264,24 @@ body.scheme_chocolate.with_background_image {
 .scheme_chocolate #headerLinks div { /* for color text of MOTD on top bar */
 	color: #7b624a;
 }
-.scheme_chocolate #headerLinks>div:first-child:before {
+.scheme_chocolate #topBar > div:first-child > span:first-child:after {
     color: #dc5d6b;
-    content: 'Theme by Volkeyrn\00a0\00a0\00a0';
+    content: '\00a0\00a0\00a0Theme by Volkeyrn\00a0\00a0\00a0';
 	text-shadow: none;
     text-decoration: none;
 	font-weight: normal;
 }
-.scheme_chocolate #sorrowTooltip { /* counter of BLS (Black Liquid Sorrow) */
+.scheme_chocolate .toolbarIcon.sorrow div { /* counter of BLS (Black Liquid Sorrow) */
 	color: #7b624a;
 }
-.scheme_chocolate #sorrowTooltip.max {
-    color: #cb000b;
+.scheme_chocolate .toolbarIcon.sorrow.max div {
+    color: #930000 !important;
 }
 .scheme_chocolate #autosaveTooltip {
 	color: #dc5d6b;
 }
 .scheme_chocolate #getTheApp-link { /* Get the app */
-	color: #DF996C !important;
+	color: #6cdfd2 !important;
 }
 .scheme_chocolate #getTheApp-link:hover {
 	color: #e8969f !important;
@@ -278,39 +289,39 @@ body.scheme_chocolate.with_background_image {
 .scheme_chocolate .links-block {
 	padding-top: 0 !important;
 }
-.scheme_chocolate .toolbarIcon.happiness {
+.scheme_chocolate #topBar .toolbarIcon.happiness div {
     color: #FF7A5B;
 }
-.scheme_chocolate .toolbarIcon.energy,
+.scheme_chocolate #topBar .toolbarIcon.energy div,
 .scheme_chocolate .button_tooltip .energyProduction {
     color: #80b929;
 }
-.scheme_chocolate .toolbarIcon.energy.warningWinter {
+.scheme_chocolate #topBar .toolbarIcon.energy.warningWinter div {
     color: #FF7A5B;
 }
-.scheme_chocolate .toolbarIcon.energy.warning,
-.scheme_chocolate .button_tooltip .energyConsumption,
+.scheme_chocolate #topBar .toolbarIcon.energy.warning div {
+	color: #930000;
+}
+.scheme_chocolate .button_tooltip .energyConsumption {
+	color: #c30000;
+}
 .scheme_chocolate .button_tooltip .energyPenalty {
-	color: #cb000b;
+	color: #f30000;
 }
 
 /************************************************/
 /******************** FOOTER ********************/
 /************************************************/
 .scheme_chocolate #footerLinks {
-	font-size: 90%;
 	bottom: 5px; /* default bottom: 10px; */
 	color: #70543d;
-}
-.scheme_chocolate #footerLinks a:hover {
-	text-shadow: none;
 }
 
 /*************************************************/
 /******************** TOOLTIP ********************/
 /*************************************************/
 .scheme_chocolate #tooltip,
-.scheme_chocolate .tooltip-block div {
+.scheme_chocolate .tooltip-block > div {
 	background-color: #42302d;
 	color: #a0a0a0; /* tooltip windows == left column : left text */
 	border-style: solid;
@@ -320,7 +331,7 @@ body.scheme_chocolate.with_background_image {
 	margin-left: 15px; /* for offset tooltip due to larger buttons .btn.modern */
 	box-shadow: -1px -1px 2px #584230, 1px 1px 2px #241b13;
 }
-.scheme_chocolate .tooltip-block div {
+.scheme_chocolate .tooltip-block > div {
 	padding: 5px;
 }
 .scheme_chocolate .button_tooltip {
@@ -392,10 +403,12 @@ body.scheme_chocolate.with_background_image {
 .scheme_chocolate .tabInner.Time {
 	margin-bottom: 50px; /* to view entire dropdownlink of last button */
 }
-.scheme_chocolate .tabsContainer { /* separator | for tab */
-	color: #70543d;
+.scheme_chocolate .tabsContainer {
 	padding-bottom: 5px; /* default padding-bottom: 15px; */
 	/* default padding-top: 2px; */
+}
+.scheme_chocolate .tabsContainer span:not(.genericWarning) { /* separator | for tab */
+	color: #70543d;
 }
 .scheme_chocolate .activeTab {
 	color: #f0eae3;
@@ -412,6 +425,27 @@ body.scheme_chocolate.with_background_image {
 .scheme_chocolate .tab.traitLeaderBonus::before {
 	content: "\2605"; /* BLACK STAR */
 	color: #96e8df;
+}
+.scheme_chocolate .tab.engineer::before { /* artisan bonus */
+	content: "\2692\00a0"; /* HAMMER AND PICK */
+}
+.scheme_chocolate .tab.metallurgist::before {
+	content: "\267B\00a0"; /* BLACK UNIVERSAL RECYCLING SYMBOL */
+}
+.scheme_chocolate .tab.chemist::before {
+	content: "\2623\00a0"; /* BIOHAZARD SIGN */
+}
+.scheme_chocolate .tab.merchant::before {
+	content: "\2696\00a0"; /* SCALES */
+}
+.scheme_chocolate .tab.manager::before { /* hunting bonus */
+	content: "\27B4\00a0"; /* BLACK-FEATHERED SOUTH EAST ARROW */
+}
+.scheme_chocolate .tab.scientist::before {
+	content: "\269B\00a0"; /* ATOM SYMBOL */
+}
+.scheme_chocolate .tab.wise::before {
+	content: "\2600\00a0"; /* BLACK SUN WITH RAYS */
 }
 .scheme_chocolate .bldTopContainer { /* under tab */
 	font-size: 95%;
@@ -581,6 +615,9 @@ body.scheme_chocolate.with_background_image {
 .scheme_chocolate .container {
 	padding: 5px; /* default padding: 10px; */
 }
+.scheme_chocolate .container.trade-race .crypto-trade .btn.modern {
+	max-width: 133px; /* (button content width - (2 x button border width) - (1 x button margin-right)) / 2 => (280 - 4 -10)/2 = 133 */
+}
 .scheme_chocolate .container div.currentGovernment { /* for padding-bottom too height */
 	padding-bottom: 6px !important; /* default padding-bottom: 10px; */
 }
@@ -609,6 +646,13 @@ body.scheme_chocolate.with_background_image {
 }
 .scheme_chocolate .attitude:after {
 	content: ""; /* default content: ")"; */
+}
+.scheme_chocolate .container.trade-race .btn.modern.disabled a[title='Pinned'] {
+	color: #c8e896;
+	font-weight: bold;
+}
+.scheme_chocolate .container.trade-race .btn.modern:not(.disabled) a[title='Pinned'] {
+	color: #a7da58;
 }
 .scheme_chocolate .panelContainer div.censusFilters {
 	margin-bottom: 3px; /* for add a margin under the 2 lists (select) in the settlement tab */
@@ -873,12 +917,12 @@ body.scheme_chocolate.with_background_image {
    font-size: 120%;
 }
 .scheme_chocolate #calendarSign:hover {
-   cursor: default;
+	cursor: default;
 }
 .scheme_chocolate .right-tab-header { /* Log | Chat link on right column */
 	color: #70543d; /* for separator tab | */
 	font-size: 80%;
- }
+}
 .scheme_chocolate .right-tab-header a {
 	margin-right: -5px;
 }
@@ -891,9 +935,6 @@ body.scheme_chocolate.with_background_image {
 }
 .scheme_chocolate div#observeButton {
 	height: 40px; /* default height 30px */
- }
-.scheme_chocolate .right-tab {
-	height: calc(100% - 160px); /* default height: calc(100% - 150px); */
 }
 .scheme_chocolate #rightTabChat {
 	margin-top: 20px;
@@ -921,11 +962,11 @@ body.scheme_chocolate.with_background_image {
 	border: 2px dotted #eddcc7;
 	background-color: rgba(36, 27, 19, 0.25); /* color #241b13 */
 	border-radius: 9px;
-	box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+	/* box-shadow: 3px 3px 5px #202020; */
 	padding: 0 4px 4px 4px;
 	min-height: 5% !important;
 	height: unset !important;
-	max-height: calc(100% -80px) !important;
+	max-height: calc(100% -100px) !important;
 	scrollbar-width: thin; /* only Firefox */
 }
 .scheme_chocolate #gameLog span.msg:not(.type_date)  {
@@ -951,6 +992,10 @@ body.scheme_chocolate.with_background_image {
 .scheme_chocolate .msg.type_alert {
     color: #a90909; /* color default : red; */
 }
+.scheme_chocolate .msg.type_urgent {
+	/* default color: blueviolet; */
+	font-size: 1.1em;
+}
 .scheme_chocolate .msg.type_date {
 	color: #e8969f;
 	font-size: 100%;
@@ -974,13 +1019,14 @@ body.scheme_chocolate.with_background_image {
 	color: #e8969f;
 	opacity: 1;
 }
-.scheme_chocolate .res-toolbar {
-    font-size: 90%;
-}
 .scheme_chocolate .res-toolbar.right {
 	padding-right: 20px;
 }
+.scheme_chocolate div.tooltip-block > span {
+	color: #ece4db;
+}
 .scheme_chocolate div.tooltip-block:hover > span {
+	color: #e8969f;
 	font-weight: bold;
 }
 .res-toolbar .link.toggled {
@@ -1023,11 +1069,11 @@ body.scheme_chocolate.with_background_image {
 	color: #b003ff!important;
 }
 .scheme_chocolate .craftTable {
-	 margin-bottom: 68px !important; /* for correct margin bottom due of the line above with border-collapse: collapse on .res-Table ! */
- }
+	 margin-bottom: 10px !important; /* for correct margin bottom due of the line above with border-collapse: collapse on .res-Table ! */
+}
 .scheme_chocolate .res-cell.craft-link {
 	color: #ece4db;
- }
+}
 .scheme_chocolate .res-cell.craft-link:hover,
 .scheme_chocolate .res-cell.craft-link.all:hover { /* craft table left column */
     color: #e8969f;
@@ -1060,7 +1106,7 @@ body.scheme_chocolate.with_background_image {
 }
 .scheme_chocolate div#advisorsContainer {
 	color: #cb000b;
-	padding-top: 6px;/* default padding-top:10px; */
+	padding-top: 6px;/* default padding-top: 10px; */
 }
 .scheme_chocolate #fastHuntContainerCount { /* Text left column : "xx times" from Send hunters */
 	color: #b8b8b8;
@@ -1100,7 +1146,6 @@ body.scheme_chocolate.with_background_image {
 .scheme_chocolate #rightColumn,
 .scheme_chocolate #midColumn,
 .scheme_chocolate select,
-.scheme_chocolate #gamelog,
 .scheme_chocolate .dialog {
    scrollbar-width: thin !important;
    scrollbar-color: #584230 #403022 !important;

@@ -1,8 +1,8 @@
 dojo.declare("classes.KGConfig", null, {
     statics: {
         disableWebWorkers: false,
-        locales: ["en", "ru", "ja", "br", "es", "fr", "cz", "pl"],
-        schemes: ["dark", "grassy", "sleek", "black", "gold", "space", "wood", "school", "fluid", "vessel", "minimalist", "oil", "unicorn", "anthracite", "chocolate"],
+        locales: ["ru", "ja", "br", "es", "fr", "cz", "zh", "zht", "pl", "de"],
+        schemes: ["dark", "grassy", "sleek", "black", "wood", "bluish", "grayish", "greenish", "gold", "space", "school", "fluid", "vessel", "minimalist", "oil", "unicorn", "anthracite", "chocolate", "vintage", "computer", "arctic", "cyber", "factory"],
         notations: ["si", "e", "sie"]
     }
 });
