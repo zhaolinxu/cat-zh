@@ -859,7 +859,7 @@
     "trade.bcoin.buy.desc": "Échange vos reliques contre des blackcoins",
     "trade.bcoin.sell": "Vente bcoin",
     "trade.bcoin.sell.desc": "Vendez vos blackcoins et récupérez des reliques",
-    "trade.embassy.open": "Ouvrir une ambassade",
+    "trade.embassy.label": "Embassade",
     "ui.filter.all": "Enabled",
     "ui.filter.available": "Enabled",
     "left.font.inc": "taille+",

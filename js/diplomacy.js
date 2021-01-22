@@ -466,10 +466,6 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		this.gainTradeRes(this.tradeImpl(race, 1), 1);
 	},
 
-	buildEmbassy: function(race){
-		race.embassyLevel++;
-	},
-
 	tradeMultiple: function(race, amt){
 		//------------ safety measure ----------------
 		if (!this.hasMultipleResources(race, amt)) {
@@ -879,31 +875,43 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
  * 			Embassy Button
 ----------------------------------------- */
 
-dojo.declare("classes.diplomacy.ui.EmbassyButtonController", com.nuclearunicorn.game.ui.ButtonModernController, {
+dojo.declare("classes.diplomacy.ui.EmbassyButtonController", com.nuclearunicorn.game.ui.BuildingStackableBtnController, {
 	defaults: function() {
 		var result = this.inherited(arguments);
 		result.simplePrices = false;
 		return result;
 	},
 
-	getName: function(model){		
-		var name = this.inherited(arguments),
-			level = model.options.race.embassyLevel;
-		if (!level){ 
-			return name; 
+	getMetadata: function(model) {
+		if (!model.metaCached) {
+			var race = model.options.race;
+			model.metaCached = {
+				label: $I("trade.embassy.label"),
+				description: $I("trade.embassy.desc"),
+				val: race.embassyLevel,
+				on: race.embassyLevel
+			};
 		}
-
-		return $I("trade.embassy",[ model.options.race.embassyLevel ]);
+		return model.metaCached;
 	},
 
 	getPrices: function(model) {
-		var prices = dojo.clone(this.inherited(arguments));
-        var priceCoeficient = 1;
-        priceCoeficient -= this.game.getEffect("embassyCostReduction");
+		var prices = dojo.clone(model.options.prices);
+		var priceCoeficient = 1 - this.game.getEffect("embassyCostReduction");
 		for (var i = 0; i < prices.length; i++) {
-            prices[i].val = prices[i].val * priceCoeficient * Math.pow(1.15, model.options.race.embassyLevel);
+			prices[i].val *= priceCoeficient * Math.pow(1.15, model.options.race.embassyLevel);
 		}
 		return prices;
+	},
+
+	buyItem: function(model, event, callback) {
+		this.inherited(arguments);
+		this.game.ui.render();
+	},
+
+	incrementValue: function(model) {
+		this.inherited(arguments);
+		model.options.race.embassyLevel++;
 	},
 
 	hasSellLink: function(model){
@@ -1198,15 +1206,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			//----------------------------------------------------------
 			if (race.name != "leviathans") {
 				var embassyButton = new classes.diplomacy.ui.EmbassyButton({
-					name: $I("trade.embassy.open"),
-					description: $I("trade.embassy.desc"),
 					prices: race.embassyPrices,
 					race: race,
-					controller: new classes.diplomacy.ui.EmbassyButtonController(this.game),
-					handler: dojo.partial(function(race){
-						self.game.diplomacy.buildEmbassy(race);
-						self.game.ui.render();
-					}, race)
+					controller: new classes.diplomacy.ui.EmbassyButtonController(this.game)
 				}, this.game);
 				racePanel.embassyButton = embassyButton;
 				embassyButton.render(rightColumn);
