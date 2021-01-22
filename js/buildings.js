@@ -2420,35 +2420,39 @@ dojo.declare("classes.ui.btn.StagingBldBtnController", classes.ui.btn.BuildingBt
 	},
 
 	downgrade: function(model) {
-		var self = this;
-		this.game.ui.confirm("", $I("buildings.downgrade.confirmation.msg"), function() {
-			var metadataRaw = self.getMetadataRaw(model);
-			metadataRaw.stage = metadataRaw.stage - 1 || 0;
-			metadataRaw.val = 0;	//TODO: fix by using separate value flags
-			metadataRaw.on = 0;
-			if (metadataRaw.calculateEffects){
-				metadataRaw.calculateEffects(metadataRaw, self.game);
-			}
-			self.game.upgrade(metadataRaw.upgrades);
-			self.game.render();
-		});
+		if (game.opts.noConfirm) {
+			this.deltagrade(this, model, -1);
+		} else {
+			var self = this;
+			this.game.ui.confirm("", $I("buildings.downgrade.confirmation.msg"), function() {
+				self.deltagrade(self, model, -1);
+			});
+		}
 	},
 
 	upgrade: function(model) {
-		var self = this;
-		this.game.ui.confirm("", $I("buildings.upgrade.confirmation.msg"), function() {
-			var metadataRaw = self.getMetadataRaw(model);
-			metadataRaw.stage = metadataRaw.stage || 0;
-			metadataRaw.stage++;
+		if (game.opts.noConfirm) {
+			this.deltagrade(this, model, +1);
+		} else {
+			var self = this;
+			this.game.ui.confirm("", $I("buildings.upgrade.confirmation.msg"), function() {
+				self.deltagrade(self, model, +1);
+			});
+		}
+	},
 
-			metadataRaw.val = 0;	//TODO: fix by using separate value flags
-			metadataRaw.on = 0;
-			if (metadataRaw.calculateEffects){
-				metadataRaw.calculateEffects(metadataRaw, self.game);
-			}
-			self.game.upgrade(metadataRaw.upgrades);
-			self.game.render();
-		});
+	deltagrade: function(self, model, delta) {
+		var metadataRaw = self.getMetadataRaw(model);
+		metadataRaw.stage += delta;
+		if (!metadataRaw.stage) metadataRaw.stage = Math.max(0, delta);
+
+		metadataRaw.val = 0;	//TODO: fix by using separate value flags
+		metadataRaw.on = 0;
+		if (metadataRaw.calculateEffects){
+			metadataRaw.calculateEffects(metadataRaw, self.game);
+		}
+		self.game.upgrade(metadataRaw.upgrades);
+		self.game.render();
 	},
 
 	getMetadataRaw: function(model) {
