@@ -759,7 +759,8 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
             for (var i in price){
                 this.game.resPool.addResEvent(price[i].name, -price[i].val);
             }
-            callback(this.doShatter(model, 1));
+            this.doShatter(model, 1);
+            callback(true);
         }
         callback(false);
         return true;
