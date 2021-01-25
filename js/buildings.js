@@ -2100,11 +2100,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 	fastforward: function(daysOffset) {
 		var game = this.game;
-		if (!game.workshop.get("factoryAutomation").researched) {
+		var steamworks = this.get("steamworks");
+		if (steamworks.on < 1 || !game.workshop.get("factoryAutomation").researched) {
 			return;
 		}
 
-		var steamworks = this.get("steamworks");
 		if (steamworks.isAutomationEnabled == null) {
 			steamworks.isAutomationEnabled = true;
 		}
