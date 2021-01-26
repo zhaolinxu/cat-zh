@@ -213,7 +213,7 @@ body.scheme_chocolate.with_background_image {
     margin-right: 5px;
 	border: 2px inset #d6b591;
 	border-radius: 5px;
-    box-shadow: inset -1px -1px 2px #505050, 
+    box-shadow: inset -1px -1px 2px #505050,
                 inset 1px 1px 3px #202020;
 	margin-top: 3px;
 	margin-bottom: 3px;
@@ -264,17 +264,17 @@ body.scheme_chocolate.with_background_image {
 .scheme_chocolate #headerLinks div { /* for color text of MOTD on top bar */
 	color: #7b624a;
 }
-.scheme_chocolate #headerLinks>div:first-child:before {
+.scheme_chocolate #topBar > div:first-child > span:first-child:after {
     color: #dc5d6b;
-    content: 'Theme by Volkeyrn\00a0\00a0\00a0';
+    content: '\00a0\00a0\00a0Theme by Volkeyrn\00a0\00a0\00a0';
 	text-shadow: none;
     text-decoration: none;
 	font-weight: normal;
 }
-.scheme_chocolate #sorrowTooltip { /* counter of BLS (Black Liquid Sorrow) */
+.scheme_chocolate .toolbarIcon.sorrow div { /* counter of BLS (Black Liquid Sorrow) */
 	color: #7b624a;
 }
-.scheme_chocolate #sorrowTooltip.max {
+.scheme_chocolate .toolbarIcon.sorrow.max div {
     color: #930000 !important;
 }
 .scheme_chocolate #autosaveTooltip {
@@ -289,17 +289,17 @@ body.scheme_chocolate.with_background_image {
 .scheme_chocolate .links-block {
 	padding-top: 0 !important;
 }
-.scheme_chocolate .toolbarIcon.happiness {
+.scheme_chocolate #topBar .toolbarIcon.happiness div {
     color: #FF7A5B;
 }
-.scheme_chocolate .toolbarIcon.energy,
+.scheme_chocolate #topBar .toolbarIcon.energy div,
 .scheme_chocolate .button_tooltip .energyProduction {
     color: #80b929;
 }
-.scheme_chocolate .toolbarIcon.energy.warningWinter {
+.scheme_chocolate #topBar .toolbarIcon.energy.warningWinter div {
     color: #FF7A5B;
 }
-.scheme_chocolate .toolbarIcon.energy.warning {
+.scheme_chocolate #topBar .toolbarIcon.energy.warning div {
 	color: #930000;
 }
 .scheme_chocolate .button_tooltip .energyConsumption {
@@ -321,7 +321,7 @@ body.scheme_chocolate.with_background_image {
 /******************** TOOLTIP ********************/
 /*************************************************/
 .scheme_chocolate #tooltip,
-.scheme_chocolate .tooltip-block div {
+.scheme_chocolate .tooltip-block > div {
 	background-color: #42302d;
 	color: #a0a0a0; /* tooltip windows == left column : left text */
 	border-style: solid;
@@ -331,7 +331,7 @@ body.scheme_chocolate.with_background_image {
 	margin-left: 15px; /* for offset tooltip due to larger buttons .btn.modern */
 	box-shadow: -1px -1px 2px #584230, 1px 1px 2px #241b13;
 }
-.scheme_chocolate .tooltip-block div {
+.scheme_chocolate .tooltip-block > div {
 	padding: 5px;
 }
 .scheme_chocolate .button_tooltip {
@@ -403,7 +403,7 @@ body.scheme_chocolate.with_background_image {
 .scheme_chocolate .tabInner.Time {
 	margin-bottom: 50px; /* to view entire dropdownlink of last button */
 }
-.scheme_chocolate .tabsContainer {	
+.scheme_chocolate .tabsContainer {
 	padding-bottom: 5px; /* default padding-bottom: 15px; */
 	/* default padding-top: 2px; */
 }
@@ -425,6 +425,27 @@ body.scheme_chocolate.with_background_image {
 .scheme_chocolate .tab.traitLeaderBonus::before {
 	content: "\2605"; /* BLACK STAR */
 	color: #96e8df;
+}
+.scheme_chocolate .tab.engineer::before { /* artisan bonus */
+	content: "\2692\00a0"; /* HAMMER AND PICK */
+}
+.scheme_chocolate .tab.metallurgist::before {
+	content: "\267B\00a0"; /* BLACK UNIVERSAL RECYCLING SYMBOL */
+}
+.scheme_chocolate .tab.chemist::before {
+	content: "\2623\00a0"; /* BIOHAZARD SIGN */
+}
+.scheme_chocolate .tab.merchant::before {
+	content: "\2696\00a0"; /* SCALES */
+}
+.scheme_chocolate .tab.manager::before { /* hunting bonus */
+	content: "\27B4\00a0"; /* BLACK-FEATHERED SOUTH EAST ARROW */
+}
+.scheme_chocolate .tab.scientist::before {
+	content: "\269B\00a0"; /* ATOM SYMBOL */
+}
+.scheme_chocolate .tab.wise::before {
+	content: "\2600\00a0"; /* BLACK SUN WITH RAYS */
 }
 .scheme_chocolate .bldTopContainer { /* under tab */
 	font-size: 95%;
@@ -943,9 +964,9 @@ body.scheme_chocolate.with_background_image {
 	border-radius: 9px;
 	/* box-shadow: 3px 3px 5px #202020; */
 	padding: 0 4px 4px 4px;
-	min-height: 5% !important;	
+	min-height: 5% !important;
 	height: unset !important;
-	max-height: calc(100% -100px) !important;	
+	max-height: calc(100% -100px) !important;
 	scrollbar-width: thin; /* only Firefox */
 }
 .scheme_chocolate #gameLog span.msg:not(.type_date)  {

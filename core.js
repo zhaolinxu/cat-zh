@@ -446,8 +446,14 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 	},
 
 	save: function(saveData){
+		var saveFilters = {};
+		for (var fId in this.filters) {
+			var filter = this.filters[fId];
+			saveFilters[fId] = {unlocked: filter.unlocked, enabled: filter.enabled};
+		}
+
 		saveData.console = {
-			filters: this.filters
+			filters: saveFilters
 		};
 	},
 
@@ -1938,6 +1944,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 
 			if (meta.breakIronWill) {
 				this.game.ironWill = false;
+				var liberty = this.game.science.getPolicy("liberty");
+				liberty.calculateEffects(liberty, this.game);
 			}
 
 			if (meta.unlocks) {

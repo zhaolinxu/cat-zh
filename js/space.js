@@ -651,7 +651,11 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"uraniumMax"    : 5000,
 					"unobtainiumMax": 750
 				};
-            }
+            },
+			unlockScheme: {
+				name: "arctic",
+				threshold: 10
+			}
         }
         ]
 	},{
@@ -785,8 +789,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					}
 
 					self.effects["energyProduction"] =
-						1 * ( 1 + game.getUnlimitedDR(yearBonus, 0.075) * 0.01) *
-							( 1 + game.getEffect("umbraBoostRatio"));
+						(1 + game.getUnlimitedDR(yearBonus, 0.075) * 0.01) *
+						(1 + game.getEffect("umbraBoostRatio"));
 				}
 			}
 		]
@@ -934,7 +938,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		for (var i = 0; i < this.programs.length; i++){
 			var program = this.programs[i];
 
-			program.unlocked = (program.name == "orbitalLaunch") ? true : false;
+			program.unlocked = program.name == "orbitalLaunch";
 			program.noStackable = true;
 
 			this.resetStateStackable(program);
@@ -1032,7 +1036,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				if (bld.action && bld.val > 0){
 					var amt = bld.action(bld, this.game);
 					if (typeof(amt) != "undefined") {
-						bld.lackResConvert = (amt == 1 || bld.on == 0) ? false : true;
+						bld.lackResConvert = amt != 1 && bld.on != 0;
 					}
 					this.game.calendar.cycleEffectsBasics(bld.effects, bld.name);
 				}
@@ -1067,6 +1071,20 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				}
 			}
 		}
+
+		var entangler = this.getBuilding("entangler");
+
+		var existingGFlops = this.game.resPool.get("gflops").value;
+		var gflopsPerTick = entangler.effects.gflopsConsumption * entangler.on;
+		var gflopsAttemptConsume = gflopsPerTick * times;
+
+		var gflopsConsume = Math.min(existingGFlops, gflopsAttemptConsume);
+		if (gflopsConsume <= 0) {
+			return;
+		}
+		
+		this.game.resPool.addResEvent("gflops", -gflopsConsume);
+		this.game.resPool.addResEvent("hashrates", gflopsConsume);
 	},
 
 	getProgram: function(name){
@@ -1361,7 +1379,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
                 var planetPanel = new classes.ui.space.PlanetPanel(planetTitle, self.game.space);
                 planetPanel.planet = planet;
                 planetPanel.setGame(self.game);
-                var content = planetPanel.render(container);
+                planetPanel.render(container);
 
                 self.planetPanels.push(planetPanel);
             }

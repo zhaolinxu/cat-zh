@@ -136,7 +136,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	constructor: function(game){
 		this.game = game;
         this.metaCache = {};
-        var self = this;
         this.registerMeta(false, this.buildingsData, {
 			getEffect: function(bld, effectName){
 				var effect = 0;
@@ -432,6 +431,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			//unlock village tab
 			tabs: ["village"]
 		},
+		upgrades:{
+            policies: ["authocracy"]
+        },
 		effects: {
 			"manpowerMax": 75,
 			"maxKittens": 2
@@ -456,6 +458,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		unlocks: {
 			tabs: ["village"]
 		},
+		upgrades:{
+            policies: ["authocracy"]
+        },
 		breakIronWill: true,
 		flavor : $I("buildings.logHouse.flavor")
 	},{
@@ -475,6 +480,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		unlocks: {
 			tabs: ["village"]
 		},
+		upgrades:{
+            policies: ["authocracy"]
+        },
 		breakIronWill: true,
 		flavor: $I("buildings.mansion.flavor")
 	},
@@ -1207,8 +1215,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["oilPerTickBase"] = 0.02 * oilRatio;
 
 			self.effects["energyConsumption"] = self.isAutomationEnabled
-				? game.challenges.isActive("energy") ? 2 : 1
-				: 0;
+				? 1 : 0;
 		},
 		flavor: $I("buildings.oilWell.flavor"),
 		unlockScheme: {
@@ -1251,6 +1258,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		unlocks:{
 			policies:["liberalism", "communism", "fascism"]
+		},
+		unlockScheme: {
+			name: "factory",
+			threshold: 20
 		},
 		calculateEffects: function(self, game){
 			var effects = {
@@ -1547,7 +1558,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					if (energyRatio > 1.75){
 						energyRatio = 1.75;
 					}
-					btower.effects["culturePerTickBase"] = Math.floor( (1 * energyRatio) * 1000) / 1000;
+					btower.effects["culturePerTickBase"] = Math.floor(energyRatio * 1000) / 1000;
 					btower.effects["cultureMax"] = Math.floor( (300 * energyRatio) * 1000) / 1000;
 				}
 
@@ -1746,6 +1757,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		upgrades: {
 			buildings: ["library"],
 			spaceBuilding: ["moonBase"]
+		},
+		unlockScheme: {
+			name: "cyber",
+			threshold: 5
 		},
 		// TODO Actually "action" is almost always just updating effects (unclear from the name), better separate the 2 concerns: update effects (can be done several times per tick) and perform specific action (only once per tick!)
 		// TODO Separation of concerns currently done only for AI Core, Time Boilers and Hydroponics (REQUIRED by non-proportional effect!), will be systematized later
@@ -1961,7 +1976,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (bld.action && (bld.on > 0 || bld.name == "biolab" || bld.name == "aiCore")){
 				var amt = bld.action(bld, this.game);
 				if (typeof(amt) != "undefined") {
-					bld.lackResConvert = (amt == 1 || bld.on == 0) ? false : true;
+					bld.lackResConvert = amt != 1 && bld.on != 0;
 				}
 			}
 
@@ -2060,10 +2075,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				bld.jammed = false;
 			}
 
-			if (bld.isAutomationEnabled != undefined){
-				bld.isAutomationEnabled = true;
-			}
-
 			this.resetStateStackable(bld);
 		}
 	},
@@ -2157,6 +2168,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		plateCrafter.craft();
 		slabCrafter.craft();
 		beamCrafter.craft();
+		if(game.opts.enableRedshiftGflops){
+			var aiCore = this.get("aiCore");
+			game.resPool.get("gflops").value += aiCore.effects["gflopsPerTickBase"] * aiCore.on * daysOffset * game.calendar.ticksPerDay;
+		}
 	},
 
 	undo: function(data){
@@ -2227,7 +2242,7 @@ dojo.declare("classes.game.ui.RefineCatnipButtonController", com.nuclearunicorn.
 		var catnipCost = model.prices[0].val;
 		model.x100Link = {
 			title: "x100",
-			visible: !(catnipVal < (catnipCost * 100)),
+			visible: catnipVal >= (catnipCost * 100),
 			handler: function(btn){
 				self.handleX100Click(model);
 			}

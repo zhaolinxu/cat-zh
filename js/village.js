@@ -356,7 +356,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		}
 
 		var diligentKittens = this.game.challenges.isActive("anarchy")
-			? Math.floor(this.getKittens() / 2)
+			? Math.round(this.getKittens() * (0.5 - this.game.getLimitedDR(this.game.getEffect("kittenLaziness"), 0.25)))
 			: this.getKittens();
 
 		return diligentKittens - workingKittens;
@@ -467,7 +467,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 								diff *= (1 + (this.getLeaderBonus(this.game.village.leader.rank) - 1) 
 								* this.game.getEffect("boostFromLeader"));
                             }
-							diff *= this.happiness;	//alter positive resource production from jobs
+							diff *= this.happiness + (this.happiness - 1) 
+							* this.game.getEffect("happinessKittenProductionRatio");	//alter positive resource production from jobs
 						}
 
 						if (!res[jobResMod]){
@@ -498,7 +499,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 								diff *= (1 + (this.getLeaderBonus(this.game.village.leader.rank) - 1)
 								 * this.game.getEffect("boostFromLeader"));
                             }
-							diff *= this.happiness;	//alter positive resource production from jobs
+							diff *= (this.game.science.getPolicy("liberty").researched)? 
+							this.happiness + (this.happiness - 1) * 0.1 : this.happiness;
 						}
 
 						if (!res[jobResMod]){
@@ -627,9 +629,6 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 	getUnhappiness: function(){
 		var populationPenalty = 2;
-		if (this.game.science.getPolicy("liberty").researched){
-			populationPenalty = 1;
-		}
 		if (this.game.science.getPolicy("fascism").researched) {
 			return 0;
 		}
@@ -652,7 +651,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		}
         var enviromentalEffect = this.getEnvironmentEffect();
 		var happinessBonus = this.game.getEffect("happiness");
-		happiness += (happinessBonus + enviromentalEffect);
+		var challengeHappiness = this.game.getEffect("challengeHappiness");
+		happiness += (happinessBonus + enviromentalEffect + challengeHappiness);
 
 		//boost happiness/production by 10% for every uncommon/rare resource
 		var resources = this.game.resPool.resources;
@@ -790,6 +790,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			this.game.village.leader.job = "priest";
 			situationJobs["priest"] = situationJobs["priest"] - 1;
 			this.game.village.getJob("priest").value += 1;
+			if (situationJobs["priest"] == 0) {
+				delete situationJobs["priest"];
+			}
 		}
 			// Optimisation share between each jobs by assigning 1 kitten per job until all jobs are reassigned
 			while (Object.getOwnPropertyNames(situationJobs).length !== 0) {
@@ -854,29 +857,29 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},
 
 	getValueModifierPerSkill: function(value){
-		var value = 0;
+		var bonus = 0;
 		switch (true) {
 		case value < 100:
 			break;
 		case value < 500:
-			value = 0.0125;
+			bonus = 0.0125;
 			break;
 		case value < 1200:
-			value = 0.025;
+			bonus = 0.025;
 			break;
 		case value < 2500:
-			value = 0.045;
+			bonus = 0.045;
 			break;
 		case value < 5000:
-			value = 0.075;
+			bonus = 0.075;
 			break;
 		case value < 9000:
-			value = 0.125;
+			bonus = 0.125;
 			break;
 		default:
-			value = 0.1875 * (1 + this.game.getLimitedDR(this.game.getEffect("masterSkillMultiplier"), 4));
+			bonus = 0.1875 * (1 + this.game.getLimitedDR(this.game.getEffect("masterSkillMultiplier"), 4));
 		}
-		return value * (1 + this.game.getEffect("skillMultiplier"));
+		return bonus * (1 + this.game.getEffect("skillMultiplier"));
 	},
 
 	getSkillExpRange: function(value){
@@ -1521,7 +1524,7 @@ dojo.declare("classes.village.KittenSim", null, {
 					kitten.skills[kitten.job] = 0;
 				}
 				//Learning job's skill
-				if (!(kitten.job == "engineer" && kitten.engineerSpeciality == null)) {// Engineers who don't craft don't learn
+				if (kitten.job != "engineer" || kitten.engineerSpeciality != null) {// Engineers who don't craft don't learn
 					if (kitten.skills[kitten.job] < skillsCap){
 						kitten.skills[kitten.job] = Math.min(kitten.skills[kitten.job] + skillXP, skillsCap);
 					}
@@ -2586,7 +2589,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.addButton(btn);
 		//------------------------------------------------------------
 
-		var tr = dojo.create("tr", null, table);
+		dojo.create("tr", null, table);
 
 		var tdTop = dojo.create("td", { colspan: 2 },
 			dojo.create("tr", null, table));
