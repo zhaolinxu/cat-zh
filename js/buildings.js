@@ -223,7 +223,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},{
 		name: "zebraBuildings",
 		title: $I("buildings.group.zebraBuildings"),
-		buildings: ["zebraOutpost", "zebraWorkshop", "zebraForge"]
+		buildings: ["zebraOutpost", "zebraWorkshop", "zebraForge", "ivoryTemple"]
 	}
 	],
 
@@ -1843,29 +1843,62 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			{ name : "bloodstone", val: 50 }
 		],
 		unlocks: {
-			crafts: ["bloodstone"],
-			zebraUpgrades: ["whispers"]
+			crafts: ["bloodstone", "tMythril"],
+			zebraUpgrades: ["whispers"],
 		},
 		priceRatio: 1.15,
 		zebraRequired: 50,
 		effects: {
-			"bloodstoneCraftRatio" : 0,
-			"tMythrilCraftRatio" : 0,
+			"bloodstoneCraftRatio" : 0.02,
+			"tMythrilCraftRatio" : 0.01,
+		},
+	},{
+		name: "ivoryTemple",
+		defaultUnlockable: true,
+		//label: $I("buildings.ivoryTemple.label"),
+		//description: $I("buildings.ivoryTemple.desc"),
+		label: "Ivory Temple",
+		description: "Mystical temple where ivory is converted into minerals",
+		unlockRatio: 0,
+		prices: [
+			{ name : "tMythril", val: 1 },
+			{ name : "ivory", val: 100 }
+		],
+		unlocks: {
+			zebraUpgrades:["darkRevolution"]
+		},
+		priceRatio: 1.15,
+		//zebraRequired: 10,
+		effects: {
 			"ivoryPerTickCon": 0,
+			"mineralsPerTickProd": 0,
 			"titaniumPerTickCon": 0,
 			"alicornPerTickCon": 0,
-			"tMythrilPerTick": 0
+			"tMythrilPerTick": 0,
 		},
 		lackResConvert: false,
 		togglable: true,
+		calculateEffects: function(self, game){
+			if(game.workshop.getZebraUpgrade("whispers").researched && self.on > 0){
+				self.isAutomationEnabled = true
+			}
+		},
 		action: function(self, game){
 			self.effects = {
-				"bloodstoneCraftRatio" : 0.02,
-				"tMythrilCraftRatio" : 0.01,
-				"ivoryPerTickCon": -4,
-				"titaniumPerTickCon": -2,
-				"alicornPerTickCon": -0.00002,
-				"tMythrilPerTick": 0.00005
+				"ivoryPerTickCon": -100,
+				"mineralsPerTickProd": 1,
+				"titaniumPerTickCon": 0,
+				"alicornPerTickCon": 0,
+				"tMythrilPerTick": 0
+			}
+			if (self.isAutomationEnabled){
+				self.effects = {
+					"ivoryPerTickCon": -200,
+					"mineralsPerTickProd": 2,
+					"titaniumPerTickCon": -2,
+					"alicornPerTickCon": -0.00002,
+					"tMythrilPerTick": 0.00005
+				}
 			}
 			var amt = game.resPool.getAmtDependsOnStock(
 				[{res: "ivory", amt: -self.effects["ivoryPerTickCon"]},
@@ -1873,12 +1906,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				{res: "alicorn", amt: -self.effects["alicornPerTickCon"]}],
 				self.on
 			);
-			self.effects["bloodstoneCraftRatio"] *= amt;
-			self.effects["tMythrilCraftRatio"] *= amt;
 			self.effects["ivoryPerTickCon"] *= amt;
+			self.effects["mineralsPerTickProd"] *= amt;
 			self.effects["titaniumPerTickCon"] *= amt;
 			self.effects["alicornPerTickCon"] *= amt;
-			self.effects["tMythrilPerTick"] *= amt *(1 + self.on * self.effects["tMythrilCraftRatio"]);
+			self.effects["tMythrilPerTick"] *= amt;
 		}
 	}
 	],

@@ -2138,9 +2138,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			prices:[
 				{ name : "tMythril", val: 1 }
 			],
-			unlocks: {
-				crafts: ["tMythril"]
-			},
+			upgrades:{
+				buildings: ["ivoryTemple"]
+			}
 		},
 		//minerals
 		{
