@@ -2136,7 +2136,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			effects: {
 			},
 			prices:[
-				{ name : "tMythril", val: 1 }
+				{ name : "tMythril", val: 5 }
 			],
 			upgrades:{
 				buildings: ["ivoryTemple"]
