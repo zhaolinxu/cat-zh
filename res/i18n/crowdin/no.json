@@ -382,6 +382,7 @@
     "religion.ru.templars.label": "Tempelriddarar",
     "religion.ru.templars.desc": "Templar aukar maksimal kattekraft litt",
     "religion.ru.transcendence.label": "Oppstigning",
+    "religion.ru.transcendence.desc": "Løser opp flere relgiøse oppgraderinger",
     "religion.sacrificeBtn.all": "alle",
     "religion.sacrificeBtn.label": "Offer einhjørningar",
     "religion.transcend.msg.failure": "Eit steg nærare: {0} ({1}%)",
