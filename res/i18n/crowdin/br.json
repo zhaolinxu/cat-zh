@@ -1213,6 +1213,7 @@
     "tab.name.trade": "Troca",
     "tab.name.workshop": "Oficina",
     "techs.panel.label": "Tecnologia",
+    "time.AccelerateTimeBtn.label": "Tempus Fugit",
     "time.AccelerateTimeBtn.desc": "Aumente e diminua a velocidade do tempo como quiser (+50% aceleração)",
     "time.AccelerateTimeBtn.tooltip.normal": "Fluxo de tempo normal",
     "time.AccelerateTimeBtn.tooltip.accelerated": "Fluxo de tempo acelerado",
