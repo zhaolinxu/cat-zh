@@ -1070,7 +1070,7 @@
     "trade.bcoin.buy.desc": "レリックをブラックコインと交換する",
     "trade.bcoin.buy.msg": "ブラックコイン {0} を購入しました。",
     "trade.bcoin.sell": "Bコインを売却",
-    "trade.embassy.open": "大使館を開設",
+    "trade.embassy.label": "大使館",
     "ui.filter.all": "全表示",
     "ui.filter.available": "Enabled",
     "ui.toggle.researched": "研究済みと切り替える",
