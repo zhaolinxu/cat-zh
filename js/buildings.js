@@ -2420,7 +2420,7 @@ dojo.declare("classes.ui.btn.StagingBldBtnController", classes.ui.btn.BuildingBt
 	},
 
 	downgrade: function(model) {
-		if (game.opts.noConfirm) {
+		if (this.game.opts.noConfirm) {
 			this.deltagrade(this, model, -1);
 		} else {
 			var self = this;
@@ -2431,7 +2431,7 @@ dojo.declare("classes.ui.btn.StagingBldBtnController", classes.ui.btn.BuildingBt
 	},
 
 	upgrade: function(model) {
-		if (game.opts.noConfirm) {
+		if (this.game.opts.noConfirm) {
 			this.deltagrade(this, model, +1);
 		} else {
 			var self = this;
