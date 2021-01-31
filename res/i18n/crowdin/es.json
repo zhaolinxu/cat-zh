@@ -1,5 +1,6 @@
 {
     "console.intro": "Eres un gatito en un bosque de gavilán",
+    "console.intro.zebra": "Eres una cebra en una sabana llena de minas de titanio.",
     "achievements.header": "Logros: {0} de {1}",
     "achievements.msg.unlock": "Logro desbloqueado: {0}!",
     "achievements.msg.starUnlock": "Estrella de logro desbloqueada: {0}!",
@@ -50,6 +51,7 @@
     "achievements.utopiaProject.title": "Proyecto Utopía",
     "achievements.utopiaProject.desc": "Obtenga una felicidad total de más del 150%",
     "achievements.utopiaProject.starDesc": "Obtenga una felicidad total de más del 500%",
+    "achievements.winterIsComing.title": "Se acerca el invierno",
     "achievements.winterIsComing.desc": "Muere 10 gatitos",
     "achievements.youMonster.title": "Tú, monstruo",
     "achievements.youMonster.desc": "Pobres gatitos",
@@ -61,6 +63,8 @@
     "bld.msg.automation.slabs": "¡Gastado {0} minerales, + {1} losas!",
     "btn.all": "Todos",
     "btn.all.minor": "todos",
+    "btn.all.assign": "[+todo]",
+    "btn.all.unassign": "[-todo]",
     "btn.build": "Construir",
     "btn.challenge": "Iniciar desafío",
     "btn.complete": "(completo)",
