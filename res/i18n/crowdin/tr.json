@@ -1,8 +1,11 @@
 {
+    "btn.complete.capital": "(Tamamlandı)",
     "buildings.barn.desc": "Kaynakları depolamak için yer sağlar.",
     "effectsMgr.statics.cultureMaxRatio.title": "Maks kültür bonusu",
     "effectsMgr.statics.globalResourceRatio.title": "Maks kaynaklar bonusu",
+    "effectsMgr.statics.springCatnipRatio.title": "Bahar kedi nanesi bonusu",
     "policy.republic.label": "Cumhuriyet",
+    "prestige.tiferet.desc": "Paragon efektlerini %5 geliştirir",
     "resources.bloodstone.title": "kantaşı",
     "save.import.confirmation.msg": "Emin misin? Bu eski kayıdın üzerine yazacak!",
     "science.architecture.label": "Mimari",
@@ -13,6 +16,7 @@
     "village.bonus.desc.manager": "Avlanma bonusu",
     "village.job.woodcutter.desc": "+0.09 odun/saniye",
     "village.tab.title.outpost": "Karakol",
+    "workshop.qdot.label": "Kuantum nokta hücreleri",
     "workshop.qdot.desc": "Güneş Panelleri yıl boyunca biraz daha verimlidir",
     "workshop.thoriumReactors.label": "Toryum Reaktörleri"
 }
