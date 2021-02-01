@@ -1,4 +1,5 @@
 {
+    "console.intro": "당신은 개박하 숲의 고양이입니다.",
     "achievements.header": "총 도전과제: {0} of {1}",
     "achievements.msg.unlock": "도전과제 해제: {0}!",
     "achievements.msg.starUnlock": "도전과제 별 해제: {0}!",
