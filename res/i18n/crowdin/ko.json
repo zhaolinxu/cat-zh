@@ -621,7 +621,7 @@
     "stats.group.current": "현 게임 통계",
     "stats.kittens.avg": "도합 평균 고양이 태어난 수 (세기 당)",
     "stats.kittens.current": "평균 고양이 태어난 수 (세기 당)",
-    "stats.kittens.dead": "죽은 고양이 수",
+    "stats.kittens.dead": "고양이가 죽었다.",
     "stats.kittens.total": "총 고양이 수",
     "stats.paragon.total": "총 파라곤",
     "stats.time.current": "플레이한 기간 (시간)",
