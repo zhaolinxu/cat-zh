@@ -443,6 +443,7 @@
     "opts.theme.oledblack": "有機EL Black",
     "opts.yes": "はい",
     "opts.no": "いいえ",
+    "policy.clearCutting.label": "皆伐",
     "policy.isolationism.label": "孤立主義",
     "policy.stripMining.label": "露天掘り",
     "prestige.panel.label": "形而上学",
