@@ -1,5 +1,5 @@
 {
-    "console.intro": "Du er ei katt i ein kattemynteskog.",
+    "console.intro": "Du er en katt i en kattemynte skog.",
     "console.intro.zebra": "Du er en sebra i en savanne full av titangruver.",
     "achievements.header": "Bragdar: {0} av {1}",
     "achievements.msg.unlock": "Du klarte ei bragd: {0}!",
@@ -766,7 +766,7 @@
     "workshop.amFission.label": "Antimateriefisjon",
     "workshop.amReactors.label": "Antimateriereaktorar",
     "workshop.amReactors.desc": "Your Research Vessels and Space Beacons are twice as effective",
-    "workshop.amReactorsMK2.desc": "Your Research Vessels and Space Beacons are 1.5x more effective",
+    "workshop.amReactorsMK2.desc": "Dine Forsknings Fartøy og Verdensrom Stasjoner er ~77% mere effektive",
     "workshop.assistance.label": "Robotar til hjelp",
     "workshop.assistance.desc": "Fabrikkrobotar automatiserar rutinejobbar. Arbeidarar treng mindre kattemynte.",
     "workshop.astrolabe.label": "Astrolabium",
@@ -830,6 +830,7 @@
     "workshop.deepMining.label": "Djup gruvedrift",
     "workshop.deepMining.desc": "Gruvar lagar kol i tilegg",
     "workshop.deepMining.flavor": "Deilege kanarifuglar!",
+    "workshop.distorsion.label": "Forvridning",
     "workshop.eludiumHuts.label": "Eludiumhytter",
     "workshop.eludiumHuts.desc": "Hyttekostnad redusert med 10%",
     "workshop.eludiumReflectors.desc": "Improved telescope reflectors. Every observatory will give an additional 2% to Library effectiveness.",
