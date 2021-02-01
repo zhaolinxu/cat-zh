@@ -1158,6 +1158,7 @@
     "village.job.woodcutter.desc": "毎秒木材を +0.09",
     "village.woodcutter.flavor": "木材にひっかき傷を付けないように。",
     "village.kittens.have.best.rank": "子猫たちは全員最上の階級にいます。",
+    "village.kittens.promotion.nogold": "子猫を昇進させるためのゴールドが足りません",
     "village.leader.promoted.one.kitten": "リーダーは子猫を昇進させました。",
     "village.leader.promoted.many.kittens": "リーダーは、{0}匹の子猫を昇進させました。",
     "village.msg.froze": "が凍死した。",
