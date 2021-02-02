@@ -1,1 +1,8 @@
-{}
+{
+    "buildings.group.population": "Населення",
+    "effectsMgr.statics.environmentWoodBonus.title": "Виробництво дерева",
+    "prestige.zebraCovenant.label": "Ковенант Зебр",
+    "religion.zu.unicornGraveyard.desc": "Могила світлячків.",
+    "ui.filter.all": "Все",
+    "ui.option.language": "Мова:"
+}
