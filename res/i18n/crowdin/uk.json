@@ -1,8 +1,13 @@
 {
+    "bld.msg.automation": "Активація автоматизації майстерні",
     "buildings.group.population": "Населення",
+    "common.expand.all": "Розгорнути усе",
     "effectsMgr.statics.environmentWoodBonus.title": "Виробництво дерева",
+    "menu.getTheApp": "Отримай додаток",
+    "navbar.energy": "Енергія: {0}Вт",
     "prestige.zebraCovenant.label": "Ковенант Зебр",
     "religion.zu.unicornGraveyard.desc": "Могила світлячків.",
     "ui.filter.all": "Все",
-    "ui.option.language": "Мова:"
+    "ui.option.language": "Мова:",
+    "village.job.priest.desc": "+0.0075 віри за секунду"
 }
