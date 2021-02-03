@@ -370,6 +370,7 @@
     "effectsMgr.type.resProduction": "{0} Produktion",
     "general.copy.to.clipboard.prompt": "In die Zwischenablage kopieren: Strg+C, Eingabetaste",
     "general.food.advisor.text": "Nahrungs Berater: 'Dein Katzenminze Vorrat ist zu niedrig!'",
+    "iron.will.break.confirmation.msg": "Dies wird \"iron will\" beenden. Sind Sie sicher?",
     "menu.about": "Über",
     "menu.close": "Schließen",
     "menu.export.btn": "Gespeichert in der Dropbox (Beta)",
