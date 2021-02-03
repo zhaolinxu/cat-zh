@@ -497,6 +497,7 @@
     "effectsMgr.statics.mineralsPolicyRatio.title": "Бонус производства минералов",
     "effectsMgr.statics.woodPolicyRatio.title": "Бонус производства дерева",
     "effectsMgr.statics.goldPolicyRatio.title": "Бонус производства золота",
+    "effectsMgr.statics.summerSolarFarmRatio.title": "Летний бонус солнечным батареям",
     "general.copy.to.clipboard.prompt": "Копировать: Ctrl+C, Enter",
     "general.food.advisor.text": "Советник: 'Запасы еды слишком малы!'",
     "iron.will.break.confirmation.msg": "Железная воля будет завершена. Вы уверены?",
