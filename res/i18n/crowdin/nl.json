@@ -118,6 +118,7 @@
     "challendge.btn.desc": "<br />Gain: {0}<br /><br />Your game will be reset in order to enable this challenge. {1}",
     "effectsMgr.statics.calcinerSteelCraftRatio.title": "Steel plants's calciner bonus",
     "effectsMgr.statics.entangler-gflopsConsumption.title": "Entanglement St. - GFlops consumption",
+    "effectsMgr.statics.factoryCostReduction.title": "ああ",
     "effectsMgr.statics.gflopsConsumption.title": "GFlops consumption",
     "effectsMgr.statics.observatoryRatio.title": "Observatory's science ratio",
     "effectsMgr.statics.sattelite-observatoryRatio.title": "Satellite - Observatory's science ratio",
