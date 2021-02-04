@@ -1510,6 +1510,7 @@
     "workshop.strenghtenBuild.desc": "納屋と倉庫のヒビをコンクリートで修繕します。",
     "workshop.tachyonAccelerators.label": "タキオン加速器",
     "workshop.tachyonAccelerators.desc": "エネルギーリフトは5倍効果が上がります。",
+    "workshop.thinFilm.label": "Policies with the same numerical cost are mutually exclusive",
     "workshop.thoriumEngine.label": "トリウムドライブ",
     "workshop.thoriumEngine.desc": "より速く宇宙で動ける新しいロケットエンジンです。",
     "workshop.thoriumReactors.label": "トリウム反応炉",
