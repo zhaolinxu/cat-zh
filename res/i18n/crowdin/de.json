@@ -351,6 +351,7 @@
     "effectsMgr.statics.starAutoSuccessChance.title": "Automatisches-Astronomisches-Ereigniss-Chance",
     "effectsMgr.statics.starEventChance.title": "Astronomisches-Ereigniss-Chance",
     "effectsMgr.statics.starchartGlobalRatio.title": "Sternenkartenbonus",
+    "effectsMgr.statics.technocracyScienceCap.title": "Bonus zur maximalen Wissenschaft",
     "effectsMgr.statics.temporalFluxProduction.title": "Zeitlicher-Flux-Produktion",
     "effectsMgr.statics.temporalFluxProductionChronosphere.title": "Chronosphären-Zeitlicher-Flux-Produktion",
     "effectsMgr.statics.temporalParadoxDay.title": "Tag im zeitlichen Paradox",
