@@ -336,6 +336,7 @@
     "effectsMgr.statics.productionRatio.title": "Bonus de production",
     "effectsMgr.statics.reactorEnergyRatio.title": "Bonus d'électricité des Réacteurs",
     "effectsMgr.statics.relicRefineRatio.title": "Bonus de raffinage des Reliques",
+    "effectsMgr.statics.riftChance.title": "Chances de Faille Unicorne",
     "effectsMgr.statics.sattelite-observatoryRatio.title": "Satellite - Bonus de science des Observatoires",
     "effectsMgr.statics.spaceElevator-prodTransferBonus.title": "Ascenseur spatial - Transferre le bonus de production",
     "effectsMgr.statics.spaceScienceRatio.title": "Bonus de l'espace sur la production de la science",
