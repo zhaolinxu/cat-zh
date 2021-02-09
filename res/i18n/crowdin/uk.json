@@ -22,9 +22,12 @@
     "resources.plate.title": "плита",
     "gift.metaphysics": "Розблоковано {0}!",
     "science.archery.label": "Стрільба з лука",
+    "science.chronophysics.label": "Хронофізика",
     "science.engineering.effectDesc": "Розблоковує акведуки",
     "space.planet.moon.moonBase.label": "База на Місяці",
     "tab.name.stats": "Статистика",
+    "tab.name.workshop": "Майстерня",
+    "trade.send.explorers": "Відправити дослідників",
     "ui.filter.all": "Все",
     "ui.filter.available": "Доступно",
     "ui.loading.msg.10": "Хвала сонцю",
@@ -39,6 +42,8 @@
     "workshop.craftPanel.header.freeEngineers": "Вільні інженери",
     "workshop.crafts.megalith.label": "Мегаліт",
     "workshop.crafts.plate.label": "Металева пластина",
+    "workshop.factoryOptimization.desc": "Покращує ефективність інженерів",
     "workshop.ironAxes.label": "Залізна сокира",
-    "workshop.reinforcedWarehouses.label": "Вдосконалені склади"
+    "workshop.reinforcedWarehouses.label": "Вдосконалені склади",
+    "workshop.titaniumAxe.label": "Титанова сокира"
 }
