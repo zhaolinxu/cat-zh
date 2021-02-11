@@ -1859,14 +1859,14 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		//description: $I("buildings.ivoryTemple.desc"),
 		label: "Ivory Temple",
 		description: "Mystical temple where ivory is converted into minerals",
-		unlockRatio: 0,
+		unlockRatio: 0.1,
 		prices: [
 			{ name : "tMythril", val: 1 },
 			{ name : "ivory", val: 100 }
 		],
-		unlocks: {
+		/*unlocks: {
 			zebraUpgrades:["darkRevolution"]
-		},
+		},*/
 		priceRatio: 1.15,
 		//zebraRequired: 10,
 		effects: {

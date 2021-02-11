@@ -2103,8 +2103,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name: "ivory", val: 1000 },
 			{ name: "titanium", val: 500 }
 		],
-		progressHandicap: 7500,
-		tier: 5
+		progressHandicap: 10000,
+		tier: 7
 	}],
 
 	zebraUpgrades:[
@@ -2117,7 +2117,10 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			prices:[
 				{ name : "bloodstone", val: 15 },
 				{ name : "science", val: 100 }
-			]
+			],
+			upgrades:{
+				buildings: ["zebraOutpost"]
+			}
 		},{
 			name: "darkBrew",
 			label: $I("workshop.zebraUpgrade.darkBrew.label"),
@@ -2630,7 +2633,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButtonController", com.nuclearunic
 		var desc = craft.description;
 
 		var craftBonus = this.game.getResCraftRatio(craft.name);
-		if (craft.name != "wood") {
+		if (craft.name != "wood" && craft.name != "bloodstone" && craft.name != "tMythril") {
 			craftBonus -= this.game.getCraftRatio();
 		}
 
