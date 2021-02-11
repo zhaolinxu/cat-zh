@@ -257,6 +257,7 @@
     "village.msg.hunt.ivory": "ivoor",
     "village.msg.hunt.success": "Uw jagers zijn teruggekeerd",
     "village.msg.kittens": "katten",
+    "village.new.many.unicorns": "Je hebt {0} eenhoorns!",
     "village.panel.management.desc": "Happiness affects your workers' production and consumption of catnip.<br />Rare resources will increase this value whilst over-population will reduce it",
     "village.reassign.msg": "Uw kittens zijn opnieuw toegewezen aan de hand van hun bekwaamheid.",
     "village.tab.title.town": "Stad",
