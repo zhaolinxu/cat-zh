@@ -396,6 +396,7 @@
     "effectsMgr.type.resCraftRatio": "{0} Herstellbonus",
     "effectsMgr.type.resDemandRatio": "{0} Nachfragesreduktion",
     "effectsMgr.type.resProduction": "{0} Produktion",
+    "effectsMgr.statics.coalPolicyRatio.title": "Kohleproduktion Bonus",
     "effectsMgr.statics.culturePolicyRatio.title": "Bonus zur Kulturproduktion",
     "general.copy.to.clipboard.prompt": "In die Zwischenablage kopieren: Strg+C, Eingabetaste",
     "general.food.advisor.text": "Nahrungs Berater: 'Dein Katzenminze Vorrat ist zu niedrig!'",
