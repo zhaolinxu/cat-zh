@@ -651,8 +651,12 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         }
         console.warn(remainingCyclesYears);
         maxYearsShattered = amt;
+        var startingCycleNum = cal.cycle;
         for (var cycleNum = 0; cycleNum < cal.cyclesPerEra; cycleNum++){
-            var yearsInCurrentCycle = remainingCyclesYears[cycleNum];
+            var yearsInCurrentCycle = remainingCyclesYears[(cycleNum + startingCycleNum) % 10];
+            if (!yearsInCurrentCycle){
+                continue;
+            }
             var daysInCurrentCycle = (yearsInCurrentCycle - 1) * daysPerYear + remainingDaysInFirstYear;
             var ticksInCurrentCycle = daysInCurrentCycle * cal.ticksPerDay;
 
