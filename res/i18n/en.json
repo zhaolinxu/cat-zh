@@ -1034,7 +1034,7 @@
     "gift.resources": "Got {0} {1}!",
     "gift.apocrypha": "Apocrypha Bonus increased by {0}%!",
     "gift.transcendence": "Transcendence Tier increased by 4!",
-    "gift.metaphysics": "Unlocked {0}!",
+    "gift.metaphysics": "Got {0}!",
 
     "save.export.msg": "Save export successful!",
     "save.import.confirmation.msg": "Are your sure? This will overwrite your save!",
@@ -1469,8 +1469,7 @@
     "trade.bcoin.crash": "Annoy the Invisible Black Hand",
     "trade.bcoin.crash.desc": "Force blackcoin market crash",
     "trade.correct.bcoin": "There was a huge crypto market correction",
-    "trade.embassy.open": "Open embassy",
-    "trade.embassy":"Embassy level ({0})",
+    "trade.embassy.label":"Embassy",
     "trade.embassy.desc": "Improve your diplomatic relationships by establishing an embassy",
     "trade.embassy.pinned": "Pinned",
     "trade.embassy.unpinned": "Unpinned",

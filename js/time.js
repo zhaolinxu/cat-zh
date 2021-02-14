@@ -759,7 +759,8 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
             for (var i in price){
                 this.game.resPool.addResEvent(price[i].name, -price[i].val);
             }
-            callback(this.doShatter(model, 1));
+            this.doShatter(model, 1);
+            callback(true);
         }
         callback(false);
         return true;
@@ -910,14 +911,26 @@ dojo.declare("classes.ui.time.FixCryochamberBtnController", com.nuclearunicorn.g
         return result;
     },
 
-    buyItem: function(model, event, callback){
-        if (model.enabled && this.hasResources(model)) {
-            this.payPrice(model);
+	buyItem: function(model, event, callback) {
+		if (!model.enabled) {
+			callback(false);
+			return;
+		}
 
-            callback(this.doFixCryochamber(model));
-        }
-        callback(false);
-    },
+		var fixCount = event.shiftKey
+			? 1000
+			: event.ctrlKey || event.metaKey /*osx tears*/
+				? this.game.opts.batchSize || 10
+				: 1;
+		fixCount = Math.min(fixCount, this.game.time.getVSU("usedCryochambers").val);
+
+		var fixHappened = false;
+		for (var count = 0; count < fixCount && this.hasResources(model); ++count) {
+			this.payPrice(model);
+			fixHappened |= this.doFixCryochamber(model);
+		}
+		callback(fixHappened);
+	},
 
     doFixCryochamber: function(model){
 		var cry = this.game.time.getVSU("cryochambers");

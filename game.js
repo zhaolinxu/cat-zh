@@ -4461,7 +4461,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 			case "Transcendence":
 				this.religion.transcendenceTier += 4;
-				var msg = "Transcendence Tier increased by 4!";
+				var msg = $I("gift.transcendence");
 				break;
 
 			case "Metaphysics":
@@ -4484,7 +4484,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					this.prestige.getPerk("renaissance").researched = true;
 					var perk = "Renaissance";
 				}
-				var msg = $I("gift.metaphysics");
+				var msg = $I("gift.metaphysics", [perk]);
 				break;
 
 			case "Compendiums":
@@ -4498,13 +4498,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				var getSumOfPrices = function(item, resName){ //this function should return how much of one resource was spent on a stackable
 					var priceRatio = item.priceRatio;
 					var resPrice = 0;
-					var num = item.on;
+					var num = item.val;
 					for (var i in item.prices){
 						if (item.prices[i].name == resName){
 							resPrice = item.prices[i].val;
 						}
 					}
-					return resPrice * (Math.pow(priceRatio,1+ num) - 1)/(priceRatio - 1);
+					return resPrice * (Math.pow(priceRatio, num) - 1)/(priceRatio - 1);
 				};
 				var amt1 = Math.max(getSumOfPrices(unicornGraveyard, "necrocorn") + getSumOfPrices(unicornNecropolis, "necrocorn"), 
 				Math.max(this.resPool.get("necrocorn").value, 10));

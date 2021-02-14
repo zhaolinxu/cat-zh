@@ -207,7 +207,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		};
 		var kittens = [];
 		for (var i in this.game.challenges.reserves.reserveKittens){
-			var _kitten = this.game.challenges.reserves.reserveKittens[i].save(this.game.opts.compressSaveFile, this.jobNames);
+			var _kitten = this.game.challenges.reserves.reserveKittens[i].save(this.game.opts.compressSaveFile, this.game.village.jobNames);
 			kittens.push(_kitten);
 		}
 		saveData.challenges.reserves = this.reserves.getSaveData();
@@ -423,7 +423,7 @@ dojo.declare("classes.reserveMan", null,{
 	getSaveData: function(){
 		var kittens = [];
 		for (var i in this.game.challenges.reserves.reserveKittens){
-			var _kitten = this.game.challenges.reserves.reserveKittens[i].save(this.game.opts.compressSaveFile, this.jobNames);
+			var _kitten = this.game.challenges.reserves.reserveKittens[i].save(this.game.opts.compressSaveFile, this.game.village.jobNames);
 			kittens.push(_kitten);
 		}
 		return {
