@@ -1215,9 +1215,6 @@ var run = function() {
             }
             game.resetAutomatic();
             //=============================================================
-
-            // message('全部条件已经满足 TODO');
-            // 
         },
         timeCtrl: function () {
             var optionVals = options.auto.timeCtrl.items;
@@ -1336,7 +1333,7 @@ var run = function() {
             var nCorn = game.resPool.get("necrocorn");
             if (!(levi.unlocked && nCorn.value > 0)) {return;}
             if (nCorn.value >= 1) {
-                if (levi.energy < game.religion.getZU("marker").val * 5 + 5) {
+                if (levi.energy < game.diplomacy.getMarkerCap()) {
                     game.diplomacy.feedElders();
                     iactivity('act.feed');
                     storeForSummary('feed', 1);
