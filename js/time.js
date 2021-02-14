@@ -527,6 +527,83 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             game.challenges.researchChallenge("1000Years");
         }
     },
+    shatterCycle: function(maxYearsShattered){
+        var game = this.game;
+        var cal = game.calendar;
+
+        var routeSpeed = game.getEffect("routeSpeed") || 1;
+        var shatterTCGain = game.getEffect("shatterTCGain") * (1 + game.getEffect("rrRatio"));
+        var triggersOrderOfTheVoid = game.getEffect("voidResonance") > 0;
+
+        var daysPerYear = cal.daysPerSeason * cal.seasonsPerYear;
+        var remainingDaysInFirstYear = cal.daysPerSeason * (cal.seasonsPerYear - cal.season) - cal.day;
+
+        var remainingDaysInCurrentYear = i == 0 ? remainingDaysInFirstYear : daysPerYear;
+        var remainingYearsInCurrentCycle = Math.min(cal.yearsPerCycle - cal.cycleYear, maxYearsShattered);
+        var remainingDaysInCurrentCycle = (remainingYearsInCurrentCycle - 1) * daysPerYear + remainingDaysInCurrentYear;
+        var remainingTicksInCurrentCycle = remainingDaysInCurrentCycle * cal.ticksPerDay;
+
+        // Space ETA
+        for (var j in game.space.planets) {
+            var planet = game.space.planets[j];
+            if (planet.unlocked && !planet.reached) {
+                planet.routeDays = Math.max(0, planet.routeDays - remainingDaysInCurrentCycle * routeSpeed);
+            }
+        }
+
+        // ShatterTC gain
+        if (shatterTCGain > 0) {
+            // XXX Partially duplicates resources#fastforward and #enforceLimits, some nice factorization is probably possible
+            var limits = {};
+            for (var j = 0; j < game.resPool.resources.length; j++) {
+                var res = game.resPool.resources[j];
+                limits[res.name] = Math.max(res.value, res.maxValue || Number.POSITIVE_INFINITY);
+                game.resPool.addRes(res, game.getResourcePerTick(res.name, true) * remainingTicksInCurrentCycle * shatterTCGain, false, true);
+            }
+            if (this.game.workshop.get("chronoEngineers").researched) {
+                this.game.workshop.craftByEngineers(remainingTicksInCurrentCycle * shatterTCGain);
+            }
+            for (var j = 0; j < game.resPool.resources.length; j++) {
+                var res = game.resPool.resources[j];
+                res.value = Math.min(res.value, limits[res.name]);
+            }
+        }
+
+        if (triggersOrderOfTheVoid) {
+            game.religion.triggerOrderOfTheVoid(remainingTicksInCurrentCycle);
+        }
+
+        // Calendar
+        for (var i = 0; i < remainingYearsInCurrentCycle; i++){
+            cal.year++;
+            cal.onNewYear(i + 1 == remainingYearsInCurrentCycle);
+        }
+        return maxYearsShattered - remainingYearsInCurrentCycle;
+    },
+    shatterInCycles: function(amt){
+        amt = amt || 1;
+        amtCopy = amt;
+
+        var game = this.game;
+        var cal = game.calendar;
+        cal.day = 0;
+        cal.season = 0;
+        while(amtCopy > 0){
+            amtCopy = shatterCycle(amtCopy);
+        }
+        if (amt == 1) {
+            game.msg($I("time.tc.shatterOne"), "", "tc");
+        } else {
+            game.msg($I("time.tc.shatter",[amt]), "", "tc");
+        }
+        var remainingDaysInFirstYear = cal.daysPerSeason * (cal.seasonsPerYear - cal.season) - cal.day;
+        this.flux += amt - 1 + remainingDaysInFirstYear / daysPerYear;
+
+        game.challenges.getChallenge("1000Years").unlocked = true;
+        if (game.challenges.isActive("1000Years") && cal.year >= 1000) {
+            game.challenges.researchChallenge("1000Years");
+        }
+    },
 
     unlockAll: function(){
         for (var i in this.cfu){
