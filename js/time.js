@@ -589,7 +589,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         cal.day = 0;
         cal.season = 0;
         while(amtCopy > 0){
-            amtCopy = shatterCycle(amtCopy);
+            amtCopy = this.shatterCycle(amtCopy);
         }
         if (amt == 1) {
             game.msg($I("time.tc.shatterOne"), "", "tc");
