@@ -1210,6 +1210,9 @@ var run = function() {
             saveToKittenStorage();
 
             //=============================================================
+            for (var i = 0; i < game.challenges.challenges.length; i++){
+                game.challenges.challenges[i].pending = false;
+            }
             game.resetAutomatic();
             //=============================================================
 
