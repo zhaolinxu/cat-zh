@@ -634,17 +634,22 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         var remainingCyclesYears = [0,0,0,0,0,0,0,0,0,0];
         if (maxYearsShattered%50 == 0){
             for (j in remainingCyclesYears){
-                remainingCyclesYears[j] = maxYearsShattered/50;
+                remainingCyclesYears[j] = maxYearsShattered/10;
             }
         }else{
             remainingCyclesYears[cal.cycle] += Math.min(cal.yearsPerCycle - cal.cycleYear, maxYearsShattered);
-            maxYearsShattered -= remainingCyclesYears[cal.cycle];
+            maxYearsShattered += -remainingCyclesYears[cal.cycle];
+            console.warn(maxYearsShattered)
             for (j in remainingCyclesYears){
-                remainingCyclesYears[j] = Math.floor(maxYearsShattered/50);
-                maxYearsShattered -= Math.floor(maxYearsShattered/50);
+                remainingCyclesYears[j] += Math.floor(maxYearsShattered/50);
+                maxYearsShattered += -Math.floor(maxYearsShattered/50);
             }
-            remainingCyclesYears[cal.cycle<cal.cyclesPerEra? cal.cycle + 1: 0] += (maxYearsShattered>0)? maxYearsShattered:0;
+            for (j = 1; j < cal.cyclesPerEra; j++){
+                remainingCyclesYears[(cal.cycle + j)%10] = Math.min(cal.yearsPerCycle, maxYearsShattered);
+                maxYearsShattered += -Math.min(cal.yearsPerCycle, maxYearsShattered);
+            }
         }
+        console.warn(remainingCyclesYears);
         maxYearsShattered = amt;
         for (var cycleNum = 0; cycleNum < cal.cyclesPerEra; cycleNum++){
             var yearsInCurrentCycle = remainingCyclesYears[cycleNum];
