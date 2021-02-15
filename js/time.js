@@ -528,7 +528,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             game.challenges.researchChallenge("1000Years");
         }
         var d1 = new Date();
-        console.warn(d1.getTime() - d.getTime())
+        //console.warn(d1.getTime() - d.getTime())
     },
     shatterInCycles1: function(amt){
         var d = new Date();
@@ -585,7 +585,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
             // Calendar
             for (var i = 0; i < remainingYearsInCurrentCycle; i++){
-                cal.onNewYear(i + 1 == amt);
+                cal.onNewYear(endYear == cal.year);
             }
             cal.year += remainingYearsInCurrentCycle;
             maxYearsShattered -= remainingYearsInCurrentCycle;
@@ -603,7 +603,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             game.challenges.researchChallenge("1000Years");
         }
         var d1 = new Date();
-        console.warn(d1.getTime() - d.getTime())
+        //console.warn(d1.getTime() - d.getTime())
     },
     shatterInCycles: function(amt){
         var d = new Date();
@@ -639,7 +639,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         }else{
             remainingCyclesYears[cal.cycle] += Math.min(cal.yearsPerCycle - cal.cycleYear, maxYearsShattered);
             maxYearsShattered += -remainingCyclesYears[cal.cycle];
-            console.warn(maxYearsShattered)
+            //console.warn(maxYearsShattered)
             for (j in remainingCyclesYears){
                 remainingCyclesYears[j] += Math.floor(maxYearsShattered/50);
                 maxYearsShattered += -Math.floor(maxYearsShattered/50);
@@ -649,7 +649,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                 maxYearsShattered += -Math.min(cal.yearsPerCycle, maxYearsShattered);
             }
         }
-        console.warn(remainingCyclesYears);
+        //console.warn(remainingCyclesYears);
         maxYearsShattered = amt;
         var startingCycleNum = cal.cycle;
         for (var cycleNum = 0; cycleNum < cal.cyclesPerEra; cycleNum++){
@@ -703,7 +703,30 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             game.challenges.researchChallenge("1000Years");
         }
         var d1 = new Date();
-        console.warn(d1.getTime() - d.getTime())
+        //console.warn(d1.getTime() - d.getTime())
+    },
+    testShatters: function(shatters, times){
+        var oldShatterD1 = new Date();
+        for (var i = 0; i < times; i++){
+            this.shatter(shatters);
+        }
+        var oldShatterD2 = new Date();
+        var newShatterD1 = new Date();
+        for (var i = 0; i < times; i++){
+            this.shatterInCycles(shatters);
+        }
+        var newShatterD2 = new Date();
+        var new1ShatterD1 = new Date();
+        for (var i = 0; i < times; i++){
+            this.shatterInCycles1(shatters);
+        }
+        var new1ShatterD2 = new Date();
+        console.log("oldShatterAverafe = " + (oldShatterD2.getTime() - oldShatterD1.getTime())/times)
+        console.log("newShatterAverafe = " + (newShatterD2.getTime() - newShatterD1.getTime())/times)
+        console.log("oldShatterAverafe = " + (new1ShatterD2.getTime() - new1ShatterD1.getTime())/times)
+
+        console.log("newEfficensy = " + (oldShatterD2.getTime() - oldShatterD1.getTime())/(newShatterD2.getTime() - newShatterD1.getTime()))
+        console.log("new1Efficensy = " + (oldShatterD2.getTime() - oldShatterD1.getTime())/(new1ShatterD2.getTime() - new1ShatterD1.getTime()))
     },
     unlockAll: function(){
         for (var i in this.cfu){
