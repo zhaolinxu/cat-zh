@@ -1,5 +1,8 @@
 {
+    "console.intro": "Sei un gattino in una foresta di erba gatta.",
+    "console.intro.zebra": "Sei una zebra in una savana piena di miniere di titanio.",
     "achievements.header": "Achievements: {0} of {1}",
+    "achievements.msg.unlock": "Obiettivo sbloccato: {0}!",
     "achievements.anachronox.desc": "Per favore basta",
     "achievements.atlasUnmeowed.desc": "Costruisci un Magneto in modalità Volontà Ferrea",
     "achievements.cathammer.desc": "Nella tetro e oscuro futuro del genere felino",
