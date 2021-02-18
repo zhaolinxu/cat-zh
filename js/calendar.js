@@ -930,7 +930,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			mod *= 1 + this.game.getLimitedDR(this.game.getEffect("coldHarshness"),1);
 		}
 		if (this.getCurSeason().name == "spring") {
-                        mod *= (1 + this.game.getLimitedDR(this.game.getEffect("springCatnipBonus"), 2));
+                        mod *= (1 + this.game.getLimitedDR(this.game.getEffect("springCatnipRatio"), 2));
                 }
 
 		return mod;
