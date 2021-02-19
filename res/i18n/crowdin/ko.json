@@ -289,6 +289,7 @@
     "opts.tabLayout.desc": "넓은 화면(768px+)을 위한 2열 구조로 화면 요소 배치를 변경합니다.",
     "opts.theme.black": "OLED 블랙",
     "opts.theme.computer": "컴퓨터",
+    "opts.theme.vessel": "You are a kitten in a catnip forest",
     "opts.yes": "네",
     "opts.no": "아니요",
     "policy.autocracy.label": "독재",
