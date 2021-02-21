@@ -90,6 +90,7 @@
     "btn.sell": "売却",
     "btn.sell.minor": "売却",
     "btn.trade": "交易",
+    "sell.all.confirmation.msg": "本当にすべて売りますか？",
     "buildings.academy.label": "学校",
     "buildings.academy.desc": "研究比率と子猫の技能の成長を向上させます。アップグレードごとに科学力の生産量が20%増加します。",
     "buildings.academy.flavor": "好奇心は科学の基礎である。我々猫は気高く死んだのだ。",
