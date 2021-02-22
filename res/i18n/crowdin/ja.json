@@ -621,7 +621,7 @@
     "religion.sacrificeBtn.desc": "ユニコーンを彼らの次元へ戻します。ジグラートの所持数に応じてユニコーンの涙を受け取ります。",
     "religion.sacrificeBtn.sacrifice.msg": "{0} 頭のユニコーンが生贄にされた。あなたは {1} 滴のユニコーンの涙を手に入れた!",
     "religion.transcend.confirmation.title": "超越しますか?",
-    "religion.transcend.confirmation.msg": "本当に賛美ボーナスを捨てますか?\n\n賛美ボーナスを犠牲にして特別な超越レベルに達します。\n\n各レベルで、蓄積された信仰の変換 (星を崇拝する) 効率がアップします。\n\nレベルが上がるにつれ、より信仰ボーナスを犠牲にすることを要求します。\n\nこのボーナスはリセット後も蓄積され、受け継がれます。\n\nこのボタンをクリックすると賛美ボーナスと祈りの効率の一部が失われます。",
+    "religion.transcend.confirmation.msg": "本当に賛美ボーナスを捨てますか?\n\n賛美ボーナスを犠牲にして特別な超越レベルに達します。\n\nレベルが上がるにつれ、より信仰ボーナスを犠牲にすることを要求します。\n\nこのボーナスはリセット後も積み上がり、受け継がれます。\n\nこのボタンをクリックすると祈りの信仰ボーナスの一部をが消えます。",
     "religion.transcend.msg.failure": "次のステップまで: {0}%",
     "religion.transcend.msg.success": "あなたは死の淵を超越した T-level: {0}",
     "religion.transcendBtn.label": "超越する",
