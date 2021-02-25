@@ -1639,7 +1639,7 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 		var prices = [];
 		for (var i = 0; i < meta.prices.length; i++){
             prices.push({
-            	val: meta.prices[i].val * (1 + policyCostRatio),
+            	val: meta.prices[i].val * Math.pow(1.25, policyCostRatio),
             	name: meta.prices[i].name
 			});
 		}
