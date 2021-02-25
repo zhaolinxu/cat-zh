@@ -901,7 +901,7 @@ dojo.declare("classes.diplomacy.ui.EmbassyButtonController", com.nuclearunicorn.
         var priceCoeficient = 1;
         priceCoeficient -= this.game.getEffect("embassyCostReduction");
 		for (var i = 0; i < prices.length; i++) {
-            prices[i].val = prices[i].val * priceCoeficient * Math.pow(1.15, model.options.race.embassyLevel);
+            prices[i].val = prices[i].val * priceCoeficient * Math.pow(1.15, model.options.race.embassyLevel + this.game.getEffect("phantomEmbassiesBought"));
 		}
 		return prices;
 	},
