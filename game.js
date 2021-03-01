@@ -2104,6 +2104,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.prestige.getPerk("adjustmentBureau").reserve);
 
 		this.ui.load();
+		this.updateCaches();
 
 		return success;
 	},
