@@ -886,6 +886,15 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		lackResConvert: false,
 		calculateEffects: function(self, game) {
+			self.effects = {
+				"woodPerTickCon": 0,
+				"mineralsPerTickCon": 0,
+				"coalPerTickAutoprod": 0,
+				"ironPerTickAutoprod": 0.02,
+				"titaniumPerTickAutoprod": 0,
+				"goldPerTickAutoprod": 0
+			};
+			
 			var smelterRatio = (1 + game.getEffect("smelterRatio"));
 			self.effects["ironPerTickAutoprod"] = 0.02 * smelterRatio;
 
@@ -921,14 +930,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				return;
 			}
 
-			self.effects = {
-				"woodPerTickCon": 0,
-				"mineralsPerTickCon": 0,
-				"coalPerTickAutoprod": 0,
-				"ironPerTickAutoprod": 0.02,
-				"titaniumPerTickAutoprod": 0,
-				"goldPerTickAutoprod": 0
-			};
 			self.calculateEffects(self, game);
 
 			var amt = game.resPool.getAmtDependsOnStock(
