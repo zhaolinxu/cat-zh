@@ -1211,6 +1211,7 @@
     "time.fixCryochambers.label": "Reparar Criocámara",
     "time.fixCryochambers.desc": "Rasga el espacio-tiempo para recuperar una cámara criogénica antes de usarla",
     "time.heat": "Calor",
+    "time.redshift": "Has ganado {0} días de producción",
     "time.reset.instructional": "Restablecer la línea de tiempo iniciará el juego desde cero. Conservarás todas tus estadísticas y logros. Podrás recibir varios bonos de juego.<br><br>Al reiniciar en este punto, obtendrás:",
     "time.reset.karma": "Puntos de Karma",
     "time.reset.paragon": "Puntos de Paragón",
