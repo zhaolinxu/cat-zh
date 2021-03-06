@@ -678,6 +678,7 @@
     "prestige.zebraCovenant.desc": "より多くのシマウマ族があなたの所に滞在します。",
     "prestige.zebraDiplomacy.label": "シマウマ族との外交",
     "prestige.zebraDiplomacy.desc": "数体のシマウマ族の狩人が村に滞在します。",
+    "religion.adoreBtn.label": "銀河を崇拝する",
     "religion.btn.refine": "精製",
     "religion.faithCount.bonus": "ボーナス",
     "religion.faithCount.pool": "蓄積された信仰: {0}",
