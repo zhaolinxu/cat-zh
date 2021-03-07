@@ -968,6 +968,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"energyConsumption" : 0
 		},
 		calculateEffects: function(self, game) {
+			self.basicProductionCalculation(self, game);
+			self.steelProductionCalculation(self, game);
+		},
+		basicProductionCalculation: function(self, game) {
 			self.effects["energyConsumption"] = 1;
 			self.effects["mineralsPerTickCon"] = -1.5;
 			self.effects["oilPerTickCon"] = -0.024; //base + 0.01
@@ -975,36 +979,12 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["ironPerTickAutoprod"] = 0.15 * ( 1 + calcinerRatio );
 			self.effects["titaniumPerTickAutoprod"] = 0.0005 * ( 1 + calcinerRatio * 3 );
 		},
-		lackResConvert: false,
-		action: function(self, game){
-			// TODO: How to integrate autoProdRatio with calculateEffects?
-
-			if (self.on < 1){
-				return;
-			}
-
-			self.calculateEffects(self, game);
-
-			var amt = game.resPool.getAmtDependsOnStock(
-				[{res: "minerals", amt: -self.effects["mineralsPerTickCon"]},
-				 {res: "oil", amt: -self.effects["oilPerTickCon"]}],
-				self.on
-			);
-			self.effects["mineralsPerTickCon"] *= amt;
-			self.effects["ironPerTickAutoprod"] *= amt;
-			self.effects["titaniumPerTickAutoprod"] *= amt;
-			self.effects["oilPerTickCon"] *= amt;
-
-			var amtFinal = amt;
-
+		steelProductionCalculation: function(self, game, calledByAction) {
 			self.effects["coalPerTickCon"] = 0;
 			self.effects["ironPerTickCon"] = 0;
 			self.effects["steelPerTickProd"] = 0;
 
-			//self.effects["coalPerTickAutoprod"] = self.effects["ironPerTickAutoprod"] * game.getEffect("calcinerCoalRatio");
-
 			var steelRatio = game.getEffect("calcinerSteelRatio");
-
 			if (steelRatio != 0){
 
 				if (self.isAutomationEnabled == null) {
@@ -1030,20 +1010,56 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					self.effects["ironPerTickCon"] = -difference;
 					self.effects["steelPerTickProd"] = difference / 100;
 
-					amt = game.resPool.getAmtDependsOnStock(
-						[{res: "coal", amt: -self.effects["coalPerTickCon"]},
-						 {res: "iron", amt: -self.effects["ironPerTickCon"]}],
-						self.on
-					);
-					self.effects["coalPerTickCon"] *= amt;
-					self.effects["ironPerTickCon"] *= amt;
-					// Automated production, metallurgist leader won't help here
-					self.effects["steelPerTickProd"] *= amt * (1 + game.getCraftRatio() * game.getEffect("calcinerSteelCraftRatio") + game.bld.get("reactor").on * game.getEffect("calcinerSteelReactorBonus"));
+					if(calledByAction){
+						var amt = game.resPool.getAmtDependsOnStock(
+							[{res: "coal", amt: -self.effects["coalPerTickCon"]},
+						 	{res: "iron", amt: -self.effects["ironPerTickCon"]}],
+							self.on
+						);
+					
+						self.effects["coalPerTickCon"] *= amt;
+						self.effects["ironPerTickCon"] *= amt;
+						
+						// Automated production, metallurgist leader won't help here
+						self.effects["steelPerTickProd"] *= amt * (1 + game.getCraftRatio() * game.getEffect("calcinerSteelCraftRatio") + game.bld.get("reactor").on * game.getEffect("calcinerSteelReactorBonus"));
 
-					amtFinal = (amtFinal + amt) / 2;
+						return amt;
+					}
+					else{
+						self.effects["steelPerTickProd"] *= (1 + game.getCraftRatio() * game.getEffect("calcinerSteelCraftRatio") + game.bld.get("reactor").on * game.getEffect("calcinerSteelReactorBonus"));
+					}
 				}
 			}
+			return -1;
+		},
+		lackResConvert: false,
+		action: function(self, game){
+			// TODO: How to integrate autoProdRatio with calculateEffects?
 
+			if (self.on < 1){
+				return;
+			}
+
+			self.basicProductionCalculation(self, game);
+
+			var amt = game.resPool.getAmtDependsOnStock(
+				[{res: "minerals", amt: -self.effects["mineralsPerTickCon"]},
+				 {res: "oil", amt: -self.effects["oilPerTickCon"]}],
+				self.on
+			);
+			self.effects["mineralsPerTickCon"] *= amt;
+			self.effects["ironPerTickAutoprod"] *= amt;
+			self.effects["titaniumPerTickAutoprod"] *= amt;
+			self.effects["oilPerTickCon"] *= amt;
+
+			var amtFinal = amt;
+
+			//self.effects["coalPerTickAutoprod"] = self.effects["ironPerTickAutoprod"] * game.getEffect("calcinerCoalRatio");
+
+			amt = self.steelProductionCalculation(self, game, true);
+			if (amt > -1){
+				amtFinal = (amt + amtFinal)/2;
+			}
 			return amtFinal;
 		}
 	},
