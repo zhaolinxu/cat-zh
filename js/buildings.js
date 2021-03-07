@@ -530,8 +530,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			jobs: ["scholar"]
 		},
 		upgrades: {
-			buildings: ["biolab"],
-			buildings: ["observatory"]
+			buildings: ["biolab", "observatory"]
 		},
 		calculateEffects: function(self, game){
 			var stageMeta = self.stages[self.stage];
