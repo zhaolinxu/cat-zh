@@ -530,7 +530,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			jobs: ["scholar"]
 		},
 		upgrades: {
-			buildings: ["biolab"]
+			buildings: ["biolab", "observatory"]
 		},
 		calculateEffects: function(self, game){
 			var stageMeta = self.stages[self.stage];
@@ -611,7 +611,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"starEventChance": 0.002,
 			"starAutoSuccessChance": 0.01,
 		},
-		action: function(self, game) {
+		calculateEffects: function(self, game) {
 			var ratio = 1 + game.getEffect("observatoryRatio");
 			self.effects["scienceRatio"] = ratio * 0.25;
 			self.effects["scienceMax"] = ratio * (game.workshop.get("astrolabe").researched ? 1500 : 1000);
@@ -854,7 +854,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"coalPerTickBase": 0.015,
 			"uraniumPerTickBase": 0
 		},
-		action: function(self, game){
+		calculateEffects: function(self, game){
 			var effects = {
 				"mineralsRatio": 0.35,
 				"coalPerTickBase": 0.015
@@ -884,22 +884,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"goldPerTickAutoprod": 0
 		},
 		lackResConvert: false,
-		action: function(self, game){
-			// TODO: How to integrate autoProdRatio with calculateEffects?
-
-			if (self.on < 1){
-				return;
-			}
-
-			var iron = game.resPool.get("iron");
-
-			//safe switch for IW to save precious resources, as per players request
-			//only if option is enabled, because Chris says so
-			if (game.ironWill && game.opts.IWSmelter && iron.value > iron.maxValue * 0.95){
-				self.on = 0;
-				return;
-			}
-
+		calculateEffects: function(self, game) {
 			self.effects = {
 				"woodPerTickCon": 0,
 				"mineralsPerTickCon": 0,
@@ -908,8 +893,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				"titaniumPerTickAutoprod": 0,
 				"goldPerTickAutoprod": 0
 			};
-
-
+			
 			var smelterRatio = (1 + game.getEffect("smelterRatio"));
 			self.effects["ironPerTickAutoprod"] = 0.02 * smelterRatio;
 
@@ -927,6 +911,25 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			self.effects["woodPerTickCon"] = -0.05;
 			self.effects["mineralsPerTickCon"] = -0.1;
+			
+		},
+		action: function(self, game){
+			// TODO: How to integrate autoProdRatio with calculateEffects?
+
+			if (self.on < 1){
+				return;
+			}
+
+			var iron = game.resPool.get("iron");
+
+			//safe switch for IW to save precious resources, as per players request
+			//only if option is enabled, because Chris says so
+			if (game.ironWill && game.opts.IWSmelter && iron.value > iron.maxValue * 0.95){
+				self.on = 0;
+				return;
+			}
+
+			self.calculateEffects(self, game);
 
 			var amt = game.resPool.getAmtDependsOnStock(
 				[{res: "wood", amt: -self.effects["woodPerTickCon"]},
@@ -965,42 +968,23 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"energyConsumption" : 0
 		},
 		calculateEffects: function(self, game) {
-			self.effects["energyConsumption"] = 1;
+			self.basicProductionCalculation(self, game);
+			self.steelProductionCalculation(self, game);
 		},
-		lackResConvert: false,
-		action: function(self, game){
-			// TODO: How to integrate autoProdRatio with calculateEffects?
-
-			if (self.on < 1){
-				return;
-			}
-
+		basicProductionCalculation: function(self, game) {
+			self.effects["energyConsumption"] = 1;
 			self.effects["mineralsPerTickCon"] = -1.5;
 			self.effects["oilPerTickCon"] = -0.024; //base + 0.01
 			var calcinerRatio = game.getEffect("calcinerRatio");
 			self.effects["ironPerTickAutoprod"] = 0.15 * ( 1 + calcinerRatio );
 			self.effects["titaniumPerTickAutoprod"] = 0.0005 * ( 1 + calcinerRatio * 3 );
-
-			var amt = game.resPool.getAmtDependsOnStock(
-				[{res: "minerals", amt: -self.effects["mineralsPerTickCon"]},
-				 {res: "oil", amt: -self.effects["oilPerTickCon"]}],
-				self.on
-			);
-			self.effects["mineralsPerTickCon"] *= amt;
-			self.effects["ironPerTickAutoprod"] *= amt;
-			self.effects["titaniumPerTickAutoprod"] *= amt;
-			self.effects["oilPerTickCon"] *= amt;
-
-			var amtFinal = amt;
-
+		},
+		steelProductionCalculation: function(self, game, calledByAction) {
 			self.effects["coalPerTickCon"] = 0;
 			self.effects["ironPerTickCon"] = 0;
 			self.effects["steelPerTickProd"] = 0;
 
-			//self.effects["coalPerTickAutoprod"] = self.effects["ironPerTickAutoprod"] * game.getEffect("calcinerCoalRatio");
-
 			var steelRatio = game.getEffect("calcinerSteelRatio");
-
 			if (steelRatio != 0){
 
 				if (self.isAutomationEnabled == null) {
@@ -1026,20 +1010,56 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					self.effects["ironPerTickCon"] = -difference;
 					self.effects["steelPerTickProd"] = difference / 100;
 
-					amt = game.resPool.getAmtDependsOnStock(
-						[{res: "coal", amt: -self.effects["coalPerTickCon"]},
-						 {res: "iron", amt: -self.effects["ironPerTickCon"]}],
-						self.on
-					);
-					self.effects["coalPerTickCon"] *= amt;
-					self.effects["ironPerTickCon"] *= amt;
-					// Automated production, metallurgist leader won't help here
-					self.effects["steelPerTickProd"] *= amt * (1 + game.getCraftRatio() * game.getEffect("calcinerSteelCraftRatio") + game.bld.get("reactor").on * game.getEffect("calcinerSteelReactorBonus"));
+					if(calledByAction){
+						var amt = game.resPool.getAmtDependsOnStock(
+							[{res: "coal", amt: -self.effects["coalPerTickCon"]},
+						 	{res: "iron", amt: -self.effects["ironPerTickCon"]}],
+							self.on
+						);
+					
+						self.effects["coalPerTickCon"] *= amt;
+						self.effects["ironPerTickCon"] *= amt;
+						
+						// Automated production, metallurgist leader won't help here
+						self.effects["steelPerTickProd"] *= amt * (1 + game.getCraftRatio() * game.getEffect("calcinerSteelCraftRatio") + game.bld.get("reactor").on * game.getEffect("calcinerSteelReactorBonus"));
 
-					amtFinal = (amtFinal + amt) / 2;
+						return amt;
+					}
+					else{
+						self.effects["steelPerTickProd"] *= (1 + game.getCraftRatio() * game.getEffect("calcinerSteelCraftRatio") + game.bld.get("reactor").on * game.getEffect("calcinerSteelReactorBonus"));
+					}
 				}
 			}
+			return -1;
+		},
+		lackResConvert: false,
+		action: function(self, game){
+			// TODO: How to integrate autoProdRatio with calculateEffects?
 
+			if (self.on < 1){
+				return;
+			}
+
+			self.basicProductionCalculation(self, game);
+
+			var amt = game.resPool.getAmtDependsOnStock(
+				[{res: "minerals", amt: -self.effects["mineralsPerTickCon"]},
+				 {res: "oil", amt: -self.effects["oilPerTickCon"]}],
+				self.on
+			);
+			self.effects["mineralsPerTickCon"] *= amt;
+			self.effects["ironPerTickAutoprod"] *= amt;
+			self.effects["titaniumPerTickAutoprod"] *= amt;
+			self.effects["oilPerTickCon"] *= amt;
+
+			var amtFinal = amt;
+
+			//self.effects["coalPerTickAutoprod"] = self.effects["ironPerTickAutoprod"] * game.getEffect("calcinerCoalRatio");
+
+			amt = self.steelProductionCalculation(self, game, true);
+			if (amt > -1){
+				amtFinal = (amt + amtFinal)/2;
+			}
 			return amtFinal;
 		}
 	},
@@ -1206,8 +1226,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (self.isAutomationEnabled == null && hasPumpjack) {
 				self.isAutomationEnabled = true;
 			}
+			self.updateEffects(self, game);
 		},
-		action: function(self, game) {
+		updateEffects: function (self, game) {
 			var oilRatio = 1 + game.getEffect("oilWellRatio");
 			if (self.isAutomationEnabled == false) {
 				oilRatio -= game.workshop.get("pumpjack").effects["oilWellRatio"];
@@ -1216,6 +1237,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			self.effects["energyConsumption"] = self.isAutomationEnabled
 				? 1 : 0;
+		},
+		action: function(self, game) {
+			self.updateEffects(self, game);
 		},
 		flavor: $I("buildings.oilWell.flavor"),
 		unlockScheme: {
@@ -1479,7 +1503,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},		
 		togglable: true,
 		lackResConvert: false,
-		action: function(self, game) {
+		action: function(self, game) {//split
 			self.effects = {
 				"catnipPerTickCon" : -1,
 				"spicePerTickCon" : -0.1,
