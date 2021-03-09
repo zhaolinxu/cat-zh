@@ -948,6 +948,7 @@
     "tab.name.workshop": "Werkstatt",
     "techs.panel.label": "Technologien",
     "time.AccelerateTimeBtn.desc": "Beschleunige und verlangsame Zeit nach Lust und Laune (+50% Beschleunigung)",
+    "time.AccelerateTimeBtn.tooltip.normal": "Normaler Zeitfluss",
     "time.cfu.blastFurnace.desc": "Verwendet Chronohitze. Erhöht die maximale Hitze um 100.",
     "time.cfu.ressourceRetrieval.label": "Ressourcen Rückgewinnung",
     "time.cfu.ressourceRetrieval.desc": "Bekomme einen Teil deiner jährlichen Ressourcenproduktion wenn du Zeitkristalle Zerschmetterst",
