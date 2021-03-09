@@ -288,7 +288,7 @@
     "challendge.winterIsComing.label": "Зима пришла",	
     "challendge.winterIsComing.desc": "Начни партию с вечной зимой.<br><br>Цель: Доберись до Гелиоса.",
     "challendge.winterIsComing.effect.desc": "Погода в общем улучшится.",
-	"challendge.btn.chronosphere.desc": "Без бонусов от хроносфер",
+	"challendge.btn.chronosphere.desc": "Без бонусов от хроносфер в начале следуйщей партии. Вместо этого создадут резервы.",
     "challendge.btn.chronosphere.with.ironWill.desc": "Без бонусов от хроносфер.<br>ВНИМАНИЕ: бонус от хроносфер автоматически отменит Железную Волю",
     "challendge.btn.confirmation.title": "Подтверждение принятия вызова",
     "challendge.btn.confirmation.msg": "Принять этот вызов и начать новую партию?",
