@@ -215,7 +215,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		unlocked: false,
 		getTradeBonusEffect: function(game){
 			var self = game.challenges.getChallenge("pacifism");
-			if(!self.val){
+			if(!self.val||! game.chellenges.isActive("pacifism")){
 				return 0;
 			}
 			var tradepost =game.bld.getBuildingExt("tradepost").meta;
