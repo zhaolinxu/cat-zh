@@ -4327,6 +4327,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 						this.calendar.cycleEffectsBasics(item.effects, item.name);
 					}
 				}
+				if (item.unlockScheme && item.val >= item.unlockScheme.threshold) {
+					this.ui.unlockScheme(item.unlockScheme.name);
+				}
 			}
 		}
 	},
