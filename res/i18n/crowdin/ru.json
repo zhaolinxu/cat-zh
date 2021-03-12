@@ -526,6 +526,7 @@
     "navbar.menu.title": "Меню",
     "navbar.btn.hunters": "Отправить всех охотников",
     "navbar.btn.praise": "Восхвалить солнце",
+    "navbar.energy.cons": "Потребление: {0}Вт",
     "navbar.energy.cons.short": "Потребление:",
     "navbar.energy.penalty": "Простой производства без энергии: ",
     "navbar.energy.prod": "Производство: {0} Вт",
