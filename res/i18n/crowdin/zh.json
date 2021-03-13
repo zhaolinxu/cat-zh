@@ -508,7 +508,7 @@
     "effectsMgr.statics.mineralsPolicyRatio.title": "矿物生产加成",
     "effectsMgr.statics.woodPolicyRatio.title": "木材生产加成",
     "effectsMgr.statics.goldPolicyRatio.title": "黄金生产加成",
-    "effectsMgr.statics.springCatnipRatio.title": "春季猫薄荷加成",
+    "effectsMgr.statics.springCatnipRatio.title": "春季猫薄荷田加成",
     "effectsMgr.statics.summerSolarFarmRatio.title": "夏季太阳能发电站加成",
     "general.copy.to.clipboard.prompt": "复制到剪贴板: Ctrl+C, Enter",
     "general.food.advisor.text": "食品顾问:你的猫薄荷储量过低!",
