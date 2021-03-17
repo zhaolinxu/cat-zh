@@ -736,7 +736,7 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
 	                }
 
                     priceLoop *= (1 + this.game.getLimitedDR(this.game.getEffect("shatterCostReduction"),1) + 
-                        this.game.getEffect("shatterCostIncrease"));
+                        this.game.getEffect("shatterCostIncreaseChallenge"));
 
                     pricesTotal.timeCrystal += priceLoop;
                     
