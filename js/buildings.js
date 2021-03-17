@@ -645,6 +645,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (game.workshop.get("biofuel").researched){
 				energyCons = 1;
 				self.togglable = true;
+			}else{
+				self.effects["catnipPerTickCon"] = 0;
+				self.effects["oilPerTickProd"] = 0;
 			}
 			self.effects["energyConsumption"] = energyCons;
 			var datacenterBonus = game.bld.get("library").val * game.getEffect("uplinkLabRatio");
