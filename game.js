@@ -1384,9 +1384,6 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			"tradeKnowledge":{
 				title: $I("effectsMgr.statics.tradeKnowledge.title")
 			},
-			"mintFakeBought":{
-				title: $I("effectsMgr.statics.mintFakeBought.title")
-			},
 			"steamworksFakeBought":{
 				title: $I("effectsMgr.statics.steamworksFakeBought.title")
 			},

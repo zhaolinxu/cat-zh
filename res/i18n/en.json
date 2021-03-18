@@ -528,7 +528,6 @@
     "effectsMgr.statics.sciencePolicyRatio.title": "Science production bonus",
     "effectsMgr.statics.culturePolicyRatio.title": "Culture production bonus",
     "effectsMgr.statics.mineralsPolicyRatio.title": "Minerals production bonus",
-    "effectsMgr.statics.mintFakeBought.title": "Mint cost increase",
     "effectsMgr.statics.woodPolicyRatio.title": "Wood production bonus",
     "effectsMgr.statics.goldPolicyRatio.title": "Gold production bonus",
     "effectsMgr.statics.springCatnipRatio.title": "Spring catnip bonus",
