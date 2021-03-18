@@ -190,7 +190,8 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			"weaponEfficency": 0,
 			"policyFakeBought": 0,
 			"embassyFakeBought": 0,
-			"mintFakeBought": 0
+			"mintFakeBought": 0,
+			"steamworksFakeBought": 0
         },
         calculateEffects: function(self, game){
             if (self.active) {
@@ -200,6 +201,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
                 self.effects["policyFakeBought"] = 1;
 				self.effects["embassyFakeBought"] = 1;
 				self.effects["mintFakeBought"] = 2;
+				self.effects["steamworksFakeBought"] = 2;
             }else{
 				self.effects["alicornPerTickRatio"] = 0.1;
 				self.effects["tradeKnowledge"] = 1;
@@ -207,6 +209,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
                 self.effects["policyFakeBought"] = 0;
 				self.effects["embassyFakeBought"] = 0;
 				self.effects["mintFakeBought"] = 0;
+				self.effects["steamworksFakeBought"] = 0;
 			}
 			game.upgrade(self.upgrades); //this is a hack. Sometime we should make challenges actually upgrade things.
 		},
