@@ -1641,11 +1641,11 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 	},
 	getPrices: function(model){
 		var meta = model.metadata;
-		var policyCostRatio = this.game.getEffect("policyCostRatio");
+		var policyFakeBought = this.game.getEffect("policyFakeBought");
 		var prices = [];
 		for (var i = 0; i < meta.prices.length; i++){
             prices.push({
-            	val: meta.prices[i].val * Math.pow(1.25, policyCostRatio),
+            	val: meta.prices[i].val * Math.pow(1.25, policyFakeBought),
             	name: meta.prices[i].name
 			});
 		}

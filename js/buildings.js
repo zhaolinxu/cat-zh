@@ -1934,12 +1934,13 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 		var pricesDiscount = this.game.getLimitedDR((this.game.getEffect(bld.get("name") + "CostReduction")), 1);
 		var priceModifier = 1 - pricesDiscount;
+		var fakeBought = this.game.getEffect(bld.get("name") + "FakeBought");
 
 		for (var i = 0; i < bldPrices.length; i++) {
 			var resPriceDiscount = this.game.getLimitedDR(this.game.getEffect(bldPrices[i].name + "CostReduction"), 1);
 			var resPriceModifier = 1 - resPriceDiscount;
 			prices.push({
-				val: bldPrices[i].val * Math.pow(ratio, bld.get("val")) * priceModifier * resPriceModifier,
+				val: bldPrices[i].val * Math.pow(ratio, bld.get("val") + fakeBought) * priceModifier * resPriceModifier,
 				name: bldPrices[i].name
 			});
 		}

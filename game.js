@@ -1400,6 +1400,15 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 			"tradeKnowledge":{
 				title: $I("effectsMgr.statics.tradeKnowledge.title")
+			},
+			"steamworksFakeBought":{
+				title: $I("effectsMgr.statics.steamworksFakeBought.title")
+			},
+			"embassyFakeBought":{
+				title: $I("effectsMgr.statics.embassyFakeBought.title")
+			},
+			"policyFakeBought":{
+				title: $I("effectsMgr.statics.policyFakeBought.title")
 			}
 		}
 	}
