@@ -1015,6 +1015,7 @@
     "workshop.oxidation.label": "Oksidasjon",
     "workshop.photolithography.label": "Fotolitografi",
     "workshop.photolithography.desc": "Trykkpressa er 4 gongar betre",
+    "workshop.photovoltaic.label": "Solceller",
     "workshop.pneumaticPress.label": "Pneumatisk presse",
     "workshop.pneumaticPress.desc": "Verkstadautomatikk kan også laga jarn om til platar",
     "workshop.printingPress.label": "Trykkpresse",
