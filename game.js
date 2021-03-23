@@ -3804,9 +3804,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 		var game = this;
 		game.ui.confirm($I("reset.confirmation.title"), msg, function() {
-			if (game.challenges.isActive("atheism") && game.time.getVSU("cryochambers").on > 0) {
-				game.challenges.researchChallenge("atheism");
-			}
+			game.challenges.onRunReset();
 			/*if (game.challenges.isActive("atheism") && game.time.getVSU("cryochambers").on > 0) {
 				game.challenges.getChallenge("atheism").researched = true;
 
