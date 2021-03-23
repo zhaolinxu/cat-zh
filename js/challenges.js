@@ -134,7 +134,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			}
 		},
 		checkCompletionConditionOnReset: function(game){
-			return game.time.getVSU("cryochambers").on > 0
+			return game.time.getVSU("cryochambers").on > 0;
 		},
 		researched: false,
 		reserveDelay: true,

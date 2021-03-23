@@ -1958,7 +1958,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		 && bld.get("val") == 0) {
 			for (var i = 0; i < prices.length; i++) {
 				if (prices[i].name == "blueprint"){
-					prices[i].val = this.game.challenges.getChallenge("pacifism").on * 5 + 1
+					prices[i].val = this.game.challenges.getChallenge("pacifism").on * 5 + 1;
 				}
 			}
 		}
