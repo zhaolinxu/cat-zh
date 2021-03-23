@@ -301,11 +301,6 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 	/**
 	 * Apply challenges marked by player as pending
 	 */
-	onRunReset: function(){
-		if (this.isActive("atheism") && this.game.time.getVSU("cryochambers").on > 0) {
-			this.researchChallenge("atheism");
-		}
-	},
 	applyPending: function(){
 		var game = this.game;
 		game.ui.confirm(
@@ -316,7 +311,6 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			// Should put resources and kittens to reserve HERE!
 			// Kittens won't be put into reserve in post apocalypcis!
 			game.challenges.reserves.calculateReserves();
-			game.challenges.onRunReset();
 			game.bld.get("chronosphere").val = 0;
 			game.bld.get("chronosphere").on = 0;
 			game.time.getVSU("cryochambers").val = 0;
