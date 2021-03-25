@@ -105,6 +105,7 @@
     "buildings.aicore.attemptsell": "Accès refusé.",
     "buildings.amphitheatre.label": "Amphithéâtre",
     "buildings.amphitheatre.desc": "Réduit les effets négatifs de la surpopulation de 5%. Cet effet se cumule, mais va en s'atténuant. Produit de la culture.",
+    "buildings.amphitheatre.flavor": "Projection quotidienne de \"Charlie, mon héros\"",
     "buildings.aqueduct.label": "Aqueduc",
     "buildings.aqueduct.desc": "+3% à la production d'herbe à chat.",
     "buildings.aqueduct.flavor": "Baignade interdite",
