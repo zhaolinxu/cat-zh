@@ -258,6 +258,7 @@
     "challendge.atheism.label": "無神論",
     "challendge.atheism.desc": "信仰ボーナスなしでゲームを再スタートさせます。<br /><br />目標: 最低1つの冷凍チャンバーをもってリセットする。",
     "challendge.atheism.effect.desc": "太陽革命のボーナス上限を超越レベルごとに100%アップします (ブラックオベリスク20個分に相当)",
+    "challendge.blackSky.label": "黒い空",
     "challendge.blackSky.desc": "天文現象がない状態でゲームを再起動します。<br><br>目標: スペースビーコンを1つ作成します。(完了ごとに1個のビーコンを追加します)",
     "challendge.blackSky.event": "夜は暗く、星は見えない。",
     "challendge.energy.label": "エネルギー",
