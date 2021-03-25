@@ -1502,7 +1502,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"catnipPerTickCon" : -1,
 			"spicePerTickCon" : -0.1,
 			"festivalRatio" : 0.01,
-			"festivalArrivalRatio" : 0.0001
+			"festivalArrivalRatio" : 0.001
 		},		
 		togglable: true,
 		lackResConvert: false,
