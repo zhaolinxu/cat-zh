@@ -291,9 +291,9 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			if(this.getChallenge(challenge).actionOnCompletion){
 				this.getChallenge(challenge).actionOnCompletion(this.game);
 			}
-			if(!this.anyChallengeActive() && !this.game.ironWill && !this.getChallenge(challenge).reserveDelay){
+			/*if(!this.anyChallengeActive() && !this.game.ironWill && !this.getChallenge(challenge).reserveDelay){
 				this.reserves.addReserves();
-			}
+			}*/
 			this.game.calculateAllEffects();
 		}
 	},
@@ -418,6 +418,7 @@ dojo.declare("classes.reserveMan", null,{
 		this.game.time.getVSU("usedCryochambers").val += this.reserveKittens.length;
 		this.game.time.getVSU("usedCryochambers").on += this.reserveKittens.length;
 		this.reserveKittens = [];
+		this.game.msg($I("challendge.reservesReclaimed.msg"));
 	},
 
 	getSaveData: function(){

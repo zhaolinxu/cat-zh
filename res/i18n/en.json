@@ -662,8 +662,8 @@
     "policy.epicurianism.desc" : "Our epicureans believe that pleasure is the highest good. Luxury resources will provide slightly more happiness.",
     "policy.expansionism.label" : "Cosmological Libertarianism",
     "policy.expansionism.desc" : "Privatize the moon! Nothing changes on Cath, but unobtainium production will be increased.",
-    "policy.fascism.label" : "Fascism",
-    "policy.fascism.desc" : "Lebensraum! Population penalties to happiness are eliminated, and log cabins cost half as much.",
+    "policy.fascism.label" : "LogHouse",
+    "policy.fascism.desc" : "Population penalties to happiness are eliminated, and log cabins cost half as much.",
     "policy.fullIndustrialization.label" : "Full Industrialization",
     "policy.fullIndustrialization.desc" : "Take the advice of your new captains of industry, slightly improving the crafting bonus each factory provides.",
     "policy.isolationism.label" : "Isolationism",
@@ -1577,6 +1577,7 @@
     "console.filter.ivoryMeteor": "Ivory Meteors",
     "console.filter.unicornRift": "Unicorn Rifts",
     "console.filter.alicornRift": "Alicorn Rifts",
+    "console.filter.alicornCorruption": "Alicorn Corruption",
     "console.filter.tc": "Time Crystals",
     "console.filter.faith": "Faith",
 
