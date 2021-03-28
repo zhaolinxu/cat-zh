@@ -10,14 +10,17 @@
     "religion.ru.goldenSpire.desc": "Templele pot înmagazina cu 50% mai multă credință",
     "unit.hour": "ora",
     "res.stack.time": "Timp",
+    "resources.compedium.title": "compendiu",
     "science.archery.desc": "Armament cu rază lungă cunoscut ca 'Arc'.",
     "science.industrialization.effectDesc": "Deblochează Automatizare Avansată și Șlepuri",
     "space.planet.yarn.terraformingStation.label": "Stație de Terraformare",
     "stats.trades.current": "Comerturi terminate",
+    "time.cfu.temporalAccelerator.desc": "Îmbunătățește generarea energiei de flux cu 5%",
     "trade.race.zebras": "Zebre",
     "village.job.miner.desc": "+0.25 minerale pe secundă",
     "workshop.combustionEngine.desc": "Reduce consumul de carbune al Uzinelor cu 20%",
     "workshop.crafts.scaffold.label": "Schela",
     "workshop.crafts.thorium.desc": "Combustibil extrem de reactiv și instabil",
-    "workshop.ironAxes.label": "Topor de fier"
+    "workshop.ironAxes.label": "Topor de fier",
+    "workshop.pneumaticPress.label": "Presă pneumatică"
 }
