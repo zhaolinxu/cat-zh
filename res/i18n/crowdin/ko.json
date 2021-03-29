@@ -718,6 +718,7 @@
     "prestige.zebraDiplomacy.desc": "소수의 얼룩말 사냥꾼들이 마을에 체류합니다. (얼룩말 사냥꾼 해금 필요).",
     "religion.adoreBtn.label": "은하계 숭배",
     "religion.adoreBtn.desc": "[신앙 초기화] 버튼",
+    "religion.btn.sacrifice": "희생",
     "religion.btn.refine": "제련",
     "religion.faithCount.bonus": "보너스",
     "religion.faithCount.pool": "총 신앙: {0}",
