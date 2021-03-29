@@ -529,6 +529,7 @@
     "opts.theme": "Esquema de Cores",
     "opts.theme.arctic": "Ártico",
     "opts.theme.black": "Negro",
+    "opts.theme.bluish": "Azulado",
     "opts.theme.chocolate": "Chocolate",
     "opts.theme.dark": "Invertido",
     "opts.theme.default": "Classico",
