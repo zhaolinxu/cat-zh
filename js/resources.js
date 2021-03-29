@@ -738,17 +738,12 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	},
 
 	updateConvertion: function() {
-		if( this.game.calendar.day >= 0) {
-			for (var i in this.resources){
+		if (this.game.calendar.day >= 0) {
+			for (var i in this.resources) {
 				var res = this.resources[i];
-				var perTickConvertion = this.game.getResourcePerTickConvertion(res.name);
-				this.addResPerTick(res.name, perTickConvertion);
-				if (res.maxValue) { //Hack to reach the maxValue in resTable //AB: Questionable
-					if (perTickConvertion < 0) {
-						if (this.game.getResourcePerTick(res.name, true) > 0 && res.maxValue + perTickConvertion <= res.value) {
-							res.value += -perTickConvertion;
-						}
-					}
+				if (!(res.maxValue && res.maxValue == res.value && this.game.getResourcePerTick(res.name, true) > 0)) { //Hack to reach the maxValue in resTable //AB: Questionable
+					var perTickConvertion = this.game.getResourcePerTickConvertion(res.name);
+					this.addResPerTick(res.name, perTickConvertion);
 				}
 			}
 		}
