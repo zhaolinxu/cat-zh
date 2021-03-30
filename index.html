@@ -558,7 +558,11 @@
 				<label id="optionHighlightUnavailable" for="highlightUnavailable">Highlight buildings limited by storage space</label>
 				<br>
 				<input id="set-ks-enable" type="checkbox">
-				<label id="ks-label" for="set-ks-enable" style="color:red;">启用小猫珂学家</label>
+				<label id="ks-label" for="set-ks-enable" style="color:red;" title="仅支持在高级浏览器使用">启用小猫珂学家1.5.0（仅支持在高级浏览器使用）</label>
+				<!-- [<a href="https://gitee.com/likexia/cbc-kitten-scientists" target="_blank" style="color:blue;text-decoration:none;" title="点击查看">教程</a>] -->
+				<br>
+				<input id="set-ks2-enable" type="checkbox">
+				<label id="ks2-label" for="set-ks2-enable" style="color:red;opacity: 0.5" title="低版本浏览器使用">启用小猫珂学家1.3.2（低版本浏览器使用）</label>
 				<!-- [<a href="https://gitee.com/likexia/cbc-kitten-scientists" target="_blank" style="color:blue;text-decoration:none;" title="点击查看">教程</a>] -->
 				<br>
 				<input id="set-kgp-enable" type="checkbox">
@@ -708,6 +712,7 @@
 		<!-- 客服 结束 -->
 
 		<script type="text/javascript">
+//            科学家1.5.0
 			var enableKS = function () { 
 				localStorage['zh.ks.enable'] = 'enable';
 				$("#ks-label").text("可爱的猫猫科学家为您服务");
@@ -729,6 +734,30 @@
                     alert("请在保存游戏后刷新页面");
 				} else {
 					enableKS()
+				}
+			});
+//            科学家1.3.2
+			var enableKS2 = function () { 
+				localStorage['zh.ks2.enable'] = 'enable';
+				$("#ks2-label").text("可爱的猫猫科学家为您服务");
+				$("#set-ks2-enable").attr("checked", true);
+				document.body.appendChild(document.createElement('script')).src = 'kitten-scientists.user2.js?v=0001';
+			};
+			var disableKS2 = function () {
+				localStorage['zh.ks2.enable'] = 'disable';
+				$("#ks2-label").text("小猫科学家将在页面刷新后关闭");
+				$("#set-ks2-enable").attr("checked", false);
+			};
+
+			if(localStorage['zh.ks2.enable'] === 'enable') {
+				enableKS2()
+			}
+			$("#set-ks2-enable").on('change', function() {
+				if(localStorage['zh.ks2.enable'] === 'enable') {
+					disableKS2();
+                    alert("请在保存游戏后刷新页面");
+				} else {
+					enableKS2()
 				}
 			});
             var enableKGP = function () { 
