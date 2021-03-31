@@ -334,10 +334,13 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				],
 				priceRatio: 1.15,
 				calculateEffects: function(self, game) {
+					self.effects = {
+						"energyProduction": self.calculateEnergyProduction(game, game.calendar.season)
+					};
+				},
+				calculateEnergyProduction: function(game, season) {
 					if (game.challenges.isActive("winterIsComing")){
 						season = 3;
-					} else {
-						season = game.calendar.season;
 					}
 
 					var energyProduction = 2 * (1 + game.getEffect("solarFarmRatio"));
@@ -353,9 +356,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 						energyProduction *= (1 + 0.15 * seasonRatio);
 					}
 
-					self.effects = {
-						"energyProduction" : energyProduction
-					}
+					return energyProduction;
+
 				},
 				stageUnlocked : false
 			}
