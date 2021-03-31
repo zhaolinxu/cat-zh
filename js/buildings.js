@@ -1177,11 +1177,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"magnetoRatio": 0.02
 		},
 		action: function(self, game){
-			if (self.on < 1){
-				return;
-			}
-			self.effects["oilPerTick"] = -0.05;
-
 			var oil = game.resPool.get("oil");
 			if (oil.value + self.effects["oilPerTick"] <= 0){
 				self.on--;//Turn off one per tick until oil flow is sufficient
