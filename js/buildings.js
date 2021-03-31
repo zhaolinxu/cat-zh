@@ -333,15 +333,13 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					{ name : "titanium", val: 250 }
 				],
 				priceRatio: 1.15,
-				action: function(self, game) {
-					self.effects = {
-						"energyProduction": self.calculateEnergyProduction(game, game.calendar.season)
-					};
-				},
-				calculateEnergyProduction: function(game, season) {
+				calculateEffects: function(self, game) {
 					if (game.challenges.isActive("winterIsComing")){
 						season = 3;
+					} else {
+						season = game.calendar.season;
 					}
+
 					var energyProduction = 2 * (1 + game.getEffect("solarFarmRatio"));
 					if (season == 3) {
 						energyProduction *= 0.75;
@@ -355,19 +353,21 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 						energyProduction *= (1 + 0.15 * seasonRatio);
 					}
 
-					return energyProduction;
+					self.effects = {
+						"energyProduction" : energyProduction
+					}
 				},
 				stageUnlocked : false
 			}
 		],
 		effects: {
 		},
-		action: function(self, game) {
+        calculateEffects: function(self, game){
 			var stageMeta = self.stages[self.stage];
-			if (stageMeta.action) {
-				stageMeta.action(stageMeta, game);
+			if (stageMeta.calculateEffects) {
+				stageMeta.calculateEffects(stageMeta, game);
 			}
-		}
+        }
 	},{
 		name: "aqueduct",
 		unlockRatio: 0.3,
