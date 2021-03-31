@@ -630,7 +630,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		effects: {
 			"scienceRatio": 0.35,
 			"refineRatio": 0.1,
-			"scienceMax": 1500,
+			"scienceMax": 0,
 			"catnipPerTickCon": 0,
 			"oilPerTickProd": 0,
 			"energyConsumption": 0
@@ -638,42 +638,51 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		upgrades: {
 			buildings: ["library"]
 		},
+		effectsCalculated: {},
 		calculateEffects: function(self, game){
-			self.effects["scienceMax"] = 1500;
-
-			var energyCons = 0;
 			if (game.workshop.get("biofuel").researched){
-				energyCons = 1;
 				self.togglable = true;
+				self.effects["catnipPerTickCon"] = -1;
+				self.effects["oilPerTickProd"] = 0.02 * (1 + game.getEffect("biofuelRatio"));
+				self.effects["energyConsumption"] = 1;
 			}else{
 				self.effects["catnipPerTickCon"] = 0;
 				self.effects["oilPerTickProd"] = 0;
+				self.effects["energyConsumption"] = 0;
 			}
-			self.effects["energyConsumption"] = energyCons;
-			var datacenterBonus = game.bld.get("library").val * game.getEffect("uplinkLabRatio");
+
+			self.effects["scienceMax"] = 1500;
 			if (game.workshop.get("uplink").researched && game.bld.get("library").stage == 1){
+				var datacenterBonus = game.bld.get("library").val * game.getEffect("uplinkLabRatio");
 				self.effects["scienceMax"] *= (1 + datacenterBonus);
 			}
+
+			for (var i in self.effects) {
+				self.effectsCalculated[i] = self.effects[i];
+			}
+
 		},
 		lackResConvert: false,
 		action: function(self, game){
 			if (game.workshop.get("biofuel").researched){
 
-				self.effects["catnipPerTickCon"] = -1;
-				self.effects["oilPerTickProd"] = 0.02 * (1 + game.getEffect("biofuelRatio"));
-
 				var amt = game.resPool.getAmtDependsOnStock(
-					[{res: "catnip", amt: -self.effects["catnipPerTickCon"]}],
+					[{res: "catnip", amt: -self.effectsCalculated["catnipPerTickCon"]}],
 					self.on
 				);
-				self.effects["catnipPerTickCon"] *= amt;
-				self.effects["oilPerTickProd"] *= amt;
+				for (var i in self.effects) {
+					if (i == "catnipPerTickCon" ||
+						i == "oilPerTickProd" ){
+							self.effects[i] = self.effectsCalculated[i] * amt;
+						}
+				}
 
 				if (self.val) {
 					self.effects["scienceRatio"] = 0.35 * (1 + self.on / self.val);
 				}
 
 				return amt;
+
 			}
 		},
 		flavor: $I("buildings.biolab.flavor")
