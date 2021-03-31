@@ -133,6 +133,9 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 				self.effects["manpowerMaxChallenge"] = 0;
 			}
 		},
+		checkCompletionConditionOnReset: function(game){
+			return game.time.getVSU("cryochambers").on > 0;
+		},
 		researched: false,
 		reserveDelay: true,
         unlocked: false
@@ -188,21 +191,30 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			"alicornPerTickRatio": 0.1,
 			"tradeKnowledge": 1,
 			"weaponEfficency": 0,
-			"policyCostRatio": 0
+			"policyFakeBought": 0,
+			"embassyFakeBought": 0,
+			"steamworksFakeBought": 0
         },
         calculateEffects: function(self, game){
             if (self.active) {
                 self.effects["alicornPerTickRatio"] = 0;
                 self.effects["tradeKnowledge"] = 0;
 				self.effects["weaponEfficency"] = -0.1; //after 10 completions weapons WILL be useles; no LDR >:3
-                self.effects["policyCostRatio"] = 0.02;
+                self.effects["policyFakeBought"] = 1;
+				self.effects["embassyFakeBought"] = 1;
+				self.effects["steamworksFakeBought"] = 2;
             }else{
 				self.effects["alicornPerTickRatio"] = 0.1;
 				self.effects["tradeKnowledge"] = 1;
                 self.effects["weaponEfficency"] = 0;
-                self.effects["policyCostRatio"] = 0;
+                self.effects["policyFakeBought"] = 0;
+				self.effects["embassyFakeBought"] = 0;
+				self.effects["steamworksFakeBought"] = 0;
 			}
 			game.upgrade(self.upgrades); //this is a hack. Sometime we should make challenges actually upgrade things.
+		},
+		checkCompletionConditionOnReset: function(game){
+			return game.science.getPolicy("outerSpaceTreaty").researched;
 		},
 		upgrades: {
 			upgrades: ["compositeBow", "crossbow", "railgun"]
@@ -212,12 +224,12 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		unlocked: false,
 		getTradeBonusEffect: function(game){
 			var self = game.challenges.getChallenge("pacifism");
-			if(!self.val){
+			if(!self.val||! game.chellenges.isActive("pacifism")){
 				return 0;
 			}
 			var tradepost =game.bld.getBuildingExt("tradepost").meta;
 			var tradeKnowledge = game.getEffect("tradeKnowledge");
-			return (tradepost.effects["tradeRatio"]*Math.min(9 + tradeKnowledge, tradepost.val * (game.getLimitedDR(0.099 + tradeKnowledge * 0.001, 0.25))));
+			return (tradepost.effects["tradeRatio"]*Math.min(8 + tradeKnowledge * 2, tradepost.val * (game.getLimitedDR(0.099 + tradeKnowledge * 0.001, 0.25))));
 		}
 	}],
 
@@ -284,7 +296,6 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 					reserveKittens.unshift(newKitten);
 				}
 				this.game.challenges.reserves.reserveKittens = reserveKittens;
-				var reserveRes = saveData.challenges.reserves.reserveResources;
 				this.game.challenges.reserves.reserveResources = saveData.challenges.reserves.reserveResources;
 		}
 	},
@@ -338,7 +349,13 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			this.game.calculateAllEffects();
 		}
 	},
-
+	onRunReset: function(){
+		for(var i = 0; i < this.challenges.length; i++){
+			if(this.challenges[i].active && this.challenges[i].checkCompletionConditionOnReset && this.challenges[i].checkCompletionConditionOnReset(this.game)){
+				this.researchChallenge(this.challenges[i].name);
+			}
+		}
+	},
 	/**
 	 * Apply challenges marked by player as pending
 	 */
@@ -351,6 +368,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			// Reset with any benefit of chronosphere (resources, kittens, etc...)
 			// Should put resources and kittens to reserve HERE!
 			// Kittens won't be put into reserve in post apocalypcis!
+			game.challenges.onRunReset();
 			game.challenges.reserves.calculateReserves();
 			game.bld.get("chronosphere").val = 0;
 			game.bld.get("chronosphere").on = 0;

@@ -136,7 +136,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	constructor: function(game){
 		this.game = game;
         this.metaCache = {};
-        var self = this;
         this.registerMeta(false, this.buildingsData, {
 			getEffect: function(bld, effectName){
 				var effect = 0;
@@ -590,8 +589,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"cultureMax": 25,
 			"academyMeteorBonus": 0
 		},
-		calculateEffects(self, game){
-			if(game.workshop.getZebraUpgrade("minerologyDepartment").researched) self.effects["academyMeteorBonus"] = 0.01
+		calculateEffects: function(self, game){
+			if(game.workshop.getZebraUpgrade("minerologyDepartment").researched) self.effects["academyMeteorBonus"] = 0.01;
 		},
 		flavor: $I("buildings.academy.flavor"),
 		unlockScheme: {
@@ -1815,7 +1814,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		calculateEffects: function(self, game){
 			if(game.workshop.getZebraUpgrade("darkRevolution").researched){
-				self.effects["zebraPreparations"] = game.ironWill? 1:0.1
+				self.effects["zebraPreparations"] = game.ironWill? 1:0.1;
 			}
 		}
 	},{
@@ -1880,7 +1879,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		togglable: true,
 		calculateEffects: function(self, game){
 			if(game.workshop.getZebraUpgrade("whispers").researched && self.on > 0){
-				self.isAutomationEnabled = true
+				self.isAutomationEnabled = true;
 			}
 		},
 		action: function(self, game){
@@ -1890,7 +1889,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				"titaniumPerTickCon": 0,
 				"alicornPerTickCon": 0,
 				"tMythrilPerTick": 0
-			}
+			};
 			if (self.isAutomationEnabled){
 				self.effects = {
 					"ivoryPerTickCon": -200,
@@ -1898,7 +1897,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					"titaniumPerTickCon": -2,
 					"alicornPerTickCon": -0.00002,
 					"tMythrilPerTick": 0.00005
-				}
+				};
 			}
 			var amt = game.resPool.getAmtDependsOnStock(
 				[{res: "ivory", amt: -self.effects["ivoryPerTickCon"]},
@@ -2020,12 +2019,13 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 		var pricesDiscount = this.game.getLimitedDR((this.game.getEffect(bld.get("name") + "CostReduction")), 1);
 		var priceModifier = 1 - pricesDiscount;
+		var fakeBought = this.game.getEffect(bld.get("name") + "FakeBought");
 
 		for (var i = 0; i < bldPrices.length; i++) {
 			var resPriceDiscount = this.game.getLimitedDR(this.game.getEffect(bldPrices[i].name + "CostReduction"), 1);
 			var resPriceModifier = 1 - resPriceDiscount;
 			prices.push({
-				val: bldPrices[i].val * Math.pow(ratio, bld.get("val")) * priceModifier * resPriceModifier,
+				val: bldPrices[i].val * Math.pow(ratio, bld.get("val") + fakeBought) * priceModifier * resPriceModifier,
 				name: bldPrices[i].name
 			});
 		}
@@ -2035,6 +2035,15 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		 && bld.get("val") == 0) {
 			for (var i = 0; i < prices.length; i++) {
 				prices[i].val *= prices[i].name == "titanium" ? 0 : 11;
+			}
+		}
+		if (this.game.challenges.isActive("pacifism")
+		 && bld.get("name") == "steamworks"
+		 && bld.get("val") == 0) {
+			for (var i = 0; i < prices.length; i++) {
+				if (prices[i].name == "blueprint"){
+					prices[i].val = this.game.challenges.getChallenge("pacifism").on * 5 + 1;
+				}
 			}
 		}
 
@@ -2192,11 +2201,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 	fastforward: function(daysOffset) {
 		var game = this.game;
-		if (!game.workshop.get("factoryAutomation").researched) {
+		var steamworks = this.get("steamworks");
+		if (steamworks.on < 1 || !game.workshop.get("factoryAutomation").researched) {
 			return;
 		}
 
-		var steamworks = this.get("steamworks");
 		if (steamworks.isAutomationEnabled == null) {
 			steamworks.isAutomationEnabled = true;
 		}
@@ -2512,35 +2521,39 @@ dojo.declare("classes.ui.btn.StagingBldBtnController", classes.ui.btn.BuildingBt
 	},
 
 	downgrade: function(model) {
-		var self = this;
-		this.game.ui.confirm("", $I("buildings.downgrade.confirmation.msg"), function() {
-			var metadataRaw = self.getMetadataRaw(model);
-			metadataRaw.stage = metadataRaw.stage - 1 || 0;
-			metadataRaw.val = 0;	//TODO: fix by using separate value flags
-			metadataRaw.on = 0;
-			if (metadataRaw.calculateEffects){
-				metadataRaw.calculateEffects(metadataRaw, self.game);
-			}
-			self.game.upgrade(metadataRaw.upgrades);
-			self.game.render();
-		});
+		if (this.game.opts.noConfirm) {
+			this.deltagrade(this, model, -1);
+		} else {
+			var self = this;
+			this.game.ui.confirm("", $I("buildings.downgrade.confirmation.msg"), function() {
+				self.deltagrade(self, model, -1);
+			});
+		}
 	},
 
 	upgrade: function(model) {
-		var self = this;
-		this.game.ui.confirm("", $I("buildings.upgrade.confirmation.msg"), function() {
-			var metadataRaw = self.getMetadataRaw(model);
-			metadataRaw.stage = metadataRaw.stage || 0;
-			metadataRaw.stage++;
+		if (this.game.opts.noConfirm) {
+			this.deltagrade(this, model, +1);
+		} else {
+			var self = this;
+			this.game.ui.confirm("", $I("buildings.upgrade.confirmation.msg"), function() {
+				self.deltagrade(self, model, +1);
+			});
+		}
+	},
 
-			metadataRaw.val = 0;	//TODO: fix by using separate value flags
-			metadataRaw.on = 0;
-			if (metadataRaw.calculateEffects){
-				metadataRaw.calculateEffects(metadataRaw, self.game);
-			}
-			self.game.upgrade(metadataRaw.upgrades);
-			self.game.render();
-		});
+	deltagrade: function(self, model, delta) {
+		var metadataRaw = self.getMetadataRaw(model);
+		metadataRaw.stage += delta;
+		if (!metadataRaw.stage) metadataRaw.stage = Math.max(0, delta);
+
+		metadataRaw.val = 0;	//TODO: fix by using separate value flags
+		metadataRaw.on = 0;
+		if (metadataRaw.calculateEffects){
+			metadataRaw.calculateEffects(metadataRaw, self.game);
+		}
+		self.game.upgrade(metadataRaw.upgrades);
+		self.game.render();
 	},
 
 	getMetadataRaw: function(model) {

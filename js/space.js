@@ -1379,7 +1379,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
                 var planetPanel = new classes.ui.space.PlanetPanel(planetTitle, self.game.space);
                 planetPanel.planet = planet;
                 planetPanel.setGame(self.game);
-                var content = planetPanel.render(container);
+                planetPanel.render(container);
 
                 self.planetPanels.push(planetPanel);
             }
