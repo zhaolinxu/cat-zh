@@ -351,7 +351,7 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 				unlocked: false
 			},
 			"UnicornSacrifice": {
-				title: $I("console.filter.unicornSacrifice")
+				title: $I("console.filter.unicornSacrifice"),
 				enabled: true,
 				unlocked: false
 			},
@@ -361,7 +361,7 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 				unlocked: false
 			},
 			"AlicornSacrifice": {
-				title: $I("console.filter.alicornSacrifice")
+				title: $I("console.filter.alicornSacrifice"),
 				enabled: true,
 				unlocked: false
 			},
@@ -376,7 +376,7 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 				unlocked: false
 			},
 			"tcRefine": {
-				title: $I("console.filter.tcRefine")
+				title: $I("console.filter.tcRefine"),
 				enabled: true,
 				unlocked: false
 			},
