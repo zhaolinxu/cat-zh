@@ -879,24 +879,16 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		],
 		priceRatio: 1.15,
 		effects: {
-			"woodPerTickCon": -0.05,
-			"mineralsPerTickCon": -0.1,
+			"woodPerTickCon": 0,
+			"mineralsPerTickCon": 0,
 			"coalPerTickAutoprod": 0,
-			"ironPerTickAutoprod": 0.02,
+			"ironPerTickAutoprod": 0,
 			"titaniumPerTickAutoprod": 0,
 			"goldPerTickAutoprod": 0
 		},
+		effectsCalculated: {},
 		lackResConvert: false,
 		calculateEffects: function(self, game) {
-			self.effects = {
-				"woodPerTickCon": 0,
-				"mineralsPerTickCon": 0,
-				"coalPerTickAutoprod": 0,
-				"ironPerTickAutoprod": 0.02,
-				"titaniumPerTickAutoprod": 0,
-				"goldPerTickAutoprod": 0
-			};
-			
 			var smelterRatio = (1 + game.getEffect("smelterRatio"));
 			self.effects["ironPerTickAutoprod"] = 0.02 * smelterRatio;
 
@@ -914,7 +906,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			self.effects["woodPerTickCon"] = -0.05;
 			self.effects["mineralsPerTickCon"] = -0.1;
-			
+
+			for (var i in self.effects) {
+				self.effectsCalculated[i] = self.effects[i];
+			};
 		},
 		action: function(self, game){
 			// TODO: How to integrate autoProdRatio with calculateEffects?
@@ -923,28 +918,29 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				return;
 			}
 
-			var iron = game.resPool.get("iron");
-
 			//safe switch for IW to save precious resources, as per players request
 			//only if option is enabled, because Chris says so
+			var iron = game.resPool.get("iron");
 			if (game.ironWill && game.opts.IWSmelter && iron.value > iron.maxValue * 0.95){
 				self.on = 0;
 				return;
 			}
 
-			self.calculateEffects(self, game);
-
 			var amt = game.resPool.getAmtDependsOnStock(
-				[{res: "wood", amt: -self.effects["woodPerTickCon"]},
-				 {res: "minerals", amt: -self.effects["mineralsPerTickCon"]}],
+				[{res: "wood", amt: -self.effectsCalculated["woodPerTickCon"]},
+				 {res: "minerals", amt: -self.effectsCalculated["mineralsPerTickCon"]}],
 				self.on
 			);
-			self.effects["woodPerTickCon"] *= amt;
-			self.effects["mineralsPerTickCon"] *= amt;
-			self.effects["coalPerTickAutoprod"] *= amt;
-			self.effects["ironPerTickAutoprod"] *= amt;
-			self.effects["titaniumPerTickAutoprod"] *= amt;
-			self.effects["goldPerTickAutoprod"] *= amt;
+			for (var i in self.effects) {
+				if (i == "woodPerTickCon" ||
+					i == "mineralsPerTickCon" ||
+					i == "coalPerTickAutoprod" ||
+					i == "ironPerTickAutoprod" ||
+					i == "titaniumPerTickAutoprod" ||
+					i == "goldPerTickAutoprod" ) {
+					self.effects[i] = self.effectsCalculated[i] * amt;
+				};
+			};
 
 			return amt;
 		},
