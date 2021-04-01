@@ -646,6 +646,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				self.effects["oilPerTickProd"] = 0.02 * (1 + game.getEffect("biofuelRatio"));
 				self.effects["energyConsumption"] = 1;
 			}else{
+				self.togglable = false;
 				self.effects["catnipPerTickCon"] = 0;
 				self.effects["oilPerTickProd"] = 0;
 				self.effects["energyConsumption"] = 0;
