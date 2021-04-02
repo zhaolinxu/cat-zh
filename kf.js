@@ -2,7 +2,7 @@ $(function(){
     var content='';
     content +='<!-- 客服动态内容 开始 -->';
      content +='<div class="main-im">';
-    content +='<div id="open_im" class="open-im">&nbsp;</div>  ';
+    content +='<div id="open_im" class="open-im">&nbsp;</div><div class="close-ball">x</div>';
     content +='<div class="im_main" id="im_main">';
     content +='<div id="close_im" class="close-im"><a href="javascript:void(0);" title="点击关闭">&nbsp;</a></div>';
     content +='<a href="https://qm.qq.com/cgi-bin/qm/qr?k=tCJDY9A6mYcHFtdu13CrU8OqepUIwR-j&jump_from=webapi" target="_blank" class="im-qq qq-a" title="猫国建设者交流群:499256691">';
@@ -59,4 +59,15 @@ $(function(){
   setTimeout(function () {
     $('#im_main').hide();
   },5000);
+    //    关闭小球，防止遮挡
+  $('.close-ball').bind('click', function() {
+    if ($('.close-ball').hasClass('show')) {
+      $('#open_im').show()
+      $('.close-ball').removeClass('show')
+    } else {
+      $('.close-ball').addClass('show')
+      $('.im_main').hide()
+      $('#open_im').hide()
+    }
+  })
 });
