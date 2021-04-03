@@ -229,9 +229,9 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			}
 			var tradepost =game.bld.getBuildingExt("tradepost").meta;
 			var tradeKnowledge = game.getEffect("tradeKnowledge");
-			let tradepostNum = (7 + tradeKnowledge * 3) * (0.99 + tradeKnowledge * 0.01);
-			let tradepostRatio = tradepost.val * (game.getLimitedDR(0.099 + tradeKnowledge * 0.0075, 0.25));
-			return (tradepost.effects["tradeRatio"]*Math.min(tradepostNum, tradepostRatio));
+			let tradepostLimit = (7 + tradeKnowledge * 3) * (0.99 + tradeKnowledge * 0.01);
+			let tradepostRatioLimit = game.getLimitedDR(0.099 + tradeKnowledge * 0.0075, 0.25);
+			return (tradepost.effects["tradeRatio"]*Math.min(tradepostLimit, tradepost.val * tradepostRatioLimit));
 		}
 	}],
 
