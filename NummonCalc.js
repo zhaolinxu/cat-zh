@@ -585,7 +585,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         }else if (number = 100){
             return this.i18n("best.none");
         }else {
-            return this.i18n("effectsMgr.statics.shatterTCGain.title");
+            return this.i18n("$effectsMgr.statics.shatterTCGain.title");
         }
     },
     // OTHERS : 
