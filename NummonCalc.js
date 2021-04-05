@@ -579,12 +579,12 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         var result = calendar * timeC;
         var cost = this.getButtonPrice(game.timeTab.cfPanel.children[0].children, "ressourceRetrieval", "timeCrystal");
         var number = this.game.time.getCFU("ressourceRetrieval").val;
-        if (timeC <= 0) {
-            return this.i18n("$time.cfu.ressourceRetrieval.label");
-        }else if (number = 100){
+        if (number = 100) {
             return this.i18n("best.none");
+        }else if (timeC <= 0){
+            return this.i18n("$time.cfu.ressourceRetrieval.label");
         }else {
-            TCBack = Math.ceil(cost * number / result)
+            var TCBack = Math.ceil(cost * number / result)
             return TCBack;
         }
     },
