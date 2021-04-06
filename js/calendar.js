@@ -862,14 +862,23 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (this.game.diplomacy.get("leviathans").unlocked) {
 			this.game.challenges.getChallenge("blackSky").unlocked = true;
 		}
-
+		
+		this.cycleYear += years;
 		if (years + this.cycleYear >= this.yearsPerCycle) {
+			this.cycleYear = (years + this.cycleYear)%this.yearsPerCycle;
+			if ( ++this.cycle >= this.cyclesPerEra) {
+				this.cycle = 0;
+			}
+		}
+/*
+if (++this.cycleYear >= this.yearsPerCycle) {
 			this.cycleYear = 0;
-			if (years + this.cycle >= this.cyclesPerEra) {
+			if (++this.cycle >= this.cyclesPerEra) {
 				this.cycle = 0;
 			}
 		}
 
+*/
 		// Apply cycleEffect for the newYears
 		this.game.upgrade({
 			spaceBuilding: this.game.space.spaceBuildingsMap
