@@ -1,6 +1,6 @@
 dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager, {
     game: null,
-
+    testShatter: 0, //0 is current function call, 1 is shatterInGroupCycles, 2 is shatterInCycles1
     /*
      * Amount of years skipped by CF time jumps
      */
@@ -25,6 +25,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             timestamp: this.game.pauseTimestamp || Date.now(),
             flux: this.flux,
             heat: this.heat,
+            testShatter: this.testShatter, //temporary
             isAccelerated: this.isAccelerated,
             cfu: this.filterMetadata(this.chronoforgeUpgrades, ["name", "val", "on", "heat", "unlocked"]),
             vsu: this.filterMetadata(this.voidspaceUpgrades, ["name", "val", "on"])
@@ -49,6 +50,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
         this.flux = saveData["time"].flux || 0;
         this.heat = saveData["time"].heat || 0;
+        this.testShatter = saveData["time"].testShatter || 0; //temporary
         this.isAccelerated = saveData["time"].isAccelerated || 0;
 		this.loadMetadata(this.chronoforgeUpgrades, saveData.time.cfu);
 		this.loadMetadata(this.voidspaceUpgrades, saveData.time.vsu);
@@ -195,7 +197,10 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             if (blastFurnace.on && blastFurnace.isAutomationEnabled && blastFurnace.heat >= 100){
                 var amt = Math.floor(blastFurnace.heat / 100);
                 blastFurnace.heat -= 100 * amt;
-                this.shatter(amt);
+                //this.shatter(amt);
+                if(this.testShatter == 1) this.shatterInGroupCycles(amt);
+                else if(this.testShatter == 2) this.shatterInCycles1(amt);
+                else this.shatter(amt);
             }
         }
 
@@ -254,7 +259,10 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                     amt = 5; //limit calculations needed per tick
                 }
                 self.heat -= 100 * amt;
-                game.time.shatter(amt);
+                //game.time.shatter(amt);
+                if(game.time.testShatter == 1) game.time.shatterInGroupCycles(amt);
+                else if(game.time.testShatter == 2) game.time.shatterInCycles1(amt);
+                else  game.time.shatter(amt);
             }
         },
 		unlocks: {
@@ -584,10 +592,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             }
 
             // Calendar
-            for (var i = 0; i < remainingYearsInCurrentCycle; i++){
-                cal.onNewYear(endYear == cal.year);
-            }
             cal.year += remainingYearsInCurrentCycle;
+            cal.onNewYears(endYear == cal.year, remainingYearsInCurrentCycle, false);
+            cal.calculateMilleniumProduction(cal.getMilleniaChanged(cal.years - remainingYearsInCurrentCycle, cal.years));
             maxYearsShattered -= remainingYearsInCurrentCycle;
             remainingDaysInFirstYear = cal.daysPerSeason * cal.seasonsPerYear;
         }
@@ -605,7 +612,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         var d1 = new Date();
         //console.warn(d1.getTime() - d.getTime())
     },
-    shatterInCycles: function(amt){
+    shatterInGroupCycles: function(amt){
         var d = new Date();
         /////
         amt = amt || 1;
@@ -613,6 +620,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
         var game = this.game;
         var cal = game.calendar;
+        var startYear = cal.year;
         var endYear = cal.year + amt;
 
         var routeSpeed = game.getEffect("routeSpeed") || 1;
@@ -683,14 +691,13 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             }
 
             // Calendar
-            for (var i = 0; i < yearsInCurrentCycle; i++){
-                cal.onNewYear(endYear == cal.year);
-            }
-            cal.year += 5;
-            maxYearsShattered -= 5;
+            cal.year += Math.min(5, maxYearsShattered);
+            cal.onNewYears(endYear == cal.year, yearsInCurrentCycle, false);
+            maxYearsShattered -= Math.min(5, maxYearsShattered);
             remainingDaysInFirstYear = cal.daysPerSeason * cal.seasonsPerYear;
         }
-        cal.year += maxYearsShattered;
+        cal.onNewYears(endYear == cal.year, maxYearsShattered, false);
+        cal.calculateMilleniumProduction(cal.getMilleniaChanged(startYear, cal.years));
         if (amt == 1) {
             game.msg($I("time.tc.shatterOne"), "", "tc");
         } else {
@@ -705,28 +712,34 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         var d1 = new Date();
         //console.warn(d1.getTime() - d.getTime())
     },
-    testShatters: function(shatters, times){
-        var oldShatterD1 = new Date();
-        for (var i = 0; i < times; i++){
-            this.shatter(shatters);
+    testShatters: function(shatters, times, ignoreOldFunction, ignoreShatterInCycles, ignoreGroupCycles){
+        if(!ignoreOldFunction){
+            var oldShatterD1 = new Date();
+            for (var i = 0; i < times; i++){
+                this.shatter(shatters);
+            }
+            var oldShatterD2 = new Date();
+            console.log("oldShatterAverafe = " + (oldShatterD2.getTime() - oldShatterD1.getTime())/times);
         }
-        var oldShatterD2 = new Date();
-        var newShatterD1 = new Date();
-        for (var i = 0; i < times; i++){
-            this.shatterInCycles(shatters);
+        if (!ignoreGroupCycles){
+            var newShatterD1 = new Date();
+            for (var i = 0; i < times; i++){
+                this.shatterInGroupCycles(shatters);
+            }
+            var newShatterD2 = new Date();
+            console.log("Group shatter average = " + (newShatterD2.getTime() - newShatterD1.getTime())/times);
         }
-        var newShatterD2 = new Date();
-        var new1ShatterD1 = new Date();
-        for (var i = 0; i < times; i++){
-            this.shatterInCycles1(shatters);
+        if(!ignoreShatterInCycles){
+            var new1ShatterD1 = new Date();
+            for (var i = 0; i < times; i++){
+                this.shatterInCycles1(shatters);
+            }
+            var new1ShatterD2 = new Date();
+            if(!ignoreShatterInCycles) console.log("Cycle shatter average= " + (new1ShatterD2.getTime() - new1ShatterD1.getTime())/times);
         }
-        var new1ShatterD2 = new Date();
-        console.log("oldShatterAverafe = " + (oldShatterD2.getTime() - oldShatterD1.getTime())/times)
-        console.log("newShatterAverafe = " + (newShatterD2.getTime() - newShatterD1.getTime())/times)
-        console.log("oldShatterAverafe = " + (new1ShatterD2.getTime() - new1ShatterD1.getTime())/times)
 
-        console.log("newEfficensy = " + (oldShatterD2.getTime() - oldShatterD1.getTime())/(newShatterD2.getTime() - newShatterD1.getTime()))
-        console.log("new1Efficensy = " + (oldShatterD2.getTime() - oldShatterD1.getTime())/(new1ShatterD2.getTime() - new1ShatterD1.getTime()))
+        if(!ignoreOldFunction && !ignoreGroupCycles) console.log("newEfficensy = " + (oldShatterD2.getTime() - oldShatterD1.getTime())/(newShatterD2.getTime() - newShatterD1.getTime()))
+        if(!ignoreOldFunction && !ignoreShatterInCycles) console.log("new1Efficensy = " + (oldShatterD2.getTime() - oldShatterD1.getTime())/(new1ShatterD2.getTime() - new1ShatterD1.getTime()))
     },
     unlockAll: function(){
         for (var i in this.cfu){
@@ -988,7 +1001,10 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
     doShatter: function(model, amt) {
         var factor = this.game.challenges.getChallenge("1000Years").researched ? 5 : 10;
         this.game.time.heat += amt * factor;
-        this.game.time.shatter(amt);
+        //this.game.time.shatter(amt);
+        if(this.game.time.testShatter == 1) this.game.time.shatterInGroupCycles(amt);
+        else if(this.game.time.testShatter == 2) this.game.time.shatterInCycles1(amt);
+        else this.game.time.shatter(amt);
     },
 
     updateVisible: function(model){
