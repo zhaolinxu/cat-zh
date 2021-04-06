@@ -1,4 +1,8 @@
 {
+    "console.intro": "Ești un pisoi într-o pădure de cătușnică.",
+    "console.intro.zebra": "Ești o zebră într-o savană plină cu mine de titan.",
+    "achievements.header": "Realizări: {0} din {1}",
+    "achievements.msg.unlock": "Realizare deblocată: {0}!",
     "buildings.observatory.desc": "Crește șansa evenimentelor astronomice cu 0.2%",
     "effectsMgr.statics.energyProduction.title": "Producția de energie",
     "effectsMgr.statics.happiness.title": "Fericire",
