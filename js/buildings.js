@@ -2627,7 +2627,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 	renderActiveGroup: function(groupContainer){
 
 		dojo.empty(groupContainer);
-		this.buttons = [];
+		this.children = [];
 
 		this.twoRows = (this.activeGroup == "all" || this.activeGroup == "iw");
 		this.initRenderer(groupContainer);
@@ -2701,14 +2701,14 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 					continue;	//skip invisible buttons to not make gaps in the two rows renderer
 				}
 
-				this.addButton(btn);
+				this.addChild(btn);
 			}
 		}
 
-		for (var i = 0; i < this.buttons.length; i++){
+		for (var i = 0; i < this.children.length; i++){
 			var buttonContainer = this.twoRows ?
 						this.getElementContainer(i) : groupContainer;
-			this.buttons[i].render(buttonContainer);
+			this.children[i].render(buttonContainer);
 		}
 	},
 
@@ -2720,8 +2720,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 			description: $I("buildings.gatherCatnip.desc"),
 			twoRow: this.twoRows
 		}, this.game);
-		this.addButton(btn);
-		//btn.render(container);
+		this.addChild(btn);
 
 		var isEnriched = btn.game.workshop.get("advancedRefinement").researched;
 		var self = this;
@@ -2735,8 +2734,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 			prices: [ { name : "catnip", val: (isEnriched ? 50 : 100) }],
 			twoRow: this.twoRows
 		}, this.game);
-		this.addButton(btn);
-		//btn.render(container);
+		this.addChild(btn);
 	},
 
 	update: function(){
