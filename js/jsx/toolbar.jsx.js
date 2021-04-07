@@ -406,9 +406,13 @@ WToolbar = React.createClass({
     
     componentDidMount: function(){
         var self = this;
-        dojo.subscribe("ui/update", function(game){
+        this.onUpdateHandler = dojo.subscribe("ui/update", function(game){
             self.setState({game: game});
         });
+    },
+
+    componentWillUnmount(){
+        dojo.unsubscribe(this.onUpdateHandler);
     },
 
     getIcons: function(){

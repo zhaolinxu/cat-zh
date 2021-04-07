@@ -198,6 +198,30 @@ dojo.declare("classes.game.Server", null, {
 		saveData.server = {
 			motdContent: this.motdContent
 		};
+	},
+
+	//TOOD: separate getting chiral client status and sending command to a separate component
+	sendCommand: function(command){
+		$.ajax({
+            cache: false,
+            type: "POST",
+			url: this.getServerUrl() + "/chiral/command",
+			dataType: "JSON",
+            data: {
+                command: command
+            },
+			xhrFields: {
+				withCredentials: true
+			}
+		}).done(function(resp){
+            if (resp && resp.id){
+                self.setChiral(resp);
+            }
+		});
+	},
+
+	setChiral: function(data){
+		this.chiral = data;
 	}
 });
 
