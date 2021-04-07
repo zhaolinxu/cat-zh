@@ -811,6 +811,11 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.game.bld.get("steamworks").jammed = false;
 		}
 
+		// Apply seasonEffect for the newSeason
+		this.game.upgrade({
+			buildings: ["pasture"]
+		});
+
 		var numChrono = this.game.bld.get("chronosphere").on;
 		if (numChrono > 0) {
 			if (this.futureSeasonTemporalParadox > 0){
