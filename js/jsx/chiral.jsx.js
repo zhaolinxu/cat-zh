@@ -42,7 +42,7 @@ WChiral = React.createClass({
             return $r("div", null, [
                 $r("div", {className: "row"}, "666 nodes online"),
                 $r("div", {className: "row"}, [
-                    $r("pre", null, "JSON goes there")
+                    $r("pre", null, game.server.chiral || ">")
                 ]),
                 $r("div", {className: "row"}, [
                     $r("input", {

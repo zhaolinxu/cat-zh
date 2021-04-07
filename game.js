@@ -137,6 +137,7 @@ dojo.declare("classes.game.Server", null, {
 	//chiral stuff
 
 	userProfile: null,
+	chiral: null,
 
 	constructor: function(game){
 		this.game = game;
@@ -204,9 +205,9 @@ dojo.declare("classes.game.Server", null, {
 	sendCommand: function(command){
 		$.ajax({
             cache: false,
-            type: "POST",
-			url: this.getServerUrl() + "/chiral/command",
+			type: "POST",
 			dataType: "JSON",
+			url: this.getServerUrl() + "/kgnet/chiral/game/command/",
             data: {
                 command: command
             },
