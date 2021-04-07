@@ -976,19 +976,24 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"titaniumPerTickAutoprod" : 0.0005,
 			"oilPerTickCon" : -0.024,
 			"steelPerTickProd": 0,
-			"energyConsumption" : 0
+			"energyConsumption" : 1
 		},
 		calculateEffects: function(self, game) {
 			self.basicProductionCalculation(self, game);
 			self.steelProductionCalculation(self, game);
 		},
+		effectsCalculated: {},
 		basicProductionCalculation: function(self, game) {
-			self.effects["energyConsumption"] = 1;
 			self.effects["mineralsPerTickCon"] = -1.5;
 			self.effects["oilPerTickCon"] = -0.024; //base + 0.01
 			var calcinerRatio = game.getEffect("calcinerRatio");
 			self.effects["ironPerTickAutoprod"] = 0.15 * ( 1 + calcinerRatio );
 			self.effects["titaniumPerTickAutoprod"] = 0.0005 * ( 1 + calcinerRatio * 3 );
+
+			self.effectsCalculated["mineralsPerTickCon"] = self.effects["mineralsPerTickCon"];
+			self.effectsCalculated["oilPerTickCon"] = self.effects["oilPerTickCon"];
+			self.effectsCalculated["ironPerTickAutoprod"] = self.effects["ironPerTickAutoprod"];
+			self.effectsCalculated["titaniumPerTickAutoprod"] = self.effects["titaniumPerTickAutoprod"];
 		},
 		isAutomationEnabled: null,
 		steelProductionCalculation: function(self, game, calledByAction) {
@@ -1052,17 +1057,15 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				return;
 			}
 
-			self.basicProductionCalculation(self, game);
-
 			var amt = game.resPool.getAmtDependsOnStock(
-				[{res: "minerals", amt: -self.effects["mineralsPerTickCon"]},
-				 {res: "oil", amt: -self.effects["oilPerTickCon"]}],
+				[{res: "minerals", amt: -self.effectsCalculated["mineralsPerTickCon"]},
+				 {res: "oil", amt: -self.effectsCalculated["oilPerTickCon"]}],
 				self.on
 			);
-			self.effects["mineralsPerTickCon"] *= amt;
-			self.effects["ironPerTickAutoprod"] *= amt;
-			self.effects["titaniumPerTickAutoprod"] *= amt;
-			self.effects["oilPerTickCon"] *= amt;
+			self.effects["mineralsPerTickCon"] = self.effectsCalculated["mineralsPerTickCon"] * amt;
+			self.effects["oilPerTickCon"] = self.effectsCalculated["oilPerTickCon"] * amt;
+			self.effects["ironPerTickAutoprod"] = self.effectsCalculated["ironPerTickAutoprod"] * amt;
+			self.effects["titaniumPerTickAutoprod"] = self.effectsCalculated["titaniumPerTickAutoprod"] * amt;
 
 			var amtFinal = amt;
 
