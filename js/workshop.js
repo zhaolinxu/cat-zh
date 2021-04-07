@@ -657,6 +657,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			"manpowerJobRatio" : 0.5
 		},
+		calculateEffects: function(self, game){
+			self.effects["manpowerJobRatio"] = 0.5 * Math.max(0, (1 + game.getEffect("weaponEfficency"))); 
+		},
 		prices:[
 			{ name : "wood", val: 200 },
 			{ name : "iron", val: 100 },
@@ -669,6 +672,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			"manpowerJobRatio" : 0.25
 		},
+		calculateEffects: function(self, game){
+			self.effects["manpowerJobRatio"] = 0.25 * Math.max(0, (1 + game.getEffect("weaponEfficency")));
+		},
 		prices:[
 			{ name : "iron", val: 1500 },
 			{ name : "science", val: 12000 }
@@ -679,6 +685,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		description: $I("workshop.railgun.desc"),
 		effects: {
 			"manpowerJobRatio" : 0.25
+		},
+		calculateEffects: function(self, game){
+			self.effects["manpowerJobRatio"] = 0.25 * Math.max(0, (1 + game.getEffect("weaponEfficency")));
 		},
 		prices:[
 			{ name : "titanium", val: 5000 },
@@ -786,6 +795,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "iron", 	 val: 100 },
 			{ name : "science",  val: 1000 }
 		],
+		upgrades: {
+			buildings: ["smelter"]
+		},
 		flavor: $I("workshop.goldOre.flavor")
 	},{
 		name: "geodesy",
@@ -874,6 +886,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "science",  val: 5000 },
 			{ name : "beam", 	 val: 35 }
 		],
+		upgrades: {
+			buildings: ["smelter"]
+		},
 		flavor: $I("workshop.coalFurnace.flavor")
 	},{
 		name: "deepMining",
@@ -911,7 +926,10 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		prices:[
 			{ name : "titanium", val: 2000 },
 			{ name : "science",  val: 100000 }
-		]
+		],
+		upgrades: {
+			buildings: ["smelter"]
+		}
 	},{
 		name: "oxidation",
 		label: $I("workshop.oxidation.label"),
@@ -997,7 +1015,10 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		prices:[
 			{ name : "uranium", val: 250 },
 			{ name : "science",  val: 165000 }
-		]
+		],
+		upgrades: {
+			buildings: ["smelter"]
+		},
 	},{
         name: "orbitalGeodesy",
         label: $I("workshop.orbitalGeodesy.label"),
@@ -1300,7 +1321,10 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "titanium", val: 5 },
 			{ name : "science",  val: 25000 },
 			{ name : "starchart",  val: 75 }
-		]
+		],
+		upgrades: {
+			buildings: ["observatory"]
+		},
 	},
 	{
 		name: "titaniumMirrors",

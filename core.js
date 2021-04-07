@@ -285,7 +285,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 
 		if (bld.lackResConvert != undefined) {
 			// Exceptions (when convertion is caused by an upgrade)
-			bld.togglable = (bld.name == "biolab") ? false : true;
+			bld.togglable = true;
 		}
 
 		for (var effect in bld.effects) {
@@ -1672,6 +1672,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 	handleToggleAutomationLinkClick: function(model) {
 		var building = model.metadata;
 		building.isAutomationEnabled = !building.isAutomationEnabled;
+		this.game.upgrade({buildings: [building.name]});
 	}
 });
 
