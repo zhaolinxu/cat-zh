@@ -992,6 +992,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["ironPerTickAutoprod"] = 0.15 * ( 1 + calcinerRatio );
 			self.effects["titaniumPerTickAutoprod"] = 0.0005 * ( 1 + calcinerRatio * 3 );
 		},
+		isAutomationEnabled: null,
 		steelProductionCalculation: function(self, game, calledByAction) {
 			self.effects["coalPerTickCon"] = 0;
 			self.effects["ironPerTickCon"] = 0;
@@ -1110,6 +1111,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		jammed: false,
 		togglableOnOff: true,
+		isAutomationEnabled: null,
 		action: function(self, game) {
 			if (self.on < 1 || self.jammed || !game.workshop.get("factoryAutomation").researched) {
 				return;
@@ -1233,6 +1235,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"oilMax" : 1500,
 			"energyConsumption": 0
 		},
+		isAutomationEnabled: null,
 		calculateEffects: function(self, game) {
 			var hasPumpjack = game.workshop.get("pumpjack").researched;
 			self.togglable = hasPumpjack;
@@ -1334,6 +1337,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"uraniumMax" : 250,
 			"energyProduction" : 10
 		},
+		isAutomationEnabled: null,
 		calculateEffects: function(self, game) {
 			self.effects["uraniumPerTick"] = -0.001 * (1 - game.getEffect("uraniumRatio"));
 			if (self.isAutomationEnabled == null && game.workshop.get("thoriumReactors").researched) {
