@@ -1237,9 +1237,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (self.isAutomationEnabled == null && hasPumpjack) {
 				self.isAutomationEnabled = true;
 			}
-			self.updateEffects(self, game);
-		},
-		updateEffects: function (self, game) {
+
 			var oilRatio = 1 + game.getEffect("oilWellRatio");
 			if (self.isAutomationEnabled == false) {
 				oilRatio -= game.workshop.get("pumpjack").effects["oilWellRatio"];
@@ -1248,9 +1246,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			self.effects["energyConsumption"] = self.isAutomationEnabled
 				? 1 : 0;
-		},
-		action: function(self, game) {
-			self.updateEffects(self, game);
 		},
 		flavor: $I("buildings.oilWell.flavor"),
 		unlockScheme: {
