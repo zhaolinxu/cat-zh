@@ -1064,7 +1064,8 @@ dojo.declare("classes.ui.religion.TransformBtnController", com.nuclearunicorn.ga
 			valTo: gainCount
 		});
 
-		this.game.msg($I(this.controllerOpts.logTextID, [this.game.getDisplayValueExt(priceCount), this.game.getDisplayValueExt(gainCount)]));
+		this.game.msg($I(this.controllerOpts.logTextID, [this.game.getDisplayValueExt(priceCount), this.game.getDisplayValueExt(gainCount)]), this.controllerOpts.logfilterID);
+
 		return true;
 	}
 });
@@ -1189,7 +1190,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 					applyAtGain: function(priceCount) {
 						this.game.stats.getStat("unicornsSacrificed").val += priceCount;
 					},
-					logTextID: "religion.sacrificeBtn.sacrifice.msg"
+					logTextID: "religion.sacrificeBtn.sacrifice.msg",
+					logfilterID: "UnicornSacrifice"
 				})
 			}, game);
 			sacrificeBtn.render(content);
@@ -1212,7 +1214,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 							zigguratUpgrades: ["skyPalace", "unicornUtopia", "sunspire"]
 						});
 					},
-					logTextID: "religion.sacrificeAlicornsBtn.sacrifice.msg"
+					logTextID: "religion.sacrificeAlicornsBtn.sacrifice.msg",
+					logfilterID: "AlicornSacrifice"
 				})
 			}, game);
 			sacrificeAlicornsBtn.render(content);
@@ -1243,7 +1246,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 						return 1 + this.game.getEffect("relicRefineRatio") * this.game.religion.getZU("blackPyramid").getEffectiveValue(this.game);
 					},
 					gainedResource: "relic",
-					logTextID: "religion.refineTCsBtn.refine.msg"
+					logTextID: "religion.refineTCsBtn.refine.msg",
+					logfilterID: "tcRefine"
 				})
 			}, game);
 			refineTCBtn.render(content);
