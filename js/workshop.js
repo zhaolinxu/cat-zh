@@ -657,6 +657,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			"manpowerJobRatio" : 0.5
 		},
+		calculateEffects: function(self, game){
+			self.effects["manpowerJobRatio"] = 0.5 * Math.max(0, (1 + game.getEffect("weaponEfficency"))); 
+		},
 		prices:[
 			{ name : "wood", val: 200 },
 			{ name : "iron", val: 100 },
@@ -669,6 +672,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			"manpowerJobRatio" : 0.25
 		},
+		calculateEffects: function(self, game){
+			self.effects["manpowerJobRatio"] = 0.25 * Math.max(0, (1 + game.getEffect("weaponEfficency")));
+		},
 		prices:[
 			{ name : "iron", val: 1500 },
 			{ name : "science", val: 12000 }
@@ -679,6 +685,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		description: $I("workshop.railgun.desc"),
 		effects: {
 			"manpowerJobRatio" : 0.25
+		},
+		calculateEffects: function(self, game){
+			self.effects["manpowerJobRatio"] = 0.25 * Math.max(0, (1 + game.getEffect("weaponEfficency")));
 		},
 		prices:[
 			{ name : "titanium", val: 5000 },
@@ -786,6 +795,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "iron", 	 val: 100 },
 			{ name : "science",  val: 1000 }
 		],
+		upgrades: {
+			buildings: ["smelter"]
+		},
 		flavor: $I("workshop.goldOre.flavor")
 	},{
 		name: "geodesy",
@@ -874,6 +886,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "science",  val: 5000 },
 			{ name : "beam", 	 val: 35 }
 		],
+		upgrades: {
+			buildings: ["smelter"]
+		},
 		flavor: $I("workshop.coalFurnace.flavor")
 	},{
 		name: "deepMining",
@@ -911,7 +926,10 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		prices:[
 			{ name : "titanium", val: 2000 },
 			{ name : "science",  val: 100000 }
-		]
+		],
+		upgrades: {
+			buildings: ["smelter"]
+		}
 	},{
 		name: "oxidation",
 		label: $I("workshop.oxidation.label"),
@@ -997,7 +1015,10 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		prices:[
 			{ name : "uranium", val: 250 },
 			{ name : "science",  val: 165000 }
-		]
+		],
+		upgrades: {
+			buildings: ["smelter"]
+		},
 	},{
         name: "orbitalGeodesy",
         label: $I("workshop.orbitalGeodesy.label"),
@@ -1300,7 +1321,10 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "titanium", val: 5 },
 			{ name : "science",  val: 25000 },
 			{ name : "starchart",  val: 75 }
-		]
+		],
+		upgrades: {
+			buildings: ["observatory"]
+		},
 	},
 	{
 		name: "titaniumMirrors",
@@ -2345,47 +2369,32 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		var times = daysOffset * this.game.calendar.ticksPerDay;
 
 		//-------------	 this is a poor place for this kind of functionality ------------
-		var scienceMaxBuilding = this.game.bld.getEffect("scienceMax"),
-			scienceMaxCompendiaCap =  this.game.bld.getEffect("scienceMaxCompendia"),
-			compendiaScienceMax = Math.floor(this.game.resPool.get("compedium").value * 10);
-
-		//iw compedia cap is set to 1000% instead of 100%
-		var iwScienceCapRatio = this.game.ironWill ? 10 : 1;
-
-		var blackLibrary = this.game.religion.getTU("blackLibrary");
-		if (this.game.prestige.getPerk("codexLeviathanianus").researched){
-			var ttBoostRatio = (
-				0.05 * (
-					1 +
-					blackLibrary.val * (
-						blackLibrary.effects["compendiaTTBoostRatio"] +
-						this.game.getEffect("blackLibraryBonus") )
-				)
-			);
-			iwScienceCapRatio *= (1 + ttBoostRatio * this.game.religion.transcendenceTier);
-		}
-
-		/*var darkFutureRatio = Math.max(this.game.calendar.year / this.game.calendar.darkFutureBeginning, 1);
-		// Quadratic increase, so that deep enough run will eventually unnerf the compendia cap
-		var scienceMax = (scienceMaxBuilding * iwScienceCapRatio + scienceMaxCompendiaCap) * darkFutureRatio * darkFutureRatio;*/
-
-		//ch40krun should not be explosed to regular players
-		//there is a lot of ungoing discussing about the necessity of compedia un-nerf, and the original intention was never to allow it
-
-		if (compendiaScienceMax > (scienceMaxBuilding * iwScienceCapRatio + scienceMaxCompendiaCap) /*&& !this.game.opts.ch40krun*/){
-			compendiaScienceMax = (scienceMaxBuilding * iwScienceCapRatio + scienceMaxCompendiaCap);
-		}
 		//-------------	todo: move somewhere to bld? ------------------------------------
 
 		this.effectsBase["oilMax"] = Math.floor(this.game.resPool.get("tanker").value * 500);
-		this.effectsBase["scienceMax"] = compendiaScienceMax;
-		//this.effectsBase["scienceMax"] = Math.min(compendiaScienceMax, scienceMax);
+
+		var scienceMaxCap = this.game.bld.getEffect("scienceMax");
+		if (this.game.ironWill) {
+			scienceMaxCap *= 10;
+		}
+		if (this.game.prestige.getPerk("codexLeviathanianus").researched) {
+			var blackLibrary = this.game.religion.getTU("blackLibrary");
+			var ttBoostRatio = 1 + blackLibrary.val * (blackLibrary.effects["compendiaTTBoostRatio"] + this.game.getEffect("blackLibraryBonus"));
+			scienceMaxCap *= 1 + 0.05 * ttBoostRatio * this.game.religion.transcendenceTier;
+		}
+		scienceMaxCap += this.game.bld.getEffect("scienceMaxCompendia");
+		// there is a lot of ongoing discussing about the necessity of compedia unnerf, and the original intention of ch40krun was never to allow it
+		/* // Quadratic increase, so that deep enough run will eventually unnerf the compendia cap
+		var darkFutureRatio = Math.max(this.game.calendar.year / this.game.calendar.darkFutureBeginning, 1);
+		scienceMaxCap *= darkFutureRatio * darkFutureRatio; */
+
+		var compendiaScienceMax = Math.floor(this.game.resPool.get("compedium").value * 10);
+		this.effectsBase["scienceMax"] = Math.min(compendiaScienceMax, scienceMaxCap);
+
 		var cultureBonusRaw = Math.floor(this.game.resPool.get("manuscript").value);
 		this.effectsBase["cultureMax"] = this.game.getUnlimitedDR(cultureBonusRaw, 0.01);
 
-		if (this.game.science.getPolicy("tradition").researched){
-			this.effectsBase["cultureMax"] *= 2;
-		}
+		this.effectsBase["cultureMax"] *= 1 + this.game.getEffect("cultureCapFromManuscripts");
 
 		//sanity check
 		if (this.game.village.getFreeEngineers() < 0){
@@ -2474,11 +2483,7 @@ dojo.declare("com.nuclearunicorn.game.ui.UpgradeButtonController", com.nuclearun
 
 	updateVisible: function(model){
 		var upgrade = model.metadata;
-		if (!upgrade.unlocked){
-			model.visible = false;
-		}else{
-			model.visible = true;
-		}
+		model.visible = upgrade.unlocked;
 
 		if (upgrade.researched && this.game.workshop.hideResearched){
 			model.visible = false;
@@ -2785,7 +2790,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		var content = craftPanel.render(tabContainer);
 
 		var table = dojo.create("table", {}, content);
-		var tr = dojo.create("tr", {}, table);
+		dojo.create("tr", {}, table);
 
 		//buttons go there
 		var td = dojo.create("td", {}, table);
@@ -2844,8 +2849,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 			if (res.craftable && res.value){
 				var tr = dojo.create("tr", {}, table);
 
-				var td = dojo.create("td", { innerHTML: res.title || res.name + ":" }, tr);
-				var td = dojo.create("td", { innerHTML: this.game.getDisplayValueExt(res.value) }, tr);
+				dojo.create("td", { innerHTML: res.title || res.name + ":" }, tr);
+				dojo.create("td", { innerHTML: this.game.getDisplayValueExt(res.value) }, tr);
 			}
 		}
 	},

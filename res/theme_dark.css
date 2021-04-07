@@ -26,7 +26,7 @@
 	border: solid 1px orange;
 	/*background: inherit;*/
 	background-color: #222222;
-	
+
 }
 
 .scheme_dark ::-webkit-scrollbar-thumb {
@@ -123,7 +123,7 @@
 	background-color: rgba(155, 250, 155, 0.2);
 }
 
-.scheme_dark #sorrowTooltip {
+.scheme_dark .toolbarIcon.sorrow div {
 	color: white;
 }
 

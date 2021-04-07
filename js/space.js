@@ -273,6 +273,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				else {
 					self.effects["energyConsumption"] = 1;
 				}
+				game.upgrade(self.upgrades); //this way observatories won't have to use action
+			},
+			upgrades: {
+				buildings: ["observatory"]
 			},
 			unlockScheme: {
 				name: "space",
@@ -793,8 +797,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					}
 
 					self.effects["energyProduction"] =
-						1 * ( 1 + game.getUnlimitedDR(yearBonus, 0.075) * 0.01) *
-							( 1 + game.getEffect("umbraBoostRatio"));
+						(1 + game.getUnlimitedDR(yearBonus, 0.075) * 0.01) *
+						(1 + game.getEffect("umbraBoostRatio"));
 				}
 			}
 		]
@@ -942,7 +946,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		for (var i = 0; i < this.programs.length; i++){
 			var program = this.programs[i];
 
-			program.unlocked = (program.name == "orbitalLaunch") ? true : false;
+			program.unlocked = program.name == "orbitalLaunch";
 			program.noStackable = true;
 
 			this.resetStateStackable(program);
@@ -1040,7 +1044,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				if (bld.action && bld.val > 0){
 					var amt = bld.action(bld, this.game);
 					if (typeof(amt) != "undefined") {
-						bld.lackResConvert = (amt == 1 || bld.on == 0) ? false : true;
+						bld.lackResConvert = amt != 1 && bld.on != 0;
 					}
 					this.game.calendar.cycleEffectsBasics(bld.effects, bld.name);
 				}
@@ -1404,7 +1408,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
 
                 planetPanel.planet = planet;
                 planetPanel.setGame(self.game);
-                var content = planetPanel.render(container);
+                planetPanel.render(container);
 
                 self.planetPanels.push(planetPanel);
             }

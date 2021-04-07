@@ -820,7 +820,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "culture", val: 150}
 		],
 		effects: {
-			"maxKittens": 0
+			"maxKittens": 0,
+			"happinessKittenProductionRatio": 0.1
 		},
 		unlocked: false,
 		blocked: false,
@@ -828,7 +829,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks:{
 			policies: ["authocracy", "republic"]
 		},
-		updateEffects: function(self, game){
+		calculateEffects: function(self, game){
 			self.effects["maxKittens"] = game.ironWill ? 0 : 1;
 		}
 	}, {
@@ -838,6 +839,11 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		prices: [
 			{name : "culture", val: 150}
 		],
+		effects: {
+			"cultureFromManuscripts": 1,
+			"manuscriptParchmentCost": -5, //visual,
+			"manuscriptCultureCost": -100 //just for the players
+		},
 		unlocked: false,
 		blocked: false,
 		blocks:["liberty"],
@@ -881,7 +887,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		calculateEffects: function(self, game){
 			var uncappedHousing = 0;
 			for (var i = 0; i < game.bld.buildingGroups.length; i++){
-    			if(game.bld.buildingGroups[i].name=="population"){
+    			if(game.bld.buildingGroups[i].name == "population"){
 					for (var k = 0; k < game.bld.buildingGroups[i].buildings.length; k++){
 						if(!game.resPool.isStorageLimited(game.bld.getPrices(game.bld.buildingGroups[i].buildings[k]))){
 							uncappedHousing += 1;
@@ -890,7 +896,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 					break;
     			}
 			}
-			self.effects["rankLeaderBonusConversion"] = 0.004*uncappedHousing;
+			self.effects["rankLeaderBonusConversion"] = 0.004 * uncappedHousing;
 		},
 		unlocks:{
 			policies:["communism", "fascism", "socialism"]
@@ -961,7 +967,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		blocks:["liberalism", "fascism"],
 		evaluateLocks: function(game){
 			return (game.science.getPolicy("republic").researched || game.science.getPolicy("authocracy").researched)
-			&& game.bld.getBuildingExt("factory").meta.val>0; 
+			&& game.bld.getBuildingExt("factory").meta.val > 0; 
 		}
 	}, {
 		name: "fascism",
@@ -978,7 +984,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		blocks:["liberalism", "communism"],
 		evaluateLocks: function(game){
 			return (game.science.getPolicy("monarchy").researched || game.science.getPolicy("authocracy").researched)
-			&& game.bld.getBuildingExt("factory").meta.val>0; 
+			&& game.bld.getBuildingExt("factory").meta.val > 0; 
 		}
 	},
 	//----------------	information age --------------------
@@ -1175,7 +1181,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         blocked: false,
         blocks:["cityOnAHill"],
 		evaluateLocks: function(game){
-			return game.science.getPolicy("isolationism").researched && game.science.get("astronomy").researched; 
+			return game.science.getPolicy("isolationism").researched && game.science.get("astronomy").researched && !game.challenges.isActive("pacifism"); 
 		}
     }, {
         name: "cityOnAHill",
@@ -1207,7 +1213,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         blocked: false,
         blocks:["militarizeSpace"],
 		evaluateLocks: function(game){
-			return game.space.getBuilding("sattelite").val>0;
+			return game.space.getBuilding("sattelite").val > 0;
 		}
     }, {
         name: "militarizeSpace",
@@ -1220,10 +1226,14 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             "satelliteSynergyBonus" : 0.1
         },
         unlocked: false,
+		upgrades: {
+			spaceBuilding: ["sattelite"],
+			buildings: ["observatory"]
+		},
         blocked: false,
         blocks:["outerSpaceTreaty"],
 		evaluateLocks: function(game){
-			return game.space.getBuilding("sattelite").val>0;
+			return game.space.getBuilding("sattelite").val >0 && !game.challenges.isActive("pacifism");
 		}
     },
     //----------------   Philosophy   --------------------
@@ -1507,11 +1517,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	resetState: function(){
 		for (var i = 0; i < this.techs.length; i++){
 			var tech = this.techs[i];
-			if (tech.name == "calendar") {
-				tech.unlocked = true;
-			} else {
-				tech.unlocked = false;
-			}
+			tech.unlocked = tech.name == "calendar";
 			tech.researched = false;
 		}
 		for (var i = 0; i < this.policies.length; i++){
@@ -1538,8 +1544,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	load: function(saveData){
 		if (saveData.science){
 			this.hideResearched = saveData.science.hideResearched;
-			this.policyToggleResearched = saveData.science.policyToggleResearched,
-			this.policyToggleBlocked = saveData.science.policyToggleBlocked,
+			this.policyToggleResearched = saveData.science.policyToggleResearched;
+			this.policyToggleBlocked = saveData.science.policyToggleBlocked;
 			this.loadMetadata(this.techs, saveData.science.techs, "technologies");
 			this.loadMetadata(this.policies, saveData.science.policies, "policies");
 		}
@@ -1552,6 +1558,15 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			}
 
 			this.game.unlock(tech.unlocks);
+		}
+		//re-unlock policies in case we have modified something
+		for (var i = this.policies.length - 1; i >= 0; i--) {
+			var policy = this.policies[i];
+			if (!policy.researched) {
+				continue;
+			}
+
+			this.game.unlock(policy.unlocks);
 		}
 
 	},
@@ -1595,14 +1610,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
              this.game.globalEffectsCached[name] = typeof(this.game.globalEffectsCached[name]) == "number" ? this.game.globalEffectsCached[name] + effect : effect;
              }
 			 }*/
-	update: function(){
-		for(var i = 0; i < this.policies.length; i++){
-			var policy = this.policies[i];
-			if (policy.researched && policy.updateEffects){
-				policy.updateEffects(policy, this.game);
-			}
-		}
-	}
+	//update: function(){
+	//}
 });
 
 //-------- Policy ----------
@@ -1630,7 +1639,18 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 
 		return this.inherited(arguments);
 	},
-	
+	getPrices: function(model){
+		var meta = model.metadata;
+		var policyFakeBought = this.game.getEffect("policyFakeBought");
+		var prices = [];
+		for (var i = 0; i < meta.prices.length; i++){
+            prices.push({
+            	val: meta.prices[i].val * Math.pow(1.25, policyFakeBought),
+            	name: meta.prices[i].name
+			});
+		}
+        return prices;
+	},
 	updateVisible: function(model){
 		var meta = model.metadata;
 		model.visible = meta.unlocked;
@@ -1791,11 +1811,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TechButtonController", com.nuclearunico
 
 	updateVisible: function(model){
 		var meta = model.metadata;
-		if (!meta.unlocked){
-			model.visible = false;
-		}else{
-			model.visible = true;
-		}
+		model.visible = meta.unlocked;
 
 		if (meta.researched && this.game.science.hideResearched){
 			model.visible = false;
@@ -1838,7 +1854,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 			width: "100%"
 		}}, tabContainer);
 
-		var tr = dojo.create("tr", null, table);
+		dojo.create("tr", null, table);
 
 		var tdTop = dojo.create("td", { colspan: 2 },
 			dojo.create("tr", null, table));

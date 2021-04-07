@@ -239,10 +239,10 @@ body.scheme_greenish {
 	color: #c9ddc6;
 }
 .scheme_greenish #topBar div,
-.scheme_greenish #topBar #sorrowTooltip { /* counter of BLS (Black Liquid Sorrow) */
+.scheme_greenish #topBar .toolbarIcon.sorrow div { /* counter of BLS (Black Liquid Sorrow) */
 	color: #202020;
 }
-.scheme_greenish #sorrowTooltip.max {
+.scheme_greenish .toolbarIcon.sorrow.max div {
     color: #c5282e !important; /* in default.js !important needed */
 }
 .scheme_greenish #topBar > div:first-child > span:first-child:after {
@@ -263,17 +263,17 @@ body.scheme_greenish {
 .scheme_greenish .links-block {
 	padding-top: 5px !important;
 }
-.scheme_greenish .toolbarIcon.happiness {
+.scheme_greenish #topBar .toolbarIcon.happiness div {
     color: #d56d2e;
 }
-.scheme_greenish .toolbarIcon.energy,
+.scheme_greenish #topBar .toolbarIcon.energy div,
 .scheme_greenish .button_tooltip .energyProduction {
     color: #1b8539;
 }
-.scheme_greenish .toolbarIcon.energy.warningWinter {
+.scheme_greenish #topBar .toolbarIcon.energy.warningWinter div {
     color: #d56d2e;
 }
-.scheme_greenish .toolbarIcon.energy.warning,
+.scheme_greenish #topBar .toolbarIcon.energy.warning div,
 .scheme_greenish .button_tooltip .energyConsumption {
 	color: #c5282e;
 }
@@ -299,7 +299,7 @@ body.scheme_greenish {
 	/* font-size: 13px; /* for center tooltip except title, effects and flavor */
 /* } */
 .scheme_greenish #tooltip,
-.scheme_greenish .tooltip-block div {
+.scheme_greenish .tooltip-block > div {
 	/* default padding-left: 3px; */
 	padding-bottom: 5px;
 	background-color: #d6f0d1;
@@ -308,7 +308,7 @@ body.scheme_greenish {
 	border-radius: 7px;
 	/* margin-left: 20px; /* for offset tooltip due to larger buttons .btn.modern */
 }
-.scheme_greenish .tooltip-block div { /* tooltip on ? top right column */
+.scheme_greenish .tooltip-block > div { /* tooltip on ? top right column */
 	padding: 5px;
 }
 .scheme_greenish .button_tooltip {

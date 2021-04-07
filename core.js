@@ -446,8 +446,14 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 	},
 
 	save: function(saveData){
+		var saveFilters = {};
+		for (var fId in this.filters) {
+			var filter = this.filters[fId];
+			saveFilters[fId] = {unlocked: filter.unlocked, enabled: filter.enabled};
+		}
+
 		saveData.console = {
-			filters: this.filters
+			filters: saveFilters
 		};
 	},
 
@@ -1938,6 +1944,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 
 			if (meta.breakIronWill) {
 				this.game.ironWill = false;
+				var liberty = this.game.science.getPolicy("liberty");
+				liberty.calculateEffects(liberty, this.game);
 			}
 
 			if (meta.unlocks) {
@@ -1961,11 +1969,15 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 
     incrementValue: function(model) {
 		var meta = model.metadata;
+		var allOff = meta.val > 0 && meta.on == 0;
 		meta.val++;
 		meta.on++;
 
-        // manage togglableOnOff when Off
-        if (meta.togglableOnOff && meta.on == 1){
+		// don't turn on the new building if it's .togglable or .togglableOnOff, you already built at least 1, and all were off before,
+		// or if it's .togglableOnOff, it's your first, and you don't have paragon
+		// (because steamworks isn't useful without upgrades so we don't want to confuse new players)
+		if ((meta.togglableOnOff && (allOff || (meta.val == 1 && this.game.resPool.get("paragon").value == 0))) ||
+			(meta.togglable && allOff)) {
             meta.on--;
         }
 	}

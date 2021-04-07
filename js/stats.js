@@ -194,7 +194,7 @@ dojo.declare("classes.tab.StatsTab", com.nuclearunicorn.game.ui.tab, {
             }, this.container);
 
             var stats = statGroup.group;
-            var table = dojo.create("table", {class: 'statTable'}, this.container);
+            var table = dojo.create("table", {class: "statTable"}, this.container);
 
             for (var i in stats) {
                 var stat = stats[i];

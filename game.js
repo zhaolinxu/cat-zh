@@ -119,7 +119,12 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 });
 
 
-//TODO: to be replaced with actual server call
+/**
+ * Server is a mediator between client and KGNet
+ * It supports fetching data about saves, syncing using info, etc
+ * 
+ * Please see toolbar.jsx.js#WLogin widget for rendering part
+ */
 
 dojo.declare("classes.game.Server", null, {
 
@@ -136,8 +141,19 @@ dojo.declare("classes.game.Server", null, {
 
 	//chiral stuff
 
+	/**
+	 * KGNet user profile
+	 * Represents an active session, if not null, all XHR calls will be made
+	 * using session cookies
+	 */
 	userProfile: null,
 	chiral: null,
+
+	/**
+	 * Current client snapshot of the save data
+	 * All operations with the cloud saves should return the save snapshot?
+	 */
+	saveData: null,
 
 	constructor: function(game){
 		this.game = game;
@@ -179,19 +195,86 @@ dojo.declare("classes.game.Server", null, {
 			console.log("Unable to parse server.json configuration:", err);
 		});
 
-		//-- sync up user profile ---
+		//-- fetch UID from KGNet if HTTP session is established ---
+		if (!this.userProfile){
+			this.syncUserProfile();
+		}
+		
+	},
+
+	/**
+	 * Make an XHR request to KGNet server
+	 * 
+	 * @param {A s} url - relative endpoint URL
+	 * @param {*} method - "GET" or "POST"
+	 * @param {*} data - post data
+	 * @param {*} handler - onDone callback handler
+	 */
+	_xhr: function(url, method, data, handler){
 		$.ajax({
             cache: false,
-            type: "GET",
+            type: method || "GET",
             dataType: "JSON",
-			url: this.getServerUrl() + "/user/",
+			url: this.getServerUrl() + url,
 			xhrFields: {
 				withCredentials: true
-			}
+			},
+			data: data
 		}).done(function(resp){
+			handler(resp);
+		});
+	},
+
+	/**
+	 * Fetch user profile from the chiral server, 
+	 * User must be logged in and session cookie should be set beforehead
+	 */
+	syncUserProfile: function(){
+		var self = this;
+
+		//TODO: use some XHR snippet, this is getting too verbose
+		this._xhr("/user/", "GET", {}, function(resp){
             if (resp && resp.id){
                 self.setUserProfile(resp);
             }
+		});
+	},
+
+	syncSaveData: function(){
+		var self = this;
+		this._xhr("/kgnet/save/", "GET", {}, function(resp){
+			self.saveData = resp;
+		});
+	},
+
+	pushSave: function(){
+		var self = this;
+		var saveData = this.game.save();
+		this._xhr("/kgnet/save/upload/", "POST", 
+		{
+			//pre-parsing guid to avoid checking it on the backend side
+			guid: this.game.telemetry.guid,
+			saveData: this.game.compressLZData(JSON.stringify(saveData), true)
+		}, 
+		function(resp){
+			console.log("save successful?");
+			self.saveData = resp;
+			self.game.msg($I("save.export.msg"));
+		});
+	},
+
+	loadSave: function(guid){
+		var self = this;
+		this._xhr("/kgnet/save/" + guid + "/download/", "GET", {}, function(resp){
+			if (!resp.data){
+				console.error("unable to load game data", resp);
+			}
+			var data = resp.data;
+			LCstorage["com.nuclearunicorn.kittengame.savedata"] = data;
+			console.log("load successful?");
+
+			self.game.load();
+			self.game.msg($I("save.import.msg"));
 		});
 	},
 
@@ -289,6 +372,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 					title: restitle,
 					resName: resname,
 					type: "perTick"
+				};
+			case type == "PerTickRatio":
+				return {
+					title: $I("effectsMgr.type.resRatio", [restitle]),
+					resName: resname,
+					type: "ratio"
 				};
 			case type == "Max":
 				return {
@@ -1110,6 +1199,23 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "ratio",
 				calculation: "nonProportional"
 			},
+			//age 1 policy effects
+			"happinessKittenProductionRatio": {
+				title: $I("effectsMgr.statics.happinessKittenProductionRatio.title"),
+				type: "ratio"
+			},
+			"cultureFromManuscripts": {
+				title: $I("effectsMgr.statics.cultureFromManuscripts.title"),
+				type: "ratio"
+			},
+			"manuscriptParchmentCost": {
+				title: $I("effectsMgr.statics.manuscriptCost.title", [$I("resources.parchment.title")]),
+				type: "fixed"
+			},
+			"manuscriptCultureCost": {
+				title: $I("effectsMgr.statics.manuscriptCost.title",[$I("resources.culture.title")]),
+				type: "fixed"
+			},
 			//age 2 policy effects
 			"rankLeaderBonusConversion": {
 				title: $I("effectsMgr.statics.rankLeaderBonusConversion.title"),
@@ -1316,6 +1422,18 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 			"challengeHappiness":{
                 title: $I("effectsMgr.statics.challengeHappiness.title")
+			},
+			"tradeKnowledge":{
+				title: $I("effectsMgr.statics.tradeKnowledge.title")
+			},
+			"steamworksFakeBought":{
+				title: $I("effectsMgr.statics.steamworksFakeBought.title")
+			},
+			"embassyFakeBought":{
+				title: $I("effectsMgr.statics.embassyFakeBought.title")
+			},
+			"policyFakeBought":{
+				title: $I("effectsMgr.statics.policyFakeBought.title")
 			}
 		}
 	}
@@ -1459,6 +1577,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			IWSmelter: true,
 			disableCMBR: false,
 			enableRedshift: false,
+			enableRedshiftGflops: false,
 			batchSize: 10,
 			// Used only in KG Mobile, hence it's absence in the rest of the code
 			useLegacyTwoInRowLayout: false,
@@ -1738,6 +1857,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		this.opts = {
 			usePerSecondValues: true,
+			notation: "si",
 			forceHighPrecision: false,
 			usePercentageResourceValues: false,
 			showNonApplicableButtons: false,
@@ -1752,6 +1872,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			disableCMBR: false,
 			disableTelemetry: false,
 			enableRedshift: false,
+			enableRedshiftGflops: false,
 			batchSize: 10,
 			// Used only in KG Mobile, hence it's absence in the rest of the code
 			useLegacyTwoInRowLayout: false,
@@ -1966,8 +2087,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			success = false;
 		}
 
-		// Calculate effects (needs to be done after all managers are loaded)
-		this.calculateAllEffects();
 
 		if (saveData && saveData.game){
 			var data = saveData.game;
@@ -1999,6 +2118,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 			this.updateOptionsUI();
 		}
+		// Calculate effects (needs to be done after all managers and save data are loaded)
+		this.calculateAllEffects();
 		//------------------------------------
 
 		this.villageTab.visible = (this.bld.get("hut").on > 0
@@ -2026,6 +2147,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.prestige.getPerk("adjustmentBureau").reserve);
 
 		this.ui.load();
+		this.updateCaches();
 
 		return success;
 	},
@@ -2624,7 +2746,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// +BUILDING AUTOPROD
 		var perTickAutoprod = this.getEffect(res.name + "PerTickAutoprod");
 		    perTickAutoprod *= paragonSpaceProductionRatio;
-			perTickAutoprod *= (1 +this.getEffect("rankLeaderBonusConversion")*((this.village.leader)? this.village.leader.rank: 0));
+			perTickAutoprod *= (1 + this.getEffect("rankLeaderBonusConversion") * ((this.village.leader) ? this.village.leader.rank : 0));
 		perTick += perTickAutoprod;
 
 		// *MAGNETOS PRODUCTION BONUS
@@ -2680,7 +2802,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		perTick = effects[resName];
 
 		// +BUILDING AND SPACE PerTick
-		perTick += this.getEffect(res.name + "PerTick");
+		perTick += this.getEffect(res.name + "PerTick") * (1+ this.getEffect(res.name + "PerTickRatio"));
 
 		// -EARTH CONSUMPTION
 		var resMapConsumption = this.village.getResConsumption();
@@ -2836,7 +2958,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		//ParagonSpaceProductionRatio definition 1/4
 		var paragonSpaceProductionRatio = 1 + paragonProductionRatio * 0.05;
-		var rankLeaderBonusConversion = this.getEffect("rankLeaderBonusConversion") * ((this.village.leader)? this.village.leader.rank : 0);
+		var rankLeaderBonusConversion = this.getEffect("rankLeaderBonusConversion") * ((this.village.leader) ? this.village.leader.rank : 0);
 		// +BUILDING AUTOPROD
 		var buildingAutoprod = [];
 		// ---->
@@ -3001,6 +3123,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			value: this.getEffect(res.name + "PerTick")
 		});
 
+		stack.push({
+			name: $I("res.stack.baseline"),
+			type: "ratio",
+			value: this.getEffect(res.name + "PerTickRatio")
+		});
+
 		// +CRAFTING JOB PRODUCTION
 		stack.push({
 			name: $I("res.stack.engineer"),
@@ -3136,7 +3264,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.resPool.update();
 
 		this.bld.update();
-		this.science.update();
+		//this.science.update();
 
 		//business logic goes there
 		//maybe it will be a good idea to move it elsewhere?
@@ -3725,9 +3853,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 		var game = this;
 		game.ui.confirm($I("reset.confirmation.title"), msg, function() {
-			if (game.challenges.isActive("atheism") && game.time.getVSU("cryochambers").on > 0) {
-				game.challenges.researchChallenge("atheism");
-			}
+			game.challenges.onRunReset();
 			/*if (game.challenges.isActive("atheism") && game.time.getVSU("cryochambers").on > 0) {
 				game.challenges.getChallenge("atheism").researched = true;
 
@@ -3737,6 +3863,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}*/
 			if (game.calendar.day < 0) {
 				game.achievements.unlockHat("fezHat");
+			}
+			for (var i = 0; i < game.challenges.challenges.length; i++){
+				game.challenges.challenges[i].pending = false;
 			}
 			game.resetAutomatic();
 		});
@@ -3971,6 +4100,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			newKittens = this.village.sim.kittens.slice(-cryochambers);
 			for (var i in newKittens) {
 				delete newKittens[i].job;
+				delete newKittens[i].engineerSpeciality;
 			}
 		}
 
@@ -4244,6 +4374,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 						this.calendar.cycleEffectsBasics(item.effects, item.name);
 					}
 				}
+				if (item.unlockScheme && item.val >= item.unlockScheme.threshold) {
+					this.ui.unlockScheme(item.unlockScheme.name);
+				}
 			}
 		}
 	},
@@ -4275,7 +4408,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
          */
         var managers = {
 		   "workshop": this.workshop,
-		   "building": this.bld
+		   "building": this.bld,
+		   "religion": this.religion
         };
 
         for (var i in this.undoChange.events){
@@ -4319,6 +4453,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 		if(this.bld.get("chronosphere").on) {
 			gift = "Compendiums";
+		}
+		if(this.diplomacy.get("leviathans").energy == this.diplomacy.getMarkerCap()){
+			gift = "BurnedParagon";
 		}
 		var ucfirst = function (string) { return string.charAt(0).toUpperCase() + string.slice(1); };
 
@@ -4376,7 +4513,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 			case "Transcendence":
 				this.religion.transcendenceTier += 4;
-				var msg = "Transcendence Tier increased by 4!";
+				var msg = $I("gift.transcendence");
 				break;
 
 			case "Metaphysics":
@@ -4399,7 +4536,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					this.prestige.getPerk("renaissance").researched = true;
 					var perk = "Renaissance";
 				}
-				var msg = $I("gift.metaphysics");
+				var msg = $I("gift.metaphysics", [perk]);
 				break;
 
 			case "Compendiums":
@@ -4408,8 +4545,34 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				} else {
 					var amt = 100000;
 				}
-				var msg = $I("gift.resources", [this.getDisplayValueExt(amt), ucfirst($I("resources.karma.title"))]);
+				var unicornGraveyard = this.religion.getZU("unicornGraveyard");
+				var unicornNecropolis = this.religion.getZU("unicornNecropolis");
+				var getSumOfPrices = function(item, resName){ //this function should return how much of one resource was spent on a stackable
+					var priceRatio = item.priceRatio;
+					var resPrice = 0;
+					var num = item.val;
+					for (var i in item.prices){
+						if (item.prices[i].name == resName){
+							resPrice = item.prices[i].val;
+						}
+					}
+					return resPrice * (Math.pow(priceRatio, num) - 1)/(priceRatio - 1);
+				};
+				var amt1 = Math.max(getSumOfPrices(unicornGraveyard, "necrocorn") + getSumOfPrices(unicornNecropolis, "necrocorn"), 
+				Math.max(this.resPool.get("necrocorn").value, 10));
+				var msg = $I("gift.resources", [this.getDisplayValueExt(amt), ucfirst($I("resources.compedium.title"))]);
+				msg += $I("gift.resources", [this.getDisplayValueExt(amt1), ucfirst($I("resources.necrocorn.title"))]);
 				this.resPool.addResEvent("compedium", amt);
+				this.resPool.addResEvent("necrocorn", amt1);
+				break;
+			case "BurnedParagon":
+				if(this.resPool.get("burnedParagon").value > 500){
+					var amt = Math.min(this.resPool.get("burnedParagon").value, 1500);
+				} else {
+					var amt = 150;
+				}
+				var msg = $I("gift.resources", [this.getDisplayValueExt(amt), ucfirst($I("resources.burnedParagon.title"))]);
+				this.resPool.addResEvent("burnedParagon", amt);
 			break;
 		}
 

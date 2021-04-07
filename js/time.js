@@ -417,14 +417,10 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         priceRatio: 1.25,
         effects: {
 			"temporalParadoxDay": 0,
-			"energyConsumption": 0
+			"energyConsumption": 15
         },
 		calculateEffects: function(self, game){
-			var effects = {
-				"temporalParadoxDay": 1 + game.getEffect("temporalParadoxDayBonus")
-			};
-			effects["energyConsumption"] = 15;
-			self.effects = effects;
+			self.effects["temporalParadoxDay"] = 1 + game.getEffect("temporalParadoxDayBonus");
 		},
 		unlockScheme: {
 			name: "vintage",
@@ -612,7 +608,7 @@ dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAwar
         this.timeSpan.innerHTML = $I("time.flux") + ": " + this.game.getDisplayValueExt(temporalFlux.value) + " / " + temporalFlux.maxValue;
 
         var remainingTemporalFluxInSeconds = temporalFlux.value / this.game.ticksPerSecond;
-        this.timeSpan.innerHTML += " (" + (remainingTemporalFluxInSeconds < 1 ? "0s" : this.game.toDisplaySeconds(remainingTemporalFluxInSeconds)) + " / " + this.game.toDisplaySeconds(temporalFlux.maxValue / this.game.ticksPerSecond) + ")";
+        this.timeSpan.innerHTML += " (" + (remainingTemporalFluxInSeconds < 1 ? "0" + $I("unit.s") : this.game.toDisplaySeconds(remainingTemporalFluxInSeconds)) + " / " + this.game.toDisplaySeconds(temporalFlux.maxValue / this.game.ticksPerSecond) + ")";
 
         if (this.game.workshop.get("chronoforge").researched) {
             this.timeSpan.innerHTML += "<br>" + $I("time.heat") + ": ";
@@ -627,7 +623,7 @@ dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAwar
 
             var heatPerSecond = this.game.getEffect("heatPerTick") * this.game.ticksPerSecond;
             var remainingHeatDissipationInSeconds = this.game.time.heat / heatPerSecond;
-            this.timeSpan.innerHTML += " (" + (remainingHeatDissipationInSeconds < 1 ? "0s" : this.game.toDisplaySeconds(remainingHeatDissipationInSeconds)) + " / " + this.game.toDisplaySeconds(heatMax / heatPerSecond) + ")";
+            this.timeSpan.innerHTML += " (" + (remainingHeatDissipationInSeconds < 1 ? "0" + $I("unit.s") : this.game.toDisplaySeconds(remainingHeatDissipationInSeconds)) + " / " + this.game.toDisplaySeconds(heatMax / heatPerSecond) + ")";
         }
 
         this.inherited(arguments);
@@ -740,7 +736,7 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
 	                }
 
                     priceLoop *= (1 + this.game.getLimitedDR(this.game.getEffect("shatterCostReduction"),1) + 
-                        this.game.getEffect("shatterCostIncrease"));
+                        this.game.getEffect("shatterCostIncreaseChallenge"));
 
                     pricesTotal.timeCrystal += priceLoop;
                     
@@ -753,7 +749,7 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
                 }
 			}
 		}
-
+        pricesTotal.void = Math.round(pricesTotal.void * 1000) / 1000;
 		return pricesTotal;
 	},
 
@@ -763,7 +759,8 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
             for (var i in price){
                 this.game.resPool.addResEvent(price[i].name, -price[i].val);
             }
-            callback(this.doShatter(model, 1));
+            this.doShatter(model, 1);
+            callback(true);
         }
         callback(false);
         return true;
@@ -776,7 +773,7 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
         var price = this.getPricesMultiple(model, amt);
         if(price.void){
             if (price.timeCrystal <= this.game.resPool.get("timeCrystal").value &&
-            price.void||-1 <= this.game.resPool.get("void").value) {
+            price.void || -1 <= this.game.resPool.get("void").value) {
                 this.game.resPool.addResEvent("timeCrystal", -price.timeCrystal);
                 this.game.resPool.addResEvent("void", -price.void);
                 this.doShatter(model, amt);
@@ -914,14 +911,26 @@ dojo.declare("classes.ui.time.FixCryochamberBtnController", com.nuclearunicorn.g
         return result;
     },
 
-    buyItem: function(model, event, callback){
-        if (model.enabled && this.hasResources(model)) {
-            this.payPrice(model);
+	buyItem: function(model, event, callback) {
+		if (!model.enabled) {
+			callback(false);
+			return;
+		}
 
-            callback(this.doFixCryochamber(model));
-        }
-        callback(false);
-    },
+		var fixCount = event.shiftKey
+			? 1000
+			: event.ctrlKey || event.metaKey /*osx tears*/
+				? this.game.opts.batchSize || 10
+				: 1;
+		fixCount = Math.min(fixCount, this.game.time.getVSU("usedCryochambers").val);
+
+		var fixHappened = false;
+		for (var count = 0; count < fixCount && this.hasResources(model); ++count) {
+			this.payPrice(model);
+			fixHappened |= this.doFixCryochamber(model);
+		}
+		callback(fixHappened);
+	},
 
     doFixCryochamber: function(model){
 		var cry = this.game.time.getVSU("cryochambers");

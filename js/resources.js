@@ -660,7 +660,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		for (var i in this.resources){
 			var res = this.resources[i];
 			if (res.name == "sorrow"){
-				res.maxValue = 12 + (game.getEffect("blsLimit") || 0);
+				res.maxValue = 15 + (game.getEffect("blsLimit") || 0);
 				res.value = res.value > res.maxValue ? res.maxValue : res.value;
 				continue;
 			}
@@ -717,7 +717,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		var limits = {};
 		for (var i in this.resources) {
 			var res = this.resources[i];
-			if (res.perTickCached && !(res.name == "catnip" && res.perTickCached < 0)) {
+			if (res.perTickCached && (res.name != "catnip" || res.perTickCached >= 0)) {
 				if (res.maxValue) {
 					limits[res.name] = Math.max(res.value, res.maxValue);
 				}
