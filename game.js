@@ -3261,7 +3261,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		 }
 		 }*/
 
-		this.resPool.resConsHackForResTable();
+		this.resPool.updateConvertion();
 
 		//nah, kittens are not a resource anymore (?)
 		var kittens = this.resPool.get("kittens");
