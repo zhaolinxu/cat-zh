@@ -1181,7 +1181,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         blocked: false,
         blocks:["cityOnAHill"],
 		evaluateLocks: function(game){
-			return game.science.getPolicy("isolationism").researched && game.science.get("astronomy").researched; 
+			return game.science.getPolicy("isolationism").researched && game.science.get("astronomy").researched && !game.challenges.isActive("pacifism"); 
 		}
     }, {
         name: "cityOnAHill",
@@ -1233,7 +1233,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         blocked: false,
         blocks:["outerSpaceTreaty"],
 		evaluateLocks: function(game){
-			return game.space.getBuilding("sattelite").val > 0;
+			return game.space.getBuilding("sattelite").val >0 && !game.challenges.isActive("pacifism");
 		}
     },
     //----------------   Philosophy   --------------------
@@ -1639,7 +1639,18 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 
 		return this.inherited(arguments);
 	},
-	
+	getPrices: function(model){
+		var meta = model.metadata;
+		var policyFakeBought = this.game.getEffect("policyFakeBought");
+		var prices = [];
+		for (var i = 0; i < meta.prices.length; i++){
+            prices.push({
+            	val: meta.prices[i].val * Math.pow(1.25, policyFakeBought),
+            	name: meta.prices[i].name
+			});
+		}
+        return prices;
+	},
 	updateVisible: function(model){
 		var meta = model.metadata;
 		model.visible = meta.unlocked;

@@ -854,6 +854,31 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		this.transcendenceTier = 25;
 
 		this.game.msg("All religion upgrades are unlocked!");
+	},
+
+	undo: function(data){
+		var resPool = this.game.resPool;
+		if (data.action == "refine"){
+			/*
+			  undo.addEvent("religion", {
+				action:"refine",
+				resFrom: model.prices[0].name,
+				resTo: this.controllerOpts.gainedResource,
+				valFrom: priceCount,
+				valTo: gainCount
+			*/
+			var resConverted = resPool.get(data.resTo);
+			/*
+				if you still have refined resources, roll them back
+				of course the correct way would be to call addResEvent(data.resTo, -data.valTo), 
+				find out actual remaining value
+				and refund it proportionally, but I am to lazy to code it in 
+			*/
+			if (resConverted.value > data.valTo) {
+				this.game.resPool.addResEvent(data.resFrom, data.valFrom);
+				this.game.resPool.addResEvent(data.resTo, -data.valTo);
+			}
+		}
 	}
 
 });
@@ -1029,6 +1054,15 @@ dojo.declare("classes.ui.religion.TransformBtnController", com.nuclearunicorn.ga
 		if (this.controllerOpts.applyAtGain) {
 			this.controllerOpts.applyAtGain.call(this, priceCount);
 		}
+
+		var undo = this.game.registerUndoChange();
+        undo.addEvent("religion", {
+			action:"refine",
+			resFrom: model.prices[0].name,
+			resTo: this.controllerOpts.gainedResource,
+			valFrom: priceCount,
+			valTo: gainCount
+		});
 
 		this.game.msg($I(this.controllerOpts.logTextID, [this.game.getDisplayValueExt(priceCount), this.game.getDisplayValueExt(gainCount)]));
 		return true;

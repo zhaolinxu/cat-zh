@@ -555,7 +555,6 @@ table.craftTable tr:hover td {
 .login-popup {
     position: absolute;
     top: 20px;
-    border: 1px solid gray;
     padding: 5px;
     background: white;
     z-index: 1;
@@ -588,11 +587,19 @@ table.craftTable tr:hover td {
     margin-right: 5px;
 }
 
-.tooltip-block, .tooltip-block > div {
-    z-index: 9999;
-    display: inline-block;
+.tooltip-block {
     cursor: pointer;
     padding-left: 3px;
+    display: inline-block;
+}
+
+.tooltip-block > div {
+    z-index: 9999;
+    padding: 5px;
+}
+
+.tooltip-block > div {
+    border: 1px solid lightgray;
 }
 
 .save-record-container {
@@ -979,6 +986,7 @@ progress[value]::-webkit-progress-value {
     background-color: rgb(239, 239, 244);
     border: 1px solid #a8a7ac;
     position: absolute;
+    margin-top: -20px;
     margin-left: 20px;
     padding-right: 10px;
 }
@@ -1164,6 +1172,29 @@ a.link.collapse:hover {
     color:floralwhite
 }
 
+/*credits go to Volk*/
+.name.variety-none {
+	border: 1px solid transparent;
+}
+.name.variety-dual { /* bicolore */
+	border: 1px solid grey;
+}
+.name.variety-tabby { /* tigré  ou rayé */
+	border: 1px dashed grey;
+}
+.name.variety-torbie { /* marbré strié */
+	border: 1px dashed grey;
+	border-left: dotted;
+	border-right: dotted;
+}
+.name.variety-calico { /* tricolore */
+	border: 1px solid grey;
+	border-top-color: saddlebrown;
+	border-bottom-color: peru;
+}
+.name.variety-spots { /* tacheté */
+	border: 1px dotted grey;
+}
 
 /*--------------------------------------
                 Map

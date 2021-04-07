@@ -522,6 +522,15 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			//TODO: make meteors give titanium on higher levels
 		}
 
+		//------------------------- 0.035% chance of spawning unicorns in pacifism -----------------
+		if(this.game.challenges.isActive("pacifism")){
+			var animal = this.game.science.get("animal");
+			var unicorns = this.game.resPool.get("unicorns");
+			if (this.game.rand(100000) <= 17 * unicornChanceRatio && unicorns.value < 2 && animal.researched){
+				this.game.resPool.addResEvent("unicorns", 1);
+				this.game.msg($I("calendar.msg.unicorn"));
+			}
+		}
 		//------------------------- 0.035% chance of spawning unicorns in Iron Will -----------------
 		var zebras = this.game.resPool.get("zebras");
 
@@ -572,6 +581,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 		//----------------------------------------------
 		var aliChance = this.game.getEffect("alicornChance");	//0.2 OPTK
+		aliChance *= 1 + this.game.getLimitedDR(this.game.getEffect("alicornPerTickRatio"), 1.2);
 		if (this.game.rand(100000) < aliChance * 100000){
 			this.game.msg($I("calendar.msg.alicorn"), "important", "alicornRift");
 
@@ -694,6 +704,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		//----------------------------------------------
 		var aliChance = this.game.getEffect("alicornChance");	//0.2 OPTK
+		aliChance *= 1 + this.game.getLimitedDR(this.game.getEffect("alicornPerTickRatio"), 1.2);
 		numberEvents = Math.round(daysOffset * aliChance);
 		if (numberEvents >= 1) {
 			this.game.resPool.addResEvent("alicorn", numberEvents);
