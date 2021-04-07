@@ -696,7 +696,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             maxYearsShattered -= Math.min(5, maxYearsShattered);
             remainingDaysInFirstYear = cal.daysPerSeason * cal.seasonsPerYear;
         }
-        cal.onNewYears(endYear == cal.year, maxYearsShattered, false);
+        //cal.onNewYears(endYear == cal.year, maxYearsShattered, false);
         cal.calculateMilleniumProduction(cal.getMilleniaChanged(startYear, cal.years));
         if (amt == 1) {
             game.msg($I("time.tc.shatterOne"), "", "tc");
@@ -712,7 +712,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         var d1 = new Date();
         //console.warn(d1.getTime() - d.getTime())
     },
-    testShatters: function(shatters, times, ignoreOldFunction, ignoreShatterInCycles, ignoreGroupCycles){
+    compareShatterTime: function(shatters, times, ignoreOldFunction, ignoreShatterInCycles, ignoreGroupCycles){
         if(!ignoreOldFunction){
             var oldShatterD1 = new Date();
             for (var i = 0; i < times; i++){
