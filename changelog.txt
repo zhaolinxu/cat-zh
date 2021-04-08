@@ -1,7 +1,14 @@
+v 1.4.8.4 (6 apr 2021)
+Major:
+* Added pacifism challenge
+* Deleted auto reclaim
+Minor:
+* Optimisation refractors
+
 v 1.4.8.3 (16 nov 2020)
 
 Major:
-* Repeatable challenges (phase 1)
+* Repeatable challenges
 * Chiral aka KGNet integration
 
 Minor:
