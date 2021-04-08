@@ -84,7 +84,7 @@
 
 				var i = (Math.floor(Math.random() * loadingMessages.length));
 				$("#loadingProgressInfo").html(loadingMessages[i] + "...&nbsp(" + progress.toFixed() + "%)");
-				return System.import(module + ".js?v=0008");
+				return System.import(module + ".js?v=0009");
 			}
 
 			function _import(module, def){
@@ -177,7 +177,7 @@
 				def = _import("i18n", def);
 				def.then(function () {
 					console.log("Loading locale system");
-					var langPromise = i18nLang.init(4);
+					var langPromise = i18nLang.init(5);
 					langPromise.done(function() {
 						loadingMessages = [
 							$I("ui.loading.msg.0"),
@@ -711,7 +711,7 @@
 				localStorage['zh.ks.enable'] = 'enable';
 				$("#ks-label").text("可爱的猫猫科学家为您服务");
 				$("#set-ks-enable").attr("checked", true);
-				document.body.appendChild(document.createElement('script')).src = 'kitten-scientists.user.js?v=0002';
+				document.body.appendChild(document.createElement('script')).src = 'kitten-scientists.user.js?v=0003';
 			};
 			var disableKS = function () {
 				localStorage['zh.ks.enable'] = 'disable';
