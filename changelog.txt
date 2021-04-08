@@ -8,8 +8,8 @@ Minor:
 v 1.4.8.3 (16 nov 2020)
 
 Major:
- * Repeatable challenges (rewards on completion, resource reserves)
- * KGNet integration
+* Repeatable challenges (rewards on completion, resource reserves)
+* KGNet integration
 
 Minor:
 * Theme bugfixes
