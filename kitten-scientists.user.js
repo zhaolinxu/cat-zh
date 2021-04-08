@@ -1910,7 +1910,9 @@ var run = function() {
         },
         hunt: function () {
             var manpower = this.craftManager.getResource('manpower');
-
+            if(!game.villageTab.huntBtn.model.visible) {
+                return;
+            }
             if (options.auto.options.items.hunt.subTrigger <= manpower.value / manpower.maxValue && manpower.value >= 100) {
                 // No way to send only some hunters. Thus, we hunt with everything
                 var huntCount = Math.floor(manpower.value/100);
@@ -2435,7 +2437,7 @@ var run = function() {
             return game.bld.getBuildingExt(name);
         },
         getBuildButton: function (name, stage) {
-            var buttons = this.manager.tab.buttons;
+            var buttons = this.manager.tab.children;
             var build = this.getBuild(name);
             var label = typeof stage !== 'undefined' ? build.meta.stages[stage].label : build.meta.label;
 
