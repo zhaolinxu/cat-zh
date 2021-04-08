@@ -3616,7 +3616,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				var absValue = Math.abs(value);
 				for(var i = 0; i < this.postfixes.length; i++) {
 					var p = this.postfixes[i];
-					if(absValue >= p.limit){
+					if(absValue >= p.limit && absValue != Infinity){
 						if (usePerTickHack) { // Prevent recursive * this.ticksPerSecond;
 							value = value / this.ticksPerSecond;
 						}
