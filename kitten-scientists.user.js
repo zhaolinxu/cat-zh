@@ -3008,7 +3008,7 @@ var run = function() {
             var rRatio = 1 + race.energy * 0.02;
             // tradeRatio
             // var tRatio = 1 + game.diplomacy.getTradeRatio();
-		    var tRatio = 1 + game.diplomacy.getTradeRatio() + game.diplomacy.calculateTradeBonusFromPolicies(race.name, game) + this.game.challenges.getChallenge("pacifism").getTradeBonusEffect(this.game);
+		    var tRatio = 1 + game.diplomacy.getTradeRatio() + game.diplomacy.calculateTradeBonusFromPolicies(race.name, game) + game.challenges.getChallenge("pacifism").getTradeBonusEffect(this.game);
             // var successRat = (race.attitude === "hostile") ? Math.min(race.standing + standRat/100, 1) : 1;
             // var bonusRat = (race.attitude === "friendly") ? Math.min(race.standing + standRat/200, 1) : 0;
             // ref: var failedTradeAmount = race.standing < 0 ? this.game.math.binominalRandomInteger(totalTradeAmount, -(race.standing + standingRatio)) : 0;
