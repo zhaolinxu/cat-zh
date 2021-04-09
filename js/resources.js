@@ -641,6 +641,11 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			}
 		}
 
+		// Remove from resources now to calculate others actions with updated resources
+		for (var i in from) {
+			this.addResPerTick(from[i].res, -from[i].amt * amt);
+		}
+
 		// Return the percentage to decrease the productivity
 		return amt / amtBeginni;
 	},
@@ -737,13 +742,19 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		}
 	},
 
-	updateConvertion: function() {
-		if (this.game.calendar.day >= 0) {
-			for (var i in this.resources) {
+	//Hack to reach the maxValue in resTable
+	//AB: Questionable
+	resConsHackForResTable: function() {
+		if( this.game.calendar.day >= 0) {
+			for (var i in this.resources){
 				var res = this.resources[i];
-				if (!(res.maxValue && res.maxValue == res.value && this.game.getResourcePerTick(res.name, true) > 0)) { //Hack to reach the maxValue in resTable //AB: Questionable
+				if (res.maxValue) {
 					var perTickConvertion = this.game.getResourcePerTickConvertion(res.name);
-					this.addResPerTick(res.name, perTickConvertion);
+					if (perTickConvertion < 0) {
+						if (this.game.getResourcePerTick(res.name, true) > 0 && res.maxValue + perTickConvertion <= res.value) {
+							res.value += -perTickConvertion;
+						}
+					}
 				}
 			}
 		}
