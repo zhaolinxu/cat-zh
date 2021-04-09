@@ -151,7 +151,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
     },
      
     getButton: function(tab, buttonName){
-        for(var i in this.game.tabs[tab].buttons){
+        for(var i in this.game.tabs[tab].children){
             if(this.game.tabs[tab].children[i].opts.building == buttonName)
                 return parseInt(i);
         }
