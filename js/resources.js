@@ -594,7 +594,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			res.value = Math.floor(res.value);
 		}
 
-		if (isNaN(res.value) || res.value < 0){
+		if (isNaN(res.value) || res.value < 0.0000000001){
 			res.value = 0;	//safe switch
 		}
 
