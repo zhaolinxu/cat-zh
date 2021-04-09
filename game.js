@@ -177,7 +177,7 @@ dojo.declare("classes.game.Server", null, {
 
 		console.log("Loading server settings...");
 		$.ajax({
-			cache: false,
+			cache: true,
 			url: "server.json",
 			dataType: "json",
 			success: function(json) {
@@ -195,9 +195,9 @@ dojo.declare("classes.game.Server", null, {
 		});
 
 		//-- fetch UID from KGNet if HTTP session is established ---
-		if (!this.userProfile){
+		/*if (!this.userProfile){
 			this.syncUserProfile();
-		}
+		}*/
 		
 	},
 
