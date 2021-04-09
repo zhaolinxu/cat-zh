@@ -177,7 +177,7 @@ dojo.declare("classes.game.Server", null, {
 
 		console.log("Loading server settings...");
 		$.ajax({
-			cache: true,
+			cache: false,
 			url: "server.json",
 			dataType: "json",
 			success: function(json) {
@@ -195,9 +195,9 @@ dojo.declare("classes.game.Server", null, {
 		});
 
 		//-- fetch UID from KGNet if HTTP session is established ---
-		/*if (!this.userProfile){
+		if (!this.userProfile){
 			this.syncUserProfile();
-		}*/
+		}
 		
 	},
 
@@ -3261,7 +3261,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		 }
 		 }*/
 
-		this.resPool.updateConvertion();
+		this.resPool.resConsHackForResTable();
 
 		//nah, kittens are not a resource anymore (?)
 		var kittens = this.resPool.get("kittens");
@@ -3616,7 +3616,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				var absValue = Math.abs(value);
 				for(var i = 0; i < this.postfixes.length; i++) {
 					var p = this.postfixes[i];
-					if(absValue >= p.limit && absValue != Infinity){
+					if(absValue >= p.limit){
 						if (usePerTickHack) { // Prevent recursive * this.ticksPerSecond;
 							value = value / this.ticksPerSecond;
 						}
