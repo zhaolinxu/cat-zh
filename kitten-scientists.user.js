@@ -1212,7 +1212,7 @@ var run = function() {
             var optionVals = options.auto.timeCtrl.items;
 
             // Tempus Fugit
-            if (optionVals.accelerateTime.enabled && !game.time.isAccelerated) {
+            if (optionVals.accelerateTime.enabled && !game.time.isAccelerated && game.science.get("calendar").researched) {
                 var tf = game.resPool.get('temporalFlux')
                 if (tf.value >= tf.maxValue * optionVals.accelerateTime.subTrigger) {
                     game.time.isAccelerated = true;
