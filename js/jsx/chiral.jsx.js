@@ -24,11 +24,11 @@ WChiral = React.createClass({
         dojo.unsubscribe(this.updateHandler);
     },
 
-    setConsole: function(e){
+    setCommand: function(e){
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
 
-        this.setState({console: e.target.value});
+        this.setState({command: e.target.value});
     },
 
     sendCommand: function(){
@@ -47,8 +47,8 @@ WChiral = React.createClass({
                 $r("div", {className: "row"}, [
                     $r("input", {
                         type: "text",
-                        onChange: this.setConsole,
-                        value: this.state.console
+                        onChange: this.setCommand,
+                        value: this.state.command
                     }),
                     $r("a", {
                         onClick: this.sendCommand

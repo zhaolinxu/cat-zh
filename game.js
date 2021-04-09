@@ -286,26 +286,18 @@ dojo.declare("classes.game.Server", null, {
 
 	//TOOD: separate getting chiral client status and sending command to a separate component
 	sendCommand: function(command){
-		$.ajax({
-            cache: false,
-			type: "POST",
-			dataType: "JSON",
-			url: this.getServerUrl() + "/kgnet/chiral/game/command/",
-            data: {
-                command: command
-            },
-			xhrFields: {
-				withCredentials: true
-			}
-		}).done(function(resp){
-            if (resp && resp.id){
+		var self = this;
+		this._xhr("/kgnet/chiral/game/command/", "POST", {
+			command: command
+		}, function(resp){
+			if (resp.clientState){
                 self.setChiral(resp);
-            }
+			}
 		});
 	},
 
 	setChiral: function(data){
-		this.chiral = data;
+		this.chiral = JSON.stringify(data, null, 2);
 	}
 });
 
