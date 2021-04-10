@@ -1,6 +1,6 @@
 dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager, {
     game: null,
-    testShatter: 0, //0 is current function call, 1 is shatterInGroupCycles, 2 is shatterInCycles1
+    testShatter: 0, //0 is current function call, 1 is shatterInGroupCycles, 2 is shatterInCycles
     /*
      * Amount of years skipped by CF time jumps
      */
@@ -199,7 +199,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                 blastFurnace.heat -= 100 * amt;
                 //this.shatter(amt);
                 if(this.testShatter == 1) this.shatterInGroupCycles(amt);
-                else if(this.testShatter == 2) this.shatterInCycles1(amt);
+                else if(this.testShatter == 2) this.shatterInCycles(amt);
                 else this.shatter(amt);
             }
         }
@@ -261,7 +261,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                 self.heat -= 100 * amt;
                 //game.time.shatter(amt);
                 if(game.time.testShatter == 1) game.time.shatterInGroupCycles(amt);
-                else if(game.time.testShatter == 2) game.time.shatterInCycles1(amt);
+                else if(game.time.testShatter == 2) game.time.shatterInCycles(amt);
                 else  game.time.shatter(amt);
             }
         },
@@ -538,7 +538,17 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         var d1 = new Date();
         //console.warn(d1.getTime() - d.getTime())
     },
-    shatterInCycles1: function(amt){
+    /* shatterInCycles does this:
+    1) indepenently calculates space travel
+    2) while there are still years left:
+        2.1)calculates how many years are spent in left in this cycle
+        2.2)produces resources as if that number of years was shattered for
+        2.3)increases year number that number of years
+        2.4)calculates production per millenia (more accurate for paragon production bonuses)
+    3)calculates Millenium production
+    4)calculates flux
+    */
+    shatterInCycles: function(amt){ 
         var d = new Date();
         /////
         amt = amt || 1;
@@ -554,6 +564,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
         var daysPerYear = cal.daysPerSeason * cal.seasonsPerYear;
         var remainingDaysInFirstYear = cal.daysPerSeason * (cal.seasonsPerYear - cal.season) - cal.day;
+        var remainingDaysInFirstYearSaved = remainingDaysInFirstYear;
         cal.day = 0;
         cal.season = 0;
         // Space ETA
@@ -603,7 +614,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         } else {
             game.msg($I("time.tc.shatter",[amt]), "", "tc");
         }
-        this.flux += amt - 1 + remainingDaysInFirstYear / daysPerYear;
+        this.flux += amt - 1 + remainingDaysInFirstYearSaved / daysPerYear;
 
         game.challenges.getChallenge("1000Years").unlocked = true;
         if (game.challenges.isActive("1000Years") && cal.year >= 1000) {
@@ -612,6 +623,16 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         var d1 = new Date();
         //console.warn(d1.getTime() - d.getTime())
     },
+    /* 
+    shatterInGroupCycles does this:
+    1) indepenently calculates space travel
+    2) calculates how many years are spent in each cycle (optimised for amt%50 == 0)
+    3)while there are still years left:
+        3.1) produces resources as if that number of years was shattered for
+        3.2) increases year number by min of years till next cycle and years left to shatter
+    4)calculates Millenium production
+    5)calculates flux
+    */
     shatterInGroupCycles: function(amt){
         var d = new Date();
         /////
@@ -629,6 +650,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
         var daysPerYear = cal.daysPerSeason * cal.seasonsPerYear;
         var remainingDaysInFirstYear = cal.daysPerSeason * (cal.seasonsPerYear - cal.season) - cal.day;
+        var remainingDaysInFirstYearSaved = remainingDaysInFirstYear;
         cal.day = 0;
         cal.season = 0;
         // Space ETA
@@ -703,7 +725,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         } else {
             game.msg($I("time.tc.shatter",[amt]), "", "tc");
         }
-        this.flux += amt - 1 + remainingDaysInFirstYear / daysPerYear;
+        this.flux += amt - 1 + remainingDaysInFirstYearSaved / daysPerYear;
 
         game.challenges.getChallenge("1000Years").unlocked = true;
         if (game.challenges.isActive("1000Years") && cal.year >= 1000) {
@@ -732,7 +754,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         if(!ignoreShatterInCycles){
             var new1ShatterD1 = new Date();
             for (var i = 0; i < times; i++){
-                this.shatterInCycles1(shatters);
+                this.shatterInCycles(shatters);
             }
             var new1ShatterD2 = new Date();
             if(!ignoreShatterInCycles) console.log("Cycle shatter average= " + (new1ShatterD2.getTime() - new1ShatterD1.getTime())/times);
@@ -1003,7 +1025,7 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
         this.game.time.heat += amt * factor;
         //this.game.time.shatter(amt);
         if(this.game.time.testShatter == 1) this.game.time.shatterInGroupCycles(amt);
-        else if(this.game.time.testShatter == 2) this.game.time.shatterInCycles1(amt);
+        else if(this.game.time.testShatter == 2) this.game.time.shatterInCycles(amt);
         else this.game.time.shatter(amt);
     },
 
