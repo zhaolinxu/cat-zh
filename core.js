@@ -350,7 +350,7 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 				enabled: true,
 				unlocked: false
 			},
-			"UnicornSacrifice": {
+			"unicornSacrifice": {
 				title: $I("console.filter.unicornSacrifice"),
 				enabled: true,
 				unlocked: false
@@ -360,7 +360,7 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 				enabled: true,
 				unlocked: false
 			},
-			"AlicornSacrifice": {
+			"alicornSacrifice": {
 				title: $I("console.filter.alicornSacrifice"),
 				enabled: true,
 				unlocked: false

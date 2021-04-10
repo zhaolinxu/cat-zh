@@ -1191,7 +1191,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 						this.game.stats.getStat("unicornsSacrificed").val += priceCount;
 					},
 					logTextID: "religion.sacrificeBtn.sacrifice.msg",
-					logfilterID: "UnicornSacrifice"
+					logfilterID: "unicornSacrifice"
 				})
 			}, game);
 			sacrificeBtn.render(content);
@@ -1215,7 +1215,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 						});
 					},
 					logTextID: "religion.sacrificeAlicornsBtn.sacrifice.msg",
-					logfilterID: "AlicornSacrifice"
+					logfilterID: "alicornSacrifice"
 				})
 			}, game);
 			sacrificeAlicornsBtn.render(content);
