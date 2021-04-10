@@ -2534,7 +2534,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 		var groups = dojo.clone(this.game.bld.buildingGroups, true);
 
 		//non-group filters
-		if (this.game.ironWill && this.game.bld.get("library").on > 0){
+		if (this.game.ironWill && this.game.libraryTab.visible){
 			groups.unshift({
 				name: "iw",
 				title: "IW",
