@@ -698,6 +698,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			this.game.resPool.addResEvent("manpower", -squads * 100);
 			this.gainHuntRes(squads);
 		}
+		if(squads >= 1000&&!this.game.challenges.getChallenge("pacifism").unlocked){
+			this.game.challenges.getChallenge("pacifism").unlocked = true;
+		}
 	},
 
 	gainHuntRes: function (squads) {
@@ -2647,7 +2650,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 				prices: [{ name : "manpower", val: 100 }],
 				controller: new classes.village.ui.VillageButtonController(this.game, {
 					updateVisible: function (model) {
-						model.visible = this.game.science.get("archery").researched;
+						model.visible = this.game.science.get("archery").researched && (!this.game.challenges.isActive("pacifism"));
 					}
 				})
 		}, this.game);

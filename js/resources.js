@@ -594,7 +594,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			res.value = Math.floor(res.value);
 		}
 
-		if (isNaN(res.value) || res.value < 0){
+		if (isNaN(res.value) || res.value < 0.0000000001){
 			res.value = 0;	//safe switch
 		}
 
@@ -641,7 +641,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			}
 		}
 
-		// Remove from resources
+		// Remove from resources now to calculate others actions with updated resources
 		for (var i in from) {
 			this.addResPerTick(from[i].res, -from[i].amt * amt);
 		}

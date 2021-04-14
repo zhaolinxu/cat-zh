@@ -13,6 +13,9 @@ Major:
 
 Minor:
 * Theme bugfixes
+* Instructional text for buildings panel
+* Left/right arrow key navigation (patsy)
+* Various policy and game related fixes (Zig and patsy)
 
 v 1.4.8.2 (15 aug 2020)
 Major:
