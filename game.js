@@ -15,6 +15,8 @@ dojo.declare("classes.game.Timer", null, {
 	ticksTotal: 0,
 	timestampStart: null,
 	totalUpdateTime: null,
+	cathPollution: 0,
+	cathPollutionPerTick: 0,
 
 
 	addEvent: function(handler, frequency){
@@ -1391,6 +1393,9 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 			"challengeHappiness":{
                 title: $I("effectsMgr.statics.challengeHappiness.title")
+			},
+			"cathPollutionPerTick":{
+				type: "hidden"
 			}
 		}
 	}
@@ -3264,6 +3269,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		/**
 		* Updating per tick value is actually a heavy operation. Why don't we do it per 3 tick and cache values?
 		*/
+		this.cathPollutionPerTick = this.getEffect("cathPollutionPerTick");
 		for (var i = 0; i < this.resPool.resources.length; i++){
 			var res = this.resPool.resources[i];
 			if (res.calculatePerTick) {
@@ -3734,6 +3740,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (this.isPaused){
 			return;
 		}
+
+		this.cathPollution += this.cathPollutionPerTick;
+		this.cathPollution = (this.cathPollution > 0)? this.cathPollution: 0;
 
 		var timestampStart = new Date().getTime();
 

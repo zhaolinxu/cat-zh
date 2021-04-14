@@ -671,6 +671,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 				if (self.val) {
 					self.effects["scienceRatio"] = 0.35 * (1 + self.on / self.val);
+					self.effects["cathPollutionPerTick"] = 1 * (self.on / self.val);
 				}
 
 				return amt;
@@ -968,7 +969,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"titaniumPerTickAutoprod" : 0.0005,
 			"oilPerTickCon" : -0.024,
 			"steelPerTickProd": 0,
-			"energyConsumption" : 0
+			"energyConsumption" : 0,
+			"cathPollutionPerTick": 0
 		},
 		calculateEffects: function(self, game) {
 			self.basicProductionCalculation(self, game);
@@ -976,6 +978,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		basicProductionCalculation: function(self, game) {
 			self.effects["energyConsumption"] = 1;
+			self.effects["cathPollutionPerTick"] = 1;
 			self.effects["mineralsPerTickCon"] = -1.5;
 			self.effects["oilPerTickCon"] = -0.024; //base + 0.01
 			var calcinerRatio = game.getEffect("calcinerRatio");
@@ -1080,7 +1083,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"coalRatioGlobal" : 0,
 			"manuscriptPerTickProd": 0,
 			"energyProduction": 1,
-			"magnetoBoostRatio": 0.15
+			"magnetoBoostRatio": 0.15,
+			"cathPollutionPerTick": 1
 		},
 		calculateEffects: function(self, game){
 			self.effects["coalRatioGlobal"] = -0.8 + game.getEffect("coalRatioGlobalReduction");
@@ -1174,7 +1178,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		effects: {
 			"oilPerTick" : -0.05,
 			"energyProduction" : 5,
-			"magnetoRatio": 0.02
+			"magnetoRatio": 0.02,
+			"cathPollutionPerTick": 5
 		},
 		action: function(self, game){
 			if (self.on < 1){
