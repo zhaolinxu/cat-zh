@@ -15,8 +15,7 @@ dojo.declare("classes.game.Timer", null, {
 	ticksTotal: 0,
 	timestampStart: null,
 	totalUpdateTime: null,
-	cathPollution: 0,
-	cathPollutionPerTick: 0,
+
 
 
 	addEvent: function(handler, frequency){
@@ -1414,6 +1413,9 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 			"cathPollutionPerTick":{
 				type: "hidden"
+			},
+			"cathPollutionRatio":{
+				type: "hidden"
 			}
 		}
 	}
@@ -1460,6 +1462,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	//in ticks
 	autosaveFrequency: 400,
+
+	//pollution things
+	cathPollution: 0,
+	cathPollutionPerTick: 0,
 
 	//current building selected in the Building tab by a mouse cursor, should affect resource table rendering
 	//TODO: move me to UI
@@ -1744,6 +1750,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         this.science.updateEffectCached();
 
 		this.updateResources();
+		this.cathPollutionPerTick = this.getEffect("cathPollutionPerTick") * this.bld.getPollutionRatio() * (1 + this.getEffect("cathPollutionRatio"));
 	},
 
 	// Unlimited Diminishing Return
@@ -1876,6 +1883,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		this.globalEffectsCached = {};
+		this.cathPollution = 0;
+		this.cathPollutionPerTick = 0;
 	},
 
 	_publish: function(topic, arg){
@@ -1919,7 +1928,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			deadKittens: this.deadKittens,
 			cheatMode: this.cheatMode,
 
-			opts : this.opts
+			opts : this.opts,
+			cathPollution : this.cathPollution
 		};
 
 		var saveDataString = JSON.stringify(saveData);
@@ -2095,6 +2105,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					this.opts.tooltipsInRightColumn = this.colorScheme == "sleek";
 				}
 			}
+
+			this.cathPollution = data.cathPollution|| 0;
 
 			this.updateOptionsUI();
 		}
@@ -3268,6 +3280,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		this.resPool.resConsHackForResTable();
 
+		//pollution per tick
+		this.cathPollution += this.cathPollutionPerTick;
+		if(this.cathPollution < 0) this.cathPollution = 0;
+
 		//nah, kittens are not a resource anymore (?)
 		var kittens = this.resPool.get("kittens");
 		kittens.value = this.village.getKittens();	//just a simple way to display them
@@ -3293,7 +3309,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		/**
 		* Updating per tick value is actually a heavy operation. Why don't we do it per 3 tick and cache values?
 		*/
-		this.cathPollutionPerTick = this.getEffect("cathPollutionPerTick");
 		for (var i = 0; i < this.resPool.resources.length; i++){
 			var res = this.resPool.resources[i];
 			if (res.calculatePerTick) {
@@ -3765,8 +3780,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			return;
 		}
 
-		this.cathPollution += this.cathPollutionPerTick;
-		this.cathPollution = (this.cathPollution > 0)? this.cathPollution: 0;
+
 
 		var timestampStart = new Date().getTime();
 

@@ -516,7 +516,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				effects: {
 					"scienceMaxCompendia": 1000,
 					"cultureMax": 25,
-					"energyConsumption": 2
+					"energyConsumption": 2,
+					"cathPollutionPerTick": 2,
 				},
 				unlockScheme: {
 					name: "computer",
@@ -561,6 +562,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				if (game.workshop.get("cryocomputing").researched){
 					effects["energyConsumption"] = 1;
 				}
+				effects["cathPollutionPerTick"] = effects["energyConsumption"];
 
 				if (game.workshop.get("machineLearning").researched){
                     var dataCenterAIRatio = game.getEffect("dataCenterAIRatio");
@@ -1233,7 +1235,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		effects: {
 			"oilPerTickBase" : 0.02,
 			"oilMax" : 1500,
-			"energyConsumption": 0
+			"energyConsumption": 0,
+			"cathPollutionPerTick": 0
 		},
 		isAutomationEnabled: null,
 		calculateEffects: function(self, game) {
@@ -1250,6 +1253,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["oilPerTickBase"] = 0.02 * oilRatio;
 
 			self.effects["energyConsumption"] = self.isAutomationEnabled
+				? 1 : 0;
+			self.effects["cathPollutionPerTick"] = self.isAutomationEnabled
 				? 1 : 0;
 		},
 		flavor: $I("buildings.oilWell.flavor"),
@@ -1286,10 +1291,12 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			{ name : "plate", val: 2500},
 			{ name : "concrate", val: 15}
 		],
+		isAutomationEnabled: null,
 		priceRatio: 1.15,
 		effects: {
 			"craftRatio": 0,
-			"energyConsumption": 0
+			"energyConsumption": 0,
+			"cathPollutionPerTick": 0
 		},
 		unlocks:{
 			policies:["liberalism", "communism", "fascism"]
@@ -1308,7 +1315,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 
 			effects["energyConsumption"] = 2;
-
+			if(true/*here will be that workshop upgrade, it'll make factories produce twice less pollution*/) self.isAutomationEnabled = (self.isAutomationEnabled === null)? true: self.isAutomationEnabled;
+			effects["cathPollutionPerTick"] = (self.isAutomationEnabled)? -2: 2;
 			self.effects = effects;
 		}
 	},{
@@ -2124,7 +2132,27 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			this.resetStateStackable(bld);
 		}
 	},
-
+	getCleanEnergy:function(){
+		var solarFarm = this.getBuildingExt("pasture").meta;
+		var hydroPlant = this.getBuildingExt("aqueduct").meta;
+		var reactor = this.getBuildingExt("reactor").meta;
+		var cleanEnergyProduced = (solarFarm.stage == 1 && solarFarm.stages[1].effects)? solarFarm.stages[1].effects["energyProduction"] * solarFarm.on : 0;
+		cleanEnergyProduced += (hydroPlant.stage == 1 && hydroPlant.stages[1].effects)? hydroPlant.stages[1].effects["energyProduction"] * hydroPlant.on : 0;
+		cleanEnergyProduced += reactor.effects["energyProduction"] * reactor.on / 2;
+		return cleanEnergyProduced;
+	},
+	getPollutingEnergy: function () {
+		var magneto = this.getBuildingExt("magneto").meta;
+		var steamworks = this.getBuildingExt("steamworks").meta;
+		var polutinEnergy = magneto.effects["energyProduction"] * magneto.on + steamworks.effects["energyProduction"] * steamworks.on;
+		return polutinEnergy;
+	},
+	getCleanEnergyProdRatio: function(){
+		return this.getCleanEnergy()/(this.getCleanEnergy() + this.getPollutingEnergy());
+	},
+	getPollutionRatio: function() {
+		return 1 - this.game.getLimitedDR(this.getCleanEnergyProdRatio(), 1/3);
+	},
     //============ dev =============
     devAddStorage: function(){
         this.get("warehouse").val += 10;
