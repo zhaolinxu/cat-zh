@@ -922,7 +922,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			for (var i in self.effects) {
 				self.effectsCalculated[i] = self.effects[i];
-			};
+			}
 		},
 		action: function(self, game){
 			// TODO: How to integrate autoProdRatio with calculateEffects?
@@ -952,8 +952,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					i == "titaniumPerTickAutoprod" ||
 					i == "goldPerTickAutoprod" ) {
 					self.effects[i] = self.effectsCalculated[i] * amt;
-				};
-			};
+				}
+			}
 
 			return amt;
 		},
