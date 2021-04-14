@@ -657,6 +657,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			"manpowerJobRatio" : 0.5
 		},
+		calculateEffects: function(self, game){
+			self.effects["manpowerJobRatio"] = 0.5 * Math.max(0, (1 + game.getEffect("weaponEfficency"))); 
+		},
 		prices:[
 			{ name : "wood", val: 200 },
 			{ name : "iron", val: 100 },
@@ -669,6 +672,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			"manpowerJobRatio" : 0.25
 		},
+		calculateEffects: function(self, game){
+			self.effects["manpowerJobRatio"] = 0.25 * Math.max(0, (1 + game.getEffect("weaponEfficency")));
+		},
 		prices:[
 			{ name : "iron", val: 1500 },
 			{ name : "science", val: 12000 }
@@ -679,6 +685,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		description: $I("workshop.railgun.desc"),
 		effects: {
 			"manpowerJobRatio" : 0.25
+		},
+		calculateEffects: function(self, game){
+			self.effects["manpowerJobRatio"] = 0.25 * Math.max(0, (1 + game.getEffect("weaponEfficency")));
 		},
 		prices:[
 			{ name : "titanium", val: 5000 },
@@ -931,7 +940,10 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		prices:[
 			{ name : "science",  val: 100000 },
 			{ name : "steel", val: 5000 }
-		]
+		],
+		upgrades: {
+			buildings: ["calciner"]
+		}
 	},{
 		name: "steelPlants",
 		label: $I("workshop.steelPlants.label"),
@@ -983,7 +995,10 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "titanium", val: 5000 },
 			{ name : "science",  val: 145000 },
 			{ name : "gear", 	 val: 500 }
-		]
+		],
+		upgrades: {
+			buildings: ["calciner"]
+		}
 	},
 	{
 		name: "fluidizedReactors",
@@ -995,7 +1010,10 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		prices:[
 			{ name : "science", val: 175000 },
 			{ name : "alloy", val: 200 }
-		]
+		],
+		upgrades: {
+			buildings: ["calciner"]
+		}
 	},
 	{
 		name: "nuclearSmelters",
