@@ -1097,6 +1097,7 @@
     "ui.loading.msg.13": "Câlinage des requins",
     "ui.pause": "pawse",
     "ui.pause.title": "Suspendre/Reprendre la partie",
+    "ui.option.language": "Langue :",
     "ui.option.scheme": "Thème de couleurs :",
     "ui.option.scheme.relock": "Verrouiller les thèmes",
     "ui.option.scheme.tip": "Les thèmes indisponibles peuvent être débloqués par des actions spécifiques.",
