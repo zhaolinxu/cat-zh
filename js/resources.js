@@ -934,7 +934,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			if (delta < 0.25){
 				delta = 0.25;
 			}
-			if (this.game.challenges.getChallenge("energy").researched == true) {
+			if (this.game.challenges.getChallenge("energy").researched && !this.game.challenges.isActive("energy")) {
 				delta = 1 - (1 - delta) / 2;
 			}
 		return delta;

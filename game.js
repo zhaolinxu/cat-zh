@@ -4232,6 +4232,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return this.statsTab;
 			case "time":
 				return this.timeTab;
+			case "challenges":
+				return this.challengesTab;
 		}
 	},
 
