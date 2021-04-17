@@ -236,7 +236,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	getJobLimit: function(jobName) {
 		if (jobName == "engineer"){
 			return this.game.bld.get("factory").val;
-		} else if (jobName == "priest" && game.challenges.isActive("atheism")){
+		} else if (jobName == "priest" && this.game.challenges.isActive("atheism")){
 			return 0;
 		} else {
 			return 100000;

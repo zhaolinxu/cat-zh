@@ -2,13 +2,13 @@ image: node:10.15.3
 
 pipelines:
   default:
-      - step:
-        name: 'Packages'
-        caches:
-          - nodecustom
-          - yarncustom
-        script:
-          - yarn
+    - step:
+      name: 'Packages'
+      caches:
+        - nodecustom
+        - yarncustom
+      script:
+        - yarn
     - parallel:
       - step:
           name: 'Lint'
@@ -38,7 +38,7 @@ pipelines:
                 COMMAND: '/var/www/kittensgame.com/html/deploy.sh && echo $BITBUCKET_BUILD_NUMBER'
                 
                 
- definitions:
+definitions:
   caches:
     nodecustom: ./node_modules
     yarncustom: /usr/local/share/.cache/yarn
