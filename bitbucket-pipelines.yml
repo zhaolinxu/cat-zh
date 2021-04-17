@@ -3,12 +3,12 @@ image: node:10.15.3
 pipelines:
   default:
     - step:
-      name: 'Packages'
-      caches:
-        - nodecustom
-        - yarncustom
-      script:
-        - yarn
+        name: 'Deploy'
+        caches:
+          - nodecustom
+          - yarncustom
+        script:
+          - yarn
     - parallel:
       - step:
           name: 'Lint'
