@@ -16,10 +16,10 @@ pipelines:
           script:
             - yarn test
     - step:
+        name: 'Deploy'
         caches:
           - node
-        script: 
-            name: 'Deploy'
+        script:
             - pipe: atlassian/ssh-run:0.2.3
               variables:
                 SSH_USER: 'bloodrizer'
