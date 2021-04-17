@@ -105,6 +105,10 @@ WTerminal = React.createClass({
         if (evt.which === 9) { 
             this.attemptAutocomplete();
             evt.preventDefault();
+        //CARRIAGE RETURN
+        } else if (evt.which === 13){   
+            this.doSubmit();
+            evt.preventDefault();
         }
     },
 
@@ -122,7 +126,11 @@ WTerminal = React.createClass({
                     onKeyDown: this.handleKeyDown,
                     onKeyUp: this.handleKeyUp,
                     onChange: this.setCommand,
-                    value: this.state.command
+                    value: this.state.command,
+                    placeholder: "Type 'help' to see the list of all commands",
+                    style: {
+                        width: "500px"
+                    }
                 }),
                 $r("a", {
                     className: "link",
@@ -172,6 +180,7 @@ WChiral = React.createClass({
         var game = this.state.game;
         if (game.server.userProfile){
             return $r("div", null, [
+                $r("div", {className: "row"}, "An alien machine lies here at the End of the Universe."),
                 $r("div", {className: "row"}, "666 nodes online"),
                 $r("div", {className: "row"}, [
                     $r("pre", null, game.server.chiral || ">")
