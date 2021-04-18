@@ -1,6 +1,6 @@
 dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager, {
     game: null,
-
+    testShatter: 0, //0 is current function call, 1 is shatterInGroupCycles, 2 is shatterInCycles
     /*
      * Amount of years skipped by CF time jumps
      */
@@ -25,6 +25,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             timestamp: this.game.pauseTimestamp || Date.now(),
             flux: this.flux,
             heat: this.heat,
+            testShatter: this.testShatter, //temporary
             isAccelerated: this.isAccelerated,
             cfu: this.filterMetadata(this.chronoforgeUpgrades, ["name", "val", "on", "heat", "unlocked"]),
             vsu: this.filterMetadata(this.voidspaceUpgrades, ["name", "val", "on"])
@@ -49,6 +50,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
         this.flux = saveData["time"].flux || 0;
         this.heat = saveData["time"].heat || 0;
+        this.testShatter = saveData["time"].testShatter || 0; //temporary
         this.isAccelerated = saveData["time"].isAccelerated || 0;
 		this.loadMetadata(this.chronoforgeUpgrades, saveData.time.cfu);
 		this.loadMetadata(this.voidspaceUpgrades, saveData.time.vsu);
@@ -195,7 +197,10 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             if (blastFurnace.on && blastFurnace.isAutomationEnabled && blastFurnace.heat >= 100){
                 var amt = Math.floor(blastFurnace.heat / 100);
                 blastFurnace.heat -= 100 * amt;
-                this.shatter(amt);
+                //this.shatter(amt);
+                if(this.testShatter == 1) {this.shatterInGroupCycles(amt);}
+                else if(this.testShatter == 2) {this.shatterInCycles(amt);}
+                else {this.shatter(amt);}
             }
         }
 
@@ -254,7 +259,10 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                     amt = 5; //limit calculations needed per tick
                 }
                 self.heat -= 100 * amt;
-                game.time.shatter(amt);
+                //game.time.shatter(amt);
+                if(game.time.testShatter == 1) {game.time.shatterInGroupCycles(amt);}
+                else if(game.time.testShatter == 2) {game.time.shatterInCycles(amt);}
+                else  {game.time.shatter(amt);}
             }
         },
 		unlocks: {
@@ -461,6 +469,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     },
 
     shatter: function(amt){
+        var d = new Date();
         amt = amt || 1;
 
         var game = this.game;
@@ -515,9 +524,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         }
 
         if (amt == 1) {
-            game.msg($I("time.tc.shatterOne"), "", "tc");
+            game.msg($I("time.tc.shatterOne"), "", "tcShatter");
         } else {
-            game.msg($I("time.tc.shatter",[amt]), "", "tc");
+            game.msg($I("time.tc.shatter",[amt]), "", "tcShatter");
         }
 
         this.flux += amt - 1 + remainingDaysInFirstYear / daysPerYear;
@@ -526,8 +535,239 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         if (game.challenges.isActive("1000Years") && cal.year >= 1000) {
             game.challenges.researchChallenge("1000Years");
         }
+        var d1 = new Date();
+        //console.warn(d1.getTime() - d.getTime())
     },
+    /* shatterInCycles does this:
+    1) indepenently calculates space travel
+    2) while there are still years left:
+        2.1)calculates how many years are spent in left in this cycle
+        2.2)produces resources as if that number of years was shattered for
+        2.3)increases year number that number of years
+        2.4)calculates production per millenia (more accurate for paragon production bonuses)
+    3)calculates Millenium production
+    4)calculates flux
+    */
+    shatterInCycles: function(amt){ 
+        var d = new Date();
+        /////
+        amt = amt || 1;
+        var maxYearsShattered = amt;
 
+        var game = this.game;
+        var cal = game.calendar;
+        var endYear = cal.year + amt;
+
+        var routeSpeed = game.getEffect("routeSpeed") || 1;
+        var shatterTCGain = game.getEffect("shatterTCGain") * (1 + game.getEffect("rrRatio"));
+        var triggersOrderOfTheVoid = game.getEffect("voidResonance") > 0;
+
+        var daysPerYear = cal.daysPerSeason * cal.seasonsPerYear;
+        var remainingDaysInFirstYear = cal.daysPerSeason * (cal.seasonsPerYear - cal.season) - cal.day;
+        var remainingDaysInFirstYearSaved = remainingDaysInFirstYear;
+        cal.day = 0;
+        cal.season = 0;
+        // Space ETA
+        var remainingDays = remainingDaysInFirstYear + (amt - 1) * daysPerYear;
+        for (var j in game.space.planets) {
+            var planet = game.space.planets[j];
+            if (planet.unlocked && !planet.reached) {
+                planet.routeDays = Math.max(0, planet.routeDays - remainingDays * routeSpeed);
+            }
+        }
+        while(maxYearsShattered > 0){
+            var remainingYearsInCurrentCycle = Math.min(cal.yearsPerCycle - cal.cycleYear, maxYearsShattered);
+            var remainingDaysInCurrentCycle = (remainingYearsInCurrentCycle - 1) * daysPerYear + remainingDaysInFirstYear;
+            var remainingTicksInCurrentCycle = remainingDaysInCurrentCycle * cal.ticksPerDay;
+
+            // ShatterTC gain
+            if (shatterTCGain > 0) {
+                // XXX Partially duplicates resources#fastforward and #enforceLimits, some nice factorization is probably possible
+                var limits = {};
+                for (var j = 0; j < game.resPool.resources.length; j++) {
+                    var res = game.resPool.resources[j];
+                    limits[res.name] = Math.max(res.value, res.maxValue || Number.POSITIVE_INFINITY);
+                    game.resPool.addRes(res, game.getResourcePerTick(res.name, true) * remainingTicksInCurrentCycle * shatterTCGain, false, true);
+                }
+                if (this.game.workshop.get("chronoEngineers").researched) {
+                    this.game.workshop.craftByEngineers(remainingTicksInCurrentCycle * shatterTCGain);
+                }
+                for (var j = 0; j < game.resPool.resources.length; j++) {
+                    var res = game.resPool.resources[j];
+                    res.value = Math.min(res.value, limits[res.name]);
+                }
+            }
+
+            if (triggersOrderOfTheVoid) {
+                game.religion.triggerOrderOfTheVoid(remainingTicksInCurrentCycle);
+            }
+
+            // Calendar
+            cal.year += remainingYearsInCurrentCycle;
+            cal.onNewYears(endYear == cal.year, remainingYearsInCurrentCycle, false);
+            cal.calculateMilleniumProduction(cal.getMilleniaChanged(cal.years - remainingYearsInCurrentCycle, cal.years));
+            maxYearsShattered -= remainingYearsInCurrentCycle;
+            remainingDaysInFirstYear = cal.daysPerSeason * cal.seasonsPerYear;
+        }
+        if (amt == 1) {
+            game.msg($I("time.tc.shatterOne"), "", "tc");
+        } else {
+            game.msg($I("time.tc.shatter",[amt]), "", "tc");
+        }
+        this.flux += amt - 1 + remainingDaysInFirstYearSaved / daysPerYear;
+
+        game.challenges.getChallenge("1000Years").unlocked = true;
+        if (game.challenges.isActive("1000Years") && cal.year >= 1000) {
+            game.challenges.researchChallenge("1000Years");
+        }
+        var d1 = new Date();
+        //console.warn(d1.getTime() - d.getTime())
+    },
+    /* 
+    shatterInGroupCycles does this:
+    1) indepenently calculates space travel
+    2) calculates how many years are spent in each cycle (optimised for amt%50 == 0)
+    3)while there are still years left:
+        3.1) produces resources as if that number of years was shattered for
+        3.2) increases year number by min of years till next cycle and years left to shatter
+    4)calculates Millenium production
+    5)calculates flux
+    */
+    shatterInGroupCycles: function(amt){
+        var d = new Date();
+        /////
+        amt = amt || 1;
+        var maxYearsShattered = amt;
+
+        var game = this.game;
+        var cal = game.calendar;
+        var startYear = cal.year;
+        var endYear = cal.year + amt;
+
+        var routeSpeed = game.getEffect("routeSpeed") || 1;
+        var shatterTCGain = game.getEffect("shatterTCGain") * (1 + game.getEffect("rrRatio"));
+        var triggersOrderOfTheVoid = game.getEffect("voidResonance") > 0;
+
+        var daysPerYear = cal.daysPerSeason * cal.seasonsPerYear;
+        var remainingDaysInFirstYear = cal.daysPerSeason * (cal.seasonsPerYear - cal.season) - cal.day;
+        var remainingDaysInFirstYearSaved = remainingDaysInFirstYear;
+        cal.day = 0;
+        cal.season = 0;
+        // Space ETA
+        var remainingDays = remainingDaysInFirstYear + (amt - 1) * daysPerYear;
+        for (var j in game.space.planets) {
+            var planet = game.space.planets[j];
+            if (planet.unlocked && !planet.reached) {
+                planet.routeDays = Math.max(0, planet.routeDays - remainingDays * routeSpeed);
+            }
+        }
+        var remainingCyclesYears = [0,0,0,0,0,0,0,0,0,0];
+        if (maxYearsShattered%50 == 0){
+            for (j in remainingCyclesYears){
+                remainingCyclesYears[j] = maxYearsShattered/10;
+            }
+        }else{
+            remainingCyclesYears[cal.cycle] += Math.min(cal.yearsPerCycle - cal.cycleYear, maxYearsShattered);
+            maxYearsShattered += -remainingCyclesYears[cal.cycle];
+            //console.warn(maxYearsShattered)
+            for (j in remainingCyclesYears){
+                remainingCyclesYears[j] += Math.floor(maxYearsShattered/50);
+                maxYearsShattered += -Math.floor(maxYearsShattered/50);
+            }
+            for (j = 1; j < cal.cyclesPerEra; j++){
+                remainingCyclesYears[(cal.cycle + j)%10] = Math.min(cal.yearsPerCycle, maxYearsShattered);
+                maxYearsShattered += -Math.min(cal.yearsPerCycle, maxYearsShattered);
+            }
+        }
+        //console.warn(remainingCyclesYears);
+        maxYearsShattered = amt;
+        var startingCycleNum = cal.cycle;
+        for (var cycleNum = 0; cycleNum < cal.cyclesPerEra; cycleNum++){
+            var yearsInCurrentCycle = remainingCyclesYears[(cycleNum + startingCycleNum) % 10];
+            if (!yearsInCurrentCycle){
+                continue;
+            }
+            var daysInCurrentCycle = (yearsInCurrentCycle - 1) * daysPerYear + remainingDaysInFirstYear;
+            var ticksInCurrentCycle = daysInCurrentCycle * cal.ticksPerDay;
+
+            // ShatterTC gain
+            if (shatterTCGain > 0) {
+                // XXX Partially duplicates resources#fastforward and #enforceLimits, some nice factorization is probably possible
+                var limits = {};
+                for (var j = 0; j < game.resPool.resources.length; j++) {
+                    var res = game.resPool.resources[j];
+                    limits[res.name] = Math.max(res.value, res.maxValue || Number.POSITIVE_INFINITY);
+                    game.resPool.addRes(res, game.getResourcePerTick(res.name, true) * ticksInCurrentCycle * shatterTCGain, false, true);
+                }
+                if (this.game.workshop.get("chronoEngineers").researched) {
+                    this.game.workshop.craftByEngineers(ticksInCurrentCycle * shatterTCGain);
+                }
+                for (var j = 0; j < game.resPool.resources.length; j++) {
+                    var res = game.resPool.resources[j];
+                    res.value = Math.min(res.value, limits[res.name]);
+                }
+            }
+
+            if (triggersOrderOfTheVoid) {
+                game.religion.triggerOrderOfTheVoid(ticksInCurrentCycle);
+            }
+
+            // Calendar
+            cal.year += Math.min(5, maxYearsShattered);
+            cal.onNewYears(endYear == cal.year, yearsInCurrentCycle, false);
+            maxYearsShattered -= Math.min(5, maxYearsShattered);
+            remainingDaysInFirstYear = cal.daysPerSeason * cal.seasonsPerYear;
+        }
+        //cal.onNewYears(endYear == cal.year, maxYearsShattered, false);
+        cal.calculateMilleniumProduction(cal.getMilleniaChanged(startYear, cal.years));
+        if (amt == 1) {
+            game.msg($I("time.tc.shatterOne"), "", "tc");
+        } else {
+            game.msg($I("time.tc.shatter",[amt]), "", "tc");
+        }
+        this.flux += amt - 1 + remainingDaysInFirstYearSaved / daysPerYear;
+
+        game.challenges.getChallenge("1000Years").unlocked = true;
+        if (game.challenges.isActive("1000Years") && cal.year >= 1000) {
+            game.challenges.researchChallenge("1000Years");
+        }
+        var d1 = new Date();
+        //console.warn(d1.getTime() - d.getTime())
+    },
+    compareShatterTime: function(shatters, times, ignoreOldFunction, ignoreShatterInCycles, ignoreGroupCycles){
+        if(!ignoreOldFunction){
+            var oldShatterD1 = new Date();
+            for (var i = 0; i < times; i++){
+                this.shatter(shatters);
+            }
+            var oldShatterD2 = new Date();
+            console.log("oldShatterAverafe = " + (oldShatterD2.getTime() - oldShatterD1.getTime())/times);
+        }
+        if (!ignoreGroupCycles){
+            var newShatterD1 = new Date();
+            for (var i = 0; i < times; i++){
+                this.shatterInGroupCycles(shatters);
+            }
+            var newShatterD2 = new Date();
+            console.log("Group shatter average = " + (newShatterD2.getTime() - newShatterD1.getTime())/times);
+        }
+        if(!ignoreShatterInCycles){
+            var new1ShatterD1 = new Date();
+            for (var i = 0; i < times; i++){
+                this.shatterInCycles(shatters);
+            }
+            var new1ShatterD2 = new Date();
+            if(!ignoreShatterInCycles) {console.log("Cycle shatter average= " + (new1ShatterD2.getTime() - new1ShatterD1.getTime())/times);}
+        }
+
+        if(!ignoreOldFunction && !ignoreGroupCycles){
+             console.log("newEfficensy = " + (oldShatterD2.getTime() - oldShatterD1.getTime())/(newShatterD2.getTime() - newShatterD1.getTime()));
+        }
+        
+        if(!ignoreOldFunction && !ignoreShatterInCycles){
+            console.log("new1Efficensy = " + (oldShatterD2.getTime() - oldShatterD1.getTime())/(new1ShatterD2.getTime() - new1ShatterD1.getTime()));
+        } 
+    },
     unlockAll: function(){
         for (var i in this.cfu){
             this.cfu[i].unlocked = true;
@@ -788,7 +1028,10 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
     doShatter: function(model, amt) {
         var factor = this.game.challenges.getChallenge("1000Years").researched ? 5 : 10;
         this.game.time.heat += amt * factor;
-        this.game.time.shatter(amt);
+        //this.game.time.shatter(amt);
+        if(this.game.time.testShatter == 1) {this.game.time.shatterInGroupCycles(amt);}
+        else if(this.game.time.testShatter == 2) {this.game.time.shatterInCycles(amt);}
+        else {this.game.time.shatter(amt);}
     },
 
     updateVisible: function(model){

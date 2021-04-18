@@ -457,7 +457,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				if (this.game.challenges.isActive("blackSky")) {
 					// ...however it gets spammy after some progress
 					if (this.game.bld.get("observatory").val < 30) {
-						this.game.msg($I("challendge.blackSky.event"), "astronomicalEvent");
+						this.game.msg($I("challendge.blackSky.event"), "", "astronomicalEvent");
 					}
 				//---------------- SETI hack-------------------
 				} else if (this.game.workshop.get("seti").researched) {
@@ -811,6 +811,11 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.game.bld.get("steamworks").jammed = false;
 		}
 
+		// Apply seasonEffect for the newSeason
+		this.game.upgrade({
+			buildings: ["pasture"]
+		});
+
 		var numChrono = this.game.bld.get("chronosphere").on;
 		if (numChrono > 0) {
 			if (this.futureSeasonTemporalParadox > 0){
@@ -834,6 +839,93 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 	},
 
+	getMilleniaChanged: function (startYear, endYear) {
+		return Math.max(0, (Math.floor(endYear / 1000) * 1000 - Math.floor(startYear / 1000) * 1000) / 1000);
+	},
+	calculateMilleniumProduction: function(milleniums){
+		this.game.resPool.addResEvent("paragon", milleniums);
+		this.game.stats.getStat("totalParagon").val += milleniums;
+	},
+	onNewYears: function(updateUI, years, milleniumChangeCalculated) { // shouldn't be used for more than 5 years, or if you don't have years%50 == 0
+		var ty = this.game.stats.getStat("totalYears");
+		ty.val += years;
+
+		if (ty.val < this.year){
+			ty.val = this.year;
+		}
+		if (this.darkFutureYears() >= 0) {
+			this.game.unlock({chronoforge: ["temporalImpedance"]});
+		}
+
+		if (this.game.bld.get("steamworks").jammed) {
+			this.game.bld.get("steamworks").jammed = false;	//reset jammed status
+		}
+
+		if(milleniumChangeCalculated){
+			this.calculateMilleniumProduction(this.getMilleniaChanged(this.year - years, this.years));
+		}
+
+		var pyramidVal = this.game.religion.getZU("blackPyramid").getEffectiveValue(this.game);
+		var markerVal = this.game.religion.getZU("marker").getEffectiveValue(this.game);
+
+		//3.5% per year per BP, +10% per marker
+		if (pyramidVal > 0) {
+			if (this.game.rand(1000) < 35 * pyramidVal * years * (1 + 0.1 * markerVal)) {
+				this.game.diplomacy.unlockElders();
+			}
+		}
+
+		if (this.game.diplomacy.get("leviathans").unlocked) {
+			this.game.challenges.getChallenge("blackSky").unlocked = true;
+		}
+		
+		this.cycleYear += years;
+		if (years + this.cycleYear >= this.yearsPerCycle) {
+			this.cycleYear = (years + this.cycleYear) % this.yearsPerCycle;
+			if ( ++this.cycle >= this.cyclesPerEra) {
+				this.cycle = 0;
+			}
+		}
+/*
+if (++this.cycleYear >= this.yearsPerCycle) {
+			this.cycleYear = 0;
+			if (++this.cycle >= this.cyclesPerEra) {
+				this.cycle = 0;
+			}
+		}
+
+*/
+		// Apply cycleEffect for the newYears
+		this.game.upgrade({
+			spaceBuilding: this.game.space.spaceBuildingsMap
+		});
+
+		var resPool = this.game.resPool;
+		if (resPool.energyProd >= resPool.energyCons) {
+			resPool.addResEvent("antimatter", this.game.getEffect("antimatterProduction") * years);
+		}
+
+		resPool.addResEvent("temporalFlux", this.game.getEffect("temporalFluxProduction") * years);
+
+		var aiLevel = this.game.bld.get("aiCore").effects["aiLevel"];
+		if ((aiLevel > 14) && (this.game.science.getPolicy("transkittenism").researched != true)){
+			var aiApocalypseLevel = aiLevel - 14;
+			this.game.msg($I("ai.apocalypse.msg", [aiApocalypseLevel]), "alert", "ai");
+			for (var i in this.game.resPool.resources){
+				var res = this.game.resPool.resources[i];
+				if (res.aiCanDestroy) {
+					if(res.maxValue >= res.value){
+						res.Pool.addResEvent(res.name, -res.value * 0.01 * aiApocalypseLevel);
+					}
+					else {resPool.addResEvent(res.name, -res.value * (1 - Math.pow(1 - 0.01 * aiApocalypseLevel, years)));}
+				}
+			}
+		}
+
+		if (updateUI) {
+			this.game.ui.render();
+		}
+	},
 	onNewYear: function(updateUI){
 
 		var ty = this.game.stats.getStat("totalYears");

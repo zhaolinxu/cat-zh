@@ -940,7 +940,10 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		prices:[
 			{ name : "science",  val: 100000 },
 			{ name : "steel", val: 5000 }
-		]
+		],
+		upgrades: {
+			buildings: ["calciner"]
+		}
 	},{
 		name: "steelPlants",
 		label: $I("workshop.steelPlants.label"),
@@ -992,7 +995,10 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "titanium", val: 5000 },
 			{ name : "science",  val: 145000 },
 			{ name : "gear", 	 val: 500 }
-		]
+		],
+		upgrades: {
+			buildings: ["calciner"]
+		}
 	},
 	{
 		name: "fluidizedReactors",
@@ -1004,7 +1010,10 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		prices:[
 			{ name : "science", val: 175000 },
 			{ name : "alloy", val: 200 }
-		]
+		],
+		upgrades: {
+			buildings: ["calciner"]
+		}
 	},
 	{
 		name: "nuclearSmelters",

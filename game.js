@@ -17,6 +17,7 @@ dojo.declare("classes.game.Timer", null, {
 	totalUpdateTime: null,
 
 
+
 	addEvent: function(handler, frequency){
 		this.handlers.push({
 			handler: handler,
@@ -147,6 +148,7 @@ dojo.declare("classes.game.Server", null, {
 	 * using session cookies
 	 */
 	userProfile: null,
+	chiral: null,
 
 	/**
 	 * Current client snapshot of the save data
@@ -281,6 +283,22 @@ dojo.declare("classes.game.Server", null, {
 		saveData.server = {
 			motdContent: this.motdContent
 		};
+	},
+
+	//TOOD: separate getting chiral client status and sending command to a separate component
+	sendCommand: function(command){
+		var self = this;
+		this._xhr("/kgnet/chiral/game/command/", "POST", {
+			command: command
+		}, function(resp){
+			if (resp.clientState){
+                self.setChiral(resp);
+			}
+		});
+	},
+
+	setChiral: function(data){
+		this.chiral = JSON.stringify(data, null, 2);
 	}
 });
 
@@ -1409,6 +1427,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 			"policyFakeBought":{
 				title: $I("effectsMgr.statics.policyFakeBought.title")
+			},
+			"cathPollutionPerTick":{
+				type: "hidden"
+			},
+			"cathPollutionRatio":{
+				type: "hidden"
 			}
 		}
 	}
@@ -1455,6 +1479,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	//in ticks
 	autosaveFrequency: 400,
+
+	//pollution things
+	cathPollution: 0,
+	cathPollutionPerTick: 0,
 
 	//current building selected in the Building tab by a mouse cursor, should affect resource table rendering
 	//TODO: move me to UI
@@ -1739,6 +1767,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         this.science.updateEffectCached();
 
 		this.updateResources();
+		this.cathPollutionPerTick = this.getEffect("cathPollutionPerTick") * this.bld.getPollutionRatio() * (1 + this.getEffect("cathPollutionRatio"));
 	},
 
 	// Unlimited Diminishing Return
@@ -1871,6 +1900,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		this.globalEffectsCached = {};
+		this.cathPollution = 0;
+		this.cathPollutionPerTick = 0;
 	},
 
 	_publish: function(topic, arg){
@@ -1914,7 +1945,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			deadKittens: this.deadKittens,
 			cheatMode: this.cheatMode,
 
-			opts : this.opts
+			opts : this.opts,
+			cathPollution : this.cathPollution
 		};
 
 		var saveDataString = JSON.stringify(saveData);
@@ -2090,6 +2122,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					this.opts.tooltipsInRightColumn = this.colorScheme == "sleek";
 				}
 			}
+
+			this.cathPollution = data.cathPollution|| 0;
 
 			this.updateOptionsUI();
 		}
@@ -3263,6 +3297,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		this.resPool.resConsHackForResTable();
 
+		//pollution per tick
+		this.cathPollution += this.cathPollutionPerTick;
+		if(this.cathPollution < 0) {this.cathPollution = 0;}
+
 		//nah, kittens are not a resource anymore (?)
 		var kittens = this.resPool.get("kittens");
 		kittens.value = this.village.getKittens();	//just a simple way to display them
@@ -3759,6 +3797,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			return;
 		}
 
+
+
 		var timestampStart = new Date().getTime();
 
 		this.update();
@@ -4215,6 +4255,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return this.statsTab;
 			case "time":
 				return this.timeTab;
+			case "challenges":
+				return this.challengesTab;
 		}
 	},
 
