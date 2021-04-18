@@ -2151,10 +2151,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		return polutinEnergy;
 	},
 	getCleanEnergyProdRatio: function(){
-		return this.getCleanEnergy()/(this.getCleanEnergy() + this.getPollutingEnergy());
+		return this.getCleanEnergy() / (this.getCleanEnergy() + this.getPollutingEnergy());
 	},
 	getPollutionRatio: function() {
-		return 1 - this.game.getLimitedDR(this.getCleanEnergyProdRatio(), 1/3);
+		return 1 - this.getCleanEnergyProdRatio() / 2;
 	},
     //============ dev =============
     devAddStorage: function(){
