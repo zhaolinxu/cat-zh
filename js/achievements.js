@@ -522,9 +522,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.AchTab", com.nuclearunicorn.game.ui
 
             if (ach.unlocked) { completedAchievements++; }
             var className = "achievement";
-            if (ach.unlocked && ach.unethical) className += " unethical";
-            if (ach.unlocked) className += " unlocked";
-            if (ach.starUnlocked) className += " starUnlocked";
+            if (ach.unlocked && ach.unethical) {className += " unethical";}
+            if (ach.unlocked) {className += " unlocked";}
+            if (ach.starUnlocked) {className += " starUnlocked";}
 			var span = dojo.create("span", {
 				className: className,
 				title: ach.unlocked ? ach.description : "???",

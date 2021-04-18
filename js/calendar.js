@@ -840,7 +840,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	},
 
 	getMilleniaChanged: function (startYear, endYear) {
-		return Math.max(0, (Math.floor(endYear/1000)*1000 - Math.floor(startYear/1000)*1000)/1000)
+		return Math.max(0, (Math.floor(endYear / 1000) * 1000 - Math.floor(startYear / 1000) * 1000) / 1000);
 	},
 	calculateMilleniumProduction: function(milleniums){
 		this.game.resPool.addResEvent("paragon", milleniums);
@@ -881,7 +881,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		
 		this.cycleYear += years;
 		if (years + this.cycleYear >= this.yearsPerCycle) {
-			this.cycleYear = (years + this.cycleYear)%this.yearsPerCycle;
+			this.cycleYear = (years + this.cycleYear) % this.yearsPerCycle;
 			if ( ++this.cycle >= this.cyclesPerEra) {
 				this.cycle = 0;
 			}
@@ -917,7 +917,7 @@ if (++this.cycleYear >= this.yearsPerCycle) {
 					if(res.maxValue >= res.value){
 						res.Pool.addResEvent(res.name, -res.value * 0.01 * aiApocalypseLevel);
 					}
-					else resPool.addResEvent(res.name, -res.value * (1 - Math.pow(1 - 0.01 * aiApocalypseLevel, years)));
+					else {resPool.addResEvent(res.name, -res.value * (1 - Math.pow(1 - 0.01 * aiApocalypseLevel, years)));}
 				}
 			}
 		}

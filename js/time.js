@@ -198,9 +198,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                 var amt = Math.floor(blastFurnace.heat / 100);
                 blastFurnace.heat -= 100 * amt;
                 //this.shatter(amt);
-                if(this.testShatter == 1) this.shatterInGroupCycles(amt);
-                else if(this.testShatter == 2) this.shatterInCycles(amt);
-                else this.shatter(amt);
+                if(this.testShatter == 1) {this.shatterInGroupCycles(amt);}
+                else if(this.testShatter == 2) {this.shatterInCycles(amt);}
+                else {this.shatter(amt);}
             }
         }
 
@@ -260,9 +260,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                 }
                 self.heat -= 100 * amt;
                 //game.time.shatter(amt);
-                if(game.time.testShatter == 1) game.time.shatterInGroupCycles(amt);
-                else if(game.time.testShatter == 2) game.time.shatterInCycles(amt);
-                else  game.time.shatter(amt);
+                if(game.time.testShatter == 1) {game.time.shatterInGroupCycles(amt);}
+                else if(game.time.testShatter == 2) {game.time.shatterInCycles(amt);}
+                else  {game.time.shatter(amt);}
             }
         },
 		unlocks: {
@@ -757,11 +757,16 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                 this.shatterInCycles(shatters);
             }
             var new1ShatterD2 = new Date();
-            if(!ignoreShatterInCycles) console.log("Cycle shatter average= " + (new1ShatterD2.getTime() - new1ShatterD1.getTime())/times);
+            if(!ignoreShatterInCycles) {console.log("Cycle shatter average= " + (new1ShatterD2.getTime() - new1ShatterD1.getTime())/times);}
         }
 
-        if(!ignoreOldFunction && !ignoreGroupCycles) console.log("newEfficensy = " + (oldShatterD2.getTime() - oldShatterD1.getTime())/(newShatterD2.getTime() - newShatterD1.getTime()))
-        if(!ignoreOldFunction && !ignoreShatterInCycles) console.log("new1Efficensy = " + (oldShatterD2.getTime() - oldShatterD1.getTime())/(new1ShatterD2.getTime() - new1ShatterD1.getTime()))
+        if(!ignoreOldFunction && !ignoreGroupCycles){
+             console.log("newEfficensy = " + (oldShatterD2.getTime() - oldShatterD1.getTime())/(newShatterD2.getTime() - newShatterD1.getTime()));
+        }
+        
+        if(!ignoreOldFunction && !ignoreShatterInCycles){
+            console.log("new1Efficensy = " + (oldShatterD2.getTime() - oldShatterD1.getTime())/(new1ShatterD2.getTime() - new1ShatterD1.getTime()));
+        } 
     },
     unlockAll: function(){
         for (var i in this.cfu){
@@ -1024,9 +1029,9 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
         var factor = this.game.challenges.getChallenge("1000Years").researched ? 5 : 10;
         this.game.time.heat += amt * factor;
         //this.game.time.shatter(amt);
-        if(this.game.time.testShatter == 1) this.game.time.shatterInGroupCycles(amt);
-        else if(this.game.time.testShatter == 2) this.game.time.shatterInCycles(amt);
-        else this.game.time.shatter(amt);
+        if(this.game.time.testShatter == 1) {this.game.time.shatterInGroupCycles(amt);}
+        else if(this.game.time.testShatter == 2) {this.game.time.shatterInCycles(amt);}
+        else {this.game.time.shatter(amt);}
     },
 
     updateVisible: function(model){

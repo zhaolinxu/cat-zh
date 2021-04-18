@@ -1233,7 +1233,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         blocked: false,
         blocks:["outerSpaceTreaty"],
 		evaluateLocks: function(game){
-			return game.space.getBuilding("sattelite").val >0 && !game.challenges.isActive("pacifism");
+			return game.space.getBuilding("sattelite").val > 0 && !game.challenges.isActive("pacifism");
 		}
     },
     //----------------   Philosophy   --------------------
@@ -1931,13 +1931,13 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 		if(this.game.detailedPollutionInfo){
 			if(this.detailedPollutionInfo){
 				this.detailedPollutionInfo.innerHTML = "Pollution is " + Math.floor(this.game.cathPollution) + " <br>Polution per tick is " + Math.floor(this.game.cathPollutionPerTick);
-				var pollutionLevel = Math.max(Math.log10(this.game.cathPollution/1000000), 0);
-				this.detailedPollutionInfo.innerHTML += "<br>Pollution level is " + Math.floor(pollutionLevel* 10)/10
+				var pollutionLevel = Math.max(Math.log10(this.game.cathPollution / 1000000), 0);
+				this.detailedPollutionInfo.innerHTML += "<br>Pollution level is " + Math.floor(pollutionLevel * 10) / 10;
 				if(this.game.cathPollutionPerTick < 0 && this.game.cathPollution) {
-					var toZero = -this.game.cathPollution/this.game.cathPollutionPerTick/this.game.calendar.ticksPerDay;
+					var toZero = -this.game.cathPollution / this.game.cathPollutionPerTick / this.game.calendar.ticksPerDay;
 					this.detailedPollutionInfo.innerHTML += "<br> To zero " + this.game.toDisplaySeconds(toZero.toFixed());
 				}else if(this.game.cathPollutionPerTick > 0){
-					var toNextLevel = (Math.pow(10, Math.floor(1 + pollutionLevel)) * 1000000 - this.game.cathPollution)/this.game.cathPollutionPerTick/this.game.calendar.ticksPerDay;
+					var toNextLevel = (Math.pow(10, Math.floor(1 + pollutionLevel)) * 1000000 - this.game.cathPollution) / this.game.cathPollutionPerTick / this.game.calendar.ticksPerDay;
 					this.detailedPollutionInfo.innerHTML += "<br> To next level " + this.game.toDisplaySeconds(toNextLevel.toFixed());
 				}
 			}

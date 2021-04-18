@@ -3299,7 +3299,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		//pollution per tick
 		this.cathPollution += this.cathPollutionPerTick;
-		if(this.cathPollution < 0) this.cathPollution = 0;
+		if(this.cathPollution < 0) {this.cathPollution = 0;}
 
 		//nah, kittens are not a resource anymore (?)
 		var kittens = this.resPool.get("kittens");
