@@ -457,7 +457,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				if (this.game.challenges.isActive("blackSky")) {
 					// ...however it gets spammy after some progress
 					if (this.game.bld.get("observatory").val < 30) {
-						this.game.msg($I("challendge.blackSky.event"), "astronomicalEvent");
+						this.game.msg($I("challendge.blackSky.event"), "", "astronomicalEvent");
 					}
 				//---------------- SETI hack-------------------
 				} else if (this.game.workshop.get("seti").researched) {
@@ -810,6 +810,11 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (this.season == 2 && this.game.workshop.get("advancedAutomation").researched ){
 			this.game.bld.get("steamworks").jammed = false;
 		}
+
+		// Apply seasonEffect for the newSeason
+		this.game.upgrade({
+			buildings: ["pasture"]
+		});
 
 		var numChrono = this.game.bld.get("chronosphere").on;
 		if (numChrono > 0) {

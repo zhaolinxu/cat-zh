@@ -1308,7 +1308,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         ],
         effects:{
             "environmentUnhappiness" : -2,
-			"mineralsPolicyRatio" : 0.3
+			"mineralsPolicyRatio" : 0.3,
+			"cathPollutionRatio" : 0.05
         },
         unlocked: false,
         unlocks:{
@@ -1325,7 +1326,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         ],
         effects:{
             "environmentUnhappiness" : -2,
-			"woodPolicyRatio" : 0.3
+			"woodPolicyRatio" : 0.3,
+			"cathPollutionRatio" : 0.05
         },
         unlocked: false,
         unlocks:{
@@ -1341,7 +1343,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name : "culture", val: 2000}
         ],
         effects:{
-            "environmentHappinessBonus" : 3
+            "environmentHappinessBonus" : 3,
+			"cathPollutionRatio" : -0.05
         },
         unlocked: false,
         unlocks:{
@@ -1357,7 +1360,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name : "culture", val: 10000}
         ],
         effects:{
-            "environmentHappinessBonus" : 5
+            "environmentHappinessBonus" : 5,
+			"cathPollutionRatio" : -0.05
         },
         unlocked: false,
         blocked: false,
@@ -1377,7 +1381,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			buildings: ["factory"]
 		},
         effects:{
-            "environmentFactoryCraftBonus" : 0.05
+            "environmentFactoryCraftBonus" : 0.05,
+			"cathPollutionRatio" : 0.05
         },
         unlocked: false,
         blocked: false,
@@ -1394,7 +1399,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name : "culture", val: 10000}
         ],
         effects:{
-            "environmentHappinessBonus" : 5
+            "environmentHappinessBonus" : 5,
+			"cathPollutionRatio" : -0.05
         },
         unlocked: false,
         blocked: false,
@@ -1411,7 +1417,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         ],
         effects:{
             "mineralsPolicyRatio" : 0.125,
-            "woodPolicyRatio" : 0.125
+            "woodPolicyRatio" : 0.125,
+			"cathPollutionRatio" : 0.05
         },
         unlocked: false,
         blocked: false,
@@ -1906,6 +1913,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 			this.metaphysicsPanel.game = this.game;
 			this.metaphysicsPanel.render(tabContainer);
 		}
+		if(this.game.detailedPollutionInfo){
+			this.detailedPollutionInfo = dojo.create("span", { style: { display: "inline-block", marginBottom: "20px"}}, tabContainer);
+		}
 		this.update();
 	},
 
@@ -1917,6 +1927,20 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 		}
 		if (this.policyPanel){
 			this.policyPanel.update();
+		}
+		if(this.game.detailedPollutionInfo){
+			if(this.detailedPollutionInfo){
+				this.detailedPollutionInfo.innerHTML = "Pollution is " + Math.floor(this.game.cathPollution) + " <br>Polution per tick is " + Math.floor(this.game.cathPollutionPerTick);
+				var pollutionLevel = Math.max(Math.log10(this.game.cathPollution/1000000), 0);
+				this.detailedPollutionInfo.innerHTML += "<br>Pollution level is " + Math.floor(pollutionLevel* 10)/10
+				if(this.game.cathPollutionPerTick < 0 && this.game.cathPollution) {
+					var toZero = -this.game.cathPollution/this.game.cathPollutionPerTick/this.game.calendar.ticksPerDay;
+					this.detailedPollutionInfo.innerHTML += "<br> To zero " + this.game.toDisplaySeconds(toZero.toFixed());
+				}else if(this.game.cathPollutionPerTick > 0){
+					var toNextLevel = (Math.pow(10, Math.floor(1 + pollutionLevel)) * 1000000 - this.game.cathPollution)/this.game.cathPollutionPerTick/this.game.calendar.ticksPerDay;
+					this.detailedPollutionInfo.innerHTML += "<br> To next level " + this.game.toDisplaySeconds(toNextLevel.toFixed());
+				}
+			}
 		}
 	},
 

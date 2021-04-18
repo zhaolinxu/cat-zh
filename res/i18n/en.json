@@ -1585,8 +1585,11 @@
     "console.filter.meteor": "Meteors",
     "console.filter.ivoryMeteor": "Ivory Meteors",
     "console.filter.unicornRift": "Unicorn Rifts",
+    "console.filter.unicornSacrifice": "Unicorn Sacrifices",
     "console.filter.alicornRift": "Alicorn Rifts",
-    "console.filter.tc": "Time Crystals",
+    "console.filter.alicornSacrifice": "Alicorn Sacrifices",
+    "console.filter.tcShatter": "Time Crystals Shatters",
+    "console.filter.tcRefine": "Time Crystals Refines",
     "console.filter.faith": "Faith",
 
     "village.bonus.desc.chemist": "Chemical crafting bonus",

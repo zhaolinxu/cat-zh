@@ -24,6 +24,9 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		effectDesc: $I("challendge.winterIsComing.effect.desc"),
 		researched: false,
 		unlocked: true,
+		upgrades: {
+			buildings: ["pasture"]
+		},
 		effects: {
 			"springCatnipRatio": 0.05,
 			"summerSolarFarmRatio": 0.05,

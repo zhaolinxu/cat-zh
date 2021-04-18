@@ -285,7 +285,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 
 		if (bld.lackResConvert != undefined) {
 			// Exceptions (when convertion is caused by an upgrade)
-			bld.togglable = (bld.name == "biolab") ? false : true;
+			bld.togglable = true;
 		}
 
 		for (var effect in bld.effects) {
@@ -350,8 +350,18 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 				enabled: true,
 				unlocked: false
 			},
+			"unicornSacrifice": {
+				title: $I("console.filter.unicornSacrifice"),
+				enabled: true,
+				unlocked: false
+			},
 			"alicornRift": {
 				title: $I("console.filter.alicornRift"),
+				enabled: true,
+				unlocked: false
+			},
+			"alicornSacrifice": {
+				title: $I("console.filter.alicornSacrifice"),
 				enabled: true,
 				unlocked: false
 			},
@@ -360,8 +370,13 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 				enabled: true,
 				unlocked: false
 			},
-			"tc": {
-				title: $I("console.filter.tc"),
+			"tcShatter": {
+				title: $I("console.filter.tcShatter"),
+				enabled: true,
+				unlocked: false
+			},
+			"tcRefine": {
+				title: $I("console.filter.tcRefine"),
 				enabled: true,
 				unlocked: false
 			},
@@ -1129,6 +1144,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 		var valMultiplier = isEffectMultiplierEnabled && model.metadata ? model.metadata.on : 1;
 		for (var effectName in effectsList) {
 			var effectMeta = this.game.getEffectMeta(effectName);
+			if(effectMeta.type === "hidden") continue;
 			if (effectMeta.resName && !this.game.resPool.get(effectMeta.resName).unlocked) {
 				continue;	//hide resource-related effects if we did not unlocked this effect yet
 			}
@@ -1672,6 +1688,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 	handleToggleAutomationLinkClick: function(model) {
 		var building = model.metadata;
 		building.isAutomationEnabled = !building.isAutomationEnabled;
+		this.game.upgrade({buildings: [building.name]});
 	}
 });
 
