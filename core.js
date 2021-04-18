@@ -1144,7 +1144,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 		var valMultiplier = isEffectMultiplierEnabled && model.metadata ? model.metadata.on : 1;
 		for (var effectName in effectsList) {
 			var effectMeta = this.game.getEffectMeta(effectName);
-			if(effectMeta.type === "hidden") continue;
+			if(effectMeta.type === "hidden") {continue;}
 			if (effectMeta.resName && !this.game.resPool.get(effectMeta.resName).unlocked) {
 				continue;	//hide resource-related effects if we did not unlocked this effect yet
 			}
@@ -1466,8 +1466,8 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 	updateLink: function(buttonLink, modelLink) {
 		if (buttonLink) {
 			buttonLink.link.textContent = modelLink.title;
-			if (modelLink.cssClass) buttonLink.link.className = modelLink.cssClass;
-			if (modelLink.tooltip) buttonLink.link.title = modelLink.tooltip;
+			if (modelLink.cssClass) {buttonLink.link.className = modelLink.cssClass;}
+			if (modelLink.tooltip) {buttonLink.link.title = modelLink.tooltip;}
 			dojo.style(buttonLink.link, "display", modelLink.visible === undefined || modelLink.visible ? "" : "none");
 		}
 	},
@@ -1667,7 +1667,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 	decrementValue: function(model) {
 		var building = model.metadata;
 		if (building)
-		building.val--;
+		{building.val--;}
 		if (building.on > building.val){
 			building.on = building.val;
 		}

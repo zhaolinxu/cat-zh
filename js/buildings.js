@@ -1316,9 +1316,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			effects["energyConsumption"] = 2;
 			//here will be that workshop upgrade, it'll make factories produce twice less pollution
- 			/*if(false){
- 				self.isAutomationEnabled = (self.isAutomationEnabled === null)? true: self.isAutomationEnabled;
- 			}*/
+			/*if(false){
+				self.isAutomationEnabled = (self.isAutomationEnabled === null)? true: self.isAutomationEnabled;
+			}*/
 			effects["cathPollutionPerTick"] = (self.isAutomationEnabled)? -2: 2;
 			self.effects = effects;
 		}
@@ -2521,7 +2521,7 @@ dojo.declare("classes.ui.btn.StagingBldBtnController", classes.ui.btn.BuildingBt
 	deltagrade: function(self, model, delta) {
 		var metadataRaw = self.getMetadataRaw(model);
 		metadataRaw.stage += delta;
-		if (!metadataRaw.stage) metadataRaw.stage = Math.max(0, delta);
+		if (!metadataRaw.stage) {metadataRaw.stage = Math.max(0, delta);}
 
 		metadataRaw.val = 0;	//TODO: fix by using separate value flags
 		metadataRaw.on = 0;
@@ -2574,7 +2574,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 		var groups = dojo.clone(this.game.bld.buildingGroups, true);
 
 		//non-group filters
-		if (this.game.ironWill && this.game.bld.get("library").on > 0){
+		if (this.game.ironWill && this.game.libraryTab.visible){
 			groups.unshift({
 				name: "iw",
 				title: "IW",

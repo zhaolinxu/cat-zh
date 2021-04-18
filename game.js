@@ -148,6 +148,7 @@ dojo.declare("classes.game.Server", null, {
 	 * using session cookies
 	 */
 	userProfile: null,
+	chiral: null,
 
 	/**
 	 * Current client snapshot of the save data
@@ -282,6 +283,22 @@ dojo.declare("classes.game.Server", null, {
 		saveData.server = {
 			motdContent: this.motdContent
 		};
+	},
+
+	//TOOD: separate getting chiral client status and sending command to a separate component
+	sendCommand: function(command){
+		var self = this;
+		this._xhr("/kgnet/chiral/game/command/", "POST", {
+			command: command
+		}, function(resp){
+			if (resp.clientState){
+                self.setChiral(resp);
+			}
+		});
+	},
+
+	setChiral: function(data){
+		this.chiral = JSON.stringify(data, null, 2);
 	}
 });
 
@@ -3282,7 +3299,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		//pollution per tick
 		this.cathPollution += this.cathPollutionPerTick;
-		if(this.cathPollution < 0) this.cathPollution = 0;
+		if(this.cathPollution < 0) {this.cathPollution = 0;}
 
 		//nah, kittens are not a resource anymore (?)
 		var kittens = this.resPool.get("kittens");
@@ -4238,6 +4255,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return this.statsTab;
 			case "time":
 				return this.timeTab;
+			case "challenges":
+				return this.challengesTab;
 		}
 	},
 
