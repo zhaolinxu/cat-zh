@@ -1428,7 +1428,10 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			"policyFakeBought":{
 				title: $I("effectsMgr.statics.policyFakeBought.title")
 			},
-			"cathPollutionPerTick":{
+			"cathPollutionPerTickProd":{
+				type: "hidden"
+			},
+			"cathPollutionPerTickCon":{
 				type: "hidden"
 			},
 			"cathPollutionRatio":{
@@ -1765,7 +1768,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         this.science.updateEffectCached();
 
 		this.updateResources();
-		this.bld.cathPollutionPerTick = this.getEffect("cathPollutionPerTick") * this.bld.getPollutionRatio() * (1 + this.getEffect("cathPollutionRatio"));
+		this.bld.cathPollutionPerTick = this.getEffect("cathPollutionPerTickProd") * this.bld.getPollutionRatio() * (1 + this.getEffect("cathPollutionRatio")) + this.getEffect("cathPollutionPerTickCon");
 	},
 
 	// Unlimited Diminishing Return
