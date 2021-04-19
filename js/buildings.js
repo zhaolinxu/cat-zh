@@ -1327,7 +1327,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				self.isAutomationEnabled = null;
 			}
 			effects["energyConsumption"] *= (self.isAutomationEnabled)? 2 : 1;
-			effects["cathPollutionPerTick"] = (self.isAutomationEnabled)? 0: 2;
+			effects["cathPollutionPerTickProd"] = (self.isAutomationEnabled)? 0: 2;
 			effects["cathPollutionPerTickCon"] = (self.isAutomationEnabled)? -2: 0;
 			self.effects = effects;
 		}
@@ -2147,7 +2147,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		}
 
 		this.cathPollution = 0;
-		this.cathPollutionPerTickProd = 0;
+		this.cathPollutionPerTick = 0;
 	},
 	getCleanEnergy:function(){
 		var solarFarm = this.getBuildingExt("pasture").meta;
