@@ -2191,6 +2191,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 	fastforward: function(daysOffset) {
 		var game = this.game;
+
+		this.cathPollutionPerTick = game.getEffect("cathPollutionPerTickProd") * this.getPollutionRatio() * (1 + game.getEffect("cathPollutionRatio")) + game.getEffect("cathPollutionPerTickCon");
+		this.cathPollution += this.cathPollutionPerTick * daysOffset * game.calendar.ticksPerDay;
+
 		var steamworks = this.get("steamworks");
 		if (steamworks.on < 1 || !game.workshop.get("factoryAutomation").researched) {
 			return;
