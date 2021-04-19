@@ -1480,9 +1480,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	//in ticks
 	autosaveFrequency: 400,
 
-	//pollution things
-	cathPollution: 0,
-	cathPollutionPerTick: 0,
 	detailedPollutionInfo: false, //test tag, will be removed later on
 
 	//current building selected in the Building tab by a mouse cursor, should affect resource table rendering
@@ -1768,7 +1765,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         this.science.updateEffectCached();
 
 		this.updateResources();
-		this.cathPollutionPerTick = this.getEffect("cathPollutionPerTick") * this.bld.getPollutionRatio() * (1 + this.getEffect("cathPollutionRatio"));
+		this.bld.cathPollutionPerTick = this.getEffect("cathPollutionPerTick") * this.bld.getPollutionRatio() * (1 + this.getEffect("cathPollutionRatio"));
 	},
 
 	// Unlimited Diminishing Return
@@ -1901,8 +1898,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		this.globalEffectsCached = {};
-		this.cathPollution = 0;
-		this.cathPollutionPerTick = 0;
 		this.detailedPollutionInfo = false; //temporary
 	},
 
@@ -1948,7 +1943,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			cheatMode: this.cheatMode,
 
 			opts : this.opts,
-			cathPollution : this.cathPollution,
 			detailedPollutionInfo: this.detailedPollutionInfo //temporary
 		};
 
@@ -2126,7 +2120,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				}
 			}
 
-			this.cathPollution = data.cathPollution|| 0;
 			this.detailedPollutionInfo = data.detailedPollutionInfo|| false; //temporary
 
 			this.updateOptionsUI();
@@ -3302,8 +3295,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.resPool.resConsHackForResTable();
 
 		//pollution per tick
-		this.cathPollution += this.cathPollutionPerTick;
-		if(this.cathPollution < 0) {this.cathPollution = 0;}
+		this.bld.cathPollution += this.bld.cathPollutionPerTick;
+		if(this.bld.cathPollution < 0) {this.bld.cathPollution = 0;}
 
 		//nah, kittens are not a resource anymore (?)
 		var kittens = this.resPool.get("kittens");

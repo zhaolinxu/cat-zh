@@ -133,6 +133,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	groupBuildings: false,
 	twoRows: false,
 
+	//pollution things
+	cathPollution: 0,
+	cathPollutionPerTick: 0,
+
 	constructor: function(game){
 		this.game = game;
         this.metaCache = {};
@@ -2109,12 +2113,14 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		}
 		saveData.bldData.groupBuildings = this.groupBuildings;
 		saveData.bldData.twoRows = this.twoRows;
+		saveData.bldData.cathPollution = this.cathPollution;
 	},
 
 	load: function(saveData){
 		this.groupBuildings = saveData.bldData ? saveData.bldData.groupBuildings : false;
 		this.twoRows = saveData.bldData ? saveData.bldData.twoRows : false;
 		this.loadMetadata(this.buildingsData, saveData.buildings);
+		this.cathPollution = saveData.cathPollution|| 0;
 	},
 
 	resetState: function(){
@@ -2137,6 +2143,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			this.resetStateStackable(bld);
 		}
+
+		this.cathPollution = 0;
+		this.cathPollutionPerTick = 0;
 	},
 	getCleanEnergy:function(){
 		var solarFarm = this.getBuildingExt("pasture").meta;
