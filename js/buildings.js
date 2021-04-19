@@ -1316,7 +1316,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			effects["energyConsumption"] = 2;
 			//here will be that workshop upgrade, it'll make factories produce twice less pollution
-			if(game.factoryClean){
+			if(game.detailedPollutionInfo){
 				self.isAutomationEnabled = (self.isAutomationEnabled === null)? true: self.isAutomationEnabled;
 			}else{
 				self.isAutomationEnabled = null;
