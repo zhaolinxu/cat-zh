@@ -133,6 +133,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	groupBuildings: false,
 	twoRows: false,
 
+	//pollution things
+	cathPollution: 0,
+	cathPollutionPerTick: 0,
+
 	constructor: function(game){
 		this.game = game;
         this.metaCache = {};
@@ -517,7 +521,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					"scienceMaxCompendia": 1000,
 					"cultureMax": 25,
 					"energyConsumption": 2,
-					"cathPollutionPerTick": 2,
+					"cathPollutionPerTickProd": 2,
 				},
 				unlockScheme: {
 					name: "computer",
@@ -562,7 +566,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				if (game.workshop.get("cryocomputing").researched){
 					effects["energyConsumption"] = 1;
 				}
-				effects["cathPollutionPerTick"] = effects["energyConsumption"];
+				effects["cathPollutionPerTickProd"] = effects["energyConsumption"];
 
 				if (game.workshop.get("machineLearning").researched){
                     var dataCenterAIRatio = game.getEffect("dataCenterAIRatio");
@@ -684,7 +688,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 				if (self.val) {
 					self.effects["scienceRatio"] = 0.35 * (1 + self.on / self.val);
-					self.effects["cathPollutionPerTick"] = 1 * (self.on / self.val);
+					self.effects["cathPollutionPerTickProd"] = 1 * (self.on / self.val);
 				}
 
 				return amt;
@@ -841,7 +845,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		calculateEffects: function(self, game){
 			var effects = {
 				"mineralsRatio": 0.2,
-				"coalPerTickBase": 0
+				"coalPerTickBase": 0,
+				"cathPollutionPerTickProd": 0.5
 			};
 
 			if (game.workshop.get("deepMining").researched){
@@ -870,7 +875,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		effects: {
 			"mineralsRatio": 0.35,
 			"coalPerTickBase": 0.015,
-			"uraniumPerTickBase": 0
+			"uraniumPerTickBase": 0,
+			"cathPollutionPerTickProd": 0.5
 		},
 		calculateEffects: function(self, game){
 			var effects = {
@@ -899,7 +905,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"coalPerTickAutoprod": 0,
 			"ironPerTickAutoprod": 0,
 			"titaniumPerTickAutoprod": 0,
-			"goldPerTickAutoprod": 0
+			"goldPerTickAutoprod": 0,
+			"cathPollutionPerTickProd": 0.5
 		},
 		effectsCalculated: {},
 		lackResConvert: false,
@@ -980,7 +987,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"oilPerTickCon" : -0.024,
 			"steelPerTickProd": 0,
 			"energyConsumption" : 1,
-			"cathPollutionPerTick": 1
+			"cathPollutionPerTickProd": 1
 		},
 		calculateEffects: function(self, game) {
 			self.basicProductionCalculation(self, game);
@@ -1097,7 +1104,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"manuscriptPerTickProd": 0,
 			"energyProduction": 1,
 			"magnetoBoostRatio": 0.15,
-			"cathPollutionPerTick": 1
+			"cathPollutionPerTickProd": 1
 		},
 		calculateEffects: function(self, game){
 			self.effects["coalRatioGlobal"] = -0.8 + game.getEffect("coalRatioGlobalReduction");
@@ -1193,7 +1200,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"oilPerTick" : -0.05,
 			"energyProduction" : 5,
 			"magnetoRatio": 0.02,
-			"cathPollutionPerTick": 5
+			"cathPollutionPerTickProd": 5
 		},
 		action: function(self, game){
 			var oil = game.resPool.get("oil");
@@ -1236,7 +1243,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"oilPerTickBase" : 0.02,
 			"oilMax" : 1500,
 			"energyConsumption": 0,
-			"cathPollutionPerTick": 0
+			"cathPollutionPerTickProd": 0
 		},
 		isAutomationEnabled: null,
 		calculateEffects: function(self, game) {
@@ -1254,7 +1261,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			self.effects["energyConsumption"] = self.isAutomationEnabled
 				? 1 : 0;
-			self.effects["cathPollutionPerTick"] = self.isAutomationEnabled
+			self.effects["cathPollutionPerTickProd"] = self.isAutomationEnabled
 				? 1 : 0;
 		},
 		flavor: $I("buildings.oilWell.flavor"),
@@ -1296,7 +1303,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		effects: {
 			"craftRatio": 0,
 			"energyConsumption": 0,
-			"cathPollutionPerTick": 0
+			"cathPollutionPerTickProd": 0,
+			"cathPollutionPerTickCon": 0
 		},
 		unlocks:{
 			policies:["liberalism", "communism", "fascism"]
@@ -1316,10 +1324,14 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			effects["energyConsumption"] = 2;
 			//here will be that workshop upgrade, it'll make factories produce twice less pollution
-			/*if(false){
+			if(game.detailedPollutionInfo){
 				self.isAutomationEnabled = (self.isAutomationEnabled === null)? true: self.isAutomationEnabled;
-			}*/
-			effects["cathPollutionPerTick"] = (self.isAutomationEnabled)? -2: 2;
+			}else{
+				self.isAutomationEnabled = null;
+			}
+			effects["energyConsumption"] *= (self.isAutomationEnabled)? 2 : 1;
+			effects["cathPollutionPerTickProd"] = (self.isAutomationEnabled)? 0: 2;
+			effects["cathPollutionPerTickCon"] = (self.isAutomationEnabled)? -2: 0;
 			self.effects = effects;
 		}
 	},{
@@ -2106,12 +2118,14 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		}
 		saveData.bldData.groupBuildings = this.groupBuildings;
 		saveData.bldData.twoRows = this.twoRows;
+		saveData.bldData.cathPollution = this.cathPollution;
 	},
 
 	load: function(saveData){
 		this.groupBuildings = saveData.bldData ? saveData.bldData.groupBuildings : false;
 		this.twoRows = saveData.bldData ? saveData.bldData.twoRows : false;
 		this.loadMetadata(this.buildingsData, saveData.buildings);
+		this.cathPollution = saveData.cathPollution|| 0;
 	},
 
 	resetState: function(){
@@ -2134,6 +2148,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			this.resetStateStackable(bld);
 		}
+
+		this.cathPollution = 0;
+		this.cathPollutionPerTick = 0;
 	},
 	getCleanEnergy:function(){
 		var solarFarm = this.getBuildingExt("pasture").meta;
@@ -2151,10 +2168,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		return polutinEnergy;
 	},
 	getCleanEnergyProdRatio: function(){
-		return this.getCleanEnergy()/(this.getCleanEnergy() + this.getPollutingEnergy());
+		return this.getCleanEnergy() / (this.getCleanEnergy() + this.getPollutingEnergy());
 	},
 	getPollutionRatio: function() {
-		return 1 - this.game.getLimitedDR(this.getCleanEnergyProdRatio(), 1/3);
+		return 1 - this.getCleanEnergyProdRatio() / 2;
 	},
     //============ dev =============
     devAddStorage: function(){
@@ -2177,6 +2194,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 	fastforward: function(daysOffset) {
 		var game = this.game;
+
+		this.cathPollutionPerTick = game.getEffect("cathPollutionPerTickProd") * this.getPollutionRatio() * (1 + game.getEffect("cathPollutionRatio")) + game.getEffect("cathPollutionPerTickCon");
+		this.cathPollution += this.cathPollutionPerTick * daysOffset * game.calendar.ticksPerDay;
+
 		var steamworks = this.get("steamworks");
 		if (steamworks.on < 1 || !game.workshop.get("factoryAutomation").researched) {
 			return;
@@ -2574,7 +2595,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 		var groups = dojo.clone(this.game.bld.buildingGroups, true);
 
 		//non-group filters
-		if (this.game.ironWill && this.game.bld.get("library").on > 0){
+		if (this.game.ironWill && this.game.libraryTab.visible){
 			groups.unshift({
 				name: "iw",
 				title: "IW",
