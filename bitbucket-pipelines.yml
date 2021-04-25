@@ -9,26 +9,10 @@ pipelines:
           - yarncustom
         script:
           - yarn
-    - parallel:
-      - step:
-          name: 'Lint'
-          caches:
-            - nodecustom
-            - yarncustom
-          script:
-            - yarn lint
-      - step:
-          name: 'Build and Test'
-          caches:
-            - nodecustom
-            - yarncustom
-          script:
-            - yarn test
+          - yarn lint
+          - yarn test
     - step:
         name: 'Deploy'
-        caches:
-           - nodecustom
-           - yarncustom
         script:
             - pipe: atlassian/ssh-run:0.2.3
               variables:
