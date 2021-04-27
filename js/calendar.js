@@ -457,7 +457,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				if (this.game.challenges.isActive("blackSky")) {
 					// ...however it gets spammy after some progress
 					if (this.game.bld.get("observatory").val < 30) {
-						this.game.msg($I("challendge.blackSky.event"), "astronomicalEvent");
+						this.game.msg($I("challendge.blackSky.event"), "", "astronomicalEvent");
 					}
 				//---------------- SETI hack-------------------
 				} else if (this.game.workshop.get("seti").researched) {

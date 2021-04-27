@@ -227,14 +227,14 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		unlocked: false,
 		getTradeBonusEffect: function(game){
 			var self = game.challenges.getChallenge("pacifism");
-			if(!self.val||! game.chellenges.isActive("pacifism")){
+			if(!self.on || game.challenges.isActive("pacifism")){
 				return 0;
 			}
-			var tradepost =game.bld.getBuildingExt("tradepost").meta;
+			var tradepost = game.bld.getBuildingExt("tradepost").meta;
 			var tradeKnowledge = game.getEffect("tradeKnowledge");
-			let tradepostLimit = (7 + tradeKnowledge * 3) * (0.99 + tradeKnowledge * 0.01);
-			let tradepostRatioLimit = game.getLimitedDR(0.099 + tradeKnowledge * 0.0075, 0.25);
-			return (tradepost.effects["tradeRatio"]*Math.min(tradepostLimit, tradepost.val * tradepostRatioLimit));
+			var tradepostLimit = (7 + tradeKnowledge * 3) * (0.99 + tradeKnowledge * 0.01);
+			var tradepostRatioLimit = game.getLimitedDR(0.099 + tradeKnowledge * 0.0075, 0.25);
+			return (tradepost.effects["tradeRatio"] * Math.min(tradepostLimit, tradepost.val * tradepostRatioLimit));
 		}
 	}],
 
