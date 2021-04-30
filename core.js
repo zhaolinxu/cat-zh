@@ -366,7 +366,7 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 				unlocked: false
 			},
 			"alicornCorruption":{
-				title: "Alicorn Corruption",
+				title: $I("console.filter.alicornCorruption"),
 				enabled: true,
 				unlocked: false
 			},
