@@ -1943,7 +1943,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 						this.detailedPollutionInfo.innerHTML += "<br>— Less kitten happines: -" + Math.floor(Math.log(currentCathPollution)) + "%";
 					}
 					if(pollutionLevel > 2){
-						this.detailedPollutionInfo.innerHTML += "<br>— Kittens arrive " + Math.floor(Math.log10(currentCathPollution)) + "time slower.";
+						this.detailedPollutionInfo.innerHTML += "<br>— Kittens arrive " + Math.floor(Math.log10(currentCathPollution)) + " times slower.";
 					}
 					if(pollutionLevel > 4){
 						this.detailedPollutionInfo.innerHTML += "<br>— SR effect doesn't apply to wood and catnip";
