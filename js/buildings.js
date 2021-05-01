@@ -2192,11 +2192,14 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		this.game.resPool.addResEvent("wood", 1 + craftRatio);
 	},
 
+	cathPollutionFastForward: function(ticks){
+		this.cathPollutionPerTick = this.game.getEffect("cathPollutionPerTickProd") * this.getPollutionRatio() * (1 + this.game.getEffect("cathPollutionRatio")) + this.game.getEffect("cathPollutionPerTickCon");
+		this.cathPollution += this.cathPollutionPerTick * ticks;
+	},
 	fastforward: function(daysOffset) {
 		var game = this.game;
 
-		this.cathPollutionPerTick = game.getEffect("cathPollutionPerTickProd") * this.getPollutionRatio() * (1 + game.getEffect("cathPollutionRatio")) + game.getEffect("cathPollutionPerTickCon");
-		this.cathPollution += this.cathPollutionPerTick * daysOffset * game.calendar.ticksPerDay;
+		this.cathPollutionFastForward(daysOffset * game.calendar.ticksPerDay);
 
 		var steamworks = this.get("steamworks");
 		if (steamworks.on < 1 || !game.workshop.get("factoryAutomation").researched) {
