@@ -2118,7 +2118,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		}
 		saveData.bldData.groupBuildings = this.groupBuildings;
 		saveData.bldData.twoRows = this.twoRows;
-		saveData.bldData.cathPollution = this.cathPollution;
+		saveData.cathPollution = this.cathPollution;
 	},
 
 	load: function(saveData){
