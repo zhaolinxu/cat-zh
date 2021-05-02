@@ -3,7 +3,7 @@ image: node:10.15.3
 pipelines:
   default:
     - step:
-        runs-on: self.hosted
+        # runs-on: self.hosted
         name: 'Setup'
         caches:
           - nodecustom
