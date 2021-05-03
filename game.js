@@ -1766,9 +1766,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.time.updateEffectCached();
 		this.village.updateEffectCached();
         this.science.updateEffectCached();
+		
+		this.bld.cacheCathPollutionPerTick();
 
 		this.updateResources();
-		this.bld.cathPollutionPerTick = this.getEffect("cathPollutionPerTickProd") * this.bld.getPollutionRatio() * (1 + this.getEffect("cathPollutionRatio")) + this.getEffect("cathPollutionPerTickCon");
+
 	},
 
 	// Unlimited Diminishing Return
