@@ -2199,7 +2199,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},
 	
 	cacheCathPollutionPerTick: function(){
-		this.cathPollutionPerTick = this.game.getEffect("cathPollutionPerTickProd") * this.getPollutionRatio() * (1 + this.game.getEffect("cathPollutionRatio")) + this.game.getEffect("cathPollutionPerTickCon");
+		this.cathPollutionPerTick = this.game.getEffect("cathPollutionPerTickProd") * this.getPollutionRatio() * (1 + this.game.getEffect("cathPollutionRatio")) + this.game.getEffect("cathPollutionPerTickCon") - this.cathPollution * 1e-7;
 	},
 	cathPollutionFastForward: function(ticks){
 		this.cathPollution += this.cathPollutionPerTick * ticks;
