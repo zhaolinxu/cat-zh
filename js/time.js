@@ -512,6 +512,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                     var res = game.resPool.resources[j];
                     res.value = Math.min(res.value, limits[res.name]);
                 }
+                game.bld.cacheCathPollutionPerTick();
                 game.bld.cathPollutionFastForward(remainingTicksInCurrentYear * shatterTCGain);
             }
 
@@ -577,7 +578,10 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             }
         }
 
-        if(shatterTCGain > 0) {game.bld.cathPollutionFastForward(remainingDays * cal.ticksPerDay * shatterTCGain);}
+        if(shatterTCGain > 0) {
+            game.bld.cacheCathPollutionPerTick();
+            game.bld.cathPollutionFastForward(remainingDays * cal.ticksPerDay * shatterTCGain);
+        }
         while(maxYearsShattered > 0){
             var remainingYearsInCurrentCycle = Math.min(cal.yearsPerCycle - cal.cycleYear, maxYearsShattered);
             var remainingDaysInCurrentCycle = (remainingYearsInCurrentCycle - 1) * daysPerYear + remainingDaysInFirstYear;
@@ -664,7 +668,10 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                 planet.routeDays = Math.max(0, planet.routeDays - remainingDays * routeSpeed);
             }
         }
-        if(shatterTCGain > 0) {game.bld.cathPollutionFastForward(remainingDays * cal.ticksPerDay * shatterTCGain);}
+        if(shatterTCGain > 0) {
+            game.bld.cacheCathPollutionPerTick();
+            game.bld.cathPollutionFastForward(remainingDays * cal.ticksPerDay * shatterTCGain);
+        }
         var remainingCyclesYears = [0,0,0,0,0,0,0,0,0,0];
         if (maxYearsShattered%50 == 0){
             for (j in remainingCyclesYears){
