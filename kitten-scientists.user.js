@@ -70,7 +70,10 @@ var run = function() {
             'upgrade.building.library': 'Upgraded libraries to data centers!',
             'upgrade.building.amphitheatre': 'Upgraded amphitheatres to broadcast towers!',
             'upgrade.upgrade': 'Kittens have bought the upgrade {0}',
+            'upgrade.limited': 'Optimize {0}',
+            'upgrade.unlimited': 'All {0}',
             'upgrade.tech': 'Kittens have bought the tech {0}',
+            'upgrade.policy': 'Kittens have passed {0}',
 
             'festival.hold': 'Kittens begin holding a festival',
             'festival.extend': 'Kittens extend the festival',
@@ -89,6 +92,7 @@ var run = function() {
             'ui.trigger': 'trigger',
             'ui.trigger.set': 'Enter a new trigger value for {0}. Should be in the range of 0 to 1.',
             'ui.limit': 'Limited',
+            'ui.trigger.missions.set': 'Enter a new trigger value for missions. Should be in the range of 0 to 13. Corresponds to each planet sort',
             'ui.trigger.crypto.set': 'Enter a new trigger value for {0}. Corresponds to the amount of Relics needed before the exchange is made.',
             'ui.engine':'Enable Scientists',
             'ui.build': 'Bonfire',
@@ -108,6 +112,9 @@ var run = function() {
             'ui.upgrade.races': 'Races',
             'ui.upgrade.missions': 'Missions',
             'ui.upgrade.buildings': 'Buildings',
+            'ui.upgrade.policies': 'Policies',
+            'ui.upgrade.policies.load': 'Load',
+            'ui.upgrade.policies.show': 'Show',
             
             'ui.faith.addtion': 'addition',
             'option.faith.best.unicorn': 'Build Best Unicorn Building First',
@@ -152,7 +159,11 @@ var run = function() {
 
             'distribute.limited': 'Distribute to {0}: stop when reach max',
             'distribute.unlimited': 'Distribute to {0}: unlimited',
+            'distribute.leaderJob': 'Leader job is {0} ',
+            'distribute.leaderTrait': 'Choose {0} leader',
+            'distribute.makeLeader': 'Make Leader',
             'act.distribute': 'Distribute a kitten to {0}',
+            'act.distributeLeader': 'Make a {0} kitten leader',
             'ui.max.set': 'Maximum for {0}',
             'summary.distribute': 'Help {0} kittens to find job',
             'filter.distribute': 'Distribute',
@@ -272,7 +283,10 @@ var run = function() {
             'upgrade.building.library': '图书馆 升级为 数据中心!',
             'upgrade.building.amphitheatre': '剧场 升级为 广播塔!',
             'upgrade.upgrade': '小猫发明了 {0}',
+            'upgrade.limited': '优化 {0}',
+            'upgrade.unlimited': '全部 {0}',
             'upgrade.tech': '小猫掌握了 {0}',
+            'upgrade.policy': '小猫通过了 {0} 法案',
 
             'festival.hold': '小猫开始举办节日',
             'festival.extend': '小猫延长了节日',
@@ -291,6 +305,7 @@ var run = function() {
             'ui.trigger': '触发条件',
             'ui.trigger.set': '输入新的 {0} 触发值，取值范围为 0 到 1 的小数。',
             'ui.limit': '限制',
+            'ui.trigger.missions.set': '输入一个新的 探索星球 触发值,取值范围为 0 到 13 的整数。\n分别对应13颗星球。',
             'ui.trigger.crypto.set': '输入一个新的 {0} 触发值,\n遗物数量达到触发值时会进行黑笔交易。',
             'ui.engine':'启用小猫珂学家',
             'ui.build': '营火',
@@ -310,6 +325,9 @@ var run = function() {
             'ui.upgrade.races': '探险队出发!',
             'ui.upgrade.missions': '探索星球',
             'ui.upgrade.buildings': '建筑',
+            'ui.upgrade.policies': '政策',
+            'ui.upgrade.policies.load': '读取',
+            'ui.upgrade.policies.show': '列表',
 
             'ui.faith.addtion': '附加',
             'option.faith.best.unicorn': '优先最佳独角兽建筑',
@@ -353,8 +371,12 @@ var run = function() {
             'craft.unlimited': '制作 {0} 不受限制',
 
             'distribute.limited': '分配 {0} 受限于最大值',
+            'distribute.leaderJob': '领袖工作为 {0} ',
+            'distribute.leaderTrait': '领袖的特质为 {0} ',
             'distribute.unlimited': '分配 {0} 不受限',
+            'distribute.makeLeader': '分配领袖',
             'act.distribute': '分配一只猫猫成为 {0}',
+            'act.distributeLeader': '分配一只 {0} 猫猫领袖',
             'ui.max.set': '设置 {0} 的最大值',
             'summary.distribute': '帮助 {0} 只猫猫找到工作',
             'filter.distribute': '猫口分配',
@@ -438,6 +460,8 @@ var run = function() {
     }
 
     var i18n = function(key, args) {
+        // i18n('$xx') mean load string from game
+        // i18n('xx') mean load string from ks
         if (key[0] == "$")
             return i18ng(key.slice(1));
         value = i18nData[lang][key];
@@ -739,7 +763,7 @@ var run = function() {
                     tanker:     {require: false,         max: 0, limited: true,  limRat: 0.5, enabled: true},
                     parchment:  {require: false,         max: 0, limited: false, limRat: 0.5, enabled: true},
                     manuscript: {require: 'culture',     max: 0, limited: true,  limRat: 0.5, enabled: true},
-                    compedium: {require: 'science',      max: 0, limited: true,  limRat: 0.5, enabled: true},
+                    compedium:  {require: 'science',     max: 0, limited: true,  limRat: 0.5, enabled: true},
                     blueprint:  {require: 'science',     max: 0, limited: true,  limRat: 0.5, enabled: true},
                     kerosene:   {require: 'oil',         max: 0, limited: true,  limRat: 0.5, enabled: true},
                     megalith:   {require: false,         max: 0, limited: true,  limRat: 0.5, enabled: true},
@@ -786,11 +810,12 @@ var run = function() {
                 //Should KS automatically upgrade?
                 enabled: false,
                 items: {
-                    upgrades:  {enabled: true},
+                    upgrades:  {enabled: true, limited: true},
                     techs:     {enabled: true},
+                    policies:  {enabled: false},
                     races:     {enabled: true},
-                    missions:  {enabled: true},
-                    buildings: {enabled: true}
+                    missions:  {enabled: true, subTrigger: 12},
+                    buildings: {enabled: true},
                 }
             },
             options: {
@@ -824,6 +849,7 @@ var run = function() {
                     priest:     {enabled: true, max: 1, limited: false},
                     geologist:  {enabled: true, max: 1, limited: false},
                     engineer:   {enabled: true, max: 1, limited: false},
+                    leader:     {enabled: true, leaderTrait:1, leaderJob:1},
                 }
 
             },
@@ -854,6 +880,7 @@ var run = function() {
                 furs:        {enabled: true,  stock: 1000, checkForReset: false, stockForReset: Infinity},
                 timeCrystal: {enabled: false, stock: 0,    checkForReset: true,  stockForReset: 500000}
             },
+            policies: [],
             cache: {
                 cache:    [],
                 cacheSum: {}
@@ -969,7 +996,7 @@ var run = function() {
             if (options.auto.build.enabled)                                                 {this.build()};
             if (options.auto.space.enabled)                                                 {this.space()};
             if (options.auto.craft.enabled)                                                 {this.craft()};
-            if (subOptions.enabled && subOptions.items.hunt.enabled)                        {this.hunt()};
+            if (subOptions.enabled && subOptions.items.hunt.enabled)                        {this.setHunt()};
             if (options.auto.trade.enabled)                                                 {this.trade()};
             if (options.auto.faith.enabled)                                                 {this.worship()};
             if (options.auto.time.enabled)                                                  {this.chrono()};
@@ -981,10 +1008,20 @@ var run = function() {
             if (subOptions.enabled)                                                         {this.miscOptions()};
             if (options.auto.timeCtrl.enabled && options.auto.timeCtrl.items.reset.enabled) {await this.reset()};
         },
+        halfInterval: async function() {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    this.hunt();
+                }, Math.floor(options.interval / 2))
+            })
+        },
+        setHunt: async function() {
+            await this.halfInterval();
+        },
         reset: async function () {
 
             // check challenge
-            if (game.challenges.currentChallenge)
+            if (game.challenges.anyChallengeActive())
                 return;
 
             var checkedList = [];
@@ -1227,8 +1264,9 @@ var run = function() {
                 if (game.calendar.day < 0)
                     break TimeSkip;
 
+                var shatter = game.timeTab.cfPanel.children[0].children[0]; // check?
                 var timeCrystal = game.resPool.get('timeCrystal');
-                if (timeCrystal.value < optionVals.timeSkip.subTrigger)
+                if (timeCrystal.value < optionVals.timeSkip.subTrigger && !shatter.controller.hasResources(shatter.model))
                     break TimeSkip;
 
                 var season = game.calendar.season;
@@ -1265,7 +1303,6 @@ var run = function() {
                         willSkip += canSkip;
                 }
                 if (willSkip > 0) {
-                    var shatter = game.timeTab.cfPanel.children[0].children[0]; // check?
                     iactivity('act.time.skip', [willSkip], 'ks-timeSkip');
                     shatter.controller.doShatterAmt(shatter.model, willSkip);
                     storeForSummary('time.skip', willSkip);
@@ -1290,6 +1327,32 @@ var run = function() {
             }
         },
         distribute: function () {
+            var distributeItem = options.auto.distribute.items;
+            var leaderVals = distributeItem.leader;
+            if (leaderVals.enabled && game.science.get('civil').researched && !game.challenges.isActive("anarchy")) {
+                var leaderJobName = game.village.jobs[leaderVals.leaderJob].name;
+                var traitName = com.nuclearunicorn.game.village.Kitten().traits[leaderVals.leaderTrait].name;
+                if (!options.policies.findIndex(obj => obj == 'theocracy') || game.science.getPolicy('theocracy').researched) {leaderJobName = "priest";}
+                if (game.village.leader == null || !(game.village.leader.job == leaderJobName && game.village.leader.trait.name == traitName)) {
+                    var traitKittens = game.village.sim.kittens.filter(kitten => kitten.trait.name == traitName);
+                    if (traitKittens.length != 0) {
+                        if (game.village.getJob(leaderJobName).unlocked && game.village.getJob(leaderJobName).value < game.village.getJobLimit(leaderJobName)) {
+                            var correctLeaderKitten = traitKittens.sort(function(a, b) {return b.rank - a.rank;})[0];
+                            if (game.village.getJob(leaderJobName).value < distributeItem[leaderJobName].max || !distributeItem[leaderJobName].limited) {
+                                game.village.unassignJob(correctLeaderKitten);
+                            } else {
+                                game.village.sim.removeJob(leaderJobName, 1);
+                            }
+                            game.villageTab.censusPanel.census.makeLeader(correctLeaderKitten);
+                            correctLeaderKitten.job = leaderJobName;
+                            game.village.getJob(leaderJobName).value += 1;
+                            iactivity('act.distributeLeader', [i18n('$village.trait.' + traitName)], 'ks-distribute');
+                            game.villageTab.censusPanel.census.update();
+                        }
+                    }
+                }
+            }
+
             var freeKittens = game.village.getFreeKittens();
             if (!freeKittens)
                 return;
@@ -1342,6 +1405,7 @@ var run = function() {
             var coinPrice = game.calendar.cryptoPrice;
             var previousRelic = game.resPool.get('relic').value;
             var previousCoin = game.resPool.get('blackcoin').value;
+            if((!game.science.get("blackchain").researched && !previousCoin > 0) && !game.diplomacy.get("leviathans").unlocked) {return;}
             var exchangedCoin = 0.0;
             var exchangedRelic = 0.0;
             var waitForBestPrice = false;
@@ -1373,7 +1437,7 @@ var run = function() {
                 if (typeof game.diplomacy.sellEcoin === 'function') {
                   game.diplomacy.sellEcoin();
                 } else {
-		  game.diplomacy.sellBcoin();
+                  game.diplomacy.sellBcoin();
                 }
 
                 currentRelic = game.resPool.get('relic').value;
@@ -1580,6 +1644,7 @@ var run = function() {
 
             if (upgrades.upgrades.enabled && gamePage.tabs[3].visible) {
                 var work = game.workshop.upgrades;
+                var noup = ["factoryOptimization","factoryRobotics","spaceEngineers","aiEngineers","chronoEngineers","steelPlants","amFission","biofuel","gmo","factoryAutomation","invisibleBlackHand"];
                 workLoop:
                 for (var upg in work) {
                     if (work[upg].researched || !work[upg].unlocked) {continue;}
@@ -1588,6 +1653,11 @@ var run = function() {
                     prices = game.village.getEffectLeader("scientist", prices);
                     for (var resource in prices) {
                         if (craftManager.getValueAvailable(prices[resource].name, true) < prices[resource].val) {continue workLoop;}
+                    }
+                    if (upgrades.upgrades.limited){
+                        for (var name in noup) {
+                            if (work[upg].name == noup[name]) {continue workLoop;}
+                        }
                     }
                     upgradeManager.build(work[upg], 'workshop');
                 }
@@ -1608,10 +1678,48 @@ var run = function() {
                 }
             }
 
+            if (upgrades.policies.enabled && gamePage.tabs[2].visible) {
+                    // write a function to make breaking big loop easier
+                    (function (){
+                        var policies = game.science.policies;
+                        var lastIndex = 0;
+                        var length = policies.length;
+                        var toResearch = [];
+
+                        // A **little** more efficient than game.science.getPolicy if options.policies is right order
+                        for (var i in options.policies) {
+                            targetName = options.policies[i];
+                            for (var j in policies) {
+                                j = parseInt(j); // fuck js
+                                policy = policies[(j+lastIndex) % length];
+                                if (policy.name == targetName) {
+                                    lastIndex = j+lastIndex+1;
+                                    if (!policy.researched) {
+                                        if (policy.blocked)
+                                            return;
+                                        if (policy.unlocked) {
+                                            if (policy.requiredLeaderJob == undefined ||
+                                               (game.village.leader != null && game.village.leader.job == policy.requiredLeaderJob)
+                                            ){
+                                                toResearch.push(policy);
+                                            }
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                        for (var i in toResearch) {
+                            upgradeManager.build(toResearch[i], 'policy');
+                        }
+                    })();
+            }
+
             if (upgrades.missions.enabled && gamePage.tabs[6].visible) {
+                var missionsLength = Math.min(game.space.meta[0].meta.length, upgrades.missions.subTrigger);
                 var missions = game.space.meta[0].meta;
                 missionLoop:
-                for (var i = 0; i < missions.length; i++) {
+                for (var i = 0; i < missionsLength ; i++) {
                     if (!(missions[i].unlocked && missions[i].val < 1)) {continue;}
 
                     var model = this.spaceManager.manager.tab.GCPanel.children[i];
@@ -1744,7 +1852,7 @@ var run = function() {
                 if (libraryMeta.stage === 0) {
                     if (libraryMeta.stages[1].stageUnlocked) {
                         var enCon = (game.workshop.get('cryocomputing').researched) ? 1 : 2;
-                        if (game.challenges.currentChallenge == 'energy') {enCon *= 2;}
+                        if (game.challenges.isActive('energy')) {enCon *= 2 * (1 + game.getEffect("energyConsumptionIncrease"));}
                         var libToDat = 3;
                         if (game.workshop.get('uplink').researched) {
                             libToDat *= (1 + game.bld.get('biolab').val * game.getEffect('uplinkDCRatio'));
@@ -1909,11 +2017,10 @@ var run = function() {
             }
         },
         hunt: function () {
+            if(game.ui.fastHuntContainer.style.visibility != "visible") {return;}
             var manpower = this.craftManager.getResource('manpower');
-            if(!game.villageTab.huntBtn.model.visible) {
-                return;
-            }
-            if (options.auto.options.items.hunt.subTrigger <= manpower.value / manpower.maxValue && manpower.value >= 100) {
+
+            if (options.auto.options.items.hunt.subTrigger <= manpower.value / manpower.maxValue) {
                 // No way to send only some hunters. Thus, we hunt with everything
                 var huntCount = Math.floor(manpower.value/100);
                 storeForSummary('hunt', huntCount);
@@ -2117,8 +2224,8 @@ var run = function() {
             if (optionVals.fixCry.enabled && game.time.getVSU("usedCryochambers").val > 0) {
                 var fixed = 0;
                 var btn = this.timeManager.manager.tab.vsPanel.children[0].children[0]; //check?
-                // doFixCryochamber will check resources
-                while (btn.controller.doFixCryochamber(btn.model)) 
+                // buyItem will check resources
+                while (btn.controller.buyItem(btn.model, {shiftKey: 1}, function() {})) 
                     fixed += 1;
                 if (fixed > 0) {
                     iactivity('act.fix.cry', [fixed], 'ks-fixCry');
@@ -2383,9 +2490,11 @@ var run = function() {
             if (variant === 'workshop') {
                 storeForSummary(label, 1, 'upgrade');
                 iactivity('upgrade.upgrade', [label], 'ks-upgrade');
-            } else {
+            } else if (variant === 'science') {
                 storeForSummary(label, 1, 'research');
                 iactivity('upgrade.tech', [label], 'ks-research');
+            } else if (variant === 'policy') {
+                iactivity('upgrade.policy', [label]);
             }
         },
         getBuildButton: function (upgrade, variant) {
@@ -2393,6 +2502,8 @@ var run = function() {
                 var buttons = this.workManager.tab.buttons;
             } else if (variant === 'science') {
                 var buttons = this.sciManager.tab.buttons;
+            } else if (variant === 'policy') {
+                var buttons = this.sciManager.tab.policyPanel.children;
             }
             for (var i in buttons) {
                 var haystack = buttons[i].model.name;
@@ -2711,6 +2822,12 @@ var run = function() {
                 var consume = res && res.enabled && (res.consume != undefined) ? res.consume : options.consume;
 
                 value -= Math.min(this.getResource(name).maxValue * trigger, value) * (1 - consume);
+
+                if ('unobtainium' === name) {
+                    if (value < 1000 && this.getResource(name).value == this.getResource(name).maxValue && this.getResource(name).value>= 1000) {
+                        value = this.getResource(name).value;// fix unobtainium carfting to eludium
+                    }
+                }
             }
 
             return value;
@@ -2719,25 +2836,27 @@ var run = function() {
             var fieldProd = game.getEffect('catnipPerTickBase');
             if (worstWeather) {
                 fieldProd *= 0.1;
-            } else {
-                fieldProd *= game.calendar.getWeatherMod() + game.calendar.getCurSeason().modifiers['catnip'];
-            }
+                fieldProd *= 1 + game.getLimitedDR(game.getEffect("coldHarshness"),1);
+
+                if (game.science.getPolicy("communism").researched) {fieldProd = 0;}
+
+                } else {
+                    fieldProd *= game.calendar.getWeatherMod({name: "catnip"});
+                }
             var vilProd = (game.village.getResProduction().catnip) ? game.village.getResProduction().catnip * (1 + game.getEffect('catnipJobRatio')) : 0;
             var baseProd = fieldProd + vilProd;
+            var hydroponics = game.space.getBuilding('hydroponics');
+            var hydroponicsEffect = hydroponics.effects['catnipRatio'];
+            baseProd *= 1 + game.bld.getBuildingExt('aqueduct').meta.stages[0].effects['catnipRatio'] * aqueducts + hydroponicsEffect * hydroponics.val;
 
-            var hydroponics = game.space.getBuilding('hydroponics').val;
-            if (game.prestige.meta[0].meta[21].researched) {
-                if (game.calendar.cycle === 2) {hydroponics *= 2;}
-                if (game.calendar.cycle === 7) {hydroponics *= 0.5;}
-            }
-            baseProd *= 1 + 0.03 * aqueducts + 0.025 * hydroponics;
-
-            var paragonBonus = (game.challenges.currentChallenge == "winterIsComing") ? 0 : game.prestige.getParagonProductionRatio();
+            var paragonBonus = game.challenges.isActive("winterIsComing") ? 0 : game.prestige.getParagonProductionRatio();
             baseProd *= 1 + paragonBonus;
 
             baseProd *= 1 + game.religion.getSolarRevolutionRatio();
+            
+            //if (!game.opts.disableCMBR) {baseProd *= (1 + game.getCMBRBonus());}
 
-            if (!game.opts.disableCMBR) {baseProd *= (1 + game.getCMBRBonus());}
+            baseProd *= 1 + (game.getEffect('blsProductionBonus') * game.resPool.get('sorrow').value);
 
             baseProd = game.calendar.cycleEffectsFestival({catnip: baseProd})['catnip'];
 
@@ -2746,7 +2865,7 @@ var run = function() {
             baseDemand *= 1 + (game.getLimitedDR(pastures * -0.005 + uniPastures * -0.0015, 1.0));
             if (game.village.sim.kittens.length > 0 && game.village.happiness > 1) {
                 var happyCon = game.village.happiness - 1;
-                if (game.challenges.currentChallenge == "anarchy") {
+                if (game.challenges.isActive("anarchy")) {
                     baseDemand *= 1 + happyCon * (1 + game.getEffect("catnipDemandWorkerRatioGlobal"));
                 } else {
                     baseDemand *= 1 + happyCon * (1 + game.getEffect("catnipDemandWorkerRatioGlobal")) * (1 - game.village.getFreeKittens() / game.village.sim.kittens.length);
@@ -3318,7 +3437,7 @@ var run = function() {
     // Local Storage
     // =============
 
-    var kittenStorageVersion = 2;
+    var kittenStorageVersion = 3;
 
     var kittenStorage = {
         version: kittenStorageVersion,
@@ -3333,7 +3452,8 @@ var run = function() {
             pargonTotal: 0,
             karmaLastTime: 0,
             karmaTotal: 0
-        }
+        },
+        policies: []
     };
 
     var initializeKittenStorage = function () {
@@ -3367,13 +3487,19 @@ var run = function() {
             craft: options.auto.craft.trigger,
             trade: options.auto.trade.trigger
         };
+        kittenStorage.policies = options.policies;
 
         localStorage['cbc.kitten-scientists'] = JSON.stringify(kittenStorage);
     };
 
     var loadFromKittenStorage = function () {
         var saved = JSON.parse(localStorage['cbc.kitten-scientists'] || 'null');
-        if (saved && saved.version == 1) {
+        if (!saved || saved.version > kittenStorageVersion) {
+            initializeKittenStorage();
+            return;
+        }
+
+        if (saved.version == 1) {
             saved.version = 2;
             saved.reset = {
                 reset: false,
@@ -3384,7 +3510,13 @@ var run = function() {
                 karmaTotal: 0
             };
         }
-        if (saved && saved.version == kittenStorageVersion) {
+
+        if (saved.version == 2) {
+            saved.version = 3;
+            saved.policies = [];
+        }
+
+        if (saved.version == kittenStorageVersion) {
             kittenStorage = saved;
 
             if (saved.toggles) {
@@ -3414,6 +3546,10 @@ var run = function() {
                         el.text(i18n('ui.max', [value]));
                     } else if (name[name.length -1] == 'min') {
                         el.text(i18n('ui.min', [value]));
+                    } else if (name[name.length -1] == 'leaderJob') {
+                        $('input[name=leaderJob][value="' + value + '"]').prop("checked", true);
+                    } else if (name[name.length -1] == 'leaderTrait') {
+                        $('input[name=leaderTrait][value="' + value + '"]').prop("checked", true);
                     }
                 } else {
                     el.prop('checked', value);
@@ -3474,9 +3610,7 @@ var run = function() {
                 $('#trigger-craft')[0].title = options.auto.craft.trigger;
                 $('#trigger-trade')[0].title = options.auto.trade.trigger;
             }
-
-        } else {
-            initializeKittenStorage();
+            options.policies = saved.policies;
         }
     };
 
@@ -3960,7 +4094,7 @@ var run = function() {
                         list.append(getOptionsOption(itemName, auto.items[itemName]));
                         break;
                     case 'upgrade':
-                        list.append(getOption(itemName, auto.items[itemName], i18n('ui.upgrade.' + itemName)));
+                        list.append(getUpgradeOption(itemName, auto.items[itemName]));
                         break;
                     case 'distribute':
                         list.append(getDistributeOption(itemName, auto.items[itemName]));
@@ -4265,6 +4399,146 @@ var run = function() {
 
         element.append(input, label);
 
+        return element;
+    };
+    
+    var getPoliciesOptions = function (forReset) {
+        var items = [];
+
+        for (var i in options.policies) {
+            var policy = options.policies[i];
+            // typo in game code
+            if (policy == 'authocracy') policy = 'autocracy';
+            items.push($('<div/>', {
+                id: 'policy-' + policy,
+                text: i18n('$policy.' + policy + '.label'),
+                css: {cursor: 'pointer',
+                    textShadow: '3px 3px 4px gray'}
+            }));
+        }
+        return items;
+    };
+
+    var getUpgradeOption = function (name, option) {
+        var iname = i18n('ui.upgrade.' + name)
+        element = getOption(name, option, iname);
+
+        if (name == 'policies') {
+            var list = $('<ul/>', {
+                id: 'items-list-policies',
+                css: {display: 'none', paddingLeft: '20px'}
+            });
+
+            var loadButton = $('<div/>', {
+                id: 'toggle-upgrade-policies-load',
+                text: i18n('ui.upgrade.policies.load'),
+                css: {
+                    cursor:'pointer',
+                    display:'inline-block',
+                    float:'right',
+                    paddingRight:'5px',
+                    textShadow:'3px 3px 4px gray'}
+                }
+            );
+
+            var showButton = $('<div/>', {
+                id: 'toggle-upgrade-policies-show',
+                text: i18n('ui.upgrade.policies.show'),
+                css: {
+                    cursor:'pointer',
+                    display:'inline-block',
+                    float:'right',
+                    paddingRight:'5px',
+                    textShadow:'3px 3px 4px gray'}
+                }
+            );
+            // resetBuildList.append(getResetOption(item, 'build', options.auto.build.items[item]));
+
+            loadButton.on('click', function(){
+                var plist = [];
+                for (var i in game.science.policies) {
+                    var policy = game.science.policies[i];
+                    if (policy.researched) {
+                        plist.push(policy.name);
+                    }
+                }
+        
+                options.policies = plist;
+                saveToKittenStorage();
+
+                list.empty();
+                list.append(getPoliciesOptions());
+            });
+
+            showButton.on('click', function(){
+                list.toggle();
+                list.empty();
+                list.append(getPoliciesOptions());
+            });
+            
+            element.append(showButton, loadButton, list);
+        
+
+        }
+
+        if (option.subTrigger !== undefined && name == 'missions') {
+            var triggerButton = $('<div/>', {
+                id: 'set-' + name +'-subTrigger',
+                text: i18n('ui.trigger'),
+                title: option.subTrigger,
+                css: {cursor: 'pointer',
+                    display: 'inline-block',
+                    float: 'right',
+                    paddingRight: '5px',
+                    textShadow: '3px 3px 4px gray'}
+            }).data('option', option);
+        
+            triggerButton.on('click', function () {
+                var value;
+                if (name == 'missions'){value = window.prompt(i18n('ui.trigger.missions.set'), option.subTrigger);}
+                else{value = window.prompt(i18n('ui.trigger.set'), option.subTrigger);}
+        
+                if (value !== null) {
+                    option.subTrigger = parseFloat(value);
+                    kittenStorage.items[triggerButton.attr('id')] = option.subTrigger;
+                    saveToKittenStorage();
+                    triggerButton[0].title = option.subTrigger;
+                }
+            });
+        
+            element.append(triggerButton);
+        }
+
+        if (name == 'upgrades') {
+            var LimitedLabel = $('<label/>', {
+                'for': 'toggle-limited-' + name,
+                text: i18n('ui.limit')
+            });
+            
+            var LimitedInput = $('<input/>', {
+                id: 'toggle-limited-' + name,
+                type: 'checkbox'
+            }).data('option', option);
+
+            if (option.limited) {
+                LimitedInput.prop('checked', true);
+            }
+            
+            LimitedInput.on('change', function () {
+                if (LimitedInput.is(':checked') && option.limited == false) {
+                    option.limited = true;
+                    imessage('upgrade.limited', [iname]);
+                } else if ((!LimitedInput.is(':checked')) && option.limited == true) {
+                    option.limited = false;
+                    imessage('upgrade.unlimited', [iname]);
+                }
+                kittenStorage.items[LimitedInput.attr('id')] = option.limited;
+                saveToKittenStorage();
+            });
+
+            element.append(LimitedInput, LimitedLabel);
+        }
+        
         return element;
     };
 
@@ -4690,6 +4964,7 @@ var run = function() {
     };
 
     var getDistributeOption = function (name, option) {
+        if (name == "leader") {return getLeader(name, option);}
         var iname = ucfirst(i18n('$village.job.' + name));
 
         var element = getOption(name, option, iname);
@@ -4751,6 +5026,136 @@ var run = function() {
         })(iname);
 
         element.append(maxButton);
+
+        return element;
+    };
+
+    var getLeader = function (name, option) {
+        var iname = ucfirst(i18n('distribute.makeLeader'));
+        var element = getOption(name, option, iname);
+        element.css('borderBottom', '1px solid rgba(185, 185, 185, 0.7)');
+        
+        var traitList = $('<ul/>', {
+            id: 'items-list-traits',
+            css: {display: 'none', paddingLeft: '20px'}
+        });
+        
+        var traitShowButton = $('<div/>', {
+            id: 'set-leader-leaderTrait',
+            text: i18n('$village.trait.filter.all'),
+            css: {
+                cursor:'pointer',
+                display:'inline-block',
+                float:'right',
+                paddingRight:'5px',
+                textShadow:'3px 3px 4px gray'}
+        }).data('option', option);
+             
+        for (var i in com.nuclearunicorn.game.village.Kitten().traits){
+            traitList.append(getLeaderTrait(i, option));
+        }
+        
+        traitShowButton.on('click', function () {
+            jobList.toggle(false);
+            traitList.toggle();
+        });
+        
+        var jobList = $('<ul/>', {
+            id: 'items-list-jobs',
+            css: {display: 'none', paddingLeft: '20px'}
+        });
+        
+        var jobShowButton = $('<div/>', {
+            id: 'set-leader-leaderJob',
+            text: i18n('$village.panel.job'),
+            css: {
+                cursor:'pointer',
+                display:'inline-block',
+                float:'right',
+                paddingRight:'5px',
+                textShadow:'3px 3px 4px gray'}
+        }).data('option', option);
+        
+        for (var i in game.village.jobs){
+            jobList.append(getLeaderJob(i, option));
+        }
+        
+        jobShowButton.on('click', function () {
+            traitList.toggle(false);
+            jobList.toggle();
+        });
+        
+        element.append(traitShowButton, jobShowButton, traitList, jobList);
+
+        return element;
+    };
+
+    var getLeaderJob = function (index, option) {
+        var jobModel = game.village.jobs[index];
+        var element = $('<li/>');
+
+        var label = ($('<label/>', {
+            'for': 'toggle-leaderJob-' + index,
+            text: jobModel.title,
+            css: {cursor: 'pointer',
+                textShadow: '3px 3px 4px gray'}
+        }));
+        
+        var input = $('<input/>', {
+           id: 'toggle-leaderJob-' + index,
+           name: 'leaderJob',
+           value: index,
+           type: 'radio'
+        });
+
+         if (input.prop("value") == option.leaderJob) {
+            if (!input.prop("checked")){
+                    input.prop("checked", "checked")
+            }
+        }
+
+        input.on('change', function () {
+            imessage('distribute.leaderJob', [i18n('$village.job.' + jobModel.name)]);
+            option.leaderJob = parseInt($("input[name='leaderJob']:checked").val());
+            kittenStorage.items['set-leader-leaderJob']= option.leaderJob;
+            saveToKittenStorage();
+        });
+        element.append(input, label);
+
+        return element;
+    };
+
+    var getLeaderTrait = function (index, option) {
+        var traitModel = com.nuclearunicorn.game.village.Kitten().traits[index];
+        var element = $('<li/>');
+
+        var label = ($('<label/>', {
+            'for': 'toggle-leaderTrait-' + index,
+            text: traitModel.title,
+            css: {cursor: 'pointer',
+                textShadow: '3px 3px 4px gray'}
+        }));
+        
+        var input = $('<input/>', {
+           id: 'toggle-leaderTrait-' + index,
+           name: 'leaderTrait',
+           value: index,
+           type: 'radio'
+        });
+
+        if (input.prop("value") == option.leaderTrait) {
+            if (!input.prop("checked")){
+                    input.prop("checked", "checked")
+            }
+        }
+
+        input.on('change', function () {
+            imessage('distribute.leaderTrait', [traitModel.title]);
+            option.leaderTrait =  parseInt($("input[name='leaderTrait']:checked").val());
+            kittenStorage.items['set-leader-leaderTrait']= option.leaderTrait;
+            saveToKittenStorage();
+        });
+        element.append(input, label);
 
         return element;
     };

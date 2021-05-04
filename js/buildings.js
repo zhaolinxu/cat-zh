@@ -906,14 +906,20 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			if (game.workshop.get("goldOre").researched){
 				self.effects["goldPerTickAutoprod"] = 0.001;
+			}else{
+				self.effects["goldPerTickAutoprod"] = 0;
 			}
 
 			if (game.workshop.get("coalFurnace").researched){
 				self.effects["coalPerTickAutoprod"] = 0.005 * smelterRatio;
+			}else{
+				self.effects["coalPerTickAutoprod"] = 0;
 			}
 
 			if (game.workshop.get("nuclearSmelters").researched){
 				self.effects["titaniumPerTickAutoprod"] = 0.0015;
+			}else{
+				self.effects["titaniumPerTickAutoprod"] = 0;
 			}
 
 			self.effects["woodPerTickCon"] = -0.05;
@@ -921,7 +927,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			for (var i in self.effects) {
 				self.effectsCalculated[i] = self.effects[i];
-			};
+			}
 		},
 		action: function(self, game){
 			// TODO: How to integrate autoProdRatio with calculateEffects?
@@ -951,8 +957,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					i == "titaniumPerTickAutoprod" ||
 					i == "goldPerTickAutoprod" ) {
 					self.effects[i] = self.effectsCalculated[i] * amt;
-				};
-			};
+				}
+			}
 
 			return amt;
 		},

@@ -177,7 +177,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		persists: true
 	},{
 		name : "gflops",
-		title: "gigaflops",
+		title: $I("resources.gflops.title"),
 		type : "common",
 		transient: true,
 		craftable: false,
@@ -185,7 +185,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		persists: false
 	},{
 		name : "hashrates",
-		title: "hashrates",
+		title: $I("resources.hashrates.title"),
 		type : "common",
 		transient: true,
 		craftable: false,
