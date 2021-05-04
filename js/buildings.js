@@ -2079,7 +2079,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if(pollutionLevel >= 2){
 				this.game.bld.effectsBase["pollutionHappines"] = -Math.round(Math.log(pollution));
 				if(pollutionLevel >= 4){
-					this.game.bld.effectsBase["solarRevolutionPollution"] = -Math.min(pollution * 1e-12, 1);
+					this.game.bld.effectsBase["solarRevolutionPollution"] = -Math.min(pollution * 1e-10, 1);
 				}
 			}
 		}
@@ -2192,7 +2192,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		return 1 - this.getCleanEnergyProdRatio() / 2;
 	},
 	getPollutionLevel: function() {
-		return Math.max(Math.floor(Math.log10(this.cathPollution / 1000000)), 0);	
+		return Math.max(Math.floor(Math.log10(this.cathPollution / 100000)), 0);	
 	},
     //============ dev =============
     devAddStorage: function(){
