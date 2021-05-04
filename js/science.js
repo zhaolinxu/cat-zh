@@ -454,7 +454,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			stages: [{bld:"pasture", stage:1}], 	// Solar Farm
-			policies: ["conservation", "openWoodlands"]
+			policies: ["conservation", "openWoodlands"],
+			upgrades: ["carbonSequestration"]
 		}
 	},
 	{
@@ -1940,7 +1941,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 					this.detailedPollutionInfo.innerHTML += "<br>Pollution future effects might be at this pollution level:";
 					this.detailedPollutionInfo.innerHTML += "<br>— Less catnip production";
 					if(pollutionLevel > 1){
-						this.detailedPollutionInfo.innerHTML += "<br>— Less kitten happines: -" + Math.floor(Math.log(currentCathPollution)) + "%";
+						this.detailedPollutionInfo.innerHTML += "<br>— Less kitten happines: -" + Math.round(Math.log(currentCathPollution)) + "%";
 					}
 					if(pollutionLevel > 2){
 						this.detailedPollutionInfo.innerHTML += "<br>— Kittens arrive " + Math.floor(Math.log10(currentCathPollution)) + " times slower.";

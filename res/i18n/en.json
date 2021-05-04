@@ -1844,6 +1844,8 @@
     "workshop.caravanserai.label": "Caravanserai",
     "workshop.caravanserai.desc": "Your tradeposts have a very minor effect on race standing",
     "workshop.caravanserai.flavor": "Now hiring: cuter kittens",
+    "workshop.carbonSequestration.label": "Carbon Sequestration",
+    "workshop.carbonSequestration.desc": "Use carbon sequestration to make factories be less polluting. Add ability to spend twice more energy to make factories capture pollution from the atmospheres.",
     "workshop.cargoShips.label": "Expanded Cargo",
     "workshop.cargoShips.desc": "Every ship will give a 1% bonus to Harbor capacity",
     "workshop.cargoShips.flavor": "It's like a tuna can, but bigger",

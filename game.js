@@ -2751,6 +2751,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		perTick *= 1 + paragonProductionRatio;
 
+		// *POLLUTION MODIFIER
+		if(res.name == "catnip"){
+			perTick *= 1 + this.getEffect("catnipPollutionRatio");
+		}
+
 		//ParagonSpaceProductionRatio definition 1/4
 		var paragonSpaceProductionRatio = 1 + paragonProductionRatio * 0.05;
 
@@ -2783,8 +2788,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		// +*FAITH BONUS
-		perTick *= 1 + this.religion.getSolarRevolutionRatio();
-
+		perTick *= 1 + this.religion.getSolarRevolutionRatio() * (1 + ((res.name == "wood" || res.name == "catnip")? this.getEffect("solarRevolutionPollution") : 0));
+		
 		//+COSMIC RADIATION
 		if (!this.opts.disableCMBR && res.name != "coal") {
 			perTick *= 1 + this.getCMBRBonus();
@@ -2967,6 +2972,16 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			value: paragonProductionRatio
 		});
 
+		// *POLLUTION MODIFIER
+		if(res.name == "catnip"){
+			stack.push({
+				//name: $I("res.stack.paragon"),
+				name: "pollution",
+				type: "ratio",
+				value: this.getEffect("catnipPollutionRatio")
+			});
+		}
+
 		//ParagonSpaceProductionRatio definition 1/4
 		var paragonSpaceProductionRatio = 1 + paragonProductionRatio * 0.05;
 		var rankLeaderBonusConversion = this.getEffect("rankLeaderBonusConversion") * ((this.village.leader) ? this.village.leader.rank : 0);
@@ -3025,7 +3040,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		stack.push({
 			name: $I("res.stack.solarRevolution"),
 			type: "ratio",
-			value: this.religion.getSolarRevolutionRatio()
+			value: this.religion.getSolarRevolutionRatio() * (1 + ((res.name == "wood" || res.name == "catnip")? this.getEffect("solarRevolutionPollution") : 0))
 		});
 
 		if (!this.opts.disableCMBR && res.name != "coal") {
