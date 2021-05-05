@@ -2227,6 +2227,14 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			return this.getUndissipatedPollutionPerTick()/ this.game.getEffect("pollutionDissipationRatio")
 		}else if(this.cathPollutionPerTick < 0){
 			return 0;
+		}else{
+			console.log("No equilibrium found");
+		}
+	},
+	setEquilibriumPollution: function(){
+		var equilibriumPollution = this.getEquilibriumPollution();
+		if(equilibriumPollution || equilibriumPollution === 0){
+			this.cathPollution = equilibriumPollution;
 		}
 	},
 	cathPollutionFastForward: function(ticks, simplified){
@@ -2242,7 +2250,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		var pdr = - this.game.getEffect("pollutionDissipationRatio");
 		var expon = Math.exp(pdr * ticks);
 		var uppt = this.getUndissipatedPollutionPerTick();
-		this.cathPollution = Math.abs(((uppt - pdr * this.cathPollution) * expon -uppt )/pdr);
+		this.cathPollution = Math.abs(((this.cathPollution * pdr + uppt) * expon - uppt)/pdr);
 		}
 	},
 	fastforward: function(daysOffset) {
