@@ -1578,6 +1578,9 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 
 		if (building.on >= amt){
 			building.on -= amt;
+			if(building.stages){
+				model.metaAccessor.meta.on -= amt; //stage hack
+			}
 			this.metadataHasChanged(model);
 			this.game.upgrade(building.upgrades);
 		}
@@ -1587,6 +1590,9 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 		var building = model.metadata;
 		if (building.on){
 			building.on = 0;
+			if(building.stages){
+				model.metaAccessor.meta.on = 0; //stage hack
+			}
 			this.metadataHasChanged(model);
 			this.game.upgrade(building.upgrades);
 		}
@@ -1604,6 +1610,9 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 
 		if (building.on + amt <= building.val ){
 			building.on += amt;
+			if(building.stages){
+				model.metaAccessor.meta.on += amt; //stage hack
+			}
 			this.metadataHasChanged(model);
 			this.game.upgrade(building.upgrades);
 		}
@@ -1613,6 +1622,9 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 		var building = model.metadata;
 		if (building.on < building.val) {
 			building.on = building.val;
+			if(building.stages){
+				model.metaAccessor.meta.on = building.val; //stage hack
+			}
 			this.metadataHasChanged(model);
 			this.game.upgrade(building.upgrades);
 		}
