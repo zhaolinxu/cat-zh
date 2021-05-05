@@ -198,6 +198,61 @@ WToolbarMOTD = React.createClass({
 		}
     }
 });
+WToolbarPollution = React.createClass({
+    render: function(){
+        var game = this.props.game;
+
+        if(game.bld.cathPollution > 5){
+            return $r(WToolbarIconContainer, {
+                game: game,
+                getTooltip: this.getTooltip,
+            },
+                $r("div", {}, 
+                "Pollution")
+            );
+        }
+        return null;
+        /*var server = game.server;
+		if (!server.showMotd || !server.motdTitle) {
+			return null;
+        }
+
+        return $r(WToolbarIconContainer, {
+            game: game,
+            getTooltip: this.getTooltip,
+            className: server.motdFreshMessage ? "freshMessage" : null
+        },
+            $r("div", {
+                dangerouslySetInnerHTML: {
+                    __html: "&nbsp;" + server.motdTitle + "&nbsp;"
+                }
+            })
+        );*/
+    },
+    getTooltip: function(){
+        this.game = this.props.game;    //hack
+
+        var polLvl = this.game.bld.getPollutionLevel();
+        if(polLvl > 0){
+            var message = "Due to pollution less catnip is produced.";
+            if(polLvl > 1){
+                message += "<br/>Kittens are bothered by breathing smog.";
+                if(polLvl > 2){
+                    message += "<br/>Your settlement is less attractive to new kittens.";
+                    if(polLvl > 3){
+                        message += "<br/>Even power of the Sun is limited here.";
+                    }
+                }
+            }
+            return message;
+        }else return "Your kittens are suffering no ill effects due to pollution";
+        /*var server = this.game.server;
+		if (server.showMotd && server.motdContent) {
+			server.motdFreshMessage = false;
+			return "Message of the day:<br />" + server.motdContent;
+		}*/
+    }
+});
 
 WToolbarFPS = React.createClass({
     render: function(){
@@ -520,6 +575,7 @@ WToolbar = React.createClass({
     getIcons: function(){
         var icons = [];
         icons.push(
+            $r(WToolbarPollution, {game: this.props.game}),
             $r(WToolbarFPS, {game: this.props.game}),
             $r(WToolbarMOTD, {game: this.props.game}),
             $r(WToolbarHappiness, {game: this.props.game}),
