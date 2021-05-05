@@ -856,6 +856,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 
 			self.effects = effects;
+			self.togglable = game.science.get("ecology").researched;
 		},
 		flavor: $I("buildings.mine.flavor"),
 		unlockScheme: {
@@ -888,6 +889,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				effects["uraniumPerTickBase"] = 0.0005; //4% of accelerator output
 			}
 			self.effects = effects;
+			self.togglable = game.science.get("ecology").researched;
 		},
 		flavor : $I("buildings.quarry.flavor")
 	},

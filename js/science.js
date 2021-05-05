@@ -456,6 +456,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			stages: [{bld:"pasture", stage:1}], 	// Solar Farm
 			policies: ["conservation", "openWoodlands"],
 			upgrades: ["carbonSequestration"]
+		},
+		upgrades:{
+			buildings: ["mine", "quarry"]
 		}
 	},
 	{
