@@ -2216,12 +2216,34 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		this.game.resPool.addResEvent("wood", 1 + craftRatio);
 	},
 	
-	cacheCathPollutionPerTick: function(){
-		this.cathPollutionPerTick = this.game.getEffect("cathPollutionPerTickProd") * this.getPollutionRatio() * (1 + this.game.getEffect("cathPollutionRatio")) + this.game.getEffect("cathPollutionPerTickCon") - this.cathPollution * this.game.getEffect("pollutionDissipationRatio");
-		this.cathPollutionPerTick = Math.round(this.cathPollutionPerTick);
+	getUndissipatedPollutionPerTick: function(){
+		return this.game.getEffect("cathPollutionPerTickProd") * this.getPollutionRatio() * (1 + this.game.getEffect("cathPollutionRatio")) + this.game.getEffect("cathPollutionPerTickCon");
 	},
-	cathPollutionFastForward: function(ticks){
-		this.cathPollution += this.cathPollutionPerTick * ticks;
+	cacheCathPollutionPerTick: function(){
+		this.cathPollutionPerTick = Math.round(this.getUndissipatedPollutionPerTick() - this.cathPollution * this.game.getEffect("pollutionDissipationRatio"));
+	},
+	getEquilibriumPollution: function(){
+		if (this.game.getEffect("pollutionDissipationRatio")){
+			return this.getUndissipatedPollutionPerTick()/ this.game.getEffect("pollutionDissipationRatio")
+		}else if(this.cathPollutionPerTick < 0){
+			return 0;
+		}
+	},
+	cathPollutionFastForward: function(ticks, simplified){
+		if(simplified) {
+			this.cathPollution += this.cathPollutionPerTick * ticks;
+		}
+		else {
+		/*t = time in ticks, p = pollution, UPPT — undisipated pollution per tick, pdr — pollution dissipation ratio
+		solved differential equasion:
+			p(t = 0) = this.cathPollution
+			d(p)/dt = UPPT + pdr * p
+		*/
+		var pdr = - this.game.getEffect("pollutionDissipationRatio");
+		var expon = Math.exp(pdr * ticks);
+		var uppt = this.getUndissipatedPollutionPerTick();
+		this.cathPollution = Math.abs(((uppt - pdr * this.cathPollution) * expon -uppt )/pdr);
+		}
 	},
 	fastforward: function(daysOffset) {
 		var game = this.game;
