@@ -2975,8 +2975,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// *POLLUTION MODIFIER
 		if(res.name == "catnip"){
 			stack.push({
-				name: $I("res.stack.catnipPollution"),
-				//name: "pollution",
+				name: $I("res.stack.pollution"),
 				type: "ratio",
 				value: this.getEffect("catnipPollutionRatio")
 			});
@@ -3040,8 +3039,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		stack.push({
 			name: $I("res.stack.solarRevolution"),
 			type: "ratio",
-			value: this.religion.getSolarRevolutionRatio() * (1 + ((res.name == "wood" || res.name == "catnip")? this.getEffect("solarRevolutionPollution") : 0))
+			value: this.religion.getSolarRevolutionRatio()
 		});
+		if(res.name == "wood" || res.name == "catnip"){
+			stack.push({
+				name: $I("res.stack.pollution"),
+				type: "ratioIndent",
+				value: this.getEffect("solarRevolutionPollution")
+			});
+		}
 
 		if (!this.opts.disableCMBR && res.name != "coal") {
 			stack.push({
@@ -3507,6 +3513,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			resString += this.getDisplayValueExt((stackElem.value * 100).toFixed(), true) + "%";
 		} else if (stackElem.type == "multiplier") {
 			resString += "×" + this.getDisplayValueExt((stackElem.value * 100).toFixed()) + "%";
+		} else if (stackElem.type == "ratioIndent") {
+			resString = "|->" + resString + this.getDisplayValueExt((stackElem.value * 100).toFixed(), true) + "%";
 		}
 
 		resString += "</div><br>";
