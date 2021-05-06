@@ -279,7 +279,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		}
 		//pollution decreases arrival speed
 		if (this.game.bld.getPollutionLevel >= 3){
-			kittensPerTick /= Math.floor(Math.log10(this.game.bld.cathPollution));
+			kittensPerTick /= this.game.getEffect("arrivalSlowdown") || 1;
 		}
 
 		this.sim.maxKittens = this.maxKittens;

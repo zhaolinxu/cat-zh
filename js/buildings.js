@@ -1909,7 +1909,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		"catnipPollutionRatio" : 0,
 		"pollutionHappines" : 0,
 		"solarRevolutionPollution" : 0,
-		"pollutionDissipationRatio" :  1e-7
+		"pollutionDissipationRatio" :  1e-7,
+		"arrivalSlowdown": 0
 	},
 
 	//deprecated, use getBuildingExt
@@ -2081,8 +2082,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			this.game.bld.effectsBase["catnipPollutionRatio"] = this.game.getLimitedDR(-0.5 - 0.1 * Math.log(pollution), 10)/10;
 			if(pollutionLevel >= 2){
 				this.game.bld.effectsBase["pollutionHappines"] = -Math.round(Math.log(pollution));
-				if(pollutionLevel >= 4){
-					this.game.bld.effectsBase["solarRevolutionPollution"] = -Math.min(pollution * 1e-10, 1);
+				if(pollutionLevel >= 3){
+					this.game.bld.effects["arrivalSlowdown"] = Math.floor(Math.log10(this.game.bld.cathPollution));
+					if(pollutionLevel >= 4){
+						this.game.bld.effectsBase["solarRevolutionPollution"] = -Math.min(pollution * 1e-10, 1);
+					}
 				}
 			}
 		}
