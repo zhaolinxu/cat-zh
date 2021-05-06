@@ -2975,8 +2975,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// *POLLUTION MODIFIER
 		if(res.name == "catnip"){
 			stack.push({
-				//name: $I("res.stack.paragon"),
-				name: "pollution",
+				name: $I("res.stack.catnipPollution"),
+				//name: "pollution",
 				type: "ratio",
 				value: this.getEffect("catnipPollutionRatio")
 			});

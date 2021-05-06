@@ -722,6 +722,12 @@
     "policy.zebraRelationsAppeasement.desc" : "Try to befriend the zebras, even though they hate you. The terms of trade will be less harsh, but gold income will be slightly lower.",
     "policy.zebraRelationsBellicosity.label" : "Zebra Relations: Bellicosity",
     "policy.zebraRelationsBellicosity.desc" : "Stand up to the zebras, making trades with them worse but gaining the respect of other races.",
+
+    "pollution.level0": "Your kittens are suffering no ill effects due to pollution",
+    "pollution.level1": "Kittens are bothered by breathing smog.",
+    "pollution.level2": "Due to pollution less catnip is produced.",
+    "pollution.level3": "Your settlement is less attractive to new kittens.",
+    "pollution.level4": "Even the power of the Sun is limited here.",
     
     "prestige.panel.label": "Metaphysics",
     "prestige.adjustmentBureau.label": "Adjustment Bureau",
@@ -931,6 +937,7 @@
     "res.stack.boost": "Boost",
     "res.stack.buildings": "Buildings",
     "res.stack.policy": "Policy",
+    "res.stack.catnipPollution": "Pollution",
     "res.stack.convCons": "Conversion Consumption",
     "res.stack.convProd": "Conversion Production",
     "res.stack.culturalExchanges": "Cultural Exchanges",

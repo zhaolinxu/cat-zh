@@ -2224,7 +2224,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},
 	getEquilibriumPollution: function(){
 		if (this.game.getEffect("pollutionDissipationRatio")){
-			return this.getUndissipatedPollutionPerTick()/ this.game.getEffect("pollutionDissipationRatio")
+			return this.getUndissipatedPollutionPerTick()/ this.game.getEffect("pollutionDissipationRatio");
 		}else if(this.cathPollutionPerTick < 0){
 			return 0;
 		}else{

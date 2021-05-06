@@ -212,45 +212,24 @@ WToolbarPollution = React.createClass({
             );
         }
         return null;
-        /*var server = game.server;
-		if (!server.showMotd || !server.motdTitle) {
-			return null;
-        }
-
-        return $r(WToolbarIconContainer, {
-            game: game,
-            getTooltip: this.getTooltip,
-            className: server.motdFreshMessage ? "freshMessage" : null
-        },
-            $r("div", {
-                dangerouslySetInnerHTML: {
-                    __html: "&nbsp;" + server.motdTitle + "&nbsp;"
-                }
-            })
-        );*/
     },
     getTooltip: function(){
         this.game = this.props.game;    //hack
 
         var polLvl = this.game.bld.getPollutionLevel();
         if(polLvl > 0){
-            var message = "Due to pollution less catnip is produced.";
+            var message = $I("pollution.level1");
             if(polLvl > 1){
-                message += "<br/>Kittens are bothered by breathing smog.";
+                message += "<br/>" + $I("pollution.level2");
                 if(polLvl > 2){
-                    message += "<br/>Your settlement is less attractive to new kittens.";
+                    message += "<br/>" + $I("pollution.level3");
                     if(polLvl > 3){
-                        message += "<br/>Even power of the Sun is limited here.";
+                        message += "<br/>" + $I("pollution.level4");
                     }
                 }
             }
             return message;
-        }else return "Your kittens are suffering no ill effects due to pollution";
-        /*var server = this.game.server;
-		if (server.showMotd && server.motdContent) {
-			server.motdFreshMessage = false;
-			return "Message of the day:<br />" + server.motdContent;
-		}*/
+        }else return $I("pollution.level0");
     }
 });
 
