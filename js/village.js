@@ -278,8 +278,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			kittensPerTick = kittensPerTick * (2 + this.game.getEffect("festivalArrivalRatio"));
 		}
 		//pollution decreases arrival speed
-		if (this.game.bld.getPollutionLevel >= 3){
-			kittensPerTick /= this.game.getEffect("arrivalSlowdown") || 1;
+		var pollutionArrivalSlowdown = this.game.getEffect("pollutionArrivalSlowdown");
+		if (pollutionArrivalSlowdown > 1){
+			kittensPerTick /= pollutionArrivalSlowdown;
 		}
 
 		this.sim.maxKittens = this.maxKittens;

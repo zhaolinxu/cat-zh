@@ -1939,15 +1939,15 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 				var currenCathPerTickPollution = this.game.bld.cathPollutionPerTick;
 				this.detailedPollutionInfo.innerHTML = "Pollution is " + Math.floor(currentCathPollution) + " <br>Polution per tick is " + Math.floor(currenCathPerTickPollution);
 				var pollutionLevel = this.game.bld.getPollutionLevel();
-				this.detailedPollutionInfo.innerHTML += "<br>Pollution level is " + Math.floor(pollutionLevel);
+				this.detailedPollutionInfo.innerHTML += "<br>Pollution level is " + pollutionLevel;
 				if(pollutionLevel > 0){
 					this.detailedPollutionInfo.innerHTML += "<br>Pollution future effects might be at this pollution level:";
 					this.detailedPollutionInfo.innerHTML += "<br>— Less catnip production";
 					if(pollutionLevel > 1){
-						this.detailedPollutionInfo.innerHTML += "<br>— Less kitten happines: -" + Math.round(Math.log(currentCathPollution)) + "%";
+						this.detailedPollutionInfo.innerHTML += "<br>— Less kitten happines: " + this.game.getEffect("pollutionHappines") + "%";
 					}
 					if(pollutionLevel > 2){
-						this.detailedPollutionInfo.innerHTML += "<br>— Kittens arrive " + Math.floor(Math.log10(currentCathPollution)) + " times slower.";
+						this.detailedPollutionInfo.innerHTML += "<br>— Kittens arrive " + this.game.getEffect("pollutionArrivalSlowdown") + " times slower.";
 					}
 					if(pollutionLevel > 4){
 						this.detailedPollutionInfo.innerHTML += "<br>— SR effect doesn't apply to wood and catnip";
