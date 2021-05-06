@@ -3041,7 +3041,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			type: "ratio",
 			value: this.religion.getSolarRevolutionRatio()
 		});
-		if(res.name == "wood" || res.name == "catnip"){
+		if((res.name == "wood" || res.name == "catnip") && this.religion.getSolarRevolutionRatio() > 0){
 			stack.push({
 				name: $I("res.stack.pollution"),
 				type: "ratioIndent",
