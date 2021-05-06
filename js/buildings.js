@@ -2189,6 +2189,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		return polutinEnergy;
 	},
 	getCleanEnergyProdRatio: function(){
+		if(!(this.getCleanEnergy() + this.getPollutingEnergy())) return 0;
 		return this.getCleanEnergy() / (this.getCleanEnergy() + this.getPollutingEnergy());
 	},
 	getPollutionRatio: function() {
@@ -2220,7 +2221,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		return this.game.getEffect("cathPollutionPerTickProd") * this.getPollutionRatio() * (1 + this.game.getEffect("cathPollutionRatio")) + this.game.getEffect("cathPollutionPerTickCon");
 	},
 	cacheCathPollutionPerTick: function(){
-		this.cathPollutionPerTick = Math.round(this.getUndissipatedPollutionPerTick() - this.cathPollution * this.game.getEffect("pollutionDissipationRatio"));
+		var dissipation = (this.game.challenges.isActive("postApocalypse"))? 0 :  -this.cathPollution * this.game.getEffect("pollutionDissipationRatio");
+		console.log(dissipation);
+		this.cathPollutionPerTick = Math.round(this.getUndissipatedPollutionPerTick() + dissipation);
 	},
 	getEquilibriumPollution: function(){
 		if (this.game.getEffect("pollutionDissipationRatio")){

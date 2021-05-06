@@ -216,6 +216,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			}
 			game.upgrade(self.upgrades); //this is a hack. Sometime we should make challenges actually upgrade things.
 		},
+		
 		checkCompletionConditionOnReset: function(game){
 			return game.science.getPolicy("outerSpaceTreaty").researched;
 		},
@@ -236,6 +237,24 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			var tradepostRatioLimit = game.getLimitedDR(0.099 + tradeKnowledge * 0.0075, 0.25);
 			return (tradepost.effects["tradeRatio"] * Math.min(tradepostLimit, tradepost.val * tradepostRatioLimit));
 		}
+	},{
+
+		name: "postApocalypse",
+		label: $I("challendge.postApocalypse.label"),
+		description: $I("challendge.postApocalypse.desc"),
+		effectDesc: $I("challendge.postApocalypse.effect.desc"),
+		researched: false,
+		unlocked: false,
+		flavor: $I("challendge.postApocalypse.flavor"),
+        effects: {
+			"": 0
+        },
+		calculateEffects: function(self, game){
+			console.log("effects");
+		},
+		findRuins: function (self, game) {
+			
+		},
 	}],
 
 	game: null,
@@ -377,8 +396,10 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			game.challenges.reserves.calculateReserves();
 			game.bld.get("chronosphere").val = 0;
 			game.bld.get("chronosphere").on = 0;
-			game.time.getVSU("cryochambers").val = 0;
-			game.time.getVSU("cryochambers").on = 0;
+			if(!this.game.challenges.getChallenge("postApocalypse").pending){
+				game.time.getVSU("cryochambers").val = 0;
+				game.time.getVSU("cryochambers").on = 0;
+			}
 			game.resetAutomatic();
 		}, function() {
 		});
@@ -459,7 +480,9 @@ dojo.declare("classes.reserveMan", null,{
 	},
 	calculateReserves: function(){
 		this.game.challenges.reserves.calculateReserveResources();
-		this.game.challenges.reserves.calculateReserveKittens();
+		if(!this.game.challenges.getChallenge("postApocalypse").pending){
+			this.game.challenges.reserves.calculateReserveKittens();
+		}
 	},
 	addReserves: function(){
 		for (var i in this.reserveResources){
