@@ -4135,7 +4135,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				newRes.value = cryochambers * 500 * (1 + this.resPool.get("karma").value/100);
 				newResources.push(newRes);
 			}
-			cathPollution = (this.challenges.getChallenge("postApocalypse").on + 1) * 1e+15 + 1e+10 * cryochambers;
+			cathPollution = (this.challenges.getChallenge("postApocalypse").on + cryochambers) * 1e+13 + 1e+15;
 		}
 
 		if (cryochambers > 0) {

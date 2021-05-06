@@ -401,9 +401,12 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			game.challenges.reserves.calculateReserves();
 			game.bld.get("chronosphere").val = 0;
 			game.bld.get("chronosphere").on = 0;
-			if(!this.game.challenges.getChallenge("postApocalypse").pending){
+			if(!game.challenges.getChallenge("postApocalypse").pending){
 				game.time.getVSU("cryochambers").val = 0;
 				game.time.getVSU("cryochambers").on = 0;
+			}else if(game.challenges.getChallenge("anarchy").pending){
+				this.game.village.leader.isLeader = false;
+				this.game.village.leader = null;
 			}
 			game.resetAutomatic();
 		}, function() {

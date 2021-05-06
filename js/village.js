@@ -867,6 +867,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},
 
 	getValueModifierPerSkill: function(value){
+		if(this.game.challenges.isActive("anarchy")) return 0;
 		var bonus = 0;
 		switch (true) {
 		case value < 100:
