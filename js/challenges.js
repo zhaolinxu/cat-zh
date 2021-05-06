@@ -247,10 +247,15 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		unlocked: false,
 		flavor: $I("challendge.postApocalypse.flavor"),
         effects: {
-			"": 0
+			"arrivalSlowdown": 0
         },
 		calculateEffects: function(self, game){
 			console.log("effects");
+			if(self.active){
+				self.effects["arrivalSlowdown"] = 10;
+			}else{
+				self.effects["arrivalSlowdown"] = 0;
+			}
 		},
 		findRuins: function (self, game) {
 			
