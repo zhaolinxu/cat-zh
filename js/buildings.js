@@ -2199,8 +2199,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	getPollutionRatio: function() {
 		return 1 - this.getCleanEnergyProdRatio() / 2;
 	},
-	getPollutionLevel: function() {
-		return Math.max(Math.floor(Math.log10(this.cathPollution / 100000)), 0);	
+	getPollutionLevel: function(cathPollution) {
+		if(!cathPollution) cathPollution = this.cathPollution;
+		return Math.max(Math.floor(Math.log10(cathPollution / 100000)), 0);	
 	},
     //============ dev =============
     devAddStorage: function(){

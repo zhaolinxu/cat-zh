@@ -217,17 +217,19 @@ WToolbarPollution = React.createClass({
         this.game = this.props.game;    //hack
 
         var polLvl = this.game.bld.getPollutionLevel();
-        if(polLvl > 0){
+        if(polLvl >= 1){
             var message = $I("pollution.level1");
-            if(polLvl > 1){
+            if(polLvl >= 2){
                 message += "<br/>" + $I("pollution.level2");
-                if(polLvl > 2){
-                    message += "<br/>" + $I("pollution.level3");
-                    if(polLvl > 3){
+                if(polLvl >= 3){
+                    message += "<br/>" + $I("pollution.level3", [this.game.getDisplayValueExt(game.villageTab.getVillageTitle(), false, false, 0)]);
+                    if(polLvl >= 4){
                         message += "<br/>" + $I("pollution.level4");
                     }
                 }
             }
+            var warnLvl = this.game.bld.getPollutionLevel(this.game.bld.cathPollution * 5);
+            if (warnLvl >= 1 && warnLvl <= 4) message += "<br/>" + $I("pollution.level" + warnLvl + ".warning");
             return message;
         }else return $I("pollution.level0");
     }
