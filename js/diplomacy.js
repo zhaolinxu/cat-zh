@@ -475,6 +475,10 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		//-------------- pay prices ------------------
         var manpowerCost = 50 - this.game.getEffect("tradeCatpowerDiscount");
         var goldCost = 15 - this.game.getEffect("tradeGoldDiscount");
+		if(this.game.challenges.isActive("postApocalypse")){
+			manpowerCost *= 1 + this.game.bld.getPollutionLevel();
+			goldCost *= 1 + this.game.bld.getPollutionLevel();
+		}
 		this.game.resPool.addResEvent("manpower", -manpowerCost * amt);
 		this.game.resPool.addResEvent("gold", -goldCost * amt);
 		this.game.resPool.addResEvent(race.buys[0].name, -race.buys[0].val * amt);
@@ -523,15 +527,20 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	},
 
 	getMaxTradeAmt: function(race){
-        var manpowerCost = 50;
-		var goldCost = 15;
+        var manpowerCost = 50 - this.game.getEffect("tradeGoldDiscount");
+		var goldCost = 15 - this.game.getEffect("tradeCatpowerDiscount");
 		
+
+		if(this.game.challenges.isActive("postApocalypse")){
+			manpowerCost *= 1 + this.game.bld.getPollutionLevel();
+			goldCost *= 1 + this.game.bld.getPollutionLevel();
+		}
 		var amt = [
 			Math.floor(this.game.resPool.get("gold").value / 
-				Math.max(goldCost - this.game.getEffect("tradeGoldDiscount"), 1)
+				Math.max(goldCost, 1)
 			),
 			Math.floor(this.game.resPool.get("manpower").value / Math.max(
-				manpowerCost - this.game.getEffect("tradeCatpowerDiscount"), 1)
+				manpowerCost, 1)
 			),
 			Math.floor(this.game.resPool.get(race.buys[0].name).value / race.buys[0].val)
 		];
@@ -1185,6 +1194,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			var tradePrices = [{ name: "manpower", val: 50}, { name: "gold", val: 15}];
              tradePrices[0].val -= this.game.getEffect("tradeCatpowerDiscount");
              tradePrices[1].val -= this.game.getEffect("tradeGoldDiscount");
+			if(this.game.challenges.isActive("postApocalypse")){
+				tradePrices[0].val *= 1 + this.game.bld.getPollutionLevel();
+				tradePrices[1].val *= 1 + this.game.bld.getPollutionLevel();
+			}
 			tradePrices = tradePrices.concat(race.buys);
 
 			var tradeBtn = new com.nuclearunicorn.game.ui.TradeButton({

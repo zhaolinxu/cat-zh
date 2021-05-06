@@ -2247,7 +2247,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		return this.game.getEffect("cathPollutionPerTickProd") * this.getPollutionRatio() * (1 + this.game.getEffect("cathPollutionRatio")) + this.game.getEffect("cathPollutionPerTickCon");
 	},
 	cacheCathPollutionPerTick: function(){
-		this.cathPollutionPerTick = Math.round(this.getUndissipatedPollutionPerTick() + (this.game.challenges.isActive("postApocalypse"))? 0 :  -this.cathPollution * this.game.getEffect("pollutionDissipationRatio"));
+		this.cathPollutionPerTick = Math.round(this.getUndissipatedPollutionPerTick() + ((this.game.challenges.isActive("postApocalypse"))? 0 :  -this.cathPollution * this.game.getEffect("pollutionDissipationRatio")));
 	},
 	getEquilibriumPollution: function(){
 		if (this.game.getEffect("pollutionDissipationRatio")){
