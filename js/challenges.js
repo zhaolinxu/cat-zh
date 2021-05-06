@@ -247,15 +247,15 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		flavor: $I("challendge.postApocalypse.flavor"),
         effects: {
 			"arrivalSlowdown": 0,
-			"cryochambersSupport": 1
+			"cryochamberSupport": 1
         },
 		calculateEffects: function(self, game){
 			if(self.active){
 				self.effects["arrivalSlowdown"] = 10;
-				self.effects["cryochambersSupport"] = 0;
+				self.effects["cryochamberSupport"] = 0;
 			}else{
 				self.effects["arrivalSlowdown"] = 0;
-				self.effects["cryochambersSupport"] = 1;
+				self.effects["cryochamberSupport"] = 1;
 			}
 		},
 		findRuins: function (self, game) {
