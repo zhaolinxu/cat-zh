@@ -4085,7 +4085,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		dojo.mixin(lsData.game, {
 			karmaKittens: 		karmaKittens,
 			karmaZebras: 		karmaZebras,
-			ironWill : 			saveRatio > 0 ? false : true,			//chronospheres will disable IW
+			ironWill : 			(saveRatio > 0 || this.time.getVSU("cryochambers").on > 0) ? false : true,			//chronospheres will disable IW
 			deadKittens: 		0,
 			isCMBREnabled:		false
 		});
@@ -4140,7 +4140,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if(this.challenges.getChallenge("postApocalypse").pending){
 			if(cryochambers > 0){
 				var newRes = this.resPool.createResource("catnip");
-				newRes.value = cryochambers * 500 * (1 + this.resPool.get("karma").value/100);
+				newRes.value = cryochambers * 1000 * (1 + this.resPool.get("karma").value/100);
 				newResources.push(newRes);
 			}
 			cathPollution = (this.challenges.getChallenge("postApocalypse").on + cryochambers) * 1e+13 + 1e+15;

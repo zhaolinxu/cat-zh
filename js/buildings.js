@@ -1910,7 +1910,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		"pollutionHappines" : 0,
 		"solarRevolutionPollution" : 0,
 		"pollutionDissipationRatio" :  1e-7,
-		"pollutionArrivalSlowdown": 0
+		"pollutionArrivalSlowdown": 0,
+		"hutFakeBought": 0,
+		"logHouseFakeBought": 0,
+		"mansionFakeBought": 0
 	},
 
 	//deprecated, use getBuildingExt
@@ -2093,6 +2096,17 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					this.game.bld.effectsBase["pollutionArrivalSlowdown"] = Math.floor(Math.log10(this.game.bld.cathPollution));
 					if(pollutionLevel >= 4){
 						this.game.bld.effectsBase["solarRevolutionPollution"] = -Math.min(pollution * 1e-10, 1);
+						if(this.game.challenges.isActive("postApocalypse")){
+							if(pollutionLevel > 8){
+								this.game.bld.effectsBase["hutFakeBought"] = pollutionLevel - 8;
+								this.game.bld.effectsBase["logHouseFakeBought"] = pollutionLevel - 8;
+								this.game.bld.effectsBase["mansionFakeBought"] = pollutionLevel - 8;
+							}else{
+								this.game.bld.effectsBase["hutFakeBought"] = 0;
+								this.game.bld.effectsBase["logHouseFakeBought"] = 0;
+								this.game.bld.effectsBase["mansionFakeBought"] = 0;
+							}
+						}
 					}
 				}
 			}
