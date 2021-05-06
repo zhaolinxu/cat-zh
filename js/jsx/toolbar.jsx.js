@@ -199,21 +199,28 @@ WToolbarMOTD = React.createClass({
     }
 });
 WToolbarPollution = React.createClass({
+    freshMessage: false,
+    message: "",
     render: function(){
         var game = this.props.game;
-
+        var message = this.getTooltip(true);
+        if(this.message != message){
+            this.freshMessage = this.message != "";
+            this.message = message;
+        }
         if(game.bld.cathPollution > 5){
             return $r(WToolbarIconContainer, {
                 game: game,
                 getTooltip: this.getTooltip,
+                className: this.freshMessage ? "energy warning": null
             },
                 $r("div", {}, 
-                "Pollution")
+                $I("pollution.label"))
             );
         }
         return null;
     },
-    getTooltip: function(){
+    getTooltip: function(notUpdateFreshMessage){
         this.game = this.props.game;    //hack
 
         var message;
@@ -232,6 +239,9 @@ WToolbarPollution = React.createClass({
         }else message = $I("pollution.level0");
         var warnLvl = this.game.bld.getPollutionLevel(this.game.bld.cathPollution * 2);
         if (warnLvl >= 1 && warnLvl <= 4) message += "<br/>" + $I("pollution.level" + warnLvl + ".warning");
+        if(!notUpdateFreshMessage){
+            this.freshMessage = false;
+        }
         return message;
     }
 });

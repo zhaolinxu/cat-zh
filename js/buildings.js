@@ -517,12 +517,12 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					{ name : "steel", val: 100 },
 					{ name : "concrate", val: 10 }
 				],
-				togglable: true,
+				//togglable: true,
 				effects: {
 					"scienceMaxCompendia": 1000,
 					"cultureMax": 25,
 					"energyConsumption": 2,
-					"cathPollutionPerTickProd": 2,
+					//"cathPollutionPerTickProd": 2, maybe in the future?
 				},
 				unlockScheme: {
 					name: "computer",
@@ -567,7 +567,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				if (game.workshop.get("cryocomputing").researched){
 					effects["energyConsumption"] = 1;
 				}
-				effects["cathPollutionPerTickProd"] = effects["energyConsumption"];
+				//effects["cathPollutionPerTickProd"] = effects["energyConsumption"];
 
 				if (game.workshop.get("machineLearning").researched){
                     var dataCenterAIRatio = game.getEffect("dataCenterAIRatio");
