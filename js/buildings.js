@@ -2027,7 +2027,14 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				}
 			}
 		}
-
+		if (this.game.challenges.isActive("postApocalypse")
+		&& bld.get("name") == "field"
+		&& this.getPollutionLevel() >= 5
+		&& bld.get("val") >= 45 - this.game.time.getVSU("usedCryochambers").val - this.getPollutionLevel() ) {
+			var builtWithUnobtanium = Math.max(bld.get("val") + this.game.time.getVSU("usedCryochambers").val - 50, 0);
+			prices.push({val: 15 * Math.pow(ratio, builtWithUnobtanium),
+						name : "unobtainium"});
+	   	}
 		return prices;
 	 },
 
