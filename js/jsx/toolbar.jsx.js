@@ -216,9 +216,10 @@ WToolbarPollution = React.createClass({
     getTooltip: function(){
         this.game = this.props.game;    //hack
 
+        var message;
         var polLvl = this.game.bld.getPollutionLevel();
         if(polLvl >= 1){
-            var message = $I("pollution.level1");
+            message = $I("pollution.level1");
             if(polLvl >= 2){
                 message += "<br/>" + $I("pollution.level2");
                 if(polLvl >= 3){
@@ -228,10 +229,10 @@ WToolbarPollution = React.createClass({
                     }
                 }
             }
-            var warnLvl = this.game.bld.getPollutionLevel(this.game.bld.cathPollution * 5);
-            if (warnLvl >= 1 && warnLvl <= 4) message += "<br/>" + $I("pollution.level" + warnLvl + ".warning");
-            return message;
-        }else return $I("pollution.level0");
+        }else message = $I("pollution.level0");
+        var warnLvl = this.game.bld.getPollutionLevel(this.game.bld.cathPollution * 2);
+        if (warnLvl >= 1 && warnLvl <= 4) message += "<br/>" + $I("pollution.level" + warnLvl + ".warning");
+        return message;
     }
 });
 
