@@ -2189,6 +2189,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		return polutinEnergy;
 	},
 	getCleanEnergyProdRatio: function(){
+		if(!(this.getCleanEnergy() + this.getPollutingEnergy())) return 0;
 		return this.getCleanEnergy() / (this.getCleanEnergy() + this.getPollutingEnergy());
 	},
 	getPollutionRatio: function() {
