@@ -246,13 +246,16 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		unlocked: false,
 		flavor: $I("challendge.postApocalypse.flavor"),
         effects: {
-			"arrivalSlowdown": 0
+			"arrivalSlowdown": 0,
+			"cryochambersSupport": 1
         },
 		calculateEffects: function(self, game){
 			if(self.active){
 				self.effects["arrivalSlowdown"] = 10;
+				self.effects["cryochambersSupport"] = 0;
 			}else{
 				self.effects["arrivalSlowdown"] = 0;
+				self.effects["cryochambersSupport"] = 1;
 			}
 		},
 		findRuins: function (self, game) {
@@ -260,6 +263,10 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		},
 		checkCompletionCondition: function(game){
 			return game.bld.cathPollution == 0;
+		},
+		actionOnCompletion: function(game){
+			game.time.getVSU("usedCryochambers").val += 1;
+			game.time.getVSU("usedCryochambers").on += 1;
 		}
 	}],
 
