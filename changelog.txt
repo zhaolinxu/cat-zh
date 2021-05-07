@@ -3,6 +3,7 @@ Major:
 * Added pollution mechanic
 Minor:
 * Bugfix: Fixing Cryochambers doesn't allow to overcap them anymore
+* Othe bugfixes
 
 v 1.4.8.4 (6 apr 2021)
 Major:
