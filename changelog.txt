@@ -1,3 +1,9 @@
+v 1.4.8.5 (???)
+Major:
+* Added pollution mechanic
+Minor:
+* Bugfix: Fixing Cryochambers doesn't allow to overcap them anymore
+
 v 1.4.8.4 (6 apr 2021)
 Major:
 * Added pacifism challenge
