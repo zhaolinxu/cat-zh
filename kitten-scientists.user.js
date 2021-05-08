@@ -2176,7 +2176,8 @@ var run = function() {
                         if (!racePanels[i].embassyButton) {continue;}
                         var name = racePanels[i].race.name;
                         var race = game.diplomacy.get(name);
-                        embassyBulk[name] = {'val': 0, 'basePrice': race.embassyPrices[0].val, 'currentEm': race.embassyLevel, 'priceSum': 0, 'race': race};
+                        var priceCoeficient = 1 - game.getEffect("embassyCostReduction");
+                        embassyBulk[name] = {'val': 0, 'basePrice': race.embassyPrices[0].val * priceCoeficient, 'currentEm': race.embassyLevel, 'priceSum': 0, 'race': race};
                         bulkTracker.push(name);
                     }
 
@@ -2188,7 +2189,7 @@ var run = function() {
                         for (var i=0; i < bulkTracker.length; i++) {
                             var name = bulkTracker[i];
                             var emBulk = embassyBulk[name];
-                            var nextPrice = emBulk.basePrice * Math.pow(1.15, emBulk.currentEm + emBulk.val);
+                            var nextPrice = emBulk.basePrice * Math.pow(1.15, emBulk.currentEm + emBulk.val + game.getEffect("embassyFakeBought"));
                             if (nextPrice <= cultureVal) {
                                 cultureVal -= nextPrice;
                                 emBulk.priceSum += nextPrice;
@@ -2225,8 +2226,9 @@ var run = function() {
                 var fixed = 0;
                 var btn = this.timeManager.manager.tab.vsPanel.children[0].children[0]; //check?
                 // buyItem will check resources
-                while (btn.controller.buyItem(btn.model, {shiftKey: 1}, function() {})) 
+                while (btn.controller.buyItem(btn.model, {}, function(callback) {return callback;})) {
                     fixed += 1;
+                }
                 if (fixed > 0) {
                     iactivity('act.fix.cry', [fixed], 'ks-fixCry');
                     storeForSummary('fix.cry', fixed);
@@ -2904,6 +2906,7 @@ var run = function() {
                     || game.bld.getBuildingExt('chronosphere').meta.val <= data.val)) {continue;}
                 if (name === 'ressourceRetrieval' && data.val >= 100) {continue;}
                 var prices = (data.stages) ? data.stages[data.stage].prices : data.prices;
+                if (build.variant === 's') {prices = game.village.getEffectLeader("wise", dojo.clone(data.prices));}
                 var priceRatio = this.getPriceRatio(data, source);
                 if (!this.singleBuildPossible(data, prices, priceRatio, source)) {continue;}
                 var require = !build.require ? false : this.craftManager.getResource(build.require);
