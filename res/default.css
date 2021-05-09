@@ -1139,6 +1139,9 @@ a.link.collapse:hover {
 /*--------------------------------------
                 Village
 ---------------------------------------*/
+.currentGovernment a { /* reduction of the hitbox of the "Unassign Leader" and "Promote .." links so that it does not extend completely to the far right of the frame */
+	width: fit-content;
+}
 
 .census-block {
     border: 1px solid gray;
