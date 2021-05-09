@@ -179,7 +179,10 @@
 					console.log("build revison is" + buildRevision);
 					$("#versionLink").html(displayedVersion + ".r" + buildRevision);
 				});
-				def = _import("config"/*, def*/); //idk why it broke everything on pollution branch.
+				console.warn(def.then)
+				console.warn($.getJSON("build.version.json?="+now))
+				//def = _import("config"/*, def*/); //idk why it broke everything on pollution branch.
+				def = _import("config", def);
 				def.then(function() {
 					var schemes = new classes.KGConfig().statics.schemes;
 					for (var i = 0; i < schemes.length; ++i) {
@@ -189,6 +192,7 @@
 						}
 					}
 				});
+				console.warn(def.then)
 
 				def = _import("i18n", def);
 				def.then(function () {
@@ -214,6 +218,7 @@
 							$I("ui.loading.msg.15"),
 						];
 
+						console.warn(def.then)
 						def = _import("core", def);
 						def.then(function () {
 							console.log("Loading game modules");
@@ -222,6 +227,7 @@
 							}
 							def.then(initGame);
 						});
+				console.warn(def.then)
 
 					}).fail(function() {
 						console.log("Unable to load locales");
