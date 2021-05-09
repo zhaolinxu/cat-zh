@@ -179,8 +179,7 @@
 					console.log("build revison is" + buildRevision);
 					$("#versionLink").html(displayedVersion + ".r" + buildRevision);
 				});
-
-				def = _import("config", def);
+				def = _import("config"/*, def*/); //idk why it broke everything on pollution branch.
 				def.then(function() {
 					var schemes = new classes.KGConfig().statics.schemes;
 					for (var i = 0; i < schemes.length; ++i) {
