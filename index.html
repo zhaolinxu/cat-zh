@@ -179,9 +179,6 @@
 					console.log("build revison is" + buildRevision);
 					$("#versionLink").html(displayedVersion + ".r" + buildRevision);
 				});
-				console.warn(def.then)
-				console.warn($.getJSON("build.version.json?="+now))
-				//def = _import("config"/*, def*/); //idk why it broke everything on pollution branch.
 				def = _import("config", def);
 				def.then(function() {
 					var schemes = new classes.KGConfig().statics.schemes;
@@ -192,7 +189,6 @@
 						}
 					}
 				});
-				console.warn(def.then)
 
 				def = _import("i18n", def);
 				def.then(function () {
