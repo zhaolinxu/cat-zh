@@ -306,7 +306,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		effects: {
 			"catnipPerTickBase": 0.125
 		},
-		flavor : $I("buildings.field.flavor")
+		flavor : $I("buildings.field.flavor"),
+		unlockScheme: {
+			name: "catnip",
+			threshold: 56 /* need one barn */
+		}
 	},
 	{
 		name: "pasture",
