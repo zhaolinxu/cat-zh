@@ -214,7 +214,6 @@
 							$I("ui.loading.msg.15"),
 						];
 
-						console.warn(def.then)
 						def = _import("core", def);
 						def.then(function () {
 							console.log("Loading game modules");
@@ -223,7 +222,6 @@
 							}
 							def.then(initGame);
 						});
-				console.warn(def.then)
 
 					}).fail(function() {
 						console.log("Unable to load locales");
