@@ -2040,47 +2040,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	 },
 
 
-	update: function(){
-		var rerender = false;
-		for (var i = 0; i < this.buildingsData.length; i++){
-			var bld = this.buildingsData[i];
-			if (!bld.unlocked){
-				if (this.isUnlocked(bld)){
-					bld.unlocked = true;
-					rerender = true;
-				}
-			}
-			else {
-				//just in case we patched something (shit happens?)
-				if (!this.isUnlockable(bld)){
-					bld.unlocked = false;
-				}
-			}
-
-			if (bld.action && (bld.on > 0 || bld.name == "biolab" || bld.name == "aiCore")){
-				var amt = bld.action(bld, this.game);
-				if (typeof(amt) != "undefined") {
-					bld.lackResConvert = amt != 1 && bld.on != 0;
-				}
-			}
-
-		}
-
-		/*
-		 * Manpower hack for Iron Will mode. 1000 manpower is absolutely required for civilisation unlock.
-		 * There may be some microperf tweaks, but let's keep it simple
-		 */
-		this.game.bld.effectsBase["manpowerMax"] = 100;
-		if (this.game.ironWill){
-			if (this.game.workshop.get("huntingArmor").researched){
-				this.game.bld.effectsBase["manpowerMax"] = 1000;
-			} else if (this.game.workshop.get("bolas").researched){
-				this.game.bld.effectsBase["manpowerMax"] = 400;
-			} else if (this.game.workshop.get("compositeBow").researched){
-				this.game.bld.effectsBase["manpowerMax"] = 200;
-			}
-		}
-
+	calculatePollutionEffects: function(){
 		var pollutionLevel = this.getPollutionLevel();
 		var pollution = this.cathPollution;
 		if(pollutionLevel >= 4){
@@ -2113,6 +2073,49 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] = 0;
 			this.game.bld.pollutionEffects["solarRevolutionPollution"] = 0;
 		}
+	},
+	update: function(){
+		var rerender = false;
+		for (var i = 0; i < this.buildingsData.length; i++){
+			var bld = this.buildingsData[i];
+			if (!bld.unlocked){
+				if (this.isUnlocked(bld)){
+					bld.unlocked = true;
+					rerender = true;
+				}
+			}
+			else {
+				//just in case we patched something (shit happens?)
+				if (!this.isUnlockable(bld)){
+					bld.unlocked = false;
+				}
+			}
+
+			if (bld.action && (bld.on > 0 || bld.name == "biolab" || bld.name == "aiCore")){
+				var amt = bld.action(bld, this.game);
+				if (typeof(amt) != "undefined") {
+					bld.lackResConvert = amt != 1 && bld.on != 0;
+				}
+			}
+
+			this.calculatePollutionEffects();
+		}
+
+		/*
+		 * Manpower hack for Iron Will mode. 1000 manpower is absolutely required for civilisation unlock.
+		 * There may be some microperf tweaks, but let's keep it simple
+		 */
+		this.game.bld.effectsBase["manpowerMax"] = 100;
+		if (this.game.ironWill){
+			if (this.game.workshop.get("huntingArmor").researched){
+				this.game.bld.effectsBase["manpowerMax"] = 1000;
+			} else if (this.game.workshop.get("bolas").researched){
+				this.game.bld.effectsBase["manpowerMax"] = 400;
+			} else if (this.game.workshop.get("compositeBow").researched){
+				this.game.bld.effectsBase["manpowerMax"] = 200;
+			}
+		}
+
 		if (rerender){
 			this.game.render();
 		}
@@ -2173,6 +2176,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		this.twoRows = saveData.bldData ? saveData.bldData.twoRows : false;
 		this.loadMetadata(this.buildingsData, saveData.buildings);
 		this.cathPollution = saveData.cathPollution|| 0;
+		this.calculatePollutionEffects();
 	},
 
 	resetState: function(){
