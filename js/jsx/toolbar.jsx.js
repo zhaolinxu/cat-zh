@@ -223,20 +223,20 @@ WToolbarPollution = React.createClass({
     getTooltip: function(notUpdateFreshMessage){
         this.game = this.props.game;    //hack
 
-        var message;
+        var message = "";
         var polLvl = this.game.bld.getPollutionLevel();
-        if(polLvl >= 1){
-            message = $I("pollution.level1");
-            if(polLvl >= 2){
-                message += "<br/>" + $I("pollution.level2");
-                if(polLvl >= 3){
-                    message += "<br/>" + $I("pollution.level3", [this.game.getDisplayValueExt(game.villageTab.getVillageTitle(), false, false, 0)]);
-                    if(polLvl >= 4){
-                        message += "<br/>" + $I("pollution.level4");
-                    }
-                }
-            }
-        }else message = $I("pollution.level0");
+        if(polLvl >= 4){
+            message += $I("pollution.level1") + "<br/>" + $I("pollution.level2") + "<br/>" + $I("pollution.level3", [this.game.getDisplayValueExt(game.villageTab.getVillageTitle(), false, false, 0)]) + "<br/>" + $I("pollution.level4");
+        }
+        else if(polLvl == 3){
+            message += $I("pollution.level1") + "<br/>" + $I("pollution.level2") + "<br/>" + $I("pollution.level3", [this.game.getDisplayValueExt(game.villageTab.getVillageTitle(), false, false, 0)]);
+        }
+        else if(polLvl == 2){
+            message += $I("pollution.level1") + "<br/>" + $I("pollution.level2");
+        }
+        else if(polLvl == 1){
+            message += $I("pollution.level1");
+        }else {message = $I("pollution.level0");}
         var warnLvl = this.game.bld.getPollutionLevel(this.game.bld.cathPollution * 2);
         if (warnLvl >= 1 && warnLvl <= 4) message += "<br/>" + $I("pollution.level" + warnLvl + ".warning");
         if(!notUpdateFreshMessage){

@@ -1905,7 +1905,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		"manpowerMax"	: 100,
 		"scienceMax"    : 250,
 		"cultureMax"	: 100,
-		"faithMax" 		: 100,
+		"faithMax" 		: 100
+	},
+	pollutionEffects: {
 		"catnipPollutionRatio" : 0,
 		"pollutionHappines" : 0,
 		"solarRevolutionPollution" : 0,
@@ -2075,20 +2077,35 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 		var pollutionLevel = this.getPollutionLevel();
 		var pollution = this.cathPollution;
-		this.game.bld.effectsBase["catnipPollutionRatio"] = 0;
-		this.game.bld.effectsBase["pollutionHappines"] = 0;
-		this.game.bld.effectsBase["solarRevolutionPollution"] = 0;
-		if(pollutionLevel >= 1){
-			this.game.bld.effectsBase["catnipPollutionRatio"] = this.game.getLimitedDR(-0.5 - 0.1 * Math.log(pollution), 10)/10;
-			if(pollutionLevel >= 2){
-				this.game.bld.effectsBase["pollutionHappines"] = -Math.round(Math.log(pollution));
-				if(pollutionLevel >= 3){
-					this.game.bld.effectsBase["pollutionArrivalSlowdown"] = Math.floor(Math.log10(this.game.bld.cathPollution));
-					if(pollutionLevel >= 4){
-						this.game.bld.effectsBase["solarRevolutionPollution"] = -Math.min(pollution * 1e-10, 1);
-					}
-				}
-			}
+		if(pollutionLevel >= 4){
+			this.game.bld.pollutionEffects["catnipPollutionRatio"] = this.game.getLimitedDR(-0.5 - 0.1 * Math.log(pollution), 10)/10;
+			this.game.bld.pollutionEffects["pollutionHappines"] = -Math.round(Math.log(pollution));
+			this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] = Math.floor(Math.log10(this.game.bld.cathPollution));
+			this.game.bld.pollutionEffects["solarRevolutionPollution"] = -Math.min(pollution * 1e-10, 1);
+		}
+		else if(pollutionLevel == 3){
+			this.game.bld.pollutionEffects["catnipPollutionRatio"] = this.game.getLimitedDR(-0.5 - 0.1 * Math.log(pollution), 10)/10;
+			this.game.bld.pollutionEffects["pollutionHappines"] = -Math.round(Math.log(pollution));
+			this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] = Math.floor(Math.log10(this.game.bld.cathPollution));
+			this.game.bld.pollutionEffects["solarRevolutionPollution"] = 0;
+		}
+		else if(pollutionLevel == 2){
+			this.game.bld.pollutionEffects["catnipPollutionRatio"] = this.game.getLimitedDR(-0.5 - 0.1 * Math.log(pollution), 10)/10;
+			this.game.bld.pollutionEffects["pollutionHappines"] = -Math.round(Math.log(pollution));
+			this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] = 0;
+			this.game.bld.pollutionEffects["solarRevolutionPollution"] = 0;
+		}
+		else if(pollutionLevel == 1){
+			this.game.bld.pollutionEffects["catnipPollutionRatio"] = this.game.getLimitedDR(-0.5 - 0.1 * Math.log(pollution), 10)/10;
+			this.game.bld.pollutionEffects["pollutionHappines"] = 0;
+			this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] = 0;
+			this.game.bld.pollutionEffects["solarRevolutionPollution"] = 0;
+		}
+		else if(pollutionLevel == 0){
+			this.game.bld.pollutionEffects["catnipPollutionRatio"] = 0;
+			this.game.bld.pollutionEffects["pollutionHappines"] = 0;
+			this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] = 0;
+			this.game.bld.pollutionEffects["solarRevolutionPollution"] = 0;
 		}
 		if (rerender){
 			this.game.render();
@@ -2193,14 +2210,14 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		return polutinEnergy;
 	},
 	getCleanEnergyProdRatio: function(){
-		if(!(this.getCleanEnergy() + this.getPollutingEnergy())) return 0;
+		if(!(this.getCleanEnergy() + this.getPollutingEnergy())) {return 0;}
 		return this.getCleanEnergy() / (this.getCleanEnergy() + this.getPollutingEnergy());
 	},
 	getPollutionRatio: function() {
 		return 1 - this.getCleanEnergyProdRatio() / 2;
 	},
 	getPollutionLevel: function(cathPollution) {
-		if(!cathPollution) cathPollution = this.cathPollution;
+		if(!cathPollution) {cathPollution = this.cathPollution;}
 		return Math.max(Math.floor(Math.log10(cathPollution / 100000)), 0);	
 	},
     //============ dev =============
@@ -2226,20 +2243,21 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		return this.game.getEffect("cathPollutionPerTickProd") * this.getPollutionRatio() * (1 + this.game.getEffect("cathPollutionRatio")) + this.game.getEffect("cathPollutionPerTickCon");
 	},
 	cacheCathPollutionPerTick: function(){
-		this.cathPollutionPerTick = Math.round(this.getUndissipatedPollutionPerTick() - this.cathPollution * this.game.getEffect("pollutionDissipationRatio"));
+		this.cathPollutionPerTick = Math.round(this.getUndissipatedPollutionPerTick() - this.cathPollution * this.pollutionEffects["pollutionDissipationRatio"]);
 	},
-	getEquilibriumPollution: function(){
-		if (this.game.getEffect("pollutionDissipationRatio")){
-			return this.getUndissipatedPollutionPerTick()/ this.game.getEffect("pollutionDissipationRatio");
+	getEquilibriumPollution: function(){ //returns pollution value at which pollutionDissipationRatio will make pollutionPerTick equal to 0, or -1 if such value doesn't exits
+		if (this.pollutionEffects["pollutionDissipationRatio"]){
+			return this.getUndissipatedPollutionPerTick()/ this.pollutionEffects["pollutionDissipationRatio"];
 		}else if(this.cathPollutionPerTick < 0){
 			return 0;
 		}else{
 			console.log("No equilibrium found");
+			return -1;
 		}
 	},
 	setEquilibriumPollution: function(){
 		var equilibriumPollution = this.getEquilibriumPollution();
-		if(equilibriumPollution || equilibriumPollution === 0){
+		if(equilibriumPollution != -1){
 			this.cathPollution = equilibriumPollution;
 		}
 	},
@@ -2253,7 +2271,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			p(t = 0) = this.cathPollution
 			d(p)/dt = UPPT + pdr * p
 		*/
-		var pdr = - this.game.getEffect("pollutionDissipationRatio");
+		var pdr = - this.pollutionEffects["pollutionDissipationRatio"];
 		var expon = Math.exp(pdr * ticks);
 		var uppt = this.getUndissipatedPollutionPerTick();
 		this.cathPollution = Math.abs(((this.cathPollution * pdr + uppt) * expon - uppt)/pdr);

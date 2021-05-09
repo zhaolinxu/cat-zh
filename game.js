@@ -2753,7 +2753,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		// *POLLUTION MODIFIER
 		if(res.name == "catnip"){
-			perTick *= 1 + this.getEffect("catnipPollutionRatio");
+			perTick *= 1 + this.bld.pollutionEffects["catnipPollutionRatio"];
 		}
 
 		//ParagonSpaceProductionRatio definition 1/4
@@ -2788,7 +2788,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		// +*FAITH BONUS
-		perTick *= 1 + this.religion.getSolarRevolutionRatio() * (1 + ((res.name == "wood" || res.name == "catnip")? this.getEffect("solarRevolutionPollution") : 0));
+		perTick *= 1 + this.religion.getSolarRevolutionRatio() * (1 + ((res.name == "wood" || res.name == "catnip")? this.bld.pollutionEffects["solarRevolutionPollution"] : 0));
 		
 		//+COSMIC RADIATION
 		if (!this.opts.disableCMBR && res.name != "coal") {
@@ -2977,7 +2977,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			stack.push({
 				name: $I("res.stack.pollution"),
 				type: "ratio",
-				value: this.getEffect("catnipPollutionRatio")
+				value: this.bld.pollutionEffects["catnipPollutionRatio"]
 			});
 		}
 
@@ -3045,7 +3045,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			stack.push({
 				name: $I("res.stack.pollution"),
 				type: "ratioIndent",
-				value: this.getEffect("solarRevolutionPollution")
+				value: this.bld.pollutionEffects["solarRevolutionPollution"]
 			});
 		}
 
