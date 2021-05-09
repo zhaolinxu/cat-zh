@@ -445,6 +445,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"maxKittens": 2
 		},
 		breakIronWill: true, //har har har
+		almostLimited: false,
 		flavor : $I("buildings.hut.flavor")
 	},
 	{
@@ -468,6 +469,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
             policies: ["authocracy"]
         },
 		breakIronWill: true,
+		almostLimited: false,
 		flavor : $I("buildings.logHouse.flavor")
 	},{
 		name: "mansion",
@@ -490,6 +492,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
             policies: ["authocracy"]
         },
 		breakIronWill: true,
+		almostLimited: false,
 		flavor: $I("buildings.mansion.flavor")
 	},
 	//----------------------------------- Science ----------------------------------------
@@ -1963,12 +1966,13 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	 * For fucks sake, finally we have a non-concrete dynamic price calculation algorithm
 	 * It only took a couple of months. TODO: potential performance impact?
 	 */
-	 getPrices: function(bldName) {
+	 getPrices: function(bldName, additionalBought) {
 	 	var bld = this.getBuildingExt(bldName);
-		return this.getPricesWithAccessor(bld);
+		return this.getPricesWithAccessor(bld, additionalBought);
 	 },
 
-	 getPricesWithAccessor: function(bld) {
+	 getPricesWithAccessor: function(bld, additionalBought) {
+		additionalBought = additionalBought || 0;
 	 	var bldPrices = bld.get("prices");
 		var ratio = this.getPriceRatioWithAccessor(bld);
 
@@ -1976,7 +1980,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 		var pricesDiscount = this.game.getLimitedDR((this.game.getEffect(bld.get("name") + "CostReduction")), 1);
 		var priceModifier = 1 - pricesDiscount;
-		var fakeBought = this.game.getEffect(bld.get("name") + "FakeBought");
+		var fakeBought = this.game.getEffect(bld.get("name") + "FakeBought") + additionalBought;
 
 		for (var i = 0; i < bldPrices.length; i++) {
 			var resPriceDiscount = this.game.getLimitedDR(this.game.getEffect(bldPrices[i].name + "CostReduction"), 1);
@@ -2361,6 +2365,9 @@ dojo.declare("classes.ui.btn.BuildingBtnModernController", com.nuclearunicorn.ga
 		if (meta.name == "hut" && sim.nextKittenProgress && sim.maxKittens <= 10 ){
 			name += " [" + ( sim.nextKittenProgress * 100 ).toFixed()  + "%]";
 		}
+		if (meta.almostLimited){
+			name = "◆ " + name + " ◆";
+		} 
 		return name;
 	},
 
@@ -2526,7 +2533,7 @@ dojo.declare("classes.ui.btn.StagingBldBtn", com.nuclearunicorn.game.ui.Building
 			var linkModel = this.model.stageLinks[i];
 			this.stageLinks.push(this.addLink(linkModel));
 		}
-	}
+	},
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicorn.game.ui.tab, {
