@@ -889,9 +889,13 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			for (var i = 0; i < game.bld.buildingGroups.length; i++){
     			if(game.bld.buildingGroups[i].name == "population"){
 					for (var k = 0; k < game.bld.buildingGroups[i].buildings.length; k++){
-						if(!game.resPool.isStorageLimited(game.bld.getPrices(game.bld.buildingGroups[i].buildings[k]))){
+						var building = game.bld.getBuildingExt(game.bld.buildingGroups[i].buildings[k]);
+						if(!game.resPool.isStorageLimited(game.bld.getPrices(building.meta.name))){
 							uncappedHousing += 1;
-						}	
+							building.meta.almostLimited = self.researched && game.resPool.isStorageLimited(game.bld.getPrices(building.meta.name, 1));
+						}else{
+							building.meta.almostLimited = false;
+						}
 					}
 					break;
     			}
