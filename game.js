@@ -2751,6 +2751,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		perTick *= 1 + paragonProductionRatio;
 
+		// *POLLUTION MODIFIER
+		if(res.name == "catnip"){
+			perTick *= 1 + this.bld.pollutionEffects["catnipPollutionRatio"];
+		}
+
 		//ParagonSpaceProductionRatio definition 1/4
 		var paragonSpaceProductionRatio = 1 + paragonProductionRatio * 0.05;
 
@@ -2783,8 +2788,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		// +*FAITH BONUS
-		perTick *= 1 + this.religion.getSolarRevolutionRatio();
-
+		perTick *= 1 + this.religion.getSolarRevolutionRatio() * (1 + ((res.name == "wood" || res.name == "catnip")? this.bld.pollutionEffects["solarRevolutionPollution"] : 0));
+		
 		//+COSMIC RADIATION
 		if (!this.opts.disableCMBR && res.name != "coal") {
 			perTick *= 1 + this.getCMBRBonus();
@@ -2967,6 +2972,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			value: paragonProductionRatio
 		});
 
+		// *POLLUTION MODIFIER
+		if(res.name == "catnip"){
+			stack.push({
+				name: $I("res.stack.pollution"),
+				type: "ratio",
+				value: this.bld.pollutionEffects["catnipPollutionRatio"]
+			});
+		}
+
 		//ParagonSpaceProductionRatio definition 1/4
 		var paragonSpaceProductionRatio = 1 + paragonProductionRatio * 0.05;
 		var rankLeaderBonusConversion = this.getEffect("rankLeaderBonusConversion") * ((this.village.leader) ? this.village.leader.rank : 0);
@@ -3027,6 +3041,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			type: "ratio",
 			value: this.religion.getSolarRevolutionRatio()
 		});
+		if((res.name == "wood" || res.name == "catnip") && this.religion.getSolarRevolutionRatio() > 0){
+			stack.push({
+				name: $I("res.stack.pollution"),
+				type: "ratioIndent",
+				value: this.bld.pollutionEffects["solarRevolutionPollution"]
+			});
+		}
 
 		if (!this.opts.disableCMBR && res.name != "coal") {
 			stack.push({
@@ -3492,6 +3513,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			resString += this.getDisplayValueExt((stackElem.value * 100).toFixed(), true) + "%";
 		} else if (stackElem.type == "multiplier") {
 			resString += "×" + this.getDisplayValueExt((stackElem.value * 100).toFixed()) + "%";
+		} else if (stackElem.type == "ratioIndent") {
+			resString = "|->" + resString + this.getDisplayValueExt((stackElem.value * 100).toFixed(), true) + "%";
 		}
 
 		resString += "</div><br>";

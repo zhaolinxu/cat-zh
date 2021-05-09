@@ -277,6 +277,11 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		if (this.game.calendar.festivalDays > 0) {
 			kittensPerTick = kittensPerTick * (2 + this.game.getEffect("festivalArrivalRatio"));
 		}
+		//pollution decreases arrival speed
+		var pollutionArrivalSlowdown = this.game.bld.pollutionEffects["pollutionArrivalSlowdown"];
+		if (pollutionArrivalSlowdown > 1){
+			kittensPerTick /= pollutionArrivalSlowdown;
+		}
 
 		this.sim.maxKittens = this.maxKittens;
 
@@ -640,7 +645,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
     getEnvironmentEffect: function(){
 		var game = this.game;
 
-		return game.getEffect("environmentHappinessBonus") + game.getEffect("environmentUnhappiness") ;
+		return game.getEffect("environmentHappinessBonus") + game.getEffect("environmentUnhappiness") + game.bld.pollutionEffects["pollutionHappines"];
 	},
 	
 	/** Calculates a total happiness where result is a value of [0..1] **/

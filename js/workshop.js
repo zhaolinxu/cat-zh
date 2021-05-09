@@ -1226,6 +1226,22 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			buildings: ["factory"]
 		}
 	},{
+		name: "carbonSequestration",
+		label: $I("workshop.carbonSequestration.label"),
+		description: $I("workshop.carbonSequestration.desc"),
+		effects: {
+		},
+		prices:[
+			{ name : "titanium", val: 1250 },
+			{ name : "science",  val: 75000 },
+			{ name : "gear", 	 val: 125 },
+			{ name : "steel", 	 val: 4000 },
+			{ name : "alloy", 	 val: 1000 }
+		],
+		upgrades:{
+			buildings: ["factory"]
+		}
+	},{
 		name: "factoryOptimization",
 		label: $I("workshop.factoryOptimization.label"),
 		description: $I("workshop.factoryOptimization.desc"),

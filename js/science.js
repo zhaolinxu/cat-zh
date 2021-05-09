@@ -454,7 +454,11 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			stages: [{bld:"pasture", stage:1}], 	// Solar Farm
-			policies: ["conservation", "openWoodlands"]
+			policies: ["conservation", "openWoodlands"],
+			upgrades: ["carbonSequestration"]
+		},
+		upgrades:{
+			buildings: ["mine", "quarry"]
 		}
 	},
 	{
@@ -1934,16 +1938,16 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 				var currentCathPollution = this.game.bld.cathPollution;
 				var currenCathPerTickPollution = this.game.bld.cathPollutionPerTick;
 				this.detailedPollutionInfo.innerHTML = "Pollution is " + Math.floor(currentCathPollution) + " <br>Polution per tick is " + Math.floor(currenCathPerTickPollution);
-				var pollutionLevel = Math.floor(Math.max(Math.log10(currentCathPollution / 1000000), 0));
-				this.detailedPollutionInfo.innerHTML += "<br>Pollution level is " + Math.floor(pollutionLevel);
+				var pollutionLevel = this.game.bld.getPollutionLevel();
+				this.detailedPollutionInfo.innerHTML += "<br>Pollution level is " + pollutionLevel;
 				if(pollutionLevel > 0){
 					this.detailedPollutionInfo.innerHTML += "<br>Pollution future effects might be at this pollution level:";
 					this.detailedPollutionInfo.innerHTML += "<br>— Less catnip production";
 					if(pollutionLevel > 1){
-						this.detailedPollutionInfo.innerHTML += "<br>— Less kitten happines: -" + Math.floor(Math.log(currentCathPollution)) + "%";
+						this.detailedPollutionInfo.innerHTML += "<br>— Less kitten happines: " + this.game.bld.pollutionEffects["pollutionHappines"] + "%";
 					}
 					if(pollutionLevel > 2){
-						this.detailedPollutionInfo.innerHTML += "<br>— Kittens arrive " + Math.floor(Math.log10(currentCathPollution)) + " times slower.";
+						this.detailedPollutionInfo.innerHTML += "<br>— Kittens arrive " + this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] + " times slower.";
 					}
 					if(pollutionLevel > 4){
 						this.detailedPollutionInfo.innerHTML += "<br>— SR effect doesn't apply to wood and catnip";

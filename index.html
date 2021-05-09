@@ -70,7 +70,7 @@
 
 		<script type="text/javascript">
 
-			var version = "1484";
+			var version = "1485";
 			var buildRevision = 0;
 
 			var loadingProgress = 0,
@@ -179,7 +179,6 @@
 					console.log("build revison is" + buildRevision);
 					$("#versionLink").html(displayedVersion + ".r" + buildRevision);
 				});
-
 				def = _import("config", def);
 				def.then(function() {
 					var schemes = new classes.KGConfig().statics.schemes;
