@@ -183,7 +183,9 @@ WChiral = React.createClass({
                 $r("div", {className: "row"}, "An alien machine lies here at the End of the Universe."),
                 $r("div", {className: "row"}, "666 nodes online"),
                 $r("div", {className: "row"}, [
-                    $r("pre", null, game.server.chiral || ">")
+                    $r("pre", {
+                        style: { whiteSpace: "pre" }
+                    }, game.server.chiral || ">")
                 ]),
                 $r("div", {className: "row"}, [
                     $r(WTerminal, {

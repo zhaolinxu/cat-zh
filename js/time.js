@@ -1179,6 +1179,10 @@ dojo.declare("classes.ui.time.FixCryochamberBtnController", com.nuclearunicorn.g
 			this.payPrice(model);
 			fixHappened |= this.doFixCryochamber(model);
 		}
+        if(fixHappened){
+            var cry = this.game.time.getVSU("cryochambers");
+            cry.calculateEffects(cry, this.game);
+        }
 		callback(fixHappened);
 	},
 
