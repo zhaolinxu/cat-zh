@@ -824,7 +824,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	},
 
 	getMilleniaChanged: function (startYear, endYear) {
-		return Math.max(0, (Math.floor(endYear/1000)*1000 - Math.floor(startYear/1000)*1000)/1000)
+		return Math.max(0, (Math.floor(endYear/1000)*1000 - Math.floor(startYear/1000)*1000)/1000);
 	},
 	calculateMilleniumProduction: function(milleniums){
 		this.game.resPool.addResEvent("paragon", milleniums);
@@ -846,7 +846,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 
 		if(milleniumChangeCalculated){
-			this.calculateMilleniumProduction(this.getMilleniaChanged(this.year - years, this.years));
+			this.calculateMilleniumProduction(this.getMilleniaChanged(this.year - years, this.year));
 		}
 
 		var pyramidVal = this.game.religion.getZU("blackPyramid").getEffectiveValue(this.game);
