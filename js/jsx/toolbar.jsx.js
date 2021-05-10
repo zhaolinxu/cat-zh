@@ -238,7 +238,7 @@ WToolbarPollution = React.createClass({
             message += $I("pollution.level1");
         }else {message = $I("pollution.level0");}
         var warnLvl = this.game.bld.getPollutionLevel(this.game.bld.cathPollution * 2);
-        if (warnLvl >= 1 && warnLvl <= 4) message += "<br/>" + $I("pollution.level" + warnLvl + ".warning");
+        if (warnLvl >= 1 && warnLvl <= 4 && warnLvl > polLvl) message += "<br/>" + $I("pollution.level" + warnLvl + ".warning");
         if(!notUpdateFreshMessage){
             this.freshMessage = false;
         }

@@ -1483,7 +1483,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	//in ticks
 	autosaveFrequency: 400,
 
-	detailedPollutionInfo: false, //test tag, will be removed later on
 
 	//current building selected in the Building tab by a mouse cursor, should affect resource table rendering
 	//TODO: move me to UI
@@ -1903,7 +1902,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		this.globalEffectsCached = {};
-		this.detailedPollutionInfo = false; //temporary
 	},
 
 	_publish: function(topic, arg){
@@ -1948,7 +1946,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			cheatMode: this.cheatMode,
 
 			opts : this.opts,
-			detailedPollutionInfo: this.detailedPollutionInfo //temporary
 		};
 
 		var saveDataString = JSON.stringify(saveData);
@@ -2124,8 +2121,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					this.opts.tooltipsInRightColumn = this.colorScheme == "sleek";
 				}
 			}
-
-			this.detailedPollutionInfo = data.detailedPollutionInfo|| false; //temporary
 
 			this.updateOptionsUI();
 		}
