@@ -454,7 +454,11 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			stages: [{bld:"pasture", stage:1}], 	// Solar Farm
-			policies: ["conservation", "openWoodlands"]
+			policies: ["conservation", "openWoodlands"],
+			upgrades: ["carbonSequestration"]
+		},
+		upgrades:{
+			buildings: ["mine", "quarry"]
 		}
 	},
 	{
@@ -889,9 +893,13 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			for (var i = 0; i < game.bld.buildingGroups.length; i++){
     			if(game.bld.buildingGroups[i].name == "population"){
 					for (var k = 0; k < game.bld.buildingGroups[i].buildings.length; k++){
-						if(!game.resPool.isStorageLimited(game.bld.getPrices(game.bld.buildingGroups[i].buildings[k]))){
+						var building = game.bld.getBuildingExt(game.bld.buildingGroups[i].buildings[k]);
+						if(!game.resPool.isStorageLimited(game.bld.getPrices(building.meta.name))){
 							uncappedHousing += 1;
-						}	
+							building.meta.almostLimited = self.researched && game.resPool.isStorageLimited(game.bld.getPrices(building.meta.name, 1));
+						}else{
+							building.meta.almostLimited = false;
+						}
 					}
 					break;
     			}
@@ -1181,7 +1189,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         blocked: false,
         blocks:["cityOnAHill"],
 		evaluateLocks: function(game){
-			return game.science.getPolicy("isolationism").researched && game.science.get("astronomy").researched; 
+			return game.science.getPolicy("isolationism").researched && game.science.get("astronomy").researched && !game.challenges.isActive("pacifism"); 
 		}
     }, {
         name: "cityOnAHill",
@@ -1233,7 +1241,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         blocked: false,
         blocks:["outerSpaceTreaty"],
 		evaluateLocks: function(game){
-			return game.space.getBuilding("sattelite").val > 0;
+			return game.space.getBuilding("sattelite").val > 0 && !game.challenges.isActive("pacifism");
 		}
     },
     //----------------   Philosophy   --------------------
@@ -1308,7 +1316,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         ],
         effects:{
             "environmentUnhappiness" : -2,
-			"mineralsPolicyRatio" : 0.3
+			"mineralsPolicyRatio" : 0.3,
+			"cathPollutionRatio" : 0.05
         },
         unlocked: false,
         unlocks:{
@@ -1325,7 +1334,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         ],
         effects:{
             "environmentUnhappiness" : -2,
-			"woodPolicyRatio" : 0.3
+			"woodPolicyRatio" : 0.3,
+			"cathPollutionRatio" : 0.05
         },
         unlocked: false,
         unlocks:{
@@ -1341,7 +1351,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name : "culture", val: 2000}
         ],
         effects:{
-            "environmentHappinessBonus" : 3
+            "environmentHappinessBonus" : 3,
+			"cathPollutionRatio" : -0.05
         },
         unlocked: false,
         unlocks:{
@@ -1357,7 +1368,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name : "culture", val: 10000}
         ],
         effects:{
-            "environmentHappinessBonus" : 5
+            "environmentHappinessBonus" : 5,
+			"cathPollutionRatio" : -0.05
         },
         unlocked: false,
         blocked: false,
@@ -1377,7 +1389,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			buildings: ["factory"]
 		},
         effects:{
-            "environmentFactoryCraftBonus" : 0.05
+            "environmentFactoryCraftBonus" : 0.05,
+			"cathPollutionRatio" : 0.05
         },
         unlocked: false,
         blocked: false,
@@ -1394,7 +1407,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name : "culture", val: 10000}
         ],
         effects:{
-            "environmentHappinessBonus" : 5
+            "environmentHappinessBonus" : 5,
+			"cathPollutionRatio" : -0.05
         },
         unlocked: false,
         blocked: false,
@@ -1411,7 +1425,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         ],
         effects:{
             "mineralsPolicyRatio" : 0.125,
-            "woodPolicyRatio" : 0.125
+            "woodPolicyRatio" : 0.125,
+			"cathPollutionRatio" : 0.05
         },
         unlocked: false,
         blocked: false,
@@ -1639,7 +1654,18 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 
 		return this.inherited(arguments);
 	},
-	
+	getPrices: function(model){
+		var meta = model.metadata;
+		var policyFakeBought = this.game.getEffect("policyFakeBought");
+		var prices = [];
+		for (var i = 0; i < meta.prices.length; i++){
+            prices.push({
+            	val: meta.prices[i].val * Math.pow(1.25, policyFakeBought),
+            	name: meta.prices[i].name
+			});
+		}
+        return prices;
+	},
 	updateVisible: function(model){
 		var meta = model.metadata;
 		model.visible = meta.unlocked;
@@ -1895,6 +1921,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 			this.metaphysicsPanel.game = this.game;
 			this.metaphysicsPanel.render(tabContainer);
 		}
+		if(this.game.detailedPollutionInfo){
+			this.detailedPollutionInfo = dojo.create("span", { style: { display: "inline-block", marginBottom: "20px"}}, tabContainer);
+		}
 		this.update();
 	},
 
@@ -1906,6 +1935,38 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 		}
 		if (this.policyPanel){
 			this.policyPanel.update();
+		}
+		//detailedPollutionInfo is temporary tag. Don't replace lines belov with i18n lines!
+		if(this.game.detailedPollutionInfo){
+			if(this.detailedPollutionInfo){
+				var currentCathPollution = this.game.bld.cathPollution;
+				var currenCathPerTickPollution = this.game.bld.cathPollutionPerTick;
+				this.detailedPollutionInfo.innerHTML = "Pollution is " + Math.floor(currentCathPollution) + " <br>Polution per tick is " + Math.floor(currenCathPerTickPollution);
+				var pollutionLevel = this.game.bld.getPollutionLevel();
+				this.detailedPollutionInfo.innerHTML += "<br>Pollution level is " + pollutionLevel;
+				if(pollutionLevel > 0){
+					this.detailedPollutionInfo.innerHTML += "<br>Pollution future effects might be at this pollution level:";
+					this.detailedPollutionInfo.innerHTML += "<br>— Less catnip production";
+					if(pollutionLevel > 1){
+						this.detailedPollutionInfo.innerHTML += "<br>— Less kitten happines: " + this.game.bld.pollutionEffects["pollutionHappines"] + "%";
+					}
+					if(pollutionLevel > 2){
+						this.detailedPollutionInfo.innerHTML += "<br>— Kittens arrive " + this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] + " times slower.";
+					}
+					if(pollutionLevel > 4){
+						this.detailedPollutionInfo.innerHTML += "<br>— SR effect doesn't apply to wood and catnip";
+					}else if(pollutionLevel > 3){
+						this.detailedPollutionInfo.innerHTML += "<br>— Less SR effect on wood and catnip";
+					}
+				}
+				if(currenCathPerTickPollution < 0 && currentCathPollution) {
+					var toZero = -currentCathPollution / currenCathPerTickPollution / this.game.calendar.ticksPerDay;
+					this.detailedPollutionInfo.innerHTML += "<br> To zero " + this.game.toDisplaySeconds(toZero.toFixed());
+				}else if(currenCathPerTickPollution > 0){
+					var toNextLevel = (Math.pow(10, 1 + pollutionLevel) * 1000000 - currentCathPollution) / currenCathPerTickPollution / this.game.calendar.ticksPerDay;
+					this.detailedPollutionInfo.innerHTML += "<br> To next level " + this.game.toDisplaySeconds(toNextLevel.toFixed());
+				}
+			}
 		}
 	},
 

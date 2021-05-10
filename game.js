@@ -17,6 +17,7 @@ dojo.declare("classes.game.Timer", null, {
 	totalUpdateTime: null,
 
 
+
 	addEvent: function(handler, frequency){
 		this.handlers.push({
 			handler: handler,
@@ -147,6 +148,7 @@ dojo.declare("classes.game.Server", null, {
 	 * using session cookies
 	 */
 	userProfile: null,
+	chiral: null,
 
 	/**
 	 * Current client snapshot of the save data
@@ -281,6 +283,22 @@ dojo.declare("classes.game.Server", null, {
 		saveData.server = {
 			motdContent: this.motdContent
 		};
+	},
+
+	//TOOD: separate getting chiral client status and sending command to a separate component
+	sendCommand: function(command){
+		var self = this;
+		this._xhr("/kgnet/chiral/game/command/", "POST", {
+			command: command
+		}, function(resp){
+			if (resp.clientState){
+                self.setChiral(resp);
+			}
+		});
+	},
+
+	setChiral: function(data){
+		this.chiral = JSON.stringify(data, null, 2);
 	}
 });
 
@@ -347,6 +365,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 					title: restitle,
 					resName: resname,
 					type: "perTick"
+				};
+			case type == "PerTickRatio":
+				return {
+					title: $I("effectsMgr.type.resRatio", [restitle]),
+					resName: resname,
+					type: "ratio"
 				};
 			case type == "Max":
 				return {
@@ -1391,6 +1415,27 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 			"challengeHappiness":{
                 title: $I("effectsMgr.statics.challengeHappiness.title")
+			},
+			"tradeKnowledge":{
+				title: $I("effectsMgr.statics.tradeKnowledge.title")
+			},
+			"steamworksFakeBought":{
+				title: $I("effectsMgr.statics.steamworksFakeBought.title")
+			},
+			"embassyFakeBought":{
+				title: $I("effectsMgr.statics.embassyFakeBought.title")
+			},
+			"policyFakeBought":{
+				title: $I("effectsMgr.statics.policyFakeBought.title")
+			},
+			"cathPollutionPerTickProd":{
+				type: "hidden"
+			},
+			"cathPollutionPerTickCon":{
+				type: "hidden"
+			},
+			"cathPollutionRatio":{
+				type: "hidden"
 			}
 		}
 	}
@@ -1437,6 +1482,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	//in ticks
 	autosaveFrequency: 400,
+
 
 	//current building selected in the Building tab by a mouse cursor, should affect resource table rendering
 	//TODO: move me to UI
@@ -1719,8 +1765,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.time.updateEffectCached();
 		this.village.updateEffectCached();
         this.science.updateEffectCached();
+		
+		this.bld.cacheCathPollutionPerTick();
 
 		this.updateResources();
+
 	},
 
 	// Unlimited Diminishing Return
@@ -1896,7 +1945,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			deadKittens: this.deadKittens,
 			cheatMode: this.cheatMode,
 
-			opts : this.opts
+			opts : this.opts,
 		};
 
 		var saveDataString = JSON.stringify(saveData);
@@ -2104,6 +2153,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.prestige.getPerk("adjustmentBureau").reserve);
 
 		this.ui.load();
+		this.updateCaches();
 
 		return success;
 	},
@@ -2696,6 +2746,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		perTick *= 1 + paragonProductionRatio;
 
+		// *POLLUTION MODIFIER
+		if(res.name == "catnip"){
+			perTick *= 1 + this.bld.pollutionEffects["catnipPollutionRatio"];
+		}
+
 		//ParagonSpaceProductionRatio definition 1/4
 		var paragonSpaceProductionRatio = 1 + paragonProductionRatio * 0.05;
 
@@ -2728,8 +2783,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		// +*FAITH BONUS
-		perTick *= 1 + this.religion.getSolarRevolutionRatio();
-
+		perTick *= 1 + this.religion.getSolarRevolutionRatio() * (1 + ((res.name == "wood" || res.name == "catnip")? this.bld.pollutionEffects["solarRevolutionPollution"] : 0));
+		
 		//+COSMIC RADIATION
 		if (!this.opts.disableCMBR && res.name != "coal") {
 			perTick *= 1 + this.getCMBRBonus();
@@ -2758,7 +2813,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		perTick = effects[resName];
 
 		// +BUILDING AND SPACE PerTick
-		perTick += this.getEffect(res.name + "PerTick");
+		perTick += this.getEffect(res.name + "PerTick") * (1+ this.getEffect(res.name + "PerTickRatio"));
 
 		// -EARTH CONSUMPTION
 		var resMapConsumption = this.village.getResConsumption();
@@ -2912,6 +2967,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			value: paragonProductionRatio
 		});
 
+		// *POLLUTION MODIFIER
+		if(res.name == "catnip"){
+			stack.push({
+				name: $I("res.stack.pollution"),
+				type: "ratio",
+				value: this.bld.pollutionEffects["catnipPollutionRatio"]
+			});
+		}
+
 		//ParagonSpaceProductionRatio definition 1/4
 		var paragonSpaceProductionRatio = 1 + paragonProductionRatio * 0.05;
 		var rankLeaderBonusConversion = this.getEffect("rankLeaderBonusConversion") * ((this.village.leader) ? this.village.leader.rank : 0);
@@ -2972,6 +3036,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			type: "ratio",
 			value: this.religion.getSolarRevolutionRatio()
 		});
+		if((res.name == "wood" || res.name == "catnip") && this.religion.getSolarRevolutionRatio() > 0){
+			stack.push({
+				name: $I("res.stack.pollution"),
+				type: "ratioIndent",
+				value: this.bld.pollutionEffects["solarRevolutionPollution"]
+			});
+		}
 
 		if (!this.opts.disableCMBR && res.name != "coal") {
 			stack.push({
@@ -3077,6 +3148,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			name: $I("res.stack.baseline"),
 			type: "fixed",
 			value: this.getEffect(res.name + "PerTick")
+		});
+
+		stack.push({
+			name: $I("res.stack.baseline"),
+			type: "ratio",
+			value: this.getEffect(res.name + "PerTickRatio")
 		});
 
 		// +CRAFTING JOB PRODUCTION
@@ -3237,6 +3314,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		 }*/
 
 		this.resPool.resConsHackForResTable();
+
+		//pollution per tick
+		this.bld.cathPollution += this.bld.cathPollutionPerTick;
+		if(this.bld.cathPollution < 0) {this.bld.cathPollution = 0;}
 
 		//nah, kittens are not a resource anymore (?)
 		var kittens = this.resPool.get("kittens");
@@ -3427,6 +3508,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			resString += this.getDisplayValueExt((stackElem.value * 100).toFixed(), true) + "%";
 		} else if (stackElem.type == "multiplier") {
 			resString += "×" + this.getDisplayValueExt((stackElem.value * 100).toFixed()) + "%";
+		} else if (stackElem.type == "ratioIndent") {
+			resString = "|->" + resString + this.getDisplayValueExt((stackElem.value * 100).toFixed(), true) + "%";
 		}
 
 		resString += "</div><br>";
@@ -3734,6 +3817,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			return;
 		}
 
+
+
 		var timestampStart = new Date().getTime();
 
 		this.update();
@@ -3803,9 +3888,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 		var game = this;
 		game.ui.confirm($I("reset.confirmation.title"), msg, function() {
-			if (game.challenges.isActive("atheism") && game.time.getVSU("cryochambers").on > 0) {
-				game.challenges.researchChallenge("atheism");
-			}
+			game.challenges.onRunReset();
 			/*if (game.challenges.isActive("atheism") && game.time.getVSU("cryochambers").on > 0) {
 				game.challenges.getChallenge("atheism").researched = true;
 
@@ -4192,6 +4275,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return this.statsTab;
 			case "time":
 				return this.timeTab;
+			case "challenges":
+				return this.challengesTab;
 		}
 	},
 
@@ -4326,6 +4411,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 						this.calendar.cycleEffectsBasics(item.effects, item.name);
 					}
 				}
+				if (item.unlockScheme && item.val >= item.unlockScheme.threshold) {
+					this.ui.unlockScheme(item.unlockScheme.name);
+				}
 			}
 		}
 	},
@@ -4357,7 +4445,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
          */
         var managers = {
 		   "workshop": this.workshop,
-		   "building": this.bld
+		   "building": this.bld,
+		   "religion": this.religion
         };
 
         for (var i in this.undoChange.events){

@@ -397,7 +397,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		}
 
 		var boughtResources = {};
-		var tradeRatio = 1 + this.game.diplomacy.getTradeRatio() + this.game.diplomacy.calculateTradeBonusFromPolicies(race.name, this.game);
+		var tradeRatio = 1 + this.game.diplomacy.getTradeRatio() + this.game.diplomacy.calculateTradeBonusFromPolicies(race.name, this.game) + this.game.challenges.getChallenge("pacifism").getTradeBonusEffect(this.game);
 		var raceRatio = 1 + race.energy * 0.02;
 		var currentSeason = this.game.calendar.getCurSeason().name;
 
@@ -899,7 +899,7 @@ dojo.declare("classes.diplomacy.ui.EmbassyButtonController", com.nuclearunicorn.
 		var prices = dojo.clone(model.options.prices);
 		var priceCoeficient = 1 - this.game.getEffect("embassyCostReduction");
 		for (var i = 0; i < prices.length; i++) {
-			prices[i].val *= priceCoeficient * Math.pow(1.15, model.options.race.embassyLevel);
+            prices[i].val *= priceCoeficient * Math.pow(1.15, model.options.race.embassyLevel + this.game.getEffect("embassyFakeBought"));
 		}
 		return prices;
 	},
@@ -1123,7 +1123,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			if (!race.unlocked) {
 				continue;
 			}
-			var tradeRatio = baseTradeRatio + this.game.diplomacy.calculateTradeBonusFromPolicies(race.name, this.game);
+			var tradeRatio = baseTradeRatio + this.game.diplomacy.calculateTradeBonusFromPolicies(race.name, this.game) + this.game.challenges.getChallenge("pacifism").getTradeBonusEffect(this.game);
 			var racePanel = this.racePanels[i];
 			if (!racePanel) {
 				racePanel = race.name === "leviathans" ? new classes.diplomacy.ui.EldersPanel(race) : new classes.diplomacy.ui.RacePanel(race);

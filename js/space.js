@@ -1,3 +1,7 @@
+/* global 
+	WChiral
+*/
+
 /**
  * Behold the bringer of light!
  */
@@ -269,6 +273,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				else {
 					self.effects["energyConsumption"] = 1;
 				}
+				game.upgrade(self.upgrades); //this way observatories won't have to use action
+			},
+			upgrades: {
+				buildings: ["observatory"]
 			},
 			unlockScheme: {
 				name: "space",
@@ -1278,7 +1286,7 @@ dojo.declare("classes.ui.space.PlanetPanel", com.nuclearunicorn.game.ui.Panel, {
 	planet: null,
 
 	render: function(){
-		var content = this.inherited(arguments);
+		var container = this.inherited(arguments);
 
 		var self = this;
 
@@ -1286,9 +1294,10 @@ dojo.declare("classes.ui.space.PlanetPanel", com.nuclearunicorn.game.ui.Panel, {
 		dojo.forEach(this.planet.buildings, function(building, i){
 			var button = new com.nuclearunicorn.game.ui.BuildingStackableBtn({id: building.name, planet: self.planet, controller: controller}, self.game);
 
-			button.render(content);
+			button.render(container);
 			self.addChild(button);
 		});
+		return container;
 	},
 
 	update: function() {
@@ -1301,7 +1310,21 @@ dojo.declare("classes.ui.space.PlanetPanel", com.nuclearunicorn.game.ui.Panel, {
 
 		this.inherited(arguments);
 	}
+});
 
+dojo.declare("classes.ui.space.FurthestRingPanel", [classes.ui.space.PlanetPanel], {
+	constructor: function(title, manager, game){
+		this.game = game;
+	},
+
+	render: function(container){
+		var wrapper = new mixin.IReactAware(WChiral, this.game);
+
+		var content = this.inherited(arguments);
+		wrapper.render(content);	
+
+		return content;
+	}
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.ui.tab, {
@@ -1376,7 +1399,13 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
 					planetTitle = planet.label;
 				}
 
-                var planetPanel = new classes.ui.space.PlanetPanel(planetTitle, self.game.space);
+				var planetPanel = null;
+				if (planet.name == "furthestRing"){
+					planetPanel = new classes.ui.space.FurthestRingPanel(planetTitle, self.game.space, self.game);
+				} else {
+					planetPanel = new classes.ui.space.PlanetPanel(planetTitle, self.game.space);
+				}
+
                 planetPanel.planet = planet;
                 planetPanel.setGame(self.game);
                 planetPanel.render(container);
