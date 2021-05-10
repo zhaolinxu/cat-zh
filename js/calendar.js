@@ -862,7 +862,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 
 		if(milleniumChangeCalculated){
-			this.calculateMilleniumProduction(this.getMilleniaChanged(this.year - years, this.years));
+			this.calculateMilleniumProduction(this.getMilleniaChanged(this.year - years, this.year));
 		}
 
 		var pyramidVal = this.game.religion.getZU("blackPyramid").getEffectiveValue(this.game);
