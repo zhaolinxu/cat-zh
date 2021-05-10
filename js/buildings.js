@@ -2366,7 +2366,7 @@ dojo.declare("classes.ui.btn.BuildingBtnModernController", com.nuclearunicorn.ga
 			name += " [" + ( sim.nextKittenProgress * 100 ).toFixed()  + "%]";
 		}
 		if (meta.almostLimited){
-			name = "◆ " + name + " ◆";
+			name = "* " + name + " *";
 		} 
 		return name;
 	},
