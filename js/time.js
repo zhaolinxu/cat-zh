@@ -760,8 +760,13 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             if(!ignoreShatterInCycles) console.log("Cycle shatter average= " + (new1ShatterD2.getTime() - new1ShatterD1.getTime())/times);
         }
 
-        if(!ignoreOldFunction && !ignoreGroupCycles) console.log("newEfficensy = " + (oldShatterD2.getTime() - oldShatterD1.getTime())/(newShatterD2.getTime() - newShatterD1.getTime()));
-        if(!ignoreOldFunction && !ignoreShatterInCycles) console.log("new1Efficensy = " + (oldShatterD2.getTime() - oldShatterD1.getTime())/(new1ShatterD2.getTime() - new1ShatterD1.getTime()));
+        if(!ignoreOldFunction && !ignoreGroupCycles){
+            console.log("newEfficensy = " + (oldShatterD2.getTime() - oldShatterD1.getTime())/(newShatterD2.getTime() - newShatterD1.getTime()));
+        }
+       
+        if(!ignoreOldFunction && !ignoreShatterInCycles){
+            console.log("new1Efficensy = " + (oldShatterD2.getTime() - oldShatterD1.getTime())/(new1ShatterD2.getTime() - new1ShatterD1.getTime()));
+        }
     },
     unlockAll: function(){
         for (var i in this.cfu){
