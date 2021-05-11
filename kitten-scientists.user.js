@@ -1332,7 +1332,7 @@ var run = function() {
             if (leaderVals.enabled && game.science.get('civil').researched && !game.challenges.isActive("anarchy")) {
                 var leaderJobName = game.village.jobs[leaderVals.leaderJob].name;
                 var traitName = com.nuclearunicorn.game.village.Kitten().traits[leaderVals.leaderTrait].name;
-                if (!options.policies.findIndex(obj => obj == 'theocracy') || game.science.getPolicy('theocracy').researched) {leaderJobName = "priest";}
+                if (options.policies.some(obj => obj === 'theocracy') || game.science.getPolicy('theocracy').researched) {leaderJobName = "priest";}
                 if (game.village.leader == null || !(game.village.leader.job == leaderJobName && game.village.leader.trait.name == traitName)) {
                     var traitKittens = game.village.sim.kittens.filter(kitten => kitten.trait.name == traitName);
                     if (traitKittens.length != 0) {
