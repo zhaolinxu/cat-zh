@@ -725,7 +725,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             maxYearsShattered -= Math.min(5, maxYearsShattered);
             remainingDaysInFirstYear = cal.daysPerSeason * cal.seasonsPerYear;
         }
-        cal.year += Math.max(0, maxYearsShattered);
+        cal.year += maxYearsShattered;
         //cal.onNewYears(endYear == cal.year, maxYearsShattered, false);
         cal.calculateMilleniumProduction(cal.getMilleniaChanged(startYear, cal.year));
         if (amt == 1) {

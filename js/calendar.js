@@ -922,6 +922,8 @@ if (++this.cycleYear >= this.yearsPerCycle) {
 			}
 		}
 
+		this.game.upgrade({policies: ["authocracy"]});
+
 		if (updateUI) {
 			this.game.ui.render();
 		}
@@ -993,6 +995,8 @@ if (++this.cycleYear >= this.yearsPerCycle) {
 			}
 		}
 
+		this.game.upgrade({policies: ["authocracy"]});
+		
 		if (updateUI) {
 			this.game.ui.render();
 		}
