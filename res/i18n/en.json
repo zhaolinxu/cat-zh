@@ -724,6 +724,9 @@
     "policy.zebraRelationsBellicosity.label" : "Zebra Relations: Bellicosity",
     "policy.zebraRelationsBellicosity.desc" : "Stand up to the zebras, making trades with them worse but gaining the respect of other races.",
 
+    "pollution.cleaning": "The environment is currently healing",
+    "pollution.equilibrium": "The environment is in equilibrium.",
+    "pollution.increasing": "Pollution is currently getting worse",
     "pollution.label": "Pollution",
     "pollution.level0": "Your kittens are suffering no ill effects from pollution.",
     "pollution.level1.warning": "Scientists are warning that pollution may affect catnip yields in coming harvests.",
