@@ -723,6 +723,9 @@
     "policy.zebraRelationsBellicosity.label" : "Zebra Relations: Bellicosity",
     "policy.zebraRelationsBellicosity.desc" : "Stand up to the zebras, making trades with them worse but gaining the respect of other races.",
 
+    "pollution.cleaning": "The environment is currently healing",
+    "pollution.equilibrium": "The environment is in equilibrium.",
+    "pollution.increasing": "Pollution is currently getting worse",
     "pollution.label": "Pollution",
     "pollution.level0": "Your kittens are suffering no ill effects from pollution.",
     "pollution.level1.warning": "Scientists are warning that pollution may affect catnip yields in coming harvests.",
@@ -733,6 +736,7 @@
     "pollution.level3": "The {0} is a less attractive destination for potential arrivals.",
     "pollution.level4.warning": "Theologians worry that darkening skies will weaken kittens’ connection to the sun.",
     "pollution.level4": "Pollution has darkened the skies, weakening Solar Revolution’s effect on catnip and wood production.",
+    "pollution.pristine": "Cath is pristine.",
     
     "prestige.panel.label": "Metaphysics",
     "prestige.adjustmentBureau.label": "Adjustment Bureau",
