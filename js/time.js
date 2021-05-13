@@ -512,6 +512,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                     var res = game.resPool.resources[j];
                     res.value = Math.min(res.value, limits[res.name]);
                 }
+                game.bld.cacheCathPollutionPerTick();
+                game.bld.cathPollutionFastForward(remainingTicksInCurrentYear * shatterTCGain);
             }
 
             if (triggersOrderOfTheVoid) {
@@ -575,6 +577,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                 planet.routeDays = Math.max(0, planet.routeDays - remainingDays * routeSpeed);
             }
         }
+
         while(maxYearsShattered > 0){
             var remainingYearsInCurrentCycle = Math.min(cal.yearsPerCycle - cal.cycleYear, maxYearsShattered);
             var remainingDaysInCurrentCycle = (remainingYearsInCurrentCycle - 1) * daysPerYear + remainingDaysInFirstYear;
@@ -596,6 +599,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                     var res = game.resPool.resources[j];
                     res.value = Math.min(res.value, limits[res.name]);
                 }
+                game.bld.cacheCathPollutionPerTick();
+                game.bld.cathPollutionFastForward(remainingTicksInCurrentCycle * shatterTCGain);
             }
 
             if (triggersOrderOfTheVoid) {
@@ -605,7 +610,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             // Calendar
             cal.year += remainingYearsInCurrentCycle;
             cal.onNewYears(endYear == cal.year, remainingYearsInCurrentCycle, false);
-            cal.calculateMilleniumProduction(cal.getMilleniaChanged(cal.years - remainingYearsInCurrentCycle, cal.years));
+            cal.calculateMilleniumProduction(cal.getMilleniaChanged(cal.year - remainingYearsInCurrentCycle, cal.year));
             maxYearsShattered -= remainingYearsInCurrentCycle;
             remainingDaysInFirstYear = cal.daysPerSeason * cal.seasonsPerYear;
         }
@@ -706,6 +711,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                     var res = game.resPool.resources[j];
                     res.value = Math.min(res.value, limits[res.name]);
                 }
+                game.bld.cacheCathPollutionPerTick();
+                game.bld.cathPollutionFastForward(ticksInCurrentCycle * shatterTCGain);
             }
 
             if (triggersOrderOfTheVoid) {
@@ -718,8 +725,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             maxYearsShattered -= Math.min(5, maxYearsShattered);
             remainingDaysInFirstYear = cal.daysPerSeason * cal.seasonsPerYear;
         }
+        cal.year += maxYearsShattered;
         //cal.onNewYears(endYear == cal.year, maxYearsShattered, false);
-        cal.calculateMilleniumProduction(cal.getMilleniaChanged(startYear, cal.years));
+        cal.calculateMilleniumProduction(cal.getMilleniaChanged(startYear, cal.year));
         if (amt == 1) {
             game.msg($I("time.tc.shatterOne"), "", "tc");
         } else {

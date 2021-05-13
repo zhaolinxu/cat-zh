@@ -454,7 +454,11 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			stages: [{bld:"pasture", stage:1}], 	// Solar Farm
-			policies: ["conservation", "openWoodlands"]
+			policies: ["conservation", "openWoodlands"],
+			upgrades: ["carbonSequestration"]
+		},
+		upgrades:{
+			buildings: ["mine", "quarry"]
 		}
 	},
 	{
@@ -889,9 +893,13 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			for (var i = 0; i < game.bld.buildingGroups.length; i++){
     			if(game.bld.buildingGroups[i].name == "population"){
 					for (var k = 0; k < game.bld.buildingGroups[i].buildings.length; k++){
-						if(!game.resPool.isStorageLimited(game.bld.getPrices(game.bld.buildingGroups[i].buildings[k]))){
+						var building = game.bld.getBuildingExt(game.bld.buildingGroups[i].buildings[k]);
+						if(!game.resPool.isStorageLimited(game.bld.getPrices(building.meta.name))){
 							uncappedHousing += 1;
-						}	
+							building.meta.almostLimited = self.researched && game.resPool.isStorageLimited(game.bld.getPrices(building.meta.name, 1));
+						}else{
+							building.meta.almostLimited = false;
+						}
 					}
 					break;
     			}
@@ -1928,16 +1936,34 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 		if (this.policyPanel){
 			this.policyPanel.update();
 		}
+		//detailedPollutionInfo is temporary tag. Don't replace lines belov with i18n lines!
 		if(this.game.detailedPollutionInfo){
 			if(this.detailedPollutionInfo){
-				this.detailedPollutionInfo.innerHTML = "Pollution is " + Math.floor(this.game.cathPollution) + " <br>Polution per tick is " + Math.floor(this.game.cathPollutionPerTick);
-				var pollutionLevel = Math.max(Math.log10(this.game.cathPollution / 1000000), 0);
-				this.detailedPollutionInfo.innerHTML += "<br>Pollution level is " + Math.floor(pollutionLevel * 10) / 10;
-				if(this.game.cathPollutionPerTick < 0 && this.game.cathPollution) {
-					var toZero = -this.game.cathPollution / this.game.cathPollutionPerTick / this.game.calendar.ticksPerDay;
+				var currentCathPollution = this.game.bld.cathPollution;
+				var currenCathPerTickPollution = this.game.bld.cathPollutionPerTick;
+				this.detailedPollutionInfo.innerHTML = "Pollution is " + Math.floor(currentCathPollution) + " <br>Polution per tick is " + Math.floor(currenCathPerTickPollution);
+				var pollutionLevel = this.game.bld.getPollutionLevel();
+				this.detailedPollutionInfo.innerHTML += "<br>Pollution level is " + pollutionLevel;
+				if(pollutionLevel > 0){
+					this.detailedPollutionInfo.innerHTML += "<br>Pollution future effects might be at this pollution level:";
+					this.detailedPollutionInfo.innerHTML += "<br>— Less catnip production";
+					if(pollutionLevel > 1){
+						this.detailedPollutionInfo.innerHTML += "<br>— Less kitten happines: " + this.game.bld.pollutionEffects["pollutionHappines"] + "%";
+					}
+					if(pollutionLevel > 2){
+						this.detailedPollutionInfo.innerHTML += "<br>— Kittens arrive " + this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] + " times slower.";
+					}
+					if(pollutionLevel > 4){
+						this.detailedPollutionInfo.innerHTML += "<br>— SR effect doesn't apply to wood and catnip";
+					}else if(pollutionLevel > 3){
+						this.detailedPollutionInfo.innerHTML += "<br>— Less SR effect on wood and catnip";
+					}
+				}
+				if(currenCathPerTickPollution < 0 && currentCathPollution) {
+					var toZero = -currentCathPollution / currenCathPerTickPollution / this.game.calendar.ticksPerDay;
 					this.detailedPollutionInfo.innerHTML += "<br> To zero " + this.game.toDisplaySeconds(toZero.toFixed());
-				}else if(this.game.cathPollutionPerTick > 0){
-					var toNextLevel = (Math.pow(10, Math.floor(1 + pollutionLevel)) * 1000000 - this.game.cathPollution) / this.game.cathPollutionPerTick / this.game.calendar.ticksPerDay;
+				}else if(currenCathPerTickPollution > 0){
+					var toNextLevel = (Math.pow(10, 1 + pollutionLevel) * 1000000 - currentCathPollution) / currenCathPerTickPollution / this.game.calendar.ticksPerDay;
 					this.detailedPollutionInfo.innerHTML += "<br> To next level " + this.game.toDisplaySeconds(toNextLevel.toFixed());
 				}
 			}

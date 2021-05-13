@@ -70,7 +70,8 @@
 
 		<script type="text/javascript">
 
-			var version = "1484";
+			var version = "1485";
+			var buildRevision = 0;
 
 			var loadingProgress = 0,
 				progressMax = 0;
@@ -90,7 +91,7 @@
 
 				var i = (Math.floor(Math.random() * loadingMessages.length));
 				$("#loadingProgressInfo").html(loadingMessages[i] + "...&nbsp(" + progress.toFixed() + "%)");
-				return System.import(module + ".js?_=" + now);
+				return System.import(module + ".js?rev_=" + buildRevision);
 			}
 
 			function _import(module, def){
@@ -121,7 +122,6 @@
 				} else if (window.location.href.indexOf("beta") >= 0) {
 					displayedVersion += "-&beta;";
 				}
-				$("#versionLink").html(displayedVersion);
 
 				$("#tooltip").hide();
 
@@ -174,13 +174,18 @@
 					}
 				}
 
-				var def = _import("config");
+				var def = $.getJSON("build.version.json?="+now).then(function(json){
+					buildRevision = json.buildRevision;
+					console.log("build revison is" + buildRevision);
+					$("#versionLink").html(displayedVersion + ".r" + buildRevision);
+				});
+				def = _import("config", def);
 				def.then(function() {
 					var schemes = new classes.KGConfig().statics.schemes;
 					for (var i = 0; i < schemes.length; ++i) {
 						//todo: skip theme if preloaded
 						if (!uiSettings || uiSettings.theme != schemes[i]){
-							loadTheme(schemes[i], now);
+							loadTheme(schemes[i], buildRevision);
 						}
 					}
 				});
@@ -246,6 +251,14 @@
 					gamePage.ui.renderFilters();
 					gamePage.ui.onLoad();
 					gamePage.start();
+
+
+					//load optional irc
+
+					$('iframe#kiwiirc_iframe').attr(
+						'src', 
+						'https://kiwiirc.com/nextclient/?settings=98efrnr34rbd&nick=kitten_?'
+					);
 
 					var config = new classes.KGConfig();
 					if (gamePage.isEldermass()){
@@ -450,7 +463,7 @@
 						<div id="IRCChatInner">
 
 							<!--iframe-- src="https://kiwiirc.com/client/irc.canternet.org/?nick=kitten_?#kittensgame" style="border:0; width: 400px; height:800px;"></iframe-->
-							<iframe src="https://kiwiirc.com/nextclient/?settings=98efrnr34rbd&nick=kitten_?" style="border:0; width: 400px; height:800px;"></iframe>
+							<iframe id="kiwiirc_iframe" style="border:0; width: 400px; height:800px;"></iframe>
 						</div>
 					</div>
 				</div>

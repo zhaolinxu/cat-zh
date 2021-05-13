@@ -1428,7 +1428,10 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			"policyFakeBought":{
 				title: $I("effectsMgr.statics.policyFakeBought.title")
 			},
-			"cathPollutionPerTick":{
+			"cathPollutionPerTickProd":{
+				type: "hidden"
+			},
+			"cathPollutionPerTickCon":{
 				type: "hidden"
 			},
 			"cathPollutionRatio":{
@@ -1480,9 +1483,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	//in ticks
 	autosaveFrequency: 400,
 
-	//pollution things
-	cathPollution: 0,
-	cathPollutionPerTick: 0,
 
 	//current building selected in the Building tab by a mouse cursor, should affect resource table rendering
 	//TODO: move me to UI
@@ -1765,9 +1765,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.time.updateEffectCached();
 		this.village.updateEffectCached();
         this.science.updateEffectCached();
+		
+		this.bld.cacheCathPollutionPerTick();
 
 		this.updateResources();
-		this.cathPollutionPerTick = this.getEffect("cathPollutionPerTick") * this.bld.getPollutionRatio() * (1 + this.getEffect("cathPollutionRatio"));
+
 	},
 
 	// Unlimited Diminishing Return
@@ -1900,8 +1902,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		this.globalEffectsCached = {};
-		this.cathPollution = 0;
-		this.cathPollutionPerTick = 0;
 	},
 
 	_publish: function(topic, arg){
@@ -1946,7 +1946,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			cheatMode: this.cheatMode,
 
 			opts : this.opts,
-			cathPollution : this.cathPollution
 		};
 
 		var saveDataString = JSON.stringify(saveData);
@@ -2122,8 +2121,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					this.opts.tooltipsInRightColumn = this.colorScheme == "sleek";
 				}
 			}
-
-			this.cathPollution = data.cathPollution|| 0;
 
 			this.updateOptionsUI();
 		}
@@ -2749,6 +2746,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		perTick *= 1 + paragonProductionRatio;
 
+		// *POLLUTION MODIFIER
+		if(res.name == "catnip"){
+			perTick *= 1 + this.bld.pollutionEffects["catnipPollutionRatio"];
+		}
+
 		//ParagonSpaceProductionRatio definition 1/4
 		var paragonSpaceProductionRatio = 1 + paragonProductionRatio * 0.05;
 
@@ -2781,8 +2783,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		// +*FAITH BONUS
-		perTick *= 1 + this.religion.getSolarRevolutionRatio();
-
+		perTick *= 1 + this.religion.getSolarRevolutionRatio() * (1 + ((res.name == "wood" || res.name == "catnip")? this.bld.pollutionEffects["solarRevolutionPollution"] : 0));
+		
 		//+COSMIC RADIATION
 		if (!this.opts.disableCMBR && res.name != "coal") {
 			perTick *= 1 + this.getCMBRBonus();
@@ -2965,6 +2967,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			value: paragonProductionRatio
 		});
 
+		// *POLLUTION MODIFIER
+		if(res.name == "catnip"){
+			stack.push({
+				name: $I("res.stack.pollution"),
+				type: "ratio",
+				value: this.bld.pollutionEffects["catnipPollutionRatio"]
+			});
+		}
+
 		//ParagonSpaceProductionRatio definition 1/4
 		var paragonSpaceProductionRatio = 1 + paragonProductionRatio * 0.05;
 		var rankLeaderBonusConversion = this.getEffect("rankLeaderBonusConversion") * ((this.village.leader) ? this.village.leader.rank : 0);
@@ -3025,6 +3036,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			type: "ratio",
 			value: this.religion.getSolarRevolutionRatio()
 		});
+		if((res.name == "wood" || res.name == "catnip") && this.religion.getSolarRevolutionRatio() > 0){
+			stack.push({
+				name: $I("res.stack.pollution"),
+				type: "ratioIndent",
+				value: this.bld.pollutionEffects["solarRevolutionPollution"]
+			});
+		}
 
 		if (!this.opts.disableCMBR && res.name != "coal") {
 			stack.push({
@@ -3298,8 +3316,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.resPool.resConsHackForResTable();
 
 		//pollution per tick
-		this.cathPollution += this.cathPollutionPerTick;
-		if(this.cathPollution < 0) {this.cathPollution = 0;}
+		this.bld.cathPollution += this.bld.cathPollutionPerTick;
+		if(this.bld.cathPollution < 0) {this.bld.cathPollution = 0;}
 
 		//nah, kittens are not a resource anymore (?)
 		var kittens = this.resPool.get("kittens");
@@ -3490,6 +3508,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			resString += this.getDisplayValueExt((stackElem.value * 100).toFixed(), true) + "%";
 		} else if (stackElem.type == "multiplier") {
 			resString += "×" + this.getDisplayValueExt((stackElem.value * 100).toFixed()) + "%";
+		} else if (stackElem.type == "ratioIndent") {
+			resString = "|->" + resString + this.getDisplayValueExt((stackElem.value * 100).toFixed(), true) + "%";
 		}
 
 		resString += "</div><br>";
