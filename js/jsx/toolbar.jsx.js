@@ -245,13 +245,13 @@ WToolbarPollution = React.createClass({
         if (pollution * 1.5 <= eqPol || eqPolLvl > polLvl){
             message += "<br/>" + $I("pollution.increasing");
         }
-        else if (pollution >= 0 && this.game.bld.cathPollutionPerTick <= 0 && eqPolLvl >= polLvl){
+        else if (pollution >= 0 && this.game.bld.cathPollutionPerTick <= 0 && eqPolLvl <= polLvl){
             message += "<br/>" + $I("pollution.cleaning");
         }
         else if (eqPolLvl == polLvl && eqPol > 0){
             message += "<br/>" + $I("pollution.equilibrium");
         }
-        else {
+        else if (pollution == 0 && eqPolution <= 0){
             message += "<br/>" + $I("pollution.pristine");
         }
         if (!notUpdateFreshMessage){
