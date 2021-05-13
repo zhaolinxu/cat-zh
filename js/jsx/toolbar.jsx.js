@@ -251,7 +251,7 @@ WToolbarPollution = React.createClass({
         else if (eqPolLvl == polLvl && eqPol > 0){
             message += "<br/>" + $I("pollution.equilibrium");
         }
-        else if (pollution == 0 && eqPolution <= 0){
+        else {
             message += "<br/>" + $I("pollution.pristine");
         }
         if (!notUpdateFreshMessage){
