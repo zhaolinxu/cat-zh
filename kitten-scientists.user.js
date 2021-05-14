@@ -1337,17 +1337,17 @@ var run = function() {
                     var traitKittens = game.village.sim.kittens.filter(kitten => kitten.trait.name == traitName);
                     if (traitKittens.length != 0) {
                         if (game.village.getJob(leaderJobName).unlocked && game.village.getJob(leaderJobName).value < game.village.getJobLimit(leaderJobName)) {
-                            var correctLeaderKitten = traitKittens.sort(function(a, b) {return b.rank - a.rank;})[0];
+                            var correctLeaderKitten = traitKittens.sort(function(a, b) {return b.rank - a.rank != 0 ? b.rank - a.rank : b.exp - a.exp;})[0];
                             if (game.village.getJob(leaderJobName).value < distributeItem[leaderJobName].max || !distributeItem[leaderJobName].limited) {
                                 game.village.unassignJob(correctLeaderKitten);
                             } else {
                                 game.village.sim.removeJob(leaderJobName, 1);
                             }
                             game.villageTab.censusPanel.census.makeLeader(correctLeaderKitten);
+                            game.villageTab.censusPanel.census.update();
                             correctLeaderKitten.job = leaderJobName;
                             game.village.getJob(leaderJobName).value += 1;
                             iactivity('act.distributeLeader', [i18n('$village.trait.' + traitName)], 'ks-distribute');
-                            game.villageTab.censusPanel.census.update();
                         }
                     }
                 }
@@ -1860,25 +1860,27 @@ var run = function() {
                         if (game.workshop.get('machineLearning').researched) {
                             libToDat *= (1 + game.bld.get('aiCore').on * game.getEffect('dataCenterAIRatio'));
                         }
-                        if (game.resPool.energyProd >= game.resPool.energyCons + enCon*libraryMeta.val/libToDat) {
-                            var prices = libraryMeta.stages[1].prices;
-                            var priceRatio = bulkManager.getPriceRatio(libraryMeta, true);
-                            if (bulkManager.singleBuildPossible(libraryMeta, prices, 1)) {
-                                var button = buildManager.getBuildButton('library', 0);
-                                button.controller.sellInternal(button.model, 0);
-                                libraryMeta.on = 0
-                                libraryMeta.val = 0
-                                libraryMeta.stage = 1
-                                libraryMeta.calculateEffects(libraryMeta, game)
-                                iactivity('upgrade.building.library', [], 'ks-upgrade');
-                                game.ui.render();
-                                buildManager.build('library', 1, 1);
-                                game.ui.render();
-                                return;
+                        var scienceBldMax = libraryMeta.stages[0].effects.scienceMax;
+                        if (game.resPool.get('compedium').value > scienceBldMax) {
+                            if (game.resPool.energyProd >= game.resPool.energyCons + enCon * libraryMeta.val / libToDat) {
+                                var prices = libraryMeta.stages[1].prices;
+                                var priceRatio = bulkManager.getPriceRatio(libraryMeta, true);
+                                if (bulkManager.singleBuildPossible(libraryMeta, prices, 1)) {
+                                    var button = buildManager.getBuildButton('library', 0);
+                                    button.controller.sellInternal(button.model, 0);
+                                    libraryMeta.on = 0
+                                    libraryMeta.val = 0
+                                    libraryMeta.stage = 1
+                                    libraryMeta.calculateEffects(libraryMeta, game)
+                                    iactivity('upgrade.building.library', [], 'ks-upgrade');
+                                    game.ui.render();
+                                    buildManager.build('library', 1, 1);
+                                    game.ui.render();
+                                    return;
+                                }
                             }
                         }
                     }
-
                 }
 
                 var amphitheatreMeta = game.bld.getBuildingExt('amphitheatre').meta;
@@ -1886,17 +1888,19 @@ var run = function() {
                     if (amphitheatreMeta.stages[1].stageUnlocked) {
                         var prices = amphitheatreMeta.stages[1].prices;
                         var priceRatio = bulkManager.getPriceRatio(amphitheatreMeta, true);
-                        if (bulkManager.singleBuildPossible(amphitheatreMeta, prices, 1)) {
-                            var button = buildManager.getBuildButton('amphitheatre', 0);
-                            button.controller.sellInternal(button.model, 0);
-                            amphitheatreMeta.on = 0
-                            amphitheatreMeta.val = 0
-                            amphitheatreMeta.stage = 1
-                            iactivity('upgrade.building.amphitheatre', [], 'ks-upgrade');
-                            game.ui.render();
-                            buildManager.build('amphitheatre', 1, 1);
-                            game.ui.render();
-                            return;
+                        if (game.getResourcePerTick('titianium', true) > 0) {
+                            if (bulkManager.singleBuildPossible(amphitheatreMeta, prices, 1)) {
+                                var button = buildManager.getBuildButton('amphitheatre', 0);
+                                button.controller.sellInternal(button.model, 0);
+                                amphitheatreMeta.on = 0
+                                amphitheatreMeta.val = 0
+                                amphitheatreMeta.stage = 1
+                                iactivity('upgrade.building.amphitheatre', [], 'ks-upgrade');
+                                game.ui.render();
+                                buildManager.build('amphitheatre', 1, 1);
+                                game.ui.render();
+                                return;
+                            }
                         }
                     }
                 }
@@ -3353,6 +3357,7 @@ var run = function() {
         + 'padding: 1%;'
         + 'margin: 0;'
         + 'overflow-y: auto;'
+        + 'font-size: 16px;'
         + '}');
 
     addRule(defaultSelector + ' #leftColumn {'
