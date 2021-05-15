@@ -551,8 +551,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     4)calculates flux
     */
     shatterInCycles: function(amt){ 
-        var d = new Date();
-        /////
         amt = amt || 1;
         var maxYearsShattered = amt;
 
@@ -625,8 +623,11 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         if (game.challenges.isActive("1000Years") && cal.year >= 1000) {
             game.challenges.researchChallenge("1000Years");
         }
-        var d1 = new Date();
-        //console.warn(d1.getTime() - d.getTime())
+        
+		// Apply seasonEffect for the newSeason
+		this.game.upgrade({
+			buildings: ["pasture"]
+		});
     },
     /* 
     shatterInGroupCycles does this:
@@ -639,8 +640,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     5)calculates flux
     */
     shatterInGroupCycles: function(amt){
-        var d = new Date();
-        /////
         amt = amt || 1;
         var maxYearsShattered = amt;
 
@@ -674,7 +673,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         }else{
             remainingCyclesYears[cal.cycle] += Math.min(cal.yearsPerCycle - cal.cycleYear, maxYearsShattered);
             maxYearsShattered += -remainingCyclesYears[cal.cycle];
-            //console.warn(maxYearsShattered)
             for (j in remainingCyclesYears){
                 remainingCyclesYears[j] += Math.floor(maxYearsShattered/50);
                 maxYearsShattered += -Math.floor(maxYearsShattered/50);
@@ -684,7 +682,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                 maxYearsShattered += -Math.min(cal.yearsPerCycle, maxYearsShattered);
             }
         }
-        //console.warn(remainingCyclesYears);
         maxYearsShattered = amt;
         var startingCycleNum = cal.cycle;
         for (var cycleNum = 0; cycleNum < cal.cyclesPerEra; cycleNum++){
@@ -739,8 +736,11 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         if (game.challenges.isActive("1000Years") && cal.year >= 1000) {
             game.challenges.researchChallenge("1000Years");
         }
-        var d1 = new Date();
-        //console.warn(d1.getTime() - d.getTime())
+
+		// Apply seasonEffect for the newSeason
+		this.game.upgrade({
+			buildings: ["pasture"]
+		});
     },
     compareShatterTime: function(shatters, times, ignoreOldFunction, ignoreShatterInCycles, ignoreGroupCycles){
         if(!ignoreOldFunction){
