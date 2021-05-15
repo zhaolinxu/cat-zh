@@ -1483,7 +1483,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	//in ticks
 	autosaveFrequency: 400,
 
-	detailedPollutionInfo: false, //test tag, will be removed later on
 
 	//current building selected in the Building tab by a mouse cursor, should affect resource table rendering
 	//TODO: move me to UI
@@ -1903,7 +1902,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		this.globalEffectsCached = {};
-		this.detailedPollutionInfo = false; //temporary
 	},
 
 	_publish: function(topic, arg){
@@ -1948,7 +1946,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			cheatMode: this.cheatMode,
 
 			opts : this.opts,
-			detailedPollutionInfo: this.detailedPollutionInfo //temporary
 		};
 
 		var saveDataString = JSON.stringify(saveData);
@@ -2124,8 +2121,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					this.opts.tooltipsInRightColumn = this.colorScheme == "sleek";
 				}
 			}
-
-			this.detailedPollutionInfo = data.detailedPollutionInfo|| false; //temporary
 
 			this.updateOptionsUI();
 		}
@@ -2753,7 +2748,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		// *POLLUTION MODIFIER
 		if(res.name == "catnip"){
-			perTick *= 1 + this.getEffect("catnipPollutionRatio");
+			perTick *= 1 + this.bld.pollutionEffects["catnipPollutionRatio"];
 		}
 
 		//ParagonSpaceProductionRatio definition 1/4
@@ -2788,7 +2783,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		// +*FAITH BONUS
-		perTick *= 1 + this.religion.getSolarRevolutionRatio() * (1 + ((res.name == "wood" || res.name == "catnip")? this.getEffect("solarRevolutionPollution") : 0));
+		perTick *= 1 + this.religion.getSolarRevolutionRatio() * (1 + ((res.name == "wood" || res.name == "catnip")? this.bld.pollutionEffects["solarRevolutionPollution"] : 0));
 		
 		//+COSMIC RADIATION
 		if (!this.opts.disableCMBR && res.name != "coal") {
@@ -2977,7 +2972,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			stack.push({
 				name: $I("res.stack.pollution"),
 				type: "ratio",
-				value: this.getEffect("catnipPollutionRatio")
+				value: this.bld.pollutionEffects["catnipPollutionRatio"]
 			});
 		}
 
@@ -3045,7 +3040,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			stack.push({
 				name: $I("res.stack.pollution"),
 				type: "ratioIndent",
-				value: this.getEffect("solarRevolutionPollution")
+				value: this.bld.pollutionEffects["solarRevolutionPollution"]
 			});
 		}
 
@@ -4317,6 +4312,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			transcendenceUpgrades: this.religion.transcendenceUpgrades.map(function(item){return item.name;}),
 			challenges: this.challenges.challenges.map(function(item){return item.name;})
 		});
+		this.upgrade({policies: ["authocracy"]});
 	},
 
 	getUnlockByName: function(unlockId, type){

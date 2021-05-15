@@ -310,7 +310,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		effects: {
 			"catnipPerTickBase": 0.125
 		},
-		flavor : $I("buildings.field.flavor")
+		flavor : $I("buildings.field.flavor"),
+		unlockScheme: {
+			name: "catnip",
+			threshold: 56 /* need one barn */
+		}
 	},
 	{
 		name: "pasture",
@@ -445,6 +449,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"maxKittens": 2
 		},
 		breakIronWill: true, //har har har
+		almostLimited: false,
 		flavor : $I("buildings.hut.flavor")
 	},
 	{
@@ -468,6 +473,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
             policies: ["authocracy"]
         },
 		breakIronWill: true,
+		almostLimited: false,
 		flavor : $I("buildings.logHouse.flavor")
 	},{
 		name: "mansion",
@@ -490,6 +496,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
             policies: ["authocracy"]
         },
 		breakIronWill: true,
+		almostLimited: false,
 		flavor: $I("buildings.mansion.flavor")
 	},
 	//----------------------------------- Science ----------------------------------------
@@ -919,14 +926,20 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			if (game.workshop.get("goldOre").researched){
 				self.effects["goldPerTickAutoprod"] = 0.001;
+			}else{
+				self.effects["goldPerTickAutoprod"] = 0;
 			}
 
 			if (game.workshop.get("coalFurnace").researched){
 				self.effects["coalPerTickAutoprod"] = 0.005 * smelterRatio;
+			}else{
+				self.effects["coalPerTickAutoprod"] = 0;
 			}
 
 			if (game.workshop.get("nuclearSmelters").researched){
 				self.effects["titaniumPerTickAutoprod"] = 0.0015;
+			}else{
+				self.effects["titaniumPerTickAutoprod"] = 0;
 			}
 
 			self.effects["woodPerTickCon"] = -0.05;
@@ -1906,14 +1919,16 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		"scienceMax"    : 250,
 		"cultureMax"	: 100,
 		"faithMax" 		: 100,
+		"hutFakeBought": 0,
+		"logHouseFakeBought": 0,
+		"mansionFakeBought": 0
+	},
+	pollutionEffects: {
 		"catnipPollutionRatio" : 0,
 		"pollutionHappines" : 0,
 		"solarRevolutionPollution" : 0,
 		"pollutionDissipationRatio" :  1e-7,
 		"pollutionArrivalSlowdown": 0,
-		"hutFakeBought": 0,
-		"logHouseFakeBought": 0,
-		"mansionFakeBought": 0
 	},
 
 	//deprecated, use getBuildingExt
@@ -1990,12 +2005,13 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	 * For fucks sake, finally we have a non-concrete dynamic price calculation algorithm
 	 * It only took a couple of months. TODO: potential performance impact?
 	 */
-	 getPrices: function(bldName) {
+	 getPrices: function(bldName, additionalBought) {
 	 	var bld = this.getBuildingExt(bldName);
-		return this.getPricesWithAccessor(bld);
+		return this.getPricesWithAccessor(bld, additionalBought);
 	 },
 
-	 getPricesWithAccessor: function(bld) {
+	 getPricesWithAccessor: function(bld, additionalBought) {
+		additionalBought = additionalBought || 0;
 	 	var bldPrices = bld.get("prices");
 		var ratio = this.getPriceRatioWithAccessor(bld);
 
@@ -2003,7 +2019,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 		var pricesDiscount = this.game.getLimitedDR((this.game.getEffect(bld.get("name") + "CostReduction")), 1);
 		var priceModifier = 1 - pricesDiscount;
-		var fakeBought = this.game.getEffect(bld.get("name") + "FakeBought");
+		var fakeBought = this.game.getEffect(bld.get("name") + "FakeBought") + additionalBought;
 
 		for (var i = 0; i < bldPrices.length; i++) {
 			var resPriceDiscount = this.game.getLimitedDR(this.game.getEffect(bldPrices[i].name + "CostReduction"), 1);
@@ -2042,6 +2058,54 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	 },
 
 
+	calculatePollutionEffects: function(){
+		var pollutionLevel = this.getPollutionLevel();
+		var pollution = this.cathPollution;
+		if(this.game.challenges.isActive("postApocalypse")){
+			this.game.bld.effectsBase["pollutionDissipationRatio"] = 0;
+			if(pollutionLevel > 8){
+				this.game.bld.effectsBase["hutFakeBought"] = pollutionLevel - 8;
+				this.game.bld.effectsBase["logHouseFakeBought"] = pollutionLevel - 8;
+				this.game.bld.effectsBase["mansionFakeBought"] = pollutionLevel - 8;
+			}else{
+				this.game.bld.effectsBase["hutFakeBought"] = 0;
+				this.game.bld.effectsBase["logHouseFakeBought"] = 0;
+				this.game.bld.effectsBase["mansionFakeBought"] = 0;
+			}
+		}else{
+			this.game.bld.effectsBase["pollutionDissipationRatio"] = 1e-7;
+		}
+		if(pollutionLevel >= 4){
+			this.game.bld.pollutionEffects["catnipPollutionRatio"] = this.game.getLimitedDR(-0.5 - 0.1 * Math.log(pollution), 10)/10;
+			this.game.bld.pollutionEffects["pollutionHappines"] = -Math.round(Math.log(pollution));
+			this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] = Math.floor(Math.log10(this.game.bld.cathPollution));
+			this.game.bld.pollutionEffects["solarRevolutionPollution"] = -Math.min(pollution * 1e-10, 1);
+		}
+		else if(pollutionLevel == 3){
+			this.game.bld.pollutionEffects["catnipPollutionRatio"] = this.game.getLimitedDR(-0.5 - 0.1 * Math.log(pollution), 10)/10;
+			this.game.bld.pollutionEffects["pollutionHappines"] = -Math.round(Math.log(pollution));
+			this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] = Math.floor(Math.log10(this.game.bld.cathPollution));
+			this.game.bld.pollutionEffects["solarRevolutionPollution"] = 0;
+		}
+		else if(pollutionLevel == 2){
+			this.game.bld.pollutionEffects["catnipPollutionRatio"] = this.game.getLimitedDR(-0.5 - 0.1 * Math.log(pollution), 10)/10;
+			this.game.bld.pollutionEffects["pollutionHappines"] = -Math.round(Math.log(pollution));
+			this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] = 0;
+			this.game.bld.pollutionEffects["solarRevolutionPollution"] = 0;
+		}
+		else if(pollutionLevel == 1){
+			this.game.bld.pollutionEffects["catnipPollutionRatio"] = this.game.getLimitedDR(-0.5 - 0.1 * Math.log(pollution), 10)/10;
+			this.game.bld.pollutionEffects["pollutionHappines"] = 0;
+			this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] = 0;
+			this.game.bld.pollutionEffects["solarRevolutionPollution"] = 0;
+		}
+		else if(pollutionLevel == 0){
+			this.game.bld.pollutionEffects["catnipPollutionRatio"] = 0;
+			this.game.bld.pollutionEffects["pollutionHappines"] = 0;
+			this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] = 0;
+			this.game.bld.pollutionEffects["solarRevolutionPollution"] = 0;
+		}
+	},
 	update: function(){
 		var rerender = false;
 		for (var i = 0; i < this.buildingsData.length; i++){
@@ -2066,6 +2130,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				}
 			}
 
+			this.calculatePollutionEffects();
 		}
 
 		/*
@@ -2083,34 +2148,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 		}
 
-		var pollutionLevel = this.getPollutionLevel();
-		var pollution = this.cathPollution;
-		this.game.bld.effectsBase["catnipPollutionRatio"] = 0;
-		this.game.bld.effectsBase["pollutionHappines"] = 0;
-		this.game.bld.effectsBase["solarRevolutionPollution"] = 0;
-		if(pollutionLevel >= 1){
-			this.game.bld.effectsBase["catnipPollutionRatio"] = this.game.getLimitedDR(-0.5 - 0.1 * Math.log(pollution), 10)/10;
-			if(pollutionLevel >= 2){
-				this.game.bld.effectsBase["pollutionHappines"] = -Math.round(Math.log(pollution));
-				if(pollutionLevel >= 3){
-					this.game.bld.effectsBase["pollutionArrivalSlowdown"] = Math.floor(Math.log10(this.game.bld.cathPollution));
-					if(pollutionLevel >= 4){
-						this.game.bld.effectsBase["solarRevolutionPollution"] = -Math.min(pollution * 1e-10, 1);
-						if(this.game.challenges.isActive("postApocalypse")){
-							if(pollutionLevel > 8){
-								this.game.bld.effectsBase["hutFakeBought"] = pollutionLevel - 8;
-								this.game.bld.effectsBase["logHouseFakeBought"] = pollutionLevel - 8;
-								this.game.bld.effectsBase["mansionFakeBought"] = pollutionLevel - 8;
-							}else{
-								this.game.bld.effectsBase["hutFakeBought"] = 0;
-								this.game.bld.effectsBase["logHouseFakeBought"] = 0;
-								this.game.bld.effectsBase["mansionFakeBought"] = 0;
-							}
-						}
-					}
-				}
-			}
-		}
 		if (rerender){
 			this.game.render();
 		}
@@ -2171,6 +2208,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		this.twoRows = saveData.bldData ? saveData.bldData.twoRows : false;
 		this.loadMetadata(this.buildingsData, saveData.buildings);
 		this.cathPollution = saveData.cathPollution|| 0;
+		this.calculatePollutionEffects();
 	},
 
 	resetState: function(){
@@ -2214,14 +2252,15 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		return polutinEnergy;
 	},
 	getCleanEnergyProdRatio: function(){
-		if(!(this.getCleanEnergy() + this.getPollutingEnergy())) return 0;
+		if(!(this.getCleanEnergy() + this.getPollutingEnergy())) {return 0;}
 		return this.getCleanEnergy() / (this.getCleanEnergy() + this.getPollutingEnergy());
 	},
 	getPollutionRatio: function() {
 		return 1 - this.getCleanEnergyProdRatio() / 2;
 	},
 	getPollutionLevel: function(cathPollution) {
-		if(!cathPollution) cathPollution = this.cathPollution;
+		if(!cathPollution) {cathPollution = this.cathPollution;}
+		if(cathPollution <= 0){return 0;}
 		return Math.max(Math.floor(Math.log10(cathPollution / 100000)), 0);	
 	},
     //============ dev =============
@@ -2247,25 +2286,26 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		return this.game.getEffect("cathPollutionPerTickProd") * this.getPollutionRatio() * (1 + this.game.getEffect("cathPollutionRatio")) + this.game.getEffect("cathPollutionPerTickCon");
 	},
 	cacheCathPollutionPerTick: function(){
-		this.cathPollutionPerTick = Math.round(this.getUndissipatedPollutionPerTick() + ((this.game.challenges.isActive("postApocalypse"))? 0 :  -this.cathPollution * this.game.getEffect("pollutionDissipationRatio")));
+		this.cathPollutionPerTick = Math.round(this.getUndissipatedPollutionPerTick() - this.cathPollution * this.pollutionEffects["pollutionDissipationRatio"]);
 	},
-	getEquilibriumPollution: function(){
-		if (this.game.getEffect("pollutionDissipationRatio")){
-			return this.getUndissipatedPollutionPerTick()/ this.game.getEffect("pollutionDissipationRatio");
+	getEquilibriumPollution: function(){ //returns pollution value at which pollutionDissipationRatio will make pollutionPerTick equal to 0, or -1 if such value doesn't exits
+		if (this.pollutionEffects["pollutionDissipationRatio"]){
+			return this.getUndissipatedPollutionPerTick()/ this.pollutionEffects["pollutionDissipationRatio"];
 		}else if(this.cathPollutionPerTick < 0){
 			return 0;
 		}else{
 			console.log("No equilibrium found");
+			return -1;
 		}
 	},
 	setEquilibriumPollution: function(){
 		var equilibriumPollution = this.getEquilibriumPollution();
-		if(equilibriumPollution || equilibriumPollution === 0){
+		if(equilibriumPollution != -1){
 			this.cathPollution = equilibriumPollution;
 		}
 	},
 	cathPollutionFastForward: function(ticks, simplified){
-		if(simplified) {
+		if(simplified || !this.pollutionEffects["pollutionDissipationRatio"]) {
 			this.cathPollution += this.cathPollutionPerTick * ticks;
 		}
 		else {
@@ -2274,7 +2314,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			p(t = 0) = this.cathPollution
 			d(p)/dt = UPPT + pdr * p
 		*/
-		var pdr = - this.game.getEffect("pollutionDissipationRatio");
+		var pdr = - this.pollutionEffects["pollutionDissipationRatio"];
 		var expon = Math.exp(pdr * ticks);
 		var uppt = this.getUndissipatedPollutionPerTick();
 		this.cathPollution = Math.abs(((this.cathPollution * pdr + uppt) * expon - uppt)/pdr);
@@ -2495,6 +2535,9 @@ dojo.declare("classes.ui.btn.BuildingBtnModernController", com.nuclearunicorn.ga
 		if (meta.name == "hut" && sim.nextKittenProgress && sim.maxKittens <= 10 ){
 			name += " [" + ( sim.nextKittenProgress * 100 ).toFixed()  + "%]";
 		}
+		if (meta.almostLimited){
+			name = "* " + name + " *";
+		} 
 		return name;
 	},
 
@@ -2660,7 +2703,7 @@ dojo.declare("classes.ui.btn.StagingBldBtn", com.nuclearunicorn.game.ui.Building
 			var linkModel = this.model.stageLinks[i];
 			this.stageLinks.push(this.addLink(linkModel));
 		}
-	}
+	},
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicorn.game.ui.tab, {

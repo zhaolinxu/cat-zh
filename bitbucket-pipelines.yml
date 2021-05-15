@@ -3,39 +3,24 @@ image: node:10.15.3
 pipelines:
   default:
     - step:
+        # runs-on: self.hosted
         name: 'Setup'
         caches:
           - nodecustom
           - yarncustom
         script:
           - yarn
-    - parallel:
-      - step:
-          name: 'Lint'
-          caches:
-            - nodecustom
-            - yarncustom
-          script:
-            - yarn lint
-      - step:
-          name: 'Build and Test'
-          caches:
-            - nodecustom
-            - yarncustom
-          script:
-            - yarn test
+          - yarn lint
+          - yarn test
     - step:
         name: 'Deploy'
-        caches:
-           - nodecustom
-           - yarncustom
         script:
             - pipe: atlassian/ssh-run:0.2.3
               variables:
                 SSH_USER: 'bloodrizer'
                 SERVER: '104.248.76.129'
                 MODE: 'command'
-                COMMAND: '/var/www/kittensgame.com/html/deploy.sh && echo $BITBUCKET_BUILD_NUMBER'
+                COMMAND: '/var/www/kittensgame.com/html/deploy.sh'
                 
                 
 definitions:

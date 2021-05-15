@@ -469,7 +469,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     },
 
     shatter: function(amt){
-        var d = new Date();
         amt = amt || 1;
 
         var game = this.game;
@@ -537,8 +536,11 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         if (game.challenges.isActive("1000Years") && cal.year >= 1000) {
             game.challenges.researchChallenge("1000Years");
         }
-        var d1 = new Date();
-        //console.warn(d1.getTime() - d.getTime())
+        
+        // Apply seasonEffect for the newSeason
+		game.upgrade({
+			buildings: ["pasture"]
+		});
     },
     /* shatterInCycles does this:
     1) indepenently calculates space travel
@@ -550,8 +552,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     3)calculates Millenium production
     4)calculates flux
     */
-    shatterInCycles: function(amt){ 
-        var d = new Date();
+    shatterInCycles: function(amt)
         /////
         amt = amt || 1;
         var maxYearsShattered = amt;
@@ -610,7 +611,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             // Calendar
             cal.year += remainingYearsInCurrentCycle;
             cal.onNewYears(endYear == cal.year, remainingYearsInCurrentCycle, false);
-            cal.calculateMilleniumProduction(cal.getMilleniaChanged(cal.years - remainingYearsInCurrentCycle, cal.years));
+            cal.calculateMilleniumProduction(cal.getMilleniaChanged(cal.year - remainingYearsInCurrentCycle, cal.year));
             maxYearsShattered -= remainingYearsInCurrentCycle;
             remainingDaysInFirstYear = cal.daysPerSeason * cal.seasonsPerYear;
         }
@@ -625,8 +626,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         if (game.challenges.isActive("1000Years") && cal.year >= 1000) {
             game.challenges.researchChallenge("1000Years");
         }
-        var d1 = new Date();
-        //console.warn(d1.getTime() - d.getTime())
     },
     /* 
     shatterInGroupCycles does this:
@@ -639,7 +638,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     5)calculates flux
     */
     shatterInGroupCycles: function(amt){
-        var d = new Date();
         /////
         amt = amt || 1;
         var maxYearsShattered = amt;
@@ -725,8 +723,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             maxYearsShattered -= Math.min(5, maxYearsShattered);
             remainingDaysInFirstYear = cal.daysPerSeason * cal.seasonsPerYear;
         }
+        cal.year += maxYearsShattered;
         //cal.onNewYears(endYear == cal.year, maxYearsShattered, false);
-        cal.calculateMilleniumProduction(cal.getMilleniaChanged(startYear, cal.years));
+        cal.calculateMilleniumProduction(cal.getMilleniaChanged(startYear, cal.year));
         if (amt == 1) {
             game.msg($I("time.tc.shatterOne"), "", "tc");
         } else {
@@ -738,8 +737,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         if (game.challenges.isActive("1000Years") && cal.year >= 1000) {
             game.challenges.researchChallenge("1000Years");
         }
-        var d1 = new Date();
-        //console.warn(d1.getTime() - d.getTime())
     },
     compareShatterTime: function(shatters, times, ignoreOldFunction, ignoreShatterInCycles, ignoreGroupCycles){
         if(!ignoreOldFunction){
@@ -1179,6 +1176,10 @@ dojo.declare("classes.ui.time.FixCryochamberBtnController", com.nuclearunicorn.g
 			this.payPrice(model);
 			fixHappened |= this.doFixCryochamber(model);
 		}
+        if(fixHappened){
+            var cry = this.game.time.getVSU("cryochambers");
+            cry.calculateEffects(cry, this.game);
+        }
 		callback(fixHappened);
 	},
 

@@ -893,9 +893,13 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			for (var i = 0; i < game.bld.buildingGroups.length; i++){
     			if(game.bld.buildingGroups[i].name == "population"){
 					for (var k = 0; k < game.bld.buildingGroups[i].buildings.length; k++){
-						if(!game.resPool.isStorageLimited(game.bld.getPrices(game.bld.buildingGroups[i].buildings[k]))){
+						var building = game.bld.getBuildingExt(game.bld.buildingGroups[i].buildings[k]);
+						if(!game.resPool.isStorageLimited(game.bld.getPrices(building.meta.name))){
 							uncappedHousing += 1;
-						}	
+							building.meta.almostLimited = self.researched && game.resPool.isStorageLimited(game.bld.getPrices(building.meta.name, 1));
+						}else{
+							building.meta.almostLimited = false;
+						}
 					}
 					break;
     			}
@@ -1944,10 +1948,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 					this.detailedPollutionInfo.innerHTML += "<br>Pollution future effects might be at this pollution level:";
 					this.detailedPollutionInfo.innerHTML += "<br>— Less catnip production";
 					if(pollutionLevel > 1){
-						this.detailedPollutionInfo.innerHTML += "<br>— Less kitten happines: " + this.game.getEffect("pollutionHappines") + "%";
+						this.detailedPollutionInfo.innerHTML += "<br>— Less kitten happines: " + this.game.bld.pollutionEffects["pollutionHappines"] + "%";
 					}
 					if(pollutionLevel > 2){
-						this.detailedPollutionInfo.innerHTML += "<br>— Kittens arrive " + this.game.getEffect("pollutionArrivalSlowdown") + " times slower.";
+						this.detailedPollutionInfo.innerHTML += "<br>— Kittens arrive " + this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] + " times slower.";
 					}
 					if(pollutionLevel > 4){
 						this.detailedPollutionInfo.innerHTML += "<br>— SR effect doesn't apply to wood and catnip";
