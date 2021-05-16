@@ -1888,7 +1888,7 @@ var run = function() {
                     if (amphitheatreMeta.stages[1].stageUnlocked) {
                         var prices = amphitheatreMeta.stages[1].prices;
                         var priceRatio = bulkManager.getPriceRatio(amphitheatreMeta, true);
-                        if (game.getResourcePerTick('titianium', true) > 0) {
+                        if (game.getResourcePerTick('titanium', true) > 0) {
                             if (bulkManager.singleBuildPossible(amphitheatreMeta, prices, 1)) {
                                 var button = buildManager.getBuildButton('amphitheatre', 0);
                                 button.controller.sellInternal(button.model, 0);
@@ -3335,8 +3335,8 @@ var run = function() {
     var defaultSelector = 'body[data-ks-style]:not(.scheme_sleek)';
 
     addRule('body {' // low priority. make sure it can be covered by the theme
-        + 'font-family: monospace;'
-        + 'font-size: 12px;'
+        + 'font-family: inherit;'
+        + 'font-size: inherit;'
         + '}');
         
     addRule(defaultSelector + ' #game {'
@@ -3368,17 +3368,17 @@ var run = function() {
         + 'margin-top: 1% !important;'
         + 'height: 90%;'
         + 'width: 48%;'
-        + 'font-size: 16px;'
         + '}');
 
     addRule(defaultSelector + ' #rightColumn {'
         + 'overflow-y: auto;'
         + 'height: 92%;'
         + 'width: 19%;'
+        + 'font-size: 12px;'
         + '}');
 
     addRule('body #gamePageContainer #game #rightColumn {'
-        + 'overflow-y: auto'
+        + 'overflow-y: auto;'
         + '}');
 
     // addRule(defaultSelector + ' #gameLog .msg {'
