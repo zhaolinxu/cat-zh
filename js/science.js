@@ -1314,7 +1314,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         ],
         effects:{
 			"hapinnessConsumptionRatio" : -0.1,
-			"hunterRatio": 0.2
+			"hunterRatio": 0.5
         },
         unlocked: false,
         blocked: false,
