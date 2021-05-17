@@ -1484,7 +1484,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			//hidden 1% boost to mints from village level
 			mpratio *= (1 + game.village.map.villageLevel * 0.005);
-
+			mpratio *= (1 + game.getEffect("mintRatio"));
 			self.effects["fursPerTickProd"]  = mpratio * 1.25;	//2
 			self.effects["ivoryPerTickProd"] = mpratio * 0.3;	//1.5
 

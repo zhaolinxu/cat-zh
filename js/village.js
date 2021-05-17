@@ -546,12 +546,13 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 	getResConsumption: function(){
 		var kittens = this.getKittens();
-		var philosophyLuxuryModifier = 1 - this.game.getEffect("luxuryConsuptionReduction");
+		var festivalLuxuryConsumptionRatio = (this.game.calendar.festivalDays)? this.game.getEffect("festivalLuxuryConsumptionRatio") : 0;
+		var philosophyLuxuryModifier = 1 + this.game.getEffect("luxuryConsuptionRatio");
 		var res = {
 			"catnip" : this.catnipPerKitten * kittens,
-			"furs" : -0.01 * kittens * philosophyLuxuryModifier,
-			"ivory" : -0.007 * kittens * philosophyLuxuryModifier,
-			"spice" : -0.001 * kittens * philosophyLuxuryModifier
+			"furs" : -0.01 * kittens * (1 + festivalLuxuryConsumptionRatio) * philosophyLuxuryModifier,
+			"ivory" : -0.007 * kittens * (1 + festivalLuxuryConsumptionRatio) * philosophyLuxuryModifier,
+			"spice" : -0.001 * kittens * (1 + festivalLuxuryConsumptionRatio) * philosophyLuxuryModifier
         };
 		return res;
 	},
@@ -664,6 +665,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 				happiness += happinessPerLuxury;
 				if(resources[i].name == "elderBox" && this.game.resPool.get("wrappingPaper").value){
 					happiness -= happinessPerLuxury; // Present Boxes and Wrapping Paper do not stack.
+				}
+				if(resources[i].type == "uncommon"){
+					happiness += this.game.getEffect("consumableLuxuryHappiness");
 				}
 			}
 		}
