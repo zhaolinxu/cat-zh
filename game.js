@@ -1307,6 +1307,10 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 title: $I("effectsMgr.statics.luxuryConsuptionReduction.title"),
                 type: "ratio"
             },
+			"breweryConsumptionRatio":{
+                title: $I("effectsMgr.statics.breweryConsumptionRatio.title"),
+                type: "ratio"
+			},
             "luxuryHappinessBonus":{
                 title: $I("effectsMgr.statics.luxuryHappinessBonus.title"),
                 type: "fixed"
