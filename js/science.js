@@ -1256,7 +1256,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         blocked: false,
         blocks:["epicurianism"],
         unlocks:{
-            policies: ["rationality", "mysticism", "rationing", "frugality"]
+            policies: ["rationality", "mysticism"/*, "rationing", "frugality"*/]
         },
 		upgrades: {
 			buildings: ["brewery"]
@@ -1275,7 +1275,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         blocked: false,
         blocks:["stoicism"],
         unlocks:{
-            policies: ["rationality", "mysticism", "carnivale", "extravagance"]
+            policies: ["rationality", "mysticism"/*, "carnivale", "extravagance"*/]
         }
 	/*}, {
         name: "carnivale",
