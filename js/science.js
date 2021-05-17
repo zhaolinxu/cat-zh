@@ -1277,7 +1277,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         unlocks:{
             policies: ["rationality", "mysticism", "carnivale", "extravagance"]
         }
-	}, {
+	}, {/*
         name: "carnivale",
         label: $I("policy.carnivale.label"),
         description: $I("policy.carnivale.desc"),
@@ -1335,7 +1335,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		upgrades: {
 			buildings: ["mint"]
 		},
-	}, {
+	}, {*/
         name: "rationality",
         label: $I("policy.rationality.label"),
         description: $I("policy.rationality.desc"),
