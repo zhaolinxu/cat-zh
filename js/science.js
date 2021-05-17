@@ -1253,14 +1253,14 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name : "culture", val: 2500}
         ],
         effects:{
-            "luxuryConsuptionReduction" : 0.5,
+            "luxuryDemandRatio" : -0.5,
 			"breweryConsumptionRatio": -0.25
         },
         unlocked: false,
         blocked: false,
         blocks:["epicurianism"],
         unlocks:{
-            policies: ["rationality", "mysticism"]
+            policies: ["rationality", "mysticism", "rationing", "frugality"]
         },
 		upgrades: {
 			buildings: ["brewery"]
@@ -1279,9 +1279,67 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         blocked: false,
         blocks:["stoicism"],
         unlocks:{
-            policies: ["rationality", "mysticism"]
+            policies: ["rationality", "mysticism", "carnivale", "extravagance"]
         }
-    }, {
+	}, {
+        name: "carnivale",
+        label: $I("policy.carnivale.label"),
+        description: $I("policy.carnivale.desc"),
+        prices: [
+            {name : "culture", val: 3500}
+        ],
+        effects:{
+			"festivalArrivalRatio" : 0.3,
+			"festivalLuxuryConsumptionRatio": 0.3
+        },
+        unlocked: false,
+        blocked: false,
+        blocks:["extravagance"]
+	}, {
+        name: "extravagance",
+        label: $I("policy.extravagance.label"),
+        description: $I("policy.extravagance.desc"),
+        prices: [
+            {name : "culture", val: 3500}
+        ],
+        effects:{
+			"luxuryDemandRatio" : 2,
+			"consumableLuxuryHappiness": 5
+        },
+        unlocked: false,
+        blocked: false,
+        blocks:["carnivale"]
+	}, {
+        name: "rationing",
+        label: $I("policy.rationing.label"),
+        description: $I("policy.rationing.desc"),
+        prices: [
+            {name : "culture", val: 3500}
+        ],
+        effects:{
+			"hapinnessConsumptionRatio" : -0.1,
+			"hunterRatio": 0.1
+        },
+        unlocked: false,
+        blocked: false,
+        blocks:["frugality"]
+	}, {
+        name: "frugality",
+        label: $I("policy.frugality.label"),
+        description: $I("policy.frugality.desc"),
+        prices: [
+            {name : "culture", val: 3500}
+        ],
+        effects:{
+			"mintRatio" : 0.1
+        },
+        unlocked: false,
+        blocked: false,
+        blocks:["rationing"],
+		upgrades: {
+			buildings: ["mint"]
+		},
+	}, {
         name: "rationality",
         label: $I("policy.rationality.label"),
         description: $I("policy.rationality.desc"),
