@@ -332,6 +332,7 @@
     "effectsMgr.statics.blsLimit.title": "Max BLS",
     "effectsMgr.statics.blsProductionBonus.title": "BLS production bonus",
     "effectsMgr.statics.boostFromLeader.title": "Boost From Leader",
+    "effectsMgr.statics.breweryConsumptionRatio.title": "Brewery consumption ratio",
     "effectsMgr.statics.broadcastTowerRatio.title": "Broadcast Tower bonus",
     "effectsMgr.statics.cadBlueprintCraftRatio.title": "Blueprint craft bonus",
     "effectsMgr.statics.calcinerRatio.title": "Calciner bonus",
