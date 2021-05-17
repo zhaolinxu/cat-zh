@@ -1249,7 +1249,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name : "culture", val: 2500}
         ],
         effects:{
-            "luxuryConsuptionRatio" : -0.5,
+            "luxuryDemandRatio" : -0.5,
 			"breweryConsumptionRatio": -0.25
         },
         unlocked: false,
@@ -1299,7 +1299,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name : "culture", val: 3500}
         ],
         effects:{
-			"luxuryConsuptionRatio" : 2,
+			"luxuryDemandRatio" : 2,
 			"consumableLuxuryHappiness": 5
         },
         unlocked: false,

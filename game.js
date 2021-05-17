@@ -1285,8 +1285,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "fixed"
             },
             //philosophy
-            "luxuryConsuptionRatio":{
-                title: $I("effectsMgr.statics.luxuryConsuptionRatio.title"),
+            "luxuryDemandRatio":{
+                title: $I("effectsMgr.statics.luxuryDemandRatio.title"),
                 type: "ratio"
             },
 			"breweryConsumptionRatio":{
