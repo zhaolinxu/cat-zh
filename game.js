@@ -1285,8 +1285,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "fixed"
             },
             //philosophy
-            "luxuryConsuptionReduction":{
-                title: $I("effectsMgr.statics.luxuryConsuptionReduction.title"),
+            "luxuryDemandRatio":{
+                title: $I("effectsMgr.statics.luxuryDemandRatio.title"),
                 type: "ratio"
             },
 			"breweryConsumptionRatio":{
@@ -1300,16 +1300,31 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
             "rationalityBonus":{
                 title: $I("effectsMgr.statics.rationalityBonus.title"),
                 type: "ratio"
-             },
-             "mysticismBonus":{
-                title: $I("effectsMgr.statics.mysticismBonus.title"),
+            },
+         	"mysticismBonus":{
+        	    title: $I("effectsMgr.statics.mysticismBonus.title"),
+               type: "ratio"
+            },
+			"festivalLuxuryConsumptionRatio":{
+            	title: $I("effectsMgr.statics.festivalLuxuryConsumptionRatio.title"),
+            	type: "ratio"
+			},"consumableLuxuryHappiness":{
+                title: $I("effectsMgr.statics.consumableLuxuryHappiness.title"),
+                type: "fixed"
+			},
+			 "hapinnessConsumptionRatio":{
+                title: $I("effectsMgr.statics.hapinnessConsumptionRatio.title"),
                 type: "ratio"
-             },
+			},
+			 "mintRatio":{
+                title: $I("effectsMgr.statics.mintRatio.title"),
+                type: "ratio"
+			},
              //environment policy
-             "environmentMineralBonus":{
+            "environmentMineralBonus":{
                 title: $I("effectsMgr.statics.environmentMineralBonus.title"),
                 type: "ratio"
-             },
+            },
             "environmentWoodBonus":{
 				title: $I("effectsMgr.statics.environmentWoodBonus.title"),
 				type: "ratio"
@@ -2788,7 +2803,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resConsumption = resMapConsumption[res.name] || 0;
 		resConsumption *= 1 + this.getEffect(res.name + "DemandRatio");
 		if (res.name == "catnip" && this.village.sim.kittens.length > 0 && this.village.happiness > 1) {
-			var hapinnessConsumption = Math.max(this.village.happiness - 1, 0);
+			var hapinnessConsumption = Math.max(this.village.happiness * (1 + this.getEffect("hapinnessConsumptionRatio")) - 1, 0);
 			if (this.challenges.isActive("anarchy")) {
 				resConsumption += resConsumption * hapinnessConsumption * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal"));
 			} else {
@@ -3119,7 +3134,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resConsumption = resMapConsumption[res.name] || 0;
 		resConsumption *= 1 + this.getEffect(res.name + "DemandRatio");
 		if (res.name == "catnip" && this.village.sim.kittens.length > 0 && this.village.happiness > 1) {
-			var hapinnessConsumption = Math.max(this.village.happiness - 1, 0);
+			var hapinnessConsumption = Math.max(this.village.happiness * (1 + this.getEffect("hapinnessConsumptionRatio")) - 1, 0);
 			if (this.challenges.isActive("anarchy")) {
 				resConsumption += resConsumption * hapinnessConsumption * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal"));
 			} else {
