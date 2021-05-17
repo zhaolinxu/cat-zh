@@ -657,7 +657,7 @@
     "policy.bigStickPolicy.label" : "Big Stick Policy",
     "policy.bigStickPolicy.desc" : "Speak softly, but beat up your neighbors when necessary. Embassies are cheaper.",
     "policy.carnivale.label": "Carnivale",
-    "policy.carnivale.desc": "During festivals consumption of luxury goods increases, but kittens arrive faster. If there are not enought luxuries, the festival is stopped.",
+    "policy.carnivale.desc": "During festivals consumption of luxury goods increases, but kittens arrive faster. If there are not enought luxuries, cultural festival ends.",
     "policy.cityOnAHill.label" : "City On A Hill",
     "policy.cityOnAHill.desc" : "Be a shining example to the world you hate. Culture cap is slightly increased.",
     "policy.clearCutting.label" : "Clear Cutting",
