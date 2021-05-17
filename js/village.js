@@ -546,7 +546,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 	getResConsumption: function(){
 		var kittens = this.getKittens();
-		var philosophyLuxuryModifier = (1 + this.game.getEffect("luxuryDemandRatio")) * (1 + (this.game.calendar.festivalDays)? this.game.getEffect("festivalLuxuryConsumptionRatio") : 0);
+		var philosophyLuxuryModifier = (1 + this.game.getEffect("luxuryDemandRatio")) * (1 + ((this.game.calendar.festivalDays)? this.game.getEffect("festivalLuxuryConsumptionRatio") : 0));
 		var res = {
 			"catnip" : this.catnipPerKitten * kittens,
 			"furs" : -0.01 * kittens * philosophyLuxuryModifier,
