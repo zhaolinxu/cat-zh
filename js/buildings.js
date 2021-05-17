@@ -1521,16 +1521,20 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"spicePerTickCon" : -0.1,
 			"festivalRatio" : 0.01,
 			"festivalArrivalRatio" : 0.001
-		},		
+		},
+		effectsCalculated: {},
 		togglable: true,
 		lackResConvert: false,
-		action: function(self, game) {//split
-			self.effects = {
-				"catnipPerTickCon" : -1,
-				"spicePerTickCon" : -0.1,
+		calculateEffects: function(self, game){
+			self.effectsCalculated = {
+				"catnipPerTickCon" : -1 * (1 + game.getEffect("breweryConsumptionRatio")),
+				"spicePerTickCon" : -0.1 * (1 + game.getEffect("breweryConsumptionRatio")),
 				"festivalRatio" : 0.01,
 				"festivalArrivalRatio" : 0.001
 			};
+		},
+		action: function(self, game) {
+			self.effects = self.effectsCalculated;
 			var amt = game.resPool.getAmtDependsOnStock(
 				[{res: "catnip", amt: -self.effects["catnipPerTickCon"]},
 				 {res: "spice", amt: -self.effects["spicePerTickCon"]}],
