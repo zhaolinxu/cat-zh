@@ -1643,7 +1643,7 @@
     "village.census.trait.none": "No trait :< ",
     "village.festival.msg.start": "The cultural festival has started",
     "village.festival.msg.ext": "The cultural festival has been extended",
-    "village.festival.msg.deficitEnd": "The cultural festival has been ended due to lack of luxuries",
+    "village.festival.msg.deficitEnd": "The cultural festival ended due to lack of luxuries",
     "village.freeKittens": "Free kittens",
     "village.general.free.kittens.label": "Free kittens",
     "village.happiness.base": "Base",

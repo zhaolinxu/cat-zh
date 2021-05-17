@@ -427,9 +427,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	onNewDay: function(){
 		if (this.festivalDays){
 			this.festivalDays--;
-			if(this.game.getEffect("festivalLuxuryConsumption")){
+			if(this.game.getEffect("festivalLuxuryConsumptionRatio")){
 				if(!this.game.resPool.get("furs").value || !this.game.resPool.get("ivory").value || !this.game.resPool.get("spice").value){
-					this.game.msg("village.festival.msg.deficitEnd", "important");
+					this.game.msg($I("village.festival.msg.deficitEnd"), "important");
 					this.festivalDays = 0;
 				}
 			}
