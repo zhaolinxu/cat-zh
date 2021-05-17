@@ -1256,7 +1256,10 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         blocks:["epicurianism"],
         unlocks:{
             policies: ["rationality", "mysticism"]
-        }
+        },
+		upgrades: {
+			buildings: ["brewery"]
+		},
     }, {
         name: "epicurianism",
         label: $I("policy.epicurianism.label"),
