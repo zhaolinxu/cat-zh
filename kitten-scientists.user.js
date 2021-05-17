@@ -1330,23 +1330,25 @@ var run = function() {
             var distributeItem = options.auto.distribute.items;
             var leaderVals = distributeItem.leader;
             if (leaderVals.enabled && game.science.get('civil').researched && !game.challenges.isActive("anarchy")) {
-                var leaderJobName = game.village.jobs[leaderVals.leaderJob].name;
+                var leaderJobModel = game.village.jobs[leaderVals.leaderJob];
+                var leaderJobName = leaderJobModel.name;
                 var traitName = com.nuclearunicorn.game.village.Kitten().traits[leaderVals.leaderTrait].name;
-                if (options.policies.some(obj => obj === 'theocracy') || game.science.getPolicy('theocracy').researched) {leaderJobName = "priest";}
+                var optionsTheocracy = (options.policies ===  undefined) ? false : options.policies.some(obj => obj === 'theocracy');
+                if (optionsTheocracy || game.science.getPolicy('theocracy').researched) {leaderJobName = "priest";}
                 if (game.village.leader == null || !(game.village.leader.job == leaderJobName && game.village.leader.trait.name == traitName)) {
                     var traitKittens = game.village.sim.kittens.filter(kitten => kitten.trait.name == traitName);
                     if (traitKittens.length != 0) {
-                        if (game.village.getJob(leaderJobName).unlocked && game.village.getJob(leaderJobName).value < game.village.getJobLimit(leaderJobName)) {
+                        if (leaderJobModel.unlocked && leaderJobModel.value < game.village.getJobLimit(leaderJobName)) {
                             var correctLeaderKitten = traitKittens.sort(function(a, b) {return b.rank - a.rank != 0 ? b.rank - a.rank : b.exp - a.exp;})[0];
-                            if (game.village.getJob(leaderJobName).value < distributeItem[leaderJobName].max || !distributeItem[leaderJobName].limited) {
+                            if (leaderJobModel.value < distributeItem[leaderJobName].max || !distributeItem[leaderJobName].limited) {
                                 game.village.unassignJob(correctLeaderKitten);
                             } else {
                                 game.village.sim.removeJob(leaderJobName, 1);
                             }
+                            correctLeaderKitten.job = leaderJobName;
+                            leaderJobModel.value += 1;
                             game.villageTab.censusPanel.census.makeLeader(correctLeaderKitten);
                             game.villageTab.censusPanel.census.update();
-                            correctLeaderKitten.job = leaderJobName;
-                            game.village.getJob(leaderJobName).value += 1;
                             iactivity('act.distributeLeader', [i18n('$village.trait.' + traitName)], 'ks-distribute');
                         }
                     }

@@ -1249,14 +1249,18 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name : "culture", val: 2500}
         ],
         effects:{
-            "luxuryConsuptionReduction" : 0.5
+            "luxuryConsuptionReduction" : 0.5,
+			"breweryConsumptionRatio": -0.25
         },
         unlocked: false,
         blocked: false,
         blocks:["epicurianism"],
         unlocks:{
             policies: ["rationality", "mysticism"]
-        }
+        },
+		upgrades: {
+			buildings: ["brewery"]
+		},
     }, {
         name: "epicurianism",
         label: $I("policy.epicurianism.label"),
