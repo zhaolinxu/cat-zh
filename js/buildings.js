@@ -1513,7 +1513,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			//hidden 1% boost to mints from village level
 			mpratio *= (1 + game.village.map.villageLevel * 0.005);
-
+			mpratio *= (1 + game.getEffect("mintRatio"));
 			self.effects["fursPerTickProd"]  = mpratio * 1.25;	//2
 			self.effects["ivoryPerTickProd"] = mpratio * 0.3;	//1.5
 
@@ -1550,16 +1550,20 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"spicePerTickCon" : -0.1,
 			"festivalRatio" : 0.01,
 			"festivalArrivalRatio" : 0.001
-		},		
+		},
+		effectsCalculated: {},
 		togglable: true,
 		lackResConvert: false,
-		action: function(self, game) {//split
-			self.effects = {
-				"catnipPerTickCon" : -1,
-				"spicePerTickCon" : -0.1,
+		calculateEffects: function(self, game){
+			self.effectsCalculated = {
+				"catnipPerTickCon" : -1 * (1 + game.getEffect("breweryConsumptionRatio")),
+				"spicePerTickCon" : -0.1 * (1 + game.getEffect("breweryConsumptionRatio")),
 				"festivalRatio" : 0.01,
 				"festivalArrivalRatio" : 0.001
 			};
+		},
+		action: function(self, game) {
+			self.effects = self.effectsCalculated;
 			var amt = game.resPool.getAmtDependsOnStock(
 				[{res: "catnip", amt: -self.effects["catnipPerTickCon"]},
 				 {res: "spice", amt: -self.effects["spicePerTickCon"]}],
