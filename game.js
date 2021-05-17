@@ -1301,7 +1301,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 title: $I("effectsMgr.statics.rationalityBonus.title"),
                 type: "ratio"
             },
-         	"mysticismBonus":{
+        	"mysticismBonus":{
         	    title: $I("effectsMgr.statics.mysticismBonus.title"),
                type: "ratio"
             },

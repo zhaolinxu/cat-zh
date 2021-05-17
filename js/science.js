@@ -1314,7 +1314,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         ],
         effects:{
 			"hapinnessConsumptionRatio" : -0.1,
-			"hunterRatio": 0.5
+			"hunterRatio": 0.1
         },
         unlocked: false,
         blocked: false,
@@ -1327,7 +1327,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name : "culture", val: 3500}
         ],
         effects:{
-			"mintRatio" : 0.2
+			"mintRatio" : 0.1
         },
         unlocked: false,
         blocked: false,
