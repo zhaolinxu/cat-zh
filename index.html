@@ -1,43 +1,43 @@
 <!doctype html>
 <html>
 	<script>
-	var _hmt = _hmt || [];
-	(function() {
-	  var hm = document.createElement("script");
-	  hm.src = "https://hm.baidu.com/hm.js?ec6bd64244269a7cec5de39ae5bd1486";
-	  var s = document.getElementsByTagName("script")[0]; 
-	  s.parentNode.insertBefore(hm, s);
-	})();
+		var _hmt = _hmt || [];
+		(function() {
+			var hm = document.createElement("script");
+			hm.src = "https://hm.baidu.com/hm.js?ec6bd64244269a7cec5de39ae5bd1486";
+			var s = document.getElementsByTagName("script")[0];
+			s.parentNode.insertBefore(hm, s);
+		})();
 	</script>
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<meta http-equiv="Cache-Control" content="private, no-cache, no-store">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="Cache-Control" content="private, no-cache, no-store">
 
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<link rel="shortcut icon" href="res/favicon.gif" type="image/x-icon">
+		<link rel="shortcut icon" href="res/favicon.gif" type="image/x-icon">
 
-	<!-- I only use jquery ironically -->
+		<!-- I only use jquery ironically -->
 
-	<script src="lib/react.min.js"></script>
-	<!--todo: use min version -->
+		<script src="lib/react.min.js"></script>
+		<!--todo: use min version -->
 
-	<!-- Local versions of libs will be hosted so our Chinese players wont be forced to use VPN -->
-	<script src="lib/jQuery.js"></script>
-	<script src="lib/dojo.xd.js"></script>
-	<script src="lib/lz-string.js"></script>
-	<script src="lib/md5.js"></script>
+		<!-- Local versions of libs will be hosted so our Chinese players wont be forced to use VPN -->
+		<script src="lib/jQuery.js"></script>
+		<script src="lib/dojo.xd.js"></script>
+		<script src="lib/lz-string.js"></script>
+		<script src="lib/md5.js"></script>
 
-	<!-- friends don't let friends use AMD and require.js -->
-	<script src="lib/system.js"></script>
+		<!-- friends don't let friends use AMD and require.js -->
+		<script src="lib/system.js"></script>
 
-	<script type="text/javascript">
-		var now = Date.now();
+		<script type="text/javascript">
+			var now = Date.now();
 			$("<link />").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "res/default.css?v=1").appendTo($("head"));
-	</script>
+		</script>
 
-	<script>
-		/**
+		<script>
+			/**
 			 * Workaround for IE9 local storage :V
 			 *
 			 * This fix is intended for IE in general and especially for IE9,
@@ -48,12 +48,12 @@
 			window.LCstorage = window.localStorage;
 			if (document.all && !window.localStorage) {
 				window.LCstorage = {};
-				window.LCstorage.removeItem = function () { };
+				window.LCstorage.removeItem = function() {};
 			}
-	</script>
+		</script>
 
-	<script type="text/javascript">
-		var version = "1484";
+		<script type="text/javascript">
+			var version = "1484";
 
 			var loadingProgress = 0,
 				progressMax = 0;
@@ -66,10 +66,10 @@
 				"喵喵喵喵喵~",
 			];
 
-			function loadModule(module){
+			function loadModule(module) {
 				loadingProgress++;
 				console.log("loading module " + module + "...");
-				var progress = (loadingProgress / progressMax ) * 100;
+				var progress = (loadingProgress / progressMax) * 100;
 				$("#loadingProgressBar").attr("value", progress);
 
 				var i = (Math.floor(Math.random() * loadingMessages.length));
@@ -77,20 +77,20 @@
 				return System.import(module + ".js?v=12");
 			}
 
-			function _import(module, def){
-				if (!def){
+			function _import(module, def) {
+				if (!def) {
 					return loadModule(module);
 				} else {
-					return def.then(function(){
+					return def.then(function() {
 						return loadModule(module);
-					}).catch(function(err){
+					}).catch(function(err) {
 						console.error("_import#: unable to load module:", module);
 						console.trace(err);
 					});
 				}
 			}
 
-			function loadTheme(themeId, timestamp){
+			function loadTheme(themeId, timestamp) {
 				$("<link />")
 					.attr("rel", "stylesheet")
 					.attr("type", "text/css")
@@ -145,8 +145,8 @@
 				//------ preload theme id ---------
 				var uiData = LCstorage["com.nuclearunicorn.kittengame.ui"];
 				var uiSettings = uiData && JSON.parse(uiData);
-				if (uiSettings){
-					if (uiSettings.theme){
+				if (uiSettings) {
+					if (uiSettings.theme) {
 						$("body").addClass("scheme_" + uiSettings.theme);
 						loadTheme(uiSettings.theme);
 					}
@@ -157,14 +157,14 @@
 					var schemes = new classes.KGConfig().statics.schemes;
 					for (var i = 0; i < schemes.length; ++i) {
 						//todo: skip theme if preloaded
-						if (!uiSettings || uiSettings.theme != schemes[i]){
+						if (!uiSettings || uiSettings.theme != schemes[i]) {
 							loadTheme(schemes[i]);
 						}
 					}
 				});
 
 				def = _import("i18n", def);
-				def.then(function () {
+				def.then(function() {
 					console.log("Loading locale system");
 					var langPromise = i18nLang.init(6);
 					langPromise.done(function() {
@@ -190,7 +190,7 @@
 						def = _import("core", def);
 						def.then(function() {
 							console.log("Loading game modules");
-							for (var i in modules){
+							for (var i in modules) {
 								def = _import(modules[i], def);
 							}
 							def.then(initGame);
@@ -224,8 +224,8 @@
 					gamePage.start();
 
 					var config = new classes.KGConfig();
-					if (gamePage.isEldermass()){
-						if (gamePage.resPool.get("elderBox").value == 0){
+					if (gamePage.isEldermass()) {
+						if (gamePage.resPool.get("elderBox").value == 0) {
 							gamePage.resPool.get("elderBox").value++;
 							gamePage.msg($I("gift.get"), "important");
 						}
@@ -240,10 +240,10 @@
 
 					var host = window.location.hostname;
 					gamePage.isLocalhost = window.location.protocol == "file:" || host == "localhost" || host == "127.0.0.1";
-					if (gamePage.isLocalhost){
+					if (gamePage.isLocalhost) {
 						$("#devModeButton").show();
 					}
-				} catch (ex){
+				} catch (ex) {
 					if (game && game.telemetry) {
 						game.telemetry.logEvent("error", ex);
 					}
@@ -255,7 +255,7 @@
 
 
 
-			function dev(){
+			function dev() {
 				if (gamePage.isLocalhost) {
 					$("#dev_boostCalendar").show();
 					$("#devPanelCheats").show();
@@ -266,163 +266,162 @@
 			}
 
 			function dev_boostCalendar() {
-				gamePage.calendar.ticksPerDay = 1/3;
+				gamePage.calendar.ticksPerDay = 1 / 3;
 			}
 
-			function wipe(){
+			function wipe() {
 				gamePage.wipe();
 			}
 			// we don't need no css, let the dynamic height be. be, dynamic height, be.
-			function resetGameLogHeight(){
+			function resetGameLogHeight() {
 				$("#devPanel").outerHeight($("#footerLinks").position().top - $("#gameLog").offset().top);
 			}
 			$(resetGameLogHeight);
 			$(window).resize(resetGameLogHeight);
-	</script>
+		</script>
 
-	<title>Kittens Game - a Dark Souls of incremental gaming</title>
-</head>
+		<title>Kittens Game - a Dark Souls of incremental gaming</title>
+	</head>
 
 
-<body>
-	<div id="gamePageContainer">
+	<body>
+		<div id="gamePageContainer">
 
-		<div id="topBar">
-			<div style="padding-left: 10px;">
-				Kittens Game <span style="font-size: small;">by <a href="http://kittensgame.com/" class="copyright" target="_blank">bloodrizer</a></span>
-				<!--- a Dark Souls of incremental gaming -->
+			<div id="topBar">
+				<div style="padding-left: 10px;">
+					Kittens Game <span style="font-size: small;">by <a href="http://kittensgame.com/" class="copyright" target="_blank">bloodrizer</a></span>
+					<!--- a Dark Souls of incremental gaming -->
 
-				<span style="font-size: small;">
+					<span style="font-size: small;">
 						<a href="http://kittensgame.com/alpha" title="experimental, unstable" target="_blank">&alpha;</a>
 						<a href="http://kittensgame.com/beta" title="experimental, stable" target="_blank">&beta;</a>
 						<a href="http://kittensgame.com/web" title="RC, nighty build" target="_blank">ML</a>
 						<a href="http://bloodrizer.ru/games/kittens" title="stable, verified" target="_blank">BU</a>
 					</span>
 
-				<a href="#" style="color: red">
-					<!-- nothing exceptional there so far -->
-				</a>
+					<a href="#" style="color: red">
+						<!-- nothing exceptional there so far -->
+					</a>
 
-				<span id="motd">
+					<span id="motd">
 						<!-- motd -->
 					</span>
 
-				<div id="devPanel" style="display:inline-block; padding-left: 15px; font-size: 14px;">
-					<div id="devPanelFPS" onClick="gamePage.restartFPSCounters()">
-					</div>
-					<div id="devPanelCheats" style="display:none">
-						<a href="#" onclick="gamePage.science.unlockAll();">All techs</a>
-						<a href="#" onclick="gamePage.workshop.unlockAll();">All upgrades</a>
-						<a href="#" onclick="gamePage.resPool.maxAll();">All resources</a>
-						<a href="#" onclick="gamePage.bld.devAddStorage();">More storage</a>
-						<a href="#" onclick="gamePage.unlockedSchemes = gamePage.ui.allSchemes; gamePage.ui.updateOptions();">All themes</a>
-					</div>
-				</div>
-
-			</div>
-			<div id="headerLinks" style="position: absolute; top: 0; right: 10px; float: right;">
-
-				<div id="headerToolbar" style="font-size: 12px; display: inline-block">
-					<!-- toolbar panel goes there -->
-				</div>
-				<span id="autosaveTooltip" style="padding-right: 15px; font-size: 12px; opacity: 0;">autosaving...</span>
-				<span id="saveTooltip" style="padding-right: 15px; font-size: 12px; opacity: 0;">Saved!</span>
-
-				<div class="links-block" style="padding-top:3px;display:inline-block;">
-					<a id="save-link" href="#" onclick="gamePage.saveUI();">Save</a> |
-					<a id="options-link" href="#" onclick="$('#optionsDiv').toggle();">Options</a> |
-
-					<a id="reset-link" href="#" onclick="gamePage.reset();">Reset</a> |
-					<span id="devModeButton" style="display: none;"><a href="#" id="devBtn" onclick="dev();">DEV</a> |</span>
-					<a id="wipe-link" href="#" onclick="wipe();">Wipe</a> |
-					<a id="getTheApp-link" href="#" onclick="gamePage.ui.displayAppDialog();" style="font-weight: bold; color:#666;">Get the app</a> |
-
-					<a href="https://petercheney.gitee.io/kitten-game-cn/changelog" target="_blank">Ver <span id="versionLink">?.?.?.?</span></a>
-				</div>
-			</div>
-		</div>
-
-		<div id="loadingContainer">
-			<div class="content">
-				<span style="font-size:18px;"><img class="loader" width="16" height="16" src="res/ajax-loader.gif">&nbsp;Loading...<br></span>
-				<br>
-				<progress id="loadingProgressBar" value="0" max="100"></progress>
-				<div id="loadingProgressInfo">Setting up game engine...</div>
-			</div>
-		</div>
-
-		<div id="game" style="display:none;">
-			<div id="tooltip" class="button_tooltip"></div>
-
-			<!-- LEFT -->
-			<div id="leftColumn" class="column" style="vertical-align: top;">
-				<div id="leftColumnViewport">
-					Loading...
-				</div>
-			</div>
-
-			<!-- MID -->
-			<div id="midColumn" style="vertical-align: top;" class="column">
-				<div id="midColumnViewport" style="float:right; padding: 5px;">
-					Loading...
-				</div>
-				<div id="gameContainerId" style="border: 1px solid gray;">
-					<span>Oops!</span>
-					<div id="gameContainerHelp" style="font-size:150%;">
-						Looks like the game is not working. But don't worry.<br>
-						<ul>
-							<li>Check if JavaScript is enabled or Ad-Blockers are turned off.</li>
-							<li>Try to refresh the game by pressing Ctrl+F5.</li>
-							<li>Try to reload the game in about 10-15 minutes.</li>
-							<li>If none of these work:
-								<ul>
-									<li>open the web console by pressing F12,</li>
-									<li>go to the "Console" tab,</li>
-									<li>take screenshots of all errors (red texts),</li>
-									<li>post them on Discord.</li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-
-			<!-- RIGHT -->
-			<div id="rightColumn" class="column">
-				<div>
-					<span id="calendarSign" style="cursor:pointer;"></span><span id="calendarDiv" style="cursor:pointer;">Calendar :V</span>
-					<a id="dev_boostCalendar" href="#" onclick="dev_boostCalendar();" style="display: none; text-decoration: none; position: relative; left: 5px;">&gt;&gt;&gt;</a>
-				</div>
-				<div class="right-tab-header">
-					<a id="logLink" href="#" class="active" onclick="gamePage.ui.hideChat();">Log</a>
-					<a id="chatLink" class="chatLink" href="//shang.qq.com/wpa/qunwpa?idkey=2b9f0b27b1aabbce582429184ec05344fa384f59bf410f44071f42b271866338"
-						target="_blank" title="点击加入猫薄荷同好会QQ群：499256691">聊天</a>
-				</div>
-				<div id="observeButton"></div>
-				<div class="right-tab" id="rightTabLog">
-					<div>
-						<div class="console-intro" style="padding-top: 10px; border-top: 1px solid gray;">
-							You are a kitten in a catnip forest.
+					<div id="devPanel" style="display:inline-block; padding-left: 15px; font-size: 14px;">
+						<div id="devPanelFPS" onClick="gamePage.restartFPSCounters()">
 						</div>
+						<div id="devPanelCheats" style="display:none">
+							<a href="#" onclick="gamePage.science.unlockAll();">All techs</a>
+							<a href="#" onclick="gamePage.workshop.unlockAll();">All upgrades</a>
+							<a href="#" onclick="gamePage.resPool.maxAll();">All resources</a>
+							<a href="#" onclick="gamePage.bld.devAddStorage();">More storage</a>
+							<a href="#" onclick="gamePage.unlockedSchemes = gamePage.ui.allSchemes; gamePage.ui.updateOptions();">All themes</a>
+						</div>
+					</div>
 
-						<span id="clearLog">
+				</div>
+				<div id="headerLinks" style="position: absolute; top: 0; right: 10px; float: right;">
+
+					<div id="headerToolbar" style="font-size: 12px; display: inline-block">
+						<!-- toolbar panel goes there -->
+					</div>
+					<span id="autosaveTooltip" style="padding-right: 15px; font-size: 12px; opacity: 0;">autosaving...</span>
+					<span id="saveTooltip" style="padding-right: 15px; font-size: 12px; opacity: 0;">Saved!</span>
+
+					<div class="links-block" style="padding-top:3px;display:inline-block;">
+						<a id="save-link" href="#" onclick="gamePage.saveUI();">Save</a> |
+						<a id="options-link" href="#" onclick="$('#optionsDiv').toggle();">Options</a> |
+
+						<a id="reset-link" href="#" onclick="gamePage.reset();">Reset</a> |
+						<span id="devModeButton" style="display: none;"><a href="#" id="devBtn" onclick="dev();">DEV</a> |</span>
+						<a id="wipe-link" href="#" onclick="wipe();">Wipe</a> |
+						<a id="getTheApp-link" href="#" onclick="gamePage.ui.displayAppDialog();" style="font-weight: bold; color:#666;">Get the app</a> |
+
+						<a href="https://petercheney.gitee.io/kitten-game-cn/changelog" target="_blank">Ver <span id="versionLink">?.?.?.?</span></a>
+					</div>
+				</div>
+			</div>
+
+			<div id="loadingContainer">
+				<div class="content">
+					<span style="font-size:18px;"><img class="loader" width="16" height="16" src="res/ajax-loader.gif">&nbsp;Loading...<br></span>
+					<br>
+					<progress id="loadingProgressBar" value="0" max="100"></progress>
+					<div id="loadingProgressInfo">Setting up game engine...</div>
+				</div>
+			</div>
+
+			<div id="game" style="display:none;">
+				<div id="tooltip" class="button_tooltip"></div>
+
+				<!-- LEFT -->
+				<div id="leftColumn" class="column" style="vertical-align: top;">
+					<div id="leftColumnViewport">
+						Loading...
+					</div>
+				</div>
+
+				<!-- MID -->
+				<div id="midColumn" style="vertical-align: top;" class="column">
+					<div id="midColumnViewport" style="float:right; padding: 5px;">
+						Loading...
+					</div>
+					<div id="gameContainerId" style="border: 1px solid gray;">
+						<span>Oops!</span>
+						<div id="gameContainerHelp" style="font-size:150%;">
+							Looks like the game is not working. But don't worry.<br>
+							<ul>
+								<li>Check if JavaScript is enabled or Ad-Blockers are turned off.</li>
+								<li>Try to refresh the game by pressing Ctrl+F5.</li>
+								<li>Try to reload the game in about 10-15 minutes.</li>
+								<li>If none of these work:
+									<ul>
+										<li>open the web console by pressing F12,</li>
+										<li>go to the "Console" tab,</li>
+										<li>take screenshots of all errors (red texts),</li>
+										<li>post them on Discord.</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<!-- RIGHT -->
+				<div id="rightColumn" class="column">
+					<div>
+						<span id="calendarSign" style="cursor:pointer;"></span><span id="calendarDiv" style="cursor:pointer;">Calendar :V</span>
+						<a id="dev_boostCalendar" href="#" onclick="dev_boostCalendar();" style="display: none; text-decoration: none; position: relative; left: 5px;">&gt;&gt;&gt;</a>
+					</div>
+					<div class="right-tab-header">
+						<a id="logLink" href="#" class="active" onclick="gamePage.ui.hideChat();">Log</a>
+						<a id="chatLink" class="chatLink" href="//shang.qq.com/wpa/qunwpa?idkey=2b9f0b27b1aabbce582429184ec05344fa384f59bf410f44071f42b271866338" target="_blank" title="点击加入猫薄荷同好会QQ群：499256691">聊天</a>
+					</div>
+					<div id="observeButton"></div>
+					<div class="right-tab" id="rightTabLog">
+						<div>
+							<div class="console-intro" style="padding-top: 10px; border-top: 1px solid gray;">
+								You are a kitten in a catnip forest.
+							</div>
+
+							<span id="clearLog">
 								<a id="clearLogHref" href="#" onClick="gamePage.clearLog();">Clear log</a>
 							</span>
-						<span id="logFiltersBlock" style="padding-top: 5px">
+							<span id="logFiltersBlock" style="padding-top: 5px">
 								<a id="logFiltersBlockText" onclick="gamePage.toggleFilters();" href="#">[<span id="filterIcon">+</span>] Log
-						Filters</a>
-						</span>
-						<a id="pauseBtn" style="font-size: 12px;" href="#" title="Pause/unpause the game" onclick="gamePage.togglePause();">pawse</a>
-						<a id="undoBtn" style="font-size: 12px;" href="#" title="Undo the change" onclick="gamePage.undo();">undo</a>
+									Filters</a>
+							</span>
+							<a id="pauseBtn" style="font-size: 12px;" href="#" title="Pause/unpause the game" onclick="gamePage.togglePause();">pawse</a>
+							<a id="undoBtn" style="font-size: 12px;" href="#" title="Undo the change" onclick="gamePage.undo();">undo</a>
 
-						<div id="logFilters" style="display:none">
+							<div id="logFilters" style="display:none">
+							</div>
+						</div>
+						<div id="gameLog" style="overflow-y: scroll; padding-top: 10px; height: 100%; min-height:100%;">
+							<!-- Log goes there -->
 						</div>
 					</div>
-					<div id="gameLog" style="overflow-y: scroll; padding-top: 10px; height: 100%; min-height:100%;">
-						<!-- Log goes there -->
-					</div>
 				</div>
-            </div>
 				<div id="toggleCenter" onClick="gamePage.ui.toggleCenter();" class="column" tooltip="Toggle centered view">
 					<span class="toggleCenter">&gt;</span>
 				</div>
@@ -480,7 +479,7 @@
 
 				Thanks a lot to 4chan/igg for being such a nice guys.<br> Thanks a lot to /r/kittensgame community for all the feedback
 				and testing.<br /> Special thanks to Kittens Game discord mods and members<br /> Special thanks for anyone who is not
-				in the list, we still love you &lt;3<br/> tumblr icon by
+				in the list, we still love you &lt;3<br /> tumblr icon by
 				<a href="https://moonlight-pendent13.deviantart.com">Moonlight-pendent13</a><br />
 				<br /> Warmest thanks to
 				<a href="http://www.reddit.com/user/ainil" target="_blank">ainil</a> for the long months of support and feedback during the formative days of KG.<br />
@@ -548,7 +547,7 @@
 				<label id="optionHighlightUnavailable" for="highlightUnavailable">Highlight buildings limited by storage space</label>
 				<br>
 				<input id="set-ks-enable" type="checkbox">
-				<label id="ks-label" for="set-ks-enable" style="color:red;">启用小猫珂学家</label>
+				<label id="ks-label" for="set-ks-enable" style="color:red;">启用小猫珂学家</label><a href='https://petercheney.gitee.io/baike/?file=004-第三方工具/02-小猫科学家' target="_blank">&nbsp;&nbsp;[使用说明]</a>
 				<!-- [<a href="https://gitee.com/likexia/cbc-kitten-scientists" target="_blank" style="color:blue;text-decoration:none;" title="点击查看">教程</a>] -->
 				<br>
 				<input id="set-kgp-enable" type="checkbox">
@@ -594,7 +593,7 @@
 					<br>
 					<input id="compressSaveFile" type="checkbox" onclick="gamePage.opts.compressSaveFile = $('#compressSaveFile')[0].checked;">
 					<label id="optionCompressSaveFile" for="compressSaveFile" style="font-size: 75%;">Compress exported save file <i>(experimental)<br>
-						WARNING: it generates save files that are NOT COMPATIBLE with older versions.</i></label>
+							WARNING: it generates save files that are NOT COMPATIBLE with older versions.</i></label>
 					<br>
 				</div>
 
@@ -614,21 +613,19 @@
 				<br>
 				<h1 id="exportToText">Text Export:</h1>
 				<br>
-				<textarea id="exportData" style="width: 550px; height: 220px;" autocomplete="off" autocorrect="off" autocapitalize="off"
-					spellcheck="false"></textarea>
-					<br>
-					<input id="closeButton" type="button" value="Close" onclick="$('#exportDiv').hide();" style="margin-top: 10px;">
+				<textarea id="exportData" style="width: 550px; height: 220px;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+				<br>
+				<input id="closeButton" type="button" value="Close" onclick="$('#exportDiv').hide();" style="margin-top: 10px;">
 			</div>
 
 			<div id="importDiv" style="display: none" class="dialog help">
 				<div id="importWarning">Warning! Importing data will overwrite your current game data.</div>
 				<h1 id="importFromText">Text Import:</h1>
 				<br>
-				<textarea id="importData" style="width: 550px; height: 220px;" autocomplete="off" autocorrect="off" autocapitalize="off"
-					spellcheck="false"></textarea>
-					<br>
-					<input id="doImportButton" type="button" value="Import" onclick="gamePage.saveImport(); $('#importDiv').hide(); visibleTrue();" style="margin-top: 10px;">
-					<input id="cancelButton" type="button" value="Cancel" onclick="$('#importDiv').hide();" style="margin-top: 10px;">
+				<textarea id="importData" style="width: 550px; height: 220px;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+				<br>
+				<input id="doImportButton" type="button" value="Import" onclick="gamePage.saveImport(); $('#importDiv').hide(); visibleTrue();" style="margin-top: 10px;">
+				<input id="cancelButton" type="button" value="Cancel" onclick="$('#importDiv').hide();" style="margin-top: 10px;">
 
 			</div>
 
@@ -648,46 +645,45 @@
 
 			<div id="footerLinks" class="links-block">
 				<a href="http://petercheney.gitee.io/baike/" target="_blank" title="猫国百科全书">百科（中文wiki）</a> |
-				<a class="chatLink" href="//shang.qq.com/wpa/qunwpa?idkey=2b9f0b27b1aabbce582429184ec05344fa384f59bf410f44071f42b271866338"
-					target="_blank" title="点击加入猫薄荷同好会QQ群：499256691">Q群</a> |
-					<!-- <a href="http://kittensgame.tumblr.com" target="_blank">tumblr</a> | -->
-					<!-- <a href="#" onclick="$('#helpDiv').toggle();">help</a> | -->
-					<a href="#" onclick="$('#creditsDiv').toggle();">人员</a> |
+				<a class="chatLink" href="//shang.qq.com/wpa/qunwpa?idkey=2b9f0b27b1aabbce582429184ec05344fa384f59bf410f44071f42b271866338" target="_blank" title="点击加入猫薄荷同好会QQ群：499256691">Q群</a> |
+				<!-- <a href="http://kittensgame.tumblr.com" target="_blank">tumblr</a> | -->
+				<!-- <a href="#" onclick="$('#helpDiv').toggle();">help</a> | -->
+				<a href="#" onclick="$('#creditsDiv').toggle();">人员</a> |
 
-					<body>
-						<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN" target="_blank">捐赠</a> |
-						<script type="text/javascript">
-							var abc = function() {
-								if (typeof gamePage === "undefined") {
+				<body>
+					<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN" target="_blank">捐赠</a> |
+					<script type="text/javascript">
+						var abc = function() {
+							if (typeof gamePage === "undefined") {
+								setTimeout(function() {
+									abc();
+								}, 10000);
+							} else {
+								var a = document.getElementsByTagName("a");
+								var b = game.prestige.getParagonStorageRatio();
+								var c = game.resPool.get('timeCrystal').value;
+								var d = game.religion.getTU("blackObelisk").val;
+								var e = localStorage['zh.ks.enable'];
+								if (b > 2.5 && c > 100000 && d > 40 && e == 'enable') {
+									for (var i = a.length - 1; i > 0; i--) {
+										if (a[i].href == "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN") {
+											a[i].href = a[i].href.replace("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN", "https://lolitalibrary.com/maoguo/index.html");
+											a[i].innerHTML = a[i].innerHTML.replace('捐赠', '自动刷领导力');
+											break;
+										}
+									}
+								} else {
 									setTimeout(function() {
 										abc();
 									}, 10000);
-								} else {
-									var a = document.getElementsByTagName("a");
-									var b = game.prestige.getParagonStorageRatio();
-									var c = game.resPool.get('timeCrystal').value;
-									var d = game.religion.getTU("blackObelisk").val;
-									var e = localStorage['zh.ks.enable'];
-									if (b > 2.5 && c > 100000 && d > 40 && e == 'enable') {
-										for (var i = a.length - 1; i > 0; i--) {
-											if (a[i].href == "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN") {
-												a[i].href = a[i].href.replace("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN", "https://lolitalibrary.com/maoguo/index.html");
-												a[i].innerHTML = a[i].innerHTML.replace('捐赠', '自动刷领导力');
-												break;
-											}
-										}
-									} else {
-										setTimeout(function() {
-											abc();
-										}, 10000);
-									}
 								}
 							}
-							abc();
+						}
+						abc();
 					</script>
-					</body>
-					<a href="https://www.patreon.com/bloodrizer" target="_blank">支持</a>
-					<!--  | <a href="classic/" target="_blank">classic</a> -->
+				</body>
+				<a href="https://www.patreon.com/bloodrizer" target="_blank">支持</a>
+				<!--  | <a href="classic/" target="_blank">classic</a> -->
 			</div>
 		</div>
 		<!--客服 开始-->
@@ -701,46 +697,46 @@
 		<!-- 客服 结束 -->
 
 		<script type="text/javascript">
-			var enableKS = function () { 
+			var enableKS = function() {
 				localStorage['zh.ks.enable'] = 'enable';
 				$("#ks-label").text("可爱的猫猫科学家为您服务");
 				$("#set-ks-enable").attr("checked", true);
 				document.body.appendChild(document.createElement('script')).src = 'kitten-scientists.user.js?v=8';
 			};
-			var disableKS = function () {
+			var disableKS = function() {
 				localStorage['zh.ks.enable'] = 'disable';
 				$("#ks-label").text("小猫科学家将在页面刷新后关闭");
 				$("#set-ks-enable").attr("checked", false);
 			};
 
-			if(localStorage['zh.ks.enable'] === 'enable') {
+			if (localStorage['zh.ks.enable'] === 'enable') {
 				enableKS()
 			}
 			$("#set-ks-enable").on('change', function() {
-				if(localStorage['zh.ks.enable'] === 'enable') {
+				if (localStorage['zh.ks.enable'] === 'enable') {
 					disableKS();
 					alert("请在保存游戏后刷新页面");
 				} else {
 					enableKS()
 				}
 			});
-			var enableKGP = function () { 
+			var enableKGP = function() {
 				localStorage['zh.kgp.enable'] = 'enable';
 				$("#kgp-label").text("资源进度条已启动");
 				$("#set-kgp-enable").attr("checked", true);
 				document.body.appendChild(document.createElement('script')).src = 'KGP.js?v=2';
 			};
-			var disableKGP = function () {
+			var disableKGP = function() {
 				localStorage['zh.kgp.enable'] = 'disable';
 				$("#kgp-label").text("资源进度条将在页面刷新后关闭");
 				$("#set-kgp-enable").attr("checked", false);
 			};
 
-			if(localStorage['zh.kgp.enable'] === 'enable') {
+			if (localStorage['zh.kgp.enable'] === 'enable') {
 				enableKGP()
 			}
 			$("#set-kgp-enable").on('change', function() {
-				if(localStorage['zh.kgp.enable'] === 'enable') {
+				if (localStorage['zh.kgp.enable'] === 'enable') {
 					disableKGP();
 					alert("请在保存游戏后刷新页面");
 				} else {
@@ -749,21 +745,21 @@
 			});
 			var _282d5adfdca92885cd9f210a9b60a328 = function() {
 				if (typeof gamePage === "undefined") {
-					setTimeout(function(){
+					setTimeout(function() {
 						_282d5adfdca92885cd9f210a9b60a328();
 					}, 2000);
 				} else {
 					// NummonInit();
 					document.body.appendChild(document.createElement('script')).src = 'NummonCalc.js?v=4';
-					if(game.isWebWorkerSupported() && !game.useWorkers) {
+					if (game.isWebWorkerSupported() && !game.useWorkers) {
 						game.useWorkers = true;
 					}
 				}
 			};
 			_282d5adfdca92885cd9f210a9b60a328();
-			
+
 			function visibleTrue() {
-				setTimeout(function(){
+				setTimeout(function() {
 					if (typeof gamePage != "undefined") {
 						gamePage.nummonTab.visible = true;
 						game.render();
@@ -772,6 +768,6 @@
 			}
 		</script>
 
-</body>
+	</body>
 
 </html>
