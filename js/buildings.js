@@ -854,7 +854,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			var effects = {
 				"mineralsRatio": 0.2,
 				"coalPerTickBase": 0,
-				"cathPollutionPerTickProd": 0.5
+				"cathPollutionPerTickProd": 0.25
 			};
 
 			if (game.workshop.get("deepMining").researched){
@@ -885,7 +885,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"mineralsRatio": 0.35,
 			"coalPerTickBase": 0.015,
 			"uraniumPerTickBase": 0,
-			"cathPollutionPerTickProd": 0.5
+			"cathPollutionPerTickProd": 0.25
 		},
 		calculateEffects: function(self, game){
 			var effects = {
@@ -916,7 +916,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"ironPerTickAutoprod": 0,
 			"titaniumPerTickAutoprod": 0,
 			"goldPerTickAutoprod": 0,
-			"cathPollutionPerTickProd": 0.5
+			"cathPollutionPerTickProd": 0.25
 		},
 		effectsCalculated: {},
 		lackResConvert: false,
