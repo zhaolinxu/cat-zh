@@ -151,8 +151,8 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
     },
      
     getButton: function(tab, buttonName){
-        for(var i in this.game.tabs[tab].buttons){
-            if(this.game.tabs[tab].buttons[i].opts.building == buttonName)
+        for(var i in this.game.tabs[tab].children){
+            if(this.game.tabs[tab].children[i].opts.building == buttonName)
                 return parseInt(i);
         }
     },
@@ -363,12 +363,12 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
             console.log("unicornPasture");
             console.log("\tBonus unicorns per second: "+pastureAmor);
         }
-        pastureAmor = this.game.tabs[0].buttons[pastureButton].model.prices[0].val / pastureAmor;
+        pastureAmor = this.game.tabs[0].children[pastureButton].model.prices[0].val / pastureAmor;
         if(log){
-            var baseWait = gamePage.tabs[0].buttons[pastureButton].model.prices[0].val / total;
-            var avgWait = gamePage.tabs[0].buttons[pastureButton].model.prices[0].val / (total + baseRift);
+            var baseWait = gamePage.tabs[0].children[pastureButton].model.prices[0].val / total;
+            var avgWait = gamePage.tabs[0].children[pastureButton].model.prices[0].val / (total + baseRift);
             console.log("\tMaximum time to build: " + gamePage.toDisplaySeconds(baseWait) + " | Average time to build: " + gamePage.toDisplaySeconds(avgWait));
-            console.log("\tPrice: "+gamePage.tabs[0].buttons[pastureButton].model.prices[0].val+" | Amortization: "+gamePage.toDisplaySeconds(pastureAmor));
+            console.log("\tPrice: "+gamePage.tabs[0].children[pastureButton].model.prices[0].val+" | Amortization: "+gamePage.toDisplaySeconds(pastureAmor));
         }
         if(pastureAmor < bestAmoritization){
             bestAmoritization = pastureAmor;
@@ -548,7 +548,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
     },
     
     getTradeAmountAvg: function() {
-        var tRatio = 1 + this.game.diplomacy.getTradeRatio() + this.game.diplomacy.calculateTradeBonusFromPolicies("leviathans", this.game);
+        var tRatio = 1 + this.game.diplomacy.getTradeRatio() + this.game.diplomacy.calculateTradeBonusFromPolicies("leviathans", this.game) + this.game.challenges.getChallenge("pacifism").getTradeBonusEffect(this.game);
         var cal = this.game.calendar;
         var ticksPerYear = cal.ticksPerDay * cal.daysPerSeason * cal.seasonsPerYear;
         var leviathansModel = this.game.diplomacy.get("leviathans");
@@ -579,11 +579,13 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         var result = calendar * timeC;
         var cost = this.getButtonPrice(game.timeTab.cfPanel.children[0].children, "ressourceRetrieval", "timeCrystal");
         var number = this.game.time.getCFU("ressourceRetrieval").val;
-        if (timeC > 0 && number > 0 && number < 100) {
-            TCBack = Math.ceil(cost * number / result)
-            return TCBack;
-        } else {
+        if (number == 100) {
             return this.i18n("best.none");
+        }else if (timeC <= 0){
+            return this.i18n("$time.cfu.ressourceRetrieval.label");
+        }else {
+            var TCBack = Math.ceil(cost * number / result)
+            return TCBack;
         }
     },
     // OTHERS : 

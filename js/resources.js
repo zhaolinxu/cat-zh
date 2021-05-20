@@ -177,7 +177,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		persists: true
 	},{
 		name : "gflops",
-		title: "gigaflops",
+		title: $I("resources.gflops.title"),
 		type : "common",
 		transient: true,
 		craftable: false,
@@ -185,7 +185,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		persists: false
 	},{
 		name : "hashrates",
-		title: "hashrates",
+		title: $I("resources.hashrates.title"),
 		type : "common",
 		transient: true,
 		craftable: false,
@@ -594,7 +594,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			res.value = Math.floor(res.value);
 		}
 
-		if (isNaN(res.value) || res.value < 0){
+		if (isNaN(res.value) || res.value < 0.0000000001){
 			res.value = 0;	//safe switch
 		}
 
@@ -641,7 +641,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			}
 		}
 
-		// Remove from resources
+		// Remove from resources now to calculate others actions with updated resources
 		for (var i in from) {
 			this.addResPerTick(from[i].res, -from[i].amt * amt);
 		}
@@ -934,7 +934,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			if (delta < 0.25){
 				delta = 0.25;
 			}
-			if (this.game.challenges.getChallenge("energy").researched == true) {
+			if (this.game.challenges.getChallenge("energy").researched && !this.game.challenges.isActive("energy")) {
 				delta = 1 - (1 - delta) / 2;
 			}
 		return delta;

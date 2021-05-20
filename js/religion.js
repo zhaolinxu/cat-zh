@@ -854,6 +854,31 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		this.transcendenceTier = 25;
 
 		this.game.msg("All religion upgrades are unlocked!");
+	},
+
+	undo: function(data){
+		var resPool = this.game.resPool;
+		if (data.action == "refine"){
+			/*
+			  undo.addEvent("religion", {
+				action:"refine",
+				resFrom: model.prices[0].name,
+				resTo: this.controllerOpts.gainedResource,
+				valFrom: priceCount,
+				valTo: gainCount
+			*/
+			var resConverted = resPool.get(data.resTo);
+			/*
+				if you still have refined resources, roll them back
+				of course the correct way would be to call addResEvent(data.resTo, -data.valTo), 
+				find out actual remaining value
+				and refund it proportionally, but I am to lazy to code it in 
+			*/
+			if (resConverted.value > data.valTo) {
+				this.game.resPool.addResEvent(data.resFrom, data.valFrom);
+				this.game.resPool.addResEvent(data.resTo, -data.valTo);
+			}
+		}
 	}
 
 });
@@ -1030,7 +1055,17 @@ dojo.declare("classes.ui.religion.TransformBtnController", com.nuclearunicorn.ga
 			this.controllerOpts.applyAtGain.call(this, priceCount);
 		}
 
-		this.game.msg($I(this.controllerOpts.logTextID, [this.game.getDisplayValueExt(priceCount), this.game.getDisplayValueExt(gainCount)]));
+		var undo = this.game.registerUndoChange();
+        undo.addEvent("religion", {
+			action:"refine",
+			resFrom: model.prices[0].name,
+			resTo: this.controllerOpts.gainedResource,
+			valFrom: priceCount,
+			valTo: gainCount
+		});
+
+		this.game.msg($I(this.controllerOpts.logTextID, [this.game.getDisplayValueExt(priceCount), this.game.getDisplayValueExt(gainCount)]), this.controllerOpts.logfilterID);
+
 		return true;
 	}
 });
@@ -1155,7 +1190,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 					applyAtGain: function(priceCount) {
 						this.game.stats.getStat("unicornsSacrificed").val += priceCount;
 					},
-					logTextID: "religion.sacrificeBtn.sacrifice.msg"
+					logTextID: "religion.sacrificeBtn.sacrifice.msg",
+					logfilterID: "unicornSacrifice"
 				})
 			}, game);
 			sacrificeBtn.render(content);
@@ -1178,7 +1214,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 							zigguratUpgrades: ["skyPalace", "unicornUtopia", "sunspire"]
 						});
 					},
-					logTextID: "religion.sacrificeAlicornsBtn.sacrifice.msg"
+					logTextID: "religion.sacrificeAlicornsBtn.sacrifice.msg",
+					logfilterID: "alicornSacrifice"
 				})
 			}, game);
 			sacrificeAlicornsBtn.render(content);
@@ -1209,7 +1246,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 						return 1 + this.game.getEffect("relicRefineRatio") * this.game.religion.getZU("blackPyramid").getEffectiveValue(this.game);
 					},
 					gainedResource: "relic",
-					logTextID: "religion.refineTCsBtn.refine.msg"
+					logTextID: "religion.refineTCsBtn.refine.msg",
+					logfilterID: "tcRefine"
 				})
 			}, game);
 			refineTCBtn.render(content);

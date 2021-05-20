@@ -1,11 +1,21 @@
+v 1.4.8.4 (6 apr 2021)
+Major:
+* Added pacifism challenge
+* Deleted auto reclaim
+Minor:
+* Optimisation refractors
+
 v 1.4.8.3 (16 nov 2020)
 
 Major:
-* Repeatable challenges (phase 1)
-* Chiral aka KGNet integration
+* Repeatable challenges (rewards on completion, resource reserves)
+* KGNet integration
 
 Minor:
 * Theme bugfixes
+* Instructional text for buildings panel
+* Left/right arrow key navigation (patsy)
+* Various policy and game related fixes (Zig and patsy)
 
 v 1.4.8.2 (15 aug 2020)
 Major:

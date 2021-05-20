@@ -59,7 +59,7 @@ $(function(){
   setTimeout(function () {
     $('#im_main').hide();
   },5000);
-    //    关闭小球，防止遮挡
+  //    关闭小球，防止遮挡
   $('.close-ball').bind('click', function() {
     if ($('.close-ball').hasClass('show')) {
       $('#open_im').show()
