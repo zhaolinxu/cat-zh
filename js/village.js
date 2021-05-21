@@ -84,6 +84,18 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		},
 		value: 0,
 		unlocked: false,
+		calculateEffects: function (self, game) {
+			if(game.challenges.isActive("atheism")){
+				self.unlocked = false;
+				for (var i in game.village.sim.kittens){
+					var kitten = game.village.sim.kittens[i];
+					if(kitten.job == "priest"){
+						game.village.unassignJob(kitten);
+						console.warn("Kitten was unasigned from being a priest in atheism! " + kitten.name + " " + kitten.surname);
+					}
+				}
+			}
+		},
 		evaluateLocks: function(game){
 			return !game.challenges.isActive("atheism");
 		}
