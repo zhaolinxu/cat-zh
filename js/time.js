@@ -1021,7 +1021,7 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
         var price = this.getPricesMultiple(model, amt);
         if(price.void){
             if (price.timeCrystal <= this.game.resPool.get("timeCrystal").value &&
-            price.void || -1 <= this.game.resPool.get("void").value) {
+            (price.void <= this.game.resPool.get("void").value)) {
                 this.game.resPool.addResEvent("timeCrystal", -price.timeCrystal);
                 this.game.resPool.addResEvent("void", -price.void);
                 this.doShatter(model, amt);
