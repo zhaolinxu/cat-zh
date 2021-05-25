@@ -2416,7 +2416,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		if (save.saveVersion == 4) {
 			// Use .on instead of .val and .enabled for all buildings
-			if (save.religion.ru) {
+			if (save.religion && save.religion.ru) {
 				for (var i = 0; i < save.religion.ru.length; i++) {
 					var saveRU = save.religion.ru[i];
 					// Hack to fix old saves
