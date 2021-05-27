@@ -184,7 +184,7 @@ WChiral = React.createClass({
                 $r("div", {className: "row"}, "666 nodes online"),
                 $r("div", {className: "row"}, [
                     $r("pre", {
-                        style: { whiteSpace: "pre" }
+                        style: { whiteSpace: "pre-wrap" }
                     }, game.server.chiral || ">")
                 ]),
                 $r("div", {className: "row"}, [

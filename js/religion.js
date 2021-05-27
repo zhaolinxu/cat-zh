@@ -1021,9 +1021,10 @@ dojo.declare("classes.ui.religion.TransformBtnController", com.nuclearunicorn.ga
 		};
 	},
 
-	buyItem: function(model, event, callback){
+	buyItem: function(model, event, callback) {
 		if (model.enabled && this.hasResources(model)) {
-			callback(this._transform(model, 1));
+			var batchSize = event.ctrlKey ? this.game.opts.batchSize : 1;
+			callback(this._transform(model, batchSize));
 		}
 		callback(false);
 	},
