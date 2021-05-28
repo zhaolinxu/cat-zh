@@ -23,7 +23,7 @@ $(function(){
     //content +='<img class="weixing-ma" src="//likexia.gitee.io/game/images/kf/zfb-ma.jpg">';
 //    content +='<div class="weixing-txt" style="font-size:13px;">打开手机QQ<br>扫码加群<br>一起讨论吧<br><a href="http://shang.qq.com/wpa/qunwpa?idkey=d10d784492d5e73cca25ff48f4763bdc14f698ffdbf42adbb0e9304495cb0387" target="_blank" title="点击加入 - GitHub游戏交流群:627141737">点击加群</a></div>';
     content +='<div class="weixing-txt" style="font-size:13px;">打开微信扫一扫<br>关注公众号<br><br><a href="http://shang.qq.com/wpa/qunwpa?idkey=d10d784492d5e73cca25ff48f4763bdc14f698ffdbf42adbb0e9304495cb0387" target="_blank" title="点击加入 - Git游戏交流群:627141737">Git游戏</a></div>';
-    content +='<img class="weixing-ma" src="http://likexia.gitee.io/game/images/kf/weixing-ma.jpg">';
+    content +='<img class="weixing-ma" src="https://likexia.gitee.io/game/images/kf/weixing-ma.jpg">';
     content +='<div class="weixing-sanjiao"></div>';
     content +='<div class="weixing-sanjiao-big"></div>';
     content +='</div>';
