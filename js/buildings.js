@@ -1084,6 +1084,24 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			//self.effects["coalPerTickAutoprod"] = self.effects["ironPerTickAutoprod"] * game.getEffect("calcinerCoalRatio");
 
+			if (self.on < 1){
+				return;
+			}
+
+			var amt = game.resPool.getAmtDependsOnStock(
+				[{res: "minerals", amt: -self.effectsCalculated["mineralsPerTickCon"]},
+				 {res: "oil", amt: -self.effectsCalculated["oilPerTickCon"]}],
+				self.on
+			);
+			self.effects["mineralsPerTickCon"] = self.effectsCalculated["mineralsPerTickCon"] * amt;
+			self.effects["oilPerTickCon"] = self.effectsCalculated["oilPerTickCon"] * amt;
+			self.effects["ironPerTickAutoprod"] = self.effectsCalculated["ironPerTickAutoprod"] * amt;
+			self.effects["titaniumPerTickAutoprod"] = self.effectsCalculated["titaniumPerTickAutoprod"] * amt;
+
+			var amtFinal = amt;
+
+			//self.effects["coalPerTickAutoprod"] = self.effects["ironPerTickAutoprod"] * game.getEffect("calcinerCoalRatio");
+
 			amt = self.steelProductionCalculation(self, game, true);
 			if (amt > -1){
 				amtFinal = (amt + amtFinal)/2;
@@ -1484,7 +1502,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			//hidden 1% boost to mints from village level
 			mpratio *= (1 + game.village.map.villageLevel * 0.005);
-
+			mpratio *= (1 + game.getEffect("mintRatio"));
 			self.effects["fursPerTickProd"]  = mpratio * 1.25;	//2
 			self.effects["ivoryPerTickProd"] = mpratio * 0.3;	//1.5
 

@@ -84,6 +84,18 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		},
 		value: 0,
 		unlocked: false,
+		calculateEffects: function (self, game) {
+			if(game.challenges.isActive("atheism")){
+				self.unlocked = false;
+				for (var i in game.village.sim.kittens){
+					var kitten = game.village.sim.kittens[i];
+					if(kitten.job == "priest"){
+						game.village.unassignJob(kitten);
+						console.warn("Kitten was unasigned from being a priest in atheism! " + kitten.name + " " + kitten.surname);
+					}
+				}
+			}
+		},
 		evaluateLocks: function(game){
 			return !game.challenges.isActive("atheism");
 		}
@@ -546,12 +558,12 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 	getResConsumption: function(){
 		var kittens = this.getKittens();
-		var philosophyLuxuryModifier = 1 - this.game.getEffect("luxuryConsuptionReduction");
+		var philosophyLuxuryModifier = (1 + this.game.getEffect("luxuryDemandRatio")) * (1 + ((this.game.calendar.festivalDays)? this.game.getEffect("festivalLuxuryConsumptionRatio") : 0));
 		var res = {
 			"catnip" : this.catnipPerKitten * kittens,
 			"furs" : -0.01 * kittens * philosophyLuxuryModifier,
 			"ivory" : -0.007 * kittens * philosophyLuxuryModifier,
-			"spice" : -0.001 * kittens * philosophyLuxuryModifier
+			"spice" : -0.001 * kittens  * philosophyLuxuryModifier
         };
 		return res;
 	},
@@ -664,6 +676,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 				happiness += happinessPerLuxury;
 				if(resources[i].name == "elderBox" && this.game.resPool.get("wrappingPaper").value){
 					happiness -= happinessPerLuxury; // Present Boxes and Wrapping Paper do not stack.
+				}
+				if(resources[i].type == "uncommon"){
+					happiness += this.game.getEffect("consumableLuxuryHappiness");
 				}
 			}
 		}
