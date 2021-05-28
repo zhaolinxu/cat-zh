@@ -1084,24 +1084,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			//self.effects["coalPerTickAutoprod"] = self.effects["ironPerTickAutoprod"] * game.getEffect("calcinerCoalRatio");
 
-			if (self.on < 1){
-				return;
-			}
-
-			var amt = game.resPool.getAmtDependsOnStock(
-				[{res: "minerals", amt: -self.effectsCalculated["mineralsPerTickCon"]},
-				 {res: "oil", amt: -self.effectsCalculated["oilPerTickCon"]}],
-				self.on
-			);
-			self.effects["mineralsPerTickCon"] = self.effectsCalculated["mineralsPerTickCon"] * amt;
-			self.effects["oilPerTickCon"] = self.effectsCalculated["oilPerTickCon"] * amt;
-			self.effects["ironPerTickAutoprod"] = self.effectsCalculated["ironPerTickAutoprod"] * amt;
-			self.effects["titaniumPerTickAutoprod"] = self.effectsCalculated["titaniumPerTickAutoprod"] * amt;
-
-			var amtFinal = amt;
-
-			//self.effects["coalPerTickAutoprod"] = self.effects["ironPerTickAutoprod"] * game.getEffect("calcinerCoalRatio");
-
 			amt = self.steelProductionCalculation(self, game, true);
 			if (amt > -1){
 				amtFinal = (amt + amtFinal)/2;
