@@ -1343,9 +1343,12 @@ var run = function() {
                             if (distributeJob.value >= distributeItem[leaderJobName].max && distributeItem[leaderJobName].limited && distributeJob.value) {
                                 game.village.sim.removeJob(leaderJobName, 1);
                             }
-                            game.village.unassignJob(correctLeaderKitten);
-                            game.villageTab.censusPanel.census.makeLeader(correctLeaderKitten);
-                            game.village.assignJob(distributeJob, 1);
+                            var propGame = game.villageTab.censusPanel.census.game;
+                            propGame.village.unassignJob(correctLeaderKitten);
+                            game.village.getJob(leaderJobName).value++;
+                            correctLeaderKitten.jobs= leaderJobName;
+                            propGame.villageTab.censusPanel.census.makeLeader(correctLeaderKitten);
+                            game.village.leader.job = leaderJobName;
                             this.villageManager.render();
                             iactivity('act.distributeLeader', [i18n('$village.trait.' + traitName)], 'ks-distribute');
                             storeForSummary('distribute', 1);
