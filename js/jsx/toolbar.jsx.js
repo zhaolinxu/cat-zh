@@ -257,6 +257,259 @@ WBLS = React.createClass({
     }
 });
 
+WLoginForm = React.createClass({
+    getInitialState: function(){
+        return {
+            login: null,
+            password: null,
+            isLoading: false,
+            setEmail:null,
+        }
+    },
+
+    render: function(){
+        if (this.state.isLoading){
+            return $r("span", null, "Loading...");
+        }
+        var game = this.props.game;
+        if (game.server.userProfile){
+            var userProfile = game.server.userProfile;
+            return $r("div", {className: "userProfile"},[
+                $r("img", {src: "https://q2.qlogo.cn/headimg_dl?dst_uin=" +
+                    (userProfile.email ? userProfile.email : "n/a")
+                + "&spec=1",
+                width:"25px",
+                height:"25px"}),
+                $r("a", {
+                    href:"http://kittensgame.com/ui/profile", target:"_blank"
+                }, userProfile.id)
+            ]);
+
+        }
+        return $r(
+            "span",
+            {onClick: function (e){ e.stopPropagation(); }},
+            [
+                $r("div", {className: "row"}, [
+                    "邮箱:",
+                        $r("input", {
+                            type: "email",
+                            onChange: this.setLogin,
+                            value: this.state.login
+                        } ),
+                    "密码:",
+                        $r("input", {
+                            type: "password",
+                            onChange: this.setPassword,
+                            value: this.state.password
+                        })
+                ]),
+                $r("div", {className: "row"}, [
+                    $r("a", {
+                        href:"#",
+                        onClick: this.login
+                    }, "登录"),
+                    $r("a", {
+                        target: "_blank",
+                        href: "http://kittensgame.com/ui/register"
+                    }, "注册（推荐QQ邮箱注册）")
+                ])
+            ]
+        )
+    },
+
+    //block keyboard hooks from changing UI when we type login/password
+    setLogin(e){
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
+
+        this.setState({login: e.target.value});
+    },
+
+    setEmail(){
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
+
+        this.setState({login: e.target.value});
+    },
+
+    setPassword(e){
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
+
+        this.setState({password: e.target.value});
+    },
+
+    login: function(){
+        var self = this;
+
+        this.setState({isLoading: true});
+        $.ajax({
+            cache: false,
+            type: "POST",
+            dataType: "JSON",
+            data: {
+                email: this.state.login,
+                password: this.state.password
+            },
+			xhrFields: {
+				withCredentials: true
+			},
+			url: this.props.game.server.getServerUrl() + "/user/login/",
+			dataType: "json"
+		}).done(function(resp){
+            if (resp.id){
+                self.props.game.server.setUserProfile(resp);
+            }
+		}).always(function(){
+            self.setState({isLoading: false});
+        });
+    }
+});
+
+WCloudSaves = React.createClass({
+
+    bytesToSize(bytes) {
+        var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+        if (bytes == 0) return '0 Byte';
+        var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+        return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+    },
+
+    render: function(){
+        var self = this;
+
+        var game = this.props.game;
+        if (!game.server.userProfile){
+            return null;
+        }
+
+        var saveData = game.server.saveData;
+        var hasActiveSaves = false;
+        if (saveData && saveData.length){
+            for (var i in saveData){
+                if (saveData[i].guid == game.telemetry.guid){
+                    hasActiveSaves = true;
+                }
+            }
+        }
+
+        /**
+         * TODO: use local state when appropriate (dataset, animation, etc)
+         * and override it with game's server real data on update cycle
+         *
+         * This way we don't have to handle complex state management on the game.server side
+         */
+        return $r("div", null, [
+
+            $r("div", {className:"save-record-container"},
+            //header
+            saveData && $r("div", {className:"save-record header"}, [
+                $r("div", {className:"save-record-cell"}, "存档ID"),
+                $r("div", {className:"save-record-cell"}, "游戏时间"),
+                $r("div", {className:"save-record-cell"}, "上次更新"),
+                $r("div", {className:"save-record-cell"}, "大小"),
+                $r("div", {className:"save-record-cell"}, "操作")
+            ]),
+            //body
+            //TODO: externalize save record as component?
+            saveData && saveData.map(function(save){
+                var isActiveSave = (save.guid == game.telemetry.guid);
+                return $r("div", {className:"save-record"}, [
+                    $r("div", {className:"save-record-cell"},
+                        isActiveSave ? "[当前]" : ""
+                    ),
+                    $r("div", {className:"save-record-cell"},
+                        save.index ?
+                        ("年 "+ save.index.calendar.year + ", 日 " + save.index.calendar.day) :
+                        "加载中..."
+                    ),
+                    $r("div", {className:"save-record-cell"},
+                        new Date(save.timestamp).toLocaleDateString("zh-CN", {
+                            month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hourCycle: "h24"
+                        })
+                    ),
+                    $r("div", {className:"save-record-cell"}, self.bytesToSize(save.size)),
+                    isActiveSave && $r("a", {
+                        className: "link",
+                        title: "上传你当前游戏存档到官网（会覆盖旧存档）",
+                        onClick: function(e){
+                            e.stopPropagation();
+                            game.server.pushSave();
+                        }}, "上传"),
+                    $r("a", {
+                        className: "link",
+                        title: "下载并加载云存档（你当前存档会丢失）",
+                            onClick: function(e){
+                            e.stopPropagation();
+                            game.server.loadSave(save.guid);
+                        }}, "读取"),
+                ])
+            })),
+
+            $r("div", {className:"save-record-container"}, [
+                (saveData && !hasActiveSaves) && $r("div", {className:"save-record"},[
+                    $r("a", {onClick: function(e){
+                        e.stopPropagation();
+                        game.server.pushSave();
+                    }}, "新的存档 (" + game.telemetry.guid + ")")
+                ]),
+                $r("div", {className:"save-record"},[
+                    $r("a", {
+                        className: "link",
+                        title: "更新信息和存档信息。这是安全按钮不会改变任何数据。",
+                        onClick: function(e){
+                            e.stopPropagation();
+                            game.server.syncSaveData();
+                        }
+                    }, "同步存档")
+                ])
+            ])
+        ])
+    }
+});
+
+WLogin = React.createClass({
+    getInitialState: function(){
+        return {
+            isExpanded: false
+        }
+    },
+
+    render: function(){
+        var game = this.props.game;
+
+        return $r(WToolbarIconContainer, {
+            game: game,
+        },
+            $r("div",
+                {
+                    onClick: this.toggleExpanded
+                },
+                [
+                    $r("span", {
+                        className: "status-indicator-" + (game.server.userProfile ? "online" : "offline")
+                    }, "* " + (game.server.userProfile ? "在线" : "离线")),
+                    this.state.isExpanded && $r("div", {
+                        className: "login-popup button_tooltip tooltip-block"
+                    },
+                        $r("div", null,
+                            $r(WLoginForm, {game: game}),
+                            $r(WCloudSaves, {game: game})
+                        )
+                    )
+                ]
+            )
+        );
+    },
+
+    toggleExpanded: function(){
+        this.setState({
+            isExpanded: !this.state.isExpanded
+        })
+    }
+});
+
 WToolbar = React.createClass({
     getInitialState: function(){
         return {game: this.props.game};
@@ -276,7 +529,8 @@ WToolbar = React.createClass({
             $r(WToolbarMOTD, {game: this.props.game}),
             $r(WToolbarHappiness, {game: this.props.game}),
             $r(WToolbarEnergy, {game: this.props.game}),
-            $r(WBLS, {game: this.props.game})
+            $r(WBLS, {game: this.props.game}),
+            $r(WLogin, {game: this.props.game})
 
         );
         return icons;

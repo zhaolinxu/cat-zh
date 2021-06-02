@@ -163,13 +163,20 @@ dojo.declare("classes.game.Server", null, {
 	},
 
     getServerUrl: function(){
-		var host = window.location.hostname;
-		var isLocalhost = window.location.protocol == "file:" || host == "localhost" || host == "127.0.0.1";
-        if (isLocalhost){
-            //if you are running chilar locally you should know what you are doing
-            return "http://localhost:7780";
-        }
-        return "";
+		//var host = window.location.hostname;
+		//var isLocalhost = window.location.protocol == "file:" || host == "localhost" || host == "127.0.0.1";
+        //if (isLocalhost){
+            //if you are running chilar locally you should know what you are doing 
+              var ishttps = 'https:' == document.location.protocol ? true: false;
+                var url = "kittensgame.com";
+                  if(ishttps){
+                    url = 'https://' + url;
+               }else{
+                    url = 'http://' + url;
+               }
+            return url;
+        //}
+        //return "";
     },
 
 	refresh: function(){
@@ -195,9 +202,9 @@ dojo.declare("classes.game.Server", null, {
 		});
 
 		//-- fetch UID from KGNet if HTTP session is established ---
-		/*if (!this.userProfile){
+		if (!this.userProfile){
 			this.syncUserProfile();
-		}*/
+		}
 		
 	},
 
