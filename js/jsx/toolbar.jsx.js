@@ -281,7 +281,7 @@ WLoginForm = React.createClass({
                 width:"25px",
                 height:"25px"}),
                 $r("a", {
-                    href:"http://kittensgame.com/ui/profile", target:"_blank"
+                    href: document.location.protocol + "//kittensgame.com/ui/profile", target:"_blank"
                 }, userProfile.id)
             ]);
 
@@ -311,7 +311,7 @@ WLoginForm = React.createClass({
                     }, "登录"),
                     $r("a", {
                         target: "_blank",
-                        href: "http://kittensgame.com/ui/register"
+                        href: document.location.protocol +"//kittensgame.com/ui/register"
                     }, "注册（推荐QQ邮箱注册）")
                 ])
             ]

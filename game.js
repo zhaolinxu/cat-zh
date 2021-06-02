@@ -218,7 +218,6 @@ dojo.declare("classes.game.Server", null, {
 	 */
 	_xhr: function(url, method, data, handler){
 		$.ajax({
-            async: false,
             cache: false,
             type: method || "GET",
             dataType: "JSON",
