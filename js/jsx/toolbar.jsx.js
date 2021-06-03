@@ -269,7 +269,7 @@ WLoginForm = React.createClass({
 
     render: function(){
         if (this.state.isLoading){
-            return $r("span", null, "Loading...");
+            return $r("span", null, "加载中...");
         }
         var game = this.props.game;
         if (game.server.userProfile){
@@ -282,7 +282,7 @@ WLoginForm = React.createClass({
                 height:"25px"}),
                 $r("a", {
                     href: document.location.protocol + "//kittensgame.com/ui/profile", target:"_blank"
-                }, userProfile.id)
+                }, userProfile.qqName)
             ]);
 
         }
@@ -311,8 +311,12 @@ WLoginForm = React.createClass({
                     }, "登录"),
                     $r("a", {
                         target: "_blank",
-                        href: document.location.protocol +"//kittensgame.com/ui/register"
-                    }, "注册（推荐QQ邮箱注册）")
+                        href: document.location.protocol +"//kittensgame.com/ui/register",
+                        title: "国外官网，晚上时间可能会被墙。"
+                    }, "注册"),
+                    $r("label", {
+                        title: "可以获取QQ头像"
+                    }, "(推荐QQ数字邮箱注册)")
                 ])
             ]
         )
@@ -457,12 +461,18 @@ WCloudSaves = React.createClass({
                 $r("div", {className:"save-record"},[
                     $r("a", {
                         className: "link",
-                        title: "更新信息和存档信息。这是安全按钮不会改变任何数据。",
+                        title: "更新信存档信息。这是安全按钮不会改变任何数据。",
                         onClick: function(e){
                             e.stopPropagation();
                             game.server.syncSaveData();
                         }
-                    }, "同步存档")
+                    }, "同步存档"),
+                    $r("a", {
+                        className: "link",
+                        target: "_blank",
+                        title: "同步存档教程",
+                        href: "https://petercheney.gitee.io/baike/?file=007-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/02-%E4%BA%91%E5%AD%98%E6%A1%A3"
+                    }, "同步存档没反应的点这个")
                 ])
             ])
         ])
@@ -488,8 +498,9 @@ WLogin = React.createClass({
                 },
                 [
                     $r("span", {
-                        className: "status-indicator-" + (game.server.userProfile ? "online" : "offline")
-                    }, "* " + (game.server.userProfile ? "在线" : "离线")),
+                        className: "status-indicator-" + (game.server.userProfile ? "online" : "offline"),
+                        title: "官方云存档"
+                    }, (game.server.userProfile ? "* 在线" : "(:3)")),
                     this.state.isExpanded && $r("div", {
                         className: "login-popup button_tooltip tooltip-block"
                     },
