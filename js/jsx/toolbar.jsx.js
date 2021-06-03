@@ -467,7 +467,7 @@ WCloudSaves = React.createClass({
                             game.server.syncSaveData();
                         }
                     }, "同步存档"),
-                    $r("a", {
+                    !saveData && $r("a", {
                         className: "link",
                         target: "_blank",
                         title: "同步存档教程",
