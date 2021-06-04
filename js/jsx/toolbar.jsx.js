@@ -413,7 +413,7 @@ WCloudSaves = React.createClass({
                 $r("div", {className:"save-record-cell"}, "游戏时间"),
                 $r("div", {className:"save-record-cell"}, "上次更新"),
                 $r("div", {className:"save-record-cell"}, "大小"),
-                $r("div", {className:"save-record-cell"}, "操作")
+                $r("div", {className:"save-record-cell"}, "存档操作按钮")
             ]),
             //body
             //TODO: externalize save record as component?
@@ -447,7 +447,7 @@ WCloudSaves = React.createClass({
                             onClick: function(e){
                             e.stopPropagation();
                             game.server.loadSave(save.guid);
-                        }}, "读取"),
+                        }}, "下载并加载"),
                 ])
             })),
 
@@ -500,7 +500,7 @@ WLogin = React.createClass({
                     $r("span", {
                         className: "status-indicator-" + (game.server.userProfile ? "online" : "offline"),
                         title: "官方云存档"
-                    }, (game.server.userProfile ? "* 在线" : "(:3)")),
+                    }, (game.server.userProfile ? "* 在线" : "离线")),
                     this.state.isExpanded && $r("div", {
                         className: "login-popup button_tooltip tooltip-block"
                     },
