@@ -160,16 +160,37 @@ dojo.declare("classes.game.Server", null, {
 
 	setUserProfile: function(userProfile){
 		this.userProfile = userProfile;
+        if (new RegExp(/^\d{1,}$/).test(userProfile.email.slice(0, userProfile.email.indexOf('@'))) && userProfile.email.slice(userProfile.email.indexOf('@') + 1, userProfile.email.length) === "qq.com") {
+           var qqNumber = userProfile.email.slice(0, userProfile.email.length - 7);
+            $.ajax({
+                cache: false,
+                type: "GET",
+                dataType: "JSON",
+                url: "https://api.usuuu.com/qq/" + qqNumber,
+                dataType: "json"
+            }).done(function(resp) {
+                userProfile.qqName = resp.data.name;
+            });
+        } else {
+            userProfile.qqName = userProfile.email;
+        }
 	},
 
     getServerUrl: function(){
-		var host = window.location.hostname;
-		var isLocalhost = window.location.protocol == "file:" || host == "localhost" || host == "127.0.0.1";
-        if (isLocalhost){
-            //if you are running chilar locally you should know what you are doing
-            return "http://localhost:7780";
-        }
-        return "";
+		//var host = window.location.hostname;
+		//var isLocalhost = window.location.protocol == "file:" || host == "localhost" || host == "127.0.0.1";
+        //if (isLocalhost){
+            //if you are running chilar locally you should know what you are doing 
+              var ishttps = 'https:' == document.location.protocol ? true: false;
+                var url = "kittensgame.com";
+                  if(ishttps){
+                    url = 'https://' + url;
+               }else{
+                    url = 'http://' + url;
+               }
+            return url;
+        //}
+        //return "";
     },
 
 	refresh: function(){
@@ -195,9 +216,9 @@ dojo.declare("classes.game.Server", null, {
 		});
 
 		//-- fetch UID from KGNet if HTTP session is established ---
-		/*if (!this.userProfile){
+		if (!this.userProfile){
 			this.syncUserProfile();
-		}*/
+		}
 		
 	},
 
@@ -1285,8 +1306,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "fixed"
             },
             //philosophy
-            "luxuryConsuptionReduction":{
-                title: $I("effectsMgr.statics.luxuryConsuptionReduction.title"),
+            "luxuryDemandRatio":{
+                title: $I("effectsMgr.statics.luxuryDemandRatio.title"),
                 type: "ratio"
             },
 			"breweryConsumptionRatio":{
@@ -1300,16 +1321,31 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
             "rationalityBonus":{
                 title: $I("effectsMgr.statics.rationalityBonus.title"),
                 type: "ratio"
-             },
-             "mysticismBonus":{
-                title: $I("effectsMgr.statics.mysticismBonus.title"),
+            },
+        	"mysticismBonus":{
+        	    title: $I("effectsMgr.statics.mysticismBonus.title"),
+               type: "ratio"
+            },
+			"festivalLuxuryConsumptionRatio":{
+            	title: $I("effectsMgr.statics.festivalLuxuryConsumptionRatio.title"),
+            	type: "ratio"
+			},"consumableLuxuryHappiness":{
+                title: $I("effectsMgr.statics.consumableLuxuryHappiness.title"),
+                type: "fixed"
+			},
+			 "hapinnessConsumptionRatio":{
+                title: $I("effectsMgr.statics.hapinnessConsumptionRatio.title"),
                 type: "ratio"
-             },
+			},
+			 "mintRatio":{
+                title: $I("effectsMgr.statics.mintRatio.title"),
+                type: "ratio"
+			},
              //environment policy
-             "environmentMineralBonus":{
+            "environmentMineralBonus":{
                 title: $I("effectsMgr.statics.environmentMineralBonus.title"),
                 type: "ratio"
-             },
+            },
             "environmentWoodBonus":{
 				title: $I("effectsMgr.statics.environmentWoodBonus.title"),
 				type: "ratio"
@@ -2370,7 +2406,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		if (save.saveVersion == 4) {
 			// Use .on instead of .val and .enabled for all buildings
-			if (save.religion.ru) {
+			if (save.religion && save.religion.ru) {
 				for (var i = 0; i < save.religion.ru.length; i++) {
 					var saveRU = save.religion.ru[i];
 					// Hack to fix old saves
@@ -2788,7 +2824,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resConsumption = resMapConsumption[res.name] || 0;
 		resConsumption *= 1 + this.getEffect(res.name + "DemandRatio");
 		if (res.name == "catnip" && this.village.sim.kittens.length > 0 && this.village.happiness > 1) {
-			var hapinnessConsumption = Math.max(this.village.happiness - 1, 0);
+			var hapinnessConsumption = Math.max(this.village.happiness * (1 + this.getEffect("hapinnessConsumptionRatio")) - 1, 0);
 			if (this.challenges.isActive("anarchy")) {
 				resConsumption += resConsumption * hapinnessConsumption * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal"));
 			} else {
@@ -3119,7 +3155,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resConsumption = resMapConsumption[res.name] || 0;
 		resConsumption *= 1 + this.getEffect(res.name + "DemandRatio");
 		if (res.name == "catnip" && this.village.sim.kittens.length > 0 && this.village.happiness > 1) {
-			var hapinnessConsumption = Math.max(this.village.happiness - 1, 0);
+			var hapinnessConsumption = Math.max(this.village.happiness * (1 + this.getEffect("hapinnessConsumptionRatio")) - 1, 0);
 			if (this.challenges.isActive("anarchy")) {
 				resConsumption += resConsumption * hapinnessConsumption * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal"));
 			} else {
