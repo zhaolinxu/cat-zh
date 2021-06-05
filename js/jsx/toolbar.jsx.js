@@ -281,7 +281,7 @@ WLoginForm = React.createClass({
                 width:"25px",
                 height:"25px"}),
                 $r("a", {
-                    href: document.location.protocol + "//kittensgame.com/ui/profile", target:"_blank"
+                    href: "https://kittensgame.com/ui/profile", target:"_blank"
                 }, userProfile.qqName)
             ]);
 

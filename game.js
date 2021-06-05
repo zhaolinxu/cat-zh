@@ -273,7 +273,7 @@ dojo.declare("classes.game.Server", null, {
 			password: passElem.value
 		};
 		error.innerHTML = "发送请求中，请稍候";
-		$.post("https:kittensgame.com/user/register/", data).done(function(resp){
+		$.post("https://kittensgame.com/user/register/", data).done(function(resp){
 			if (resp.startsWith("Error")) {
 				error.innerHTML = resp;
 			} else {
