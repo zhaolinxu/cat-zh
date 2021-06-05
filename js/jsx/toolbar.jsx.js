@@ -310,13 +310,10 @@ WLoginForm = React.createClass({
                         onClick: this.login
                     }, "登录"),
                     $r("a", {
-                        target: "_blank",
-                        href: document.location.protocol +"//kittensgame.com/ui/register",
-                        title: "国外官网，晚上时间可能会被墙。"
-                    }, "注册"),
-                    $r("label", {
-                        title: "可以获取QQ头像"
-                    }, "(推荐QQ数字邮箱注册)")
+                        onClick: function(e){
+                            e.stopPropagation();
+                            game.ui.showDialog("registerDiv");
+                    }}, "注册")
                 ])
             ]
         )
@@ -410,8 +407,8 @@ WCloudSaves = React.createClass({
             //header
             saveData && $r("div", {className:"save-record header"}, [
                 $r("div", {className:"save-record-cell"}, "存档ID"),
-                $r("div", {className:"save-record-cell"}, "游戏时间"),
-                $r("div", {className:"save-record-cell"}, "上次更新"),
+                $r("div", {className:"save-record-cell"}, "存档游戏时间"),
+                $r("div", {className:"save-record-cell"}, "上次更新时间"),
                 $r("div", {className:"save-record-cell"}, "大小"),
                 $r("div", {className:"save-record-cell"}, "存档操作")
             ]),
@@ -425,7 +422,7 @@ WCloudSaves = React.createClass({
                     ),
                     $r("div", {className:"save-record-cell"},
                         save.index ?
-                        (save.index.calendar.year +"年" "," + save.index.calendar.day + "日") :
+                        (save.index.calendar.year +"年" + "，" + save.index.calendar.day + " 天 ") :
                         "加载中..."
                     ),
                     $r("div", {className:"save-record-cell"},
@@ -500,7 +497,7 @@ WLogin = React.createClass({
                     $r("span", {
                         className: "status-indicator-" + (game.server.userProfile ? "online" : "offline"),
                         title: "官方云存档"
-                    }, (game.server.userProfile ? "* 在线" : "离线")),
+                    }, "* " + (game.server.userProfile ? "在线" : "离线")),
                     this.state.isExpanded && $r("div", {
                         className: "login-popup button_tooltip tooltip-block"
                     },

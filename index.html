@@ -652,6 +652,37 @@
 				<!--span style="font-size:12px;">(Will open in a new window)</span-->
 			</div>
 
+			<div id='registerDiv' style="display: none;" align="center" class="dialog help">
+				<a id="dialogClose" href="#" class="close" style="position: absolute; top: 10px; right: 15px;">close</a>
+				<div style="font-weight: bold; color:#666;">猫国建设者官方账号</div>
+				<hr>
+				<div id="registerError" style="display: block;">&nbsp;</div>
+				<div>
+                    <br>
+					<span style="display: block;">推荐使用QQ数字邮箱</span>
+					<span>电子邮箱:
+					<br>
+						<input type="email" id="registerEmail"></span>
+						<span>
+						<br>密码：
+						<span style="font-size: 0.8em">(6-30字符)</span>
+						<br>
+						<input type="password" id="loginPassword"></span>
+					<br>
+					<div style="display: block;">确认密码:
+					<br>
+					<input type="password" id="confirmPassword">
+					<br>
+					</div>
+					<br>
+					<div class="btn modern" style="font-size:16px;" onclick="gamePage.server.register()">注册</div>
+					<div style="color:#01A9DB;">
+						<li>因为官方网站注册有几率会被墙，<br>所以用这个代替官网注册账号。</li>
+						<li>官网存档可以与手机存档一键同步</li>
+					</div>
+				</div>
+			</div>
+
 			<div id="footerLinks" class="links-block">
 				<a href="http://petercheney.gitee.io/baike/" target="_blank" title="猫国百科全书">百科（中文wiki）</a> |
 				<a class="chatLink" href="//shang.qq.com/wpa/qunwpa?idkey=2b9f0b27b1aabbce582429184ec05344fa384f59bf410f44071f42b271866338" target="_blank" title="点击加入猫薄荷同好会QQ群：499256691">Q群</a> |

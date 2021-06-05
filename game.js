@@ -160,20 +160,20 @@ dojo.declare("classes.game.Server", null, {
 
 	setUserProfile: function(userProfile){
 		this.userProfile = userProfile;
-        if (new RegExp(/^\d{1,}$/).test(userProfile.email.slice(0, userProfile.email.indexOf('@'))) && userProfile.email.slice(userProfile.email.indexOf('@') + 1, userProfile.email.length) === "qq.com") {
-           var qqNumber = userProfile.email.slice(0, userProfile.email.length - 7);
-            $.ajax({
-                cache: false,
-                type: "GET",
-                dataType: "JSON",
-                url: "https://api.usuuu.com/qq/" + qqNumber,
-                dataType: "json"
-            }).done(function(resp) {
-                userProfile.qqName = resp.data.name;
-            });
-        } else {
-            userProfile.qqName = userProfile.email;
-        }
+		if (new RegExp(/^\d{1,}$/).test(userProfile.email.slice(0, userProfile.email.indexOf('@'))) && userProfile.email.slice(userProfile.email.indexOf('@') + 1, userProfile.email.length) === "qq.com") {
+		   var qqNumber = userProfile.email.slice(0, userProfile.email.length - 7);
+			$.ajax({
+				cache: false,
+				type: "GET",
+				dataType: "JSON",
+				url: "https://api.usuuu.com/qq/" + qqNumber,
+				dataType: "json"
+			}).done(function(resp) {
+				userProfile.qqName = resp.data.name;
+			});
+		} else {
+			userProfile.qqName = userProfile.email;
+		}
 	},
 
     getServerUrl: function(){
@@ -181,14 +181,7 @@ dojo.declare("classes.game.Server", null, {
 		//var isLocalhost = window.location.protocol == "file:" || host == "localhost" || host == "127.0.0.1";
         //if (isLocalhost){
             //if you are running chilar locally you should know what you are doing 
-              var ishttps = 'https:' == document.location.protocol ? true: false;
-                var url = "kittensgame.com";
-                  if(ishttps){
-                    url = 'https://' + url;
-               }else{
-                    url = 'http://' + url;
-               }
-            return url;
+            return "https://kittensgame.com";
         //}
         //return "";
     },
@@ -232,9 +225,9 @@ dojo.declare("classes.game.Server", null, {
 	 */
 	_xhr: function(url, method, data, handler){
 		$.ajax({
-            cache: false,
-            type: method || "GET",
-            dataType: "JSON",
+			cache: false,
+			type: method || "GET",
+			dataType: "JSON",
 			url: this.getServerUrl() + url,
 			xhrFields: {
 				withCredentials: true
@@ -254,9 +247,9 @@ dojo.declare("classes.game.Server", null, {
 
 		//TODO: use some XHR snippet, this is getting too verbose
 		this._xhr("/user/", "GET", {}, function(resp){
-            if (resp && resp.id){
-                self.setUserProfile(resp);
-            }
+			if (resp && resp.id){
+				self.setUserProfile(resp);
+			}
 		});
 	},
 
@@ -264,6 +257,28 @@ dojo.declare("classes.game.Server", null, {
 		var self = this;
 		this._xhr("/kgnet/save/", "GET", {}, function(resp){
 			self.saveData = resp;
+		});
+	},
+
+	register: function() {
+		var error = document.getElementById("registerError");
+		var passElem = document.getElementById("loginPassword");
+		var emailElem = document.getElementById("registerEmail");
+		var confirmPasswordElem = document.getElementById("confirmPassword");
+		if (passElem == null || emailElem == null || confirmPasswordElem == null) {error.innerHTML = "请填写完整!"; return;}
+		if (confirmPasswordElem.value != passElem.value) {error.innerHTML = "两次密码不一样!"; return;}
+		if (emailElem.value && emailElem.value.indexOf("@") == -1) {error.innerHTML = "邮件地址格式错误!";return;}
+		var data = {
+			email: emailElem.value,
+			password: passElem.value
+		};
+		error.innerHTML = "发送请求中，请稍候";
+		$.post("https:kittensgame.com/user/register/", data).done(function(resp){
+			if (resp.startsWith("Error")) {
+				error.innerHTML = resp;
+			} else {
+				error.innerHTML = "注册成功";
+			}
 		});
 	},
 
