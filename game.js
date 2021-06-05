@@ -277,7 +277,7 @@ dojo.declare("classes.game.Server", null, {
 			if (resp.startsWith("Error")) {
 				error.innerHTML = resp;
 			} else {
-				error.innerHTML = "注册成功";
+				error.innerHTML = "<span style='color:#14CD61;'>注册成功</span>";
 			}
 		});
 	},
