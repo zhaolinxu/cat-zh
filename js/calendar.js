@@ -610,6 +610,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		this.game.diplomacy.onNewDay();
 
 		this.adjustCryptoPrice();
+
+		this.game.upgrade({policies: ["authocracy"]}); //policy hack
 	},
 
 	fastForward: function(daysOffset){

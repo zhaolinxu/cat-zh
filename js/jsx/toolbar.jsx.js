@@ -228,6 +228,7 @@ WToolbarPollution = React.createClass({
         var eqPolLvl = this.game.bld.getPollutionLevel(eqPol);
         var pollution = this.game.bld.cathPollution;
         var polLvl = this.game.bld.getPollutionLevel();
+        var polLvlShow = this.game.bld.getPollutionLevel(pollution * 2);
         if (polLvl >= 4){
             message += $I("pollution.level1") + "<br/>" + $I("pollution.level2") + "<br/>" + $I("pollution.level3", [this.game.getDisplayValueExt(game.villageTab.getVillageTitle(), false, false, 0)]) + "<br/>" + $I("pollution.level4");
         }
@@ -240,8 +241,8 @@ WToolbarPollution = React.createClass({
         else if (polLvl == 1){
             message += $I("pollution.level1");
         }else {message = $I("pollution.level0");}
-        var warnLvl = this.game.bld.getPollutionLevel(pollution * 2);
-        if (warnLvl >= 1 && warnLvl <= 4 && warnLvl > polLvl && warnLvl <= eqPolLvl) message += "<br/>" + $I("pollution.level" + warnLvl + ".warning");
+        var warnLvl = this.game.bld.getPollutionLevel(pollution * 4);
+        if (warnLvl >= 1 && warnLvl <= 4 && warnLvl > polLvlShow && warnLvl <= eqPolLvl) message += "<br/>" + $I("pollution.level" + warnLvl + ".warning");
         if (pollution * 1.5 <= eqPol || eqPolLvl > polLvl){
             message += "<br/>" + $I("pollution.increasing");
         }
