@@ -23,7 +23,7 @@
 		<!--todo: use min version -->
 
 		<!-- Local versions of libs will be hosted so our Chinese players wont be forced to use VPN -->
-		<script src="lib/jQuery.js"></script>
+		<script src="lib/jQuery.js?v=_2"></script>
 		<script src="lib/dojo.xd.js"></script>
 		<script src="lib/lz-string.js"></script>
 		<script src="lib/md5.js"></script>
@@ -62,7 +62,9 @@
 		</script>
 
 		<script type="text/javascript">
-			var version = "1484";
+
+			var version = "1485";
+			var buildRevision = 0;
 
 			var loadingProgress = 0,
 				progressMax = 0;
@@ -83,7 +85,7 @@
 
 				var i = (Math.floor(Math.random() * loadingMessages.length));
 				$("#loadingProgressInfo").html(loadingMessages[i] + "...&nbsp(" + progress.toFixed() + "%)");
-				return System.import(module + ".js?v=" + new Date().getDay());
+				return System.import(module + ".js?rev_=" + buildRevision);
 			}
 
 			function _import(module, def) {
@@ -114,7 +116,6 @@
 				} else if (window.location.href.indexOf("beta") >= 0) {
 					displayedVersion += "-&beta;";
 				}
-				$("#versionLink").html(displayedVersion);
 
 				$("#tooltip").hide();
 
@@ -132,6 +133,16 @@
 					"js/diplomacy",
 					"js/religion",
 					"js/achievements",
+
+
+					"js/jsx/left.jsx",
+					"js/jsx/mid.jsx",
+					"js/jsx/toolbar.jsx",
+					"js/jsx/chiral.jsx",
+
+					//required for defining IReactAware, will be relied upon by js/space
+					"js/ui",
+
 					"js/space",
 					"js/prestige",
 					"js/time",
@@ -141,11 +152,6 @@
 					"js/math",
 					"game",
 
-					"js/jsx/left.jsx",
-					"js/jsx/mid.jsx",
-					"js/jsx/toolbar.jsx",
-
-					"js/ui",
 					"js/toolbar"
 				];
 				progressMax = modules.length + 3;
@@ -161,13 +167,18 @@
 					}
 				}
 
-				var def = _import("config");
+				var def = $.getJSON("build.version.json?="+now).then(function(json){
+					buildRevision = json.buildRevision;
+					console.log("build revison is" + buildRevision);
+					$("#versionLink").html(displayedVersion + ".r" + buildRevision);
+				});
+				def = _import("config", def);
 				def.then(function() {
 					var schemes = new classes.KGConfig().statics.schemes;
 					for (var i = 0; i < schemes.length; ++i) {
 						//todo: skip theme if preloaded
-						if (!uiSettings || uiSettings.theme != schemes[i]) {
-							loadTheme(schemes[i]);
+						if (!uiSettings || uiSettings.theme != schemes[i]){
+							loadTheme(schemes[i], buildRevision);
 						}
 					}
 				});

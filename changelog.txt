@@ -1,3 +1,12 @@
+v 1.4.8.5 (9 may 2021)
+Major:
+* Added pollution mechanic (Zig and Hunter)
+Minor:
+* Bugfix: Fixing Cryochambers doesn't allow to overcap them anymore
+* Staged buildings now can be made togglable
+* Deleted Resource Order file
+* Other bugfixes
+
 v 1.4.8.4 (6 apr 2021)
 Major:
 * Added pacifism challenge
