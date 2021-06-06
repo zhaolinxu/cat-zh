@@ -2068,17 +2068,20 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			this.game.bld.pollutionEffects["catnipPollutionRatio"] = this.game.getLimitedDR(-0.5 - 0.1 * Math.log(pollution), 10)/10;
 			this.game.bld.pollutionEffects["pollutionHappines"] =-Math.log(pollution) * 1.2;
 			this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] = Math.log10(this.game.bld.cathPollution) * 1.2;
-			this.game.bld.pollutionEffects["solarRevolutionPollution"] = ((pollution >= POL_LBASE * 1000 / 2) ? -2e-9 * (pollution - 500000000) : 0); //linear
+			this.game.bld.pollutionEffects["solarRevolutionPollution"] = 
+				((pollution >= POL_LBASE * 1000 / 2) ? -2e-9 * (pollution - POL_LBASE * 1000 / 2) : 0); //linear
 		}
 		else if(pollutionLevel == 2){
 			this.game.bld.pollutionEffects["catnipPollutionRatio"] = this.game.getLimitedDR(-0.5 - 0.1 * Math.log(pollution), 10)/10;
 			this.game.bld.pollutionEffects["pollutionHappines"] = -Math.log(pollution) * 1.2;
-			this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] = ((pollution >= POL_LBASE * 100 / 2) ? 1 + 1.68e-7 * (pollution - 50000000): 0); //linear
+			this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] = 
+				((pollution >= POL_LBASE * 100 / 2) ? 1 + 1.68e-7 * (pollution - POL_LBASE * 100 / 2): 0); //linear
 			this.game.bld.pollutionEffects["solarRevolutionPollution"] = 0;
 		}
 		else if(pollutionLevel == 1){
 			this.game.bld.pollutionEffects["catnipPollutionRatio"] = this.game.getLimitedDR(-0.5 - 0.1 * Math.log(pollution) * 1.2, 10)/10;
-			this.game.bld.pollutionEffects["pollutionHappines"] =  ((pollution >= POL_LBASE * 10 / 2) ? -0.0000032 * (pollution - 5000000) : 0); //linear
+			this.game.bld.pollutionEffects["pollutionHappines"] = 
+				((pollution >= POL_LBASE * 10 / 2) ? -0.0000032 * (pollution - POL_LBASE * 10 / 2) : 0); //linear
 			this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] = 0;
 			this.game.bld.pollutionEffects["solarRevolutionPollution"] = 0;
 		}
@@ -2258,7 +2261,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	getPollutionLevel: function(cathPollution) {
 		if(!cathPollution) {cathPollution = this.cathPollution;}
 		if(cathPollution <= 0){return 0;}
-		return Math.max(Math.floor(Math.log10(cathPollution / this.getPollutionLevelBase())), 0);	
+		return Math.max(Math.floor(Math.log10(cathPollution * 10 / this.getPollutionLevelBase())), 0);	
 	},
     //============ dev =============
     devAddStorage: function(){
