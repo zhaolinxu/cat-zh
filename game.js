@@ -1454,7 +1454,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "hidden"
 			},
 			"cathPollutionRatio":{
-				type: "hidden"
+				title:  $I("effectsMgr.statics.pollutionRatio.title"),
+				type: "ratio"
 			}
 		}
 	}
