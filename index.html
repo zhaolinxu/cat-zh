@@ -168,7 +168,7 @@
 				}
 
 				var def = $.getJSON("build.version.json?="+now).then(function(json){
-					buildRevision = json.buildRevision;
+					buildRevision = json.buildRevision + 4;
 					console.log("build revison is" + buildRevision);
 					$("#versionLink").html(displayedVersion + ".r" + buildRevision);
 				});
@@ -186,7 +186,7 @@
 				def = _import("i18n", def);
 				def.then(function() {
 					console.log("Loading locale system");
-					var langPromise = i18nLang.init(7);
+					var langPromise = i18nLang.init(8);
 					langPromise.done(function() {
 						loadingMessages = [
 							$I("ui.loading.msg.0"),
