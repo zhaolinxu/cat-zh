@@ -2290,7 +2290,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},
 	getEquilibriumPollution: function(){ //returns pollution value at which pollutionDissipationRatio will make pollutionPerTick equal to 0, or -1 if such value doesn't exits
 		if (this.pollutionEffects["pollutionDissipationRatio"]){
-			return this.getUndissipatedPollutionPerTick()/ this.pollutionEffects["pollutionDissipationRatio"];
+			return Math.round(this.getUndissipatedPollutionPerTick())/ this.pollutionEffects["pollutionDissipationRatio"];
 		}else if(this.cathPollutionPerTick < 0){
 			return 0;
 		}else{
@@ -2317,7 +2317,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		var pdr = - this.pollutionEffects["pollutionDissipationRatio"];
 		var expon = Math.exp(pdr * ticks);
 		var uppt = this.getUndissipatedPollutionPerTick();
-		this.cathPollution = Math.abs(((this.cathPollution * pdr + uppt) * expon - uppt)/pdr);
+		var pollutionDelta = Math.abs(((this.cathPollution * pdr + uppt) * expon - uppt)/pdr) - this.cathPollution;
+		this.cathPollution += Math.round(pollutionDelta / ticks) * ticks;
 		}
 	},
 	fastforward: function(daysOffset) {
