@@ -3,6 +3,55 @@
     WMidPanel
     WToolbar
 */
+
+
+/**
+ * dojo bridge for react components, use this sparringly
+ * (TODO: consider using HOC for boilerplate like)
+ * 
+ *  getInitialState: function(){
+        return {game: this.props.game};
+    },
+    
+    componentDidMount: function(){
+        var self = this;
+        this.onUpdateHandler = dojo.subscribe("ui/update", function(game){
+            self.setState({game: game});
+        });
+    },
+
+    componentWillUnmount(){
+        dojo.unsubscribe(this.onUpdateHandler);
+    },
+ */
+
+var $r = React.createElement;
+dojo.declare("mixin.IReactAware", null, {
+    component: null,
+    container: null,
+
+    constructor: function(component, game){
+        this.component = component;
+        this.game = game;
+    },
+
+    render: function(container){
+        React.render($r(this.component, {
+            game: this.game
+        }), container);
+
+        return container;
+    },
+
+    update: function(){
+
+    },
+
+    destroy: function(){
+        React.unmountComponentAtNode(this.container);
+    }
+});
+
 /**
  * Class that provides an abstraction layer for UI/model communication
  * Extended in web version and in mobile version, so change signatures below only if you can change them in mobile too!
@@ -87,7 +136,6 @@ dojo.declare("classes.ui.UISystem", null, {
 /**
  * Legacy UI renderer
  */
-var $r = React.createElement;
 dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     containerId: null,
     toolbar: null,
