@@ -168,7 +168,7 @@
 				}
 
 				var def = $.getJSON("build.version.json?="+now).then(function(json){
-					buildRevision = json.buildRevision + 4;
+					buildRevision = json.buildRevision;
 					console.log("build revison is" + buildRevision);
 					$("#versionLink").html(displayedVersion + ".r" + buildRevision);
 				});
