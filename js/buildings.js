@@ -2085,6 +2085,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] = 0;
 			this.game.bld.pollutionEffects["solarRevolutionPollution"] = 0;
 		}
+
+		//limit negative ratios with 75%
+		if (this.game.bld.pollutionEffects["catnipPollutionRatio"] < -0.75){
+			this.game.bld.pollutionEffects["catnipPollutionRatio"] = -0.75;
+		}
 	},
 	update: function(){
 		var rerender = false;
