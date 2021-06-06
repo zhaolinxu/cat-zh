@@ -423,6 +423,7 @@
     "effectsMgr.statics.onAHillCultureCap.title": "文化上限加成",
     "effectsMgr.statics.oilReductionRatio.title": "石油消耗减少",
     "effectsMgr.statics.oilWellRatio.title": "石油加成",
+    "effectsMgr.statics.pollutionRatio.title": "污染生产率",
     "effectsMgr.statics.policyFakeBought.title": "政策价格倍率 x 1.25",
     "effectsMgr.statics.planetCracker-uraniumPerTickSpace.title": "星球裂解 - 铀转化",
     "effectsMgr.statics.priceRatio.title": "建筑价格",
@@ -720,6 +721,7 @@
     "pollution.level4.warning": "神学者担心黑暗中的天空会阻碍小猫与太阳教团的联系。",
     "pollution.level4": "污染导致天空变暗，并降低太阳革命对猫薄荷和木材生产的效率。",
     "pollution.pristine": "Cath is pristine.",
+    "pollution.unspecified": "些许",
 
     "prestige.panel.label": "玄学",
     "prestige.adjustmentBureau.label": "仲裁局",
