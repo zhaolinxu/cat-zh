@@ -205,6 +205,8 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
             
             baseProd = this.game.calendar.cycleEffectsFestival({catnip: baseProd})['catnip'];
 
+            baseProd *= 1 + this.game.bld.pollutionEffects["catnipPollutionRatio"];
+
             var baseDemand = this.game.village.getResConsumption()['catnip'];
             baseDemand *= 1 + this.game.getEffect("catnipDemandRatio");
             if (this.game.village.sim.kittens.length > 0 && this.game.village.happiness > 1) {
@@ -217,7 +219,6 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
             }
             baseProd += baseDemand;
 
-            baseProd *= 1 + this.game.bld.pollutionEffects["catnipPollutionRatio"];
             baseProd += this.game.getResourcePerTickConvertion('catnip');
             baseProd *= 1 + this.game.timeAccelerationRatio();
             baseProd *= this.game.ticksPerSecond;
