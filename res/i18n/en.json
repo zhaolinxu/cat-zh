@@ -438,6 +438,7 @@
     "effectsMgr.statics.onAHillCultureCap.title" :"Culture cap bonus",
     "effectsMgr.statics.oilReductionRatio.title": "Oil consumption reduction",
     "effectsMgr.statics.oilWellRatio.title": "Oil bonus",
+    "effectsMgr.statics.pollutionRatio.title": "Pollution production",
     "effectsMgr.statics.policyFakeBought.title": "1.25 policy cost multiplier",
     "effectsMgr.statics.planetCracker-uraniumPerTickSpace.title": "Planet Cracker - Uranium conversion",
     "effectsMgr.statics.priceRatio.title": "Building's prices",
@@ -751,6 +752,7 @@
     "pollution.level4.warning": "Theologians worry that darkening skies will weaken kittens' connection to the sun.",
     "pollution.level4": "Pollution has darkened the skies, weakening Solar Revolution's effect on catnip and wood production.",
     "pollution.pristine": "Cath is pristine.",
+    "pollution.unspecified": "Some",
     
     "prestige.panel.label": "Metaphysics",
     "prestige.adjustmentBureau.label": "Adjustment Bureau",
