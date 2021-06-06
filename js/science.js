@@ -2003,7 +2003,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 			if(this.detailedPollutionInfo){
 				var currentCathPollution = this.game.bld.cathPollution;
 				var currenCathPerTickPollution = this.game.bld.cathPollutionPerTick;
-				this.detailedPollutionInfo.innerHTML = "Pollution is " + Math.floor(currentCathPollution) + " <br>Polution per tick is " + Math.floor(currenCathPerTickPollution);
+				this.detailedPollutionInfo.innerHTML = "Pollution is " + Math.floor(currentCathPollution) + 
+					" (" + this.game.getDisplayValueExt(currentCathPollution) + ") " +
+					"<br>Polution per tick is " + Math.floor(currenCathPerTickPollution);
 				var pollutionLevel = this.game.bld.getPollutionLevel();
 				this.detailedPollutionInfo.innerHTML += "<br>Pollution level is " + pollutionLevel;
 				if(pollutionLevel >= 0){
@@ -2025,7 +2027,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 					var toZero = -currentCathPollution / currenCathPerTickPollution / this.game.calendar.ticksPerDay;
 					this.detailedPollutionInfo.innerHTML += "<br> To zero " + this.game.toDisplaySeconds(toZero.toFixed());
 				}else if(currenCathPerTickPollution > 0){
-					var toNextLevel = (Math.pow(10, 1 + pollutionLevel) * 1000000 - currentCathPollution) / currenCathPerTickPollution / this.game.calendar.ticksPerDay;
+					var toNextLevel = (Math.pow(10, 1 + pollutionLevel) * this.game.bld.getPollutionLevelBase() - currentCathPollution) / currenCathPerTickPollution / this.game.calendar.ticksPerDay;
 					this.detailedPollutionInfo.innerHTML += "<br> To next level " + this.game.toDisplaySeconds(toNextLevel.toFixed());
 				}
 			}
