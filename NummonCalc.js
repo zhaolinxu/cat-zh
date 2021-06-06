@@ -1017,6 +1017,8 @@ NummonInit = function(){
                 return this.nummonTab;
             case "time":
                 return this.timeTab;
+            case "challenges":
+            	return this.challengesTab;
         }
     };
     
