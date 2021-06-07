@@ -260,7 +260,7 @@ WToolbarPollution = React.createClass({
         else {
             message += "<br/>" + $I("pollution.pristine");
         }
-        message +="<br/>CO2: " + (game.science.get("ecology").researched ? 
+        message +="<br/>二氧化碳: " + (game.science.get("ecology").researched ? 
             (game.getDisplayValueExt((game.bld.cathPollution / game.bld.getPollutionLevelBase())*100) + "ppm") : $I("pollution.unspecified"));
         
         if (!notUpdateFreshMessage){
