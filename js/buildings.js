@@ -2083,7 +2083,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			-0.2 - ((pollution - POL_LBASE) * 0.05 / (POL_LBASE * 10));	//linear between -0.2 : -0.25;
 
 			this.game.bld.pollutionEffects["pollutionHappines"] = 
-				((pollution >= POL_LBASE * 10 / 2) ? -0.0000032 * (pollution - POL_LBASE * 10 / 2) : 0); //linear
+				((pollution >= POL_LBASE * 10 / 2) ? -0.00000032 * (pollution - POL_LBASE * 10 / 2) : 0); //linear
 			this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] = 0;
 			this.game.bld.pollutionEffects["solarRevolutionPollution"] = 0;
 		}
