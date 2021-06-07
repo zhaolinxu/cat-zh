@@ -2062,14 +2062,13 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			this.game.bld.pollutionEffects["catnipPollutionRatio"] = this.game.getLimitedDR(-0.5 - 0.1 * Math.log(pollution), 10)/10;
 			this.game.bld.pollutionEffects["pollutionHappines"] = -Math.log(pollution) * 1.2;
 			this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] = Math.log10(this.game.bld.cathPollution) * 1.2;
-			this.game.bld.pollutionEffects["solarRevolutionPollution"] = -Math.min(pollution * 1e-10, 1);
+			this.game.bld.pollutionEffects["solarRevolutionPollution"] = -Math.min(1e-9 * (pollution - POL_LBASE * 1000)/9, 1); //linear HERE AND ONLY HERE
 		}
 		else if(pollutionLevel == 3){
 			this.game.bld.pollutionEffects["catnipPollutionRatio"] = this.game.getLimitedDR(-0.5 - 0.1 * Math.log(pollution), 10)/10;
 			this.game.bld.pollutionEffects["pollutionHappines"] =-Math.log(pollution) * 1.2;
 			this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] = Math.log10(this.game.bld.cathPollution) * 1.2;
-			this.game.bld.pollutionEffects["solarRevolutionPollution"] = 
-				((pollution >= POL_LBASE * 1000 / 2) ? -2e-9 * (pollution - POL_LBASE * 1000 / 2) : 0); //linear
+			this.game.bld.pollutionEffects["solarRevolutionPollution"] = 0;
 		}
 		else if(pollutionLevel == 2){
 			this.game.bld.pollutionEffects["catnipPollutionRatio"] = this.game.getLimitedDR(-0.5 - 0.1 * Math.log(pollution), 10)/10;
@@ -2255,7 +2254,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},
 
 	getPollutionLevelBase: function(){
-		return 10000000;
+		return 1000000;
 	},
 
 	getPollutionLevel: function(cathPollution) {
