@@ -208,7 +208,7 @@ WToolbarPollution = React.createClass({
             this.freshMessage = this.message != "";
             this.message = message;
         }
-        if(game.bld.cathPollution > 5 || game.science.get("ecology").researched){
+        if(game.bld.cathPollution > 100000 || game.science.get("ecology").researched){
             return $r(WToolbarIconContainer, {
                 game: game,
                 getTooltip: this.getTooltip,
@@ -260,6 +260,9 @@ WToolbarPollution = React.createClass({
         else {
             message += "<br/>" + $I("pollution.pristine");
         }
+        message +="<br/>CO2: " + (game.science.get("ecology").researched ? 
+            (game.getDisplayValueExt((game.bld.cathPollution / game.bld.getPollutionLevelBase())*100) + "ppm") : $I("pollution.unspecified"));
+        
         if (!notUpdateFreshMessage){
             this.freshMessage = false;
         }
