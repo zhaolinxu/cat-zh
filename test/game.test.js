@@ -69,7 +69,7 @@ test("Pollution values must be sane", () => {
     bld.update();
     expect(bld.getPollutionLevel()).toBe(1);
     expect(effects["catnipPollutionRatio"]).toBeGreaterThanOrEqual(-0.2);
-    //expect(effects["pollutionHappines"]).toBe(0);
+    expect(effects["pollutionHappines"]).toBe(0);
 
     //----------------------
     //  level 1.5
@@ -77,7 +77,21 @@ test("Pollution values must be sane", () => {
     bld.cathPollution = POL_LBASE * 10 / 2;
     bld.update();
     expect(bld.getPollutionLevel()).toBe(1);
-    expect(effects["catnipPollutionRatio"]).toBeGreaterThanOrEqual(-0.25);
+    expect(effects["catnipPollutionRatio"]).toBeGreaterThanOrEqual(-0.225);
+    expect(effects["pollutionHappines"]).toBe(-0);  //wtf
+
+    //1.75
+    bld.cathPollution = POL_LBASE * 10 * 0.75;
+    bld.update();
+    expect(bld.getPollutionLevel()).toBe(1);
+    expect(effects["pollutionHappines"]).toBeGreaterThanOrEqual(-10);  //wtf
+
+    //1.99
+    //edge cases for high pollution/happiness
+    bld.cathPollution = 95574995;
+    bld.update();
+    expect(bld.getPollutionLevel()).toBe(1);
+    expect(effects["pollutionHappines"]).toBeGreaterThanOrEqual(-15);
 
     //----------------------
     //~lvl 2
@@ -105,4 +119,5 @@ test("Pollution values must be sane", () => {
     expect(bld.getPollutionLevel()).toBe(4);
     expect(effects["catnipPollutionRatio"]).toBeGreaterThanOrEqual(-0.3);
     //expect(effects["pollutionHappines"]).toBeGreaterThanOrEqual(-30);
+
 });
