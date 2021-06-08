@@ -264,6 +264,7 @@ dojo.declare("classes.game.Server", null, {
 
 	register: function() {
 		var error = document.getElementById("registerError");
+        if (error.innerHTML == "发送请求中，请稍候") {return;}
 		var passElem = document.getElementById("loginPassword");
 		var emailElem = document.getElementById("registerEmail");
 		var confirmPasswordElem = document.getElementById("confirmPassword");
