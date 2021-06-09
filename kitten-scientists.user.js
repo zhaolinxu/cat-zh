@@ -1648,7 +1648,9 @@ var run = function() {
 
             if (upgrades.upgrades.enabled && gamePage.tabs[3].visible) {
                 var work = game.workshop.upgrades;
-                var noup = ["factoryOptimization","factoryRobotics","spaceEngineers","aiEngineers","chronoEngineers","steelPlants","amFission","biofuel","gmo","factoryAutomation","advancedAutomation","invisibleBlackHand"];
+                let noup = ["factoryOptimization","factoryRobotics","spaceEngineers","aiEngineers","chronoEngineers","steelPlants","amFission","biofuel","gmo","factoryAutomation","advancedAutomation","invisibleBlackHand"];
+                if (!upgrades.upgrades.limited) {noup =[];}
+
                 workLoop:
                 for (var upg in work) {
                     if (work[upg].researched || !work[upg].unlocked) {continue;}
@@ -1658,11 +1660,8 @@ var run = function() {
                     for (var resource in prices) {
                         if (craftManager.getValueAvailable(prices[resource].name, true) < prices[resource].val) {continue workLoop;}
                     }
-                    if (upgrades.upgrades.limited){
-                        for (var name in noup) {
-                            if (work[upg].name == noup[name]) {continue workLoop;}
-                        }
-                    }
+ 
+                    if (noup.indexOf(work[upg].name) != -1) {continue}
                     upgradeManager.build(work[upg], 'workshop');
                 }
             }
@@ -2025,8 +2024,8 @@ var run = function() {
             }
         },
         hunt: function () {
-            if(game.ui.fastHuntContainer.style.visibility != "visible") {return;}
             var manpower = this.craftManager.getResource('manpower');
+            if(manpower.value >= 100 && !game.challenges.isActive("pacifism")) {return;}
 
             if (options.auto.options.items.hunt.subTrigger <= manpower.value / manpower.maxValue) {
                 // No way to send only some hunters. Thus, we hunt with everything
