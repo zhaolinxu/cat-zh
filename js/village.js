@@ -2210,8 +2210,7 @@ dojo.declare("classes.ui.village.Census", null, {
 
 			}, this.game, i));
 
-			//if (!this.game.challenges.isActive("anarchy")) {
-			if (this.game.village.canHaveLeaderOrPromote()){
+			if (!this.game.challenges.isActive("anarchy")) {
 				dojo.connect(leaderHref, "onclick", this, dojo.partial(function(census, i, event){
 					event.preventDefault();
 					var game = census.game;
