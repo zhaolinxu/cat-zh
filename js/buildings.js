@@ -2074,7 +2074,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			this.game.bld.pollutionEffects["catnipPollutionRatio"] = this.game.getLimitedDR(-0.5 - 0.1 * Math.log(pollution), 10)/10;
 			this.game.bld.pollutionEffects["pollutionHappines"] = -Math.log(pollution) * 1.2;
 			this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] = 
-				((pollution >= POL_LBASE * 100 / 2) ? 1 + 1.68e-7 * (pollution - POL_LBASE * 100 / 2): 0); //linear
+				((pollution >= POL_LBASE * 100 / 2) ? 1 + 1.68e-8 * (pollution - POL_LBASE * 100 / 2): 0); //linear
 			this.game.bld.pollutionEffects["solarRevolutionPollution"] = 0;
 		}
 		else if(pollutionLevel == 1){
