@@ -166,6 +166,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	getRankExp: function(rank){
 		return 500 * Math.pow(1.75, rank);
 	},
+	canHaveLeaderOrPromote: function(){
+		return this.game.workshop.get("register").researched && !this.game.challenges.isActive("anarchy");
+	},
 
 	//---------------------------------------------------------
 	//please dont pass params by reference or I will murder you
@@ -2706,8 +2709,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			controller: new classes.village.ui.VillageButtonController(this.game, {
 				updateVisible: function (model) {
 					model.visible = this.game.village.leader != undefined 
-					&& this.game.workshop.get("register").researched 
-					&& !this.game.challenges.isActive("anarchy");
+					&& this.game.village.canHaveLeaderOrPromote();
 				}
 			})
 		}, this.game);
@@ -2724,8 +2726,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
             controller: new classes.village.ui.VillageButtonController(this.game, {
 				updateVisible: function (model) {
 					model.visible = this.game.village.leader !== undefined && 
-					this.game.workshop.get("register").researched && 
-					!this.game.challenges.isActive("anarchy");
+					this.game.village.canHaveLeaderOrPromote();
 				}
 			})
 		}, this.game);
