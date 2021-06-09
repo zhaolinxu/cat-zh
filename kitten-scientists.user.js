@@ -1654,6 +1654,7 @@ var run = function() {
                 workLoop:
                 for (var upg in work) {
                     if (work[upg].researched || !work[upg].unlocked) {continue;}
+                    if (noup.indexOf(work[upg].name) != -1) {continue}
 
                     var prices = dojo.clone(work[upg].prices); // game.village.getEffectLeader will override its argument
                     prices = game.village.getEffectLeader("scientist", prices);
@@ -1661,7 +1662,6 @@ var run = function() {
                         if (craftManager.getValueAvailable(prices[resource].name, true) < prices[resource].val) {continue workLoop;}
                     }
  
-                    if (noup.indexOf(work[upg].name) != -1) {continue}
                     upgradeManager.build(work[upg], 'workshop');
                 }
             }
