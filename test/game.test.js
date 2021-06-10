@@ -92,6 +92,7 @@ test("Pollution values must be sane", () => {
     bld.update();
     expect(bld.getPollutionLevel()).toBe(1);
     expect(effects["pollutionHappines"]).toBeGreaterThanOrEqual(-15);
+    expect(effects["pollutionArrivalSlowdown"]).toBe(0);
 
     //----------------------
     //~lvl 2
@@ -100,7 +101,8 @@ test("Pollution values must be sane", () => {
     bld.update();
     expect(bld.getPollutionLevel()).toBe(2);
     expect(effects["catnipPollutionRatio"]).toBeGreaterThanOrEqual(-0.25);
-    //expect(effects["pollutionHappines"]).toBeGreaterThanOrEqual(-25);
+    expect(effects["pollutionHappines"]).toBeGreaterThanOrEqual(-20);
+    expect(effects["pollutionArrivalSlowdown"]).toBe(0);
 
     //----------------------
     //~lvl 3
@@ -109,7 +111,8 @@ test("Pollution values must be sane", () => {
     bld.update();
     expect(bld.getPollutionLevel()).toBe(3);
     expect(effects["catnipPollutionRatio"]).toBeGreaterThanOrEqual(-0.275);
-    //expect(effects["pollutionHappines"]).toBeGreaterThanOrEqual(-25);
+    expect(effects["pollutionHappines"]).toBeGreaterThanOrEqual(-25);
+    expect(effects["pollutionArrivalSlowdown"]).toBeLessThanOrEqual(10);
 
     //----------------------
     //~lvl 4
@@ -118,6 +121,19 @@ test("Pollution values must be sane", () => {
     bld.update();
     expect(bld.getPollutionLevel()).toBe(4);
     expect(effects["catnipPollutionRatio"]).toBeGreaterThanOrEqual(-0.3);
-    //expect(effects["pollutionHappines"]).toBeGreaterThanOrEqual(-30);
+    expect(effects["pollutionHappines"]).toBeGreaterThanOrEqual(-30);
+    expect(effects["pollutionArrivalSlowdown"]).toBeLessThanOrEqual(12);
+    expect(effects["solarRevolutionPollution"]).toBe(-0);
+
+     //----------------------
+    //~lvl 4.9999999999
+    //----------------------
+    bld.cathPollution = POL_LBASE * 1000 * 100;
+    bld.update();
+    expect(bld.getPollutionLevel()).toBe(6);
+    expect(effects["catnipPollutionRatio"]).toBeGreaterThanOrEqual(-0.35);
+    expect(effects["pollutionHappines"]).toBeGreaterThanOrEqual(-35);
+    expect(effects["pollutionArrivalSlowdown"]).toBeLessThanOrEqual(15);
+    expect(effects["solarRevolutionPollution"]).toBeLessThanOrEqual(-0.75); //should never be > -1
 
 });

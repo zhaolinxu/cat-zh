@@ -2063,17 +2063,17 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			this.game.bld.pollutionEffects["catnipPollutionRatio"] = this.game.getLimitedDR(-0.5 - 0.1 * Math.log(pollution), 10)/10;
 			this.game.bld.pollutionEffects["pollutionHappines"] = -Math.log(pollution) * 1.2;
 			this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] = Math.log10(this.game.bld.cathPollution) * 1.2;
-			this.game.bld.pollutionEffects["solarRevolutionPollution"] = -Math.min(1e-10 * (pollution - POL_LBASE * 1000)/9, 1); //linear HERE AND ONLY HERE
+			this.game.bld.pollutionEffects["solarRevolutionPollution"] = -Math.min(1e-10 * (pollution - POL_LBASE * 1000)/9, 0.75); //linear HERE AND ONLY HERE
 		}
 		else if(pollutionLevel == 3){
 			this.game.bld.pollutionEffects["catnipPollutionRatio"] = this.game.getLimitedDR(-0.5 - 0.1 * Math.log(pollution), 10)/10;
-			this.game.bld.pollutionEffects["pollutionHappines"] =-Math.log(pollution) * 1.2;
-			this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] = Math.log10(this.game.bld.cathPollution) * 1.2;
+			this.game.bld.pollutionEffects["pollutionHappines"] =-Math.log(pollution) * 1.18;
+			this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] = Math.log10(this.game.bld.cathPollution) * 1.11;
 			this.game.bld.pollutionEffects["solarRevolutionPollution"] = 0;
 		}
 		else if(pollutionLevel == 2){
 			this.game.bld.pollutionEffects["catnipPollutionRatio"] = this.game.getLimitedDR(-0.5 - 0.1 * Math.log(pollution), 10)/10;
-			this.game.bld.pollutionEffects["pollutionHappines"] = -Math.log(pollution) * 1.2;
+			this.game.bld.pollutionEffects["pollutionHappines"] = -Math.log(pollution) * 1.08;
 			this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] = 
 				((pollution >= POL_LBASE * 100 / 2) ? 1 + 1.68e-8 * (pollution - POL_LBASE * 100 / 2): 0); //linear
 			this.game.bld.pollutionEffects["solarRevolutionPollution"] = 0;
@@ -2101,6 +2101,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		//limit negative ratios with 75%
 		if (this.game.bld.pollutionEffects["catnipPollutionRatio"] < -0.75){
 			this.game.bld.pollutionEffects["catnipPollutionRatio"] = -0.75;
+		}
+		if (this.game.bld.pollutionEffects["solarRevolutionPollution"] < -0.75){
+			this.game.bld.pollutionEffects["solarRevolutionPollution"] = -0.75;
 		}
 	},
 	update: function(){
