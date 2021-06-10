@@ -696,7 +696,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 				if (self.val) {
 					self.effects["scienceRatio"] = 0.35 * (1 + self.on / self.val);
-					self.effects["cathPollutionPerTickProd"] = 1 * (self.on / self.val);
+					self.effects["cathPollutionPerTickProd"] = 1 * self.on;
 				}
 
 				return amt;
@@ -890,7 +890,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		calculateEffects: function(self, game){
 			var effects = {
 				"mineralsRatio": 0.35,
-				"coalPerTickBase": 0.015
+				"coalPerTickBase": 0.015,
+				"cathPollutionPerTickProd": 0.25
 			};
 			if (game.workshop.get("orbitalGeodesy").researched){
 				effects["uraniumPerTickBase"] = 0.0005; //4% of accelerator output
