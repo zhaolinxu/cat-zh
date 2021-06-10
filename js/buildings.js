@@ -2232,13 +2232,15 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		this.cathPollutionPerTick = 0;
 	},
 	//pollution functions:
-	getCleanEnergy:function(){
+	getCleanEnergy: function(){
 		var solarFarm = this.getBuildingExt("pasture").meta;
 		var hydroPlant = this.getBuildingExt("aqueduct").meta;
 		var reactor = this.getBuildingExt("reactor").meta;
+		var sattelite = this.game.space.getBuilding("sattelite");
 		var cleanEnergyProduced = (solarFarm.stage == 1 && solarFarm.stages[1].effects)? solarFarm.stages[1].effects["energyProduction"] * solarFarm.on : 0;
 		cleanEnergyProduced += (hydroPlant.stage == 1 && hydroPlant.stages[1].effects)? hydroPlant.stages[1].effects["energyProduction"] * hydroPlant.on : 0;
 		cleanEnergyProduced += reactor.effects["energyProduction"] * reactor.on / 2;
+		cleanEnergyProduced += sattelite.effects["energyProduction"] * sattelite.on;
 		return cleanEnergyProduced;
 	},
 	getPollutingEnergy: function () {
