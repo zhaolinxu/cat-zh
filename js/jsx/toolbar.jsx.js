@@ -433,10 +433,12 @@ WLoginForm = React.createClass({
             if (resp.id){
                 self.props.game.server.setUserProfile(resp);
             } else {
-                game.msg(resp.data);
+                game.msg(resp.data, "important");
+                
             }
 		}).always(function(){
             self.setState({isLoading: false});
+            game.msg('注意尝试次数过多，账户会被锁定', "important");
         });
     }
 });
