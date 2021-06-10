@@ -2025,7 +2025,7 @@ var run = function() {
         },
         hunt: function () {
             var manpower = this.craftManager.getResource('manpower');
-            if(manpower.value >= 100 && !game.challenges.isActive("pacifism")) {return;}
+            if(manpower.value < 100 || game.challenges.isActive("pacifism")) {return;}
 
             if (options.auto.options.items.hunt.subTrigger <= manpower.value / manpower.maxValue) {
                 // No way to send only some hunters. Thus, we hunt with everything
