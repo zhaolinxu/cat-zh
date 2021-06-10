@@ -134,6 +134,6 @@ test("Pollution values must be sane", () => {
     expect(effects["catnipPollutionRatio"]).toBeGreaterThanOrEqual(-0.35);
     expect(effects["pollutionHappines"]).toBeGreaterThanOrEqual(-35);
     expect(effects["pollutionArrivalSlowdown"]).toBeLessThanOrEqual(15);
-    expect(effects["solarRevolutionPollution"]).toBeLessThanOrEqual(-0.75); //should never be > -1
+    expect(effects["solarRevolutionPollution"]).toBeLessThanOrEqual(-1); //should never be > -1
 
 });
