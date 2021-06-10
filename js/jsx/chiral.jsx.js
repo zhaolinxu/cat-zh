@@ -127,7 +127,7 @@ WTerminal = React.createClass({
                     onKeyUp: this.handleKeyUp,
                     onChange: this.setCommand,
                     value: this.state.command,
-                    placeholder: "Type 'help' to see the list of all commands",
+                    placeholder: "输入 'help' 可以查询所有的命令",
                     style: {
                         width: "500px"
                     }
@@ -180,8 +180,8 @@ WChiral = React.createClass({
         var game = this.state.game;
         if (game.server.userProfile){
             return $r("div", null, [
-                $r("div", {className: "row"}, "An alien machine lies here at the End of the Universe."),
-                $r("div", {className: "row"}, "666 nodes online"),
+                $r("div", {className: "row"}, "一个外星机器躺在宇宙边界。"),
+                $r("div", {className: "row"}, "666 个在线机器人"),
                 $r("div", {className: "row"}, [
                     $r("pre", {
                         style: { whiteSpace: "pre-wrap" }
@@ -194,7 +194,7 @@ WChiral = React.createClass({
                 ])
             ]);
         } else {
-            return $r("div", null, "The furthest ring is empty and silent");
+            return $r("div", null, "边界环是虚无而安静的");
         }
     }
 });

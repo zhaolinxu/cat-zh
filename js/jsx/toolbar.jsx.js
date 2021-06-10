@@ -432,6 +432,8 @@ WLoginForm = React.createClass({
 		}).done(function(resp){
             if (resp.id){
                 self.props.game.server.setUserProfile(resp);
+            } else {
+                game.msg(resp.data);
             }
 		}).always(function(){
             self.setState({isLoading: false});
