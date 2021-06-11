@@ -193,7 +193,7 @@ dojo.declare("classes.game.Server", null, {
 
 		console.log("Loading server settings...");
 		$.ajax({
-			cache: true,
+			cache: false,
 			url: "server.json",
 			dataType: "json",
 			success: function(json) {

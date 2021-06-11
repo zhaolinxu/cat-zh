@@ -194,7 +194,7 @@ WToolbarMOTD = React.createClass({
         var server = this.game.server;
 		if (server.showMotd && server.motdContent) {
 			server.motdFreshMessage = false;
-			return "右下角百科内有萌新攻略<br />" + server.motdContent;
+			return "无法抗拒的原因，翻译有些改变<br />" + server.motdContent;
 		}
     }
 });

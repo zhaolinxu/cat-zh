@@ -186,7 +186,7 @@
 				def = _import("i18n", def);
 				def.then(function() {
 					console.log("Loading locale system");
-					var langPromise = i18nLang.init(15);
+					var langPromise = i18nLang.init(16);
 					langPromise.done(function() {
 						loadingMessages = [
 							$I("ui.loading.msg.0"),
@@ -313,10 +313,8 @@
 					<!--- a Dark Souls of incremental gaming -->
 
 					<span style="font-size: small;">
-						<a href="http://kittensgame.com/alpha" title="experimental, unstable" target="_blank">&alpha;</a>
-						<a href="http://kittensgame.com/beta" title="experimental, stable" target="_blank">&beta;</a>
-						<a href="http://kittensgame.com/web" title="RC, nighty build" target="_blank">ML</a>
-						<a href="http://bloodrizer.ru/games/kittens" title="stable, verified" target="_blank">BU</a>
+						<a href="http://kittensgame.com/beta" title="experimental, stable" target="_blank">测试版</a>
+						<a href="http://kittensgame.com/web" title="RC, nighty build" target="_blank"><b>官方版</b></a>
 					</span>
 
 					<a href="#" style="color: red">
