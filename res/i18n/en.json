@@ -76,6 +76,7 @@
     "btn.all.unassign": "[-all]",
     "btn.aoff.tooltip": "Automation disabled",
     "btn.aon.tooltip": "Automation enabled",
+    "btn.pollution.tooltip": "Generates pollution",
     "btn.build": "Build",
     "btn.challenge": "Start Challenge",
     "btn.complete": "(complete)",

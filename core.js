@@ -1274,6 +1274,15 @@ ButtonModernHelper = {
 				className: "desc small" + (model.metadata.isAutomationEnabled ? " auto-on" : " auto-off")
 			}, tooltip);
 		}
+		if (model.metadata && model.metadata.effects && 
+			model.metadata.effects["cathPollutionPerTickProd"] > 0 &&
+			controller.game.science.get("chemistry").researched
+		){
+			var descDiv = dojo.create("div", {
+				innerHTML: $I("btn.pollution.tooltip"),
+				className: "desc small pollution"
+			}, tooltip);
+		}
 
 		var prices = model.priceModels;
 		var effects = model.effectModels;

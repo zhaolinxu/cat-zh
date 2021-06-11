@@ -696,7 +696,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 				if (self.val) {
 					self.effects["scienceRatio"] = 0.35 * (1 + self.on / self.val);
-					self.effects["cathPollutionPerTickProd"] = 1 * (self.on / self.val);
 				}
 
 				return amt;
@@ -890,7 +889,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		calculateEffects: function(self, game){
 			var effects = {
 				"mineralsRatio": 0.35,
-				"coalPerTickBase": 0.015
+				"coalPerTickBase": 0.015,
+				"cathPollutionPerTickProd": 0.25
 			};
 			if (game.workshop.get("orbitalGeodesy").researched){
 				effects["uraniumPerTickBase"] = 0.0005; //4% of accelerator output
@@ -2066,13 +2066,13 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		}
 		else if(pollutionLevel == 3){
 			this.game.bld.pollutionEffects["catnipPollutionRatio"] = this.game.getLimitedDR(-0.5 - 0.1 * Math.log(pollution), 10)/10;
-			this.game.bld.pollutionEffects["pollutionHappines"] =-Math.log(pollution) * 1.2;
-			this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] = Math.log10(this.game.bld.cathPollution) * 1.2;
+			this.game.bld.pollutionEffects["pollutionHappines"] =-Math.log(pollution) * 1.18;
+			this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] = Math.log10(this.game.bld.cathPollution) * 1.11;
 			this.game.bld.pollutionEffects["solarRevolutionPollution"] = 0;
 		}
 		else if(pollutionLevel == 2){
 			this.game.bld.pollutionEffects["catnipPollutionRatio"] = this.game.getLimitedDR(-0.5 - 0.1 * Math.log(pollution), 10)/10;
-			this.game.bld.pollutionEffects["pollutionHappines"] = -Math.log(pollution) * 1.2;
+			this.game.bld.pollutionEffects["pollutionHappines"] = -Math.log(pollution) * 1.08;
 			this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] = 
 				((pollution >= POL_LBASE * 100 / 2) ? 1 + 1.68e-8 * (pollution - POL_LBASE * 100 / 2): 0); //linear
 			this.game.bld.pollutionEffects["solarRevolutionPollution"] = 0;
@@ -2232,13 +2232,15 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		this.cathPollutionPerTick = 0;
 	},
 	//pollution functions:
-	getCleanEnergy:function(){
+	getCleanEnergy: function(){
 		var solarFarm = this.getBuildingExt("pasture").meta;
 		var hydroPlant = this.getBuildingExt("aqueduct").meta;
 		var reactor = this.getBuildingExt("reactor").meta;
+		var sattelite = this.game.space.getBuilding("sattelite");
 		var cleanEnergyProduced = (solarFarm.stage == 1 && solarFarm.stages[1].effects)? solarFarm.stages[1].effects["energyProduction"] * solarFarm.on : 0;
 		cleanEnergyProduced += (hydroPlant.stage == 1 && hydroPlant.stages[1].effects)? hydroPlant.stages[1].effects["energyProduction"] * hydroPlant.on : 0;
 		cleanEnergyProduced += reactor.effects["energyProduction"] * reactor.on / 2;
+		cleanEnergyProduced += sattelite.effects["energyProduction"] * sattelite.on;
 		return cleanEnergyProduced;
 	},
 	getPollutingEnergy: function () {
@@ -2310,15 +2312,15 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			this.cathPollution += this.cathPollutionPerTick * ticks;
 		}
 		else {
-		/*t = time in ticks, p = pollution, UPPT — undisipated pollution per tick, pdr — pollution dissipation ratio
-		solved differential equasion:
+		/*t = time in ticks, p = pollution, UPPT — undissipated pollution per tick, pdr — pollution dissipation ratio
+		solved differential equation:
 			p(t = 0) = this.cathPollution
 			d(p)/dt = UPPT + pdr * p
 		*/
 		var pdr = - this.pollutionEffects["pollutionDissipationRatio"];
 		var expon = Math.exp(pdr * ticks);
 		var uppt = this.getUndissipatedPollutionPerTick();
-		this.cathPollution = Math.abs(((this.cathPollution * pdr + uppt) * expon - uppt)/pdr);
+		this.cathPollution = Math.max(((this.cathPollution * pdr + uppt) * expon - uppt)/pdr, 0);
 		}
 	},
 	fastforward: function(daysOffset) {
