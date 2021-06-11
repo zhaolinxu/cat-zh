@@ -854,6 +854,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		this.game.stats.getStat("totalParagon").val += milleniums;
 	},
 	onNewYears: function(updateUI, years, milleniumChangeCalculated) { // shouldn't be used for more than 5 years, or if you don't have years%50 == 0
+		if(years == 1){
+			this.onNewYear(updateUI);
+			return;
+		}
 		var ty = this.game.stats.getStat("totalYears");
 		ty.val += years;
 
@@ -887,8 +891,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 		
 		this.cycleYear += years;
-		if (years + this.cycleYear >= this.yearsPerCycle) {
-			this.cycleYear = (years + this.cycleYear) % this.yearsPerCycle;
+		if (this.cycleYear >= this.yearsPerCycle) {
+			this.cycleYear = this.cycleYear % this.yearsPerCycle;
 			if ( ++this.cycle >= this.cyclesPerEra) {
 				this.cycle = 0;
 			}
