@@ -2312,15 +2312,15 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			this.cathPollution += this.cathPollutionPerTick * ticks;
 		}
 		else {
-		/*t = time in ticks, p = pollution, UPPT — undisipated pollution per tick, pdr — pollution dissipation ratio
-		solved differential equasion:
+		/*t = time in ticks, p = pollution, UPPT — undissipated pollution per tick, pdr — pollution dissipation ratio
+		solved differential equation:
 			p(t = 0) = this.cathPollution
 			d(p)/dt = UPPT + pdr * p
 		*/
 		var pdr = - this.pollutionEffects["pollutionDissipationRatio"];
 		var expon = Math.exp(pdr * ticks);
 		var uppt = this.getUndissipatedPollutionPerTick();
-		this.cathPollution = Math.abs(((this.cathPollution * pdr + uppt) * expon - uppt)/pdr);
+		this.cathPollution = Math.max(((this.cathPollution * pdr + uppt) * expon - uppt)/pdr, 0);
 		}
 	},
 	fastforward: function(daysOffset) {
