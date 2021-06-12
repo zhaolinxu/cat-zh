@@ -116,7 +116,7 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 				window.FirebasePlugin.logEvent(eventType, event);
 			}
 		}*/
-		if (window.newrelic){
+		if (window.newrelic && !this.game.opts.disableTelemetry){
 			window.newrelic.addPageAction(eventType, payload);
 		}
 	}
