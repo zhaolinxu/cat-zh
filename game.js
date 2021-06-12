@@ -78,6 +78,8 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 	guid: null,
 	game: null,
 
+	buildRevision: null,
+
 	constructor: function(game) {
 		this.guid = this.generateGuid();
 		this.game = game;
@@ -110,6 +112,11 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 			payload: payload,
 			appId: this.game.server.telemetryAppId
 		};*/
+
+		payload = payload || {};
+		
+		//log basic invormation like game build, etc (might be confusing in case of beta?)
+		payload["buildRevision"] = this.buildRevision;
 		
 		if (window.newrelic && !this.game.opts.disableTelemetry){
 			window.newrelic.addPageAction(eventType, payload);
@@ -3871,10 +3878,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				avg4: avg4
 			};
 		//}
-		if (this.ticks % 20 == 0 && this.telemetry) {
+
+		//collect fps info every minute or so
+		if (this.ticks % (this.ticksPerSecond * 60) == 0 && this.telemetry) {
 			this.telemetry.logEvent("fps", {
 				ms: this.fps.ms,
-				avg: this.fps.avg
+				avg: this.fps.avg,
+				memory: performance.memory.usedJSHeapSize
 			});
 		}
 	},

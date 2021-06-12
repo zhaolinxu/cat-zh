@@ -233,6 +233,7 @@
 				try {
 					gamePage = game = new com.nuclearunicorn.game.ui.GamePage();
 					gamePage.setUI(new classes.ui.DesktopUI("gameContainerId"));
+					gamePage.telemetry.buildRevision = buildRevision;
 
 					//--------------------------
 					var dropBoxClient = new Dropbox.Dropbox({clientId: "u6lnczzgm94nwg3"}); //the starting Dropbox object
