@@ -36,10 +36,13 @@ dojo.declare("mixin.IReactAware", null, {
     },
 
     render: function(container){
+        this.game.ui.dirtyComponents.push(this);
+
         React.render($r(this.component, {
             game: this.game
         }), container);
 
+        this.container = container;
         return container;
     },
 
@@ -47,7 +50,11 @@ dojo.declare("mixin.IReactAware", null, {
 
     },
 
+    //does not seem to be called automatically
     destroy: function(){
+        if (!this.container){
+            throw "Integrity failure, trying to unmount component on an empty container";
+        }
         React.unmountComponentAtNode(this.container);
     }
 });
@@ -160,6 +167,8 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
     defaultSchemes: ["default", "dark", "grassy", "sleek", "black", "wood", "bluish", "grayish", "greenish"],
     allSchemes: ["default"].concat(new classes.KGConfig().statics.schemes),
+
+    dirtyComponents: [],
 
     constructor: function(containerId){
         this.containerId = containerId;
@@ -344,6 +353,12 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         var scrollPosition = midColumn.scrollTop;
 
         var container = dojo.byId(this.containerId);
+
+        //unmount everything that relies on the container
+        for (var i in this.dirtyComponents){
+            this.dirtyComponents[i].destroy();
+        }
+        this.dirtyComponents = [];
         dojo.empty(container);
 
         var tabNavigationDiv = dojo.create("div", { className: "tabsContainer"}, container);
