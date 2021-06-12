@@ -116,6 +116,9 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 				window.FirebasePlugin.logEvent(eventType, event);
 			}
 		}*/
+		if (window.newrelic){
+			window.newrelic.addPageAction(eventType, payload);
+		}
 	}
 });
 
@@ -3846,7 +3849,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.ticks++;
 
 		var timestampEnd = new Date().getTime();
-		if (this.isLocalhost) {
+		//if (this.isLocalhost) {	//always collect fps metrics
 			this.totalUpdateTimeTicks++;
 
 			var tsDiff = timestampEnd - timestampStart;
@@ -3872,17 +3875,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				avg3: avg3,
 				avg4: avg4
 			};
-
-            /*fpsElement = $("#devPanelFPS")[0];
-            if (fpsElement) {
-                fpsElement.textContent = "fps: " + tsDiff + " ms,"
-				+ " avg: " + avg.toFixed() + 
-				" ms [" + avg0.toFixed() + 
-				"." + avg1.toFixed() + 
-				"." + avg2.toFixed() + 
-				"." + avg3.toFixed() + 
-				"." + avg4.toFixed() + "] (Cl. to res.)";
-            }*/
+		//}
+		if (this.ticks % 20 == 0 && this.telemetry) {
+			this.telemetry.logEvent("fps", {
+				ms: this.fps.ms,
+				avg: this.fps.avg
+			});
 		}
 	},
 
