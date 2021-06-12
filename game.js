@@ -109,13 +109,11 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 			timestamp: Date.now(),
 			payload: payload,
 			appId: this.game.server.telemetryAppId
-		};
-
-		if (!this.game.opts.disableTelemetry) {
-			if (window.FirebasePlugin) {
-				window.FirebasePlugin.logEvent(eventType, event);
-			}
-		}*/
+		};*/
+		
+		if (window.newrelic && !this.game.opts.disableTelemetry){
+			window.newrelic.addPageAction(eventType, payload);
+		}
 	}
 });
 
