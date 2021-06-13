@@ -217,6 +217,7 @@ WToolbarPollution = React.createClass({
     getTooltip: function(notUpdateFreshMessage){
         this.game = this.props.game;    //hack
 
+        var message = "";
         var eqPol = this.game.bld.getEquilibriumPollution();
         var eqPolLvl = this.game.bld.getPollutionLevel(eqPol);
         var pollution = this.game.bld.cathPollution;
