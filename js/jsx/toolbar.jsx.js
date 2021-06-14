@@ -479,7 +479,7 @@ WCloudSaves = React.createClass({
                 var isActiveSave = (save.guid == game.telemetry.guid);
                 return $r("div", {className:"save-record"}, [
                     $r("div", {className:"save-record-cell"},
-                        isActiveSave ? "[current]" : ""
+                        isActiveSave ? "[" + $I("ui.kgnet.save.current") + "]" : ""
                     ),
                     $r("div", {className:"save-record-cell"},
                         save.index ?
@@ -498,14 +498,14 @@ WCloudSaves = React.createClass({
                         onClick: function(e){
                             e.stopPropagation();
                             game.server.pushSave();
-                        }}, "Save"),
+                        }}, $I("ui.kgnet.save.save")),
                     $r("a", {
                         className: "link",
                         title: "Download a cloud save and apply it to your game (your current data will be lost)",
                             onClick: function(e){
                             e.stopPropagation();
                             game.server.loadSave(save.guid);
-                        }}, "Load"),
+                        }}, $I("ui.kgnet.save.load")),
                 ])
             })),
 
@@ -524,7 +524,7 @@ WCloudSaves = React.createClass({
                             e.stopPropagation();
                             game.server.syncSaveData();
                         }
-                    }, "Sync cloud saves")
+                    }, $I("ui.kgnet.sync"))
                 ])
             ])
         ])
@@ -550,8 +550,10 @@ WLogin = React.createClass({
                 },
                 [
                     $r("span", {
-                        className: "status-indicator-" + (game.server.userProfile ? "online" : "offline")
-                    }, "* " + (game.server.userProfile ? "Online" : "Offline")),
+                        className: "kgnet-login-link status-indicator-" + (game.server.userProfile ? "online" : "offline")
+                    }, "* " + (game.server.userProfile ? 
+                        $I("ui.kgnet.online") : $I("ui.kgnet.login")
+                    )),
                     this.state.isExpanded && $r("div", {
                         className: "login-popup button_tooltip tooltip-block"
                     },

@@ -233,6 +233,8 @@
 				try {
 					gamePage = game = new com.nuclearunicorn.game.ui.GamePage();
 					gamePage.setUI(new classes.ui.DesktopUI("gameContainerId"));
+
+					gamePage.telemetry.version = version;
 					gamePage.telemetry.buildRevision = buildRevision;
 
 					//--------------------------

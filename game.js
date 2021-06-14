@@ -79,6 +79,7 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 	game: null,
 
 	buildRevision: null,
+	version: null,
 
 	constructor: function(game) {
 		this.guid = this.generateGuid();
@@ -116,7 +117,12 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 		payload = payload || {};
 		
 		//log basic invormation like game build, etc (might be confusing in case of beta?)
-		payload["buildRevision"] = this.buildRevision;
+		payload["buildRevision"] = this.version + ".r" + this.buildRevision;
+		payload["guid"] = this.guid;
+		
+		if (this.game.server.userProfile){
+			payload["uid"] = this.game.server.userProfile.uid;
+		}
 		
 		if (window.newrelic && !this.game.opts.disableTelemetry){
 			window.newrelic.addPageAction(eventType, payload);
