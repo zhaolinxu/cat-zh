@@ -598,12 +598,12 @@ WToolbar = React.createClass({
     getIcons: function(){
         var icons = [];
         icons.push(
-            $r(WToolbarPollution, {game: this.props.game}),
             $r(WToolbarFPS, {game: this.props.game}),
-            $r(WToolbarMOTD, {game: this.props.game}),
+            $r(WToolbarPollution, {game: this.props.game}),
             $r(WToolbarHappiness, {game: this.props.game}),
             $r(WToolbarEnergy, {game: this.props.game}),
             $r(WBLS, {game: this.props.game}),
+            $r(WToolbarMOTD, {game: this.props.game}),
             $r(WLogin, {game: this.props.game})
 
         );
