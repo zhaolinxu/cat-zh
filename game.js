@@ -3887,10 +3887,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		//collect fps info every minute or so
 		if (this.ticks % (this.ticksPerSecond * 60) == 0 && this.telemetry) {
+			var memory = null;
+			if (window.performance && window.performance.memory) {
+				memory = performance.memory.usedJSHeapSize;
+			}
+
 			this.telemetry.logEvent("fps", {
 				ms: this.fps.ms,
 				avg: this.fps.avg,
-				memory: performance.memory.usedJSHeapSize
+				memory: memory
 			});
 		}
 	},
