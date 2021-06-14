@@ -201,6 +201,7 @@ WToolbarMOTD = React.createClass({
 WToolbarPollution = React.createClass({
     freshMessage: false,
     message: "",
+
     render: function(){
         var game = this.props.game;
         var message = this.getTooltip(true);
@@ -215,7 +216,7 @@ WToolbarPollution = React.createClass({
                 className: this.freshMessage ? "energy warning": null
             },
                 $r("div", {}, 
-                $I("pollution.label"))
+                "🏭" + (game.science.get("ecology").researched ? (" " + this.getPollutionMod()) : ""))
             );
         }
         return null;
@@ -263,10 +264,14 @@ WToolbarPollution = React.createClass({
         if (notUpdateFreshMessage){
             return message;
         }
-        message +="<br/>CO2: " + (game.science.get("ecology").researched ? 
-            (game.getDisplayValueExt((game.bld.cathPollution / game.bld.getPollutionLevelBase())*100) + "ppm") : $I("pollution.unspecified"));    
+        message +="<br/>CO₂: " + (game.science.get("ecology").researched ? 
+            this.getPollutionMod() : $I("pollution.unspecified"));    
         this.freshMessage = false;
         return message;
+    },
+
+    getPollutionMod(){
+        return game.getDisplayValueExt((game.bld.cathPollution / game.bld.getPollutionLevelBase())*100) + "ppm";
     }
 });
 
