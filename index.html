@@ -236,6 +236,9 @@
 
 					gamePage.telemetry.version = version;
 					gamePage.telemetry.buildRevision = buildRevision;
+					if (window.location.href.indexOf("beta") >= 0) {
+						gamePage.telemetry.buildRevision += "-b";
+					}
 
 					//--------------------------
 					var dropBoxClient = new Dropbox.Dropbox({clientId: "u6lnczzgm94nwg3"}); //the starting Dropbox object
