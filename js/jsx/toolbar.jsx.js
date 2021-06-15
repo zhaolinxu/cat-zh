@@ -509,6 +509,7 @@ WCloudSaves = React.createClass({
                             onClick: function(e){
                             e.stopPropagation();
                             game.server.loadSave(save.guid);
+                            game.msg('从国外官网下载有延迟，请稍候', "important");
                         }}, "加载"),
                 ])
             })),
