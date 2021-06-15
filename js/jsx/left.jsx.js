@@ -736,14 +736,48 @@ WLeftPanel = React.createClass({
         var game = this.state.game,
             reqRes = game.getRequiredResources(game.selectedBuilding);
 
+        var catpower = game.resPool.get("manpower");
+        var huntCount = Math.floor(catpower.value / 100);
+
+        var showFastHunt = (catpower.value >= 100) && (!game.challenges.isActive("pacifism"));
+
+        //---------- advisor ---------
+        var showAdvisor = false;
+
+        if (game.bld.get("field").on > 0){
+            var calendar = game.calendar,
+                winterDays = calendar.daysPerSeason -
+                (calendar.getCurSeason().name === "winter" ? calendar.day : 0);
+
+            var catnipPerTick = game.calcResourcePerTick("catnip", { modifiers:{
+                "catnip" : 0.25
+            }});	//calculate estimate winter per tick for catnip;
+
+            showAdvisor = game.resPool.get("catnip").value + winterDays * catnipPerTick * calendar.ticksPerDay <= 0;
+        }
+        //----------------------------
+
         return $r("div", null, [
             $r(WResourceTable, {resources: this.getResources(), reqRes: reqRes}),
 
-            $r("div", {id:"advisorsContainer",style:{paddingTop: "10px"}}),        
-            $r("div", {id:"fastHuntContainer", className:"pin-link", style:{visibility:"hidden"}},
+            $r("div", {id:"advisorsContainer",style:{
+                paddingTop: "10px", 
+                visibility: (showAdvisor ? "block" : "hidden")}
+            }, 
+                $I("general.food.advisor.text")
+            ),        
+            $r("div", {id:"fastHuntContainer", className:"pin-link", style:{visibility: (showFastHunt ? "block" : "hidden")}},
                 $r("a", {href:"#", onClick: game.huntAll.bind(game)},
                     $I("left.hunt") + " (",
-                    $r("span", {id:"fastHuntContainerCount"}),
+                    $r("span", {
+                        id:"fastHuntContainerCount"
+                    },
+                        [
+                            game.getDisplayValueExt(huntCount, false, false, 0),
+                            " ",
+                            (huntCount === 1 ? $I("left.hunt.time") : $I("left.hunt.times"))
+                        ]
+                    ),
                     ")"
                 )
             ),
