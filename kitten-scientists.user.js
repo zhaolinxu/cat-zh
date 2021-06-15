@@ -1648,36 +1648,37 @@ var run = function() {
 
             if (upgrades.upgrades.enabled && gamePage.tabs[3].visible) {
                 var work = game.workshop.upgrades;
-                let noup = ["factoryOptimization","factoryRobotics","spaceEngineers","aiEngineers","chronoEngineers","steelPlants","amFission","biofuel","gmo","factoryAutomation","advancedAutomation","invisibleBlackHand"];
-                if (!upgrades.upgrades.limited) {noup =[];}
+                let noup = [];
+                if (upgrades.upgrades.limited) {
+                    noup =["factoryOptimization","factoryRobotics","spaceEngineers","aiEngineers","chronoEngineers","steelPlants","amFission","biofuel","gmo","factoryAutomation","advancedAutomation","invisibleBlackHand"];
+                }
 
                 workLoop:
-                for (var upg in work) {
-                    if (work[upg].researched || !work[upg].unlocked) {continue;}
-                    if (noup.indexOf(work[upg].name) != -1) {continue}
+                for (let upg of work) {
+                    if (upg.researched || !upg.unlocked) {continue;}
+                    if (noup.indexOf(upg.name) != -1) {continue;}
 
-                    var prices = dojo.clone(work[upg].prices); // game.village.getEffectLeader will override its argument
+                    var prices = dojo.clone(upg.prices); // game.village.getEffectLeader will override its argument
                     prices = game.village.getEffectLeader("scientist", prices);
                     for (var resource in prices) {
                         if (craftManager.getValueAvailable(prices[resource].name, true) < prices[resource].val) {continue workLoop;}
                     }
- 
-                    upgradeManager.build(work[upg], 'workshop');
+                    upgradeManager.build(upg, 'workshop');
                 }
             }
 
             if (upgrades.techs.enabled && gamePage.tabs[2].visible) {
                 var tech = game.science.techs;
                 techLoop:
-                for (var upg in tech) {
-                    if (tech[upg].researched || !tech[upg].unlocked) {continue;}
+                for (let upg of tech) {
+                    if (upg.researched || !upg.unlocked) {continue;}
 
-                    var prices = dojo.clone(tech[upg].prices);
+                    var prices = dojo.clone(upg.prices);
                     prices = game.village.getEffectLeader("scientist", prices);
                     for (var resource in prices) {
                         if (craftManager.getValueAvailable(prices[resource].name, true) < prices[resource].val) {continue techLoop;}
                     }
-                    upgradeManager.build(tech[upg], 'science');
+                    upgradeManager.build(upg, 'science');
                 }
             }
 
@@ -2832,6 +2833,11 @@ var run = function() {
 
                 value -= Math.min(this.getResource(name).maxValue * trigger, value) * (1 - consume);
 
+                if ('unobtainium' === name) {
+                    if (value < 1000 && this.getResource(name).value == this.getResource(name).maxValue && this.getResource(name).value>= 1000) {
+                        value = this.getResource(name).value;// fix unobtainium carfting to eludium
+                    }
+                }
             }
 
             return value;
