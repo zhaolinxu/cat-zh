@@ -137,6 +137,10 @@ dojo.declare("classes.ui.UISystem", null, {
 
     isEffectMultiplierEnabled: function(){
         return false;
+    },
+
+    checkForUpdates: function(){
+        //nothing
     }
 });
 
@@ -1157,6 +1161,19 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     isEffectMultiplierEnabled: function(){
         //console.log(this.keyStates);
         return this.keyStates.shiftKey;
+    },
+
+    checkForUpdates: function(){
+        var self = this;
+        var now = Date.now();
+        
+        $.getJSON("build.version.json?=" + now).then(function(json){
+            var buildRevision = json.buildRevision;
+            
+            if (buildRevision > self.game.telemetry.buildRevision){
+                $("#newVersion").toggle(true);
+            }
+        });
     }
 
 });

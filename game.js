@@ -1751,7 +1751,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.timer.addEvent(dojo.hitch(this, function(){ this.server.refresh(); }), this.calendar.ticksPerSecond * 60 * 10);	//reload MOTD and server info every 10 minutes
 		this.timer.addEvent(dojo.hitch(this, function(){ this.heartbeat(); }), this.calendar.ticksPerSecond * 60 * 10);	//send heartbeat every 10 min	//TODO: 30 min eventually
 		this.timer.addEvent(dojo.hitch(this, function(){ this.updateWinterCatnip(); }), 25);	//same as achievements, albeit a bit more frequient
-
+		this.timer.addEvent(dojo.hitch(this, function(){ this.ui.checkForUpdates(); }), this.calendar.ticksPerSecond * 60 * 5);	//check new version every 5 min
 
 		this.effectsMgr = new com.nuclearunicorn.game.EffectsManager(this);
 	},
@@ -1952,6 +1952,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		} else {
 			dojo.publish(topic, arg);
 		}
+	},
+
+	reload: function(){
+		this.save();
+		window.location.reload();
 	},
 
 	save: function(){
