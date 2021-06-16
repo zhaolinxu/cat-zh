@@ -648,6 +648,9 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 	},
 
     updateFastHunt: function(){
+        if (!this.fastHuntContainer){
+            this.fastHuntContainer = dojo.byId("fastHuntContainer");
+        }
     },
 
     updateFastPraise: function(){

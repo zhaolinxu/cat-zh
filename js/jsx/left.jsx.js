@@ -749,9 +749,7 @@ WLeftPanel = React.createClass({
                 winterDays = calendar.daysPerSeason -
                 (calendar.getCurSeason().name === "winter" ? calendar.day : 0);
 
-            var catnipPerTick = game.calcResourcePerTick("catnip", { modifiers:{
-                "catnip" : 0.25
-            }});	//calculate estimate winter per tick for catnip;
+            var catnipPerTick = game.winderCatnipPerTick;
 
             showAdvisor = game.resPool.get("catnip").value + winterDays * catnipPerTick * calendar.ticksPerDay <= 0;
         }
@@ -767,7 +765,7 @@ WLeftPanel = React.createClass({
                 $I("general.food.advisor.text")
             ),        
             $r("div", {id:"fastHuntContainer", className:"pin-link", style:{visibility: (showFastHunt ? "block" : "hidden")}},
-                $r("a", {href:"#", onClick: game.huntAll.bind(game)},
+                $r("a", {href:"#", onClick: this.huntAll},
                     $I("left.hunt") + " (",
                     $r("span", {
                         id:"fastHuntContainerCount"
@@ -782,7 +780,7 @@ WLeftPanel = React.createClass({
                 )
             ),
             $r("div", {id:"fastPraiseContainer", className:"pin-link", style:{visibility:"hidden"}},
-                $r("a", {href:"#", onClick: game.praise.bind(game)},
+                $r("a", {href:"#", onClick: this.praiseAll},
                     $I("left.praise")
                 )
             ),              
@@ -790,6 +788,15 @@ WLeftPanel = React.createClass({
             $r(WCraftTable, {resources: game.resPool.resources, reqRes: reqRes})
         ]);
     },
+
+    huntAll: function(event){
+        this.state.game.huntAll(event);
+    },
+
+    praiseAll: function(event){
+        this.state.game.praise(event);
+    },
+
     componentDidMount: function(){
         var self = this;
         dojo.subscribe("ui/update", function(game){
