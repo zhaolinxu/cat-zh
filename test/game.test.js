@@ -9,8 +9,16 @@
 
 beforeEach(() => {
     global.gamePage = global.game = new com.nuclearunicorn.game.ui.GamePage();
+    global.newrelic = {
+        addPageAction: jest.fn()
+    }
+
     //TODO: use special UI system specifically for unit tests
     game.setUI(new classes.ui.UISystem("gameContainerId"));
+});
+
+afterEach(() => {
+    jest.clearAllMocks();
 });
 
 test("basic sanity check, game must load hoglasave without crashing", () => {
@@ -135,5 +143,17 @@ test("Pollution values must be sane", () => {
     expect(effects["pollutionHappines"]).toBeGreaterThanOrEqual(-35);
     expect(effects["pollutionArrivalSlowdown"]).toBeLessThanOrEqual(15);
     expect(effects["solarRevolutionPollution"]).toBeLessThanOrEqual(-1); //should never be > -1
+
+});
+
+test("Test NR calls", () => {
+    game.heartbeat();
+    expect(newrelic.addPageAction).toHaveBeenCalledWith("heartbeat", expect.any(Object));
+    expect(newrelic.addPageAction).toHaveBeenCalledTimes(1);
+
+    jest.clearAllMocks();
+    game.opts.disableTelemetry = true;
+    game.heartbeat();
+    expect(newrelic.addPageAction).toHaveBeenCalledTimes(0);
 
 });

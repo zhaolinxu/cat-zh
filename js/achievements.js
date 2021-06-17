@@ -414,14 +414,14 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
     update: function () {
         for (var i in this.achievements) {
             var ach = this.achievements[i];
-            if (!ach.unlocked && dojo.hitch(this, ach.condition)()) {
+            if (!ach.unlocked && ach.condition && ach.condition.call(this)) {
                 ach.unlocked = true;
                 this.game.msg($I("achievements.msg.unlock", [ach.title]));
                 this.game.achievementTab.visible = true;
 
                 this.updateStatistics();
             }
-            if (ach.starCondition != undefined && !ach.starUnlocked && dojo.hitch(this, ach.starCondition)()) {
+            if (!ach.starUnlocked && ach.starCondition && ach.starCondition.call(this)) {
                 ach.starUnlocked = true;
                 this.game.msg($I("achievements.msg.starUnlock", [ach.title]));
                 this.game.achievementTab.visible = true;
@@ -430,7 +430,7 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             }
         }
 
-        for (var i in this.hats) {
+        /*for (var i in this.hats) {
             var hat = this.hats[i];
             //console.log("checking the hat", hat, hat.condition, hat.condition && dojo.hitch(this, hat.condition)());
             if (!hat.unlocked && hat.condition && dojo.hitch(this, hat.condition)()) {
@@ -438,7 +438,7 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
                 hat.unlocked = true;
                 this.councilUnlocked = true;
             }
-        }
+        }*/
     },
 
     updateStatistics: function () {
