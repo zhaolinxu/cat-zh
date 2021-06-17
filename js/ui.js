@@ -819,6 +819,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#disableTelemetry")[0].checked = game.opts.disableTelemetry;
         $("#noConfirm")[0].checked = game.opts.noConfirm;
         $("#IWSmelter")[0].checked = game.opts.IWSmelter;
+        $('#autoSaveReset')[0].checked = game.opts.autoSaveReset;
 
         var selectedLang = i18nLang.getLanguage();
         var locales = i18nLang.getAvailableLocales();

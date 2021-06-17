@@ -194,7 +194,7 @@ WToolbarMOTD = React.createClass({
         var server = this.game.server;
 		if (server.showMotd && server.motdContent) {
 			server.motdFreshMessage = false;
-			return "无法抗拒的原因，翻译有些改变<br />" + server.motdContent;
+			return "有问题找百科或者猫国QQ群<br />" + server.motdContent;
 		}
     }
 });
@@ -562,8 +562,8 @@ WLogin = React.createClass({
                 [
                     $r("span", {
                         className: "status-indicator-" + (game.server.userProfile ? "online" : "offline"),
-                        title: "官方云存档"
-                    }, (game.server.userProfile ? "在线" : "未登录")),
+                        title: "国外官方云存档"
+                    }, (game.server.userProfile ? "在线" : "云存档")),
                     this.state.isExpanded && $r("div", {
                         className: "login-popup button_tooltip tooltip-block"
                     },

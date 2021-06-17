@@ -1925,6 +1925,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			showNonApplicableButtons: false,
 			usePercentageConsumptionValues: false,
 			highlightUnavailable: true,
+            autoSaveReset: true,
 			hideSell: false,
 			hideDowngrade: false,
 			hideBGImage: false,
@@ -2247,7 +2248,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
         var filename = "Kittens Game";
         if (withFullName) {
-            filename += " - Run " + (this.stats.getStat("totalResets").val + 1)
+            filename += "-" + (this.stats.getStat("totalResets").val + 1) + "周目 "
                 + " - " + $I("calendar.year.full", [this.calendar.year, this.calendar.getCurSeasonTitle(), Math.floor(this.calendar.day)]);
         }
         $link.attr("download", filename + ".txt");
@@ -3944,6 +3945,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 		var game = this;
 		game.ui.confirm($I("reset.confirmation.title"), msg, function() {
+			if (game.opts.autoSaveReset != undefined && game.opts.autoSaveReset) {
+						game.saveToFile(true);
+                }
 			game.challenges.onRunReset();
 			/*if (game.challenges.isActive("atheism") && game.time.getVSU("cryochambers").on > 0) {
 				game.challenges.getChallenge("atheism").researched = true;
