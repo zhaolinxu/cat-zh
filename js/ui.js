@@ -407,7 +407,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                         this.activeTabId = tab.tabId;
                         this.render();
 
-                        //this.game.telemetry.logEvent("tab", tab.tabId);
+                        this.game.telemetry.logRouteChange(tab.tabId);
                     }, tab)
             );
 
@@ -1118,6 +1118,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 break;
             }
         }
+        this.game.telemetry.logRouteChange(this.activeTabId);
 
         var uiData = LCstorage["com.nuclearunicorn.kittengame.ui"];
         try {

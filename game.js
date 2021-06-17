@@ -103,21 +103,50 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 		if (data["telemetry"]) {
 			this.guid = data["telemetry"].guid || this.generateGuid();
 		}
+
+		// FIXME: This really wants to happen before `window.load` is fired, but
+		// this script isn't even loaded yet. So the first PageView will not get
+		// all this data.
+		if (window.newrelic && !this.game.opts.disableTelemetry){
+			// Add a "release" so NR can determine which version of the code was loaded
+			// when a JS error was noticed.
+			window.newrelic.addRelease('KG', this.version + ".r" + this.buildRevision);
+
+			// Log basic information to *all* PageAction and BrowserInteraction events
+			// that follow such as game build, uid, etc.
+			window.newrelic.setCustomAttribute('buildRevision', this.version + ".r" + this.buildRevision);
+			window.newrelic.setCustomAttribute('guid', this.guid);
+
+			if (this.game.server.userProfile){
+				window.newrelic.setCustomAttribute('uid', this.game.server.userProfile.uid);
+			}
+
+		}
 	},
 
+	// Use this method to create a new PageAction event
 	logEvent: function(eventType, payload) {
 		payload = payload || {};
-		
-		//log basic invormation like game build, etc (might be confusing in case of beta?)
-		payload["buildRevision"] = this.version + ".r" + this.buildRevision;
-		payload["guid"] = this.guid;
-		
-		if (this.game.server.userProfile){
-			payload["uid"] = this.game.server.userProfile.uid;
-		}
-		
+
 		if (window.newrelic && !this.game.opts.disableTelemetry){
+			// This will already be decorated by other common things like game build, uid, etc.
 			window.newrelic.addPageAction(eventType, payload);
+		}
+	},
+
+	logRouteChange: function(name) {
+		if (window.newrelic && !this.game.opts.disableTelemetry){
+			// Record the current tab name so the charts look pretty in the NR UI.
+			// Normally this is inferred by route changes, but we don't do that, so we
+			// need to give the browser agent some hints
+
+			// Set the `browserInteractionName` on BrowserInteraction events
+			var interaction = window.newrelic.interaction();
+			window.newrelic.setCurrentRouteName(name);
+			interaction.save();
+
+			// Make a new PageAction event
+			this.logEvent("routeChange", { 'name': name });
 		}
 	}
 });
