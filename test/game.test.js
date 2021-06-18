@@ -12,7 +12,7 @@ beforeEach(() => {
     global.newrelic = {
         addPageAction: jest.fn(),
         addRelease: jest.fn(),
-        setCustomAttribute: jest.fn(),
+        setCustomAttribute: jest.fn()
     }
 
     //TODO: use special UI system specifically for unit tests
@@ -27,7 +27,8 @@ test("basic sanity check, game must load hoglasave without crashing", () => {
     var hoglasave = require("./res/save.js");
     LCstorage["com.nuclearunicorn.kittengame.savedata"] = hoglasave;
 
-    game.load();
+    var loadResult = game.load();
+    expect(loadResult).toBe(true);
 });
 
 
