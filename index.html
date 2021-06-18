@@ -328,15 +328,12 @@
 		<div id="gamePageContainer">
 
 			<div id="topBar">
-				<div style="padding-left: 10px;">
-					Kittens Game <span style="font-size: small;">by <a href="http://kittensgame.com/" class="copyright" target="_blank">bloodrizer</a></span>
-					<!--- a Dark Souls of incremental gaming -->
-
+				<div style="padding-left: 10px; min-width: 0px; max-width: 400px; overflow: hidden; text-overflow: ellipsis;">
+					Kittens Game 
 					<span style="font-size: small;">
-						<a href="http://kittensgame.com/alpha" title="experimental, unstable" target="_blank" style="opacity:0.6;">&alpha;</a>
-						<a href="http://kittensgame.com/beta" title="experimental, stable" target="_blank">&beta;</a>
-						<a href="http://kittensgame.com/web" title="RC, nighty build" target="_blank">ML</a>
+						by <a href="http://kittensgame.com/" class="copyright" target="_blank">bloodrizer</a>
 					</span>
+					<!--- a Dark Souls of incremental gaming -->
 
 					<a href="#" style="color: red">
 						<!-- nothing exceptional there so far -->
@@ -346,39 +343,44 @@
 						<!-- motd -->
 					</span>
 
-					<div id="devPanel" style="display:inline-block; padding-left: 15px; font-size: 14px;">
-						<div id="devPanelFPS" onClick="gamePage.restartFPSCounters()">
-						</div>
-						<div id="devPanelCheats" style="display:none">
-							<a href="#" onclick="gamePage.science.unlockAll();">All techs</a>
-							<a href="#" onclick="gamePage.workshop.unlockAll();">All upgrades</a>
-							<a href="#" onclick="gamePage.resPool.maxAll();">All resources</a>
-                            <a href="#" onclick="gamePage.bld.devAddStorage();">More storage</a>
-							<a href="#" onclick="gamePage.unlockedSchemes = gamePage.ui.allSchemes; gamePage.ui.updateOptions();">All themes</a>
-						</div>
-					</div>
-
+					<span style="font-size: small;">
+						<a href="http://kittensgame.com/alpha" title="experimental, unstable" target="_blank" style="opacity:0.6;">&alpha;</a>
+						<a href="http://kittensgame.com/beta" title="experimental, stable" target="_blank">&beta;</a>
+						<a href="http://kittensgame.com/web" title="RC, nighty build" target="_blank">ML</a>
+					</span>
 				</div>
-				<div id="headerLinks"  style="position: absolute; top: 0; right: 10px; float: right;" >
 
-					<div id="headerToolbar" style="font-size: 12px; display: inline-block">
+				<div id="devPanel" style="display:inline-block; padding-left: 15px; font-size: 14px;">
+					<div id="devPanelFPS" onClick="gamePage.restartFPSCounters()">
+					</div>
+					<div id="devPanelCheats" style="display:none">
+						<a href="#" onclick="gamePage.science.unlockAll();">All techs</a>
+						<a href="#" onclick="gamePage.workshop.unlockAll();">All upgrades</a>
+						<a href="#" onclick="gamePage.resPool.maxAll();">All resources</a>
+						<a href="#" onclick="gamePage.bld.devAddStorage();">More storage</a>
+						<a href="#" onclick="gamePage.unlockedSchemes = gamePage.ui.allSchemes; gamePage.ui.updateOptions();">All themes</a>
+					</div>
+				</div>
+				
+				<div id="headerLinks">
+					<div id="headerToolbar" style="font-size: 12px; padding-top: 3px;">
 						<!-- toolbar panel goes there -->
 					</div>
 					<span id="autosaveTooltip" style="padding-right: 15px; font-size: 12px; opacity: 0;">autosaving...</span>
 					<span id="saveTooltip" style="padding-right: 15px; font-size: 12px; opacity: 0;">Saved!</span>
+				</div>
 
-					<div class="links-block" style="padding-top:3px;display:inline-block;">
-						<a id="save-link" href="#" onclick="gamePage.saveUI();">Save</a> |
-						<a id="options-link" href="#" onclick="$('#optionsDiv').toggle();">Options</a> |
+				<div class="links-block" style="padding-top:3px; display:inline-flex;">
+					<a id="save-link" href="#" onclick="gamePage.saveUI();">Save</a> |
+					<a id="options-link" href="#" onclick="$('#optionsDiv').toggle();">Options</a> |
 
-						<a id="reset-link" href="#" onclick="gamePage.reset();">Reset</a> |
-						<span id="devModeButton" style="display: none;"><a href="#" id="devBtn" onclick="dev();">DEV</a> |</span>
-						<a id="wipe-link" href="#" onclick="wipe();">Wipe</a> |
-						<a id="getTheApp-link" href="#" onclick="gamePage.ui.displayAppDialog();" style="font-weight: bold; color:#666;">Get the app</a> |
+					<a id="reset-link" href="#" onclick="gamePage.reset();">Reset</a> |
+					<span id="devModeButton" style="display: none;"><a href="#" id="devBtn" onclick="dev();">DEV</a> |</span>
+					<a id="wipe-link" href="#" onclick="wipe();">Wipe</a> |
+					<a id="getTheApp-link" href="#" onclick="gamePage.ui.displayAppDialog();" style="font-weight: bold; color:#666;">Get the app</a> |
 
-						<a href="changelog.txt" target="_blank">Ver <span id="versionLink">?.?.?.?</span></a>
-						<a href="#" id="newVersion" onClick="gamePage.reload();" title="New version available!" style="display:none">↻</a>
-					</div>
+					<a href="changelog.txt" target="_blank">Ver <span id="versionLink">?.?.?.?</span></a>
+					<a href="#" id="newVersion" onClick="gamePage.reload();" title="New version available!" style="display:none">↻</a>
 				</div>
 			</div>
 
