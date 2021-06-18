@@ -736,19 +736,51 @@ WLeftPanel = React.createClass({
         var game = this.state.game,
             reqRes = game.getRequiredResources(game.selectedBuilding);
 
+        var catpower = game.resPool.get("manpower");
+        var huntCount = Math.floor(catpower.value / 100);
+
+        var showFastHunt = (catpower.value >= 100) && (!game.challenges.isActive("pacifism"));
+
+        //---------- advisor ---------
+        var showAdvisor = false;
+
+        if (game.bld.get("field").on > 0){
+            var calendar = game.calendar,
+                winterDays = calendar.daysPerSeason -
+                (calendar.getCurSeason().name === "winter" ? calendar.day : 0);
+
+            var catnipPerTick = game.winderCatnipPerTick;
+
+            showAdvisor = game.resPool.get("catnip").value + winterDays * catnipPerTick * calendar.ticksPerDay <= 0;
+        }
+        //----------------------------
+
         return $r("div", null, [
             $r(WResourceTable, {resources: this.getResources(), reqRes: reqRes}),
 
-            $r("div", {id:"advisorsContainer",style:{paddingTop: "10px"}}),        
-            $r("div", {id:"fastHuntContainer", className:"pin-link", style:{visibility:"hidden"}},
-                $r("a", {href:"#", onClick: game.huntAll.bind(game)},
+            $r("div", {id:"advisorsContainer",style:{
+                paddingTop: "10px", 
+                visibility: (showAdvisor ? "block" : "hidden")}
+            }, 
+                $I("general.food.advisor.text")
+            ),        
+            $r("div", {id:"fastHuntContainer", className:"pin-link", style:{visibility: (showFastHunt ? "block" : "hidden")}},
+                $r("a", {href:"#", onClick: this.huntAll},
                     $I("left.hunt") + " (",
-                    $r("span", {id:"fastHuntContainerCount"}),
+                    $r("span", {
+                        id:"fastHuntContainerCount"
+                    },
+                        [
+                            game.getDisplayValueExt(huntCount, false, false, 0),
+                            " ",
+                            (huntCount === 1 ? $I("left.hunt.time") : $I("left.hunt.times"))
+                        ]
+                    ),
                     ")"
                 )
             ),
             $r("div", {id:"fastPraiseContainer", className:"pin-link", style:{visibility:"hidden"}},
-                $r("a", {href:"#", onClick: game.praise.bind(game)},
+                $r("a", {href:"#", onClick: this.praiseAll},
                     $I("left.praise")
                 )
             ),              
@@ -756,6 +788,15 @@ WLeftPanel = React.createClass({
             $r(WCraftTable, {resources: game.resPool.resources, reqRes: reqRes})
         ]);
     },
+
+    huntAll: function(event){
+        this.state.game.huntAll(event);
+    },
+
+    praiseAll: function(event){
+        this.state.game.praise(event);
+    },
+
     componentDidMount: function(){
         var self = this;
         dojo.subscribe("ui/update", function(game){

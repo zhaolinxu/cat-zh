@@ -137,6 +137,10 @@ dojo.declare("classes.ui.UISystem", null, {
 
     isEffectMultiplierEnabled: function(){
         return false;
+    },
+
+    checkForUpdates: function(){
+        //nothing
     }
 });
 
@@ -403,7 +407,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                         this.activeTabId = tab.tabId;
                         this.render();
 
-                        //this.game.telemetry.logEvent("tab", tab.tabId);
+                        this.game.telemetry.logRouteChange(tab.tabId);
                     }, tab)
             );
 
@@ -649,28 +653,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
     updateFastHunt: function(){
         if (!this.fastHuntContainer){
-            this.fastHuntContainer = $("#fastHuntContainer")[0];
-        }
-
-        if (!this.fastHuntContainer){
-            return;
-        }
-
-        var catpower = this.game.resPool.get("manpower");
-        var showFastHunt = (catpower.value >= 100) && (!this.game.challenges.isActive("pacifism"));
-
-        //blazing fast vanilla toggle
-        if (showFastHunt){
-            if (this.fastHuntContainer.style.visibility == "hidden"){
-                this.fastHuntContainer.style.visibility = "visible";
-            }
-            var huntCount = Math.floor(catpower.value / 100);
-            $("#fastHuntContainerCount")[0].innerHTML = this.game.getDisplayValueExt(huntCount, false, false, 0)
-                + " " + (huntCount === 1 ? $I("left.hunt.time") : $I("left.hunt.times"));
-        } else {
-            if (this.fastHuntContainer.style.visibility == "visible"){
-                this.fastHuntContainer.style.visibility = "hidden";
-            }
+            this.fastHuntContainer = dojo.byId("fastHuntContainer");
         }
     },
 
@@ -741,26 +724,6 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     },
 
     updateAdvisors: function(){
-        if (this.game.bld.get("field").on == 0){
-            return;
-        }
-
-        var advDiv = dojo.byId("advisorsContainer");
-        if (!advDiv){
-            return;
-        }
-        dojo.empty(advDiv);
-
-        var calendar = this.game.calendar,
-            winterDays = calendar.daysPerSeason -
-                (calendar.getCurSeason().name === "winter" ? calendar.day : 0);
-
-        var catnipPerTick = this.game.calcResourcePerTick("catnip", { modifiers:{
-            "catnip" : 0.25
-        }});	//calculate estimate winter per tick for catnip;
-
-        var visibility = this.game.resPool.get("catnip").value + winterDays * catnipPerTick * calendar.ticksPerDay <= 0 ? "visible" : "hidden";
-        advDiv.innerHTML = "<span style='visibility: " + visibility + "'>" + $I("general.food.advisor.text") + "<span>";
     },
 
     updateLanguage: function(){
@@ -1156,6 +1119,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 break;
             }
         }
+        this.game.telemetry.logRouteChange(this.activeTabId);
 
         var uiData = LCstorage["com.nuclearunicorn.kittengame.ui"];
         try {
@@ -1199,6 +1163,19 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     isEffectMultiplierEnabled: function(){
         //console.log(this.keyStates);
         return this.keyStates.shiftKey;
+    },
+
+    checkForUpdates: function(){
+        var self = this;
+        var now = Date.now();
+        
+        $.getJSON("build.version.json?=" + now).then(function(json){
+            var buildRevision = json.buildRevision;
+            
+            if (buildRevision > self.game.telemetry.buildRevision){
+                $("#newVersion").toggle(true);
+            }
+        });
     }
 
 });

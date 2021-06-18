@@ -199,6 +199,9 @@ WToolbarMOTD = React.createClass({
     }
 });
 WToolbarPollution = React.createClass({
+    freshMessage: false,
+    message: "",
+
     render: function(){
         var game = this.props.game;
 
@@ -209,7 +212,7 @@ WToolbarPollution = React.createClass({
                 className: this.freshMessage ? "energy warning": null
             },
                 $r("div", {}, 
-                $I("pollution.label"))
+                "🏭" + (game.science.get("ecology").researched ? (" " + this.getPollutionMod()) : ""))
             );
         }
         return null;
@@ -254,9 +257,17 @@ WToolbarPollution = React.createClass({
         else {
             message += "<br/>" + $I("pollution.pristine");
         }
+        if (notUpdateFreshMessage){
+            return message;
+        }
         message +="<br/>二氧化碳: " + (game.science.get("ecology").researched ? 
-            (game.getDisplayValueExt((game.bld.cathPollution / game.bld.getPollutionLevelBase())*100) + "ppm") : $I("pollution.unspecified"));    
+            this.getPollutionMod() : $I("pollution.unspecified"));    
+        this.freshMessage = false;
         return message;
+    },
+
+    getPollutionMod(){
+        return game.getDisplayValueExt((game.bld.cathPollution / game.bld.getPollutionLevelBase())*100) + "ppm";
     }
 });
 
@@ -483,7 +494,7 @@ WCloudSaves = React.createClass({
                 var isActiveSave = (save.guid == game.telemetry.guid);
                 return $r("div", {className:"save-record"}, [
                     $r("div", {className:"save-record-cell"},
-                        isActiveSave ? "[当前]" : ""
+                        isActiveSave ? "[" + $I("ui.kgnet.save.current") + "]" : ""
                     ),
                     $r("div", {className:"save-record-cell"},
                         save.index ?
@@ -502,7 +513,7 @@ WCloudSaves = React.createClass({
                         onClick: function(e){
                             e.stopPropagation();
                             game.server.pushSave();
-                        }}, "上传"),
+                        }}, $I("ui.kgnet.save.save")),
                     $r("a", {
                         className: "link",
                         title: "下载并加载云存档（你当前存档会丢失）",
@@ -510,7 +521,7 @@ WCloudSaves = React.createClass({
                             e.stopPropagation();
                             game.server.loadSave(save.guid);
                             game.msg('从国外官网下载有延迟，请稍候', "important");
-                        }}, "加载"),
+                        }}, $I("ui.kgnet.save.load")),
                 ])
             })),
 
@@ -529,7 +540,7 @@ WCloudSaves = React.createClass({
                             e.stopPropagation();
                             game.server.syncSaveData();
                         }
-                    }, "同步存档"),
+                    }, $I("ui.kgnet.sync")),
                     !saveData && $r("a", {
                         className: "link",
                         target: "_blank",
@@ -561,9 +572,11 @@ WLogin = React.createClass({
                 },
                 [
                     $r("span", {
-                        className: "status-indicator-" + (game.server.userProfile ? "online" : "offline"),
+                        className: "kgnet-login-link status-indicator-" + (game.server.userProfile ? "online" : "offline"),
                         title: "国外官方云存档"
-                    }, (game.server.userProfile ? "在线" : "云存档")),
+                    }, "* " + (game.server.userProfile ? 
+                        $I("ui.kgnet.online") : $I("ui.kgnet.login")
+                    )),
                     this.state.isExpanded && $r("div", {
                         className: "login-popup button_tooltip tooltip-block"
                     },
@@ -603,13 +616,13 @@ WToolbar = React.createClass({
     getIcons: function(){
         var icons = [];
         icons.push(
-            $r(WToolbarPollution, {game: this.props.game}),
-            $r(WToolbarFPS, {game: this.props.game}),
-            $r(WToolbarMOTD, {game: this.props.game}),
-            $r(WToolbarHappiness, {game: this.props.game}),
-            $r(WToolbarEnergy, {game: this.props.game}),
-            $r(WBLS, {game: this.props.game}),
-            $r(WLogin, {game: this.props.game})
+            $r(WToolbarFPS, {game: this.state.game}),
+            $r(WToolbarPollution, {game: this.state.game}),
+            $r(WToolbarHappiness, {game: this.state.game}),
+            $r(WToolbarEnergy, {game: this.state.game}),
+            $r(WBLS, {game: this.state.game}),
+            $r(WToolbarMOTD, {game: this.state.game}),
+            $r(WLogin, {game: this.state.game})
 
         );
         return icons;

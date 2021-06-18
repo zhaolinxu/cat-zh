@@ -1475,6 +1475,14 @@
     "ui.filter.available": "可建造",
     "ui.filter.enabled": "可使用",
     "ui.filter.togglable": "可切换",
+
+    "ui.kgnet.login": "> 登录 <",
+    "ui.kgnet.online": "在线",
+    "ui.kgnet.save.current": "当前",
+    "ui.kgnet.save.save": "上传",
+    "ui.kgnet.save.load": "加载",
+    "ui.kgnet.sync": "同步存档",
+
     "ui.toggle.researched": "切换已研究",
     "ui.loading.msg.0": "正在饲喂斑马",
     "ui.loading.msg.1": "正在校准庙塔",
