@@ -739,7 +739,7 @@ WLeftPanel = React.createClass({
         var catpower = game.resPool.get("manpower");
         var huntCount = Math.floor(catpower.value / 100);
 
-        var showFastHunt = (catpower.value >= 100) && (!game.challenges.isActive("pacifism"));
+        var showFastHunt = (catpower.value >= 100) ?? (!game.challenges.isActive("pacifism"));
 
         //---------- advisor ---------
         var showAdvisor = false;
@@ -751,7 +751,7 @@ WLeftPanel = React.createClass({
 
             var catnipPerTick = game.winderCatnipPerTick;
 
-            showAdvisor = game.resPool.get("catnip").value + winterDays * catnipPerTick * calendar.ticksPerDay <= 0;
+            showAdvisor = (game.resPool.get("catnip").value + winterDays * catnipPerTick * calendar.ticksPerDay) <= 0;
         }
         //----------------------------
 
@@ -760,11 +760,11 @@ WLeftPanel = React.createClass({
 
             $r("div", {id:"advisorsContainer",style:{
                 paddingTop: "10px", 
-                visibility: (showAdvisor ? "block" : "hidden")}
+                display: (showAdvisor ? "block" : "none")}
             }, 
                 $I("general.food.advisor.text")
-            ),        
-            $r("div", {id:"fastHuntContainer", className:"pin-link", style:{visibility: (showFastHunt ? "block" : "hidden")}},
+            ), 
+            $r("div", {id:"fastHuntContainer", className:"pin-link", style:{display: (showFastHunt ? "block" : "none")}},
                 $r("a", {href:"#", onClick: this.huntAll},
                     $I("left.hunt") + " (",
                     $r("span", {
