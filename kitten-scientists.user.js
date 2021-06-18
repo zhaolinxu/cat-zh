@@ -1460,22 +1460,25 @@ var run = function() {
             if (option.bestUnicornBuilding.enabled) {
                 var bestUnicornBuilding = this.getBestUnicornBuilding();
                 if (bestUnicornBuilding) {
-                    if (bestUnicornBuilding == 'unicornPasture')
+                    if (bestUnicornBuilding == 'unicornPasture') {
+                        if (!buildManager.getBuildButton(bestUnicornBuilding)) {buildManager.manager.render();}
                         buildManager.build(bestUnicornBuilding, undefined, 1);
-                    else
-                    {
-                        var btn = manager.getBuildButton(bestUnicornBuilding, 'z');                        
-                        for (var i in btn.model.prices)
-                            if (btn.model.prices[i].name=='tears')
-                                var tearNeed = btn.model.prices[i].val;
+                    } else {
+                        var btn = manager.getBuildButton(bestUnicornBuilding, 'z');
+                        if (game.religionTab.zgUpgradeButtons.length) {religionManager.manager.render();}
+                        for (var i of btn.model.prices) {
+                            if (i.name == 'tears') {
+                                var tearNeed = i.val;
+                            }
+                        }
                         var tearHave = craftManager.getValue('tears') - craftManager.getStock('tears');
-                        if (tearNeed > tearHave)
-                        {
+                        if (tearNeed > tearHave) {
                             // if no ziggurat, getBestUnicornBuilding will return unicornPasture
                             var maxSacrifice = Math.floor((craftManager.getValue('unicorns') - craftManager.getStock('unicorns')) / 2500);
                             var needSacrifice = Math.ceil((tearNeed-tearHave) / game.bld.getBuildingExt('ziggurat').meta.on);
-                            if (needSacrifice < maxSacrifice)
-                            game.religionTab.sacrificeBtn.controller._transform(game.religionTab.sacrificeBtn.model, needSacrifice);
+                            if (needSacrifice < maxSacrifice) {
+                                game.religionTab.sacrificeBtn.controller._transform(game.religionTab.sacrificeBtn.model, needSacrifice);
+                            }
                             // iactivity?
                         }
                         religionManager.build(bestUnicornBuilding, 'z', 1);
@@ -1483,8 +1486,9 @@ var run = function() {
                 }
             } else {
                 builds = Object.assign({}, builds, Object.fromEntries(Object.entries(options.auto.unicorn.items).filter(([k,v]) => v.variant!='zp')));
-                if (options.auto.unicorn.items.unicornPasture.enabled)
+                if (options.auto.unicorn.items.unicornPasture.enabled) {
                     this.build({unicornPasture: {require: false, enabled: true}});
+                }
             }
             // religion build
             this._worship(builds);
@@ -1576,7 +1580,7 @@ var run = function() {
             var trigger = options.auto.faith.trigger;
 
             // Render the tab to make sure that the buttons actually exist in the DOM. Otherwise we can't click them.
-            //buildManager.manager.render();
+            buildManager.manager.render();
 
             var metaData = {};
             for (var name in builds) {
@@ -1642,9 +1646,8 @@ var run = function() {
             var bulkManager = this.bulkManager;
             var buildManager = this.buildManager;
 
-            upgradeManager.workManager.render();
-            upgradeManager.sciManager.render();
-            upgradeManager.spaManager.render();
+            //upgradeManager.workManager.render();
+            //upgradeManager.sciManager.render();
 
             if (upgrades.upgrades.enabled && gamePage.tabs[3].visible) {
                 var work = game.workshop.upgrades;
@@ -1660,8 +1663,8 @@ var run = function() {
 
                     var prices = dojo.clone(upg.prices); // game.village.getEffectLeader will override its argument
                     prices = game.village.getEffectLeader("scientist", prices);
-                    for (var resource in prices) {
-                        if (craftManager.getValueAvailable(prices[resource].name, true) < prices[resource].val) {continue workLoop;}
+                    for (var resource of prices) {
+                        if (craftManager.getValueAvailable(resource.name, true) < resource.val) {continue workLoop;}
                     }
                     upgradeManager.build(upg, 'workshop');
                 }
@@ -1675,8 +1678,8 @@ var run = function() {
 
                     var prices = dojo.clone(upg.prices);
                     prices = game.village.getEffectLeader("scientist", prices);
-                    for (var resource in prices) {
-                        if (craftManager.getValueAvailable(prices[resource].name, true) < prices[resource].val) {continue techLoop;}
+                    for (var resource of prices) {
+                        if (craftManager.getValueAvailable(resource.name, true) < resource.val) {continue techLoop;}
                     }
                     upgradeManager.build(upg, 'science');
                 }
@@ -1713,13 +1716,19 @@ var run = function() {
                                 }
                             }
                         }
-                        for (var i in toResearch) {
-                            upgradeManager.build(toResearch[i], 'policy');
+                        for (var i of toResearch) {
+                            for (var resource of i.prices) {
+                                if (craftManager.getValueAvailable(resource.name, true) < resource.val) {
+                                    break;
+                                }
+                            }
+                            upgradeManager.build(i, 'policy');
                         }
                     })();
             }
 
             if (upgrades.missions.enabled && gamePage.tabs[6].visible) {
+                if (!game.spaceTab.GCPanel.children.length) {upgradeManager.spaManager.render();}
                 var missionsLength = Math.min(game.space.meta[0].meta.length, upgrades.missions.subTrigger);
                 var missions = game.space.meta[0].meta;
                 missionLoop:
@@ -1728,8 +1737,8 @@ var run = function() {
 
                     var model = this.spaceManager.manager.tab.GCPanel.children[i];
                     var prices = model.model.prices;
-                    for (var resource in prices) {
-                        if (craftManager.getValueAvailable(prices[resource].name, true) < prices[resource].val) {continue missionLoop;}
+                    for (var resource of prices) {
+                        if (craftManager.getValueAvailable(resource.name, true) < resource.val) {continue missionLoop;}
                     }
                     model.domNode.click();
                     if (i === 7 || i === 12) {
@@ -1742,6 +1751,7 @@ var run = function() {
 
             if (upgrades.races.enabled && gamePage.tabs[4].visible) {
                 var maxRaces = (game.diplomacy.get('leviathans').unlocked) ? 8 : 7;
+                var refreshRequired = false;
                 if (game.diplomacyTab.racePanels.length < maxRaces) {
                     var manpower = craftManager.getValueAvailable('manpower', true);
                     if (!game.diplomacy.get('lizards').unlocked) {
@@ -1749,7 +1759,7 @@ var run = function() {
                             game.resPool.get('manpower').value -= 1000;
                             iactivity('upgrade.race', [game.diplomacy.unlockRandomRace().title], 'ks-upgrade');
                             manpower -= 1000;
-                            game.ui.render();
+                            refreshRequired = true;
                         }
                     }
                     if (!game.diplomacy.get('sharks').unlocked) {
@@ -1757,7 +1767,7 @@ var run = function() {
                             game.resPool.get('manpower').value -= 1000;
                             iactivity('upgrade.race', [game.diplomacy.unlockRandomRace().title], 'ks-upgrade');
                             manpower -= 1000;
-                            game.ui.render();
+                            refreshRequired = true;
                         }
                     }
                     if (!game.diplomacy.get('griffins').unlocked) {
@@ -1765,7 +1775,7 @@ var run = function() {
                             game.resPool.get('manpower').value -= 1000;
                             iactivity('upgrade.race', [game.diplomacy.unlockRandomRace().title], 'ks-upgrade');
                             manpower -= 1000;
-                            game.ui.render();
+                            refreshRequired = true;
                         }
                     }
                     if (!game.diplomacy.get('nagas').unlocked && game.resPool.get("culture").value >= 1500) {
@@ -1773,7 +1783,7 @@ var run = function() {
                             game.resPool.get('manpower').value -= 1000;
                             iactivity('upgrade.race', [game.diplomacy.unlockRandomRace().title], 'ks-upgrade');
                             manpower -= 1000;
-                            game.ui.render();
+                            refreshRequired = true;
                         }
                     }
                     if (!game.diplomacy.get('zebras').unlocked && game.resPool.get("ship").value >= 1) {
@@ -1781,7 +1791,7 @@ var run = function() {
                             game.resPool.get('manpower').value -= 1000;
                             iactivity('upgrade.race', [game.diplomacy.unlockRandomRace().title], 'ks-upgrade');
                             manpower -= 1000;
-                            game.ui.render();
+                            refreshRequired = true;
                         }
                     }
                     if (!game.diplomacy.get('spiders').unlocked && game.resPool.get("ship").value >= 100 && game.resPool.get("science").maxValue > 125000) {
@@ -1789,7 +1799,7 @@ var run = function() {
                             game.resPool.get('manpower').value -= 1000;
                             iactivity('upgrade.race', [game.diplomacy.unlockRandomRace().title], 'ks-upgrade');
                             manpower -= 1000;
-                            game.ui.render();
+                            refreshRequired = true;
                         }
                     }
                     if (!game.diplomacy.get('dragons').unlocked && game.science.get("nuclearFission").researched) {
@@ -1797,10 +1807,12 @@ var run = function() {
                             game.resPool.get('manpower').value -= 1000;
                             iactivity('upgrade.race', [ game.diplomacy.unlockRandomRace().title], 'ks-upgrade');
                             manpower -= 1000;
-                            game.ui.render();
+                            refreshRequired = true;
                         }
                     }
                 }
+                if (refreshRequired) {game.render();}
+                
             }
 
             if (upgrades.buildings.enabled) {
@@ -1816,13 +1828,9 @@ var run = function() {
                             if (bulkManager.singleBuildPossible(pastureMeta, prices, 1)) {
                                 var button = buildManager.getBuildButton('pasture', 0);
                                 button.controller.sellInternal(button.model, 0);
-                                pastureMeta.on = 0;
-                                pastureMeta.val = 0;
-                                pastureMeta.stage = 1;
+                                button.controller.deltagrade(button.controller, button.model, 1);
                                 iactivity('upgrade.building.pasture', [], 'ks-upgrade');
-                                game.ui.render();
                                 buildManager.build('pasture', 1, 1);
-                                game.ui.render();
                                 return;
                             }
                         }
@@ -1838,14 +1846,9 @@ var run = function() {
                             if (bulkManager.singleBuildPossible(aqueductMeta, prices, 1)) {
                                 var button = buildManager.getBuildButton('aqueduct', 0);
                                 button.controller.sellInternal(button.model, 0);
-                                aqueductMeta.on = 0
-                                aqueductMeta.val = 0
-                                aqueductMeta.stage = 1
-                                aqueductMeta.calculateEffects(aqueductMeta, game)
+                                button.controller.deltagrade(button.controller, button.model, 1);
                                 iactivity('upgrade.building.aqueduct', [], 'ks-upgrade');
-                                game.ui.render();
                                 buildManager.build('aqueduct', 1, 1);
-                                game.ui.render();
                                 return;
                             }
                         }
@@ -1872,14 +1875,9 @@ var run = function() {
                                 if (bulkManager.singleBuildPossible(libraryMeta, prices, 1)) {
                                     var button = buildManager.getBuildButton('library', 0);
                                     button.controller.sellInternal(button.model, 0);
-                                    libraryMeta.on = 0
-                                    libraryMeta.val = 0
-                                    libraryMeta.stage = 1
-                                    libraryMeta.calculateEffects(libraryMeta, game)
+                                    button.controller.deltagrade(button.controller, button.model, 1);
                                     iactivity('upgrade.building.library', [], 'ks-upgrade');
-                                    game.ui.render();
                                     buildManager.build('library', 1, 1);
-                                    game.ui.render();
                                     return;
                                 }
                             }
@@ -1896,13 +1894,9 @@ var run = function() {
                             if (bulkManager.singleBuildPossible(amphitheatreMeta, prices, 1)) {
                                 var button = buildManager.getBuildButton('amphitheatre', 0);
                                 button.controller.sellInternal(button.model, 0);
-                                amphitheatreMeta.on = 0
-                                amphitheatreMeta.val = 0
-                                amphitheatreMeta.stage = 1
+                                button.controller.deltagrade(button.controller, button.model, 1);
                                 iactivity('upgrade.building.amphitheatre', [], 'ks-upgrade');
-                                game.ui.render();
                                 buildManager.build('amphitheatre', 1, 1);
-                                game.ui.render();
                                 return;
                             }
                         }
@@ -2494,7 +2488,10 @@ var run = function() {
             if (!button || !button.model.enabled) return;
 
             //need to simulate a click so the game updates everything properly
-            button.domNode.click(upgrade);
+            button.controller.payPrice(button.model, {}, function() {});
+            button.controller.onPurchase(button.model, {}, function() {});
+            game.stats.getStat("totalClicks").val += 1;
+            
             var label = upgrade.label;
 
             if (variant === 'workshop') {
@@ -2515,10 +2512,10 @@ var run = function() {
             } else if (variant === 'policy') {
                 var buttons = this.sciManager.tab.policyPanel.children;
             }
-            for (var i in buttons) {
-                var haystack = buttons[i].model.name;
+            for (var i of buttons) {
+                var haystack = i.model.name;
                 if (haystack === upgrade.label) {
-                    return buttons[i];
+                    return i;
                 }
             }
         }
