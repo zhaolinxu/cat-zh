@@ -551,6 +551,15 @@ table.craftTable tr:hover td {
     color: red;
 }
 
+.kgnet-login-link {
+    cursor:pointer;
+}
+
+.kgnet-login-link:hover {
+    cursor:pointer;
+    text-decoration: underline;
+}
+
 /* kgnet login form */
 .login-popup {
     position: absolute;
