@@ -12,7 +12,8 @@ beforeEach(() => {
     global.newrelic = {
         addPageAction: jest.fn(),
         addRelease: jest.fn(),
-        setCustomAttribute: jest.fn()
+        setCustomAttribute: jest.fn(),
+        setErrorHandler: jest.fn()
     }
 
     //TODO: use special UI system specifically for unit tests

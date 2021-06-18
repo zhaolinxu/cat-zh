@@ -121,6 +121,18 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 				window.newrelic.setCustomAttribute('uid', this.game.server.userProfile.uid);
 			}
 
+			/**
+			 * Known offenders that folks still use
+			 */
+			window.newrelic.setErrorHandler(function (err) {
+				//ban error reporting from https://rawgit.com/mikiso1024/kitten-master/master/kitten_master.js
+				if (err.stack.lastIndexOf("mikiso1024") >= 0){
+					return false;
+				} else {
+					return true;
+				}
+			});
+
 		}
 	},
 
