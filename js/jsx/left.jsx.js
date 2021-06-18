@@ -739,7 +739,7 @@ WLeftPanel = React.createClass({
         var catpower = game.resPool.get("manpower");
         var huntCount = Math.floor(catpower.value / 100);
 
-        var showFastHunt = (catpower.value >= 100) ?? (!game.challenges.isActive("pacifism"));
+        var showFastHunt = (catpower.value >= 100) && (!game.challenges.isActive("pacifism"));
 
         //---------- advisor ---------
         var showAdvisor = false;
