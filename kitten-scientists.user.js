@@ -993,12 +993,12 @@ var run = function() {
             if (subOptions.enabled && subOptions.items.observe.enabled)                     {this.observeStars()};
             if (options.auto.upgrade.enabled)                                               {this.upgrade()};
             if (subOptions.enabled && subOptions.items.festival.enabled)                    {this.holdFestival()};
-            if (options.auto.build.enabled)                                                 {this.build()};
-            if (options.auto.space.enabled)                                                 {this.space()};
+            if (options.auto.build.enabled)                                                 {var buildRefreshRequired = this.build()};
+            if (options.auto.space.enabled)                                                 {var spaceRefreshRequired = this.space()};
             if (options.auto.craft.enabled)                                                 {this.craft()};
             if (subOptions.enabled && subOptions.items.hunt.enabled)                        {this.setHunt()};
             if (options.auto.trade.enabled)                                                 {this.trade()};
-            if (options.auto.faith.enabled)                                                 {this.worship()};
+            if (options.auto.faith.enabled)                                                 {var worshipRefreshRequired = this.worship()};
             if (options.auto.time.enabled)                                                  {this.chrono()};
             if (subOptions.enabled && subOptions.items.crypto.enabled)                      {this.crypto()};
             if (subOptions.enabled && subOptions.items.autofeed.enabled)                    {this.autofeed()};
@@ -1007,6 +1007,7 @@ var run = function() {
             if (options.auto.timeCtrl.enabled)                                              {this.timeCtrl()};
             if (subOptions.enabled)                                                         {this.miscOptions()};
             if (options.auto.timeCtrl.enabled && options.auto.timeCtrl.items.reset.enabled) {await this.reset()};
+            if (buildRefreshRequired || worshipRefreshRequired || spaceRefreshRequired)     {game.ui.render();}
         },
         halfInterval: async function() {
             return new Promise((resolve, reject) => {
@@ -1329,6 +1330,7 @@ var run = function() {
         distribute: function () {
             var distributeItem = options.auto.distribute.items;
             var leaderVals = distributeItem.leader;
+            var refreshRequired = false;
             if (leaderVals.enabled && game.science.get('civil').researched && !game.challenges.isActive("anarchy")) {
                 var leaderJobName = leaderVals.leaderJob;
                 var traitName = leaderVals.leaderTrait;
@@ -1349,7 +1351,7 @@ var run = function() {
                             correctLeaderKitten.jobs= leaderJobName;
                             propGame.villageTab.censusPanel.census.makeLeader(correctLeaderKitten);
                             game.village.leader.job = leaderJobName;
-                            this.villageManager.render();
+                            refreshRequired = true;
                             iactivity('act.distributeLeader', [i18n('$village.trait.' + traitName)], 'ks-distribute');
                             storeForSummary('distribute', 1);
                         }
@@ -1382,10 +1384,11 @@ var run = function() {
             }
             if (jobName) {
                 game.village.assignJob(game.village.getJob(jobName), 1);
-                this.villageManager.render();
+                refreshRequired = true;
                 iactivity('act.distribute', [i18n('$village.job.' + jobName)], 'ks-distribute');
                 storeForSummary('distribute', 1);
             }
+            if (refreshRequired) {this.villageManager.render();}
         },
         autofeed: function () {
             var levi = game.diplomacy.get("leviathans");
@@ -1491,7 +1494,8 @@ var run = function() {
                 }
             }
             // religion build
-            this._worship(builds);
+            var refreshRequired = false;
+            refreshRequired = this._worship(builds);
 
             var faith = craftManager.getResource('faith');
             var rate = faith.value / faith.maxValue;
@@ -1571,6 +1575,7 @@ var run = function() {
                 iactivity('act.praise', [game.getDisplayValueExt(faith.value), game.getDisplayValueExt(worshipInc)], 'ks-praise');
                 game.religion.praise();
             }
+            return refreshRequired;
         },
         _worship: function (builds) {
             var builds = builds || options.auto.faith.items;
@@ -1580,7 +1585,7 @@ var run = function() {
             var trigger = options.auto.faith.trigger;
 
             // Render the tab to make sure that the buttons actually exist in the DOM. Otherwise we can't click them.
-            buildManager.manager.render();
+            //buildManager.manager.render();
 
             var metaData = {};
             for (var name in builds) {
@@ -1605,7 +1610,11 @@ var run = function() {
                 }
             }
 
-            if (refreshRequired) {game.ui.render();}
+            if (refreshRequired) {
+                return true;
+            } else {
+                return false;
+            }
         },
         chrono: function () {
             if (!game.timeTab.visible) {return;}
@@ -1719,28 +1728,28 @@ var run = function() {
                         for (var i of toResearch) {
                             for (var resource of i.prices) {
                                 if (craftManager.getValueAvailable(resource.name, true) < resource.val) {
-                                    break;
+                                    continue;
                                 }
+                                upgradeManager.build(i, 'policy');
                             }
-                            upgradeManager.build(i, 'policy');
                         }
                     })();
             }
 
             if (upgrades.missions.enabled && gamePage.tabs[6].visible) {
-                if (!game.spaceTab.GCPanel.children.length) {upgradeManager.spaManager.render();}
                 var missionsLength = Math.min(game.space.meta[0].meta.length, upgrades.missions.subTrigger);
                 var missions = game.space.meta[0].meta;
                 missionLoop:
                 for (var i = 0; i < missionsLength ; i++) {
                     if (!(missions[i].unlocked && missions[i].val < 1)) {continue;}
 
-                    var model = this.spaceManager.manager.tab.GCPanel.children[i];
-                    var prices = model.model.prices;
+                    var Btn = this.spaceManager.manager.tab.GCPanel.children[i];
+                    if (!Btn) {upgradeManager.spaManager.render();}
+                    var prices = Btn.model.prices;
                     for (var resource of prices) {
                         if (craftManager.getValueAvailable(resource.name, true) < resource.val) {continue missionLoop;}
                     }
-                    model.domNode.click();
+                    Btn.controller.build(Btn.model, 1);
                     if (i === 7 || i === 12) {
                         iactivity('upgrade.space.mission', [missions[i].label], 'ks-upgrade');
                     } else {
@@ -1912,7 +1921,7 @@ var run = function() {
             var trigger = options.auto.build.trigger;
 
             // Render the tab to make sure that the buttons actually exist in the DOM. Otherwise we can't click them.
-            buildManager.manager.render();
+            //buildManager.manager.render();
 
             var metaData = {};
             for (var name in builds) {
@@ -1929,7 +1938,12 @@ var run = function() {
                     refreshRequired = true;
                 }
             }
-            if (refreshRequired) {game.ui.render();}
+
+            if (refreshRequired) {
+                return true;
+            } else {
+                return false;
+            }
         },
         space: function () {
             var builds = options.auto.space.items;
@@ -1956,7 +1970,11 @@ var run = function() {
                     refreshRequired = true;
                 }
             }
-            if (refreshRequired) {game.ui.render();}
+            if (refreshRequired) {
+                return true;
+            } else {
+                return false;
+            }
         },
         craft: function () {
             var crafts = options.auto.craft.items;
@@ -1998,7 +2016,7 @@ var run = function() {
             if (!(catpowProf && cultureProf && parchProf)) {return;}
 
             // Render the tab to make sure that the buttons actually exist in the DOM. Otherwise we can't click them.
-            this.villageManager.render();
+            if (!game.villageTab.festivalBtn) {this.villageManager.render();}
 
             if (game.villageTab.festivalBtn.model.enabled) {
                 var beforeDays = game.calendar.festivalDays;
@@ -2359,7 +2377,7 @@ var run = function() {
         build: function (name, variant, amount) {
             var build = this.getBuild(name, variant);
             var button = this.getBuildButton(name, variant);
-
+            if (!button) {ReligionManager.manager.render();}
             if (!button || !button.model.enabled) return;
 
             var amountTemp = amount;
@@ -2485,6 +2503,13 @@ var run = function() {
         build: function (upgrade, variant) {
             var button = this.getBuildButton(upgrade, variant);
 
+            if (!button) {
+                if (variant === 'workshop') {
+                    upgradeManager.workManager.render();
+                } else {
+                    upgradeManager.sciManager.render();
+                }
+            }
             if (!button || !button.model.enabled) return;
 
             //need to simulate a click so the game updates everything properly
@@ -2538,7 +2563,9 @@ var run = function() {
             var build = this.getBuild(name);
             var button = this.getBuildButton(name, stage);
 
-            if (!button || !button.model.enabled) return;
+            if (!button) {buildManager.manager.render();}
+            if (!button.model.enabled) {return;}
+
             var amountTemp = amount;
             var label = build.meta.label ? build.meta.label : build.meta.stages[stage].label;
             amount=this.bulkManager.construct(button.model, button, amount);
@@ -2585,6 +2612,7 @@ var run = function() {
             var build = this.getBuild(name);
             var button = this.getBuildButton(name);
 
+            if (!button) {SpaceManager.manager.render();}
             if (!build.unlocked || !button || !button.model.enabled || !options.auto.space.items[name].enabled) return;
             var amountTemp = amount;
             var label = build.label;
@@ -3041,9 +3069,18 @@ var run = function() {
                     counter++;
                     amount--;
                 }
-                if (meta.breakIronWill) {game.ironWill = false;}
+                if (meta.breakIronWill) {
+                    game.ironWill = false;
+                    var liberty = game.science.getPolicy("liberty");
+                    liberty.calculateEffects(liberty, game);
+                }
                 if (meta.unlocks) {game.unlock(meta.unlocks);}
-                if (meta.upgrades) {game.upgrade(meta.upgrades);}
+                if (meta.upgrades) {
+                    if (meta.updateEffects) {
+                        meta.updateEffects(meta, game);
+                    }
+                    game.upgrade(meta.upgrades);
+                }
             }
             return counter;
         },

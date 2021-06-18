@@ -365,7 +365,7 @@
 					<a id="wipe-link" href="#" onclick="wipe();">Wipe</a> |
 					<a id="getTheApp-link" href="#" onclick="gamePage.ui.displayAppDialog();" style="font-weight: bold; color:#666;">Get the app</a> |
 					<a href="changelog.html" target="_blank">Ver <span id="versionLink">?.?.?.?</span></a>
-					<a href="#" id="newVersion" onClick="gamePage.reload();" title="New version available!" style="display:none">↻</a>
+					<a href="#" id="newVersion" onClick="gamePage.reload();" title="有新版本 !" style="display:none">↻</a>
 				</div>
 			</div>
 
@@ -763,7 +763,7 @@
 				localStorage['zh.ks.enable'] = 'enable';
 				$("#ks-label").text("可爱的猫猫科学家为您服务");
 				$("#set-ks-enable").attr("checked", true);
-				document.body.appendChild(document.createElement('script')).src = 'kitten-scientists.user.js?v=13';
+				document.body.appendChild(document.createElement('script')).src = 'kitten-scientists.user.js?v=14';
 			};
 			var disableKS = function() {
 				localStorage['zh.ks.enable'] = 'disable';
