@@ -80,6 +80,7 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 
 	buildRevision: null,
 	version: null,
+	errorCount: 0,
 
 	constructor: function(game) {
 		this.guid = this.generateGuid();
@@ -104,6 +105,8 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 			this.guid = data["telemetry"].guid || this.generateGuid();
 		}
 
+		var self = this;
+
 		// FIXME: This really wants to happen before `window.load` is fired, but
 		// this script isn't even loaded yet. So the first PageView will not get
 		// all this data.
@@ -125,11 +128,15 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 			 * Known offenders that folks still use
 			 */
 			window.newrelic.setErrorHandler(function (err) {
+				if (self.errorCount >= 100){
+					return true;
+				}
 				//ban error reporting from https://rawgit.com/mikiso1024/kitten-master/master/kitten_master.js
 				if (err.stack.lastIndexOf("mikiso1024") >= 0){
-					return false;
-				} else {
 					return true;
+				} else {
+					self.errorCount++;
+					return false;
 				}
 			});
 
