@@ -1576,7 +1576,7 @@ var run = function() {
             var trigger = options.auto.faith.trigger;
 
             // Render the tab to make sure that the buttons actually exist in the DOM. Otherwise we can't click them.
-            buildManager.manager.render();
+            //buildManager.manager.render();
 
             var metaData = {};
             for (var name in builds) {
