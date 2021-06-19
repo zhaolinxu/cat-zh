@@ -1625,12 +1625,15 @@ var run = function() {
             var trigger = options.auto.time.trigger;
 
             // Render the tab to make sure that the buttons actually exist in the DOM. Otherwise we can't click them.
-            buildManager.manager.render();
+            //buildManager.manager.render();
 
             var metaData = {};
             for (var name in builds) {
                 var build = builds[name]
-                metaData[name] = buildManager.getBuild(name, build.variant);
+                var button = buildManager.getBuild(name, build.variant);
+                if (!button) {buildManager.manager.render();}
+                metaData[name] = button;
+                
                 var model = buildManager.getBuildButton(name, build.variant).model;
                 var panel = (build.variant === 'chrono') ? buildManager.manager.tab.cfPanel : buildManager.manager.tab.vsPanel;
                 metaData[name].tHidden = (!model.visible || !model.enabled || !panel.visible);
@@ -2379,8 +2382,10 @@ var run = function() {
         build: function (name, variant, amount) {
             var build = this.getBuild(name, variant);
             var button = this.getBuildButton(name, variant);
-            if (!button) {game.religionTab.render();}
-            if (!button || !button.model.enabled) return;
+            if (!button || !button.model.enabled) {
+                game.religionTab.render();
+                return;
+            }
 
             var amountTemp = amount;
             var label = build.label;
@@ -2451,7 +2456,10 @@ var run = function() {
             var build = this.getBuild(name, variant);
             var button = this.getBuildButton(name, variant);
 
-            if (!button || !button.model.enabled) return;
+            if (!button || !button.model.enabled) {
+                game.timeTab.render();
+                return;
+            }
 
             var amountTemp = amount;
             var label = build.label;
@@ -2505,14 +2513,14 @@ var run = function() {
         build: function (upgrade, variant) {
             var button = this.getBuildButton(upgrade, variant);
 
-            if (!button) {
+            if (!button || !button.model.enabled) {
                 if (variant === 'workshop') {
                     game.workshopTab.render()
                 } else {
                     game.libraryTab.render();
                 }
+                return;
             }
-            if (!button || !button.model.enabled) return;
 
             //need to simulate a click so the game updates everything properly
             button.controller.payPrice(button.model, {}, function() {});
@@ -2565,8 +2573,10 @@ var run = function() {
             var build = this.getBuild(name);
             var button = this.getBuildButton(name, stage);
 
-            if (!button) {game.bldTab.render();}
-            if (!button.model.enabled) {return;}
+            if (!button || !button.model.enabled) {
+                game.bldTab.render();
+                return;
+            }
 
             var amountTemp = amount;
             var label = build.meta.label ? build.meta.label : build.meta.stages[stage].label;
@@ -2614,8 +2624,11 @@ var run = function() {
             var build = this.getBuild(name);
             var button = this.getBuildButton(name);
 
-            if (!button) {game.spaceTab.render();}
-            if (!build.unlocked || !button || !button.model.enabled || !options.auto.space.items[name].enabled) return;
+            if (!build.unlocked || !button || !button.model.enabled || !options.auto.space.items[name].enabled) {
+                game.spaceTab.render();
+                return;
+            }
+
             var amountTemp = amount;
             var label = build.label;
             amount=this.bulkManager.construct(button.model, button, amount);
