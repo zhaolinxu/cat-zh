@@ -204,181 +204,92 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             }
     }],
 
-    hats: [
-        {   id: 1,
-            name: "simpleHat",
-            title: "Simple Hat",
-            description: "The hat to rule them all",
-            difficulty: "F"
-        },
-        {   id: 2,
-            name: "lotusHat",
-            title: "Lotus Hat",
-            description: "Hat in the shape of a lotus",
+    badges: [
+        {   
+            name: "lotus",
+            title: "Lotus Eater",
+            description: "Have more than 50 total resets",
             difficulty: "A",
             condition: function(){
                 return this.game.stats.getStat("totalResets").val >= 50;
             }
         },
-        {   id: 3,
-            name: "ivoryTowerHat",
-            title: "Ivory Tower Hat",
-            description: "A tall hat in a form of a tower",
+        {   
+            name: "ivoryTower",
+            title: "Ivory Tower",
+            description: "Have a reset in a IW atheism",
             difficulty: "S+"
         },
-        {   id: 4,
-            name: "uselessHat",
-            title: "Useless Hat",
-            description: "This hat is totally useless",
+        {   
+            name: "useless",
+            title: "Useless",
+            description: "Have a useless leader",
             difficulty: "F",
             condition: function(){
                 var leader = this.game.village.leader;
                 return leader != null && leader.trait.name == "none";
             }
         },
-        {   id: 5,
-            name: "voidHat",
-            title: "Void Hat",
-            description: "Hat is made of void",
-            difficulty: ""
-        },
-        {   id: 6,
-            name: "nullHat",
-            title: "Null Hat",
-            description: "The hat is a lie",
-            difficulty: ""
-        },
-        {   id: 7,
-            name: "betaHat",
-            title: "Beta Hat",
-            description: "The hat is a bit glitchy and rough around the edges",
+        { 
+            name: "beta",
+            title: "Beta Decay",
+            description: "Participate in a beta test",
             difficulty: "B",
             condition: function(){
-                return (this.game.server.donateAmt == 0);
+                if (window && window.location && window.location.href){
+                    return window.location.href.indexOf("beta") >= 0;
+                }
+                return false;
             }
         },{
-            id: 8,
-            name: "silentHat",
-            title: "Silent Hat",
-            description: "This hat is totally silent",
+            name: "silentHill",
+            title: "Silent Hills",
+            description: "Have not MOTD content",
             difficulty: "S",
             condition: function(){
                 return (this.game.server.motdContent == "");
             }
         },{
-            id: 9,
-            name: "treetrunkHat",
-            title: "Treetrunk Hat",
-            description: "A hat made of branches and leaves",
+            name: "evergreen",
+            title: "Evergreen project",
+            description: "Craft a wood I think?",
             difficulty: "F"
         },{
-            id: 10,
-            name: "wizardHat",
-            title: "Wizard Hat",
-            description: "Abracadabra!",
-            difficulty: ""
-        },{
-            id: 11,
-            name: "nekomimiHat",
-            title: "Nekomimi Hat",
-            description: "*^_^*",
-            difficulty: ""
-        },{
-            id: 12,
-            name: "eldritchHat",
-            title: "Eldritch Hat",
-            description: "",
-            difficulty: ""
-        },{
-            id: 13,
-            name: "tesseractHat",
-            title: "Tesseract Hat",
-            description: "",
-            difficulty: ""
-        },{
-            id: 14,
-            name: "crimsonHat",
-            title: "Crimson Hat",
-            description: "",
-            difficulty: ""
-        },{
-            id: 15,
-            name: "skeletonHat",
-            title: "Skeleton Hat",
-            description: "",
-            difficulty: ""
-        },{
-            id: 16,
-            name: "gladosHat",
-            title: "Glados Hat",
-            description: "",
-            difficulty: ""
-        },{
-            id: 17,
-            name: "marioHat",
-            title: "Mario Hat",
-            description: "",
-            difficulty: ""
-        },{
-            id: 18,
-            name: "fedoraHat",
-            title: "Fedora",
-            description: "Classy fedora",
-            difficulty: ""
-        },{
-            id: 19,
-            name: "necrocornHat",
-            title: "Necrocorn Hat",
-            description: "",
+            name: "deadSpace",
+            title: "Dead Space",
+            description: "Have kittens wander in the void",
             difficulty: "S",
             condition: function(){
                 var kittens = this.game.resPool.get("kittens");
                 return (kittens.value >= 1000 && kittens.maxValue == 0);
             }
         },{
-            id: 20,
-            name: "alicornHat",
-            title: "Alicorn Hat",
-            description: "",
+            name: "reginaNoctis",
+            title: "Regina Noctis",
+            description: "Have 500 kittens and no alicorns",
             difficulty: "S",
             condition: function(){
                 return (this.game.resPool.get("kittens").value > 500 && this.game.resPool.get("alicorn").value == 0);
             }
         },{
-            id: 21,
-            name: "unicornHat",
-            title: "Unicorn Hat",
-            description: "",
-            difficulty: "A"
-        },{
-            id: 22,
-            name: "dragonHat",
-            title: "Dragon Hat",
-            description: "",
-            difficulty: ""
-        },{
-            id: 23,
-            name: "glitchyHat",
-            title: "Glitchy Hat",
+            name: "ghostInTheMachine",
+            title: "Experience a game bug (TBD see newrelic#errorHandle)",
             description: "♋︎⬧︎⧫︎♏︎❒︎🕯︎⬧︎ ●︎♋︎■︎♑︎◆︎♋︎♑︎♏︎ 🖳︎✆",
             difficulty: "S"
         },{
-            id: 24,
             name: "topHat",
             title: "Tophat",
             description: "",
             difficulty: ""
         },{
-            id: 25,
             name: "jesterHat",
             title: "Jester Hat",
             description: "",
             difficulty: ""
         },{
-            id: 26,
-            name: "fezHat",
+            name: "abOwo",
             title: "Fez Hat",
-            description: "A prism-shaped red fez hat.",
+            description: "Reset in atheism on day 0",
             difficulty: "A"
         }
     ],
@@ -391,14 +302,13 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
         return this.getMeta(name, this.achievements);
     },
 
-    getHat: function(name){
-        return this.getMeta(name, this.hats);
+    getBadge: function(name){
+        return this.getMeta(name, this.badges);
     },
 
-    unlockHat: function(name){
-        var hat = this.getHat(name);
-        hat.unlocked = true;
-        console.log("'", hat.name, "' hat is unlocked!");
+    unlockBadge: function(name){
+        var badge = this.getBadge(name);
+        badge.unlocked = true;
         this.game.achievements.councilUnlocked = true;
     },
 
@@ -430,15 +340,13 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             }
         }
 
-        /*for (var i in this.hats) {
-            var hat = this.hats[i];
-            //console.log("checking the hat", hat, hat.condition, hat.condition && dojo.hitch(this, hat.condition)());
-            if (!hat.unlocked && hat.condition && dojo.hitch(this, hat.condition)()) {
-                console.log("'", hat.name, "' hat is unlocked!");
-                hat.unlocked = true;
+        for (var i in this.badges) {
+            var badge = this.badges[i];
+            if (!badge.unlocked && badge.condition && badge.condition.call(this)) {
+                badge.unlocked = true;
                 this.councilUnlocked = true;
             }
-        }*/
+        }
     },
 
     updateStatistics: function () {
@@ -466,17 +374,17 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
 		}
 
         this.councilUnlocked = false;
-        for (var i = 0; i < this.hats.length; i++){
-            var hat = this.hats[i];
-            hat.unlocked = false;
+        for (var i = 0; i < this.badges.length; i++){
+            var badge = this.badges[i];
+            badge.unlocked = false;
         }
 	},
 
     save: function (saveData) {
-        saveData.achievements = this.game.bld.filterMetadata(this.achievements, ["name", "unlocked", "starUnlocked"]);
+        saveData.achievements = this.filterMetadata(this.achievements, ["name", "unlocked", "starUnlocked"]);
         saveData.ach = {
             councilUnlocked : this.councilUnlocked,
-            hats: this.game.bld.filterMetadata(this.hats, ["name", "unlocked"])
+            badges: this.filterMetadata(this.badges, ["name", "unlocked"])
         };
     },
 
@@ -485,8 +393,8 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
 
         var ach = saveData.ach || {};
         this.councilUnlocked = ach.councilUnlocked || false;
-        if (ach.hats){
-            this.loadMetadata(this.hats, ach.hats);
+        if (ach.badges){
+            this.loadMetadata(this.badges, ach.badges);
         }
     },
 
