@@ -1955,7 +1955,7 @@ var run = function() {
             var trigger = options.auto.space.trigger;
 
             // Render the tab to make sure that the buttons actually exist in the DOM. Otherwise we can't click them.
-            buildManager.manager.render();
+            //buildManager.manager.render();
 
             var metaData = {};
             for (var name in builds) {
@@ -2379,7 +2379,7 @@ var run = function() {
         build: function (name, variant, amount) {
             var build = this.getBuild(name, variant);
             var button = this.getBuildButton(name, variant);
-            if (!button) {ReligionManager.manager.render();}
+            if (!button) {game.religionTab.render();}
             if (!button || !button.model.enabled) return;
 
             var amountTemp = amount;
@@ -2507,9 +2507,9 @@ var run = function() {
 
             if (!button) {
                 if (variant === 'workshop') {
-                    upgradeManager.workManager.render();
+                    game.workshopTab.render()
                 } else {
-                    upgradeManager.sciManager.render();
+                    game.libraryTab.render();
                 }
             }
             if (!button || !button.model.enabled) return;
@@ -2565,7 +2565,7 @@ var run = function() {
             var build = this.getBuild(name);
             var button = this.getBuildButton(name, stage);
 
-            if (!button) {buildManager.manager.render();}
+            if (!button) {game.bldTab.render();}
             if (!button.model.enabled) {return;}
 
             var amountTemp = amount;
@@ -2614,7 +2614,7 @@ var run = function() {
             var build = this.getBuild(name);
             var button = this.getBuildButton(name);
 
-            if (!button) {SpaceManager.manager.render();}
+            if (!button) {game.spaceTab.render();}
             if (!build.unlocked || !button || !button.model.enabled || !options.auto.space.items[name].enabled) return;
             var amountTemp = amount;
             var label = build.label;
