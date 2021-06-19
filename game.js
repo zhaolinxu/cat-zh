@@ -4433,6 +4433,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			transcendenceUpgrades: this.religion.transcendenceUpgrades.map(function(item){return item.name;}),
 			challenges: this.challenges.challenges.map(function(item){return item.name;})
 		});
+		this.upgrade({policies: ["authocracy"]});
 	},
 
 	getUnlockByName: function(unlockId, type){

@@ -611,6 +611,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		this.adjustCryptoPrice();
 
+		this.game.upgrade({policies: ["authocracy"]}); //policy hack
 	},
 
 	fastForward: function(daysOffset){
@@ -1005,6 +1006,8 @@ if (++this.cycleYear >= this.yearsPerCycle) {
 				}
 			}
 		}
+
+		this.game.upgrade({policies: ["authocracy"]});
 		
 		if (updateUI) {
 			this.game.ui.render();
