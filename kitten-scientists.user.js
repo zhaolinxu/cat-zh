@@ -2594,9 +2594,11 @@ var run = function() {
             if (amount !== amountTemp) {warning(label + ' Amount ordered: '+amountTemp+' Amount Constructed: '+amount);}
             storeForSummary(label, amount, 'build');
 
-            if (amount === 1) {
+            if (amount === 0) {
+                return;
+            } else if (amount === 1) {
                 iactivity('act.build', [label], 'ks-build');
-            } else {
+            } else{
                 iactivity('act.builds', [label, amount], 'ks-build');
             }
         },
