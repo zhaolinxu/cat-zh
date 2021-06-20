@@ -1749,8 +1749,9 @@ var run = function() {
                 for (var i = 0; i < missionsLength ; i++) {
                     if (!(missions[i].unlocked && missions[i].val < 1)) {continue;}
 
-                    var Btn = this.spaceManager.manager.tab.GCPanel.children[i];
-                    if (!Btn) {upgradeManager.spaManager.render();}
+                    var Btn = game.spaceTab.GCPanel.children[i];
+                    if (!(Btn && Btn.model.metadata)) {game.spaceTab.render();}
+                    if (Btn.model.metadata.val || Btn.model.metadata.on) {continue;}
                     var prices = Btn.model.prices;
                     for (var resource of prices) {
                         if (craftManager.getValueAvailable(resource.name, true) < resource.val) {continue missionLoop;}
@@ -1841,6 +1842,7 @@ var run = function() {
                             var priceRatio = bulkManager.getPriceRatio(pastureMeta, true);
                             if (bulkManager.singleBuildPossible(pastureMeta, prices, 1)) {
                                 var button = buildManager.getBuildButton('pasture', 0);
+                                if(!button) {game.bldTab.render();}
                                 button.controller.sellInternal(button.model, 0);
                                 button.controller.deltagrade(button.controller, button.model, 1);
                                 iactivity('upgrade.building.pasture', [], 'ks-upgrade');
@@ -1859,6 +1861,7 @@ var run = function() {
                             var priceRatio = bulkManager.getPriceRatio(aqueductMeta, true);
                             if (bulkManager.singleBuildPossible(aqueductMeta, prices, 1)) {
                                 var button = buildManager.getBuildButton('aqueduct', 0);
+                                if(!button) {game.bldTab.render();}
                                 button.controller.sellInternal(button.model, 0);
                                 button.controller.deltagrade(button.controller, button.model, 1);
                                 iactivity('upgrade.building.aqueduct', [], 'ks-upgrade');
@@ -1888,6 +1891,7 @@ var run = function() {
                                 var priceRatio = bulkManager.getPriceRatio(libraryMeta, true);
                                 if (bulkManager.singleBuildPossible(libraryMeta, prices, 1)) {
                                     var button = buildManager.getBuildButton('library', 0);
+                                    if(!button) {game.bldTab.render();}
                                     button.controller.sellInternal(button.model, 0);
                                     button.controller.deltagrade(button.controller, button.model, 1);
                                     iactivity('upgrade.building.library', [], 'ks-upgrade');
@@ -1907,6 +1911,7 @@ var run = function() {
                         if (game.getResourcePerTick('titanium', true) > 0) {
                             if (bulkManager.singleBuildPossible(amphitheatreMeta, prices, 1)) {
                                 var button = buildManager.getBuildButton('amphitheatre', 0);
+                                if(!button) {game.bldTab.render();}
                                 button.controller.sellInternal(button.model, 0);
                                 button.controller.deltagrade(button.controller, button.model, 1);
                                 iactivity('upgrade.building.amphitheatre', [], 'ks-upgrade');
