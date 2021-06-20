@@ -1382,7 +1382,7 @@ var run = function() {
                     }
                     var pastures = (game.bld.getBuildingExt('pasture').meta.stage === 0) ? game.bld.getBuildingExt('pasture').meta.val: 0;
                     var aqueducts = (game.bld.getBuildingExt('aqueduct').meta.stage === 0) ? game.bld.getBuildingExt('aqueduct').meta.val: 0;
-                    if (this.craftManager.getPotentialCatnip(false, pastures, aqueducts) < 0) {console.log(1)
+                    if (this.craftManager.getPotentialCatnip(false, pastures, aqueducts) < 0) {
                         jobName = "farmer";
                     }
                 }
