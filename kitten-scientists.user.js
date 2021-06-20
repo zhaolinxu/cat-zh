@@ -1380,6 +1380,11 @@ var run = function() {
                         minRatio = currentRatio;
                         jobName = name;
                     }
+                    var pastures = (game.bld.getBuildingExt('pasture').meta.stage === 0) ? game.bld.getBuildingExt('pasture').meta.val: 0;
+                    var aqueducts = (game.bld.getBuildingExt('aqueduct').meta.stage === 0) ? game.bld.getBuildingExt('aqueduct').meta.val: 0;
+                    if (this.craftManager.getPotentialCatnip(false, pastures, aqueducts) < 0) {console.log(1)
+                        jobName = "farmer";
+                    }
                 }
             }
             if (jobName) {
@@ -2896,7 +2901,8 @@ var run = function() {
                 if (game.science.getPolicy("communism").researched) {fieldProd = 0;}
 
                 } else {
-                    fieldProd *= game.calendar.getWeatherMod({name: "catnip"});
+                    //fieldProd *= game.calendar.getWeatherMod({name: "catnip"});
+                    fieldProd *= (game.calendar.seasons[3].modifiers.catnip + 0.15);
                 }
             var vilProd = (game.village.getResProduction().catnip) ? game.village.getResProduction().catnip * (1 + game.getEffect('catnipJobRatio')) : 0;
             var baseProd = fieldProd + vilProd;
