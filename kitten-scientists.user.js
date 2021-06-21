@@ -2392,10 +2392,9 @@ var run = function() {
         build: function (name, variant, amount) {
             var build = this.getBuild(name, variant);
             var button = this.getBuildButton(name, variant);
-            if (!button || !button.model.enabled) {
-                game.religionTab.render();
-                return;
-            }
+
+            if (!build.unlocked) {return;}console.log(1)
+            if (!button || !button.model.enabled || !button.model.metadata) {return game.religionTab.render();}
 
             var amountTemp = amount;
             var label = build.label;
@@ -2466,10 +2465,8 @@ var run = function() {
             var build = this.getBuild(name, variant);
             var button = this.getBuildButton(name, variant);
 
-            if (!button || !button.model.enabled) {
-                game.timeTab.render();
-                return;
-            }
+            if (!build.unlocked) {return;}
+            if (!button || !button.model.enabled || !button.model.metadata) {return game.timeTab.render();}
 
             var amountTemp = amount;
             var label = build.label;
@@ -2523,7 +2520,8 @@ var run = function() {
         build: function (upgrade, variant) {
             var button = this.getBuildButton(upgrade, variant);
 
-            if (!button || !button.model.enabled) {
+            if (!build.unlocked) {return;}
+            if (!button || !button.model.enabled || !button.model.metadata) {
                 if (variant === 'workshop') {
                     game.workshopTab.render()
                 } else {
@@ -2582,11 +2580,8 @@ var run = function() {
         build: function (name, stage, amount) {
             var build = this.getBuild(name);
             var button = this.getBuildButton(name, stage);
-
-            if (!button || !button.model.enabled) {
-                game.bldTab.render();
-                return;
-            }
+            if (!build.unlocked) {return;}
+            if (!button || !button.model.enabled || !button.model.metadata) {return game.bldTab.render();}
 
             var amountTemp = amount;
             var label = build.meta.label ? build.meta.label : build.meta.stages[stage].label;
@@ -2636,10 +2631,8 @@ var run = function() {
             var build = this.getBuild(name);
             var button = this.getBuildButton(name);
 
-            if (!build.unlocked || !button || !button.model.enabled || !options.auto.space.items[name].enabled) {
-                game.spaceTab.render();
-                return;
-            }
+            if (!build.unlocked || !options.auto.space.items[name].enabled) {return;}
+            if (!button || !button.model.enabled) {return game.spaceTab.render();}
 
             var amountTemp = amount;
             var label = build.label;
@@ -2958,7 +2951,7 @@ var run = function() {
             var bList = [];
             var countList = [];
             var counter = 0;
-            for (var name in builds) {
+            for (var name in builds) {console.log(builds)
                 var build = builds[name];
                 var data = metaData[name];
                 if (!build.enabled) {continue;}
