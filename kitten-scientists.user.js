@@ -2283,8 +2283,8 @@ var run = function() {
         getBestUnicornBuilding: function () {
             var unicornPasture = 'unicornPasture';
             var pastureButton = buildManager.getBuildButton('unicornPasture');
-            if(typeof pastureButton === 'undefined')
-                return;
+            if (typeof pastureButton === 'undefined') {return;}
+            if (pastureButton && !pastureButton.model.metadata) {game.bldTab.render();}
             var validBuildings = ['unicornTomb','ivoryTower','ivoryCitadel','skyPalace','unicornUtopia','sunspire'];
             var unicornsPerSecond = game.getEffect('unicornsPerTickBase') * game.getTicksPerSecondUI();
             var globalRatio = game.getEffect('unicornsGlobalRatio') + 1;
@@ -2393,8 +2393,8 @@ var run = function() {
             var build = this.getBuild(name, variant);
             var button = this.getBuildButton(name, variant);
 
-            if (!build.unlocked) {return;}console.log(1)
-            if (!button || !button.model.enabled || !button.model.metadata) {return game.religionTab.render();}
+            if (!button.model.enabled) {return;}
+            if (!button || !button.model.metadata) {return game.religionTab.render();}
 
             var amountTemp = amount;
             var label = build.label;
@@ -2465,8 +2465,8 @@ var run = function() {
             var build = this.getBuild(name, variant);
             var button = this.getBuildButton(name, variant);
 
-            if (!build.unlocked) {return;}
-            if (!button || !button.model.enabled || !button.model.metadata) {return game.timeTab.render();}
+            if (!button.model.enabled) {return;}
+            if (!button || !button.model.metadata) {return game.timeTab.render();}
 
             var amountTemp = amount;
             var label = build.label;
@@ -2520,8 +2520,7 @@ var run = function() {
         build: function (upgrade, variant) {
             var button = this.getBuildButton(upgrade, variant);
 
-            if (!build.unlocked) {return;}
-            if (!button || !button.model.enabled || !button.model.metadata) {
+            if (!button || !button.model.metadata) {
                 if (variant === 'workshop') {
                     game.workshopTab.render()
                 } else {
@@ -2580,8 +2579,9 @@ var run = function() {
         build: function (name, stage, amount) {
             var build = this.getBuild(name);
             var button = this.getBuildButton(name, stage);
-            if (!build.unlocked) {return;}
-            if (!button || !button.model.enabled || !button.model.metadata) {return game.bldTab.render();}
+
+            if (!build.meta.unlocked) {return;}
+            if (!button || !button.model.metadata) {return game.bldTab.render();}
 
             var amountTemp = amount;
             var label = build.meta.label ? build.meta.label : build.meta.stages[stage].label;
@@ -2951,7 +2951,7 @@ var run = function() {
             var bList = [];
             var countList = [];
             var counter = 0;
-            for (var name in builds) {console.log(builds)
+            for (var name in builds) {
                 var build = builds[name];
                 var data = metaData[name];
                 if (!build.enabled) {continue;}
