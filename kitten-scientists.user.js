@@ -3094,6 +3094,7 @@ var run = function() {
             if (typeof meta.limitBuild == "number" && meta.limitBuild - meta.val < amount) {
                 amount = meta.limitBuild - meta.val;
             }
+            if (!model.enabled ) {button.controller.updateEnabled(model);}
             if (model.enabled && button.controller.hasResources(model) || game.devMode ) {
                 while (button.controller.hasResources(model) && amount > 0) {
                     model.prices=button.controller.getPrices(model);
