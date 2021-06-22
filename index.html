@@ -62,7 +62,6 @@
 		</script>
 
 		<script type="text/javascript">
-
 			var version = "1485";
 			var buildRevision = 0;
 
@@ -167,7 +166,7 @@
 					}
 				}
 
-				var def = $.getJSON("build.version.json?="+now).then(function(json){
+				var def = $.getJSON("build.version.json?=" + now).then(function(json) {
 					buildRevision = json.buildRevision;
 					console.log("build revison is" + buildRevision);
 					$("#versionLink").html(displayedVersion + ".r" + buildRevision);
@@ -315,7 +314,7 @@
 
 			<div id="topBar">
 				<div style="padding-left: 10px; min-width: 0px; max-width: 400px; overflow: hidden; text-overflow: ellipsis;">
-					Kittens Game 
+					Kittens Game
 					<span style="font-size: small;">
 						by <a href="http://kittensgame.com/" class="copyright" target="_blank">bloodrizer</a>
 					</span>
@@ -347,7 +346,7 @@
 						<a href="#" onclick="gamePage.unlockedSchemes = gamePage.ui.allSchemes; gamePage.ui.updateOptions();">All themes</a>
 					</div>
 				</div>
-				
+
 				<div id="headerLinks">
 					<div id="headerToolbar" style="font-size: 12px; padding-top: 3px;">
 						<!-- toolbar panel goes there -->
@@ -579,7 +578,7 @@
 				<input id="set-kgp-enable" type="checkbox">
 				<label id="kgp-label" for="set-kgp-enable">启用资源进度条</label>
 				<br>
-				<input id="autoSaveReset" type="checkbox"  onclick="gamePage.opts['autoSaveReset'] = $('#autoSaveReset')[0].checked;">
+				<input id="autoSaveReset" type="checkbox" onclick="gamePage.opts['autoSaveReset'] = $('#autoSaveReset')[0].checked;">
 				<label id="optionAutoSaveReset" for="autoSaveReset">重置游戏自动备份存档<i>（需要在浏览器设置下载保存位置！）</i></label>
 				<br>
 				<input id="hideSell" type="checkbox" onclick="gamePage.opts.hideSell = $('#hideSell')[0].checked;">
@@ -681,19 +680,24 @@
 					<br>
 					<span style="display: block;">推荐使用QQ数字邮箱</span>
 					<span>电子邮箱:
-					<br>
-						<input type="email" id="registerEmail"></span>
-						<span>
-						<br>密码：
-						<span style="font-size: 0.8em">(6-30字符)</span>
 						<br>
-						<input type="password" id="loginPassword"></span>
+						<input type="email" id="registerEmail"></span>
+					<form>
+						<div style="display: block;">
+							<br>密码：
+							<span style="font-size: 0.8em">(6-30字符)</span>
+							<br>
+							<input type="password" id="loginPassword" placeholder="请输入密码" autocomplete="off">
+						</div>
+					</form>
 					<br>
-					<div style="display: block;">确认密码:
-					<br>
-					<input type="password" id="confirmPassword">
-					<br>
-					</div>
+					<form>
+						<div style="display: block;">确认密码:
+							<br>
+							<input type="password" id="confirmPassword" placeholder="请输入密码" autocomplete="off">
+							<br>
+						</div>
+					</form>
 					<br>
 					<div class="btn modern" style="font-size:16px;" onclick="gamePage.server.register()">注册</div>
 					<div style="color:#01A9DB;">
@@ -763,7 +767,7 @@
 				localStorage['zh.ks.enable'] = 'enable';
 				$("#ks-label").text("可爱的猫猫科学家为您服务");
 				$("#set-ks-enable").attr("checked", true);
-				document.body.appendChild(document.createElement('script')).src = 'kitten-scientists.user.js?v=19';
+				document.body.appendChild(document.createElement('script')).src = 'kitten-scientists.user.js?v=20';
 			};
 			var disableKS = function() {
 				localStorage['zh.ks.enable'] = 'disable';
