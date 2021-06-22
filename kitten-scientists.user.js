@@ -1382,7 +1382,7 @@ var run = function() {
                     }
                     var pastures = (game.bld.getBuildingExt('pasture').meta.stage === 0) ? game.bld.getBuildingExt('pasture').meta.val: 0;
                     var aqueducts = (game.bld.getBuildingExt('aqueduct').meta.stage === 0) ? game.bld.getBuildingExt('aqueduct').meta.val: 0;
-                    if (this.craftManager.getPotentialCatnip(false, pastures, aqueducts) < 0) {
+                    if (this.craftManager.getPotentialCatnip(false, pastures, aqueducts) < 0 && game.science.get("agriculture").researched) {
                         jobName = "farmer";
                     }
                 }
@@ -2275,9 +2275,16 @@ var run = function() {
             
             // auto turn on steamworks
             if (optionVals._steamworks.enabled) {
-                var st = game.bld.get('steamworks');
+                let st = game.bld.get('steamworks');
                 if (st.val && st.on == 0) {
-                    var button = buildManager.getBuildButton('steamworks');
+                    let button = buildManager.getBuildButton('steamworks');
+                    button.controller.onAll(button.model);
+                }
+                // auto turn on reactor
+                let fa = game.bld.get('reactor');
+                let ur = game.getResourcePerTick("uranium",true);
+                if (fa.val && fa.on == 0 && ur > 0) {
+                    let button = buildManager.getBuildButton('reactor');
                     button.controller.onAll(button.model);
                 }
             }
