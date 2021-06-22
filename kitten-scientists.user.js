@@ -2034,7 +2034,9 @@ var run = function() {
             if (!(catpowProf && cultureProf && parchProf)) {return;}
 
             // Render the tab to make sure that the buttons actually exist in the DOM. Otherwise we can't click them.
-            if (!game.villageTab.festivalBtn) {this.villageManager.render();}
+            if (game.villageTab.festivalBtn == null) {game.villageTab.render();}
+
+            if (!game.villageTab.festivalBtn.model.enabled) {game.villageTab.festivalBtn.controller.updateEnabled(game.villageTab.festivalBtn.model);}
 
             if (game.villageTab.festivalBtn.model.enabled) {
                 var beforeDays = game.calendar.festivalDays;
