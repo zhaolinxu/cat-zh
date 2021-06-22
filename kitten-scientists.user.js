@@ -2403,8 +2403,8 @@ var run = function() {
             var build = this.getBuild(name, variant);
             var button = this.getBuildButton(name, variant);
 
-            if (!button.model.enabled) {return;}
             if (!button || !button.model.metadata) {return game.religionTab.render();}
+            if (!button.model.enabled) {return button.controller.updateEnabled(button.model);}
 
             var amountTemp = amount;
             var label = build.label;
@@ -2475,8 +2475,8 @@ var run = function() {
             var build = this.getBuild(name, variant);
             var button = this.getBuildButton(name, variant);
 
-            if (!button.model.enabled) {return;}
             if (!button || !button.model.metadata) {return game.timeTab.render();}
+            if (!button.model.enabled) {return button.controller.updateEnabled(button.model);}
 
             var amountTemp = amount;
             var label = build.label;
@@ -2592,6 +2592,7 @@ var run = function() {
 
             if (!build.meta.unlocked) {return;}
             if (!button || !button.model.metadata) {return game.bldTab.render();}
+            if (!button.model.enabled) {return button.controller.updateEnabled(button.model);}
 
             var amountTemp = amount;
             var label = build.meta.label ? build.meta.label : build.meta.stages[stage].label;
@@ -2642,7 +2643,8 @@ var run = function() {
             var button = this.getBuildButton(name);
 
             if (!build.unlocked || !options.auto.space.items[name].enabled) {return;}
-            if (!button || !button.model.enabled) {return game.spaceTab.render();}
+            if (!button || !button.model.metadata) {return game.spaceTab.render();}
+            if (!button.model.enabled) {return button.controller.updateEnabled(button.model);}
 
             var amountTemp = amount;
             var label = build.label;
