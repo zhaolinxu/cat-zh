@@ -2534,12 +2534,13 @@ var run = function() {
 
             if (!button || !button.model.metadata) {
                 if (variant === 'workshop') {
-                    game.workshopTab.render()
+                    game.workshopTab.render();
                 } else {
                     game.libraryTab.render();
                 }
                 return;
             }
+            if (!button.model.enabled) {return button.controller.updateEnabled(button.model);}
 
             //need to simulate a click so the game updates everything properly
             button.controller.payPrice(button.model, {}, function() {});

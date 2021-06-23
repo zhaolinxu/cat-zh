@@ -1476,7 +1476,7 @@
     "ui.filter.enabled": "可使用",
     "ui.filter.togglable": "可切换",
 
-    "ui.kgnet.login": "> 登录 <",
+    "ui.kgnet.login": ">云存档<",
     "ui.kgnet.online": "在线",
     "ui.kgnet.save.current": "当前",
     "ui.kgnet.save.save": "上传",

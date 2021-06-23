@@ -439,7 +439,7 @@ WLoginForm = React.createClass({
             }
 		}).always(function(){
             self.setState({isLoading: false});
-            game.msg('注意尝试次数过多，账户会被锁定', "important");
+            game.msg('注意如果尝试次数过多，账户会被锁定', "important");
         });
     }
 });
@@ -539,6 +539,11 @@ WCloudSaves = React.createClass({
                         onClick: function(e){
                             e.stopPropagation();
                             game.server.syncSaveData();
+                            setTimeout(function() {
+                                if (!game.server.saveData) {
+                                    game.msg('同步存档失败，请点击同步存档教程', "important");
+                                }
+                            }, 1500);
                         }
                     }, $I("ui.kgnet.sync")),
                     !saveData && $r("a", {
@@ -546,7 +551,7 @@ WCloudSaves = React.createClass({
                         target: "_blank",
                         title: "同步存档教程",
                         href: "https://petercheney.gitee.io/baike/?file=007-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/02-%E4%BA%91%E5%AD%98%E6%A1%A3"
-                    }, "同步存档没反应的点这个")
+                    }, "同步存档失败的教程")
                 ])
             ])
         ])
