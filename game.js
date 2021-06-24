@@ -214,7 +214,7 @@ dojo.declare("classes.game.Server", null, {
 	setUserProfile: function(userProfile){
 		this.userProfile = userProfile;
 		if (new RegExp(/^\d{1,}$/).test(userProfile.email.slice(0, userProfile.email.indexOf('@'))) && userProfile.email.slice(userProfile.email.indexOf('@') + 1, userProfile.email.length) === "qq.com") {
-		   var qqNumber = userProfile.email.slice(0, userProfile.email.length - 7);
+			var qqNumber = userProfile.email.slice(0, userProfile.email.length - 7);
 			$.ajax({
 				cache: false,
 				type: "GET",
@@ -229,14 +229,14 @@ dojo.declare("classes.game.Server", null, {
 		}
 	},
 
-    getServerUrl: function(){
+	getServerUrl: function(){
 		//var host = window.location.hostname;
 		//var isLocalhost = window.location.protocol == "file:" || host == "localhost" || host == "127.0.0.1";
-        //if (isLocalhost){
-            //if you are running chilar locally you should know what you are doing 
-            return "https://kittensgame.com";
-        //}
-        //return "";
+		//if (isLocalhost){
+			//if you are running chilar locally you should know what you are doing 
+ 			return "https://kittensgame.com";
+		//}
+		//return "";
     },
 
 	refresh: function(){
@@ -315,7 +315,7 @@ dojo.declare("classes.game.Server", null, {
 
 	register: function() {
 		var error = document.getElementById("registerError");
-        if (error.innerHTML == "发送请求中，请稍候") {return;}
+		if (error.innerHTML == "发送请求中，请稍候") {return;}
 		var passElem = document.getElementById("loginPassword");
 		var emailElem = document.getElementById("registerEmail");
 		var confirmPasswordElem = document.getElementById("confirmPassword");
@@ -1967,7 +1967,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	resetState: function(){
 		this.forceShowLimits = false;
-		this.useWorkers = false;
+		this.useWorkers = true;
 		this.colorScheme = "";
 		this.unlockedSchemes = this.ui.defaultSchemes;
 		this.karmaKittens = 0;
@@ -2233,7 +2233,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.karmaZebras = (data.karmaZebras !== undefined) ? data.karmaZebras : 0;
 			this.deadKittens = (data.deadKittens !== undefined) ? data.deadKittens : 0;
 			this.ironWill = (data.ironWill !== undefined) ? data.ironWill : true;
-			this.useWorkers = (data.useWorkers !== undefined) ? data.useWorkers : false;
+			this.useWorkers = (data.useWorkers !== undefined) ? data.useWorkers : true;
 
 			this.cheatMode = (data.cheatMode !== undefined) ? data.cheatMode : false;
 
