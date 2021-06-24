@@ -1618,7 +1618,7 @@
     "village.census.trait.none": "无特质 :< ",
     "village.festival.msg.start": "文化节已经开始了",
     "village.festival.msg.ext": "文化节已加钟",
-    "village.festival.msg.deficitEnd": "由于缺乏奢侈品，节日取消了",
+    "village.festival.msg.deficitEnd": "由于缺乏奢侈品，文化节取消了",
     "village.freeKittens": "空闲的小猫",
     "village.general.free.kittens.label": "空闲的小猫",
     "village.happiness.base": "基础",
