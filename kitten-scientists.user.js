@@ -5580,6 +5580,6 @@ var loadTest = function() {
         lang = localStorage['com.nuclearunicorn.kittengame.language'] ? localStorage['com.nuclearunicorn.kittengame.language'] : lang;
         run();
     }
-}
+};
 
 loadTest();
