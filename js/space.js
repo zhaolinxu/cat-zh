@@ -1218,7 +1218,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtnController", com.nuclear
 		}
 	},
 
-	buyItem: function(model, event, callback) {
+	buyItem: function(model, event, callback) {console.log(model,event, callback)
 		if (model.metadata.val == 0) {
 			this.inherited(arguments);
 		} else {
@@ -1228,6 +1228,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtnController", com.nuclear
 
 	build: function(model, maxBld){
 		var counter = this.inherited(arguments);
+        console.log(counter)
 		model.metadata.on = 0;
 		if (model.metadata.name == "rorschachMission") {
 			model.metadata.on = 1;

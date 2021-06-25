@@ -1464,7 +1464,7 @@ var run = function() {
             var buildManager = this.buildManager;
             var craftManager = this.craftManager;
             var option = options.auto.faith.addition;
-            
+
             if (option.bestUnicornBuilding.enabled) {
                 var bestUnicornBuilding = this.getBestUnicornBuilding();
                 if (bestUnicornBuilding) {
@@ -1758,11 +1758,18 @@ var run = function() {
                     if (!(missions[i].unlocked && missions[i].val < 1)) {continue;}
 
                     var Btn = game.spaceTab.GCPanel.children[i];
-                    if (!(Btn && Btn.model.metadata)) {game.spaceTab.render();}
+                    if (!Btn || !Btn.model.metadata) {
+                        game.spaceTab.render();
+                        continue;
+                    }
                     if (Btn.model.metadata.val || Btn.model.metadata.on) {continue;}
                     var prices = Btn.model.prices;
                     for (var resource of prices) {
                         if (craftManager.getValueAvailable(resource.name, true) < resource.val) {continue missionLoop;}
+                    }
+                    if (!Btn.model.enabled) {
+                        Btn.controller.updateEnabled(Btn.model);
+                        continue;
                     }
                     Btn.controller.build(Btn.model, 1);
                     if (i === 7 || i === 12) {
@@ -1854,7 +1861,8 @@ var run = function() {
                                 button.controller.sellInternal(button.model, 0);
                                 button.controller.deltagrade(button.controller, button.model, 1);
                                 iactivity('upgrade.building.pasture', [], 'ks-upgrade');
-                                buildManager.build('pasture', 1, 1);
+                                if(!button.model.enabled) {button.controller.updateEnabled(button.model);}
+                                button.controller.build(button.model, 1);
                                 return;
                             }
                         }
@@ -1873,7 +1881,8 @@ var run = function() {
                                 button.controller.sellInternal(button.model, 0);
                                 button.controller.deltagrade(button.controller, button.model, 1);
                                 iactivity('upgrade.building.aqueduct', [], 'ks-upgrade');
-                                buildManager.build('aqueduct', 1, 1);
+                                if(!button.model.enabled) {button.controller.updateEnabled(button.model);}
+                                button.controller.build(button.model, 1);
                                 return;
                             }
                         }
@@ -1903,7 +1912,8 @@ var run = function() {
                                     button.controller.sellInternal(button.model, 0);
                                     button.controller.deltagrade(button.controller, button.model, 1);
                                     iactivity('upgrade.building.library', [], 'ks-upgrade');
-                                    buildManager.build('library', 1, 1);
+                                    if(!button.model.enabled) {button.controller.updateEnabled(button.model);}
+                                    button.controller.build(button.model, 1);
                                     return;
                                 }
                             }
@@ -1923,7 +1933,8 @@ var run = function() {
                                 button.controller.sellInternal(button.model, 0);
                                 button.controller.deltagrade(button.controller, button.model, 1);
                                 iactivity('upgrade.building.amphitheatre', [], 'ks-upgrade');
-                                buildManager.build('amphitheatre', 1, 1);
+                                if(!button.model.enabled) {button.controller.updateEnabled(button.model);}
+                                button.controller.build(button.model, 1);
                                 return;
                             }
                         }
