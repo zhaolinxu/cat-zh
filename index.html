@@ -337,7 +337,7 @@
 
 
 				<div id="devPanel" style="display:inline-block; padding-left: 15px; font-size: 14px;">
-					<div id="devPanelFPS" onClick="gamePage.restartFPSCounters()">
+					<div id="devPanelFPS" onclick="gamePage.restartFPSCounters()">
 					</div>
 					<div id="devPanelCheats" style="display:none">
 						<a href="#" onclick="gamePage.science.unlockAll();">All techs</a>
@@ -365,7 +365,7 @@
 					<a id="wipe-link" href="#" onclick="wipe();">Wipe</a> |
 					<a id="getTheApp-link" href="#" onclick="gamePage.ui.displayAppDialog();" style="font-weight: bold; color:#666;">Get the app</a> |
 					<a href="changelog.html" target="_blank">Ver <span id="versionLink">?.?.?.?</span></a>
-					<a href="#" id="newVersion" onClick="gamePage.reload();" title="有新版本 !" style="display:none">↻</a>
+					<a href="#" id="newVersion" onclick="gamePage.reload();" title="有新版本 !" style="display:none">↻</a>
 				</div>
 			</div>
 
@@ -400,7 +400,7 @@
 								<li>确保启用了JavaScript 或者 广告插件 不在工作。</li>
 								<li>使用 Ctrl+F5 强制刷新。</li>
 								<li>过十几分中后再打开游戏。.</li>
-								<li>>导出你的存档，保存好，清空游戏数据，再重新导入存档。
+								<li>导出你的存档，保存好，清空游戏数据，再重新导入存档。
 									<ul>
 										<li>按下F12 会有弹窗，</li>
 										<li>点击"Console"（控制台），</li>
@@ -431,7 +431,7 @@
 							</div>
 
 							<span id="clearLog">
-								<a id="clearLogHref" href="#" onClick="gamePage.clearLog();">Clear log</a>
+								<a id="clearLogHref" href="#" onclick="gamePage.clearLog();">Clear log</a>
 							</span>
 							<span id="logFiltersBlock" style="padding-top: 5px">
 								<a id="logFiltersBlockText" onclick="gamePage.toggleFilters();" href="#">[<span id="filterIcon">+</span>] Log
@@ -448,7 +448,7 @@
 						</div>
 					</div>
 				</div>
-				<div id="toggleCenter" onClick="gamePage.ui.toggleCenter();" class="column" tooltip="Toggle centered view">
+				<div id="toggleCenter" onclick="gamePage.ui.toggleCenter();" class="column" tooltip="Toggle centered view">
 					<span class="toggleCenter">&gt;</span>
 				</div>
 			</div>
@@ -518,7 +518,7 @@
 
 
 			<div id="optionsDiv" style="display: none;" class="dialog help">
-				<a id="dialogClose" href="#" class="close" onclick="gamePage.closeOptions()" style="position: absolute; top: 10px; right: 15px;">close</a>
+				<a id="optionsDialogClose" href="#" class="close" onclick="gamePage.closeOptions()" style="position: absolute; top: 10px; right: 15px;">close</a>
 
 				<label id="optionLanguage" for="languageSelector">Language:</label>
 				<select id="languageSelector" onchange="gamePage.ui.updateLanguage()">
@@ -573,7 +573,7 @@
 				<label id="optionHighlightUnavailable" for="highlightUnavailable">Highlight buildings limited by storage space</label>
 				<br>
 				<input id="set-ks-enable" type="checkbox">
-				<label id="ks-label" for="set-ks-enable" style="color:red;">启用小猫珂学家</label><a href='https://petercheney.gitee.io/baike/?file=004-第三方工具/02-小猫科学家' target="_blank">&nbsp;&nbsp;[使用说明]</a>
+				<label id="ks-label" for="set-ks-enable" style="color:red;">启用小猫珂学家</label><a href="https://petercheney.gitee.io/baike/?file=004-第三方工具/02-小猫科学家" target="_blank">&nbsp;&nbsp;[使用说明]</a>
 				<!-- [<a href="https://gitee.com/likexia/cbc-kitten-scientists" target="_blank" style="color:blue;text-decoration:none;" title="点击查看">教程</a>] -->
 				<br>
 				<input id="set-kgp-enable" type="checkbox">
@@ -659,7 +659,7 @@
 			</div>
 
 			<div id="appDiv" style="display: none" class="dialog help">
-				<a id="dialogClose" href="#" class="close" style="position: absolute; top: 10px; right: 15px;">close</a>
+				<a id="appDialogClose" href="#" class="close" style="position: absolute; top: 10px; right: 15px;">close</a>
 
 				<span id="appText">Kittens Game Mobile has been released! Click on the link to follow:</span>
 				<br>
@@ -672,8 +672,8 @@
 				<!--span style="font-size:12px;">(Will open in a new window)</span-->
 			</div>
 
-			<div id='registerDiv' style="display: none;" align="center" class="dialog help">
-				<a id="dialogClose" href="#" class="close" style="position: absolute; top: 10px; right: 15px;">close</a>
+			<div id="registerDiv" style="display: none;" align="center" class="dialog help">
+				<a id="registerDialogClose" href="#" class="close" style="position: absolute; top: 10px; right: 15px;">close</a>
 				<div style="font-weight: bold; color:#666;">猫国建设者官方账号</div>
 				<hr>
 				<div id="registerError" style="display: block;color:#A00000;">&nbsp;</div>

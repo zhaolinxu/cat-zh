@@ -503,7 +503,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         var tt = this.game.religion._getTranscendTotalPrice(tier) - game.religion._getTranscendTotalPrice(tier - 1);
         var obelisk = this.game.religion.getTU("blackObelisk").val;
         var obeliskRatio = (tier * 5 * obelisk + 1000) / (this.game.religion.transcendenceTier * 5 * obelisk + 1000);
-        var adoreIncreaceRatio = Math.pow((tier + 1) / (tier), 2);
+        var adoreIncreaceRatio = Math.pow((tier + 1) / tier, 2);
         var needpercent = adoreIncreaceRatio * obeliskRatio;
         var x = tt;
         var k = needpercent;
@@ -1025,7 +1025,7 @@ NummonInit = function(){
     };
     
     gamePage.ui.render();
-}
+};
 
 NummonTryInit = function() {
     if (typeof gamePage === "undefined") {
@@ -1035,6 +1035,6 @@ NummonTryInit = function() {
     } else {
         NummonInit();
     }
-}
+};
 
 NummonTryInit();

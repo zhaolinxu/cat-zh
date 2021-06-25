@@ -4037,11 +4037,11 @@ var run = function() {
 
         var addi = options.auto.faith.addition;
         for (var itemName in addi) {
-            node = getOption(itemName, addi[itemName]);
+            var node = getOption(itemName, addi[itemName]);
 
             if (itemName == 'bestUnicornBuilding') {
                 node.children('label').prop('title', i18n('option.faith.best.unicorn.desc'));
-                input = node.children('input');
+                var input = node.children('input');
                 input.unbind('change')
                 var bub = addi.bestUnicornBuilding;
                 input.on('change', function () {
@@ -4532,7 +4532,7 @@ var run = function() {
 
     var getUpgradeOption = function (name, option) {
         var iname = i18n('ui.upgrade.' + name)
-        element = getOption(name, option, iname);
+        var element = getOption(name, option, iname);
 
         if (name == 'policies') {
             var list = $('<ul/>', {
