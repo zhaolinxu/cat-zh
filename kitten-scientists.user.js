@@ -2548,7 +2548,7 @@ var run = function() {
             }else if(button.model.metadata.name == "transkittenism" && game.bld.getBuildingExt("aiCore").meta.effects["aiLevel"] >= 15){
             	game.msg($I("msg.policy.aiNotMerges"),"alert", "ai");
             	return;
-            }else if(button.model.metadata.blocked != true) {
+            }else if(button.model.metadata.blocked == false) {
                  for(var i = 0; i < button.model.metadata.blocks.length; i++){
                     if(game.science.getPolicy(button.model.metadata.blocks[i]).researched){
                         button.model.metadata.blocked = true;
