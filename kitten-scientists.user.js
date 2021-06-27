@@ -1494,8 +1494,10 @@ var run = function() {
                             }
                             // iactivity?
                         }
-                        religionManager.build(bestUnicornBuilding, 'z', 1);
-                        refreshRequired = true;
+                        if (btn.controller.hasResources(btn.model)) {
+                            religionManager.build(bestUnicornBuilding, 'z', 1);
+                            refreshRequired = true;
+                        }
                     }
                 }
             } else {
