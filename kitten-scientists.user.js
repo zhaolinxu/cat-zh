@@ -658,7 +658,7 @@ var run = function() {
 
                     // Moon
                     moonOutpost:    {require: 'uranium',     enabled: false, max:-1, checkForReset: true, triggerForReset: -1},
-                    moonBase:       {require: 'unobtainium', enabled: false, max:-1, checkForReset: true, triggerForReset: -1},
+                    moonBase:       {require: 'unobtainium', enabled: true, max:-1, checkForReset: true, triggerForReset: -1},
 
                     // Dune
                     planetCracker:  {require: 'science',     enabled: false, max:-1, checkForReset: true, triggerForReset: -1},
@@ -723,7 +723,7 @@ var run = function() {
                 items: {
                     accelerateTime:     {enabled: true,  subTrigger: 1,     misc: true, label: i18n('option.accelerate')},
                     timeSkip:           {enabled: false, subTrigger: 5,     misc: true, label: i18n('option.time.skip'), maximum: 50,
-                        0: false, 1: false, 2: false, 3: false, 4: false, 5: false, 6: false, 7: false, 8: false, 9: false,
+                        0: true, 1: true, 2: true, 3: true, 4: true, 5: false, 6: true, 7: true, 8: true, 9: true,
                         spring: true, summer: false, autumn: false, winter: false},
                     reset:              {enabled: false, subTrigger: 99999, misc: true, label: i18n('option.time.reset')}
                 }
@@ -767,7 +767,7 @@ var run = function() {
                     blueprint:  {require: 'science',     max: 0, limited: true,  limRat: 0.5, enabled: true},
                     kerosene:   {require: 'oil',         max: 0, limited: true,  limRat: 0.5, enabled: true},
                     megalith:   {require: false,         max: 0, limited: true,  limRat: 0.5, enabled: true},
-                    eludium:    {require: 'unobtainium', max: 0, limited: true,  limRat: 0.5, enabled: true},
+                    eludium:    {require: 'unobtainium', max: 0, limited: false,  limRat: 0.5, enabled: true},
                     thorium:    {require: 'uranium',     max: 0, limited: true,  limRat: 0.5, enabled: true}
                 }
             },
@@ -814,7 +814,7 @@ var run = function() {
                     techs:     {enabled: true},
                     policies:  {enabled: false},
                     races:     {enabled: true},
-                    missions:  {enabled: true, subTrigger: 12},
+                    missions:  {enabled: true, subTrigger: 4},
                     buildings: {enabled: true},
                 }
             },
@@ -828,9 +828,9 @@ var run = function() {
                     autofeed:           {enabled: true,                    misc: true, label: i18n('option.autofeed')},
                     hunt:               {enabled: true, subTrigger: 0.98,  misc: true, label: i18n('option.hunt')},
                     promote:            {enabled: true,                    misc: true, label: i18n('option.promote')},
-                    crypto:             {enabled: true, subTrigger: 10000, misc: true, label: i18n('option.crypto')},
+                    crypto:             {enabled: false, subTrigger: 10000, misc: true, label: i18n('option.crypto')},
                     fixCry:             {enabled: false,                   misc: true, label: i18n('option.fix.cry')},
-                    buildEmbassies:     {enabled: true, subTrigger: 0.9,   misc: true, label: i18n('option.embassies')},
+                    buildEmbassies:     {enabled: true, subTrigger: 0.95,   misc: true, label: i18n('option.embassies')},
                     style:              {enabled: true,                    misc: true, label: i18n('option.style')},
                     _steamworks:        {enabled: false,                   misc: true, label: i18n('option.steamworks')}
                 }
@@ -848,7 +848,7 @@ var run = function() {
                     miner:      {enabled: true, max: 1, limited: false},
                     priest:     {enabled: true, max: 1, limited: false},
                     geologist:  {enabled: true, max: 1, limited: false},
-                    engineer:   {enabled: true, max: 1, limited: false},
+                    engineer:   {enabled: false, max: 1, limited: false},
                     leader:     {enabled: true, leaderJob: 'farmer', leaderTrait: 'manager'},
                 }
 
@@ -897,7 +897,7 @@ var run = function() {
     var printoutput = function (args) {
         if (options.auto.filter.enabled) {
             for (var filt in options.auto.filter.items) {
-                var filter = options.auto.filter.items[filt]
+                var filter = options.auto.filter.items[filt];
                 if (filter.enabled && filter.variant === args[1]) {return;}
             }
         }
@@ -2115,7 +2115,10 @@ var run = function() {
                 var race = tradeManager.getRace(name);
                 if (!race.unlocked) {continue;}
                 var button = tradeManager.getTradeButton(race.name);
-                if (!button.model.enabled) {continue;}
+                if (!button.model.enabled) {
+                    button.controller.updateEnabled(button.model);
+                    continue;
+               }
                 if (!tradeManager.singleTradePossible(name)) {continue;}
 
                 var require = !trade.require ? false : craftManager.getResource(trade.require);

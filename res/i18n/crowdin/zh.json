@@ -1273,7 +1273,7 @@
     "space.planet.cath.sattelite.label": "卫星",
     "space.planet.cath.sattelite.desc": "部署一颗卫星。卫星使天文台的效能提升 5% 同时产出星图",
     "space.planet.cath.spaceElevator.label": "太空电梯",
-    "space.planet.cath.spaceElevator.desc": "每级太空电梯将降低太空飞行计划 5% 的石油需求，同时使所有太空建筑的产能提升 1%",
+    "space.planet.cath.spaceElevator.desc": "每级太空电梯将降低空间所有 5% 的石油需求，同时使所有太空建筑的产能提升 1%",
     "space.planet.cath.spaceStation.label": "空间站",
     "space.planet.cath.spaceStation.desc": "部署一座空间站。每级空间站增加科学产出并提供 2 名宇航员的居住空间",
     "space.planet.centaurusSystem.label": "半人马座星系",
