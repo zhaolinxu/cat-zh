@@ -993,21 +993,21 @@ var run = function() {
             if (subOptions.enabled && subOptions.items.observe.enabled)                     {this.observeStars()};
             if (options.auto.upgrade.enabled)                                               {this.upgrade()};
             if (subOptions.enabled && subOptions.items.festival.enabled)                    {this.holdFestival()};
-            if (options.auto.build.enabled)                                                 {var buildRefreshRequired = this.build()};
-            if (options.auto.space.enabled)                                                 {var spaceRefreshRequired = this.space()};
+            if (options.auto.build.enabled)                                                 {var buildRefresh = this.build()};
+            if (options.auto.space.enabled)                                                 {var spaceRefresh = this.space()};
             if (options.auto.craft.enabled)                                                 {this.craft()};
             if (subOptions.enabled && subOptions.items.hunt.enabled)                        {this.setHunt()};
             if (options.auto.trade.enabled)                                                 {this.trade()};
-            if (options.auto.faith.enabled)                                                 {var worshipRefreshRequired = this.worship()};
-            if (options.auto.time.enabled)                                                  {this.chrono()};
+            if (options.auto.faith.enabled)                                                 {var worshipRefresh = this.worship()};
+            if (options.auto.time.enabled)                                                  {var chronoRefresh = this.chrono()};
             if (subOptions.enabled && subOptions.items.crypto.enabled)                      {this.crypto()};
             if (subOptions.enabled && subOptions.items.autofeed.enabled)                    {this.autofeed()};
             if (subOptions.enabled && subOptions.items.promote.enabled)                     {this.promote()};
             if (options.auto.distribute.enabled)                                            {this.distribute()};
             if (options.auto.timeCtrl.enabled)                                              {this.timeCtrl()};
             if (subOptions.enabled)                                                         {this.miscOptions()};
+            if (buildRefresh || worshipRefresh || spaceRefresh || chronoRefresh)           {game.ui.render()};
             if (options.auto.timeCtrl.enabled && options.auto.timeCtrl.items.reset.enabled) {await this.reset()};
-            if (buildRefreshRequired || worshipRefreshRequired || spaceRefreshRequired)     {game.ui.render();}
         },
         halfInterval: async function() {
             return new Promise((resolve, reject) => {
@@ -1601,14 +1601,16 @@ var run = function() {
             var metaData = {};
             for (var name in builds) {
                 var build = builds[name]
-                var button = buildManager.getBuild(name, build.variant);
-                metaData[name] = button;
+                var metabuild = buildManager.getBuild(name, build.variant);
+                metaData[name] = metabuild;
+                var button = buildManager.getBuildButton(name, build.variant);
                 if (!button && !button.model.metadata) {game.religionTab.render();}
-                if (!buildManager.getBuildButton(name, build.variant)) {
+                if (!button) {
                     metaData[name].rHidden = true;
                 } else {
                     var model = buildManager.getBuildButton(name, build.variant).model;
                     var panel = (build.variant === 'c') ? game.science.get('cryptotheology').researched : true;
+                    if (!model.enabled) {buildManager.getBuildButton(name, build.variant).controller.updateEnabled(model);}
                     metaData[name].rHidden = !(model.visible && model.enabled && panel);
                 }
             }
@@ -1643,11 +1645,19 @@ var run = function() {
             var metaData = {};
             for (var name in builds) {
                 var build = builds[name]
-                var button = buildManager.getBuild(name, build.variant);
-                if (!button) {buildManager.manager.render();}
-                metaData[name] = button;
+                var metaBuild = buildManager.getBuild(name, build.variant);
+                metaData[name] = metaBuild;
                 
-                var model = buildManager.getBuildButton(name, build.variant).model;
+                var button = buildManager.getBuildButton(name, build.variant);
+                if (!button || !button.model.metadata) {
+                    game.timeTab.render();
+                    continue;
+                }
+                if (!button.model.enabled) {
+                    button.controller.updateEnabled(button.model);
+                    continue;
+                }
+                var model = button.model;
                 var panel = (build.variant === 'chrono') ? buildManager.manager.tab.cfPanel : buildManager.manager.tab.vsPanel;
                 metaData[name].tHidden = (!model.visible || !model.enabled || !panel.visible);
             }
@@ -1662,7 +1672,7 @@ var run = function() {
                 }
             }
 
-            if (refreshRequired) {game.ui.render();}
+            return refreshRequired;
         },
         upgrade: function () {
             var upgrades = options.auto.upgrade.items;
@@ -3261,18 +3271,17 @@ var run = function() {
                 var resource = this.craftManager.getResource(item.name);
                 var mean = 0;
                 var tradeChance = (race.embassyPrices) ? item.chance * (1 + game.getLimitedDR(0.01 * race.embassyLevel, 0.75)) : item.chance;
-                if (race.name == "zebras" && item.name == "titanium") {
-                    var shipCount = game.resPool.get("ship").value;
-                    var titanProb = Math.min(0.15 + shipCount * 0.0035, 1);
-                    var titanRat = 1 + shipCount / 50;
-                    mean = 1.5 * titanRat * (successRat * titanProb);
-                } else {
-                    var sRatio = (!item.seasons) ? 1 : 1 + item.seasons[game.calendar.getCurSeason().name];
-                    var normBought = (successRat - bonusRat) * Math.min(tradeChance/100, 1);
-                    var normBonus = bonusRat * Math.min(tradeChance/100, 1);
-                    mean = (normBought + 1.25 * normBonus) * item.value * rRatio * sRatio * tRatio;
-                }
+                var sRatio = (!item.seasons) ? 1 : 1 + item.seasons[game.calendar.getCurSeason().name];
+                var normBought = (successRat - bonusRat) * Math.min(tradeChance/100, 1);
+                var normBonus = bonusRat * Math.min(tradeChance/100, 1);
+                mean = (normBought + 1.25 * normBonus) * item.value * rRatio * sRatio * tRatio;
                 output[item.name] = mean;
+            }
+            if (race.name == "zebras") {
+                var shipCount = game.resPool.get("ship").value;
+                var zebraRelationModifierTitanium = game.getEffect("zebraRelationModifier") * game.bld.getBuildingExt("tradepost").meta.effects["tradeRatio"];
+                var titanProb = Math.min(0.15 + shipCount * 0.0035, 1);
+                output["titanium"] = (1.5 + shipCount * 0.03) * (1 + zebraRelationModifierTitanium) * titanProb * successRat;
             }
 
             var spiceChance = (race.embassyPrices) ? 0.35 * (1 + 0.01 * race.embassyLevel) : 0.35;
