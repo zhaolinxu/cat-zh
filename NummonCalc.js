@@ -530,10 +530,10 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
     },
 
     getParagonStorageBonus: function(){
-        var storeRatio = this.game.prestige.getParagonStorageRatio();
+        var storeRatio = 1 + this.game.prestige.getParagonStorageRatio();
         var singularity = 1 + this.game.getEffect("globalResourceRatio");
         storeRatio = Math.round(storeRatio * 1000 * singularity) / 1000;
-        storeRatio = this.game.getDisplayValueExt(storeRatio);
+        storeRatio = this.game.getDisplayValueExt(storeRatio - 1);
         return storeRatio + "x";
     },
     
