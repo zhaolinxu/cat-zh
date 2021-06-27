@@ -1470,12 +1470,14 @@ var run = function() {
                 var bestUnicornBuilding = this.getBestUnicornBuilding();
                 if (bestUnicornBuilding) {
                     if (bestUnicornBuilding == 'unicornPasture') {
-                        if (!buildManager.getBuildButton(bestUnicornBuilding)) {buildManager.manager.render();}
-                        buildManager.build(bestUnicornBuilding, undefined, 1);
-                        refreshRequired = true;
+                        var unicornPastureButton = buildManager.getBuildButton(bestUnicornBuilding);
+                        if (unicornPastureButton.controller.hasResources(unicornPastureButton.model)) {
+                            buildManager.build(bestUnicornBuilding, undefined, 1);
+                            refreshRequired = true;
+                        }
                     } else {
                         var btn = manager.getBuildButton(bestUnicornBuilding, 'z');
-                        if (game.religionTab.zgUpgradeButtons.length) {game.religionTab.render();}
+                        if (!game.religionTab.zgUpgradeButtons.length) {game.religionTab.render();}
                         for (var i of btn.model.prices) {
                             if (i.name == 'tears') {
                                 var tearNeed = i.val;
@@ -1604,7 +1606,11 @@ var run = function() {
                 var metabuild = buildManager.getBuild(name, build.variant);
                 metaData[name] = metabuild;
                 var button = buildManager.getBuildButton(name, build.variant);
-                if (!button && !button.model.metadata) {game.religionTab.render();}
+                if (!build.enabled) {continue;}
+                if (!button || !button.model.metadata) {
+                    game.religionTab.render();
+                    continue;
+               }
                 if (!button) {
                     metaData[name].rHidden = true;
                 } else {
@@ -2242,7 +2248,10 @@ var run = function() {
                     var bulkTracker = [];
 
                     for (var i = 0; i < racePanels.length; i++) {
-                        if (!racePanels[i].embassyButton) {continue;}
+                        if (!racePanels[i].embassyButton) {
+                            game.diplomacyTab.render();
+                            continue;
+                        }
                         var name = racePanels[i].race.name;
                         var race = game.diplomacy.get(name);
                         var priceCoeficient = 1 - game.getEffect("embassyCostReduction");
@@ -2325,7 +2334,7 @@ var run = function() {
             var unicornPasture = 'unicornPasture';
             var pastureButton = buildManager.getBuildButton('unicornPasture');
             if (typeof pastureButton === 'undefined') {return;}
-            if (pastureButton && !pastureButton.model.metadata) {game.bldTab.render();}
+            if (!pastureButton.model.metadata) {return game.bldTab.render();}
             var validBuildings = ['unicornTomb','ivoryTower','ivoryCitadel','skyPalace','unicornUtopia','sunspire'];
             var unicornsPerSecond = game.getEffect('unicornsPerTickBase') * game.getTicksPerSecondUI();
             var globalRatio = game.getEffect('unicornsGlobalRatio') + 1;
