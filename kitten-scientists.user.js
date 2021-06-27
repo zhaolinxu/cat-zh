@@ -1464,6 +1464,7 @@ var run = function() {
             var buildManager = this.buildManager;
             var craftManager = this.craftManager;
             var option = options.auto.faith.addition;
+            var refreshRequired = false;
 
             if (option.bestUnicornBuilding.enabled) {
                 var bestUnicornBuilding = this.getBestUnicornBuilding();
@@ -1471,6 +1472,7 @@ var run = function() {
                     if (bestUnicornBuilding == 'unicornPasture') {
                         if (!buildManager.getBuildButton(bestUnicornBuilding)) {buildManager.manager.render();}
                         buildManager.build(bestUnicornBuilding, undefined, 1);
+                        refreshRequired = true;
                     } else {
                         var btn = manager.getBuildButton(bestUnicornBuilding, 'z');
                         if (game.religionTab.zgUpgradeButtons.length) {game.religionTab.render();}
@@ -1491,6 +1493,7 @@ var run = function() {
                             // iactivity?
                         }
                         religionManager.build(bestUnicornBuilding, 'z', 1);
+                        refreshRequired = true;
                     }
                 }
             } else {
@@ -1500,7 +1503,6 @@ var run = function() {
                 }
             }
             // religion build
-            var refreshRequired = false;
             refreshRequired = this._worship(builds);
 
             var faith = craftManager.getResource('faith');
@@ -1544,6 +1546,7 @@ var run = function() {
 
                         epiphany = game.religion.faithRatio;
                         tt = game.religion.transcendenceTier;
+                        refreshRequired = true;
                         iactivity('act.transcend', [game.getDisplayValueExt(needNextLevel), tt], 'ks-transcend');
                         storeForSummary('transcend', 1);
                     }
@@ -1566,6 +1569,7 @@ var run = function() {
                         storeForSummary('adore', epiphanyInc);
                         epiphany = game.religion.faithRatio;
                         worship = game.religion.faith;
+                        refreshRequired = true;
                     }
                 }
             }
@@ -1580,6 +1584,7 @@ var run = function() {
                 storeForSummary('praise', worshipInc);
                 iactivity('act.praise', [game.getDisplayValueExt(faith.value), game.getDisplayValueExt(worshipInc)], 'ks-praise');
                 game.religion.praise();
+                refreshRequired = true;
             }
             return refreshRequired;
         },
