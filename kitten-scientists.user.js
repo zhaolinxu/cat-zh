@@ -1503,7 +1503,7 @@ var run = function() {
                 }
             }
             // religion build
-            refreshRequired = this._worship(builds);
+            if (this._worship(builds)) {refreshRequired = true;}
 
             var faith = craftManager.getResource('faith');
             var rate = faith.value / faith.maxValue;
