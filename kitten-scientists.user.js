@@ -993,20 +993,20 @@ var run = function() {
             if (subOptions.enabled && subOptions.items.observe.enabled)                     {this.observeStars()};
             if (options.auto.upgrade.enabled)                                               {this.upgrade()};
             if (subOptions.enabled && subOptions.items.festival.enabled)                    {this.holdFestival()};
-            if (options.auto.build.enabled)                                                 {var buildRefresh = this.build()};
-            if (options.auto.space.enabled)                                                 {var spaceRefresh = this.space()};
+            if (options.auto.build.enabled)                                                 {var buildRe = this.build()};
+            if (options.auto.space.enabled)                                                 {var spaceRe = this.space()};
             if (options.auto.craft.enabled)                                                 {this.craft()};
             if (subOptions.enabled && subOptions.items.hunt.enabled)                        {this.setHunt()};
             if (options.auto.trade.enabled)                                                 {this.trade()};
-            if (options.auto.faith.enabled)                                                 {var worshipRefresh = this.worship()};
-            if (options.auto.time.enabled)                                                  {var chronoRefresh = this.chrono()};
+            if (options.auto.faith.enabled)                                                 {var worshipRe = this.worship()};
+            if (options.auto.time.enabled)                                                  {var chronoRe = this.chrono()};
             if (subOptions.enabled && subOptions.items.crypto.enabled)                      {this.crypto()};
             if (subOptions.enabled && subOptions.items.autofeed.enabled)                    {this.autofeed()};
             if (subOptions.enabled && subOptions.items.promote.enabled)                     {this.promote()};
             if (options.auto.distribute.enabled)                                            {this.distribute()};
             if (options.auto.timeCtrl.enabled)                                              {this.timeCtrl()};
-            if (subOptions.enabled)                                                         {this.miscOptions()};
-            if (buildRefresh || worshipRefresh || spaceRefresh || chronoRefresh)           {game.ui.render()};
+            if (subOptions.enabled)                                                         {var miscRe =this.miscOptions()};
+            if (buildRe || worshipRe || spaceRe || chronoRe || miscRe)                      {game.ui.render()};
             if (options.auto.timeCtrl.enabled && options.auto.timeCtrl.items.reset.enabled) {await this.reset()};
         },
         halfInterval: async function() {
@@ -2236,6 +2236,7 @@ var run = function() {
             var craftManager = this.craftManager;
             var buildManager = this.buildManager;
             var optionVals = options.auto.options.items;
+            var refreshRequired = false;
 
             AutoEmbassy:
             if (optionVals.buildEmbassies.enabled && !!game.diplomacy.races[0].embassyPrices) {
@@ -2260,8 +2261,6 @@ var run = function() {
                     }
 
                     if (bulkTracker.length === 0) {break AutoEmbassy;}
-
-                    var refreshRequired = false;
 
                     while (bulkTracker.length > 0) {
                         for (var i=0; i < bulkTracker.length; i++) {
@@ -2294,8 +2293,6 @@ var run = function() {
                             iactivity('build.embassy', [emBulk.val, emBulk.race.title], 'ks-trade');
                         }
                     }
-
-                    if (refreshRequired) {game.ui.render();}
                 }
             }
 
@@ -2328,6 +2325,7 @@ var run = function() {
                     button.controller.onAll(button.model);
                 }
             }
+            return refreshRequired;
         },
         // ref: https://github.com/Bioniclegenius/NummonCalc/blob/112f716e2fde9956dfe520021b0400cba7b7113e/NummonCalc.js#L490
         getBestUnicornBuilding: function () {
