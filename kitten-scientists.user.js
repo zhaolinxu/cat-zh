@@ -1477,7 +1477,7 @@ var run = function() {
                         }
                     } else {
                         var btn = manager.getBuildButton(bestUnicornBuilding, 'z');
-                        if (!btn || !button.model.metadata) {game.religionTab.render();}
+                        if (!btn || !btn.model.metadata) {game.religionTab.render();}
                         for (var i of btn.model.prices) {
                             if (i.name == 'tears') {
                                 var tearNeed = i.val;
@@ -2460,7 +2460,9 @@ var run = function() {
                 }
             } else {
                 storeForSummary(label, amount, 'build');
-                if (amount === 1) {
+                if (amount === 0) {
+                    return;
+                } else if (amount === 1) {
                     iactivity('act.build', [label], 'ks-build');
                 } else {
                     iactivity('act.builds', [label, amount], 'ks-build');
