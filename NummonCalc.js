@@ -578,7 +578,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         var timeC = unobtainiumAvg - (ChronoFurnace * shatterRe);
         // (5 × 2.4 [Redmoon] + 5 * 2.4 * game.getEffect("festivalRatio") + 5 × 0.9 [Charon] + 8 × 5 [others]) / 50
         var calendar = (56.5 + 12 * game.getEffect("festivalRatio")) / 50;
-        var result = calendar * timeC;
+        var result = calendar * unobtainiumAvg;
         var cost = this.getButtonPrice(game.timeTab.cfPanel.children[0].children, "ressourceRetrieval", "timeCrystal");
         var number = this.game.time.getCFU("ressourceRetrieval").val;
         if (number == 100) {
