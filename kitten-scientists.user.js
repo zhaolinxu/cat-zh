@@ -1467,16 +1467,14 @@ var run = function() {
             var refreshRequired = false;
 
             if (option.bestUnicornBuilding.enabled) {
-                var bestUnicornBuilding = this.getBestUnicornBuilding();
-                if (bestUnicornBuilding) {
-                    if (bestUnicornBuilding == 'unicornPasture') {
-                        var unicornPastureButton = buildManager.getBuildButton(bestUnicornBuilding);
-                        if (unicornPastureButton.controller.hasResources(unicornPastureButton.model)) {
-                            buildManager.build(bestUnicornBuilding, undefined, 1);
-                            refreshRequired = true;
-                        }
+                var btn = this.getBestUnicornBuilding();
+                if (btn) {
+                    btn.model.prices = btn.controller.getPrices(btn.model);
+                    btn.controller.updateEnabled(btn.model);
+                    if (btn.opts.building == 'unicornPasture') {
+                        buildManager.build(btn.opts.building, undefined, 1);
+                        refreshRequired = true;
                     } else {
-                        var btn = manager.getBuildButton(bestUnicornBuilding, 'z');
                         if (!btn || !btn.model.metadata) {game.religionTab.render();}
                         for (var i of btn.model.prices) {
                             if (i.name == 'tears') {
@@ -1494,10 +1492,8 @@ var run = function() {
                             }
                             // iactivity?
                         }
-                        if (btn.controller.hasResources(btn.model)) {
-                            religionManager.build(bestUnicornBuilding, 'z', 1);
-                            refreshRequired = true;
-                        }
+                        religionManager.build(btn.id, 'z', 1);
+                        refreshRequired = true;
                     }
                 }
             } else {
@@ -2361,18 +2357,19 @@ var run = function() {
             pastureAmor = pastureButton.model.prices[0].val / pastureAmor;
             if(pastureAmor < bestAmoritization){
                 bestAmoritization = pastureAmor;
-                bestBuilding = unicornPasture;
+                bestBuilding = pastureButton;
             }
             for(var i in this.religionManager.manager.tab.zgUpgradeButtons){
                 var btn = this.religionManager.manager.tab.zgUpgradeButtons[i];
                 if(validBuildings.indexOf(btn.id)!=-1){
                     if(btn.model.visible){
                         unicornPrice = 0;
-                        for(var j in btn.model.prices){
-                            if(btn.model.prices[j].name=='unicorns')
-                                unicornPrice += btn.model.prices[j].val;
-                            if(btn.model.prices[j].name=='tears')
-                                unicornPrice += btn.model.prices[j].val * 2500 / onZig;
+                        btn.model.prices = btn.controller.getPrices(btn.model);
+                        for(var j of btn.model.prices){
+                            if(j.name=='unicorns')
+                                unicornPrice += j.val;
+                            if(j.name=='tears')
+                                unicornPrice += j.val * 2500 / onZig;
                         }
                         var bld = game.religion.getZU(btn.id);
                         var relBonus = religionRatio;
@@ -2392,8 +2389,7 @@ var run = function() {
                         amor = unicornPrice / amor;
                         if(amor < bestAmoritization)
                             if(riftBonus > 0 || relBonus > religionRatio && unicornPrice > 0){
-                                bestAmoritization = amor;
-                                bestBuilding = btn.id;
+                                bestBuilding = btn;
                             }
                     }
                 }
