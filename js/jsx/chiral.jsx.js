@@ -135,7 +135,7 @@ WTerminal = React.createClass({
                 $r("a", {
                     className: "link",
                     onClick: this.doSubmit
-                }, "send")
+                }, "发送")
             ]
         );
     },

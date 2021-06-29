@@ -622,7 +622,7 @@ var run = function() {
 
                     // other
                     amphitheatre:   {require: 'minerals',    enabled: true, max:-1, stage: 0, checkForReset: true, triggerForReset: -1},
-                    broadcastTower: {require: 'titanium',    enabled: true, max:-1, stage: 1, name: 'amphitheatre', checkForReset: true, triggerForReset: -1},
+                    broadcastTower: {require: 'titanium',    enabled: true, max:1, stage: 1, name: 'amphitheatre', checkForReset: true, triggerForReset: -1},
                     tradepost:      {require: 'gold',        enabled: true, max:-1, checkForReset: true, triggerForReset: -1},
                     chapel:         {require: 'minerals',    enabled: true, max:-1, checkForReset: true, triggerForReset: -1},
                     temple:         {require: 'gold',        enabled: true, max:-1, checkForReset: true, triggerForReset: -1},
@@ -1608,8 +1608,9 @@ var run = function() {
                 var metabuild = buildManager.getBuild(name, build.variant);
                 metaData[name] = metabuild;
                 var button = buildManager.getBuildButton(name, build.variant);
-                if (!build.enabled) {continue;}
+
                 if (!button || !button.model.metadata) {
+                    if (!game.bld.getBuildingExt("ziggurat").on && build.variant =="z") {continue;}
                     game.religionTab.render();
                     continue;
                }
@@ -1658,6 +1659,7 @@ var run = function() {
                 
                 var button = buildManager.getBuildButton(name, build.variant);
                 if (!button || !button.model.metadata) {
+                    if (name == "cryochambers") {continue;}
                     game.timeTab.render();
                     continue;
                 }
