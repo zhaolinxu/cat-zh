@@ -482,7 +482,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         var numPyramids = this.game.religion.getZU("blackPyramid").getEffectiveValue(this.game);
         var numMarkers = this.game.religion.getZU("marker").val;
         var chance = this.roundThisNumber(35 * numPyramids * (1 + 0.1 * numMarkers) / 10);
-        chance = Math.round(chance);
+        chance = this.game.getDisplayValueExt(chance);
         if(chance > 100)
             chance = 100;
         return chance + "%";
