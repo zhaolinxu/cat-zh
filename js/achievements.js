@@ -401,9 +401,11 @@ dojo.declare("classes.ui.AchievementsPanel", com.nuclearunicorn.game.ui.Panel, {
                 continue;
             }
 
-            totalAchievements++;
+            if (!ach.unethical){
+                totalAchievements++;
+            }
 
-            if (ach.unlocked) { completedAchievements++; }
+            if (ach.unlocked && !ach.unethical) { completedAchievements++; }
             var className = "achievement";
             if (ach.unlocked && ach.unethical) {className += " unethical";}
             if (ach.unlocked) {className += " unlocked";}
