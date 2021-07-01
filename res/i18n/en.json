@@ -29,6 +29,7 @@
     "achievements.lotusMachine.desc": "Break the cycle of reincarnations",
     "achievements.meowMeowRevolution.title": "Meow Meow Revolution",
     "achievements.meowMeowRevolution.desc": "Construct a factory in Iron Will mode",
+    "achievements.panel.label":"Achievements",
     "achievements.serenity.title": "Serenity",
     "achievements.serenity.desc": "Have 50 kittens without losing any of them",
     "achievements.shadowOfTheColossus.title": "Shadow Of The Colossus",
@@ -64,7 +65,8 @@
 
     "ai.apocalypse.msg": "AI has destroyed {0}% of your resources",
 
-    "basges.header": "Basges: {0} out of {1}",
+    "badges.header": "Basges: {0} out of {1}",
+    "badges.panel.label": "Basges",
 
     "bld.msg.automation": "Activating workshop automation",
     "bld.msg.automation.beams": "Spent {0} wood, +{1} beams!",

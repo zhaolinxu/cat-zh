@@ -129,7 +129,7 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 			 */
 			window.newrelic.setErrorHandler(function (err) {
 				self.achievements.unlockBadge("ghostInTheMachine");
-				
+
 				if (self.errorCount >= 100){
 					return true;
 				}
@@ -3990,7 +3990,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				}
 			}
 			if (game.calendar.day < 0) {
-				game.achievements.unlockBasge("abOwo");
+				game.achievements.unlockBadge("abOwo");
 			}
 			for (var i = 0; i < game.challenges.challenges.length; i++){
 				game.challenges.challenges[i].pending = false;

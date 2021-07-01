@@ -429,7 +429,7 @@ dojo.declare("classes.ui.AchievementsPanel", com.nuclearunicorn.game.ui.Panel, {
 				title: ach.starUnlocked ? ach.starDescription : "???"
 			}, span);
 		}
-		divHeader.innerHTML = $I("basges.header", [completedAchievements, totalAchievements]);
+		divHeader.innerHTML = $I("badges.header", [completedAchievements, totalAchievements]);
 		var stars = "";
 		for (var i = completedStars; i > 0; --i) {
 			stars += "&#9733;";
@@ -486,11 +486,12 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.AchTab", com.nuclearunicorn.game.ui
 
 	render: function(container){
 
-        this.achievementsPanel = new classes.ui.AchievementsPanel("Achievements", this.game.achievements);
+        this.achievementsPanel = new classes.ui.AchievementsPanel($I("achievements.panel.label"), this.game.achievements);
 		this.achievementsPanel.game = this.game;
         this.achievementsPanel.render(container);
         
-        this.badgesPanel = new classes.ui.BadgesPanel("Badges", this.game.achievements);
+        //basges typo intentional cause I keep mistyping it
+        this.badgesPanel = new classes.ui.BadgesPanel($I("badges.panel.label"), this.game.achievements);
 		this.badgesPanel.game = this.game;
 		this.badgesPanel.render(container);
 
