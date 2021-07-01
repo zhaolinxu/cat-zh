@@ -277,18 +277,8 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             description: "♋︎⬧︎⧫︎♏︎❒︎🕯︎⬧︎ ●︎♋︎■︎♑︎◆︎♋︎♑︎♏︎ 🖳︎✆",
             difficulty: "S"
         },{
-            name: "topHat",
-            title: "Tophat",
-            description: "",
-            difficulty: ""
-        },{
-            name: "jesterHat",
-            title: "Jester Hat",
-            description: "",
-            difficulty: ""
-        },{
             name: "abOwo",
-            title: "Fez Hat",
+            title: "Ab Owo",
             description: "Reset in atheism on day 0",
             difficulty: "A"
         }
