@@ -128,6 +128,8 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 			 * Known offenders that folks still use
 			 */
 			window.newrelic.setErrorHandler(function (err) {
+				self.achievements.unlockBadge("ghostInTheMachine");
+				
 				if (self.errorCount >= 100){
 					return true;
 				}

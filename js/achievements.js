@@ -251,7 +251,7 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             }
         },{
             name: "evergreen",
-            title: "Evergreen project",
+            title: "Wood badge",
             description: "Craft a wood I think?",
             difficulty: "F"
         },{
