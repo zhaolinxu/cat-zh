@@ -476,7 +476,7 @@ dojo.declare("classes.ui.BadgesPanel", com.nuclearunicorn.game.ui.Panel, {
 				innerHTML : badge.unlocked ? badge.title : "???"
 			}, div);
 		}
-        divHeader.innerHTML = $I("achievements.header", [completedBadges, totalBadges]);
+        divHeader.innerHTML = $I("badges.header", [completedBadges, totalBadges]);
 	}
 
 });
