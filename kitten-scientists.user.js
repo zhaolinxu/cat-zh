@@ -2389,6 +2389,7 @@ var run = function() {
                         amor = unicornPrice / amor;
                         if(amor < bestAmoritization)
                             if(riftBonus > 0 || relBonus > religionRatio && unicornPrice > 0){
+                                bestAmoritization = amor;
                                 bestBuilding = btn;
                             }
                     }
