@@ -1,6 +1,6 @@
 dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager, {
     game: null,
-    councilUnlocked: false,
+    badgesUnlocked: false,
 
     achievements: [
         {
@@ -222,7 +222,7 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
         },
         {   
             name: "useless",
-            title: "Useless",
+            title: "Effective Management",
             description: "Have a useless leader",
             difficulty: "F",
             condition: function(){
@@ -309,7 +309,7 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
     unlockBadge: function(name){
         var badge = this.getBadge(name);
         badge.unlocked = true;
-        this.game.achievements.councilUnlocked = true;
+        this.game.achievements.badgesUnlocked = true;
     },
 
     hasUnlocked: function () {
@@ -329,14 +329,12 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
                 this.game.msg($I("achievements.msg.unlock", [ach.title]));
                 this.game.achievementTab.visible = true;
 
-                this.updateStatistics();
             }
             if (!ach.starUnlocked && ach.starCondition && ach.starCondition.call(this)) {
                 ach.starUnlocked = true;
                 this.game.msg($I("achievements.msg.starUnlock", [ach.title]));
                 this.game.achievementTab.visible = true;
 
-                this.updateStatistics();
             }
         }
 
@@ -344,25 +342,8 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             var badge = this.badges[i];
             if (!badge.unlocked && badge.condition && badge.condition.call(this)) {
                 badge.unlocked = true;
-                this.councilUnlocked = true;
+                this.badgesUnlocked = true;
             }
-        }
-    },
-
-    updateStatistics: function () {
-        if (this.game.kongregate) {
-
-            var achievementsCount = 0;
-            for (var i = 0; i < this.achievements.length; i++) {
-                var ach = this.achievements[i];
-                if (ach.unlocked) {
-                    achievementsCount++;
-
-                    this.game.kongregate.stats.submit("achievement_" + ach.name, 1);
-                }
-            }
-
-            this.game.kongregate.stats.submit("achievements", achievementsCount);
         }
     },
 
@@ -373,7 +354,7 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
 			ach.starUnlocked = false;
 		}
 
-        this.councilUnlocked = false;
+        this.badgesUnlocked = false;
         for (var i = 0; i < this.badges.length; i++){
             var badge = this.badges[i];
             badge.unlocked = false;
@@ -383,7 +364,7 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
     save: function (saveData) {
         saveData.achievements = this.filterMetadata(this.achievements, ["name", "unlocked", "starUnlocked"]);
         saveData.ach = {
-            councilUnlocked : this.councilUnlocked,
+            badgesUnlocked : this.badgesUnlocked,
             badges: this.filterMetadata(this.badges, ["name", "unlocked"])
         };
     },
@@ -392,7 +373,7 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
 		this.loadMetadata(this.achievements, saveData.achievements);
 
         var ach = saveData.ach || {};
-        this.councilUnlocked = ach.councilUnlocked || false;
+        this.badgesUnlocked = ach.badgesUnlocked || false;
         if (ach.badges){
             this.loadMetadata(this.badges, ach.badges);
         }
@@ -406,12 +387,16 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
     }
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.tab.AchTab", com.nuclearunicorn.game.ui.tab, {
+dojo.declare("classes.ui.AchievementsPanel", com.nuclearunicorn.game.ui.Panel, {
 
-    constructor: function(){
-    },
+	game: null,
 
-	render: function(content){
+	constructor: function(){
+	},
+
+    render: function(container){
+        var content = this.inherited(arguments);
+        
 		var div = dojo.create("div", {}, content);
 
 		div.innerHTML = "";
@@ -454,7 +439,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.AchTab", com.nuclearunicorn.game.ui
 				title: ach.starUnlocked ? ach.starDescription : "???"
 			}, span);
 		}
-		divHeader.innerHTML = $I("achievements.header", [completedAchievements, totalAchievements]);
+		divHeader.innerHTML = $I("basges.header", [completedAchievements, totalAchievements]);
 		var stars = "";
 		for (var i = completedStars; i > 0; --i) {
 			stars += "&#9733;";
@@ -466,11 +451,63 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.AchTab", com.nuclearunicorn.game.ui
 			className: "star",
 			innerHTML: stars
 		}, divHeader);
+	}
+
+});
+
+dojo.declare("classes.ui.BadgesPanel", com.nuclearunicorn.game.ui.Panel, {
+
+	game: null,
+
+	constructor: function(){
+	},
+
+    render: function(container){
+        var content = this.inherited(arguments);
+        
+		var div = dojo.create("div", {}, content);
+		div.innerHTML = "";
+        var divHeader = dojo.create("div", {className: "achievement-header"}, div);
+        var totalBadges = 0;
+        var completedBadges = 0;
+		for (var i in this.game.achievements.badges){
+			var badge = this.game.achievements.badges[i];
+            
+            totalBadges++;
+
+            if (badge.unlocked) { completedBadges++; }
+            var className = "achievement badge";
+            if (badge.unlocked) {className += " unlocked";}
+			dojo.create("span", {
+				className: className,
+				title: badge.unlocked ? badge.description : "???",
+				innerHTML : badge.unlocked ? badge.title : "???"
+			}, div);
+		}
+        divHeader.innerHTML = $I("achievements.header", [completedBadges, totalBadges]);
+	}
+
+});
+
+dojo.declare("com.nuclearunicorn.game.ui.tab.AchTab", com.nuclearunicorn.game.ui.tab, {
+
+    constructor: function(){
+    },
+
+	render: function(container){
+
+        this.achievementsPanel = new classes.ui.AchievementsPanel("Achievements", this.game.achievements);
+		this.achievementsPanel.game = this.game;
+        this.achievementsPanel.render(container);
+        
+        this.badgesPanel = new classes.ui.BadgesPanel("Badges", this.game.achievements);
+		this.badgesPanel.game = this.game;
+		this.badgesPanel.render(container);
 
         //---------------------------
         //         Blah
         //---------------------------
-        this.container = content;
+        this.container = container;
 
         this.inherited(arguments);
         this.update();

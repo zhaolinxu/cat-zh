@@ -64,6 +64,8 @@
 
     "ai.apocalypse.msg": "AI has destroyed {0}% of your resources",
 
+    "basges.header": "Basges: {0} out of {1}",
+
     "bld.msg.automation": "Activating workshop automation",
     "bld.msg.automation.beams": "Spent {0} wood, +{1} beams!",
     "bld.msg.automation.plates": "Spent {0} iron, +{1} plates!",
