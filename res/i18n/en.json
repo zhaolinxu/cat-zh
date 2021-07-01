@@ -1529,7 +1529,7 @@
     "ui.kgnet.online": "Online",
     "ui.kgnet.save.current": "current",
     "ui.kgnet.save.save": "Save",
-    "ui.kgnet.save.load": "Save",
+    "ui.kgnet.save.load": "Load",
     "ui.kgnet.sync": "Sync cloud saves",
 
     "ui.toggle.researched": "Toggle Researched",
