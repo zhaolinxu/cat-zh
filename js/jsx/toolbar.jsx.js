@@ -105,7 +105,7 @@ WToolbarHappiness = React.createClass({
 
 		if (this.game.calendar.festivalDays > 0){
 			var festivalHappinessEffect = 30 * (1+this.game.getEffect("festivalRatio"));
-			tooltip += $I("village.happiness.festival") + ": +"+festivalHappinessEffect+"%<br>";
+			tooltip += $I("village.happiness.festival") + ": +" + this.game.getDisplayValueExt(festivalHappinessEffect, false, false, 1) + "%<br>";
 		}
 
         var unhappiness = this.game.village.getUnhappiness() / (1 + this.game.getEffect("unhappinessRatio")),
