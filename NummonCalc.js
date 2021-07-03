@@ -22,7 +22,12 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
             "getTitPerZebraTrade": "Titanium Per Zebra Trade",
             "getZebraTradesLeftToMaxTit": "Trades Left to Cap Titanium",
             "getZebraTradesToMaxTit": "Max Zebra Trades to Cap Titanium",
-            
+
+            "pollution": "污染",
+
+            "getPollutionTick": "实际污染排放/秒",
+            "getCoMax": "二氧化碳最大值",
+
             "unicorns": "Unicorns",
 
             "getBestUniBuilding": "Best Unicorn Building",
@@ -82,6 +87,11 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
             "getZebraTradesLeftToMaxTit": "达到钛上限的剩余斑马交易次数",
             "getZebraTradesToMaxTit": "达到钛上限的斑马交易次数",
 
+            "pollution": "污染",
+
+            "getPollutionTick": "二氧化碳变化值",
+            "getCoMax": "二氧化碳最大值",
+
             "unicorns": "独角兽",
 
             "getBestUniBuilding": "最佳独角兽建筑",
@@ -114,6 +124,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
             "getUraniumForThoriumReactors": "钍反应堆每秒耗铀",
             "getDarkFutureYears": "距离黑暗未来到来年份",
             "getBestRelicBuilding": "获取最佳遗物建筑",
+            "getBestUnobtainiumBuilding": "难得素最佳太空建筑",
             "getAIlv15Time": "天网觉醒倒计时",
             "getfutureSeason": "距离下次时间悖论(季节)",
             
@@ -327,6 +338,25 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         if(titToFill < 0)
             titToFill = 0;
         return titToFill;
+    },
+
+    // POLLUTION :
+
+    getPollutionTick: function(){
+        if (!this.game.science.get("ecology").researched) {
+            return this.i18n("best.none");
+        }
+        var polltionPerTick = this.game.bld.cathPollutionPerTick * 0.00001;
+        return this.game.getDisplayValueExt(polltionPerTick, true, true);
+    },
+
+    getCoMax: function(){
+        if (!this.game.science.get("ecology").researched) {
+            return this.i18n("best.none");
+        }
+        var UndissipatednPerTick = this.game.bld.getUndissipatedPollutionPerTick() * 100;
+        var coMax = Math.max(UndissipatednPerTick, 0);
+        return coMax;
     },
 
     // UNICORN :
@@ -651,6 +681,37 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         return next;
     },
     
+    getBestUnobtainiumBuilding: function() {
+        if (!game.space.getBuilding("orbitalArray").unlocked) {
+            return $I("space.planet.moon.moonOutpost.label");
+        }
+        var moonVal = game.space.getBuilding("moonOutpost").on + 1 / game.space.getBuilding("moonOutpost").on;
+        var elevatorPanel = this.game.spaceTab.planetPanels[0].children;
+        var arrayPanel = this.game.spaceTab.planetPanels[3].children;
+        var elevatorPrices = this.getButtonPrice(elevatorPanel, "spaceElevator", "unobtainium");
+        var arrayPrices = this.getButtonPrice(arrayPanel, "orbitalArray", "eludium");
+        var elevatorVal = game.space.getBuilding("spaceElevator").on;
+        var arrayVal = game.space.getBuilding("orbitalArray").on;
+        var spaceRatio = 1 + this.game.getEffect("spaceRatio");
+        var 
+        Math.min(moonVal, 0.01 + )
+        var elevatorup = (0.01 + spaceRatio) * arrayPrices * 1000;
+        var arrayup = (0.02 + spaceRatio) * elevatorPrices * (1+ this.game.getCraftRatio("chemist"));
+        if (elevatorup >= arrayup) {
+            var number = 1;
+            while (elevatorup >= arrayup && elevatorPrices < Number.MAX_VALUE / 1.15) {
+                elevatorPrices *= 1.15; 
+                spaceRatio += 0.01;
+                arrayup = (0.02 + spaceRatio) * elevatorPrices * (1+ this.game.getCraftRatio("chemist"));
+                elevatorup = (0.01 + spaceRatio) * arrayPrices * 1000;
+                number++;
+            }
+            return $I("space.planet.cath.spaceElevator.label") + " " + number + "x";
+        } else {
+            return $I("space.planet.piscine.orbitalArray.label");
+        }
+    },
+
     getDarkFutureYears: function(){
         var yearsLeft = this.game.calendar.darkFutureYears(true);
         return yearsLeft < 0 ? this.game.getDisplayValueExt(-yearsLeft) : this.i18n("done");
@@ -666,7 +727,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         if (this.game.bld.get("aiCore").effects["aiLevel"] >= 15)
             return this.i18n("done");
         if (gflopsproduction > 0)
-            return this.game.toDisplaySeconds((lv15Gflops - gflopsHave) / (gflopsproduction * this.game.getTicksPerSecondUI()));//修复函数
+            return this.game.toDisplaySeconds((lv15Gflops - gflopsHave) / (gflopsproduction * this.game.getTicksPerSecondUI()));
         else
             return this.i18n("infinity");
     },
@@ -736,6 +797,18 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
             {
                 name: "getZebraTradesToMaxTit",
                 // title: "Max Zebra Trades to Cap Titanium",
+                val: 0,
+            },
+        ],
+        pollution: [
+            {
+                name: "getPollutionTick",
+                // title: "Production Bonus",
+                val: 0,
+            },
+            {
+                name: "getCoMax",
+                // title: "Storage Bonus",
                 val: 0,
             },
         ],
@@ -839,6 +912,11 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
                 val: 0,
             },
             {
+                name: "getBestUnobtainiumBuilding",
+                //title: "Besting space building for increase Unobtainium",
+                val: 0,
+            },
+            {
                 name: "getAIlv15Time",
                 val: 0,
             },
@@ -861,6 +939,10 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         {
             name: "titanium",
             // title: "Titanium"
+        },
+        {
+            name: "pollution",
+            // title: "Pollution"
         },
         {
             name: "unicorns",
