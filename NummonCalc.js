@@ -25,8 +25,8 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
 
             "pollution": "污染",
 
-            "getPollutionTick": "实际污染排放/秒",
-            "getCoMax": "二氧化碳最大值",
+            "getPollutionTick": "pollution per second",
+            "getCoMax": "Max of CO2",
 
             "unicorns": "Unicorns",
 
@@ -51,9 +51,12 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
 
             "getTCPerSacrifice": "Time Crystals per Sacrifice",
             "getRelicPerTCRefine": "Relics Per Time Crystal Refine",
-            "getTradeAmountAvg": "Time Crystal income expected value by Per.Combust TC",
-            "getResourceRetrievalTCBackYears": "Next ResourceRetrieval get TC back of game years",
-            
+
+            "resourceRetrieval": "资源回复",
+
+            "getTradeAmountAvg": "每跳一年的时间水晶贸易收入",
+            "getResourceRetrievalTCBackYears": "下级资源回复亏损至盈利的时间",
+
             "others": "Others",
 
             "getBestMagnetoBuilding": "Best Magneto/Steamwork Building",
@@ -89,7 +92,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
 
             "pollution": "污染",
 
-            "getPollutionTick": "二氧化碳变化值",
+            "getPollutionTick": "每秒污染值",
             "getCoMax": "二氧化碳最大值",
 
             "unicorns": "独角兽",
@@ -115,8 +118,11 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
 
             "getTCPerSacrifice": "每次献祭得到的时间水晶",
             "getRelicPerTCRefine": "每次时间水晶精炼得到遗物",
+            
+            "resourceRetrieval": "资源回复",
+
             "getTradeAmountAvg": "每跳一年的时间水晶贸易收入",
-            "getResourceRetrievalTCBackYears": "下个资源回复水晶回本需跳(年)",
+            "getResourceRetrievalTCBackYears": "升级后烧水晶产出利润共需要",
 
             "others": "其他",
 
@@ -346,7 +352,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         if (!this.game.science.get("ecology").researched) {
             return this.i18n("best.none");
         }
-        var polltionPerTick = this.game.bld.cathPollutionPerTick * 0.00001;
+        var polltionPerTick = this.game.bld.cathPollutionPerTick;
         return this.game.getDisplayValueExt(polltionPerTick, true, true);
     },
 
@@ -598,6 +604,8 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         return perterade;
     },
 
+    //getTC
+
     getResourceRetrievalTCBackYears: function() {
         var shatterRe = 1 + this.game.getLimitedDR(this.game.getEffect("shatterCostReduction"), 1);
         var RedmoonCycleFestivalRatio = this.game.calendar.cycleEffectsFestival({unobtainium: 1})['unobtainium'];
@@ -616,8 +624,10 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         }else if (timeC <= 0){
             return this.i18n("$time.cfu.ressourceRetrieval.label");
         }else {
-            var TCBack = Math.ceil(cost * number / result)
-            return TCBack;
+            var TCBack = Math.ceil(cost * number / result);
+            var op = game.time.getCFU("blastFurnace").on;
+            TCBack = 50 * TCBack / op;
+            return this.game.toDisplaySeconds(TCBack);
         }
     },
     // OTHERS : 
@@ -685,16 +695,13 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         if (!game.space.getBuilding("orbitalArray").unlocked) {
             return $I("space.planet.moon.moonOutpost.label");
         }
-        var moonVal = game.space.getBuilding("moonOutpost").on + 1 / game.space.getBuilding("moonOutpost").on;
         var elevatorPanel = this.game.spaceTab.planetPanels[0].children;
         var arrayPanel = this.game.spaceTab.planetPanels[3].children;
         var elevatorPrices = this.getButtonPrice(elevatorPanel, "spaceElevator", "unobtainium");
         var arrayPrices = this.getButtonPrice(arrayPanel, "orbitalArray", "eludium");
-        var elevatorVal = game.space.getBuilding("spaceElevator").on;
-        var arrayVal = game.space.getBuilding("orbitalArray").on;
+        var elevatorVal = game.space.getBuilding("spaceElevator").val;
+        var arrayVal = game.space.getBuilding("orbitalArray").val;
         var spaceRatio = 1 + this.game.getEffect("spaceRatio");
-        var 
-        Math.min(moonVal, 0.01 + )
         var elevatorup = (0.01 + spaceRatio) * arrayPrices * 1000;
         var arrayup = (0.02 + spaceRatio) * elevatorPrices * (1+ this.game.getCraftRatio("chemist"));
         if (elevatorup >= arrayup) {
@@ -879,6 +886,8 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
                 // title: "Relics Per Time Crystal Refine",
                 val: 0,
             },
+        ],
+        resourceRetrieval: [
             {
                 name: "getTradeAmountAvg",
                 // title: "Blazars for Shatter Engine",
@@ -959,6 +968,10 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         {
             name: "time",
             // title: "Time"
+        },
+        {
+            name: "resourceRetrieval",
+            // title: "resourceRetrieval"
         },
         {
             name: "others",
