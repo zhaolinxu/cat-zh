@@ -92,7 +92,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
 
             "pollution": "污染",
 
-            "getPollutionTick": "每秒污染值",
+            "getPollutionTick": "污染值",
             "getCoMax": "二氧化碳最大值",
 
             "unicorns": "独角兽",
@@ -118,7 +118,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
 
             "getTCPerSacrifice": "每次献祭得到的时间水晶",
             "getRelicPerTCRefine": "每次时间水晶精炼得到遗物",
-            
+
             "resourceRetrieval": "资源回复",
 
             "getTradeAmountAvg": "每跳一年的时间水晶贸易收入",

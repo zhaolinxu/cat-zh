@@ -1380,14 +1380,14 @@ var run = function() {
                         minRatio = currentRatio;
                         jobName = name;
                     }
-                    var pastures = (game.bld.getBuildingExt('pasture').meta.stage === 0) ? game.bld.getBuildingExt('pasture').meta.val: 0;
-                    var aqueducts = (game.bld.getBuildingExt('aqueduct').meta.stage === 0) ? game.bld.getBuildingExt('aqueduct').meta.val: 0;
-                    if (this.craftManager.getPotentialCatnip(false, pastures, aqueducts) < 0 && game.science.get("agriculture").researched) {
-                        jobName = "farmer";
-                    }
                 }
             }
             if (jobName) {
+                var pastures = (game.bld.getBuildingExt('pasture').meta.stage === 0) ? game.bld.getBuildingExt('pasture').meta.val: 0;
+                var aqueducts = (game.bld.getBuildingExt('aqueduct').meta.stage === 0) ? game.bld.getBuildingExt('aqueduct').meta.val: 0;
+                if (this.craftManager.getPotentialCatnip(false, pastures, aqueducts) < 0 && game.science.get("agriculture").researched) {
+                    jobName = "farmer";
+                }
                 game.village.assignJob(game.village.getJob(jobName), 1);
                 refreshRequired = true;
                 iactivity('act.distribute', [i18n('$village.job.' + jobName)], 'ks-distribute');
