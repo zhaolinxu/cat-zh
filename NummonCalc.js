@@ -696,7 +696,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
             return $I("space.planet.moon.moonOutpost.label");
         }
         var elevatorPanel = this.game.spaceTab.planetPanels[0].children;
-        var arrayPanel = this.game.spaceTab.planetPanels[3].children;
+        var arrayPanel = this.game.spaceTab.planetPanels[2].children;
         var elevatorPrices = this.getButtonPrice(elevatorPanel, "spaceElevator", "unobtainium");
         var arrayPrices = this.getButtonPrice(arrayPanel, "orbitalArray", "eludium");
         var elevatorVal = game.space.getBuilding("spaceElevator").val;
