@@ -113,15 +113,17 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
 
             "getParagonProductionBonus": "生产加成",
             "getParagonStorageBonus": "库存加成(含黑洞)",
+            "getEffectLeader": "领袖效果",
 
             "time": "时间",
 
-            "getTCPerSacrifice": "每次献祭得到的时间水晶",
-            "getRelicPerTCRefine": "每次时间水晶精炼得到遗物",
+            "getTCPerSacrifice": "每次天角兽献祭的时间水晶值",
+            "getRelicPerTCRefine": "每次时间水晶精炼的遗物值",
 
             "resourceRetrieval": "资源回复",
 
-            "getTradeAmountAvg": "每跳一年的时间水晶贸易收入",
+            "getTradeAmountAvg": "当前周期烧水晶的水晶贸易收入",
+            "getAvgTimeCrystalVal": "平均周期烧水晶的水晶贸易收入",
             "getResourceRetrievalTCBackYears": "升级后烧水晶产出利润共需要",
 
             "others": "其他",
@@ -572,6 +574,21 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         storeRatio = this.game.getDisplayValueExt(storeRatio - 1);
         return storeRatio + "x";
     },
+
+    getEffectLeader: function(){
+        if (!game.village.leader) {
+            return this.i18n("best.none");
+        }
+        var prices = [{"name":"faith","val":100},{"name":"science","val":100}];
+        var leader = this.game.village.getEffectLeader(this.game.village.leader.trait.name, prices)
+        if (prices[0].val != 100) {
+            return "* " + game.getDisplayValueExt(prices[0].val) + "%";
+        } else if (prices[1].val != 100){
+            return "* " + game.getDisplayValueExt(prices[1].val) + "%";
+        } else {
+            return game.getDisplayValueExt(leader * 100) + "%";
+        }
+    },
     
     //TIME : 
 
@@ -591,26 +608,40 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         var ticksPerYear = cal.ticksPerDay * cal.daysPerSeason * cal.seasonsPerYear;
         var leviathansModel = this.game.diplomacy.get("leviathans");
         var rRatio = 1 + 0.02 * leviathansModel.energy;
-        for (var i in leviathansModel.sells){
-            if(leviathansModel.sells[i].name == "timeCrystal"){
-                var leviathansTrade = (leviathansModel.sells[i].value * leviathansModel.sells[i].chance) / (leviathansModel.buys[0].val)
+        for (var i of leviathansModel.sells){
+            if(i.name == "timeCrystal"){
+                var leviathansTrade = (i.value * i.chance) / (leviathansModel.buys[0].val)
                 break;
             }
         }
-        var unobtainium = ticksPerYear * leviathansTrade * this.game.getResourcePerTick("unobtainium");
+        var unobtainium = leviathansTrade * this.game.getResourcePerTick("unobtainium") * rRatio * tRatio;
         var shatter = this.game.getEffect("shatterTCGain") * (1 + this.game.getEffect("rrRatio"));
-        var unPerTerade = shatter * unobtainium;
-        var perterade = Math.floor(1000 * rRatio * tRatio * unPerTerade) / 1000;
+        var alicornTick = this.game.getResourcePerTick("alicorn") * 0.04 * (1+ this.game.getEffect("tcRefineRatio"));
+        var timeCrystalVal = (unobtainium + alicornTick) * ticksPerYear * shatter;
+        var perterade = timeCrystalVal / (1 + this.game.timeAccelerationRatio());
         return perterade;
     },
 
+    getAvgTimeCrystalVal: function() {
+        var CycleFestivalRatio = this.game.calendar.cycleEffectsFestival({unobtainium: 1})['unobtainium'];
+        var CycleEffects = this.game.calendar.cycleEffectsBasics({unobtainiumPerTickSpace: 1}, "moonOutpost")['unobtainiumPerTickSpace'];
+        var calendar = (56.5 + 12 * this.game.getEffect("festivalRatio")) / 50;
+        var tradeVal = calendar * this.getTradeAmountAvg() / CycleFestivalRatio / CycleEffects;
+        var cal = this.game.calendar;
+        var ticksPerYear = cal.ticksPerDay * cal.daysPerSeason * cal.seasonsPerYear;
+        var shatter = this.game.getEffect("shatterTCGain") * (1 + this.game.getEffect("rrRatio"));
+        var alicornTick = this.game.getResourcePerTick("alicorn") * 0.04 * (1+ this.game.getEffect("tcRefineRatio")) / (1 + this.game.timeAccelerationRatio());
+        var Sacrifice = alicornTick * ticksPerYear * shatter;
+        var timeCrystalVal = tradeVal + Sacrifice;
+        return timeCrystalVal;
+    },
     //getTC
 
     getResourceRetrievalTCBackYears: function() {
         var shatterRe = 1 + this.game.getLimitedDR(this.game.getEffect("shatterCostReduction"), 1);
-        var RedmoonCycleFestivalRatio = this.game.calendar.cycleEffectsFestival({unobtainium: 1})['unobtainium'];
-        var RedmoonCycleEffects = this.game.calendar.cycleEffectsBasics({unobtainiumPerTickSpace: 1}, "moonOutpost")['unobtainiumPerTickSpace'];
-        var unobtainiumAvg = this.getTradeAmountAvg() / RedmoonCycleEffects / RedmoonCycleFestivalRatio;
+        var CycleFestivalRatio = this.game.calendar.cycleEffectsFestival({unobtainium: 1})['unobtainium'];
+        var CycleEffects = this.game.calendar.cycleEffectsBasics({unobtainiumPerTickSpace: 1}, "moonOutpost")['unobtainiumPerTickSpace'];
+        var unobtainiumAvg = this.getTradeAmountAvg() / CycleEffects / CycleFestivalRatio;
         var heatfactor = this.game.challenges.getChallenge("1000Years").researched ? 5 : 10;
         var ChronoFurnace = 100 / (100 + heatfactor);
         var timeC = unobtainiumAvg - (ChronoFurnace * shatterRe);
@@ -632,7 +663,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
     },
     // OTHERS : 
 
-    getBestMagnetoBuilding: function() {
+    /*getBestMagnetoBuilding: function() {
         var bestBuilding = ["best.none", "$buildings.magneto.label", "$buildings.steamworks.label"];
         var magneto = this.game.bld.getBuildingExt("magneto").meta;
         var steamworks = this.game.bld.getBuildingExt("steamworks").meta;
@@ -649,7 +680,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         else if (steamworksValue > magnetoValue)
             return this.i18n(bestBuilding[2]);
         return this.i18n(bestBuilding[0]);
-    },
+    },*/
     
     getUraniumForThoriumReactors: function(){
         var needed = 250 * .1875 * this.game.bld.getBuildingExt("reactor").meta.val;
@@ -694,6 +725,9 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
     getBestUnobtainiumBuilding: function() {
         if (!game.space.getBuilding("orbitalArray").unlocked) {
             return $I("space.planet.moon.moonOutpost.label");
+        }
+        if (!this.game.spaceTab.planetPanels[0]) {
+            game.spaceTab.render();
         }
         var elevatorPanel = this.game.spaceTab.planetPanels[0].children;
         for (var i = 0; i < this.game.spaceTab.planetPanels.length; i++) {
@@ -882,6 +916,11 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
                 // title: "Storage Bonus",
                 val: 0,
             },
+            {
+                name: "getEffectLeader",
+                // title: "Effect Leader",
+                val: 0,
+            },
         ],
         time: [
             {
@@ -902,17 +941,22 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
                 val: 0,
             },
             {
+                name: "getAvgTimeCrystalVal",
+                // title: "Blazars for Shatter Engine",
+                val: 0,
+            },
+            {
                 name: "getResourceRetrievalTCBackYears",
                 // title: "Blazars for Shatter Engine",
                 val: 0,
             },
         ],
         others: [
-            {
+            /*{
                 name: "getBestMagnetoBuilding",
                 // title: "Best Magneto/Steamwork Building",
                 val: 0,
-            },
+            },*/
             {
                 name: "getUraniumForThoriumReactors",
                 // title: "Uranium/Sec for Thorium Reactors",
