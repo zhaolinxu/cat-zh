@@ -579,8 +579,8 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         if (!game.village.leader) {
             return this.i18n("best.none");
         }
-        var prices = [{"name":"faith","val":100},{"name":"science","val":100}];
-        var leader = this.game.village.getEffectLeader(this.game.village.leader.trait.name, prices)
+        let prices = [{"name":"faith","val":100},{"name":"science","val":100}];
+        let leader = this.game.village.getEffectLeader(this.game.village.leader.trait.name, prices)
         if (prices[0].val != 100) {
             return "* " + game.getDisplayValueExt(prices[0].val) + "%";
         } else if (prices[1].val != 100){
