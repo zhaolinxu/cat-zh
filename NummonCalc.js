@@ -113,7 +113,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
 
             "getParagonProductionBonus": "生产加成",
             "getParagonStorageBonus": "库存加成(含黑洞)",
-            "getEffectLeader": "领袖效果",
+            "getEffectLeader": "领袖特质效果",
 
             "time": "时间",
 
@@ -616,8 +616,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         }
         var unobtainium = leviathansTrade * this.game.getResourcePerTick("unobtainium") * rRatio * tRatio;
         var shatter = this.game.getEffect("shatterTCGain") * (1 + this.game.getEffect("rrRatio"));
-        var alicornTick = this.game.getResourcePerTick("alicorn") * 0.04 * (1+ this.game.getEffect("tcRefineRatio"));
-        var timeCrystalVal = (unobtainium + alicornTick) * ticksPerYear * shatter;
+        var timeCrystalVal = unobtainium * ticksPerYear * shatter;
         var perterade = timeCrystalVal / (1 + this.game.timeAccelerationRatio());
         return perterade;
     },
