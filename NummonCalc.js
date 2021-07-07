@@ -1170,7 +1170,7 @@ NummonInit = function(){
         }
     };
     
-    gamePage.ui.render();
+    gamePage.render();
 };
 
 NummonTryInit = function() {
