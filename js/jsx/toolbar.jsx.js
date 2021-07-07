@@ -415,6 +415,7 @@ WLoginForm = React.createClass({
 
     login: function(){
         var self = this;
+        game.msg('注意如果尝试次数过多，账户会被锁定', "important");
 
         this.setState({isLoading: true});
         $.ajax({
@@ -429,7 +430,7 @@ WLoginForm = React.createClass({
 				withCredentials: true
 			},
 			error:function (xhr) {
-               game.msg(xhr.responseText, "important");
+                game.msg(xhr.responseText, "important");
             },
 			url: this.props.game.server.getServerUrl() + "/user/login/",
 			dataType: "json"
@@ -439,7 +440,6 @@ WLoginForm = React.createClass({
             }
 		}).always(function(){
             self.setState({isLoading: false});
-            game.msg('注意如果尝试次数过多，账户会被锁定', "important");
         });
     }
 });
