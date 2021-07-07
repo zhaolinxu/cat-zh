@@ -54,7 +54,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
 
             "resourceRetrieval": "资源回复",
 
-            "getTradeAmountAvg": "每跳一年的时间水晶贸易收入",
+            "getTradeTC": "每跳一年的时间水晶贸易收入",
             "getResourceRetrievalTCBackYears": "下级资源回复亏损至盈利的时间",
 
             "others": "Others",
@@ -122,8 +122,8 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
 
             "resourceRetrieval": "资源回复",
 
-            "getTradeAmountAvg": "当前周期烧水晶的水晶贸易收入",
-            "getAvgTimeCrystalVal": "平均周期烧水晶的水晶贸易收入",
+            "getTradeTC": "当前周期烧水晶的水晶贸易收入",
+            "getTradeTCAvg": "平均周期烧水晶的水晶贸易收入",
             "getResourceRetrievalTCBackYears": "升级后烧水晶产出利润共需要",
 
             "others": "其他",
@@ -602,7 +602,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         return 1 + this.game.getEffect("relicRefineRatio") * this.game.religion.getZU("blackPyramid").getEffectiveValue(this.game);
     },
     
-    getTradeAmountAvg: function() {
+    getTradeTC: function() {
         var tRatio = 1 + this.game.diplomacy.getTradeRatio() + this.game.diplomacy.calculateTradeBonusFromPolicies("leviathans", this.game) + this.game.challenges.getChallenge("pacifism").getTradeBonusEffect(this.game);
         var cal = this.game.calendar;
         var ticksPerYear = cal.ticksPerDay * cal.daysPerSeason * cal.seasonsPerYear;
@@ -617,19 +617,18 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         var unobtainium = leviathansTrade * this.game.getResourcePerTick("unobtainium") * rRatio * tRatio;
         var shatter = this.game.getEffect("shatterTCGain") * (1 + this.game.getEffect("rrRatio"));
         var timeCrystalVal = unobtainium * ticksPerYear * shatter;
-        var perterade = timeCrystalVal / (1 + this.game.timeAccelerationRatio());
-        return perterade;
+        return timeCrystalVal;
     },
 
-    getAvgTimeCrystalVal: function() {
+    getTradeTCAvg: function() {
         var CycleFestivalRatio = this.game.calendar.cycleEffectsFestival({unobtainium: 1})['unobtainium'];
         var CycleEffects = this.game.calendar.cycleEffectsBasics({unobtainiumPerTickSpace: 1}, "moonOutpost")['unobtainiumPerTickSpace'];
         var calendar = (56.5 + 12 * this.game.getEffect("festivalRatio")) / 50;
-        var tradeVal = calendar * this.getTradeAmountAvg() / CycleFestivalRatio / CycleEffects;
+        var tradeVal = calendar * this.getTradeTC() / CycleFestivalRatio / CycleEffects;
         var cal = this.game.calendar;
         var ticksPerYear = cal.ticksPerDay * cal.daysPerSeason * cal.seasonsPerYear;
         var shatter = this.game.getEffect("shatterTCGain") * (1 + this.game.getEffect("rrRatio"));
-        var alicornTick = this.game.getResourcePerTick("alicorn") * 0.04 * (1+ this.game.getEffect("tcRefineRatio")) / (1 + this.game.timeAccelerationRatio());
+        var alicornTick = this.game.getResourcePerTick("alicorn") * 0.04 * (1+ this.game.getEffect("tcRefineRatio"));
         var Sacrifice = alicornTick * ticksPerYear * shatter;
         var timeCrystalVal = tradeVal + Sacrifice;
         return timeCrystalVal;
@@ -640,7 +639,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         var shatterRe = 1 + this.game.getLimitedDR(this.game.getEffect("shatterCostReduction"), 1);
         var CycleFestivalRatio = this.game.calendar.cycleEffectsFestival({unobtainium: 1})['unobtainium'];
         var CycleEffects = this.game.calendar.cycleEffectsBasics({unobtainiumPerTickSpace: 1}, "moonOutpost")['unobtainiumPerTickSpace'];
-        var unobtainiumAvg = this.getTradeAmountAvg() / CycleEffects / CycleFestivalRatio;
+        var unobtainiumAvg = this.getTradeTC() / CycleEffects / CycleFestivalRatio;
         var heatfactor = this.game.challenges.getChallenge("1000Years").researched ? 5 : 10;
         var ChronoFurnace = 100 / (100 + heatfactor);
         var timeC = unobtainiumAvg - (ChronoFurnace * shatterRe);
@@ -649,11 +648,11 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         var result = calendar * unobtainiumAvg;
         var cost = this.getButtonPrice(game.timeTab.cfPanel.children[0].children, "ressourceRetrieval", "timeCrystal");
         var number = this.game.time.getCFU("ressourceRetrieval").val;
-        if (number == 100) {
-            return this.i18n("best.none");
-        }else if (timeC <= 0){
+        if (!this.game.time.getCFU("ressourceRetrieval").unlocked) {
             return this.i18n("$time.cfu.ressourceRetrieval.label");
-        }else {
+        } else if (timeC <= 0 || number == 100) {
+            return this.i18n("best.none");
+        } else {
             var TCBack = Math.ceil(cost * number / result);
             var op = game.time.getCFU("blastFurnace").on;
             TCBack = 50 * TCBack / op;
@@ -935,12 +934,12 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         ],
         resourceRetrieval: [
             {
-                name: "getTradeAmountAvg",
+                name: "getTradeTC",
                 // title: "Blazars for Shatter Engine",
                 val: 0,
             },
             {
-                name: "getAvgTimeCrystalVal",
+                name: "getTradeTCAvg",
                 // title: "Blazars for Shatter Engine",
                 val: 0,
             },
