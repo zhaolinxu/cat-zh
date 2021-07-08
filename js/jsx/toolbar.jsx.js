@@ -429,6 +429,7 @@ WLoginForm = React.createClass({
 			xhrFields: {
 				withCredentials: true
 			},
+            timeout : 5000,
 			error:function (xhr) {
                 game.msg(xhr.responseText, "important");
             },
