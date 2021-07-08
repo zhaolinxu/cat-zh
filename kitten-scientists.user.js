@@ -1334,7 +1334,7 @@ var run = function() {
             if (leaderVals.enabled && game.science.get('civil').researched && !game.challenges.isActive("anarchy")) {
                 var leaderJobName = leaderVals.leaderJob;
                 var traitName = leaderVals.leaderTrait;
-                var optionsTheocracy = (options.policies ===  undefined) ? false : options.policies.indexoOf('theocracy' != -1);
+                var optionsTheocracy = (options.policies ===  undefined) ? false : options.policies.indexOf('theocracy' != -1);
                 if (optionsTheocracy || game.science.getPolicy('theocracy').researched) {leaderJobName = "priest";}
                 var distributeJob = game.village.getJob(leaderJobName);
                 if (game.village.leader == null || !(game.village.leader.job == leaderJobName && game.village.leader.trait.name == traitName)) {
