@@ -1334,7 +1334,7 @@ var run = function() {
             if (leaderVals.enabled && game.science.get('civil').researched && !game.challenges.isActive("anarchy")) {
                 var leaderJobName = leaderVals.leaderJob;
                 var traitName = leaderVals.leaderTrait;
-                var optionsTheocracy = (options.policies ===  undefined) ? false : options.policies.some(obj => obj === 'theocracy');
+                var optionsTheocracy = (options.policies ===  undefined) ? false : options.policies.indexoOf('theocracy' != -1);
                 if (optionsTheocracy || game.science.getPolicy('theocracy').researched) {leaderJobName = "priest";}
                 var distributeJob = game.village.getJob(leaderJobName);
                 if (game.village.leader == null || !(game.village.leader.job == leaderJobName && game.village.leader.trait.name == traitName)) {
@@ -1345,12 +1345,10 @@ var run = function() {
                             if (distributeJob.value >= distributeItem[leaderJobName].max && distributeItem[leaderJobName].limited && distributeJob.value) {
                                 game.village.sim.removeJob(leaderJobName, 1);
                             }
-                            var propGame = game.villageTab.censusPanel.census.game;
-                            propGame.village.unassignJob(correctLeaderKitten);
+                            game.village.unassignJob(correctLeaderKitten);
                             game.village.getJob(leaderJobName).value++;
-                            correctLeaderKitten.jobs= leaderJobName;
-                            propGame.villageTab.censusPanel.census.makeLeader(correctLeaderKitten);
-                            game.village.leader.job = leaderJobName;
+                            correctLeaderKitten.job= leaderJobName;
+                            game.villageTab.censusPanel.census.makeLeader(correctLeaderKitten);
                             refreshRequired = true;
                             iactivity('act.distributeLeader', [i18n('$village.trait.' + traitName)], 'ks-distribute');
                             storeForSummary('distribute', 1);
