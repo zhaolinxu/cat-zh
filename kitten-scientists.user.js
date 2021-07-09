@@ -1361,6 +1361,16 @@ var run = function() {
             if (!freeKittens)
                 return;
 
+            var pastures = (game.bld.getBuildingExt('pasture').meta.stage === 0) ? game.bld.getBuildingExt('pasture').meta.val: 0;
+            var aqueducts = (game.bld.getBuildingExt('aqueduct').meta.stage === 0) ? game.bld.getBuildingExt('aqueduct').meta.val: 0;
+            if (this.craftManager.getPotentialCatnip(false, pastures, aqueducts) < 0 && game.science.get("agriculture").researched) {
+                game.village.assignJob(game.village.getJob("farmer"), 1);
+                iactivity('act.distribute', [i18n('$village.job.' +"farmer")], 'ks-distribute');
+                storeForSummary('distribute', 1);
+                this.villageManager.render();
+                return;
+            }
+
             var jobName = '';
             var minRatio = Infinity;
             var currentRatio = 0;
@@ -1381,11 +1391,6 @@ var run = function() {
                 }
             }
             if (jobName) {
-                var pastures = (game.bld.getBuildingExt('pasture').meta.stage === 0) ? game.bld.getBuildingExt('pasture').meta.val: 0;
-                var aqueducts = (game.bld.getBuildingExt('aqueduct').meta.stage === 0) ? game.bld.getBuildingExt('aqueduct').meta.val: 0;
-                if (this.craftManager.getPotentialCatnip(false, pastures, aqueducts) < 0 && game.science.get("agriculture").researched) {
-                    jobName = "farmer";
-                }
                 game.village.assignJob(game.village.getJob(jobName), 1);
                 refreshRequired = true;
                 iactivity('act.distribute', [i18n('$village.job.' + jobName)], 'ks-distribute');
