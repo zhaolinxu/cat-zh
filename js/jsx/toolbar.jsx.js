@@ -415,7 +415,6 @@ WLoginForm = React.createClass({
 
     login: function(){
         var self = this;
-        game.msg('注意如果尝试次数过多，账户会被锁定', "important");
 
         this.setState({isLoading: true});
         $.ajax({
@@ -433,7 +432,14 @@ WLoginForm = React.createClass({
 			url: this.props.game.server.getServerUrl() + "/user/login/",
 			dataType: "json",
         }).fail(function(xhr){
-            game.msg(xhr.responseText, "important");
+            var text = xhr.responseText;
+            if (!text) {
+                text = "请检查网络或浏览器设置";
+                console.log(xhr.status);
+            } else {
+                game.msg('注意如果尝试次数过多，账户会被锁定', "important");
+            }
+            game.msg(text, "important");
 		}).done(function(resp){
             if (resp.id){
                 self.props.game.server.setUserProfile(resp);
@@ -519,8 +525,8 @@ WCloudSaves = React.createClass({
                         title: "下载并加载云存档（你当前存档会丢失）",
                             onClick: function(e){
                             e.stopPropagation();
-                            game.server.loadSave(save.guid);
                             game.msg('从国外官网下载有延迟，请稍候', "important");
+                            game.server.loadSave(save.guid);
                         }}, $I("ui.kgnet.save.load")),
                 ])
             })),
@@ -543,7 +549,7 @@ WCloudSaves = React.createClass({
                                 if (!game.server.saveData) {
                                     game.msg('同步存档失败，请点击同步存档教程', "important");
                                 }
-                            }, 1500);
+                            }, 3000);
                         }
                     }, $I("ui.kgnet.sync")),
                     !saveData && $r("a", {
