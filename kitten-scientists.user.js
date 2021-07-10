@@ -1549,7 +1549,6 @@ var run = function() {
 
                         epiphany = game.religion.faithRatio;
                         tt = game.religion.transcendenceTier;
-                        refreshRequired = true;
                         iactivity('act.transcend', [game.getDisplayValueExt(needNextLevel), tt], 'ks-transcend');
                         storeForSummary('transcend', 1);
                     }
@@ -1572,7 +1571,6 @@ var run = function() {
                         storeForSummary('adore', epiphanyInc);
                         epiphany = game.religion.faithRatio;
                         worship = game.religion.faith;
-                        refreshRequired = true;
                     }
                 }
             }
@@ -1583,11 +1581,10 @@ var run = function() {
                 } else {
                     var apocryphaBonus = game.religion.getFaithBonus();
                 }
-                var worshipInc = faith.value * (1 + apocryphaBonus)
+                var worshipInc = faith.value * (1 + apocryphaBonus); 
                 storeForSummary('praise', worshipInc);
                 iactivity('act.praise', [game.getDisplayValueExt(faith.value), game.getDisplayValueExt(worshipInc)], 'ks-praise');
                 game.religion.praise();
-                refreshRequired = true;
             }
             return refreshRequired;
         },
