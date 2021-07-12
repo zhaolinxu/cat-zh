@@ -533,10 +533,13 @@ WCloudSaves = React.createClass({
 
             $r("div", {className:"save-record-container"}, [
                 (saveData && !hasActiveSaves) && $r("div", {className:"save-record"},[
-                    $r("a", {onClick: function(e){
-                        e.stopPropagation();
-                        game.server.pushSave();
-                    }}, "新的存档 (" + game.telemetry.guid + ")")
+                    $r("a", {
+                        title: "保存该存档到国外官网（注意保存你需要保存的）",
+                        onClick: function(e){
+                            e.stopPropagation();
+                            game.server.pushSave();
+                        }
+                    }, "保存新的存档 (" + game.telemetry.guid + ")")
                 ]),
                 $r("div", {className:"save-record"},[
                     $r("a", {
