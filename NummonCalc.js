@@ -1165,7 +1165,7 @@ NummonInit = function(){
             case "time":
                 return this.timeTab;
             case "challenges":
-            	return this.challengesTab;
+                return this.challengesTab;
         }
     };
     
