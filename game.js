@@ -219,8 +219,7 @@ dojo.declare("classes.game.Server", null, {
 				cache: false,
 				type: "GET",
 				dataType: "JSON",
-				url: "https://api.usuuu.com/qq/" + qqNumber,
-				dataType: "json"
+				url: "https://api.usuuu.com/qq/" + qqNumber
 			}).done(function(resp) {
 				userProfile.qqName = resp.data.name;
 			});
@@ -234,7 +233,7 @@ dojo.declare("classes.game.Server", null, {
 		//var isLocalhost = window.location.protocol == "file:" || host == "localhost" || host == "127.0.0.1";
 		//if (isLocalhost){
 			//if you are running chilar locally you should know what you are doing 
- 			return "https://kittensgame.com";
+			return "https://kittensgame.com";
 		//}
 		//return "";
     },
