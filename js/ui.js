@@ -982,7 +982,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#optionEnableRedshift").text($I("ui.option.enable.redshift"));
         $("#optionEnableRedshiftGflops").text($I("ui.option.enable.redshiftGflops"));
         $("#optionBatchSize").text($I("ui.option.batch.size"));
-        $("#optionForceLZ").text($I("ui.option.force.lz"));
+        $("#optionForceLZ").html($I("ui.option.force.lz"));
         $("#optionCompressSaveFile").html($I("ui.option.compress.savefile"));
         $("#exportButton").attr("value", $I("ui.option.export.button"));
         $("#importButton").attr("value", $I("ui.option.import.button"));
@@ -998,7 +998,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#importFromText").text($I("ui.option.import.from.text"));
         $("#doImportButton").attr("value",$I("ui.option.do.import.button"));
         $("#cancelButton").attr("value",$I("ui.option.cancel.button"));
-        $("#appText").text($I("ui.option.app.text"));
+        $("#appText").html($I("ui.option.app.text"));
         $("#appAndroid").text($I("ui.option.app.android"));
         $("#appIOS").text($I("ui.option.app.ios"));
         $("#optionNotation").text($I("ui.option.notation"));
