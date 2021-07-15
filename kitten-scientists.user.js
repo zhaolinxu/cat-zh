@@ -519,7 +519,7 @@ var run = function() {
             },
             faith: {
                 // Should religion building be automated?
-                enabled: true,
+                enabled: false,
                 // At what percentage of the storage capacity should KS build faith buildings?
                 trigger: 0,
                 // Additional options
@@ -572,7 +572,7 @@ var run = function() {
             },
             build: {
                 // Should buildings be built automatically?
-                enabled: true,
+                enabled: false,
                 // When a building requires a certain resource (this is what their *require* property refers to), then
                 // this is the percentage of the storage capacity of that resource, that has to be met for the building
                 // to be built.
@@ -719,7 +719,7 @@ var run = function() {
                 }
             },
             timeCtrl: {
-                enabled: true,
+                enabled: false,
                 items: {
                     accelerateTime:     {enabled: true,  subTrigger: 1,     misc: true, label: i18n('option.accelerate')},
                     timeSkip:           {enabled: false, subTrigger: 5,     misc: true, label: i18n('option.time.skip'), maximum: 50,
@@ -730,7 +730,7 @@ var run = function() {
             },
             craft: {
                 // Should resources be crafted automatically?
-                enabled: true,
+                enabled: false,
                 // Every item can define a required resource with the *require* property.
                 // At what percentage of the storage capacity of that required resource should the listed resource be crafted?
                 trigger: 0.95,
@@ -773,7 +773,7 @@ var run = function() {
             },
             trade: {
                 // Should KS automatically trade?
-                enabled: true,
+                enabled: false,
                 // Every trade can define a required resource with the *require* property.
                 // At what percentage of the storage capacity of that required resource should the trade happen?
                 trigger: 0.98,
