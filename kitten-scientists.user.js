@@ -1479,7 +1479,6 @@ var run = function() {
                     btn.controller.updateEnabled(btn.model);
                     if (btn.opts.building == 'unicornPasture') {
                         buildManager.build(btn.opts.building, undefined, 1);
-                        refreshRequired = true;
                     } else {
                         if (!btn || !btn.model.metadata) {game.religionTab.render();}
                         for (var i of btn.model.prices) {
@@ -1499,7 +1498,6 @@ var run = function() {
                             // iactivity?
                         }
                         religionManager.build(btn.id, 'z', 1);
-                        refreshRequired = true;
                     }
                 }
             } else {
@@ -1640,7 +1638,8 @@ var run = function() {
             }
         },
         chrono: function () {
-            if (!game.timeTab.visible) {return;}
+            var refreshRequired = false;
+            if (!game.timeTab.visible) {return refreshRequired;}
             var builds = options.auto.time.items;
             var buildManager = this.timeManager;
             var craftManager = this.craftManager;
@@ -1673,7 +1672,6 @@ var run = function() {
 
             var buildList = bulkManager.bulk(builds, metaData, trigger);
 
-            var refreshRequired = false;
             for (var entry in buildList) {
                 if (buildList[entry].count > 0) {
                     buildManager.build(buildList[entry].id, buildList[entry].variant, buildList[entry].count);
