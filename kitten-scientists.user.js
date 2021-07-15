@@ -3314,7 +3314,7 @@ var run = function() {
 
             for (var i in materials) {
                 if (i === "manpower") {
-                    var manpowerValue = Math.max(this.craftManager.getValueAvailable(i, true) - 100);
+                    var manpowerValue = Math.max(this.craftManager.getValueAvailable(i, true) - 100, 0);
                     var total = manpowerValue / materials[i];
                 } else {
                     var total = this.craftManager.getValueAvailable(i, limited, options.auto.trade.trigger) / materials[i];
