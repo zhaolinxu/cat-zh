@@ -143,7 +143,7 @@
     "buildings.harbor.desc": "提供了储存资源的空间",
     "buildings.harbor.flavor": "嘿，旱喵子们!",
     "buildings.hut.label": "小屋",
-    "buildings.hut.desc": "建造一间小屋（每间可容纳 2 只小猫）。小猫需要吃猫薄荷，不然就会饿死。<br>每只小猫每秒需要约 4 猫薄荷",
+    "buildings.hut.desc": "建造一间小屋（每间可容纳 2 只小猫）。注意小猫需投喂猫薄荷，不然就会饿死。<br>每只小猫每秒需要约 4 猫薄荷",
     "buildings.hut.flavor": "二之国",
     "buildings.hydroplant.label": "水电站",
     "buildings.hydroplant.desc": "现代化的能源",
