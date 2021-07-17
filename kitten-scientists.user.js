@@ -760,13 +760,13 @@ var run = function() {
                     gear:       {require: false,         max: 0, limited: true,  limRat: 0.5, enabled: true},
                     scaffold:   {require: false,         max: 0, limited: true,  limRat: 0.5, enabled: true},
                     ship:       {require: false,         max: 0, limited: true,  limRat: 0.5, enabled: true},
-                    tanker:     {require: false,         max: 0, limited: true,  limRat: 0.5, enabled: true},
+                    tanker:     {require: false,         max: 0, limited: true,  limRat: 0.5, enabled: false},
                     parchment:  {require: false,         max: 0, limited: false, limRat: 0.5, enabled: true},
                     manuscript: {require: 'culture',     max: 0, limited: true,  limRat: 0.5, enabled: true},
                     compedium:  {require: 'science',     max: 0, limited: true,  limRat: 0.5, enabled: true},
                     blueprint:  {require: 'science',     max: 0, limited: true,  limRat: 0.5, enabled: true},
                     kerosene:   {require: 'oil',         max: 0, limited: true,  limRat: 0.5, enabled: true},
-                    megalith:   {require: false,         max: 0, limited: true,  limRat: 0.5, enabled: true},
+                    megalith:   {require: false,         max: 0, limited: true,  limRat: 0.5, enabled: false},
                     eludium:    {require: 'unobtainium', max: 0, limited: false,  limRat: 0.5, enabled: true},
                     thorium:    {require: 'uranium',     max: 0, limited: true,  limRat: 0.5, enabled: true}
                 }
@@ -1709,7 +1709,7 @@ var run = function() {
                     for (var resource of prices) {
                         if (craftManager.getValueAvailable(resource.name, true) < resource.val) {continue workLoop;}
                     }
-                    refreshRequired = true;
+                    //refreshRequired = true;
                     upgradeManager.build(upg, 'workshop');
                 }
             }
@@ -1726,7 +1726,7 @@ var run = function() {
                         if (craftManager.getValueAvailable(resource.name, true) < resource.val) {continue techLoop;}
 
                     }
-                    refreshRequired = true;
+                    //refreshRequired = true;
                     upgradeManager.build(upg, 'science');
                 }
             }
@@ -1766,7 +1766,7 @@ var run = function() {
                             for (var resource of i.prices) {
                                 if (craftManager.getValueAvailable(resource.name, true) < resource.val) {continue;}
                             }
-                            refreshRequired = true;
+                            //refreshRequired = true;
                             upgradeManager.build(i, 'policy');
                         }
                     })();
@@ -1879,10 +1879,13 @@ var run = function() {
                             var priceRatio = bulkManager.getPriceRatio(pastureMeta, true);
                             if (bulkManager.singleBuildPossible(pastureMeta, prices, 1)) {
                                 var button = buildManager.getBuildButton('pasture', 0);
-                                if(!button) {game.bldTab.render();}
+                                if(!button && !button.model && !button.model.metadata) {return game.bldTab.render();}
                                 button.controller.sellInternal(button.model, 0);
-                                button.controller.deltagrade(button.controller, button.model, 1);
+                                pastureMeta.on = 0;
+                                pastureMeta.val = 0;
+                                pastureMeta.stage = 1;
                                 iactivity('upgrade.building.pasture', [], 'ks-upgrade');
+                                button.model.prices = button.controller.getPrices(button.model);
                                 if(!button.model.enabled) {button.controller.updateEnabled(button.model);}
                                 button.controller.build(button.model, 1);
                                 return;
@@ -1899,10 +1902,13 @@ var run = function() {
                             var priceRatio = bulkManager.getPriceRatio(aqueductMeta, true);
                             if (bulkManager.singleBuildPossible(aqueductMeta, prices, 1)) {
                                 var button = buildManager.getBuildButton('aqueduct', 0);
-                                if(!button) {game.bldTab.render();}
+                                if(!button && !button.model && !button.model.metadata) {return game.bldTab.render();}
                                 button.controller.sellInternal(button.model, 0);
-                                button.controller.deltagrade(button.controller, button.model, 1);
+                                aqueductMeta.on = 0;
+                                aqueductMeta.val = 0;
+                                aqueductMeta.stage = 1;
                                 iactivity('upgrade.building.aqueduct', [], 'ks-upgrade');
+                                button.model.prices = button.controller.getPrices(button.model);
                                 if(!button.model.enabled) {button.controller.updateEnabled(button.model);}
                                 button.controller.build(button.model, 1);
                                 return;
@@ -1930,10 +1936,13 @@ var run = function() {
                                 var priceRatio = bulkManager.getPriceRatio(libraryMeta, true);
                                 if (bulkManager.singleBuildPossible(libraryMeta, prices, 1)) {
                                     var button = buildManager.getBuildButton('library', 0);
-                                    if(!button) {game.bldTab.render();}
+                                    if(!button && !button.model && !button.model.metadata) {return game.bldTab.render();}
                                     button.controller.sellInternal(button.model, 0);
-                                    button.controller.deltagrade(button.controller, button.model, 1);
+                                    libraryMeta.on = 0;
+                                    libraryMeta.val = 0;
+                                    libraryMeta.stage = 1;
                                     iactivity('upgrade.building.library', [], 'ks-upgrade');
+                                    button.model.prices = button.controller.getPrices(button.model);
                                     if(!button.model.enabled) {button.controller.updateEnabled(button.model);}
                                     button.controller.build(button.model, 1);
                                     return;
@@ -1951,10 +1960,13 @@ var run = function() {
                         if (game.getResourcePerTick('titanium', true) > 0) {
                             if (bulkManager.singleBuildPossible(amphitheatreMeta, prices, 1)) {
                                 var button = buildManager.getBuildButton('amphitheatre', 0);
-                                if(!button) {game.bldTab.render();}
+                                if(!button && !button.model && !button.model.metadata) {return game.bldTab.render();}
                                 button.controller.sellInternal(button.model, 0);
-                                button.controller.deltagrade(button.controller, button.model, 1);
+                                amphitheatreMeta.on = 0;
+                                amphitheatreMeta.val = 0;
+                                amphitheatreMeta.stage = 1;
                                 iactivity('upgrade.building.amphitheatre', [], 'ks-upgrade');
+                                button.model.prices = button.controller.getPrices(button.model);
                                 if(!button.model.enabled) {button.controller.updateEnabled(button.model);}
                                 button.controller.build(button.model, 1);
                                 return;
