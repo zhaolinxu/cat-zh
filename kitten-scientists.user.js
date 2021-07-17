@@ -832,7 +832,7 @@ var run = function() {
                     fixCry:             {enabled: false,                   misc: true, label: i18n('option.fix.cry')},
                     buildEmbassies:     {enabled: true, subTrigger: 0.95,   misc: true, label: i18n('option.embassies')},
                     style:              {enabled: true,                    misc: true, label: i18n('option.style')},
-                    _steamworks:        {enabled: false,                   misc: true, label: i18n('option.steamworks')}
+                    _steamworks:        {enabled: true,                   misc: true, label: i18n('option.steamworks')}
                 }
             },
             distribute: {
@@ -2325,17 +2325,16 @@ var run = function() {
             
             // auto turn on steamworks
             if (optionVals._steamworks.enabled) {
-                let st = game.bld.get('steamworks');
+                var st = game.bld.getBuildingExt('steamworks').meta;
                 if (st.val && st.on == 0) {
-                    let button = buildManager.getBuildButton('steamworks');
-                    button.controller.onAll(button.model);
+                    var stButton = buildManager.getBuildButton('steamworks');
+                    stButton.controller.onAll(stButton.model);
                 }
-                // auto turn on reactor
-                let fa = game.bld.get('reactor');
-                let ur = game.getResourcePerTick("uranium",true);
-                if (fa.val && fa.on == 0 && ur > 0) {
-                    let button = buildManager.getBuildButton('reactor');
-                    button.controller.onAll(button.model);
+                var re = game.bld.getBuildingExt('reactor').meta;
+                var ur = game.getResourcePerTick("uranium",true);
+                if (re.val && re.on == 0 && ur > 0) {
+                    var reButton = buildManager.getBuildButton('reactor');
+                    reButton.controller.onAll(reButton.model);
                 }
             }
             return refreshRequired;
@@ -2815,12 +2814,12 @@ var run = function() {
             // Safeguard if materials for craft cannot be determined.
             if (!materials) {return 0;}
 
-            if (name === 'steel' && limited) {
+            if (name === 'steel' && limited && options.auto.craft.items['plate'].enabled) {
                 var plateRatio = game.getResCraftRatio("plate");
                 if (this.getValueAvailable('plate') / this.getValueAvailable('steel') < ((plateRatio + 1) / 125) / ((ratio + 1) / 100)) {
                     return 0;
                 }
-            } else if (name === 'plate' && limited) {
+            } else if (name === 'plate' && limited && options.auto.craft.items['steel'].enabled) {
                 var steelRatio = game.getResCraftRatio("steel");
                 if (game.getResourcePerTick('coal', true) > 0) {
                     if (this.getValueAvailable('plate') / this.getValueAvailable('steel') > ((ratio + 1) / 125) / ((steelRatio + 1) / 100)) {
@@ -2960,10 +2959,8 @@ var run = function() {
 
                 value -= Math.min(this.getResource(name).maxValue * trigger, value) * (1 - consume);
 
-                if ('unobtainium' === name) {
-                    if (value < 1000 && this.getResource(name).value == this.getResource(name).maxValue && this.getResource(name).value >= 1000) {
-                        value = this.getResource(name).value;// fix unobtainium carfting to eludium
-                    }
+                if ('unobtainium' === name && value < 1000 && this.getResource(name).value == this.getResource(name).maxValue && this.getResource(name).value >= 1000) {
+                    value = this.getResource(name).value;// fix unobtainium carfting to eludium
                 }
             }
 
