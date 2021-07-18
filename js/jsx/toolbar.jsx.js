@@ -489,7 +489,7 @@ WCloudSaves = React.createClass({
             //header
             saveData && $r("div", {className:"save-record header"}, [
                 $r("div", {className:"save-record-cell"}, "存档ID"),
-                $r("div", {className:"save-record-cell"}, "真实游戏时间"),
+                $r("div", {className:"save-record-cell"}, "游戏年（不准）"),
                 $r("div", {className:"save-record-cell"}, "上次更新时间"),
                 $r("div", {className:"save-record-cell"}, "大小"),
                 $r("div", {className:"save-record-cell"}, "存档操作")
