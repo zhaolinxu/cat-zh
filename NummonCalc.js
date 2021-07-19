@@ -1141,7 +1141,7 @@ NummonInit = function(){
     gamePage.nummonTab.visible = true;
     var tabExists = false;
     for(var i in gamePage.tabs)
-        if(gamePage.tabs[i].tabName == "Nummon"){
+        if(gamePage.tabs[i].tabId == "Nummon"){
             gamePage.tabs[i] == gamePage.nummonTab;
             tabExists = true;
         }
@@ -1169,6 +1169,7 @@ NummonInit = function(){
         }
     };
     
+    gamePage.nummonTab.tabName = "概览";
     gamePage.render();
 };
 

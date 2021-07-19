@@ -329,7 +329,7 @@ dojo.declare("classes.game.Server", null, {
 		error.innerHTML = "发送请求中，请稍候";
 		$.post("https://kittensgame.com/user/register/", data).done(function(resp){
 			if (resp.startsWith("Error")) {
-				error.innerHTML = resp;
+				error.innerHTML = $I(resp);
 			} else {
 				error.innerHTML = "<span style='color:#14CD61;'>注册成功</span>";
 			}
