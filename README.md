@@ -56,13 +56,20 @@ NummonCalc: https://github.com/Cirn09/NummonCalc
 
 ### Installation
 
+To install the prereqs
 ```
+npm install --global yarn
 yarn install
 ```
-To run the local developer server:
 
+To run the local developer server
 ```
 yarn start
+```
+
+To run the tests
+```
+yarn test
 ```
 
 ## Contribution

@@ -23,15 +23,15 @@
 		<!--todo: use min version -->
 
 		<!-- Local versions of libs will be hosted so our Chinese players wont be forced to use VPN -->
-		<script src="lib/jQuery.js"></script>
+		<script src="lib/jQuery.js?v=_2"></script>
 		<script src="lib/dojo.xd.js"></script>
 		<script src="lib/lz-string.js"></script>
 		<script src="lib/md5.js"></script>
 
 		<!-- friends don't let friends use AMD and require.js -->
-		<script src="lib/system.js"></script>
+		<script src="lib/system.js?v=_2"></script>
 
-		<script async src="https://www.googletagmanager.com/gtag/js?id=G-0QBDX221PR"></script>
+		<script async src="lib/google.js"></script>
 		<script>
 			window.dataLayer = window.dataLayer || [];
 			function gtag(){dataLayer.push(arguments);}
@@ -42,7 +42,7 @@
 
 		<script type="text/javascript">
 			var now = Date.now();
-			$("<link />").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "res/default.css?v=1").appendTo($("head"));
+			$("<link />").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "res/default.css?v=2").appendTo($("head"));
 		</script>
 
 		<script>
@@ -62,7 +62,8 @@
 		</script>
 
 		<script type="text/javascript">
-			var version = "1484";
+			var version = "1485";
+			var buildRevision = 0;
 
 			var loadingProgress = 0,
 				progressMax = 0;
@@ -83,7 +84,7 @@
 
 				var i = (Math.floor(Math.random() * loadingMessages.length));
 				$("#loadingProgressInfo").html(loadingMessages[i] + "...&nbsp(" + progress.toFixed() + "%)");
-				return System.import(module + ".js?v=" + new Date().getDay());
+				return System.import(module + ".js?rev_=" + buildRevision);
 			}
 
 			function _import(module, def) {
@@ -103,7 +104,7 @@
 				$("<link />")
 					.attr("rel", "stylesheet")
 					.attr("type", "text/css")
-					.attr("href", "res/theme_" + themeId + ".css?_=2")
+					.attr("href", "res/theme_" + themeId + ".css?_=" + buildRevision)
 					.appendTo($("head"));
 			}
 
@@ -114,7 +115,6 @@
 				} else if (window.location.href.indexOf("beta") >= 0) {
 					displayedVersion += "-&beta;";
 				}
-				$("#versionLink").html(displayedVersion);
 
 				$("#tooltip").hide();
 
@@ -132,6 +132,16 @@
 					"js/diplomacy",
 					"js/religion",
 					"js/achievements",
+
+
+					"js/jsx/left.jsx",
+					"js/jsx/mid.jsx",
+					"js/jsx/toolbar.jsx",
+					"js/jsx/chiral.jsx",
+
+					//required for defining IReactAware, will be relied upon by js/space
+					"js/ui",
+
 					"js/space",
 					"js/prestige",
 					"js/time",
@@ -141,11 +151,6 @@
 					"js/math",
 					"game",
 
-					"js/jsx/left.jsx",
-					"js/jsx/mid.jsx",
-					"js/jsx/toolbar.jsx",
-
-					"js/ui",
 					"js/toolbar"
 				];
 				progressMax = modules.length + 3;
@@ -161,13 +166,18 @@
 					}
 				}
 
-				var def = _import("config");
+				var def = $.getJSON("build.version.json?=" + now).then(function(json) {
+					buildRevision = json.buildRevision;
+					console.log("build revison is" + buildRevision);
+					$("#versionLink").html(displayedVersion + ".r" + buildRevision);
+				});
+				def = _import("config", def);
 				def.then(function() {
 					var schemes = new classes.KGConfig().statics.schemes;
 					for (var i = 0; i < schemes.length; ++i) {
 						//todo: skip theme if preloaded
-						if (!uiSettings || uiSettings.theme != schemes[i]) {
-							loadTheme(schemes[i]);
+						if (!uiSettings || uiSettings.theme != schemes[i]){
+							loadTheme(schemes[i], buildRevision);
 						}
 					}
 				});
@@ -175,7 +185,7 @@
 				def = _import("i18n", def);
 				def.then(function() {
 					console.log("Loading locale system");
-					var langPromise = i18nLang.init(6);
+					var langPromise = i18nLang.init(buildRevision);
 					langPromise.done(function() {
 						loadingMessages = [
 							$I("ui.loading.msg.0"),
@@ -220,6 +230,12 @@
 				try {
 					gamePage = game = new com.nuclearunicorn.game.ui.GamePage();
 					gamePage.setUI(new classes.ui.DesktopUI("gameContainerId"));
+
+					gamePage.telemetry.version = version;
+					gamePage.telemetry.buildRevision = buildRevision;
+					if (window.location.href.indexOf("beta") >= 0) {
+						gamePage.telemetry.buildRevision += "-b";
+					}
 
 					//--------------------------
 
@@ -297,16 +313,12 @@
 		<div id="gamePageContainer">
 
 			<div id="topBar">
-				<div style="padding-left: 10px;">
-					Kittens Game <span style="font-size: small;">by <a href="http://kittensgame.com/" class="copyright" target="_blank">bloodrizer</a></span>
-					<!--- a Dark Souls of incremental gaming -->
-
+				<div style="padding-left: 10px; min-width: 0px; max-width: 400px; overflow: hidden; text-overflow: ellipsis;">
+					猫国建设者
 					<span style="font-size: small;">
-						<a href="http://kittensgame.com/alpha" title="experimental, unstable" target="_blank">&alpha;</a>
-						<a href="http://kittensgame.com/beta" title="experimental, stable" target="_blank">&beta;</a>
-						<a href="http://kittensgame.com/web" title="RC, nighty build" target="_blank">ML</a>
-						<a href="http://bloodrizer.ru/games/kittens" title="stable, verified" target="_blank">BU</a>
+						by <a href="http://kittensgame.com/" class="copyright" target="_blank">bloodrizer</a>
 					</span>
+					<!--- a Dark Souls of incremental gaming -->
 
 					<a href="#" style="color: red">
 						<!-- nothing exceptional there so far -->
@@ -316,44 +328,50 @@
 						<!-- motd -->
 					</span>
 
-					<div id="devPanel" style="display:inline-block; padding-left: 15px; font-size: 14px;">
-						<div id="devPanelFPS" onClick="gamePage.restartFPSCounters()">
-						</div>
-						<div id="devPanelCheats" style="display:none">
-							<a href="#" onclick="gamePage.science.unlockAll();">All techs</a>
-							<a href="#" onclick="gamePage.workshop.unlockAll();">All upgrades</a>
-							<a href="#" onclick="gamePage.resPool.maxAll();">All resources</a>
-							<a href="#" onclick="gamePage.bld.devAddStorage();">More storage</a>
-							<a href="#" onclick="gamePage.unlockedSchemes = gamePage.ui.allSchemes; gamePage.ui.updateOptions();">All themes</a>
-						</div>
-					</div>
-
+					<span style="font-size: small;">
+						<a href="http://kittensgame.com/beta" title="测试版本" target="_blank">&beta;</a>
+						<a href="http://kittensgame.com/web" title="国外英文官网版本" target="_blank"><b>ML</b></a>
+						<a href="https://likexia.gitee.io/cat-zh/" title="国内阳光搬运" target="_blank"><b>&Iota;</b></a>
+					</span>
 				</div>
-				<div id="headerLinks" style="position: absolute; top: 0; right: 10px; float: right;">
 
-					<div id="headerToolbar" style="font-size: 12px; display: inline-block">
+
+				<div id="devPanel" style="display:inline-block; padding-left: 15px; font-size: 14px;">
+					<div id="devPanelFPS" onclick="gamePage.restartFPSCounters()">
+					</div>
+					<div id="devPanelCheats" style="display:none">
+						<a href="#" onclick="gamePage.science.unlockAll();">All techs</a>
+						<a href="#" onclick="gamePage.workshop.unlockAll();">All upgrades</a>
+						<a href="#" onclick="gamePage.resPool.maxAll();">All resources</a>
+						<a href="#" onclick="gamePage.bld.devAddStorage();">More storage</a>
+						<a href="#" onclick="gamePage.unlockedSchemes = gamePage.ui.allSchemes; gamePage.ui.updateOptions();">All themes</a>
+					</div>
+				</div>
+
+				<div id="headerLinks">
+					<div id="headerToolbar" style="font-size: 12px; padding-top: 3px;">
 						<!-- toolbar panel goes there -->
 					</div>
 					<span id="autosaveTooltip" style="padding-right: 15px; font-size: 12px; opacity: 0;">autosaving...</span>
 					<span id="saveTooltip" style="padding-right: 15px; font-size: 12px; opacity: 0;">Saved!</span>
+				</div>
 
-					<div class="links-block" style="padding-top:3px;display:inline-block;">
-						<a id="save-link" href="#" onclick="gamePage.saveUI();">Save</a> |
-						<a id="options-link" href="#" onclick="$('#optionsDiv').toggle();">Options</a> |
+				<div class="links-block" style="padding-top:3px; display:inline-flex;">
+					<a id="save-link" href="#" onclick="gamePage.saveUI();">Save</a> |
+					<a id="options-link" href="#" onclick="$('#optionsDiv').toggle();">Options</a> |
 
-						<a id="reset-link" href="#" onclick="gamePage.reset();">Reset</a> |
-						<span id="devModeButton" style="display: none;"><a href="#" id="devBtn" onclick="dev();">DEV</a> |</span>
-						<a id="wipe-link" href="#" onclick="wipe();">Wipe</a> |
-						<a id="getTheApp-link" href="#" onclick="gamePage.ui.displayAppDialog();" style="font-weight: bold; color:#666;">Get the app</a> |
-
-						<a href="https://petercheney.gitee.io/kitten-game-cn/changelog" target="_blank">Ver <span id="versionLink">?.?.?.?</span></a>
-					</div>
+					<a id="reset-link" href="#" onclick="gamePage.reset();">Reset</a> |
+					<span id="devModeButton" style="display: none;"><a href="#" id="devBtn" onclick="dev();">DEV</a> |</span>
+					<a id="wipe-link" href="#" onclick="wipe();">Wipe</a> |
+					<a id="getTheApp-link" href="#" onclick="gamePage.ui.displayAppDialog();" style="font-weight: bold; color:#666;">Get the app</a> |
+					<a href="changelog.html" target="_blank">Ver <span id="versionLink">?.?.?.?</span></a>
+					<a href="#" id="newVersion" onclick="gamePage.reload();" title="有新版本 !" style="display:none">↻</a>
 				</div>
 			</div>
 
 			<div id="loadingContainer">
 				<div class="content">
-					<span style="font-size:18px;"><img class="loader" width="16" height="16" src="res/ajax-loader.gif">&nbsp;Loading...<br></span>
+					<span style="font-size:18px;"><img class="loader" width="16" height="16" src="res/ajax-loader.gif">&nbsp;加载中...<br></span>
 					<br>
 					<progress id="loadingProgressBar" value="0" max="100"></progress>
 					<div id="loadingProgressInfo">Setting up game engine...</div>
@@ -366,29 +384,28 @@
 				<!-- LEFT -->
 				<div id="leftColumn" class="column" style="vertical-align: top;">
 					<div id="leftColumnViewport">
-						Loading...
+						加载中...
 					</div>
 				</div>
 
 				<!-- MID -->
 				<div id="midColumn" style="vertical-align: top;" class="column">
 					<div id="midColumnViewport" style="float:right; padding: 5px;">
-						Loading...
+						&nbsp;加载中...
 					</div>
 					<div id="gameContainerId" style="border: 1px solid gray;">
-						<span>Oops!</span>
 						<div id="gameContainerHelp" style="font-size:150%;">
-							Looks like the game is not working. But don't worry.<br>
+							看起来游戏错误。别担心试试这几个办法。<br>
 							<ul>
-								<li>Check if JavaScript is enabled or Ad-Blockers are turned off.</li>
-								<li>Try to refresh the game by pressing Ctrl+F5.</li>
-								<li>Try to reload the game in about 10-15 minutes.</li>
-								<li>If none of these work:
+								<li>确保启用了JavaScript 或者 广告插件 不在工作。</li>
+								<li>使用 Ctrl+F5 强制刷新。</li>
+								<li>过十几分中后再打开游戏。.</li>
+								<li>导出你的存档，保存好，清空游戏数据，再重新导入存档。
 									<ul>
-										<li>open the web console by pressing F12,</li>
-										<li>go to the "Console" tab,</li>
-										<li>take screenshots of all errors (red texts),</li>
-										<li>post them on Discord.</li>
+										<li>按下F12 会有弹窗，</li>
+										<li>点击"Console"（控制台），</li>
+										<li>截图 （红色字体），</li>
+										<li>请点击<a href="https://jq.qq.com/?_wv=1027&k=47jg387">这个链接</a>加入同好会。</li>
 									</ul>
 								</li>
 							</ul>
@@ -414,7 +431,7 @@
 							</div>
 
 							<span id="clearLog">
-								<a id="clearLogHref" href="#" onClick="gamePage.clearLog();">Clear log</a>
+								<a id="clearLogHref" href="#" onclick="gamePage.clearLog();">Clear log</a>
 							</span>
 							<span id="logFiltersBlock" style="padding-top: 5px">
 								<a id="logFiltersBlockText" onclick="gamePage.toggleFilters();" href="#">[<span id="filterIcon">+</span>] Log
@@ -431,7 +448,7 @@
 						</div>
 					</div>
 				</div>
-				<div id="toggleCenter" onClick="gamePage.ui.toggleCenter();" class="column" tooltip="Toggle centered view">
+				<div id="toggleCenter" onclick="gamePage.ui.toggleCenter();" class="column" tooltip="Toggle centered view">
 					<span class="toggleCenter">&gt;</span>
 				</div>
 			</div>
@@ -501,7 +518,7 @@
 
 
 			<div id="optionsDiv" style="display: none;" class="dialog help">
-				<a id="dialogClose" href="#" class="close" onclick="gamePage.closeOptions()" style="position: absolute; top: 10px; right: 15px;">close</a>
+				<a id="optionsDialogClose" href="#" class="close" onclick="gamePage.closeOptions()" style="position: absolute; top: 10px; right: 15px;">close</a>
 
 				<label id="optionLanguage" for="languageSelector">Language:</label>
 				<select id="languageSelector" onchange="gamePage.ui.updateLanguage()">
@@ -556,11 +573,14 @@
 				<label id="optionHighlightUnavailable" for="highlightUnavailable">Highlight buildings limited by storage space</label>
 				<br>
 				<input id="set-ks-enable" type="checkbox">
-				<label id="ks-label" for="set-ks-enable" style="color:red;">启用小猫珂学家</label><a href='https://petercheney.gitee.io/baike/?file=004-第三方工具/02-小猫科学家' target="_blank">&nbsp;&nbsp;[使用说明]</a>
+				<label id="ks-label" for="set-ks-enable" style="color:red;">启用小猫珂学家</label><a href="https://petercheney.gitee.io/baike/?file=004-第三方工具/02-小猫科学家" target="_blank">&nbsp;&nbsp;[使用说明]</a>
 				<!-- [<a href="https://gitee.com/likexia/cbc-kitten-scientists" target="_blank" style="color:blue;text-decoration:none;" title="点击查看">教程</a>] -->
 				<br>
 				<input id="set-kgp-enable" type="checkbox">
 				<label id="kgp-label" for="set-kgp-enable">启用资源进度条</label>
+				<br>
+				<input id="autoSaveReset" type="checkbox" onclick="gamePage.opts['autoSaveReset'] = $('#autoSaveReset')[0].checked;">
+				<label id="optionAutoSaveReset" for="autoSaveReset">重置游戏自动备份存档<i>（需要在浏览器设置下载保存位置！）</i></label>
 				<br>
 				<input id="hideSell" type="checkbox" onclick="gamePage.opts.hideSell = $('#hideSell')[0].checked;">
 				<label id="optionHideSell" for="hideSell">Hide 'sell' buttons</label>
@@ -639,7 +659,7 @@
 			</div>
 
 			<div id="appDiv" style="display: none" class="dialog help">
-				<a id="dialogClose" href="#" class="close" style="position: absolute; top: 10px; right: 15px;">close</a>
+				<a id="appDialogClose" href="#" class="close" style="position: absolute; top: 10px; right: 15px;">close</a>
 
 				<span id="appText">Kittens Game Mobile has been released! Click on the link to follow:</span>
 				<br>
@@ -652,8 +672,49 @@
 				<!--span style="font-size:12px;">(Will open in a new window)</span-->
 			</div>
 
+			<div id="registerDiv" style="display: none;" align="center" class="dialog help">
+				<a id="registerDialogClose" href="#" class="close" style="position: absolute; top: 10px; right: 15px;">close</a>
+				<div style="font-weight: bold; color:#666;">猫国建设者官方账号</div>
+				<hr>
+				<div id="registerError" style="display: block;color:#A00000;">&nbsp;</div>
+				<div>
+					<br>
+					<span style="display: block;">推荐使用QQ数字邮箱<br>（可以显示QQ头像和昵称）</span>
+					<span>电子邮箱:
+						<br>
+						<input type="email" id="registerEmail"></span>
+					<form>
+						<div style="display: block;">
+							<br>密码：
+							<span style="font-size: 0.8em">(6-30字符)</span>
+							<br>
+							<input type="password" id="loginPassword" placeholder="请输入密码" autocomplete="off">
+						</div>
+					</form>
+					<br>
+					<form>
+						<div style="display: block;">确认密码:
+							<br>
+							<input type="password" id="confirmPassword" placeholder="请输入密码" autocomplete="off">
+							<br>
+						</div>
+					</form>
+					<br>
+					<div class="btn modern" style="font-size:16px;" onclick="gamePage.server.register()">注册</div>
+					<div style="color:#01A9DB;">
+						<li>因为官方网站注册有几率会被墙。</li>
+                        <li>这里注册可以代替官网注册账号。</li>
+						<li>网页存档可以手机存档一键同步。</li>
+                        <li>不同电脑使用云存档能一键同步。</li>
+                        <li>后续设置可能有点麻烦按需使用。</li>
+						<li>国外官网上传和加载都有些延迟。</li>
+                        <li>成功或者失败游戏日志会有提示。</li>
+					</div>
+				</div>
+			</div>
+
 			<div id="footerLinks" class="links-block">
-				<a href="http://petercheney.gitee.io/baike/" target="_blank" title="猫国百科全书">百科（中文wiki）</a> |
+				<a href="https://petercheney.gitee.io/baike/?file=%E9%A6%96%E9%A1%B5" target="_blank" title="猫国百科全书">百科（中文wiki）</a> |
 				<a class="chatLink" href="//shang.qq.com/wpa/qunwpa?idkey=2b9f0b27b1aabbce582429184ec05344fa384f59bf410f44071f42b271866338" target="_blank" title="点击加入猫薄荷同好会QQ群：499256691">Q群</a> |
 				<!-- <a href="http://kittensgame.tumblr.com" target="_blank">tumblr</a> | -->
 				<!-- <a href="#" onclick="$('#helpDiv').toggle();">help</a> | -->
@@ -696,7 +757,7 @@
 			</div>
 		</div>
 		<!--客服 开始-->
-		<link rel="stylesheet" href="https://g8hh.com/static/css/kf.css" type="text/css" media="screen" charset="utf-8">
+		<link rel="stylesheet" href="res/kf.css" type="text/css" media="screen" charset="utf-8">
 		<script src="kf.js"></script>
 		<style>
 			.boostType {
@@ -710,7 +771,7 @@
 				localStorage['zh.ks.enable'] = 'enable';
 				$("#ks-label").text("可爱的猫猫科学家为您服务");
 				$("#set-ks-enable").attr("checked", true);
-				document.body.appendChild(document.createElement('script')).src = 'kitten-scientists.user.js?v=8';
+				document.body.appendChild(document.createElement('script')).src = 'kitten-scientists.user.js?v=6' + new Date().getDate();
 			};
 			var disableKS = function() {
 				localStorage['zh.ks.enable'] = 'disable';
@@ -759,10 +820,7 @@
 					}, 2000);
 				} else {
 					// NummonInit();
-					document.body.appendChild(document.createElement('script')).src = 'NummonCalc.js?v=4';
-					if (game.isWebWorkerSupported() && !game.useWorkers) {
-						game.useWorkers = true;
-					}
+					document.body.appendChild(document.createElement('script')).src = 'NummonCalc.js?v=18';
 				}
 			};
 			_282d5adfdca92885cd9f210a9b60a328();

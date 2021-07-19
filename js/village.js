@@ -166,6 +166,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	getRankExp: function(rank){
 		return 500 * Math.pow(1.75, rank);
 	},
+	canHaveLeaderOrPromote: function(){
+		return this.game.workshop.get("register").researched && !this.game.challenges.isActive("anarchy");
+	},
 
 	//---------------------------------------------------------
 	//please dont pass params by reference or I will murder you
@@ -248,6 +251,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	getJobLimit: function(jobName) {
 		if (jobName == "engineer"){
 			return this.game.bld.get("factory").val;
+		} else if (jobName == "priest" && this.game.challenges.isActive("atheism")){
+			return 0;
 		} else {
 			return 100000;
 		}
@@ -286,6 +291,11 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		//Allow festivals to double birth rate.
 		if (this.game.calendar.festivalDays > 0) {
 			kittensPerTick = kittensPerTick * (2 + this.game.getEffect("festivalArrivalRatio"));
+		}
+		//pollution decreases arrival speed
+		var pollutionArrivalSlowdown = this.game.bld.pollutionEffects["pollutionArrivalSlowdown"];
+		if (pollutionArrivalSlowdown > 1){
+			kittensPerTick /= pollutionArrivalSlowdown;
 		}
 
 		this.sim.maxKittens = this.maxKittens;
@@ -650,7 +660,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
     getEnvironmentEffect: function(){
 		var game = this.game;
 
-		return game.getEffect("environmentHappinessBonus") + game.getEffect("environmentUnhappiness") ;
+		return game.getEffect("environmentHappinessBonus") + game.getEffect("environmentUnhappiness") + game.bld.pollutionEffects["pollutionHappines"];
 	},
 	
 	/** Calculates a total happiness where result is a value of [0..1] **/
@@ -1511,6 +1521,21 @@ dojo.declare("classes.village.KittenSim", null, {
 				}
 			}
 		}
+
+		var frequency = 1;
+		if (this.kittens.length > 100){
+			frequency = 5;	//update every 5 ticks
+		} else if (this.kittens.length > 500){
+			frequency = 10;	//update every 10 ticks
+		} else if (this.kittens.length > 1000){
+			frequency = 20;	//update every 10 ticks
+		}
+
+		//----- WARNING: DO NOT OVERLOOK THIS -----
+		if (game.ticks % frequency != 0){
+			return;
+		}
+		//----- WARNING END -----
 
 		var baseSkillXP = game.workshop.get("internet").researched ? Math.max(this.getKittens() / 10000, 0.01) : 0.01;
 		var skillXP = (baseSkillXP + game.getEffect("skillXP")) * times;
@@ -2699,8 +2724,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			controller: new classes.village.ui.VillageButtonController(this.game, {
 				updateVisible: function (model) {
 					model.visible = this.game.village.leader != undefined 
-					&& this.game.workshop.get("register").researched 
-					&& !this.game.challenges.isActive("anarchy");
+					&& this.game.village.canHaveLeaderOrPromote();
 				}
 			})
 		}, this.game);
@@ -2717,8 +2741,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
             controller: new classes.village.ui.VillageButtonController(this.game, {
 				updateVisible: function (model) {
 					model.visible = this.game.village.leader !== undefined && 
-					this.game.workshop.get("register").researched && 
-					!this.game.challenges.isActive("anarchy");
+					this.game.village.canHaveLeaderOrPromote();
 				}
 			})
 		}, this.game);

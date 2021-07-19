@@ -1,3 +1,0 @@
-files:
-  - source: /res/i18n/en.json
-    translation: /res/i18n/crowdin/%two_letters_code%.json

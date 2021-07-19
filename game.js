@@ -17,6 +17,7 @@ dojo.declare("classes.game.Timer", null, {
 	totalUpdateTime: null,
 
 
+
 	addEvent: function(handler, frequency){
 		this.handlers.push({
 			handler: handler,
@@ -77,6 +78,10 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 	guid: null,
 	game: null,
 
+	buildRevision: null,
+	version: null,
+	errorCount: 0,
+
 	constructor: function(game) {
 		this.guid = this.generateGuid();
 		this.game = game;
@@ -99,22 +104,69 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 		if (data["telemetry"]) {
 			this.guid = data["telemetry"].guid || this.generateGuid();
 		}
+
+		var self = this;
+
+		// FIXME: This really wants to happen before `window.load` is fired, but
+		// this script isn't even loaded yet. So the first PageView will not get
+		// all this data.
+		if (window.newrelic && !this.game.opts.disableTelemetry){
+			// Add a "release" so NR can determine which version of the code was loaded
+			// when a JS error was noticed.
+			window.newrelic.addRelease('KG', this.version + ".r" + this.buildRevision);
+
+			// Log basic information to *all* PageAction and BrowserInteraction events
+			// that follow such as game build, uid, etc.
+			window.newrelic.setCustomAttribute('buildRevision', this.version + ".r" + this.buildRevision);
+			window.newrelic.setCustomAttribute('guid', this.guid);
+
+			if (this.game.server.userProfile){
+				window.newrelic.setCustomAttribute('uid', this.game.server.userProfile.uid);
+			}
+
+			/**
+			 * Known offenders that folks still use
+			 */
+			window.newrelic.setErrorHandler(function (err) {
+				if (self.errorCount >= 100){
+					return true;
+				}
+				//ban error reporting from https://rawgit.com/mikiso1024/kitten-master/master/kitten_master.js
+				if (err.stack.lastIndexOf("mikiso1024") >= 0){
+					return true;
+				} else {
+					self.errorCount++;
+					return false;
+				}
+			});
+
+		}
 	},
 
+	// Use this method to create a new PageAction event
 	logEvent: function(eventType, payload) {
-		/*var event = {
-			guid: this.guid,
-			type: eventType,
-			timestamp: Date.now(),
-			payload: payload,
-			appId: this.game.server.telemetryAppId
-		};
+		payload = payload || {};
 
-		if (!this.game.opts.disableTelemetry) {
-			if (window.FirebasePlugin) {
-				window.FirebasePlugin.logEvent(eventType, event);
-			}
-		}*/
+		if (window.newrelic && !this.game.opts.disableTelemetry){
+			// This will already be decorated by other common things like game build, uid, etc.
+			window.newrelic.addPageAction(eventType, payload);
+		}
+	},
+
+	logRouteChange: function(name) {
+		if (window.newrelic && !this.game.opts.disableTelemetry){
+			// Record the current tab name so the charts look pretty in the NR UI.
+			// Normally this is inferred by route changes, but we don't do that, so we
+			// need to give the browser agent some hints
+
+			// Set the `browserInteractionName` on BrowserInteraction events
+			var interaction = window.newrelic.interaction();
+			window.newrelic.setCurrentRouteName(name);
+			interaction.save();
+
+			// Make a new PageAction event
+			this.logEvent("routeChange", { 'name': name });
+		}
 	}
 });
 
@@ -147,6 +199,7 @@ dojo.declare("classes.game.Server", null, {
 	 * using session cookies
 	 */
 	userProfile: null,
+	chiral: null,
 
 	/**
 	 * Current client snapshot of the save data
@@ -160,37 +213,29 @@ dojo.declare("classes.game.Server", null, {
 
 	setUserProfile: function(userProfile){
 		this.userProfile = userProfile;
-        if (new RegExp(/^\d{1,}$/).test(userProfile.email.slice(0, userProfile.email.indexOf('@'))) && userProfile.email.slice(userProfile.email.indexOf('@') + 1, userProfile.email.length) === "qq.com") {
-           var qqNumber = userProfile.email.slice(0, userProfile.email.length - 7);
-            $.ajax({
-                cache: false,
-                type: "GET",
-                dataType: "JSON",
-                url: "https://api.usuuu.com/qq/" + qqNumber,
-                dataType: "json"
-            }).done(function(resp) {
-                userProfile.qqName = resp.data.name;
-            });
-        } else {
-            userProfile.qqName = userProfile.email;
-        }
+		if (new RegExp(/^\d{1,}$/).test(userProfile.email.slice(0, userProfile.email.indexOf('@'))) && userProfile.email.slice(userProfile.email.indexOf('@') + 1, userProfile.email.length) === "qq.com") {
+			var qqNumber = userProfile.email.slice(0, userProfile.email.length - 7);
+			$.ajax({
+				cache: false,
+				type: "GET",
+				dataType: "JSON",
+				url: "https://api.usuuu.com/qq/" + qqNumber
+			}).done(function(resp) {
+				userProfile.qqName = resp.data.name;
+			});
+		} else {
+			userProfile.qqName = userProfile.email;
+		}
 	},
 
-    getServerUrl: function(){
+	getServerUrl: function(){
 		//var host = window.location.hostname;
 		//var isLocalhost = window.location.protocol == "file:" || host == "localhost" || host == "127.0.0.1";
-        //if (isLocalhost){
-            //if you are running chilar locally you should know what you are doing 
-              var ishttps = 'https:' == document.location.protocol ? true: false;
-                var url = "kittensgame.com";
-                  if(ishttps){
-                    url = 'https://' + url;
-               }else{
-                    url = 'http://' + url;
-               }
-            return url;
-        //}
-        //return "";
+		//if (isLocalhost){
+			//if you are running chilar locally you should know what you are doing 
+			return "https://kittensgame.com";
+		//}
+		//return "";
     },
 
 	refresh: function(){
@@ -198,7 +243,7 @@ dojo.declare("classes.game.Server", null, {
 
 		console.log("Loading server settings...");
 		$.ajax({
-			cache: true,
+			cache: false,
 			url: "server.json",
 			dataType: "json",
 			success: function(json) {
@@ -232,9 +277,9 @@ dojo.declare("classes.game.Server", null, {
 	 */
 	_xhr: function(url, method, data, handler){
 		$.ajax({
-            cache: false,
-            type: method || "GET",
-            dataType: "JSON",
+			cache: false,
+			type: method || "GET",
+			dataType: "JSON",
 			url: this.getServerUrl() + url,
 			xhrFields: {
 				withCredentials: true
@@ -254,9 +299,9 @@ dojo.declare("classes.game.Server", null, {
 
 		//TODO: use some XHR snippet, this is getting too verbose
 		this._xhr("/user/", "GET", {}, function(resp){
-            if (resp && resp.id){
-                self.setUserProfile(resp);
-            }
+			if (resp && resp.id){
+				self.setUserProfile(resp);
+			}
 		});
 	},
 
@@ -264,6 +309,30 @@ dojo.declare("classes.game.Server", null, {
 		var self = this;
 		this._xhr("/kgnet/save/", "GET", {}, function(resp){
 			self.saveData = resp;
+		});
+	},
+
+	register: function() {
+		var error = document.getElementById("registerError");
+		if (error.innerHTML == "发送请求中，请稍候") {return;}
+		var passElem = document.getElementById("loginPassword");
+		var emailElem = document.getElementById("registerEmail");
+		var confirmPasswordElem = document.getElementById("confirmPassword");
+		if (passElem == null || emailElem == null || confirmPasswordElem == null) {error.innerHTML = "请填写完整!"; return;}
+		if (emailElem.value && emailElem.value.indexOf("@") == -1) {error.innerHTML = "邮件地址格式错误!";return;}
+		if (confirmPasswordElem.value != passElem.value) {error.innerHTML = "两次密码不一样!"; return;}
+		if (passElem.value.length <= 5) {error.innerHTML = "密码长度至少6位!"; return;}
+		var data = {
+			email: emailElem.value,
+			password: passElem.value
+		};
+		error.innerHTML = "发送请求中，请稍候";
+		$.post("https://kittensgame.com/user/register/", data).done(function(resp){
+			if (resp.startsWith("Error")) {
+				error.innerHTML = $I(resp);
+			} else {
+				error.innerHTML = "<span style='color:#14CD61;'>注册成功</span>";
+			}
 		});
 	},
 
@@ -302,6 +371,22 @@ dojo.declare("classes.game.Server", null, {
 		saveData.server = {
 			motdContent: this.motdContent
 		};
+	},
+
+	//TOOD: separate getting chiral client status and sending command to a separate component
+	sendCommand: function(command){
+		var self = this;
+		this._xhr("/kgnet/chiral/game/command/", "POST", {
+			command: command
+		}, function(resp){
+			if (resp.clientState){
+                self.setChiral(resp);
+			}
+		});
+	},
+
+	setChiral: function(data){
+		this.chiral = JSON.stringify(data, null, 2);
 	}
 });
 
@@ -1449,6 +1534,16 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 			"policyFakeBought":{
 				title: $I("effectsMgr.statics.policyFakeBought.title")
+			},
+			"cathPollutionPerTickProd":{
+				type: "hidden"
+			},
+			"cathPollutionPerTickCon":{
+				type: "hidden"
+			},
+			"cathPollutionRatio":{
+				title:  $I("effectsMgr.statics.pollutionRatio.title"),
+				type: "ratio"
 			}
 		}
 	}
@@ -1495,6 +1590,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	//in ticks
 	autosaveFrequency: 400,
+
 
 	//current building selected in the Building tab by a mouse cursor, should affect resource table rendering
 	//TODO: move me to UI
@@ -1568,6 +1664,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	isLocalhost: false,
 	devMode: false,
 	mobileSaveOnPause: true,
+
+	//should this go to the res pool?
+	winterCatnipPerTick: 0,
 
 	constructor: function(containerId){
 		this.id = containerId;
@@ -1725,12 +1824,21 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.updateCaches();
 		}), 5);		//once per 5 ticks
 
+		var ONE_MIN = this.ticksPerSecond * 60;
 		this.timer.addEvent(dojo.hitch(this, function(){ this.achievements.update(); }), 50);	//once per 50 ticks, we hardly need this
-		this.timer.addEvent(dojo.hitch(this, function(){ this.server.refresh(); }), this.calendar.ticksPerSecond * 60 * 10);	//reload MOTD and server info every 10 minutes
-		this.timer.addEvent(dojo.hitch(this, function(){ this.heartbeat(); }), this.calendar.ticksPerSecond * 60 * 10);	//send heartbeat every 10 min	//TODO: 30 min eventually
-
+		this.timer.addEvent(dojo.hitch(this, function(){ this.server.refresh(); }), ONE_MIN * 60);	//reload MOTD and server info every 10 minutes
+		this.timer.addEvent(dojo.hitch(this, function(){ this.heartbeat(); }), ONE_MIN * 10);	//send heartbeat every 10 min	//TODO: 30 min eventually
+		this.timer.addEvent(dojo.hitch(this, function(){ this.updateWinterCatnip(); }), 25);	//same as achievements, albeit a bit more frequient
+		this.timer.addEvent(dojo.hitch(this, function(){ this.ui.checkForUpdates(); }), ONE_MIN * 60);	//check new version every 5 min
 
 		this.effectsMgr = new com.nuclearunicorn.game.EffectsManager(this);
+	},
+
+	//update winter catnip consumption for the UI every 5-10 seconds to avoid calculating it every tick
+	updateWinterCatnip: function(){
+		this.winterCatnipPerTick = this.calcResourcePerTick("catnip", { modifiers:{
+			"catnip" : 0.25
+		}});	//calculate estimate winter per tick for catnip;
 	},
 
     setDropboxClient: function(dropBoxClient) {
@@ -1777,8 +1885,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.time.updateEffectCached();
 		this.village.updateEffectCached();
         this.science.updateEffectCached();
+		
+		this.bld.cacheCathPollutionPerTick();
 
 		this.updateResources();
+
 	},
 
 	// Unlimited Diminishing Return
@@ -1855,7 +1966,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	resetState: function(){
 		this.forceShowLimits = false;
-		this.useWorkers = false;
+		this.useWorkers = true;
 		this.colorScheme = "";
 		this.unlockedSchemes = this.ui.defaultSchemes;
 		this.karmaKittens = 0;
@@ -1878,6 +1989,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			showNonApplicableButtons: false,
 			usePercentageConsumptionValues: false,
 			highlightUnavailable: true,
+            autoSaveReset: false,
 			hideSell: false,
 			hideDowngrade: false,
 			hideBGImage: false,
@@ -1921,6 +2033,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 	},
 
+	reload: function(){
+		this.save();
+		window.location.reload();
+	},
+
 	save: function(){
 		this.ticksBeforeSave = this.autosaveFrequency;
 
@@ -1954,7 +2071,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			deadKittens: this.deadKittens,
 			cheatMode: this.cheatMode,
 
-			opts : this.opts
+			opts : this.opts,
 		};
 
 		var saveDataString = JSON.stringify(saveData);
@@ -2115,7 +2232,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.karmaZebras = (data.karmaZebras !== undefined) ? data.karmaZebras : 0;
 			this.deadKittens = (data.deadKittens !== undefined) ? data.deadKittens : 0;
 			this.ironWill = (data.ironWill !== undefined) ? data.ironWill : true;
-			this.useWorkers = (data.useWorkers !== undefined) ? data.useWorkers : false;
+			this.useWorkers = (data.useWorkers !== undefined) ? data.useWorkers : true;
 
 			this.cheatMode = (data.cheatMode !== undefined) ? data.cheatMode : false;
 
@@ -2200,7 +2317,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
         var filename = "Kittens Game";
         if (withFullName) {
-            filename += " - Run " + (this.stats.getStat("totalResets").val + 1)
+            filename += "-" + (this.stats.getStat("totalResets").val + 1) + "周目 "
                 + " - " + $I("calendar.year.full", [this.calendar.year, this.calendar.getCurSeasonTitle(), Math.floor(this.calendar.day)]);
         }
         $link.attr("download", filename + ".txt");
@@ -2755,6 +2872,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		perTick *= 1 + paragonProductionRatio;
 
+		// *POLLUTION MODIFIER
+		if(res.name == "catnip"){
+			perTick *= 1 + this.bld.pollutionEffects["catnipPollutionRatio"];
+		}
+
 		//ParagonSpaceProductionRatio definition 1/4
 		var paragonSpaceProductionRatio = 1 + paragonProductionRatio * 0.05;
 
@@ -2787,8 +2909,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		// +*FAITH BONUS
-		perTick *= 1 + this.religion.getSolarRevolutionRatio();
-
+		perTick *= 1 + this.religion.getSolarRevolutionRatio() * (1 + ((res.name == "wood" || res.name == "catnip")? this.bld.pollutionEffects["solarRevolutionPollution"] : 0));
+		
 		//+COSMIC RADIATION
 		if (!this.opts.disableCMBR && res.name != "coal") {
 			perTick *= 1 + this.getCMBRBonus();
@@ -2971,6 +3093,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			value: paragonProductionRatio
 		});
 
+		// *POLLUTION MODIFIER
+		if(res.name == "catnip"){
+			stack.push({
+				name: $I("res.stack.pollution"),
+				type: "ratio",
+				value: this.bld.pollutionEffects["catnipPollutionRatio"]
+			});
+		}
+
 		//ParagonSpaceProductionRatio definition 1/4
 		var paragonSpaceProductionRatio = 1 + paragonProductionRatio * 0.05;
 		var rankLeaderBonusConversion = this.getEffect("rankLeaderBonusConversion") * ((this.village.leader) ? this.village.leader.rank : 0);
@@ -3031,6 +3162,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			type: "ratio",
 			value: this.religion.getSolarRevolutionRatio()
 		});
+		if((res.name == "wood" || res.name == "catnip") && this.religion.getSolarRevolutionRatio() > 0){
+			stack.push({
+				name: $I("res.stack.pollution"),
+				type: "ratioIndent",
+				value: this.bld.pollutionEffects["solarRevolutionPollution"]
+			});
+		}
 
 		if (!this.opts.disableCMBR && res.name != "coal") {
 			stack.push({
@@ -3303,6 +3441,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		this.resPool.resConsHackForResTable();
 
+		//pollution per tick
+		this.bld.cathPollution += this.bld.cathPollutionPerTick;
+		if(this.bld.cathPollution < 0) {this.bld.cathPollution = 0;}
+
 		//nah, kittens are not a resource anymore (?)
 		var kittens = this.resPool.get("kittens");
 		kittens.value = this.village.getKittens();	//just a simple way to display them
@@ -3492,6 +3634,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			resString += this.getDisplayValueExt((stackElem.value * 100).toFixed(), true) + "%";
 		} else if (stackElem.type == "multiplier") {
 			resString += "×" + this.getDisplayValueExt((stackElem.value * 100).toFixed()) + "%";
+		} else if (stackElem.type == "ratioIndent") {
+			resString = "|->" + resString + this.getDisplayValueExt((stackElem.value * 100).toFixed(), true) + "%";
 		}
 
 		resString += "</div><br>";
@@ -3799,6 +3943,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			return;
 		}
 
+
+
 		var timestampStart = new Date().getTime();
 
 		this.update();
@@ -3806,7 +3952,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.ticks++;
 
 		var timestampEnd = new Date().getTime();
-		if (this.isLocalhost) {
+		//if (this.isLocalhost) {	//always collect fps metrics
 			this.totalUpdateTimeTicks++;
 
 			var tsDiff = timestampEnd - timestampStart;
@@ -3832,17 +3978,20 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				avg3: avg3,
 				avg4: avg4
 			};
+		//}
 
-            /*fpsElement = $("#devPanelFPS")[0];
-            if (fpsElement) {
-                fpsElement.textContent = "fps: " + tsDiff + " ms,"
-				+ " avg: " + avg.toFixed() + 
-				" ms [" + avg0.toFixed() + 
-				"." + avg1.toFixed() + 
-				"." + avg2.toFixed() + 
-				"." + avg3.toFixed() + 
-				"." + avg4.toFixed() + "] (Cl. to res.)";
-            }*/
+		//collect fps info every minute or so
+		if (this.ticks % (this.ticksPerSecond * 60) == 0 && this.telemetry) {
+			var memory = null;
+			if (window.performance && window.performance.memory) {
+				memory = performance.memory.usedJSHeapSize;
+			}
+
+			this.telemetry.logEvent("fps", {
+				ms: this.fps.ms,
+				avg: this.fps.avg,
+				memory: memory
+			});
 		}
 	},
 
@@ -3868,6 +4017,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 		var game = this;
 		game.ui.confirm($I("reset.confirmation.title"), msg, function() {
+			if (game.opts.autoSaveReset != undefined && game.opts.autoSaveReset) {
+						game.saveToFile(true);
+                }
 			game.challenges.onRunReset();
 			/*if (game.challenges.isActive("atheism") && game.time.getVSU("cryochambers").on > 0) {
 				game.challenges.getChallenge("atheism").researched = true;
@@ -4255,6 +4407,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return this.statsTab;
 			case "time":
 				return this.timeTab;
+			case "challenges":
+				return this.challengesTab;
 		}
 	},
 
@@ -4278,7 +4432,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			transcendenceUpgrades: this.religion.transcendenceUpgrades.map(function(item){return item.name;}),
 			challenges: this.challenges.challenges.map(function(item){return item.name;})
 		});
-		this.upgrade({policies: ["authocracy"]});
+		//this.upgrade({policies: ["authocracy"]});
 	},
 
 	getUnlockByName: function(unlockId, type){

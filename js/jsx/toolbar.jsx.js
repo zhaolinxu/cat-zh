@@ -105,7 +105,7 @@ WToolbarHappiness = React.createClass({
 
 		if (this.game.calendar.festivalDays > 0){
 			var festivalHappinessEffect = 30 * (1+this.game.getEffect("festivalRatio"));
-			tooltip += $I("village.happiness.festival") + ": +"+festivalHappinessEffect+"%<br>";
+			tooltip += $I("village.happiness.festival") + ": +" + this.game.getDisplayValueExt(festivalHappinessEffect, false, false, 1) + "%<br>";
 		}
 
         var unhappiness = this.game.village.getUnhappiness() / (1 + this.game.getEffect("unhappinessRatio")),
@@ -194,8 +194,80 @@ WToolbarMOTD = React.createClass({
         var server = this.game.server;
 		if (server.showMotd && server.motdContent) {
 			server.motdFreshMessage = false;
-			return "右下角百科内有萌新攻略<br />" + server.motdContent;
+			return "有问题找百科或者猫国QQ群<br />" + server.motdContent;
 		}
+    }
+});
+WToolbarPollution = React.createClass({
+    freshMessage: false,
+    message: "",
+
+    render: function(){
+        var game = this.props.game;
+
+        if(game.bld.cathPollution > 100000 || game.science.get("ecology").researched){
+            return $r(WToolbarIconContainer, {
+                game: game,
+                getTooltip: this.getTooltip,
+                className: this.freshMessage ? "energy warning": null
+            },
+                $r("div", {}, 
+                "🏭" + (game.science.get("ecology").researched ? (" " + this.getPollutionMod()) : ""))
+            );
+        }
+        return null;
+    },
+    getTooltip: function(notUpdateFreshMessage){
+        this.game = this.props.game;    //hack
+
+        var message = "";
+        var eqPol = this.game.bld.getEquilibriumPollution();
+        var eqPolLvl = this.game.bld.getPollutionLevel(eqPol);
+        var pollution = this.game.bld.cathPollution;
+        var polLvl = this.game.bld.getPollutionLevel();
+        var polLvlShow = this.game.bld.getPollutionLevel(pollution * 2);
+        if (polLvl >= 4){
+            message += $I("pollution.level1") + "<br/>" + $I("pollution.level2") + "<br/>" + $I("pollution.level3", [this.game.getDisplayValueExt(game.villageTab.getVillageTitle(), false, false, 0)]) + "<br/>" + $I("pollution.level4");
+        }
+        else if (polLvlShow == 3){
+            message += $I("pollution.level1") + "<br/>" + $I("pollution.level2") + "<br/>" + $I("pollution.level3", [this.game.getDisplayValueExt(game.villageTab.getVillageTitle(), false, false, 0)]);
+        }
+        else if (polLvlShow == 2){
+            message += $I("pollution.level1") + "<br/>" + $I("pollution.level2");
+        }
+        else if (polLvlShow == 1){
+            message += $I("pollution.level1");
+        } else {
+            message = $I("pollution.level0");
+        }
+        
+        var warnLvl = this.game.bld.getPollutionLevel(pollution * 4);
+        if (warnLvl >= 1 && warnLvl <= 4 && warnLvl > polLvlShow && warnLvl <= eqPolLvl) {
+            message += "<br/>" + $I("pollution.level" + warnLvl + ".warning");
+        }
+        if (pollution * 1.5 <= eqPol || eqPolLvl > polLvl){
+            message += "<br/>" + $I("pollution.increasing");
+        }
+        else if (pollution >= 0 && this.game.bld.cathPollutionPerTick <= 0 && eqPolLvl <= polLvl){
+            message += "<br/>" + $I("pollution.cleaning");
+        }
+        else if (eqPolLvl == polLvl && eqPol > 0){
+            message += "<br/>" + $I("pollution.equilibrium");
+        }
+        else {
+            message += "<br/>" + $I("pollution.pristine");
+        }
+        if (notUpdateFreshMessage){
+            return message;
+        }
+        message +="<br/>二氧化碳: " + (game.science.get("ecology").researched ? 
+            this.getPollutionMod() : $I("pollution.unspecified"));    
+        this.freshMessage = false;
+        return message;
+    },
+
+    getPollutionMod(){
+        return game.getDisplayValueExt((game.bld.cathPollution / game.bld.getPollutionLevelBase())*100) + "ppm";
     }
 });
 
@@ -281,7 +353,7 @@ WLoginForm = React.createClass({
                 width:"25px",
                 height:"25px"}),
                 $r("a", {
-                    href: document.location.protocol + "//kittensgame.com/ui/profile", target:"_blank"
+                    href: "https://kittensgame.com/ui/profile", target:"_blank"
                 }, userProfile.qqName)
             ]);
 
@@ -310,13 +382,10 @@ WLoginForm = React.createClass({
                         onClick: this.login
                     }, "登录"),
                     $r("a", {
-                        target: "_blank",
-                        href: document.location.protocol +"//kittensgame.com/ui/register",
-                        title: "国外官网，晚上时间可能会被墙。"
-                    }, "注册"),
-                    $r("label", {
-                        title: "可以获取QQ头像"
-                    }, "(推荐QQ数字邮箱注册)")
+                        onClick: function(e){
+                            e.stopPropagation();
+                            game.ui.showDialog("registerDiv");
+                    }}, "注册")
                 ])
             ]
         )
@@ -351,7 +420,7 @@ WLoginForm = React.createClass({
         $.ajax({
             cache: false,
             type: "POST",
-            dataType: "JSON",
+            //dataType: "JSON",
             data: {
                 email: this.state.login,
                 password: this.state.password
@@ -359,8 +428,18 @@ WLoginForm = React.createClass({
 			xhrFields: {
 				withCredentials: true
 			},
+            timeout : 10000,
 			url: this.props.game.server.getServerUrl() + "/user/login/",
-			dataType: "json"
+			dataType: "json",
+        }).fail(function(xhr){
+            var text = xhr.responseText;
+            if (!text) {
+                text = "请检查网络或浏览器设置";
+                console.log(xhr.status);
+            } else {
+                game.msg('注意如果尝试次数过多，账户会被锁定', "important");
+            }
+            game.msg($I(text), "important");
 		}).done(function(resp){
             if (resp.id){
                 self.props.game.server.setUserProfile(resp);
@@ -410,10 +489,10 @@ WCloudSaves = React.createClass({
             //header
             saveData && $r("div", {className:"save-record header"}, [
                 $r("div", {className:"save-record-cell"}, "存档ID"),
-                $r("div", {className:"save-record-cell"}, "游戏时间"),
-                $r("div", {className:"save-record-cell"}, "上次更新"),
+                $r("div", {className:"save-record-cell"}, "游戏年（不准）"),
+                $r("div", {className:"save-record-cell"}, "上次更新时间"),
                 $r("div", {className:"save-record-cell"}, "大小"),
-                $r("div", {className:"save-record-cell"}, "操作")
+                $r("div", {className:"save-record-cell"}, "存档操作")
             ]),
             //body
             //TODO: externalize save record as component?
@@ -421,11 +500,11 @@ WCloudSaves = React.createClass({
                 var isActiveSave = (save.guid == game.telemetry.guid);
                 return $r("div", {className:"save-record"}, [
                     $r("div", {className:"save-record-cell"},
-                        isActiveSave ? "[当前]" : ""
+                        isActiveSave ? "[" + $I("ui.kgnet.save.current") + "]" : ""
                     ),
                     $r("div", {className:"save-record-cell"},
                         save.index ?
-                        ("年 "+ save.index.calendar.year + ", 日 " + save.index.calendar.day) :
+                        (save.index.calendar.year +"年" + "，" + save.index.calendar.day + " 天 ") :
                         "加载中..."
                     ),
                     $r("div", {className:"save-record-cell"},
@@ -440,23 +519,27 @@ WCloudSaves = React.createClass({
                         onClick: function(e){
                             e.stopPropagation();
                             game.server.pushSave();
-                        }}, "上传"),
+                        }}, $I("ui.kgnet.save.save")),
                     $r("a", {
                         className: "link",
                         title: "下载并加载云存档（你当前存档会丢失）",
                             onClick: function(e){
                             e.stopPropagation();
+                            game.msg('从国外官网下载有延迟，请稍候', "important");
                             game.server.loadSave(save.guid);
-                        }}, "读取"),
+                        }}, $I("ui.kgnet.save.load")),
                 ])
             })),
 
             $r("div", {className:"save-record-container"}, [
                 (saveData && !hasActiveSaves) && $r("div", {className:"save-record"},[
-                    $r("a", {onClick: function(e){
-                        e.stopPropagation();
-                        game.server.pushSave();
-                    }}, "新的存档 (" + game.telemetry.guid + ")")
+                    $r("a", {
+                        title: "保存该存档到国外官网（注意保存你需要保存的）",
+                        onClick: function(e){
+                            e.stopPropagation();
+                            game.server.pushSave();
+                        }
+                    }, "保存新的存档 (" + game.telemetry.guid + ")")
                 ]),
                 $r("div", {className:"save-record"},[
                     $r("a", {
@@ -465,14 +548,19 @@ WCloudSaves = React.createClass({
                         onClick: function(e){
                             e.stopPropagation();
                             game.server.syncSaveData();
+                            setTimeout(function() {
+                                if (!game.server.saveData) {
+                                    game.msg('同步存档失败，请点击同步存档教程', "important");
+                                }
+                            }, 3000);
                         }
-                    }, "同步存档"),
+                    }, $I("ui.kgnet.sync")),
                     !saveData && $r("a", {
                         className: "link",
                         target: "_blank",
                         title: "同步存档教程",
                         href: "https://petercheney.gitee.io/baike/?file=007-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/02-%E4%BA%91%E5%AD%98%E6%A1%A3"
-                    }, "同步存档没反应的点这个")
+                    }, "同步存档失败的教程")
                 ])
             ])
         ])
@@ -498,9 +586,11 @@ WLogin = React.createClass({
                 },
                 [
                     $r("span", {
-                        className: "status-indicator-" + (game.server.userProfile ? "online" : "offline"),
-                        title: "官方云存档"
-                    }, (game.server.userProfile ? "* 在线" : "(:3)")),
+                        className: "kgnet-login-link status-indicator-" + (game.server.userProfile ? "online" : "offline"),
+                        title: "国外官方云存档"
+                    }, "* " + (game.server.userProfile ? 
+                        $I("ui.kgnet.online") : $I("ui.kgnet.login")
+                    )),
                     this.state.isExpanded && $r("div", {
                         className: "login-popup button_tooltip tooltip-block"
                     },
@@ -528,20 +618,25 @@ WToolbar = React.createClass({
 
     componentDidMount: function(){
         var self = this;
-        dojo.subscribe("ui/update", function(game){
+        this.onUpdateHandler = dojo.subscribe("ui/update", function(game){
             self.setState({game: game});
         });
+    },
+
+    componentWillUnmount(){
+        dojo.unsubscribe(this.onUpdateHandler);
     },
 
     getIcons: function(){
         var icons = [];
         icons.push(
-            $r(WToolbarFPS, {game: this.props.game}),
-            $r(WToolbarMOTD, {game: this.props.game}),
-            $r(WToolbarHappiness, {game: this.props.game}),
-            $r(WToolbarEnergy, {game: this.props.game}),
-            $r(WBLS, {game: this.props.game}),
-            $r(WLogin, {game: this.props.game})
+            $r(WToolbarFPS, {game: this.state.game}),
+            $r(WToolbarPollution, {game: this.state.game}),
+            $r(WToolbarHappiness, {game: this.state.game}),
+            $r(WToolbarEnergy, {game: this.state.game}),
+            $r(WBLS, {game: this.state.game}),
+            $r(WToolbarMOTD, {game: this.state.game}),
+            $r(WLogin, {game: this.state.game})
 
         );
         return icons;
