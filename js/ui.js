@@ -1,5 +1,67 @@
+/* global
+    WLeftPanel
+    WMidPanel
+    WToolbar
+*/
+
+
 /**
-    class that provides an abstraction layer for UI/model communication
+ * dojo bridge for react components, use this sparringly
+ * (TODO: consider using HOC for boilerplate like)
+ * 
+ *  getInitialState: function(){
+        return {game: this.props.game};
+    },
+    
+    componentDidMount: function(){
+        var self = this;
+        this.onUpdateHandler = dojo.subscribe("ui/update", function(game){
+            self.setState({game: game});
+        });
+    },
+
+    componentWillUnmount(){
+        dojo.unsubscribe(this.onUpdateHandler);
+    },
+ */
+
+var $r = React.createElement;
+dojo.declare("mixin.IReactAware", null, {
+    component: null,
+    container: null,
+
+    constructor: function(component, game){
+        this.component = component;
+        this.game = game;
+    },
+
+    render: function(container){
+        this.game.ui.dirtyComponents.push(this);
+
+        React.render($r(this.component, {
+            game: this.game
+        }), container);
+
+        this.container = container;
+        return container;
+    },
+
+    update: function(){
+
+    },
+
+    //does not seem to be called automatically
+    destroy: function(){
+        if (!this.container){
+            throw "Integrity failure, trying to unmount component on an empty container";
+        }
+        React.unmountComponentAtNode(this.container);
+    }
+});
+
+/**
+ * Class that provides an abstraction layer for UI/model communication
+ * Extended in web version and in mobile version, so change signatures below only if you can change them in mobile too!
  */
 dojo.declare("classes.ui.UISystem", null, {
     game: null,
@@ -15,6 +77,24 @@ dojo.declare("classes.ui.UISystem", null, {
     },
 
     updateOptions: function(){
+    },
+
+	unlockScheme: function(name) {
+	},
+
+	relockSchemes: function() {
+	},
+
+    notifyLogEvent: function(logmsg) {
+    },
+
+    confirm: function(title, msg, callbackOk, callbackCancel) {
+    },
+
+    openPopupPage: function(pageName) {
+    },
+
+    pulse: function(node){
     },
 
     displayAutosave: function(){
@@ -38,7 +118,13 @@ dojo.declare("classes.ui.UISystem", null, {
     observeClear: function(){
     },
 
+    updateCalendar: function(){
+    },
+
     updateLanguage: function() {
+    },
+
+    updateNotation: function() {
     },
 
     load: function(){
@@ -51,13 +137,16 @@ dojo.declare("classes.ui.UISystem", null, {
 
     isEffectMultiplierEnabled: function(){
         return false;
+    },
+
+    checkForUpdates: function(){
+        //nothing
     }
 });
 
 /**
  * Legacy UI renderer
  */
-var $r = React.createElement;
 dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     containerId: null,
     toolbar: null,
@@ -78,6 +167,12 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     isDisplayOver: false,
     isChatActive: false,
     isChatVisited: false,
+    isCenter: false,
+
+    defaultSchemes: ["default", "dark", "grassy", "sleek", "black", "wood", "bluish", "grayish", "greenish"],
+    allSchemes: ["default"].concat(new classes.KGConfig().statics.schemes),
+
+    dirtyComponents: [],
 
     constructor: function(containerId){
         this.containerId = containerId;
@@ -87,74 +182,82 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         });
 
         dojo.connect($("html")[0], "onkeyup", this, function (event) {
+
             // Allow user extensibility to keybindings in core events
             var keybinds = [
                 {
-                    name: 'Bonfire',
-                    key: 'B',
+                    name: "Bonfire",
+                    key: "B",
                     shift: true,
                     alt: false,
                     control: false
                 },
                 {
-                    name: 'Village',
-                    key: 'V',
+                    name: "Village",
+                    key: "V",
                     shift: true,
                     alt: false,
                     control: false
                 },
                 {
                     name: "Science",
-                    key: 'S',
+                    key: "S",
                     shift: true,
                     alt: false,
                     control: false
                 },
                 {
-                    name: 'Workshop',
-                    key: 'W',
+                    name: "Workshop",
+                    key: "W",
                     shift: true,
                     alt: false,
                     control: false
                 },
                 {
-                    name: 'Trade',
-                    key: 'T',
+                    name: "Trade",
+                    key: "T",
                     shift: true,
                     alt: false,
                     control: false
                 },
                 {
-                    name: 'Religion',
-                    key: 'R',
+                    name: "Religion",
+                    key: "R",
                     shift: true,
                     alt: false,
                     control: false
                 },
                 {
-                    name: 'Space',
-                    key: 'P',
+                    name: "Space",
+                    key: "P",
                     shift: true,
                     alt: false,
                     control: false
                 },
                 {
-                    name: 'Time',
-                    key: 'I',
+                    name: "Time",
+                    key: "I",
                     shift: true,
                     alt: false,
                     control: false
                 },
                 {
-                    name: 'Achievements',
-                    key: 'M',
+                    name: "Achievements",
+                    key: "M",
                     shift: true,
                     alt: false,
                     control: false
                 },
                 {
-                    name: 'Stats',
-                    key: 'A',
+                    name: "Stats",
+                    key: "A",
+                    shift: true,
+                    alt: false,
+                    control: false
+                },
+                {
+                    name: "Challenges",
+                    key: "C",
                     shift: true,
                     alt: false,
                     control: false
@@ -165,7 +268,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                     shift: false,
                     alt: false,
                     control: false,
-                    action: function(){ $('div.dialog:visible').last().hide(); }
+					action: function(){ $("div.dialog:visible").last().hide(); }
                 }
             ];
 
@@ -191,14 +294,15 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 }
             }
 
-
+			var isInputElement = event.target.tagName === "TEXTAREA" ||
+				(event.target.tagName === "INPUT" && (event.target.type === "text" || event.target.type === "number"));
             var isTabNumber = ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105));
             //console.log(isTabNumber, event.keyCode);
 
             if (keybind && keybind.action) {
                 // If a keybind is found and has a specific action
                 keybind.action();
-            } else if (isTabNumber){
+            } else if (!isInputElement && isTabNumber){
                 var tabIndex = 9;
                 if (event.keyCode >= 97) { //numpad
                     tabIndex = event.keyCode - 97;
@@ -209,7 +313,25 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                     this.game.ui.activeTabId = this.game.tabs[tabIndex].tabId;
                     this.game.ui.render();
                 }
-            } else if (keybind && keybind.name != this.game.ui.activeTabId ) {
+            } else if (!isInputElement && (event.keyCode == 37 || event.keyCode == 39)){ //left arrow, right arrow
+                var visibleTabs = [];
+                var activeTabIndex = 0;
+                for (var i = 0; i < this.game.tabs.length; i++){
+                    var tab = this.game.tabs[i];
+                    if (tab.visible){
+                        if (tab.tabId == this.game.ui.activeTabId){
+                            activeTabIndex = visibleTabs.length;
+                        }
+                        visibleTabs.push(tab);
+                    }
+                }
+                var jump = event.keyCode == 37 ? -1 : 1;
+                var switchTab = visibleTabs[activeTabIndex + jump];
+                if (switchTab){
+                    this.game.ui.activeTabId = switchTab.tabId;
+                    this.game.ui.render();
+                }
+            } else if (!isInputElement && keybind && keybind.name != this.game.ui.activeTabId ) {
                 // If a keybound is found and the tab isn't current
                 for (var i = 0; i < this.game.tabs.length; i++){
                     if (this.game.tabs[i].tabId === keybind.name && this.game.tabs[i].visible){
@@ -225,7 +347,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     setGame: function(game){
         this.game = game;
 
-        this.toolbar = new classes.ui.Toolbar(game);
+        //this.toolbar = new classes.ui.Toolbar(game);
     },
 
     render: function(){
@@ -235,12 +357,18 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         var scrollPosition = midColumn.scrollTop;
 
         var container = dojo.byId(this.containerId);
+
+        //unmount everything that relies on the container
+        for (var i in this.dirtyComponents){
+            this.dirtyComponents[i].destroy();
+        }
+        this.dirtyComponents = [];
         dojo.empty(container);
 
         var tabNavigationDiv = dojo.create("div", { className: "tabsContainer"}, container);
 
         //TODO: remove hardcoded id?
-        this.toolbar.render(dojo.byId("headerToolbar"));
+        //this.toolbar.render(dojo.byId("headerToolbar"));
 
         game.calendar.render();
 
@@ -261,7 +389,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             var tabLink = dojo.create("a", {
                 href:"#",
                 innerHTML: tab.tabName,
-                className: "tab",
+                className: "tab " + tab.tabId,
                 style : {
                     whiteSpace: "nowrap"
                 }
@@ -279,15 +407,14 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                         this.activeTabId = tab.tabId;
                         this.render();
 
-                        //this.game.telemetry.logEvent("tab", tab.tabId);
+                        this.game.telemetry.logRouteChange(tab.tabId);
                     }, tab)
             );
 
-            if (i < visibleTabs.length-1){
+            if (i < visibleTabs.length - 1){
                 dojo.create("span", {innerHTML:" | "}, tabNavigationDiv);
             }
         }
-
 
         for (var i = 0; i < game.tabs.length; i++){
             var tab = game.tabs[i];
@@ -295,7 +422,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             if (this.activeTabId == tab.tabId){
 
                 var divContainer = dojo.create("div", {
-                    className: "tabInner"
+                    className: "tabInner " + tab.tabId
                 }, container);
 
                 tab.render(divContainer);
@@ -333,8 +460,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
 		if (!this.calendarSignSpanTooltip){
             var calendarSignSpan = dojo.byId("calendarSign");
-            // 中间的0，0为提示窗口距鼠标位置偏移
-			this.calendarSignSpanTooltip = UIUtils.attachTooltip(game, calendarSignSpan, 0, 0, dojo.hitch(game.calendar, function() {
+			this.calendarSignSpanTooltip = UIUtils.attachTooltip(game, calendarSignSpan, 0, 320, dojo.hitch(game.calendar, function() {
                 var cycle = this.cycles[this.cycle];
                 if (!cycle) {
                     return "";
@@ -352,8 +478,8 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 					dojo.style(cycleSpan, "borderBottom", "1px solid gray");
 					dojo.style(cycleSpan, "paddingBottom", "4px");
 
-					var cycleSpan = dojo.create("div", {
-						innerHTML: "周期效果:",
+					dojo.create("div", {
+						innerHTML: $I("cycle.effects.title") + ":",
 						style: { textAlign: "center", paddingTop: "4px"}
 					}, tooltip );
 
@@ -365,7 +491,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 						var effectMeta = game.getEffectMeta(effect);
 						var effectTitle = effectMeta.title + ":";
 
-						var nameSpan = dojo.create("span", {
+						dojo.create("span", {
 							innerHTML: effectTitle,
 							style: {
 								float: "left",
@@ -373,10 +499,10 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 							}
 						}, effectItemNode );
 
-						var effectMod = effects[effect] > 1 ? "+": "";
+						var effectMod = effects[effect] > 1 ? "+" : "";
 						effectMod += ((effects[effect] - 1) * 100).toFixed(0) + "%";
 
-						var effectSpan = dojo.create("span", {
+						dojo.create("span", {
 							innerHTML: effectMod,
 							style: {
 								float: "right",
@@ -387,19 +513,15 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
 						dojo.create("span", {
 							innerHTML: "&nbsp;",
-							style: {
-                                fontSize: "16px",
-                                clear: "both" }
+							style: {clear: "both" }
 						}, effectItemNode );
 					}
 				}
 
 				if (game.prestige.getPerk("numeromancy").researched && this.festivalDays) {
-
 					// Cycle Festival Effects
-
-					var cycleSpan = dojo.create("div", {
-						innerHTML: "周期节日效果:",
+					dojo.create("div", {
+						innerHTML: $I("cycle.effects.festival.title"),
 						style: { textAlign: "center"}
 					}, tooltip );
 
@@ -411,7 +533,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 						var effectMeta = game.getEffectMeta(effect);
 						var effectTitle = effectMeta.title + ":";
 
-						var nameSpan = dojo.create("span", {
+						dojo.create("span", {
 							innerHTML: effectTitle,
 							style: {
 								float: "left",
@@ -419,10 +541,10 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 							}
 						}, effectItemNode );
 
-						var effectMod = effects[effect] > 1 ? "+": "";
+						var effectMod = effects[effect] > 1 ? "+" : "";
 						effectMod += ((effects[effect] - 1) * 100).toFixed(0) + "%";
 
-						var effectSpan = dojo.create("span", {
+						dojo.create("span", {
 							innerHTML: effectMod,
 							style: {
 								float: "right",
@@ -433,9 +555,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
 						dojo.create("span", {
 							innerHTML: "&nbsp;",
-							style: {
-                                fontSize: "16px",
-                                clear: "both" }
+							style: {clear: "both" }
 						}, effectItemNode );
 					}
 				}
@@ -448,11 +568,24 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         this.update();
 
         //-------------------------
-        $(".console-intro").html($I("console.intro"));
+        var now = new Date();
+        if (now.getDate() == 1 && now.getMonth() == 3) {
+            $(".console-intro").css("font-size", "300%").addClass("blaze").text($I("console.intro.zebra"));
+        } else {
+            $(".console-intro").text($I("console.intro"));
+        }
 
         React.render($r(WLeftPanel, {
             game: this.game
         }), document.getElementById("leftColumnViewport"));
+
+        React.render($r(WMidPanel, {
+            game: this.game
+        }), document.getElementById("midColumnViewport"));
+
+        React.render($r(WToolbar, {
+            game: this.game
+        }), document.getElementById("headerToolbar"));
     },
 
     //---------------------------------------------------------------
@@ -465,13 +598,14 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         this.updateUndoButton();
         this.updateAdvisors();
 
-        this.toolbar.update();
+        //this.toolbar.update();
 
         if (this.game.ticks % 5 == 0 && this.game.tooltipUpdateFunc) {
             this.game.tooltipUpdateFunc();
         }
 
-        $(".chatLink").css("font-weight", this.isChatVisited ? "normal" : "bold");
+        //not relevant anymore
+        //$(".chatLink").css("font-weight", this.isChatVisited ? "normal" : "bold");
 
         //wat
         /*React.render($r(WLeftPanel, {
@@ -488,33 +622,38 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 			if (tab.tabId == this.activeTabId){
 				tab.update();
 			}
-		}
+        }
+        if (this.game.village.leader) {
+            dojo.query("a.tab.traitLeaderBonus").removeClass("traitLeaderBonus engineer metallurgist chemist merchant manager scientist wise");
+            switch (this.game.village.leader.trait.name) {
+                case "engineer": // Crafting bonuses
+                    dojo.query("a.tab.Workshop").addClass("traitLeaderBonus" + " engineer");
+                    break;
+                case "metallurgist":
+                    dojo.query("a.tab.Workshop").addClass("traitLeaderBonus" + " metallurgist");
+                    break;
+                case "chemist":
+                    dojo.query("a.tab.Workshop").addClass("traitLeaderBonus" + " chemist");
+                    break;
+                case "merchant": // Trading bonus
+                    dojo.query("a.tab.Trade").addClass("traitLeaderBonus" + " merchant");
+                    break;
+                case "manager": // Hunting bonus
+                    dojo.query("a.tab.Village").addClass("traitLeaderBonus" + " manager");
+                    break;
+                case "scientist": // Science prices bonus
+                    dojo.query("a.tab.Science").addClass("traitLeaderBonus" + " scientist");
+                    break;
+                case "wise": // Religion bonus
+                    dojo.query("a.tab.Religion").addClass("traitLeaderBonus" + " wise");
+                    break;
+            }
+        }
 	},
 
     updateFastHunt: function(){
         if (!this.fastHuntContainer){
-            this.fastHuntContainer = $("#fastHuntContainer")[0];
-        }
-
-        if (!this.fastHuntContainer){
-            return;
-        }
-
-        var catpower = this.game.resPool.get("manpower");
-        var showFastHunt = (catpower.value >= 100);
-
-        //blazing fast vanilla toggle
-        if (showFastHunt){
-            if (this.fastHuntContainer.style.visibility == "hidden"){
-                this.fastHuntContainer.style.visibility = "visible";
-            }
-            var huntCount = Math.floor(catpower.value / 100);
-            $("#fastHuntContainerCount")[0].innerHTML = this.game.getDisplayValueExt(huntCount, false, false, 0)
-                + (huntCount === 1 ? " 次" : " 次");
-        } else {
-            if (this.fastHuntContainer.style.visibility == "visible"){
-                this.fastHuntContainer.style.visibility = "hidden";
-            }
+            this.fastHuntContainer = dojo.byId("fastHuntContainer");
         }
     },
 
@@ -557,7 +696,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             }
 
             calendarDiv.innerHTML = $I("calendar.year.full", [year.toLocaleString(), seasonTitle + mod, Math.floor(calendar.day)]);
-            document.title = "猫国建设者 - " + $I("calendar.year.full", [calendar.year, seasonTitle, Math.floor(calendar.day)]);
+            document.title = $I("navbar.title") + " - " + $I("calendar.year.full", [calendar.year, seasonTitle, Math.floor(calendar.day)]);
 
             if (this.game.ironWill && calendar.observeBtn) {
                 document.title = "[EVENT!]" + document.title;
@@ -566,7 +705,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             var calendarSignSpan = dojo.byId("calendarSign");
             var cycle = calendar.cycles[calendar.cycle];
             if (cycle && this.game.science.get("astronomy").researched) {
-            	calendarSignSpan.style = "color: " + calendar.cycleYearColor();
+            	calendarSignSpan.style.color = calendar.cycleYearColor();
                 calendarSignSpan.innerHTML = cycle.glyph + " ";
             }
         } else {
@@ -580,32 +719,11 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#undoBtn").toggle(isVisible);
 
         if (isVisible) {
-            $("#undoBtn").html("撤销 (" + Math.floor(this.game.undoChange.ttl / this.game.ticksPerSecond) + "秒)");
+            $("#undoBtn").text($I("ui.undo", [Math.floor(this.game.undoChange.ttl / this.game.ticksPerSecond)]));
         }
     },
 
     updateAdvisors: function(){
-        if (this.game.bld.get("field").on == 0){
-            return;
-        }
-
-        var advDiv = dojo.byId("advisorsContainer");
-        if (!advDiv){
-            return;
-        }
-        dojo.empty(advDiv);
-
-        var calendar = this.game.calendar,
-            winterDays = calendar.daysPerSeason -
-                (calendar.getCurSeason().name === "winter" ? calendar.day : 0);
-
-        var catnipPerTick = this.game.calcResourcePerTick("catnip", { modifiers:{
-            "catnip" : 0.25
-        }});	//calculate estimate winter per tick for catnip;
-
-        if (this.game.resPool.get("catnip").value + winterDays * catnipPerTick * calendar.ticksPerDay <= 0) {
-            advDiv.innerHTML = "<span>" + $I("general.food.advisor.text") + "<span>";
-        }
     },
 
     updateLanguage: function(){
@@ -620,37 +738,101 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         window.location.reload();
     },
 
+    updateNotation: function() {
+        var notationSelector = $("#notationSelector");
+        this.game.opts.notation = notationSelector.val();
+    },
+
 
     updateOptions: function() {
         var game = this.game;
 
-        $("#schemeToggle").val(game.colorScheme);
-        $("body").attr("class", "scheme_" + game.colorScheme);
+        if (game.unlockedSchemes.indexOf(game.colorScheme) < 0) {
+            game.colorScheme = "default";
+        }
+        $("body").removeClass();
+        if (game.colorScheme != "default") {
+            $("body").addClass("scheme_" + game.colorScheme);
+            if (!game.opts.hideBGImage) {
+                $("body").addClass("with_background_image");
+            }
+        }
+
+        if (game.opts.tooltipsInRightColumn) {
+            $("#tooltip").detach().appendTo("#rightColumn").addClass("tooltip-in-right-column");
+        } else {
+            $("#tooltip").detach().appendTo("#game").removeClass("tooltip-in-right-column");
+        }
 
         $("#workersToggle")[0].checked = game.useWorkers;
         $("#forceHighPrecision")[0].checked = game.opts.forceHighPrecision;
         $("#usePerSecondValues")[0].checked = game.opts.usePerSecondValues;
         $("#usePercentageResourceValues")[0].checked = game.opts.usePercentageResourceValues;
+        $("#showNonApplicableButtons")[0].checked = game.opts.showNonApplicableButtons;
+        $("#usePercentageConsumptionValues")[0].checked = game.opts.usePercentageConsumptionValues;
         $("#highlightUnavailable")[0].checked = game.opts.highlightUnavailable;
         $("#hideSell")[0].checked = game.opts.hideSell;
+        $("#hideDowngrade")[0].checked = game.opts.hideDowngrade;
+        $("#hideBGImage")[0].checked = game.opts.hideBGImage;
+        $("#tooltipsInRightColumn")[0].checked = game.opts.tooltipsInRightColumn;
         $("#enableRedshift")[0].checked = game.opts.enableRedshift;
+        $("#batchSize")[0].value = game.opts.batchSize;
+        $("#forceLZ")[0].checked = game.opts.forceLZ;
+        $("#compressSaveFile")[0].checked = game.opts.compressSaveFile;
         $("#disableTelemetry")[0].checked = game.opts.disableTelemetry;
         $("#noConfirm")[0].checked = game.opts.noConfirm;
         $("#IWSmelter")[0].checked = game.opts.IWSmelter;
+        $('#autoSaveReset')[0].checked = game.opts.autoSaveReset;
 
         var selectedLang = i18nLang.getLanguage();
         var locales = i18nLang.getAvailableLocales();
         var labels = i18nLang.getAvailableLocaleLabels();
-        var $langSelector = $("#languageSelector");
-        $langSelector.empty();
+        var langSelector = $("#languageSelector");
+        langSelector.empty();
         for (var i = 0; i < locales.length; i++) {
-            $('<option />', {
-                value: locales[i],
-                text:labels[locales[i]]
-            }).appendTo($langSelector);
+            $("<option />").attr("value", locales[i]).text(labels[locales[i]]).appendTo(langSelector);
         }
-        $langSelector.val(selectedLang);
+        langSelector.val(selectedLang);
+
+        var selectedNotation = game.opts.notation;
+        var notationSelect = $("#notationSelector");
+        notationSelect.empty();
+        var notations = new classes.KGConfig().statics.notations;
+        for (var i in notations) {
+            $("<option />").attr("value", notations[i]).text($I("opts.notation." + notations[i])).appendTo(notationSelect);
+        }
+        notationSelect.val(selectedNotation);
+
+
+        var schemeSelect = $("#schemeToggle");
+        schemeSelect.empty();
+        for (var i = 0; i < this.allSchemes.length; ++i) {
+            var scheme = this.allSchemes[i];
+            var option = $("<option />").attr("value", scheme).text($I("opts.theme." + scheme));
+            if (game.unlockedSchemes.indexOf(scheme) < 0) {
+                if (this.defaultSchemes.indexOf(scheme) >= 0) {
+                    game.unlockedSchemes.push(scheme);
+                } else {
+                    option.html("&nbsp;&nbsp;" + $I("opts.theme." + scheme)).attr("disabled", "disabled");
+                }
+            }
+            option.appendTo(schemeSelect);
+        }
+        schemeSelect.val(game.colorScheme);
     },
+
+	unlockScheme: function(name) {
+		if (this.game.unlockedSchemes.indexOf(name) < 0) {
+			$("#schemeToggle > option[value=" + name + "]").removeAttr("disabled");
+			this.game.msg($I("opts.theme.unlocked") + $I("opts.theme." + name), "important");
+			this.game.unlockedSchemes.push(name);
+		}
+	},
+
+	relockSchemes: function() {
+		this.game.unlockedSchemes = this.defaultSchemes;
+		this.updateOptions();
+	},
 
     displayAutosave: function(){
         dojo.style(dojo.byId("autosaveTooltip"), "opacity", "1");
@@ -684,7 +866,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         this.updateFontSize();
     },
     updateFontSize: function(){
-        $("#leftColumn").css("font-size", this.fontSize+"px");
+        $("#leftColumn").css("font-size", this.fontSize + "px");
     },
 
     hideChat: function(){
@@ -692,6 +874,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#IRCChatInner").css("visibility", "hidden");
         $("#logLink").toggleClass("active", true);
         $("#chatLink").toggleClass("active", false);
+        $("#rightTabChat").hide();
     },
 
     loadChat: function(){
@@ -710,13 +893,13 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         var height = $(window.top).height() || 850;
         //console.log("IRC WINDOW HEIGHT:", height);
 
-        var $chat = $('#IRCChatInner iframe');
+        var $chat = $("#IRCChatInner iframe");
         $chat.css("height", height - 180);
 
         //swfobject.embedSWF("lib/lightirc/lightIRC.swf", $chat[0], 600, height - 150, 10, "lib/lightirc/expressInstall.swf", params);
         /*<iframe src="https://kiwiirc.com/client/irc.canternet.org/?nick=kitten_?#kittensgame" style="border:0; width:100%; height:450px;"></iframe>*/
         this.isChatActive = true;
-        this.isChatVisited = true;
+        //this.isChatVisited = true;
     },
 
     resetConsole: function(){
@@ -754,6 +937,71 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 altKey: e.altKey
             };
         });
+
+        this.updateIndexHTMLLanguage();
+    },
+
+    updateIndexHTMLLanguage: function() {
+        $("#save-link").text($I("menu.save"));
+        $("#options-link").text($I("menu.options"));
+        $("#reset-link").text($I("menu.reset"));
+        $("#wipe-link").text($I("menu.wipe"));
+        $("#getTheApp-link").text($I("menu.getTheApp"));
+
+        $("#autosaveTooltip").text($I("ui.autosave.tooltip"));
+        $("#saveTooltip").text($I("ui.save.tooltip"));
+        $("#logLink").text($I("ui.log.link"));
+        $("#chatLink").text($I("ui.chat.link"));
+        $("#clearLogHref").text($I("ui.clear.log"));
+        $("#logFiltersBlockText").html($I("ui.log.filters.block"));
+        $("#pauseBtn").text($I("ui.pause"));
+        $("#pauseBtn").attr("title", $I("ui.pause.title"));
+        $("#undoBtn").attr("title", $I("ui.undo.title"));
+        $(".close").text($I("ui.close"));
+        $("#optionLanguage").text($I("ui.option.language"));
+        $("#addTranslationLink").text($I("ui.option.language.add"));
+        $("#languageApplyLink").text($I("ui.option.language.apply"));
+        $("#optionScheme").text($I("ui.option.scheme"));
+        $("#schemeRelock").text($I("ui.option.scheme.relock"));
+        $("#schemeTip").text($I("ui.option.scheme.tip"));
+        $("#optionWorkers").html($I("ui.option.workers"));
+        $("#optionForceHighPrecision").text($I("ui.option.force.high.precision"));
+        $("#optionUsePerSecondValues").html($I("ui.option.use.per.second.values"));
+        $("#optionUsePercentageResourceValues").text($I("ui.option.use.percentage.resource.values"));
+        $("#optionShowNonApplicableButtons").text($I("ui.option.show.non.applicable.buttons"));
+        $("#optionUsePercentageConsumptionValues").text($I("ui.option.use.percentage.consumption.values"));
+        $("#optionHighlightUnavailable").text($I("ui.option.highlight.unavailable"));
+        $("#optionHideSell").text($I("ui.option.hide.sell"));
+        $("#optionHideDowngrade").text($I("ui.option.hide.downgrade"));
+        $("#optionHideBGImage").html($I("ui.option.hide.bgimage"));
+        $("#optionTooltipsInRightColumn").text($I("ui.option.tooltips.right"));
+        $("#optionMore").text($I("ui.option.more"));
+        $("#optionNoConfirm").text($I("ui.option.no.confirm"));
+        $("#optionIWSmelter").text($I("ui.option.iw.smelter"));
+        $("#optionDisableTelemetry").text($I("ui.option.disable.telemetry"));
+        $("#optionEnableRedshift").text($I("ui.option.enable.redshift"));
+        $("#optionEnableRedshiftGflops").text($I("ui.option.enable.redshiftGflops"));
+        $("#optionBatchSize").text($I("ui.option.batch.size"));
+        $("#optionForceLZ").html($I("ui.option.force.lz"));
+        $("#optionCompressSaveFile").html($I("ui.option.compress.savefile"));
+        $("#exportButton").attr("value", $I("ui.option.export.button"));
+        $("#importButton").attr("value", $I("ui.option.import.button"));
+        $("#exportTo").text($I("ui.option.export"));
+        $("#exportToDropbox").attr("value", $I("ui.option.export.dropbox"));
+        $("#exportToSimpleFile").attr("value", $I("ui.option.export.simple.file"));
+        $("#exportToFullFile").attr("value", $I("ui.option.export.full.file"));
+        $("#exportToText").text($I("ui.option.export.text"));
+        $("#closeButton").attr("value", $I("ui.option.close.button"));
+        $("#importWarning").text($I("ui.option.import.warning"));
+        $("#importFrom").text($I("ui.option.import.from"));
+        $("#importFromDropbox").attr("value", $I("ui.option.import.from.dropbox"));
+        $("#importFromText").text($I("ui.option.import.from.text"));
+        $("#doImportButton").attr("value",$I("ui.option.do.import.button"));
+        $("#cancelButton").attr("value",$I("ui.option.cancel.button"));
+        $("#appText").html($I("ui.option.app.text"));
+        $("#appAndroid").text($I("ui.option.app.android"));
+        $("#appIOS").text($I("ui.option.app.ios"));
+        $("#optionNotation").text($I("ui.option.notation"));
     },
 
     _createFilter: function(filter, fId, filtersDiv){
@@ -782,27 +1030,33 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             messages = _console.messages;
 
         var gameLog = dojo.byId("gameLog");
-        dojo.empty(gameLog);
         if (!messages.length) { // micro optimization
             return;
         }
 
-        for (var i = 0; i < messages.length; i++) {
-            var msg = messages[i];
-            if (!msg.span) {
-                var span = dojo.create("span", {className: "msg" }, gameLog);
+        var msg = messages[messages.length - 1];
 
-                if (msg.type){
-                    dojo.addClass(span, "type_"+msg.type);
-                }
-                if (msg.noBullet) {
-                    dojo.addClass(span, "noBullet");
-                }
-                msg.span = span;
+        if (!msg.span) {
+            var span = dojo.create("span", {className: "msg" }, gameLog);
+
+            if (msg.type) {
+                dojo.addClass(span, "type_" + msg.type);
             }
-            dojo.place(msg.span, gameLog, "first");
-            dojo.attr(msg.span, {innerHTML: msg.text});
+            if (msg.noBullet) {
+                dojo.addClass(span, "noBullet");
+            }
+            msg.span = span;
         }
+        //Place date headers above actual log events.
+        if (msg.type === "date") {
+            dojo.place(msg.span, gameLog, "first");
+        } else {
+            dojo.place(msg.span, gameLog, 1);
+        }
+        dojo.attr(msg.span, {innerHTML: msg.text});
+        //Destroy child nodes if there are too many.
+        var logLength = dojo.byId("gameLog").childNodes.length;
+        if (logLength > _console.maxMessages) {dojo.destroy(dojo.byId("gameLog").childNodes[logLength - 1]);}
 
         //fade message spans as they get closer to being removed and replaced
         var spans = dojo.query("span", gameLog);
@@ -810,8 +1064,8 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         var fadeStart = _console.maxMessages - fadeCount;
         var fadeInterval = 1 / fadeCount;
 
-        for (i = fadeStart + 1; i < spans.length; i++) {
-            dojo.style(spans[i], "opacity", (1 - (i-fadeStart) * fadeInterval));
+        for (var i = fadeStart + 1; i < spans.length; i++) {
+            dojo.style(spans[i], "opacity", (1 - (i - fadeStart) * fadeInterval));
         }
     },
 
@@ -830,14 +1084,17 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         }
     },
 
-
-    confirm: function(title, msg, callback) {
-        invokeCallback(callback, [window.confirm(msg)]);
+    confirm: function(title, msg, callbackOk, callbackCancel) {
+        if (window.confirm(msg)) {
+            callbackOk.apply(window);
+        } else if (callbackCancel != undefined) {
+        	callbackCancel.apply(window);
+        }
     },
 
     //TODO: add dialog and close/bind events
     showDialog: function(id){
-        var container = $("#"+id);
+        var container = $("#" + id);
         container.show();
 
         $(".close", container).click(function(){
@@ -862,6 +1119,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 break;
             }
         }
+        this.game.telemetry.logRouteChange(this.activeTabId);
 
         var uiData = LCstorage["com.nuclearunicorn.kittengame.ui"];
         try {
@@ -869,27 +1127,55 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
             this.fontSize = uiData.fontSize || 16;
             this.isChatVisited = uiData.isChatVisited || false;
+            this.isCenter = uiData.isCenter || false;
         } catch (ex) {
             console.error("unable to load ui data");
         }
         this.updateFontSize();
+        this.updateCenter();
     },
 
     save: function(){
         LCstorage["com.nuclearunicorn.kittengame.ui"] = JSON.stringify({
            fontSize: this.fontSize,
-           isChatVisited: this.isChatVisited
+           isChatVisited: this.isChatVisited,
+           isCenter: this.isCenter,
+           theme: this.game.colorScheme
         });
     },
 
+    updateCenter: function(){
+        if (this.isCenter) {
+            $("#game").addClass("centered");
+            $("#toggleCenter").html("&lt;");
+        } else {
+            $("#game").removeClass("centered");
+            $("#toggleCenter").html("&gt;");
+        }
+
+    },
+
     toggleCenter: function(){
-        $("#game").toggleClass("centered");
-        $("#toggleCenter").html($("#game").hasClass("centered") ? "&lt;" : "&gt");
+        this.isCenter = !this.isCenter;
+        this.updateCenter();
     },
 
     isEffectMultiplierEnabled: function(){
         //console.log(this.keyStates);
         return this.keyStates.shiftKey;
+    },
+
+    checkForUpdates: function(){
+        var self = this;
+        var now = Date.now();
+        
+        $.getJSON("build.version.json?=" + now).then(function(json){
+            var buildRevision = json.buildRevision;
+            
+            if (buildRevision > self.game.telemetry.buildRevision){
+                $("#newVersion").toggle(true);
+            }
+        });
     }
 
 });

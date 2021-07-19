@@ -1,0 +1,1337 @@
+/* ******************************************************** */
+/* ***		   	Wood 2.0.1 Theme © Volkeyrn             *** */
+/* ******************************************************** */
+
+/* *********************************** */
+/* source of images for graphic design */
+/* *********************************** */
+
+/* theme_wood_background_01.jpg : https://pngtree.com/freepng/wood-mockup-design-image_5344408.html Volkeyrn: permanent premium member */
+/* theme_wood_background_02.jpg : https://pngtree.com/freepng/wood-logo-mockup-image_5344407.html Volkeyrn: permanent premium member */
+/* theme_wood_background_03.jpg : https://pngtree.com/freepng/wood-mockup-design-image_5344408.html Volkeyrn: permanent premium member */
+/* theme_wood_background_04.png : https://pngtree.com/freepng/wood-signs-vector-plank-design_1136371.html Volkeyrn: permanent premium member */
+/* theme_wood_border_01.png : https://pngtree.com/freepng/dark-wood-realistic-signboard-on-aged-wooden-wall-vintage-image_5048191.html Volkeyrn: permanent premium member */
+/* theme_wood_border_02.png : https://pngtree.com/freepng/solid-wood-plank-wood-illustration_5458710.html Volkeyrn: permanent premium member */
+/* theme_wood_frame_01.png : https://pngtree.com/freepng/wood-frame_1925642.html Volkeyrn: permanent premium member */
+/* theme_wood_frame_02.png : https://pngtree.com/freepng/solid-wood-plank-wood-illustration_5458710.html Volkeyrn: permanent premium member */
+/* theme_wood_switch_off.png : Volkeyrn design */
+/* theme_wood_switch_on.png : Volkeyrn design */
+
+/* ************* */
+/* *** FONTS *** */
+/* ************* */
+@import url(https://fonts.googleapis.com/css?family=Sansita:ital,wght@400,700,400italic,700italic&display=swap);
+
+/* ******************************************** */
+/* ******************* GAME ******************* */
+/* ******************************************** */
+
+body.scheme_wood {
+	background-color:#201916;
+}
+body.scheme_wood.with_background_image {
+	background:	repeat-x local top left url('img/theme_wood_border_01.png'), #201916;
+}
+.scheme_wood  #gamePageContainer,
+.scheme_wood select,
+.scheme_wood .btn,
+.scheme_wood .modern,
+.scheme_wood .btn.modern,
+.scheme_wood input[type='button'] {
+	font-family: 'Sansita', sans-serif;
+}
+.scheme_wood .btn {
+	color: gray;
+	margin-bottom: 6px; /* default 10px */
+	background-color: transparent;
+	border: solid 1px transparent;
+    /* default padding: 5px; */
+    /* default width: 170px; */
+}
+.scheme_wood .btn.modern {
+	/* default font-size: 14px; */
+	/* default font-family: Helvetica; */
+    /* default border: solid 1px transparent; */
+    /* default padding: 0; */
+	border-radius: 5px;/* default border-radius: 3px; */
+	width: 274px; /* default width: 264px; */
+}
+.scheme_wood .btn.modern.disabled {
+	border: solid 1px #120d0c;
+	background-color: transparent;
+	background-image: url('img/theme_wood_background_02.jpg');
+	background-repeat: no-repeat;
+	background-attachment: local;
+	background-position: bottom -86px right -30px;
+	box-shadow: 1px 1px 3px #000000,
+                 0 -1px 0 #382e2e;
+}
+.scheme_wood .btn.modern.disabled:hover {
+	box-shadow: inset -1px -1px 3px #000000, -1px -1px 3px #584848, 2px 2px 5px #000000;
+}
+.scheme_wood .btn.modern.disabled span.btnTitle { /* to change only the properties of the button name for buttons disabled */
+	color: #706464;
+	text-shadow: 0 -2px 1px #000000;
+}
+.scheme_wood .btn.modern.disabled span.btnTitle.limited { /* to change only the properties of the button name for buttons limited */
+	color: #a7372c;
+	text-shadow: 0 -2px 1px #000000;
+}
+.scheme_wood .btn.modern:not(.disabled) {
+	border: solid 1px #1a1112;
+	background-color: #584848;
+	background-image: url('img/theme_wood_background_01.jpg');
+	background-repeat: no-repeat;
+	background-attachment: local;
+	background-position: bottom -62px right;
+	box-shadow: 1px 1px 3px #000000,
+                 0 -1px 0 #584848;
+}
+.scheme_wood .btn.modern:not(.disabled):hover {
+	box-shadow: inset -1px -1px 3px #000000, -1px -1px 3px #e9b03d, 2px 2px 5px #000000;
+}
+.scheme_wood .btn.modern:not(.disabled) span.btnTitle { /* to change only the properties of the button name for buttons enabled */
+	color: #d39133;
+	text-shadow: 0 -2px 1px #000000;
+}
+.scheme_wood .btn.modern:not(.disabled):hover span.btnTitle {
+	color: #e9b03d;
+	text-shadow: 0 -2px 1px #000000;
+}
+.scheme_wood a {
+	color: #9f987c;
+}
+.scheme_wood a,
+.scheme_wood .craft-link {
+    text-decoration: none;
+}
+.scheme_wood a:hover {
+	color: #c5bc9b;
+	opacity: 1.0; /* default opacity: 0.6 */
+}
+.scheme_wood div {
+	color:#b09b7e;
+}
+.scheme_wood .disabled div { /* color text for disabled */
+	color: #706464;
+}
+.scheme_wood h1 {
+	/* default margin-top: 30px; */
+	font-size: 18px; /* default font size = font-size: 12px; */
+	text-transform: capitalize;
+	color: #d0c4b3;
+	padding-left: 20px;
+	text-shadow: 0 -2px 1px #000000;
+}
+.scheme_wood h1:first-child {
+    margin-top: 0;
+}
+/* .scheme_wood .btn.modern.small-text { */
+	/* default font-size: 90%; */
+/* } */
+.scheme_wood .modern .btnContent {
+    padding: 10px 0 10px 1px; /* 1px left for buttons without power background-image */
+}
+/*** green and red light for machine on/off ***/
+.scheme_wood .btn.bldEnabled div.btnContent,
+.scheme_wood .btn.bldlackResConvert div.btnContent {
+	padding: 10px 0 10px 16px; /* 16px left for power background-image */
+	border: none; /* also allows you to remove the height difference with the other buttons (they have no border on div.content) */
+}
+.scheme_wood .btn.disabled.bldlackResConvert { /* color for lack resources convertion */
+	background: no-repeat border-box linear-gradient(90deg, #a7372c 0%, rgba(167, 55, 44, 0.5) 7px, transparent 15px, transparent 100%),
+		local no-repeat bottom -86px right -30px url('img/theme_wood_background_02.jpg');
+}
+.scheme_wood .btn.disabled.bldlackResConvert:hover {
+	background: no-repeat border-box linear-gradient(90deg, #a7372c 0%, rgba(167, 55, 44, 0.5) 7px, transparent 15px, transparent 100%),
+		local no-repeat bottom -86px right -30px url('img/theme_wood_background_02.jpg');
+}
+.scheme_wood .btn:not(.disabled).bldlackResConvert {
+	background: no-repeat border-box linear-gradient(90deg, #a7372c 0%, rgba(167, 55, 44, 0.5) 7px, transparent 15px, transparent 100%),
+		local no-repeat bottom -62px right url('img/theme_wood_background_01.jpg');
+}
+.scheme_wood .btn:not(.disabled).bldlackResConvert:hover {
+	background: no-repeat border-box linear-gradient(90deg, #a7372c 0%, rgba(167, 55, 44, 0.5) 7px, transparent 15px, transparent 100%),
+		local no-repeat bottom -62px right -10px url('img/theme_wood_background_01.jpg');
+}
+.scheme_wood .btn.disabled.bldEnabled {
+	background: no-repeat border-box linear-gradient(90deg, #9e9527 0%, rgba(158, 149, 39, 0.5) 7px, transparent 15px, transparent 100%),
+		local no-repeat bottom -86px right -30px url('img/theme_wood_background_02.jpg');
+}
+.scheme_wood .btn.disabled.bldEnabled:hover {
+	background: no-repeat border-box linear-gradient(90deg, #9e9527 0%, rgba(158, 149, 39, 0.5) 7px, transparent 15px, transparent 100%),
+		local no-repeat bottom -86px right -30px url('img/theme_wood_background_02.jpg');
+}
+.scheme_wood .btn:not(.disabled).bldEnabled {
+	background: no-repeat border-box linear-gradient(90deg, #9e9527 0%, rgba(158, 149, 39, 0.5) 7px, transparent 15px, transparent 100%),
+		local no-repeat bottom -62px right url('img/theme_wood_background_01.jpg');
+}
+.scheme_wood .btn:not(.disabled).bldEnabled:hover {
+	background: no-repeat border-box linear-gradient(90deg, #b6b042 0%, rgba(182, 176, 66, 0.5) 7px, transparent 15px, transparent 100%),
+		local no-repeat bottom -62px right -10px url('img/theme_wood_background_01.jpg');
+}
+/*** end of green light for machine on/off ***/
+.scheme_wood .dialog {
+	padding: 15px; /* default padding: 20px; */
+	background-color:  #201916;
+    box-shadow: 0 0 8px 18px #0f0a0a, inset 0 0 1px 1px #14100e;
+	border: 1px solid transparent;
+	border-radius: 0;
+	margin-right: 12px;
+	border-image-width: 14px 14px 14px 14px;
+	border-image-slice: 14 14 14 14;
+	border-image-repeat: round;
+	border-image-source: url('img/theme_wood_frame_01.png');
+	border-image-outset: 14px 14px 14px 14px;
+	/* Only FireFox */
+	scrollbar-width: thin;
+	scrollbar-color: #261e1a #1a1412;
+	text-shadow: 0 -2px 1px #000000;
+}
+.scheme_wood .dialog a {
+    text-transform: capitalize;
+}
+.scheme_wood label i { /* information text in option windows */
+    /* default font size = font-size: 90%; */
+	color: #706464;
+	opacity: 0.8;
+}
+.scheme_wood label:hover {
+	opacity: 1;/* default opacity: 0.7; */
+	color: #d39133;
+}
+.scheme_wood label:hover i {
+	text-shadow: none;
+}
+.scheme_wood select { /* dropdown list on settlement tab and options windows */
+	background-color: #1a1311;
+    color: #614736;
+	border: groove 2px #261f1c;
+	border-radius: 5px;
+	font-size: 13px;
+	margin-left: 3px;
+	text-shadow: 0 -2px 1px #000000;
+}
+.scheme_wood select>option {
+	background-color: #1a1311;
+    color: #614736;
+	padding: 2px 10px; /* -2 pixel vertical */
+	text-shadow: 0 1px 1px #000000;
+}
+.scheme_wood select > option:disabled {
+	color: #61594b;
+	font-size: 90%;
+}
+.scheme_wood #optionsDiv input[type="checkbox"] + label:before {
+	content: "\2740"; /* WHITE FLORETTE */
+	font: 15px sans-serif;
+	color: #706464;
+}
+.scheme_wood #optionsDiv input[type="checkbox"]:checked + label:before {
+	content: "\273F"; /* BLACK FLORETTE */
+	font: 15px sans-serif;
+	color: #9E9527;
+}
+.scheme_wood .dialog input[type="button"] {
+	margin-left: 7px;
+	margin-bottom: 10px;
+	font-size: 14px;
+}
+.scheme_wood .dialog input#batchSize {
+	background-color: #1a1311;
+	color: #b09b7e;
+	border: 2px groove #261f1c;
+	border-radius: 5px;
+	padding: 3px 1px 3px 5px;
+    margin-right: 5px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	text-shadow: 0 -2px 1px #000000;
+}
+.scheme_wood textarea#importData,
+.scheme_wood textarea#exportData {
+	background-color: #1a1311;
+	color: #b09b7e;
+	box-shadow: inset 0 0 3px 2px #000000;
+	border: 3px solid transparent;
+ 	border-image-source: url('img/theme_wood_frame_02.png');
+	border-image-width: 3px 3px 3px 3px;
+	border-image-slice: 18 18 18 18;
+	border-image-outset: 0;
+	border-image-repeat: round;
+	padding: 5px;
+	margin-bottom: 3px;
+	/* Only FireFox */
+	scrollbar-width: thin;
+	scrollbar-color: #261e1a #1a1412;
+	text-shadow: 0 -2px 1px #000000;
+}
+.scheme_wood input:active,
+.scheme_wood select:active,
+.scheme_wood textarea:active {
+    border-color: #f8edd0 !important;
+}
+
+/* *********************************************** */
+/* ******************* TOP BAR ******************* */
+/* *********************************************** */
+.scheme_wood #topBar {
+    /* default height: 26px; */
+	border-bottom: 1px solid transparent;
+	border-top: 1px solid transparent;
+	top: 0; /* for no shadow on top default top: 2px;*/
+	/* default min-width: 1180px;*/
+	padding-top: 4px;
+	height: 22px; /* default height: 26px; */
+	box-shadow: none; /* default box-shadow: 1px 0 2px #888; */
+}
+.scheme_wood #topBar a {
+    /* default padding-left: 2px; */
+	/* default padding-right: 2px; */
+	text-shadow: 0 -2px 1px #000000;
+}
+.scheme_wood #topBar a.copyright {
+	color: #a7372c;
+	text-shadow: 0 -2px 1px #000000;
+}
+.scheme_wood #topBar a.copyright:hover {
+	color: #c5bc9b;
+}
+.scheme_wood #headerLinks .links-block { /* a link separator : | on header links */
+	color: transparent;
+	text-shadow: none;
+}
+.scheme_wood #topBar div,
+.scheme_wood #topBar .toolbarIcon.sorrow div { /* counter of BLS (Black Liquid Sorrow) */
+	color: #b09b7e;
+	text-shadow: 0 -2px 1px #000000;
+}
+.scheme_wood .toolbarIcon.sorrow.max div {
+    color: #a7372c !important; /* in default.js !important needed */
+}
+.scheme_wood #topBar > div:first-child > span:first-child:after {
+    color: #d39133;
+    content: '\00a0\00a0\00a0Theme by Volkeyrn\00a0\00a0\00a0';
+    /* text-decoration: none; */
+	font-weight: normal;
+	text-shadow: 0 -2px 1px #000000;
+}
+.scheme_wood #autosaveTooltip {
+	color: #d39133;
+}
+.scheme_wood #getTheApp-link { /* Get the app */
+	color: #e9b03d !important;
+	text-shadow: 0 -2px 1px #000000;
+}
+.scheme_wood #getTheApp-link:hover {
+	color: #c5bc9b !important;
+}
+.scheme_wood .links-block {
+	padding-top: 5px !important;
+}
+.scheme_wood .toolbarIcon {
+	text-shadow: 0 -2px 1px #000000;
+}
+.scheme_wood #topBar .toolbarIcon.happiness div {
+    color: #c66829;
+}
+.scheme_wood #topBar .toolbarIcon.energy div,
+.scheme_wood .button_tooltip .energyProduction {
+    color: #9e9527;
+}
+.scheme_wood #topBar .toolbarIcon.energy.warningWinter div {
+    color: #c66829;
+}
+.scheme_wood #topBar .toolbarIcon.energy.warning div,
+.scheme_wood .button_tooltip .energyConsumption,
+.scheme_wood .button_tooltip .energyPenalty {
+	color: #a7372c;
+}
+
+/* ********************************************** */
+/* ******************* FOOTER ******************* */
+/* ********************************************** */
+.scheme_wood #footerLinks {
+	font-size: 90%;
+	bottom: 3px; /* default bottom: 10px; */
+	/* default right: 5px; */
+	color: #32221d; /* a link separator : | on footer link */
+	text-shadow: 0 -2px 1px #000000;
+}
+
+/* *********************************************** */
+/* ******************* TOOLTIP ******************* */
+/* *********************************************** */
+/* .scheme_wood .tooltip-inner {
+	/* default width: 280px; */
+	/* font-size: 13px; /* for center tooltip except title, effects and flavor */
+/* } */
+.scheme_wood #tooltip,
+.scheme_wood .tooltip-block > div {
+	padding-left: 9px; /* default padding-left: 3px; */
+	padding-right: 9px;
+	padding-bottom: 5px;
+	background-color: #1a1412 !important;
+	border: 5px solid transparent;
+	border-image-source: url('img/theme_wood_frame_01.png');
+	border-image-width: 5px 5px 5px 5px;
+	border-image-slice: 14 14 14 14;
+	border-image-outset: 0;
+	border-image-repeat: round;
+	background: linear-gradient(180deg, rgba(26, 20, 18, 0.6) 0%, rgba(26, 20, 18, 0.8) 100%),
+				repeat-y local border-box top right url('img/theme_wood_background_03.jpg'), #1a1412;
+	color: #b09b7e; /* tooltip windows == left column : left text */
+	text-shadow: 0 -2px 1px #000000;
+	box-shadow: 2px 2px 7px #000000, inset 1px 1px 5px #000000;
+	/* margin-left: 20px; /* for offset tooltip due to larger buttons .btn.modern */
+}
+.scheme_wood .tooltip-block > div { /* tooltip on ? top right column */
+	padding: 5px;
+}
+.scheme_wood .button_tooltip {
+	background-color: transparent;
+}
+.scheme_wood .button_tooltip div { /* tooltip window == left column: right text | center column :highlighting text */
+	color: #9f987c;
+}
+.scheme_wood .tooltip-inner .desc { /* Tooltip Window : title text */
+    color: #c0af98;
+	/* default font size = font-size: 15px; */
+	border-bottom : 1px solid #6c4635 !important; /* in core.js !important needed */
+	/* default padding-top: 4px; */
+	margin-bottom: 5px;
+}
+.scheme_wood .tooltip-inner .desc.small {
+	font-size: 75%; /* default font-size: 60%; */
+	opacity: 1; /* default opacity: 0.8; */
+}
+.scheme_wood .tooltip-inner .desc.small.auto-off {
+	color: #a7372c;
+}
+.scheme_wood .tooltip-inner .desc.small.auto-on {
+	color: #9e9527;
+}
+.scheme_wood .tooltip-divider { /* border line before effects text */
+	border-bottom : 1px solid #6c4635 !important; /* in core.js !important needed */
+}
+.scheme_wood .effectName { /* Tooltip Window : effects text */
+	color: #c66829 !important;
+	/* default font size = font-size: 14px; */
+}
+.scheme_wood .rawRes { /* Tooltip Window == text for all missing resources for primary resource */
+    color: #606060;
+	font-style: italic;
+	padding-left: 12px;
+}
+.scheme_wood .button_tooltip .noRes,
+.scheme_wood .limited { /* on ressource limited or not attainable */
+	color: #a7372c;
+}
+.scheme_wood #tooltip .flavor { /* Tooltip Window : last bottom text on center column tooltip window */
+    color: #d4b356;
+	font-size: 13px !important; /* in core.js !important needed */
+	padding-right: 7px;
+}
+
+/* ***************************************************** */
+/* ******************* CENTER COLUMN ******************* */
+/* ***************************************************** */
+/* .scheme_wood #midColumn { */
+	/* default margin-top: 30px; */
+	/* default width: 630px */
+/* } */
+.scheme_wood .tab {
+    font-size: 13px;
+}
+.scheme_wood .tabInner {
+    border: none; /* default border: 1px solid gray; */
+	padding: 6px 15px 6px 15px;/* 18px gained for buttons width. default padding: 15px; */
+	margin-bottom: 36px; /* default margin-bottom: 20px; */
+	text-shadow: 0 -2px 1px #000000;
+}
+.scheme_wood .tabInner.Workshop div.panelContainer:last-child { /* last panelContainer on Workshop Tab */
+	margin-bottom: 54px; /* to view entire dropdownlink of last button */
+}
+.scheme_wood .tabInner.Bonfire {
+	margin-bottom: 14px; /*default margin-bottom: 20px; */
+}
+.scheme_wood .tabsContainer {
+	padding-bottom: 5px; /* default padding-bottom: 15px; */
+	padding-top: 5px;/* default padding-top: 2px; */
+	/* default top: 5px; */
+	text-shadow: 0 -2px 1px #000000;
+}
+.scheme_wood .tabsContainer a {
+	font-size: 14px;
+}
+.scheme_wood .tabsContainer span:not(.genericWarning) { /* separator | for tab */
+	color: #32221d;
+}
+.scheme_wood .tabsContainer a.activeTab {
+	color: #d4b356;
+}
+.scheme_wood .tabsContainer a.activeTab:hover {
+    color: #d4b356;
+}
+.scheme_wood span.genericWarning { /* number of kittens free or engineering free on tab */
+	color: #a7372c;
+}
+.scheme_wood .tab.traitLeaderBonus::before {
+	content: "\2605"; /* BLACK STAR */
+	color: #d4b356;
+}
+.scheme_wood .tab.engineer::before { /* artisan bonus */
+	content: "\2692\00a0"; /* HAMMER AND PICK */
+}
+.scheme_wood .tab.metallurgist::before {
+	content: "\267B\00a0"; /* BLACK UNIVERSAL RECYCLING SYMBOL */
+}
+.scheme_wood .tab.chemist::before {
+	content: "\2623\00a0"; /* BIOHAZARD SIGN */
+}
+.scheme_wood .tab.merchant::before {
+	content: "\2696\00a0"; /* SCALES */
+}
+.scheme_wood .tab.manager::before { /* hunting bonus */
+	content: "\27B4\00a0"; /* BLACK-FEATHERED SOUTH EAST ARROW */
+}
+.scheme_wood .tab.scientist::before {
+	content: "\269B\00a0"; /* ATOM SYMBOL */
+}
+.scheme_wood .tab.wise::before {
+	content: "\2600\00a0"; /* BLACK SUN WITH RAYS */
+}
+.scheme_wood div.bldTopContainer > a { /* under tab */
+	font-size: 90%;
+	font-style: italic;
+	/* default padding-bottom: 5px; */
+	margin-bottom: 5px;/* default margin-bottom: 15px; */
+	text-shadow: 0 -2px 1px #000000;
+}
+.scheme_wood div.bldTopContainer a.activeTab {
+	color: #d4b356;
+	opacity: 0.75;
+}
+.scheme_wood div.bldTopContainer a.activeTab:hover {
+    color: #d4b356;
+	/* default opacity 0.7 on not hover */
+}
+.scheme_wood .bldGroupContainer { /* container for all buttons on center column */
+    padding-top: 10px; /* default padding 15px */
+	margin-top: 5px; /* default margin 10px */
+	border-top: 3px solid transparent;
+ 	border-image-source: url('img/theme_wood_border_02.png');
+	border-image-width: 3px 0 0 0;
+	border-image-slice: 9 0 0 0;
+	border-image-outset: 0;
+	border-image-repeat: repeat;
+	box-shadow: -1px 0 #201916, 1px 0 #201916, 0 -2px 1px #000000;
+}
+.scheme_wood .tabInner input[type='checkbox'] {
+	box-shadow: 0 -2px 1px #000000;
+}
+.scheme_wood input[type='button'] {
+	background-color: #1a1311 !important; /* !important in default.css */
+	background-image: url('img/theme_wood_background_02.jpg');
+	background-repeat: no-repeat;
+	background-attachment: local;
+	background-position: bottom -70px right -30px;
+	box-shadow: 2px 2px 5px #000000,
+                 0 -1px 0 #584848 !important; /* !important in default.css */
+    border: solid 1px #120d0c !important; /* for no offset when border on */ /* !important in default.css */
+    border-radius: 3px !important; /* !important in default.css */
+	color: #71533f;
+	padding: 5px 20px;
+	margin-left: 10px;
+	text-shadow: 0 -2px 1px #000000;
+}
+.scheme_wood input[type='button']:hover {
+	background-color: #1c1b20 !important; /* !important in default.css */
+	border: solid 1px #120d0c !important; /* !important in default.css */
+	color: #716757;
+	box-shadow: inset 2px 2px 3px #000000,
+				 0 1px 0 #584848 !important; /* !important in default.css */
+	cursor: pointer !important;
+	text-shadow: 0 -2px 1px #000000;
+}
+/* button observer different from other input buttons */
+.scheme_wood input[type='button']#observeBtn {
+	font-size: 16px;
+	height: 45px;
+	width: 147px;
+	background: no-repeat border-box local center url('img/theme_wood_background_04.png');
+	background-color: transparent !important; /* !important in default.css */
+	border-radius: none !important; /* !important in default.css */
+	border: none !important; /* !important in default.css */
+	color: #b09b7e;
+	text-shadow: 0 -2px 1px #000000;
+	box-shadow: none !important; /* !important in default.css */
+}
+.scheme_wood input[type='button']#observeBtn:hover {
+	color: #e9b03d;
+	cursor: pointer !important;
+}
+/* .scheme_wood .btn .btnContent a { */
+    /* default max-width: 50px; */
+    /* default overflow-x: hidden; */
+    /* default text-overflow: ellipsis; */
+/* } */
+.scheme_wood .btn.modern a {
+	font-weight: normal;
+	line-height: 16px;
+	background-color: transparent;
+	padding: 10px 4px 10px 4px !important; /* default :  padding: 10px 6px 10px 6px !important; */
+	text-shadow: 0 -2px 1px #000000;
+	border-left: 1px solid transparent; /* default border-left: 1px solid #888; */
+	/* default margin: -10px 0; */
+    /* default min-width: 20px; */
+}
+.scheme_wood .btn.modern:not(.disabled) a {
+	color: #82624a;
+	border-left: 1px solid #47372e;
+}
+.scheme_wood .btn.modern.disabled a {
+    color: #725e55;
+	border-left: 1px solid #261e1b;
+}
+.scheme_wood .btn.modern:not(.disabled) a:hover {
+	color: #b29077;
+	background-color: rgba(0, 0, 0, 0.3);
+}
+.scheme_wood .btn.modern.disabled a:hover {
+	color: #a28b81;
+	background-color: rgba(0, 0, 0, 0.3);
+}
+.scheme_wood .btn.modern:not(.disabled):active,
+.scheme_wood input[type='button']:active,
+.scheme_wood input[type='button']#observeBtn:active {
+    border-color: #e9b03d !important;
+}
+.scheme_wood .linkContent { /* dropdown list on button */
+    margin-top: 26px !important; /* for correct vertical align dropdown list */
+    width: auto !important;
+    border-radius: 0 5px 5px 5px;
+	border-left: solid 1px #1a1112;
+	background-color: #584848; /* color pick from button not disabled and hover */
+	background-image: url('img/theme_wood_background_01.jpg');
+	background-repeat: no-repeat;
+	background-attachment: local;
+	background-position: bottom -33px right;
+	box-shadow: inset -1px -1px 3px #000000, 1px 1px 5px #000000;
+}
+.scheme_wood .linkContent a {
+    color: #808080;
+    width: 36px !important;
+    margin-top: 0 !important;
+	margin-bottom: 0 !important;
+	border-left: none !important; /* default border-left: 1px solid #888; */
+}
+.scheme_wood .btn.modern.disabled .linkContent { /* dropdown list on button disabled */
+	border: solid 1px #120d0c;
+	background-color: transparent; /* color pick from button not disabled and hover */
+	background-image: url('img/theme_wood_background_02.jpg');
+	background-repeat: no-repeat;
+	background-attachment: local;
+	background-position: bottom -50px right -150px;
+	box-shadow: inset -1px -1px 3px #000000, 1px 1px 5px #000000;
+}
+.scheme_wood .btn.modern.disabled .linkContent a {
+	border-left: none !important;
+}
+.scheme_wood .linkContent a:first-child,
+.scheme_wood .linkContent a:first-child:hover {
+	border-radius: 0 5px 0 0;
+}
+.scheme_wood .linkContent a:last-child,
+.scheme_wood .linkContent a:last-child:hover {
+	border-radius: 0 0 5px 5px;
+}
+/* Apply the right border radius of the button to the rightmost link */
+.scheme_wood .btn.modern span.btnTitle + a,
+.scheme_wood .btn.modern:not(.hasSellLink) a.off1Link, /* link minus on buildings buttons */
+.scheme_wood .btn.modern:not(.hasSellLink) a.unassignLink { /* link minus on kittens jobs buttons */
+	/* buttons border-radius: 5px; */
+	border-radius: 0 5px 5px 0;
+}
+.scheme_wood .btn.modern .btnContent a.rightestLink { /* for Combust TC button in Time tab and Hold Festival in Settlement tab */
+	border-radius: 0 5px 5px 0;
+}
+/* .scheme_wood .btn .btnContent a.small { */
+    /* default font-size: 0.7em; */
+    /* default line-height: 16px; */
+/* } */
+.scheme_wood .panelContainer {
+	/* default margin-top: 8px; */
+	/* default min-height: 30px; */
+	border: 5px solid transparent;
+ 	border-image-source: url('img/theme_wood_frame_02.png');
+	border-image-width: 5px 5px 5px 5px;
+	border-image-slice: 15 15 15 15;
+	border-image-outset: 0;
+	border-image-repeat: round;
+	text-shadow: 0 -2px 1px #000000;
+}
+.scheme_wood table.statTable {
+    margin-top: 6px;
+	margin-left: 12px;
+	padding: 9px;
+	color: #c5bc9b;
+	text-shadow: 0 -2px 1px #000000;
+	border: 7px solid transparent;
+	border-image-source: url('img/theme_wood_frame_01.png');
+	border-image-width: 7px 7px 7px 7px;
+	border-image-slice: 14 14 14 14;
+	border-image-outset: 0;
+	border-image-repeat: round;
+	background-color: #261e1a;
+	background: linear-gradient(180deg, rgba(38, 30, 26, 0.75) 0%, rgba(38, 30, 26, 0.75) 100%),
+				repeat-y local padding-box top right url('img/theme_wood_background_03.jpg'), #261e1a;
+	box-shadow: 2px 2px 7px #000000, inset 2px 2px 5px #000000;
+}
+.scheme_wood .panelContainer div.title {
+	padding: 4px 4px 4px 20px; /* default padding: 4px; */ /* default padding-left: 10px; */
+	margin-bottom: 3px;
+	color: #d0c4b3;
+	font-size: 16px !important;
+	text-shadow: 0 -2px 1px #000000;
+}
+.scheme_wood .tabInner.Trade .panelContainer div.title {
+	padding: 3px 4px 0 20px;
+	margin-bottom: 0;
+}
+.scheme_wood .panelContainer .toggle {
+	font-size: 6px;
+	margin: 5px 5px 0 0; /* default margin: 4px; */
+	padding-left:  4px; /* default padding-left 6px */
+	padding-right: 4px; /* default padding-right 6px */
+	padding-bottom: 2px;
+	border: 3px solid transparent;
+ 	border-image-source: url('img/theme_wood_frame_02.png');
+	border-image-width: 3px 3px 3px 3px;
+	border-image-slice: 9 9 9 9 fill;
+	border-image-outset: 0;
+	border-image-repeat: round;
+	background-color: transparent;
+	color: #9f987c;
+}
+.scheme_wood .panelContainer .toggle:hover {
+	color: #c5bc9b;
+}
+.scheme_wood .tabInner.Trade .panelContainer,
+.scheme_wood .tabInner.Space .panelContainer,
+.scheme_wood .tabInner.Time .panelContainer {
+	border: 3px solid transparent;
+ 	border-image-source: url('img/theme_wood_frame_02.png');
+	border-image-width: 3px 3px 3px 3px;
+	border-image-slice: 9 9 9 9;
+	border-image-outset: 0;
+	border-image-repeat: round;
+}
+.scheme_wood .container {
+	padding: 5px; /* default padding: 10px; */
+}
+.scheme_wood .container.trade-race .crypto-trade .btn.modern {
+	max-width: 131px; /* (button content width - (2 x button border width) - (1 x button margin-right)) / 2 => (274 -2 -10)/2 = 131 */
+}
+.scheme_wood .container div.currentGovernment { /* for padding-bottom too height */
+	padding-bottom: 3px !important;
+}
+/* .scheme_wood .trade-race > .left { */
+    /* default width: 50%; */
+/* } */
+/* .scheme_wood .trade-race > .right { */
+    /* default width: 50%; */
+/* } */
+.scheme_wood .trade-race {
+	text-shadow: 0 -2px 1px #000000;
+}
+.scheme_wood .trade-race .buys {
+	color: #a7372c;
+	font-size: smaller;
+}
+.scheme_wood .trade-race .sells {
+	color: #9e9527;
+	font-size: smaller;
+}
+.scheme_wood .trade-race .tradeAmount {
+	color: #808080;
+	font-size: smaller;
+}
+.scheme_wood .attitude { /* text for attitude races int trade tab */
+	/* default font size = font-size: 90%; */
+	color: #c2a793 !important;
+}
+.scheme_wood .attitude:before {
+	/* default content: "("; */
+	content: "\00a0\00a0\21E0\21E2\00a0\00a0"; /* default content: "("; */ /* LEFTWARDS DASHED ARROW and RIGHTWARDS DASHED ARROW */
+	color: #40332e;
+	font-size: larger;
+	font-weight: bold;
+}
+.scheme_wood .attitude:after {
+	/* default content: ")"; */
+	content: ""; /* default content: ")"; */
+}
+.scheme_wood .container.trade-race a[title='Pinned'] {
+	color: #9e9527;
+	font-weight: bold;
+}
+.scheme_wood .container.trade-race a[title='Pinned']:hover {
+	color: #b6b042;
+}
+/* .scheme_wood .btn.explore { */
+    /* default margin-right: 9px; */
+/* } */
+.scheme_wood .panelContainer div.censusFilters {
+	margin-bottom: 2px; /* for add a margin under the 2 lists (select) in the settlement tab */
+}
+/* ---------- Village ----------*/
+/* container 'Census' -> list of kittens in settlement tab */
+.scheme_wood .census-block {
+    padding: 5px; /* default padding: 5px; */
+    /* default margin-bottom: 5px; */
+    background-color: transparent;
+	border: solid 3px transparent; /*#422d26;*/
+	border-radius: 3px;
+	text-shadow: 0 -2px 1px #000000;
+	box-shadow: inset 0 0 1px 2px #120e0c;
+}
+.scheme_wood .census-block:hover {
+	background: #281f1c;
+	border: 3px solid transparent;
+	border-image-source: url('img/theme_wood_frame_02.png');
+	border-image-width: 3px 3px 3px 3px;
+	border-image-slice: 9 9 9 9;
+	border-image-outset: 0;
+	border-image-repeat: stretch;
+}
+.scheme_wood .census-block.simLeader {
+	background-color: #281f1c;
+	border: 3px solid transparent;
+ 	border-image-source: url('img/theme_wood_frame_02.png');
+	border-image-width: 3px 3px 3px 3px;
+	border-image-slice: 9 9 9 9;
+	border-image-outset: 0;
+	border-image-repeat: round;
+}
+.scheme_wood .census-block.simLeader:hover {
+	border-image-width: 6px 6px 6px 6px;
+	border-image-slice: 12 12 12 12;
+}
+.scheme_wood .census-block.simLeader a.leaderHref {
+	color: #d4b356;
+}
+.scheme_wood .census-block .info { /* info of kitten */
+	font-size: 0.9em;
+	color: #815e48;
+}
+.scheme_wood .census-block .skill { /* jobs unasigned */
+	color: #706464;
+}
+.scheme_wood .census-block .skill:first-of-type { /* job assigned */
+	color: #d4b356;
+	font-weight: normal !important;
+}
+.scheme_wood .census-block.simLeader .info span.name { /* Leader name */
+	font-size: 1.2em;
+}
+.scheme_wood .census-block.simLeader .skill:first-of-type { /* Leader job assigned */
+	font-size: 1em; /* default font-size: 0.8em; */
+}
+.scheme_wood .container .name.color-none { /* name of kitten */
+	color: #b09b7e;
+}
+.scheme_wood .container .name.color-brown {
+	color: #824b23;
+}
+.scheme_wood .container .name.color-cream {
+	color: #ad884a;
+}
+.scheme_wood .container .name.color-black {
+	color: #100c0b;
+}
+.scheme_wood .container .name.color-fawn {
+	color: #713306;
+}
+.scheme_wood .container .name.color-white {
+	color: #f8f8f8;
+}
+.scheme_wood .container .name.variety-none {
+	border: 1px solid transparent;
+}
+.scheme_wood .container .name.variety-dual { /* bicolore */
+	border: 1px solid grey;
+}
+.scheme_wood .container .name.variety-tabby { /* tigré  ou rayé*/
+	border: 1px dashed grey;
+}
+.scheme_wood .container .name.variety-torbie { /* marbré strié */
+	border: 1px dashed grey;
+	border-left: dotted;
+	border-right: dotted;
+}
+.scheme_wood .container .name.variety-calico { /* tricolore */
+	border: 1px solid grey;
+	border-top-color: burlywood;
+	border-bottom-color: burlywood;
+}
+.scheme_wood .container .name.variety-spots { /* tacheté */
+	border: 1px dotted grey;
+}
+.scheme_wood .btn.modern a.bld-on,
+.scheme_wood .btn.modern a.auto-on,
+.scheme_wood .btn.modern a.fugit-on {
+	color: #9e9527;
+}
+.scheme_wood .btn.modern a.bld-on:hover,
+.scheme_wood .btn.modern a.auto-on:hover,
+.scheme_wood .btn.modern a.fugit-on:hover {
+	color: #b6b042;
+}
+.scheme_wood .btn.modern a.bld-off,
+.scheme_wood .btn.modern a.auto-off,
+.scheme_wood .btn.modern a.fugit-off {
+	color: #a7372c;
+}
+.scheme_wood .btn.modern a.bld-off:hover,
+.scheme_wood .btn.modern a.auto-off:hover,
+.scheme_wood .btn.modern a.fugit-off:hover {
+	color: #db483c;
+}
+.scheme_wood .btn.modern.craftOn span.btnTitle { /* all buttons with engineer(s) in workshop tab */
+	color: #9e9527;
+}
+.scheme_wood .btn.modern.craftOn:hover span.btnTitle {
+	color: #b6b042;
+}
+.scheme_wood td.craftStuffPanel > span { /* title of craft stuff panel */
+	color: #d0c4b3;
+	text-shadow: 0 -2px 1px #000000;
+	font-size: 15px;
+}
+.scheme_wood td.craftStuffPanel > table { /* craft stuff panel */
+    margin-top: 2px;
+    padding: 10px 20px; /* default padding-top: 20px; */
+    background-color: #1a1412;
+	border: 3px solid transparent;
+ 	border-image-source: url('img/theme_wood_frame_02.png');
+	border-image-width: 3px 3px 3px 3px;
+	border-image-slice: 9 9 9 9;
+	border-image-outset: 0;
+	border-image-repeat: round;
+	background: linear-gradient(180deg, rgba(26, 20, 18, 0.6) 0%, rgba(26, 20, 18, 0.6) 100%),
+				repeat-y local border-box top right url('img/theme_wood_background_03.jpg'), #1a1412;
+	text-shadow: 0 -2px 1px #000000;
+	box-shadow: 2px 2px 7px #000000, inset 3px 3px 7px #000000;
+}
+
+/* ******************************************************** */
+/* ******************* ACHIEVEMENTS TAB ******************* */
+/* ******************************************************** */
+.scheme_wood .achievement-header {
+	color: #d0c4b3;
+	font-size: 18px;
+	margin-bottom: 3px;
+	padding-left: 20px;
+}
+.scheme_wood .achievement {
+    padding-top: 2px;/* default padding: 5px; */
+	/* default padding-left: 10px; */
+	display: block;
+	font-size: 15px;
+	margin-bottom: 8px;/* default margin-bottom: 10px; */
+	height: 32px;
+	background-color: transparent;
+	color: #805e47;
+	letter-spacing: .1rem;
+	border: 3px solid transparent;
+ 	border-image-source: url('img/theme_wood_frame_02.png');
+	border-image-width: 3px 3px 3px 3px;
+	border-image-slice: 9 9 9 9;
+	border-image-outset: 0;
+	border-image-repeat: round;
+	box-shadow: inset 1px 1px 2px #000000, 1px 1px 1px #000000;
+}
+.scheme_wood .achievement:hover {
+	box-shadow: inset -1px -1px 2px #000000, 2px 2px 5px #000000, 0 -1px 2px #403939;
+	border-image-width: 5px 5px 5px 5px;
+	border-image-slice: 15 15 15 15;
+}
+.scheme_wood .achievement:not(.unethical).unlocked:hover {
+	color: #e9b03d;
+}
+.scheme_wood .achievement.unethical {
+	color: #a7372c;
+}
+.scheme_wood .achievement.unethical:hover {
+	color: #c74134;
+}
+.scheme_wood .achievement:not(.unlocked) {
+	color: #706464;
+}
+.scheme_wood .achievement:not(.unlocked):hover {
+	color: #909090;
+}
+.scheme_wood .achievement:after {
+	font-size: smaller;
+	display: block;
+	letter-spacing: normal;
+	color: #c5bc9b;
+}
+.scheme_wood .achievement-header .star {
+	/* default font size = font-size: 18px; */
+	color: #c66829; /* orange or dominant color of the theme */
+}
+.scheme_wood .achievement .star {
+	/* default font size = font-size: 18px; */
+	color : #908383;
+}
+.scheme_wood .achievement.unlocked .star {
+	color : #c66829; /* orange or dominant color of the theme */
+}
+.scheme_wood .achievement.unlocked:hover .star {
+	font-weight: bold;
+}
+
+/* **************************************************** */
+/* ******************* RIGHT COLUMN ******************* */
+/* **************************************************** */
+.scheme_wood #rightColumn {
+    /* default padding-left: 8px; */
+	width: calc(50% - 355px);
+	max-width: 440px; /* default max-width: 400px; */
+    /* default min-width: 250px; */
+	top: 30px; /* default top: 20px; */
+	/* default margin-top: 4px */
+}
+.scheme_wood #toggleCenter,
+.scheme_wood span.toggleCenter {
+	color: #9f987c;
+	opacity: 0.6; /* default opacity: 0.2; */
+	cursor: pointer;
+	text-shadow: 0 -2px 1px #000000;
+}
+.scheme_wood span.toggleCenter {
+	opacity: 1; /* for have #toggleCenter same color */
+}
+.scheme_wood #toggleCenter:hover,
+.scheme_wood div#toggleCenter:hover > span.toggleCenter {
+	color: #c5bc9b;
+	opacity: 1.0;
+}
+.scheme_wood #calendarDiv {
+    color: #9c9087;
+	padding-left: 5px;
+    margin-top: 5px;
+	text-shadow: 2px 2px 2px #000000;
+}
+.scheme_wood #calendarSign {
+   font-size: 120%;
+}
+.scheme_wood #calendarSign:hover {
+   cursor: default;
+}
+.scheme_wood .right-tab-header { /* Log | Chat link on right column */
+	/* default margin-top: 10px; */
+	font-size: 90%;
+	text-shadow: 0 -2px 1px #000000;
+ }
+.scheme_wood .right-tab-header a {
+	margin-right: -5px;
+	/* default padding: 5px; */
+    /* default padding-left: 30px; */
+    /* default padding-right: 30px; */
+}
+.scheme_wood .right-tab-header a.active {
+	border-top: 1px solid #32221d; /* default border-top: 1px solid rgba(128, 128, 128, 0.4); */
+	color: #d4b356;
+}
+.scheme_wood .right-tab-header a.active:hover {
+	color: #d4b356;
+}
+.scheme_wood div#observeButton {
+	margin-top: 5px; /* default margin-top: 15px */
+	height: 45px; /* default height: 30px; */
+}
+.scheme_wood #rightTabChat {
+	margin-top: 15px;
+}
+.scheme_wood div.console-intro { /* Text on right column : "You are a kitten in a catnip forest." */
+	color: #585145;
+	font-weight: normal;
+	border-top: 1px solid transparent !important;
+	text-shadow: 0 -2px 1px #000000;
+}
+.scheme_wood #clearLogHref { /* Link in right column : Clear log */
+	font-size: 90%;
+	text-shadow: 0 -2px 1px #000000;
+}
+.scheme_wood #logFiltersBlock > a { /* Link in right column : [+]Log Filters */
+	font-size: 90%;
+	margin-left: 5px;
+	text-shadow: 0 -2px 1px #000000;
+}
+.scheme_wood #pauseBtn { /* Link in right column : pawse */
+	margin-left: 5px;
+	text-shadow: 0 -2px 1px #000000;
+}
+.scheme_wood #gameLog {
+	/* default overflow-y: auto !important; */
+	margin: 15px 10px 5px 10px;
+	padding: 7px 10px 10px 10px !important;
+	/* 3 lines of code below if border with an image */
+	min-height: 5% !important;
+	height: unset !important;
+	max-height: calc(100% - 100px) !important;
+	scrollbar-width: thin; /* only Firefox */
+	border: 1px solid transparent;
+	border-image-source: url('img/theme_wood_frame_02.png');
+	border-image-width: 9px 9px 9px 9px;
+	border-image-slice: 18 18 18 18;
+	border-image-outset: 8px 9px 8px 8px;
+	border-image-repeat: round;
+	background: border-box linear-gradient(180deg, rgba(32, 25, 22, 0.7) 0%, rgba(32, 25, 22, 0.9) 100%),
+				repeat-y local border-box top left url('img/theme_wood_background_03.jpg'), #201916;
+	box-shadow: inset 2px 2px 7px #000000;
+}
+.scheme_wood #gameLog span.msg:not(.type_date)  {
+	margin-left: 1.2em;
+	list-style-type: '\25CF'; /* BLACK CIRCLE */
+	padding-left: 0.3em;
+	text-shadow: 0 -2px 1px #000000 !important;
+}
+.scheme_wood #gameLog span.msg.noBullet {
+	margin-left: 2.3em !important;
+	list-style-type: '\25AA' !important; /* BLACK SMALL SQUARE */ /* !important in default.css */
+	text-shadow: 0 -2px 1px #000000 !important;
+}
+.scheme_wood .msg {
+	font-size: 85%;
+	font-weight: normal;
+	color: #a89f93;
+	text-shadow: 0 -2px 1px #000000;
+}
+.scheme_wood .msg.type_notice {
+	color: #2987c6; /* default color: #01A9DB; */
+}
+.scheme_wood .msg.type_important {
+    color: #c66829; /* default color: coral; */
+}
+.scheme_wood .msg.type_alert {
+    color: #c62938; /* default color: red; */
+}
+.scheme_wood .msg.type_urgent {
+	color: #c6b629; /* default color: blueviolet; */
+	font-size: 1.1em;
+}
+.scheme_wood .msg.type_date {
+	/* default margin-top: 15px; */
+	color: #d39133; /* default color: #ff7f50; */
+	/* default font size = font-size: 90%; */
+	font-size: 100%;
+	border-bottom: solid 1px transparent;
+	text-transform: none;
+	text-decoration: underline #e9b03d;
+	padding-left: 5px;
+}
+
+/* *************************************************** */
+/* ******************* LEFT COLUMN ******************* */
+/* *************************************************** */
+.scheme_wood #leftColumn {
+	margin-top: 10px; /* default margin-top: 4px; */
+	/* default width: 25%; */
+    /* default min-width: 300px; */
+	/* default max-width: 400px; */
+	padding-right: 10px; /* default padding right : 20px */
+	text-shadow: 0 -2px 1px #000000;
+}
+/* .scheme_wood a.link { */
+    /* default padding-right: 10px; */
+/* } */
+.scheme_wood .res-toolbar.right {
+	padding-right: 20px;
+	/* default margin-right:-18px; */
+}
+.scheme_wood a.link.collapse {
+	opacity: 0.5; /* default opacity: 0.2; */
+}
+.scheme_wood a.link.collapse:hover {
+	opacity: 1;/* default opacity: 0.9; */
+	color: #c5bc9b;
+}
+.scheme_wood #leftColumn .res-toolbar a.link.toggled {
+    color: #d4b356;
+}
+.scheme_wood div.tooltip-block > span {
+	color: #9f987c;
+}
+.scheme_wood div.tooltip-block:hover > span {
+	font-weight: bold;
+	color: #c5bc9b;
+}
+.scheme_wood .res-table {
+	max-width: 352px;/* default max-width: 340px; */
+    border-collapse: collapse; /* gain of 3 pixel by border -> no margin bottom after */
+	margin-left: 2px; /* without 0px margin left for all ressources */
+ }
+/* .scheme_wood .res-toolbar.left { */
+    /* default padding-left: 5px; */
+/* } */
+/* .scheme_wood .res-cell { */
+	/* default padding-left: 2px; */
+    /* default padding-right: 2px; */
+/* } */
+.scheme_wood .craftTable {
+	margin-bottom: 10px !important; /* for correct margin bottom due of the line above with border-collapse: collapse on .res-Table ! */
+	/* default padding-bottom: 50px; */
+ }
+.scheme_wood .res-cell.craft-link {
+	color: #9f987c;
+	/* default width: 20px; */
+	/* default max-width: 60px; */
+ }
+/* .scheme_wood .res-cell.craft-link .plusPrefix { */
+    /* default font-size: 80%; */
+/* } */
+.scheme_wood .res-cell.craft-link.all { /* column craft all */
+	font-size: 90%; /* default font-size: 85%; */
+	opacity: 1; /* default opacity: 0.4; */
+	color: #706464;
+}
+.scheme_wood .res-cell.craft-link:hover,
+.scheme_wood .res-cell.craft-link.all:hover { /* craft table left column */
+    color: #c5bc9b;
+	text-decoration: none;
+	font-weight: bold;
+	opacity: 1;
+}
+.scheme_wood .res-row {
+	padding-bottom: 2px; /* default padding-bottom: 4px; */
+}
+.scheme_wood .res-row:hover {
+    background-color: rgba(158, 149, 39, 0.1); /* color: #9E9527; */
+	cursor: default;
+}
+.scheme_wood .highlited { /* higlighting ressources when hover button on center windows */
+	background-color: rgba(158, 149, 39, 0.1); /* color: #9E9527; */
+}
+.scheme_wood .res-toolbar {
+	white-space: nowrap;
+}
+/* .scheme_wood div.res-cell.resource-name { */
+	/* default width: 60px; */
+	/* default max-width: 85px; */
+/* } */
+.scheme_wood .resource_faith .resource-name,
+.scheme_wood .resource_kittens .resource-name,
+.scheme_wood .resource_steel .resource-name,
+.scheme_wood .resource_gear .resource-name,
+.scheme_wood .resource_alloy .resource-name,
+.scheme_wood .resource_megalith .resource-name {
+	color: #808080 !important;
+}
+.scheme_wood .resource_paragon .resource-name {
+	color: #846bd8 !important;
+}
+.scheme_wood .resource_burnedParagon .resource-name {
+	color: #6141cd !important;
+}
+.scheme_wood .resource_antimatter .resource-name,
+.scheme_wood .resource_relic .resource-name,
+.scheme_wood .resource_void .resource-name {
+	color: #7557e8 !important;
+}
+.scheme_wood .resource_unobtainium .resource-name {
+	color: #d5000f !important;
+}
+.scheme_wood .resource_eludium .resource-name {
+	color: #b003ff !important;
+}
+.scheme_wood .resource_unicorns .resource-name {
+	color: #ffa505 !important;
+	text-shadow: 0 -2px 1px #000000 !important;
+}
+.scheme_wood .resource_alicorn .resource-name {
+	color: #ffc55d !important;
+	text-shadow: 0 -2px 1px #000000 !important;
+}
+.scheme_wood .resource_tears .resource-name {
+	color: #cc8300 !important;
+	text-shadow: 0 -2px 1px #000000 !important;
+}
+.scheme_wood .resource_karma .resource-name {
+	color: #ffb531 !important;
+	text-shadow: 0 -2px 1px #000000 !important;
+}
+.scheme_wood .maxRes {
+	color: #706464;
+}
+.scheme_wood .resAmount {
+    color: #a89f93;
+}
+.scheme_wood .resLimitWarn {
+    color: #c66829;
+	opacity: 0.9; /* default opacity: 0.75 */
+}
+.scheme_wood .resLimitNotice {
+    color: #805e47;
+}
+.scheme_wood .resPerTick {
+	cursor: default;
+	color: #a89f93;
+}
+.scheme_wood .res-row.resLeaderBonus .resPerTick {
+	color: #d4b356;
+}
+.scheme_wood .res-row.craftEngineer .res-cell.resource-value {
+	color: #9e9527;
+}
+.scheme_wood div#advisorsContainer {
+	color: #a7372c;
+	/* default padding-top: 10px; */
+}
+.scheme_wood .res-cell.resource-value {
+	/* default width: 75px; */
+	/* default max-width: 90px; */
+	color: #a89f93;
+}
+.scheme_wood #fastHuntContainerCount { /* Text left column : "xx times" from Send hunters */
+	color: #706464;
+	text-shadow: none !important;
+}
+.scheme_wood #fastPraiseContainer >a {
+	font-size: larger;
+}
+.scheme_wood #fastPraiseContainer >a:hover {
+	color: #d5ceb6;
+	text-shadow: 1px 1px 5px #c5bc9b, -1px -1px 5px #c5bc9b;
+}
+.scheme_wood .res-cell.positive-weather { /* to change the color for bonus cell according to the season */
+	color: #9e9527;
+}
+.scheme_wood .res-cell.negative-weather { /* to change the color for penalty cell according to the season */
+	color: #a7372c;
+}
+
+/* ************************************************* */
+/* ******************* SCROLLBAR ******************* */
+/* ************************************************* */
+.scheme_wood ::-webkit-scrollbar-thumb {
+    background: #261e1a;
+	border-radius: 40px;
+}
+.scheme_wood ::-webkit-scrollbar-track {
+    background: #1a1412;
+    border-radius: 50px;
+}
+/* Only FireFox */
+.scheme_wood #leftColumn,
+.scheme_wood #rightColumn,
+.scheme_wood #midColumn {
+   scrollbar-width: thin;
+   scrollbar-color: #261e1a #1a1412 !important;
+}
+.scheme_wood select {
+   scrollbar-width: auto !important;
+}

@@ -1,6 +1,165 @@
 dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabManager, {
     
     game: null,
+    lang: "en",
+    i18ng: null,
+    i18nData: {
+        "en": {
+            "catnip": "Catnip / Sec",
+
+            "getCatnipInWarmSpring": "During Warm Spring",
+            "getCatnipColdWinter": "During Cold Winter",
+
+            "science": "Science",
+
+            "getCelestialPerDay": "Chance of Celestial Events",
+            "getCelestialAutoSuccess": "Celestial Event Auto Success Rate",
+            "getMaxComped": "Maximum Helpful Compediums",
+            "getBlueprintCraft": "Blueprints Per Craft",
+
+            "titanium": "Titanium",
+
+            "getTitPerZebraTrade": "Titanium Per Zebra Trade",
+            "getZebraTradesLeftToMaxTit": "Trades Left to Cap Titanium",
+            "getZebraTradesToMaxTit": "Max Zebra Trades to Cap Titanium",
+
+            "pollution": "污染",
+
+            "getPollutionTick": "pollution per second",
+            "getCoMax": "Max of CO2",
+
+            "unicorns": "Unicorns",
+
+            "getBestUniBuilding": "Best Unicorn Building",
+            "getBestAliBuilding": "Best Alicorn Building Per Ivory Cost",
+            "getNecrocornsPerSecond": "Necrocorns Per Second",
+            "getNecrocornTime": "Time Until Next Necrocorn",
+            "getLeviChance": "Chance per year of Leviathans",
+
+            "religion": "Religion",
+
+            "getReligionProductionBonusCap": "Solar Revolution Limit",
+            "getNextTranscendTierProgress": "Progress to Next Transcendence Tier",
+            "getRecNextTranscendTierProgress": "Rec.Progress to Next Transcendence Tier",
+            
+            "paragon": "Paragon Bonus",
+
+            "getParagonProductionBonus": "Production Bonus",
+            "getParagonStorageBonus": "Storage Bonus(include horizon)",
+            
+            "time": "Time",
+
+            "getTCPerSacrifice": "Time Crystals per Sacrifice",
+            "getRelicPerTCRefine": "Relics Per Time Crystal Refine",
+
+            "resourceRetrieval": "资源回复",
+
+            "getTradeTC": "每跳一年的时间水晶贸易收入",
+            "getResourceRetrievalTCBackYears": "下级资源回复亏损至盈利的时间",
+
+            "others": "Others",
+
+            "getBestMagnetoBuilding": "Best Magneto/Steamwork Building",
+            "getUraniumForThoriumReactors": "Uranium/Sec for Thorium Reactors",
+            "getDarkFutureYears": "Years until Dark Future",
+            "getBestRelicBuilding": "Best improve Relic Building",
+            "getAIlv15Time": "Time until AI level 15",
+            "getfutureSeason": "Seasons until next TemporalParadox",
+
+            "best.none": "No Building",
+            "infinity": "Infinity",
+            "sec": "/sec",
+            "done": "Done",
+        },
+        "zh": {
+            "catnip": "猫薄荷 / 秒",
+
+            "getCatnipInWarmSpring": "暖春",
+            "getCatnipColdWinter": "寒冬",
+
+            "science": "科学",
+
+            "getCelestialPerDay": "天文事件几率",
+            "getCelestialAutoSuccess": "天文事件自动观测几率",
+            "getMaxComped": "最大加成所需概要数量",
+            "getBlueprintCraft": "每次工艺制作的蓝图",
+
+            "titanium": "钛",
+
+            "getTitPerZebraTrade": "每次和斑马贸易获得的钛",
+            "getZebraTradesLeftToMaxTit": "达到钛上限的剩余斑马交易次数",
+            "getZebraTradesToMaxTit": "达到钛上限的斑马交易次数",
+
+            "pollution": "污染",
+
+            "getPollutionTick": "污染值",
+            "getCoMax": "二氧化碳最大值",
+
+            "unicorns": "独角兽",
+
+            "getBestUniBuilding": "最佳独角兽建筑",
+            "getBestAliBuilding": "象牙性价比最高天角兽建筑",
+            "getNecrocornsPerSecond": "每秒获得的死灵兽",
+            "getNecrocornTime": "距离下一个死灵兽的时间",
+            "getLeviChance": "利维坦每年到来降临的几率",
+
+            "religion": "宗教",
+
+            "getReligionProductionBonusCap": "太阳革命极限加成",
+            "getNextTranscendTierProgress": "到达下一超越等级的进度",
+            "getRecNextTranscendTierProgress": "推荐下一超越等级的进度",
+
+            "paragon": "领导力加成",
+
+            "getParagonProductionBonus": "生产加成",
+            "getParagonStorageBonus": "库存加成(含黑洞)",
+            "getEffectLeader": "领袖特质效果",
+
+            "time": "时间",
+
+            "getTCPerSacrifice": "每次天角兽献祭的时间水晶值",
+            "getRelicPerTCRefine": "每次时间水晶精炼的遗物值",
+
+            "resourceRetrieval": "资源回复",
+
+            "getTradeTC": "当前周期烧水晶的水晶贸易收入",
+            "getTradeTCAvg": "平均周期烧水晶的水晶贸易收入",
+            "getResourceRetrievalTCBackYears": "升级后烧水晶使水晶回本的预计时间",
+
+            "others": "其他",
+
+            "getBestMagnetoBuilding": "最佳磁电机/蒸汽工坊",
+            "getUraniumForThoriumReactors": "钍反应堆每秒耗铀",
+            "getDarkFutureYears": "距离黑暗未来到来年份",
+            "getBestRelicBuilding": "获取最佳遗物建筑",
+            "getBestUnobtainiumBuilding": "难得素最佳太空建筑",
+            "getAIlv15Time": "天网觉醒倒计时",
+            "getfutureSeason": "距离下次时间悖论(季节)",
+            
+            "best.none": "无",
+            "infinity": "∞",
+            "sec": "/秒",
+            "done": "已完成",
+        },
+    },
+
+    i18n: function(key, args) {
+        if (key[0] == "$")
+            return this.i18ng(key.slice(1));
+        value = this.i18nData[this.lang][key];
+        if (!value) {
+            value = this.i18nData["en"][key];
+            if (!value) {
+                console.error("key \"" + key + "\" not found");
+                return "$" + key;
+            }
+            console.error("key \"" + key + "\" not found in " + this.lang);
+        }
+        if (args)
+            for (var i = 0; i < args.length; i++)
+                value = value.replace("{"+ i + "}", args[i]);
+        return value;
+    },
     
     roundThisNumber: function(num){
         num*=1000;
@@ -11,10 +170,26 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
     },
      
     getButton: function(tab, buttonName){
-        for(var i in this.game.tabs[tab].buttons){
-            if(this.game.tabs[tab].buttons[i].opts.building == buttonName)
+        for(var i in this.game.tabs[tab].children){
+            if(this.game.tabs[tab].children[i].opts.building == buttonName)
                 return parseInt(i);
         }
+    },
+    
+    getButtonPrice: function(tabPanel, buttonName, resName){
+        for (var i in tabPanel){
+            if(tabPanel[i].id == buttonName){
+                var bunttonModel = tabPanel[i].model;
+                break;
+            }
+        }
+        for (var a in bunttonModel.prices){
+            if(bunttonModel.prices[a].name == resName){
+                var cost = bunttonModel.prices[a].val;
+                break;
+            }
+        }
+        return cost;
     },
 
     makeNiceString: function(num, numDigits = 3){
@@ -32,14 +207,179 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         return num;
     },
 
+    // CATNIP :
+
+    getPotentialCatnip: function (number) {
+            var fieldProd = this.game.getEffect('catnipPerTickBase') * number;
+            var vilProd = (this.game.village.getResProduction().catnip) ? this.game.village.getResProduction().catnip * (1 + this.game.getEffect('catnipJobRatio')) : 0;
+            var baseProd = fieldProd + vilProd;
+            baseProd *= 1 + this.game.getEffect("catnipRatio");
+
+            var paragonBonus = this.game.challenges.isActive("winterIsComing") ? 0 : this.game.prestige.getParagonProductionRatio();
+            baseProd *= 1 + paragonBonus;
+
+            baseProd *= 1 + this.game.religion.getSolarRevolutionRatio() * (1 + this.game.bld.pollutionEffects["solarRevolutionPollution"]);
+
+            baseProd *= 1 + (this.game.getEffect("blsProductionBonus") * this.game.resPool.get("sorrow").value);
+            
+            baseProd = this.game.calendar.cycleEffectsFestival({catnip: baseProd})['catnip'];
+
+            baseProd *= 1 + this.game.bld.pollutionEffects["catnipPollutionRatio"];
+
+            var baseDemand = this.game.village.getResConsumption()['catnip'];
+            baseDemand *= 1 + this.game.getEffect("catnipDemandRatio");
+            if (this.game.village.sim.kittens.length > 0 && this.game.village.happiness > 1) {
+                var happyCon = Math.max(this.game.village.happiness * (1 + this.game.getEffect("hapinnessConsumptionRatio")) - 1, 0);
+                if (this.game.challenges.isActive("anarchy")) {
+                    baseDemand *= 1 + happyCon * (1 + this.game.getEffect("catnipDemandWorkerRatioGlobal"));
+                } else {
+                    baseDemand *= 1 + happyCon * (1 + this.game.getEffect("catnipDemandWorkerRatioGlobal")) * (1 - this.game.village.getFreeKittens() / this.game.village.sim.kittens.length);
+                }
+            }
+            baseProd += baseDemand;
+
+            baseProd += this.game.getResourcePerTickConvertion('catnip');
+            baseProd *= 1 + this.game.timeAccelerationRatio();
+            baseProd *= this.game.ticksPerSecond;
+            return baseProd;
+        },
+    
+    getCatnipColdWinter: function(){
+        var Season = this.game.calendar.seasons;
+        for (var i in Season){
+            if(Season[i].name == "winter"){
+                var ColdWintercatnip = Season[i].modifiers.catnip;
+                break;
+            }
+        }
+        ColdWintercatnip -= 0.15;
+        ColdWintercatnip *= 1 + this.game.getLimitedDR(this.game.getEffect("coldHarshness"),1);
+        if (game.science.getPolicy("communism").researched) {
+            ColdWintercatnip = 0;
+        }
+        catnip = this.getPotentialCatnip(ColdWintercatnip);
+        return catnip;
+    },
+    getCatnipInWarmSpring: function(){
+        var Season = this.game.calendar.seasons;
+        for (var i in Season){
+            if(Season[i].name == "spring"){
+                var WarmSpringRatio = Season[i].modifiers.catnip;
+                break;
+            }
+        }
+        WarmSpringRatio += 0.15;
+        WarmSpringRatio *= 1 + this.game.getLimitedDR(this.game.getEffect("springCatnipRatio"), 2);
+        var catnip = this.getPotentialCatnip(WarmSpringRatio);
+        return catnip;
+    },
+
+    // SCIENCE :
+  
+    getCelestialPerDay: function(){
+        var chanceRatio = 1;
+        if(this.game.prestige.getPerk("chronomancy").researched)
+            chanceRatio *= 1.1;
+        chanceRatio *= 1 + this.game.getEffect("timeRatio") * 0.25;
+        
+        var chance = 25;
+        chance += this.game.getEffect("starEventChance") * 10000;
+        chance *= chanceRatio;
+        if(this.game.prestige.getPerk("astromancy").researched)
+            chance *= 2;
+        
+        chance = Math.round(chance);
+        chance /= 100;//It's out of 10,000 originally
+        return chance + "%";
+    },
+    
+    getCelestialAutoSuccess: function(){
+        var autoChance = this.game.getEffect("starAutoSuccessChance") * 100;
+        if(this.game.prestige.getPerk("astromancy").researched)
+            autoChance *= 2;
+        autoChance = Math.round(autoChance);
+        if(autoChance > 100)
+            autoChance = 100;
+        return autoChance + "%";
+    },
+        
+    getMaxComped: function(){
+        var scienceBldMax = this.game.bld.getEffect("scienceMax");
+        var compCap = this.game.bld.getEffect("scienceMaxCompendia");
+        
+        var IWRatio = this.game.ironWill ? 10 : 1;
+        var blackLibrary = this.game.religion.getTU("blackLibrary");
+        if(this.game.prestige.getPerk("codexLeviathanianus").researched){
+            var ttBoostRatio = (0.05 * (1 + blackLibrary.val * (blackLibrary.effects["compendiaTTBoostRatio"] + this.game.getEffect("blackLibraryBonus"))));
+            IWRatio *= (1 + ttBoostRatio * this.game.religion.transcendenceTier);
+        }
+        
+        var compCapFinal = scienceBldMax * IWRatio + compCap;
+        compCapFinal /= 10;
+        return compCapFinal;
+    },
+
+    getBlueprintCraft: function(){
+        return 1 + this.game.getResCraftRatio("blueprint");
+    },
+
+    // TITANIUM :
+
+    getTitPerZebraTrade: function(){
+        var shipAmount = this.game.resPool.get("ship").value;
+        var zebraRelationModifierTitanium = this.game.getEffect("zebraRelationModifier") * 0.015;
+        var titaniumPerTrade = (1.5 + shipAmount * 0.03) * (1 + zebraRelationModifierTitanium);
+        return titaniumPerTrade;
+    },
+    
+    getZebraTradesToMaxTit: function(){
+        var titaniumPerTrade = this.getTitPerZebraTrade();
+        var maxTitanium = this.game.resPool.get("titanium").maxValue;
+        return Math.ceil(maxTitanium / titaniumPerTrade);
+    },
+    
+    getZebraTradesLeftToMaxTit: function(){
+        var titaniumPerTrade = this.getTitPerZebraTrade();
+        var titToFill = this.game.resPool.get("titanium").maxValue;
+        titToFill -= this.game.resPool.get("titanium").value;
+        titToFill = Math.ceil(titToFill / titaniumPerTrade);
+        if(titToFill < 0)
+            titToFill = 0;
+        return titToFill;
+    },
+
+    // POLLUTION :
+
+    getPollutionTick: function(){
+        if (!this.game.science.get("ecology").researched) {
+            return this.i18n("best.none");
+        }
+        var polltionPerTick = this.game.bld.cathPollutionPerTick;
+        return this.game.getDisplayValueExt(polltionPerTick, true, true);
+    },
+
+    getCoMax: function(){
+        if (!this.game.science.get("ecology").researched) {
+            return this.i18n("best.none");
+        }
+        var UndissipatednPerTick = this.game.bld.getUndissipatedPollutionPerTick() * 100;
+        var coMax = Math.max(UndissipatednPerTick, 0);
+        return coMax;
+    },
+
+    // UNICORN :
+
     getBestUniBuilding: function(log=false){
-        var validBuildings = ["unicornTomb","ivoryTower","ivoryCitadel","skyPalace","unicornUtopia","sunspire"];
+        var unicornPastureKey = "$buildings.unicornPasture.label";
         var pastureButton = this.getButton(0, "unicornPasture");
-        var unicornsPerSecond = this.game.getEffect("unicornsPerTickBase") * this.game.getRateUI();
+        if(typeof pastureButton === "undefined")
+             return this.i18n("best.none");
+        var validBuildings = ["unicornTomb","ivoryTower","ivoryCitadel","skyPalace","unicornUtopia","sunspire"];
+        var unicornsPerSecond = this.game.getEffect("unicornsPerTickBase") * this.game.getTicksPerSecondUI();
         var globalRatio = this.game.getEffect("unicornsGlobalRatio")+1;
         var religionRatio = this.game.getEffect("unicornsRatioReligion")+1;
         var paragonRatio = this.game.prestige.getParagonProductionRatio()+1;
-        var faithBonus = this.game.religion.getProductionBonus()/100+1;
+        var faithBonus = this.game.religion.getSolarRevolutionRatio()+1;
         var cycle = 1;
         if(this.game.calendar.cycles[this.game.calendar.cycle].festivalEffects["unicorns"]!=undefined)
             if(this.game.prestige.getPerk("numeromancy").researched && this.game.calendar.festivalDays)
@@ -57,22 +397,22 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         }
         var bestAmoritization = Infinity;
         var bestBuilding = "";
-        var pastureAmor = this.game.bld.getBuildingExt("unicornPasture").meta.effects["unicornsPerTickBase"] * this.game.getRateUI();
+        var pastureAmor = this.game.bld.getBuildingExt("unicornPasture").meta.effects["unicornsPerTickBase"] * this.game.getTicksPerSecondUI();
         pastureAmor = pastureAmor * globalRatio * religionRatio * paragonRatio * faithBonus * cycle;
         if(log){
             console.log("unicornPasture");
             console.log("\tBonus unicorns per second: "+pastureAmor);
         }
-        pastureAmor = this.game.tabs[0].buttons[pastureButton].model.prices[0].val / pastureAmor;
+        pastureAmor = this.game.tabs[0].children[pastureButton].model.prices[0].val / pastureAmor;
         if(log){
-            var baseWait = gamePage.tabs[0].buttons[pastureButton].model.prices[0].val / total;
-            var avgWait = gamePage.tabs[0].buttons[pastureButton].model.prices[0].val / (total + baseRift);
+            var baseWait = gamePage.tabs[0].children[pastureButton].model.prices[0].val / total;
+            var avgWait = gamePage.tabs[0].children[pastureButton].model.prices[0].val / (total + baseRift);
             console.log("\tMaximum time to build: " + gamePage.toDisplaySeconds(baseWait) + " | Average time to build: " + gamePage.toDisplaySeconds(avgWait));
-            console.log("\tPrice: "+gamePage.tabs[0].buttons[pastureButton].model.prices[0].val+" | Amortization: "+gamePage.toDisplaySeconds(pastureAmor));
+            console.log("\tPrice: "+gamePage.tabs[0].children[pastureButton].model.prices[0].val+" | Amortization: "+gamePage.toDisplaySeconds(pastureAmor));
         }
         if(pastureAmor < bestAmoritization){
             bestAmoritization = pastureAmor;
-            bestBuilding = "独角兽牧场";
+            bestBuilding = unicornPastureKey;
         }
         for(var i in this.game.tabs[5].zgUpgradeButtons){
             var btn = this.game.tabs[5].zgUpgradeButtons[i];
@@ -117,62 +457,27 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
                     if(amor < bestAmoritization)
                         if(riftBonus > 0 || relBonus > religionRatio && unicornPrice > 0){
                             bestAmoritization = amor;
-						var cnid = "";
-						if(btn.id == "unicornTomb")
-							{cnid='独角兽坟墓';}
-						if(btn.id == "ivoryTower")
-							{cnid='象牙塔';}
-						if(btn.id == "ivoryCitadel")
-							{cnid='象牙城堡';}
-						if(btn.id == "skyPalace")
-							{cnid='天空宫殿';}
-						if(btn.id == "unicornUtopia")
-							{cnid='独角兽理想国';}
-						if(btn.id == "sunspire")
-							{cnid='青睐之光';}
-                            bestBuilding = cnid;
+                            bestBuilding = btn.id;
                         }
                 }
             }
         }
-        return bestBuilding;
+        if (bestBuilding != unicornPastureKey)
+            bestBuilding = "$religion.zu." + bestBuilding + ".label";
+        return this.i18n(bestBuilding);
     },
 
-    getUraniumForThoriumReactors: function(){
-        var needed = 250 * .1875 * this.game.bld.getBuildingExt("reactor").meta.val;
-        needed /= 1 + this.game.getResCraftRatio({name:"thorium"});
-        needed = Math.round(needed * 1000) / 1000;
-        return needed;
-    },
+    getBestAliBuilding: function() {
+        var bestBuilding = ["best.none", "$religion.zu.skyPalace.label", "$religion.zu.unicornUtopia.label", "$religion.zu.sunspire.label"];
+        if(!this.game.religion.getZU("skyPalace").unlocked)
+            return this.i18n(bestBuilding[0]);
+            
+        var skyPalacePrice =  1.15**(this.game.religion.getZU("skyPalace").val) * 125;
+        var unicornUtopiaPrice = 1.15**(this.game.religion.getZU("unicornUtopia").val) * 1000;
+        var sunspirePrice = 1.15**(this.game.religion.getZU("sunspire").val) * 750;
+        var priceBuilding = [skyPalacePrice, unicornUtopiaPrice, sunspirePrice];
 
-    getBlueprintCraft: function(){
-        return 1 + this.game.getResCraftRatio({ name: "blueprint" });
-    },
-
-    getPraiseLoss: function(){
-        var tier = this.game.religion.getTranscendenceLevel() + 1;
-        var tt=game.religion.getTranscendenceRatio(tier)-game.religion.getTranscendenceRatio(tier-1);
-        var perc = this.game.religion.faithRatio / tt * 100;
-        var before = Math.round(this.game.religion.getTriValueReligion(tt * perc / 100) * 100);
-        var after = Math.round(game.religion.getTriValueReligion(tt * (perc - 100) / 100) * 100);
-        var loss = Math.round(before - after);
-        var lossRatio = 100 * loss / before;
-        perc = Math.round(perc * 1000) / 1000;
-        return perc + "%";
-        /*var str = "To tier: ";
-        str += tier;
-        str += "\n Progress: ";
-        str += this.makeNiceString(perc);
-        str += "%\n Before: ";
-        str += this.makeNiceString(before);
-        str += "%\n After: ";
-        str += this.makeNiceString(after);
-        str += "%\n Loss: ";
-        str += this.makeNiceString(loss);
-        str += "%\n Loss ratio: ";
-        str += this.makeNiceString(lossRatio);
-        str += "%";
-        return str;*/
+        return this.i18n(bestBuilding[ priceBuilding.indexOf(Math.min(...priceBuilding)) + 1 ]);
     },
     
     getNecrocornsPerSecond: function(){
@@ -187,11 +492,11 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
             curCorruption = 0;
             corruptionRate = 0;
         }
-        corruptionRate *= this.game.getRateUI();
+        corruptionRate *= this.game.getTicksPerSecondUI();
         corruptionRate = Math.floor(corruptionRate * 100000) / 100000;
         if(corruptionRate == Infinity)
-            return "Infinity";
-        return corruptionRate + "/秒";
+            return this.i18n("infinity");
+        return corruptionRate + this.i18n("sec");
     },
 
     getNecrocornTime: function(){
@@ -207,365 +512,54 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
             corruptionRate = 0;
         }
         if(corruptionRate == 0)
-            return "Infinity";
-        return this.game.toDisplaySeconds( (1 - curCorruption) / (corruptionRate * this.game.getRateUI()) );
+            return this.i18n("infinity");
+        return this.game.toDisplaySeconds( (1 - curCorruption) / (corruptionRate * this.game.getTicksPerSecondUI()) );
     },
 
     getLeviChance: function(){
-        var numPyramids = this.game.religion.getZU("blackPyramid").val;
+        var numPyramids = this.game.religion.getZU("blackPyramid").getEffectiveValue(this.game);
         var numMarkers = this.game.religion.getZU("marker").val;
         var chance = this.roundThisNumber(35 * numPyramids * (1 + 0.1 * numMarkers) / 10);
+        chance = this.game.getDisplayValueExt(chance);
+        if(chance > 100)
+            chance = 100;
         return chance + "%";
     },
+
+    // RELIGION :
 
     getReligionProductionBonusCap: function(){
-        var transcendTier = this.game.religion.getTranscendenceLevel();
-        var numObelisks = this.game.religion.getTU("blackObelisk").val;
-        var atheismBonus = 0;
-        if((this.game.challenges.getChallenge("atheism").researched))
-            atheismBonus = this.game.religion.getTranscendenceLevel() * 0.1;
-        var result = 1000 * (transcendTier * numObelisks * .005 + atheismBonus + 1);
+        var result =  100 * (10 + this.game.getEffect("solarRevolutionLimit") + (this.game.challenges.getChallenge("atheism").researched ? (this.game.religion.transcendenceTier) : 0)) * (1 + this.game.getLimitedDR(this.game.getEffect("faithSolarRevolutionBoost"), 4));
+        result = this.game.getDisplayValueExt(result);
         return result + "%";
     },
-    
-    getCelestialPerDay: function(){
-        var chanceRatio = 1;
-        if(this.game.prestige.getPerk("chronomancy").researched)
-            chanceRatio *= 1.1;
-        chanceRatio *= 1 + this.game.getEffect("timeRatio") * 0.25;
-        
-        var chance = 25;
-        chance += this.game.getEffect("starEventChance") * 10000;
-        chance *= chanceRatio;
-        if(this.game.prestige.getPerk("astromancy").researched)
-            chance *= 2;
-        
-        chance = Math.round(chance);
-        chance /= 100;//It's out of 10,000 originally
-        return chance + "%";
-    },
-    
-    getCelestialAutoSuccess: function(){
-        var autoChance = this.game.getEffect("starAutoSuccessChance") * 100;
-        if(this.game.prestige.getPerk("astromancy").researched)
-            autoChance *= 2;
-        if(autoChance > 100)
-            autoChance = 100;
-        return autoChance + "%";
-    },
-    
-    getTitPerZebraTrade: function(){
-        var titaniumPerTrade = this.game.resPool.get("ship").value / 100 * 1.5 * 2 + 1.5;
-        return titaniumPerTrade;
-    },
-    
-    getZebraTradesToMaxTit: function(){
-        var titaniumPerTrade = this.getTitPerZebraTrade();
-        var maxTitanium = this.game.resPool.get("titanium").maxValue;
-        return Math.ceil(maxTitanium / titaniumPerTrade);
-    },
-    
-    getZebraTradesLeftToMaxTit: function(){
-        var titaniumPerTrade = this.getTitPerZebraTrade();
-        var titToFill = this.game.resPool.get("titanium").maxValue;
-        titToFill -= this.game.resPool.get("titanium").value;
-        titToFill = Math.ceil(titToFill / titaniumPerTrade);
-        if(titToFill < 0)
-            titToFill = 0;
-        return titToFill;
+
+    getRecNextTranscendTierProgress: function() {
+        if (this.game.religion.transcendenceTier >= 354)
+            return this.i18n("best.none");
+        var tier = this.game.religion.transcendenceTier + 1;
+        var tt = this.game.religion._getTranscendTotalPrice(tier) - game.religion._getTranscendTotalPrice(tier - 1);
+        var obelisk = this.game.religion.getTU("blackObelisk").val;
+        var obeliskRatio = (tier * 5 * obelisk + 1000) / (this.game.religion.transcendenceTier * 5 * obelisk + 1000);
+        var adoreIncreaceRatio = Math.pow((tier + 1) / tier, 2);
+        var needpercent = adoreIncreaceRatio * obeliskRatio;
+        var x = tt;
+        var k = needpercent;
+        var epiphanyRecommend = (1 - k + Math.sqrt(80 * (k * k - 1) * x + (k - 1) * (k - 1))) * k / (40 * (k + 1) * (k + 1) * (k - 1)) + x + x / (k * k - 1);
+        var percent = epiphanyRecommend / tt * 100;
+        percent = Math.round(percent * 1000) / 1000;
+        return percent + "%";
     },
 
-    getTCPerSacrifice: function(){
-        var numTCPerSacrifice = 1;
-        numTCPerSacrifice += this.game.getEffect("tcRefineRatio");
-        return numTCPerSacrifice;
+    getNextTranscendTierProgress: function(){
+        var tier = this.game.religion.transcendenceTier + 1;
+        var tt = this.game.religion._getTranscendTotalPrice(tier) - game.religion._getTranscendTotalPrice(tier - 1);
+        var perc = this.game.religion.faithRatio / tt * 100;
+        perc = Math.round(perc * 1000) / 1000;
+        return perc + "%";
     },
 
-    getRelicPerTCRefine: function(){
-        return 1 + game.getEffect("relicRefineRatio") * game.religion.getZU("blackPyramid").val;
-    },
-
-    setCatnipArray: function(finalResult, theoreticalQuantity, actualQuantity, operation = "*"){
-        actualQuantity = actualQuantity || theoreticalQuantity;
-        for(var season in finalResult["theoretical"])
-            for(var weather in finalResult["theoretical"][season]){
-                switch(operation){
-                    case "+":
-                        finalResult["theoretical"][season][weather] += theoreticalQuantity;
-                        break;
-                    case "-":
-                        finalResult["theoretical"][season][weather] -= theoreticalQuantity;
-                        break;
-                    case "/":
-                        finalResult["theoretical"][season][weather] /= theoreticalQuantity;
-                        break;
-                    default:
-                        finalResult["theoretical"][season][weather] *= theoreticalQuantity;
-                }
-            }
-        for(var season in finalResult["actual"])
-            for(var weather in finalResult["actual"][season]){
-                switch(operation){
-                    case "+":
-                        finalResult["actual"][season][weather] += actualQuantity;
-                        break;
-                    case "-":
-                        finalResult["actual"][season][weather] -= actualQuantity;
-                        break;
-                    case "/":
-                        finalResult["actual"][season][weather] /= actualQuantity;
-                        break;
-                    default:
-                        finalResult["actual"][season][weather] *= actualQuantity;
-                }
-            }
-    },
-
-    getCatnipInSeasons: function(log = false){
-        var finalResult = {theoretical: {},
-                           actual: {}};
-        var catnip = this.game.resPool.get("catnip");
-        //Buildings
-        var theoreticalCatnipPerTickBase = this.game.bld.get("field").effects["catnipPerTickBase"];
-        var numFields = this.game.bld.get("field").on;
-        var theoreticalCatnipPerTickTotal = theoreticalCatnipPerTickBase * numFields;
-        var actualCatnipPerTickTotal = this.game.getEffect("catnipPerTickBase");
-        if(log)
-            console.log("---INITIAL CATH BUILDING PRODUCTION---" +
-                      "\nCatnip per field per tick: " + theoreticalCatnipPerTickBase +
-                      "\nNumber of fields: " + numFields +
-                      "\nTotal theoretical catnip from fields per tick: " + theoreticalCatnipPerTickTotal +
-                      "\nActual catnip from fields per tick: " + actualCatnipPerTickTotal);
-        //Space ratio - does nothing. Skipping.
-        //=========================================================================================
-        //Add space catnip to normal - does nothing. Skipping.
-        //=========================================================================================
-        //Weather effects
-        if(log)
-            console.log("---SETTING UP SEASONS AND WEATHER---");
-        var weather = {normal: 0,
-                       warm: 0.15,
-                       cold: -0.15};
-        var seasons = this.game.calendar.seasons;
-        for(var i in seasons){
-            finalResult["theoretical"][seasons[i].name] = {};
-            finalResult["actual"][seasons[i].name] = {};
-            for(var j in weather){
-                finalResult["theoretical"][seasons[i].name][j] = (seasons[i].modifiers["catnip"] || 1) + weather[j];
-                if(finalResult["theoretical"][seasons[i].name][j] < -0.95)
-                    finalResult["theoretical"][seasons[i].name][j] = -0.95;
-                finalResult["theoretical"][seasons[i].name][j] *= theoreticalCatnipPerTickTotal;
-                finalResult["actual"][seasons[i].name][j] = (seasons[i].modifiers["catnip"] || 1) + weather[j];
-                if(finalResult["actual"][seasons[i].name][j] < -0.95)
-                    finalResult["actual"][seasons[i].name][j] = -0.95;
-                finalResult["actual"][seasons[i].name][j] *= actualCatnipPerTickTotal;
-            }
-        }
-        //Village job production
-        var numFarmers = this.game.village.getJob("farmer").value;
-        var theoreticalVillageProduction = 1 * numFarmers;//1 catnip per tick per farmer
-        var actualVillageProduction = this.game.village.getResProduction()["catnip"] || 0;
-        this.setCatnipArray(finalResult, theoreticalVillageProduction, actualVillageProduction, "+");
-        if(log)
-            console.log("---VILLAGE PRODUCTION (Adds to previous totals)---" +
-                      "\nNumber of farmers in village: " + numFarmers +
-                      "\nCatnip produced by farmers in theory (1 per tick per farmer): " + theoreticalVillageProduction +
-                      "\nActual catnip produced by farmers: " + actualVillageProduction);
-        //Village job production workshop modifiers
-        var workshopJobModifier = this.game.getEffect("catnipJobRatio");
-        this.setCatnipArray(finalResult, theoreticalVillageProduction * workshopJobModifier,
-                                    actualVillageProduction * workshopJobModifier, "+");
-        if(log)
-            console.log("---VILLAGE PRODUCTION BONUS (Adds to previous totals)---" +
-                      "\nModifier from workshop: " + workshopJobModifier +
-                      "\nTheoretical bonus: " + (theoreticalVillageProduction * workshopJobModifier) +
-                      "\nActual bonus: " + (actualVillageProduction * workshopJobModifier));
-        //Production boost - doesn't do anything right now. Skipping.
-        //=========================================================================================
-        //Building and space production
-        var aqueduct = this.game.bld.get("aqueduct");
-        var numAqueduct = aqueduct.on;
-        var aqueductRatio = aqueduct.stages[aqueduct.stage].effects["catnipRatio"] || 0;
-        var hydroponics = this.game.space.getBuilding("hydroponics");
-        var numHydroponics = hydroponics.on;
-        var theoreticalBuildingRatio = aqueductRatio * numAqueduct;
-        theoreticalBuildingRatio += hydroponics.effects["catnipRatio"] * numHydroponics;
-        theoreticalBuildingRatio += 1;
-        var actualBuildingRatio = 1 + this.game.getEffect("catnipRatio");
-        this.setCatnipArray(finalResult, theoreticalBuildingRatio, actualBuildingRatio);
-        if(log)
-            console.log("---CATH AND SPACE PRODUCTION MULTIPLIERS---" +
-                      "\nNumber of Aqueducts: " + numAqueduct +
-                      "\n-The following Aqueduct ratio will be zero if you've upgraded to Hydro Farms-" +
-                      "\nMulitipler per Aqueduct: " + aqueductRatio +
-                      "\nTotal multiplier from Aqueducts: " + (aqueductRatio * numAqueduct) +
-                      "\nNumber of Hydroponics (space): " + numHydroponics +
-                      "\nMultiplier per Hydroponics: " + hydroponics.effects["catnipRatio"] +
-                      "\nTotal multiplier from Hydroponics: " + (hydroponics.effects["catnipRatio"] * numHydroponics) +
-                      "\nFinal theoretical building ratio: x" + theoreticalBuildingRatio +
-                      "\nActual building ratio: x" + actualBuildingRatio);
-        //Religion modifiers - doesn't do anything right now. Skipping.
-        //=========================================================================================
-        //...Super Ratio? Doesn't seem to have anything for it. Skipping.
-        //=========================================================================================
-        //This would be steamworks here, but in the base it's a hack to only affect coal - skipping
-        //=========================================================================================
-        //Paragon bonus
-        var paragonProd = 1 + this.game.prestige.getParagonProductionRatio();
-        if(this.game.challenges.currentChallenge == "winterIsComing")//If we're in this challenge - after challenge rework,
-            paragonProd = 0;                                        //it will need to be reworked
-        this.setCatnipArray(finalResult, paragonProd);
-        if(log)
-            console.log("---PARAGON MULTIPLIER---" +
-                      "\nParagon production ratio: " + (100 + 100 * paragonProd) + "%");
-        //Paragon... Space production? Does nothing for catnip. Skipping.
-        //=========================================================================================
-        //Magnetos Boost - specifically does not affect catnip. Skipping.
-        //=========================================================================================
-        //Reactor production bonus - specifically does not affect catnip. Skipping.
-        //=========================================================================================
-        //SR Faith bonus
-        var srBonus = 1 + this.game.religion.getProductionBonus() / 100;
-        this.setCatnipArray(finalResult, srBonus);
-        if(log)
-            console.log("---SOLAR REVOLUTION MULTIPLIER---" +
-                      "\nSolar Revolution bonus: " + (100 * srBonus) + "%");
-        //Cosmic radiation, most people will probably have this disabled
-        if(!this.game.opts.disableCMBR){
-            this.setCatnipArray(finalResult,1 + this.game.getCMBRBonus());
-            if(log)
-                console.log("---COSMIC RADIATION BONUS (offline progression)---" +
-                          "\nCosmic Radiation Bonus Ratio: " + (100 + 100 * this.game.getCMBRBonus()) + "%");
-        }
-        //Last section of paragon space production - does nothing. Skipping.
-        //=========================================================================================
-        //Automated production building (catnipPerTickProd) - does nothing. Skipping.
-        //=========================================================================================
-        //Automated space production, full bonus - does nothing. Skipping.
-        //=========================================================================================
-        //Cycle effects - set in space buildings, none of which produce catnip themselves
-        //=========================================================================================
-        //Cycle festival effects
-        for(var season in finalResult["theoretical"])
-            for(var weather in finalResult["theoretical"][season]){
-                var tempEffect = {catnip: finalResult["theoretical"][season][weather]};
-                this.game.calendar.cycleEffectsFestival(tempEffect);
-                finalResult["theoretical"][season][weather] = tempEffect["catnip"];
-            }
-        for(var season in finalResult["actual"])
-            for(var weather in finalResult["actual"][season]){
-                var tempEffect = {catnip: finalResult["actual"][season][weather]};
-                this.game.calendar.cycleEffectsFestival(tempEffect);
-                finalResult["actual"][season][weather] = tempEffect["catnip"];
-            }
-        if(log)
-            console.log("---CYCLE FESTIVAL EFFECTS---" +
-                      "\nCharon is x1.5 to catnip. All others do nothing." +
-                      "\nAre we in Charon right now? " + (this.game.calendar.cycle == 0 ? "Yes" : "No"));
-        //Building and space pertick - does nothing. Skipping.
-        //=========================================================================================
-        //Consumption
-        //Theoretical
-        var numKittens = this.game.village.sim.kittens.length;
-        var theoreticalCatnipConsumption = -0.85 * numKittens;
-        var pastures = this.game.bld.get("pasture");
-        var numPastures = pastures.on;
-        var unicPastures = this.game.bld.get("unicornPasture");
-        var numUnicPastures = unicPastures.on;
-        var theoreticalCatnipConsReduction = pastures.effects["catnipDemandRatio"] * numPastures;
-        theoreticalCatnipConsReduction += unicPastures.effects["catnipDemandRatio"] * numUnicPastures;
-        theoreticalCatnipConsReduction = this.game.getHyperbolicEffect(theoreticalCatnipConsReduction, 1);
-        var theoreticalReducedCatnipConsReduction = theoreticalCatnipConsReduction;
-        theoreticalCatnipConsumption *= 1 + theoreticalCatnipConsReduction
-        var theoreticalHappinessModifier = 0;
-        if(numKittens > 0 && this.game.village.happiness > 1){
-            var theoreticalHappinessConsumption = Math.max(this.game.village.happiness - 1, 0);
-            var theoreticalWorkerRatio = 1 + (this.game.workshop.get("assistance").researched ? -0.25 : 0);
-            if(this.game.challenges.currentChallenge == "anarchy")
-                theoreticalHappinessModifier = theoreticalCatnipConsumption * theoreticalHappinessConsumption *
-                                           theoreticalWorkerRatio;
-            else
-                theoreticalHappinessModifier = theoreticalCatnipConsumption * theoreticalHappinessConsumption *
-                                           theoreticalWorkerRatio *
-                                           (1 - this.game.village.getFreeKittens() / numKittens);
-        }
-        theoreticalCatnipConsumption += theoreticalHappinessModifier;
-        //Actual
-        var actualCatnipConsumption = this.game.village.getResConsumption()["catnip"] || 0;
-        actualCatnipConsumption *= 1 + this.game.getEffect("catnipDemandRatio");
-        var actualHappinessModifier = 0;
-        if(numKittens > 0 && this.game.village.happiness > 1){
-            var actualHappinessConsumption = Math.max(this.game.village.happiness - 1, 0);
-            if(this.game.challenges.currentChallenge == "anarchy")
-                actualHappinessModifier = actualCatnipConsumption * actualHappinessConsumption *
-                                           (1 + this.game.getEffect("catnipDemandWorkerRatioGlobal"));
-            else
-                actualHappinessModifier = actualCatnipConsumption * actualHappinessConsumption *
-                                           (1 + this.game.getEffect("catnipDemandWorkerRatioGlobal")) *
-                                           (1 - this.game.village.getFreeKittens() / numKittens);
-        }
-        actualCatnipConsumption += actualHappinessModifier;
-        this.setCatnipArray(finalResult, theoreticalCatnipConsumption, actualCatnipConsumption, "+");
-        if(log)
-            console.log("---VILLAGE KITTEN CONSUMPTION (Adds to previous total)---" +
-                      "\nNumber of kittens: " + numKittens +
-                      "\nTheoretical demand per kitten per tick: " + (-0.85) +
-                      "\nTotal initial theoretical demand: " + (-0.85 * numKittens) +
-                      "\nTotal initial actual demand: " + (this.game.village.getResConsumption()["catnip"] || 0) +
-                      "\nNumber of Pastures: " + numPastures +
-                      "\n-The following Pasture ratio will be zero if you've upgraded to Solar Farms-" +
-                      "\nReduction ratio per Pasture: " + pastures.effects["catnipDemandRatio"] +
-                      "\nTotal preliminary reduction ratio for Pastures: " + (pastures.effects["catnipDemandRatio"] * numPastures) +
-                      "\nNumber of Unicorn Pastures: " + numUnicPastures +
-                      "\nReduction ratio per Unicorn Pasture: " + unicPastures.effects["catnipDemandRatio"] +
-                      "\nTotal preliminary reduction ratio for Unicorn Pastures: " + (unicPastures.effects["catnipDemandRatio"] * numUnicPastures) +
-                      "\nTotal preliminary reduction ratio: " + (pastures.effects["catnipDemandRatio"] * numPastures + unicPastures.effects["catnipDemandRatio"] * numUnicPastures) +
-                      "\nFinal reduction ratio, after diminishing returns: " + theoreticalReducedCatnipConsReduction +
-                      "\nActual reduction ratio after diminishing returns: " + this.game.getEffect("catnipDemandRatio") +
-                      "\nTheoretical catnip consumption after reduction ratio: " + ((1 + theoreticalReducedCatnipConsReduction) * (-0.85 * numKittens)) +
-                      "\nActual catnip consumption after reduction ratio: " + ((this.game.village.getResConsumption()["catnip"] || 0) * (1 + this.game.getEffect("catnipDemandRatio"))) +
-                      "\n===HAPPINESS IMPACT===" +
-                      "\n    Happiness level: " + (100 * this.game.village.happiness) + "%" +
-                      "\n    Are we in the Anarchy challenge? " + (this.game.challenges.currentChallenge == "anarchy" ? "Yes" : "No") +
-                      "\n    Have we researched Robotic Assistance (-25% to happiness demand if so)? " + (this.game.workshop.get("assistance").researched ? "Yes" : "No") +
-                      "\n    Final theoretical happiness extra consumption: " + theoreticalHappinessModifier +
-                      "\n    Final actual happiness consumption: " + actualHappinessModifier +
-                      "\nFinal theoretical catnip consumption: " + theoreticalCatnipConsumption +
-                      "\nFinal actual catnip consumption: " + actualCatnipConsumption);
-        //Adjust from Per Tick to Per Second
-        this.setCatnipArray(finalResult, this.game.getRateUI());
-        var currentWeather = this.game.calendar.weather;
-        if(currentWeather == null)
-            currentWeather = "normal";
-        var currentActual = finalResult["actual"][this.game.calendar.seasons[this.game.calendar.season].name][currentWeather];
-        if(log)
-            console.log("---CONVERSION FROM TICKS TO SECONDS---" +
-                      "\nNumber of ticks per second: " + this.game.getRateUI() +
-                      "\nCurrent predicted actual catnip per second: " + currentActual +
-                      "\nCurrent actual catnip per second: " + (catnip.perTickCached * this.game.getRateUI()) +
-                      "\nCatnip per second at cold winter: " + finalResult["actual"]["winter"]["cold"]);
-        var theoreticalMatches = true;
-        for(var season in finalResult["actual"])
-            for(var weather in finalResult["actual"][season])
-                if(finalResult["theoretical"][season][weather] != finalResult["actual"][season][weather])
-                    theoreticalMatches = false;
-        if(log)
-            console.log("---FINAL SANITY CHECKS---" +
-                      "\nDoes the theoretical result match the actual predicted result? " + (theoreticalMatches ? "Yes" : "No") +
-                      "\nDoes the actual predicted result match reality? " + (currentActual == (catnip.perTickCached * this.game.getRateUI()) ? "Yes" : "No") + 
-                      "\nDoes the actual predicted result closely match reality? " + ((Math.floor(currentActual * 10 + .5) == Math.floor(catnip.perTickCached * this.game.getRateUI() * 10 + .5)) ? "Yes" : "No"));
-        return finalResult;
-    },
-    
-    getCatnipColdWinter: function(){
-        var catnip = this.getCatnipInSeasons()["actual"]["winter"]["cold"];
-        return catnip;
-    },
-    
-    getCatnipInWarmSpring: function(){
-        var catnip = this.getCatnipInSeasons()["actual"]["spring"]["warm"];
-        return catnip;
-    },
+    // PARAGON :
 
     getParagonProductionBonus: function(){
         var prodRatio = this.game.prestige.getParagonProductionRatio() * 100;
@@ -574,206 +568,489 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
     },
 
     getParagonStorageBonus: function(){
-        var storeRatio = this.game.prestige.getParagonStorageRatio();
-        storeRatio = Math.round(storeRatio * 1000) / 1000;
+        var storeRatio = 1 + this.game.prestige.getParagonStorageRatio();
+        var singularity = 1 + this.game.getEffect("globalResourceRatio");
+        storeRatio = Math.round(storeRatio * 1000 * singularity) / 1000;
+        storeRatio = this.game.getDisplayValueExt(storeRatio - 1);
         return storeRatio + "x";
     },
+
+    getEffectLeader: function(){
+        if (!game.village.leader) {
+            return this.i18n("best.none");
+        }
+        let prices = [{"name":"faith","val":100},{"name":"science","val":100}];
+        let leader = this.game.village.getEffectLeader(this.game.village.leader.trait.name, prices)
+        if (prices[0].val != 100) {
+            return "* " + game.getDisplayValueExt(prices[0].val) + "%";
+        } else if (prices[1].val != 100){
+            return "* " + game.getDisplayValueExt(prices[1].val) + "%";
+        } else {
+            return game.getDisplayValueExt(leader * 100) + "%";
+        }
+    },
     
-    getTradeAmountAvg: function(race){
-        var r = null;
-        try{
-            r = this.game.diplomacy.get(race);
-        }
-        catch(e){
-        }
-        if(r){
-            var ratio = this.game.diplomacy.getTradeRatio()+ 1;
-            var curSeason = this.game.calendar.getCurSeason().name;
-            var sells = [];
-            for(var j in r.sells){
-                var s = r.sells[j];
-                var min = 0;
-                var max = 0;
-                if(r.name == "zebras" && s.name == "titanium"){
-                    var ships = this.game.resPool.get("ship").value;
-                    var odds = Math.min(15 + ships * 0.35 , 100);
-                    var amt = 1.5 * ((ships / 100) * 2 + 1);
-                    min = amt;
-                    max = amt;
-                    sells[s.name] = amt;
-                }
-                else{
-                    var sratio = s.seasons[curSeason];
-                    var tratio = ratio;
-                    if(r.name == "leviathans")
-                        tratio *= (1 + 0.02 * r.energy);
-                    var val = sratio * s.value * (1 - s.delta / 2);
-                    max = val;
-                    max += Math.floor(s.value * sratio * s.delta);
-                    val *= tratio;
-                    min = val;
-                    max *= tratio;
-                    var amt = (min + max) / 2;
-                    amt *= s.chance / 100;
-                    sells[s.name] = amt;
-                }
-            }
-            return sells;
-        }
-        return []
+    //TIME : 
+
+    getTCPerSacrifice: function(){
+        var numTCPerSacrifice = 1;
+        numTCPerSacrifice += this.game.getEffect("tcRefineRatio");
+        return numTCPerSacrifice;
     },
 
-    getBlazarsForShatterEngine: function(){
-        var numRR = this.game.time.getCFU("ressourceRetrieval").val;
-        var uoPerYear = game.getResourcePerTick("unobtainium", true) * ( 1 / game.calendar.dayPerTick * game.calendar.daysPerSeason * 4);
-        var tcPerTrade = this.getTradeAmountAvg("leviathans")["timeCrystal"];
-        var neededUO = 5000 / tcPerTrade;
-        var neededPerc = neededUO / uoPerYear;
-        var basePerc = numRR * .01;
-        var neededBlazars = Math.max(Math.ceil((neededPerc / basePerc - 1) / .02) , 0);
-        return neededBlazars;
+    getRelicPerTCRefine: function(){
+        return 1 + this.game.getEffect("relicRefineRatio") * this.game.religion.getZU("blackPyramid").getEffectiveValue(this.game);
     },
     
-    getMaxComped: function(){
-        var scienceBldMax = this.game.bld.getEffect("scienceMax");
-        var compCap = this.game.bld.getEffect("scienceMaxCompendia");
-        
-        var IWRatio = this.game.ironWill ? 10 : 1;
-        var blackLibrary = this.game.religion.getTU("blackLibrary");
-        if(this.game.prestige.getPerk("codexLeviathanianus").researched){
-            var ttBoostRatio = (0.05 * (1 + blackLibrary.val * (blackLibrary.effects["compendiaTTBoostRatio"] + this.game.getEffect("blackLibraryBonus"))));
-            IWRatio *= (1 + ttBoostRatio * this.game.religion.getTranscendenceLevel());
+    getTradeTC: function() {
+        var tRatio = 1 + this.game.diplomacy.getTradeRatio() + this.game.diplomacy.calculateTradeBonusFromPolicies("leviathans", this.game) + this.game.challenges.getChallenge("pacifism").getTradeBonusEffect(this.game);
+        var cal = this.game.calendar;
+        var ticksPerYear = cal.ticksPerDay * cal.daysPerSeason * cal.seasonsPerYear;
+        var leviathansModel = this.game.diplomacy.get("leviathans");
+        var rRatio = 1 + 0.02 * leviathansModel.energy;
+        for (var i of leviathansModel.sells){
+            if(i.name == "timeCrystal"){
+                var leviathansTrade = (i.value * i.chance) / (leviathansModel.buys[0].val)
+                break;
+            }
         }
-        
-        var compCapFinal = scienceBldMax * IWRatio + compCap;
-        compCapFinal /= 10;
-        return compCapFinal;
+        var unobtainium = leviathansTrade * this.game.getResourcePerTick("unobtainium") * rRatio * tRatio;
+        var shatter = this.game.getEffect("shatterTCGain") * (1 + this.game.getEffect("rrRatio"));
+        var timeCrystalVal = unobtainium * ticksPerYear * shatter;
+        return timeCrystalVal;
+    },
+
+    getTradeTCAvg: function() {
+        var CycleFestivalRatio = this.game.calendar.cycleEffectsFestival({unobtainium: 1})['unobtainium'];
+        var CycleEffects = this.game.calendar.cycleEffectsBasics({unobtainiumPerTickSpace: 1}, "moonOutpost")['unobtainiumPerTickSpace'];
+        var calendar = (56.5 + 12 * this.game.getEffect("festivalRatio")) / 50;
+        var tradeVal = calendar * this.getTradeTC() / CycleFestivalRatio / CycleEffects;
+        var cal = this.game.calendar;
+        var ticksPerYear = cal.ticksPerDay * cal.daysPerSeason * cal.seasonsPerYear;
+        var shatter = this.game.getEffect("shatterTCGain") * (1 + this.game.getEffect("rrRatio"));
+        var alicornTick = this.game.getResourcePerTick("alicorn") * 0.04 * (1+ this.game.getEffect("tcRefineRatio"));
+        var Sacrifice = alicornTick * ticksPerYear * shatter;
+        var timeCrystalVal = tradeVal + Sacrifice;
+        return timeCrystalVal;
+    },
+    //getTC
+
+    getResourceRetrievalTCBackYears: function() {
+        var shatterRe = 1 + this.game.getLimitedDR(this.game.getEffect("shatterCostReduction"), 1);
+        var CycleFestivalRatio = this.game.calendar.cycleEffectsFestival({unobtainium: 1})['unobtainium'];
+        var CycleEffects = this.game.calendar.cycleEffectsBasics({unobtainiumPerTickSpace: 1}, "moonOutpost")['unobtainiumPerTickSpace'];
+        var unobtainiumAvg = this.getTradeTC() / CycleEffects / CycleFestivalRatio;
+        var heatfactor = this.game.challenges.getChallenge("1000Years").researched ? 5 : 10;
+        var ChronoFurnace = 100 / (100 + heatfactor);
+        var timeC = unobtainiumAvg - (ChronoFurnace * shatterRe);
+        // (5 × 2.4 [Redmoon] + 5 * 2.4 * game.getEffect("festivalRatio") + 5 × 0.9 [Charon] + 8 × 5 [others]) / 50
+        var calendar = (56.5 + 12 * game.getEffect("festivalRatio")) / 50;
+        var result = calendar * unobtainiumAvg;
+        var cost = this.getButtonPrice(game.timeTab.cfPanel.children[0].children, "ressourceRetrieval", "timeCrystal");
+        var number = this.game.time.getCFU("ressourceRetrieval").val;
+        if (!this.game.time.getCFU("ressourceRetrieval").unlocked) {
+            return this.i18n("$time.cfu.ressourceRetrieval.label");
+        } else if (timeC <= 0 || number == 100) {
+            return this.i18n("best.none");
+        } else {
+            var TCBack = Math.ceil(cost * number / result);
+            var op = game.time.getCFU("blastFurnace").on;
+            TCBack = 50 * TCBack / op;
+            return this.game.toDisplaySeconds(TCBack);
+        }
+    },
+    // OTHERS : 
+
+    /*getBestMagnetoBuilding: function() {
+        var bestBuilding = ["best.none", "$buildings.magneto.label", "$buildings.steamworks.label"];
+        var magneto = this.game.bld.getBuildingExt("magneto").meta;
+        var steamworks = this.game.bld.getBuildingExt("steamworks").meta;
+        if(!magneto.unlocked || !steamworks.unlocked)
+            return this.i18n(bestBuilding[0]);
+        var magnetoCount = magneto.val; var steamworksCount = steamworks.val;
+        var productionBonus = (1 + (steamworksCount * 0.15)) * (magnetoCount * 2) ;
+        var prodBonusMagneto = (1 + (steamworksCount * 0.15)) * ((magnetoCount+1) * 2) ;
+        var prodBonusSteam = (1 + ((steamworksCount+1) * 0.15)) * (magnetoCount * 2) ;
+        var magnetoValue = (prodBonusMagneto - productionBonus) / 100 ;
+        var steamworksValue = (prodBonusSteam - productionBonus) / 100 ;
+        if(magnetoValue > steamworksValue)
+            return this.i18n(bestBuilding[1]);
+        else if (steamworksValue > magnetoValue)
+            return this.i18n(bestBuilding[2]);
+        return this.i18n(bestBuilding[0]);
+    },*/
+    
+    getUraniumForThoriumReactors: function(){
+        var needed = 250 * .1875 * this.game.bld.getBuildingExt("reactor").meta.val;
+        needed /= 1 + this.game.getResCraftRatio({name:"thorium"});
+        needed = Math.round(needed * 1000) / 1000;
+        return needed;
+    },
+
+    getBestRelicBuilding: function() {
+        if (!this.game.religion.getZU("blackPyramid").val) {
+            return this.i18n("$religion.zu.blackPyramid.label");
+        }
+        if (this.game.religionTab.zgUpgradeButtons.length == 0) {
+            return this.i18n("best.none");
+        }
+        var next;
+        var cs = Math.floor(Math.log((15 + this.game.religion.getZU("blackPyramid").getEffectiveValue(this.game)) / 5) / Math.log(1.15)) + 1;
+        var cs1 = 0;
+        var cs2 = Math.ceil(this.getButtonPrice(this.game.religionTab.zgUpgradeButtons, "blackPyramid", "sorrow")) - this.game.resPool.get("sorrow").maxValue;
+        var bnexus = this.getButtonPrice(this.game.religionTab.ctPanel.children[0].children, "blackNexus", "relic");
+        var bcore = this.getButtonPrice(this.game.religionTab.ctPanel.children[0].children, "blackCore", "relic");
+        var a = (Math.pow(1.15, cs2) - 1) / 0.15 * bcore;
+        var bnexusup = 0.001 * cs / bnexus;
+        var bcoreup = 0.001 * this.game.religion.getTU("blackNexus").val / a;
+        if (cs2 > 0 && bnexusup >= bcoreup) {
+            while (bnexusup >= bcoreup && bnexus < Number.MAX_VALUE / 1.15) {
+                bnexus *= 1.15;
+                bnexusup = 0.001 * cs / bnexus;
+                bcoreup += 0.001 / a;
+                cs1++;
+            }
+            next = this.i18n("$religion.tu.blackNexus.label") + " " + cs1 + "x";
+        } else {
+            next = this.i18n("$religion.tu.blackCore.label") + " " + cs2 + "x";
+            if (cs2 < 1) {
+                next = this.i18n("$religion.zu.blackPyramid.label");
+            }
+        }
+        return next;
+    },
+    
+    getBestUnobtainiumBuilding: function() {
+        if (!game.space.getBuilding("orbitalArray").unlocked) {
+            return $I("space.planet.moon.moonOutpost.label");
+        }
+        if (!this.game.spaceTab.planetPanels[0]) {
+            game.spaceTab.render();
+        }
+        var elevatorPanel = this.game.spaceTab.planetPanels[0].children;
+        for (var i = 0; i < this.game.spaceTab.planetPanels.length; i++) {
+            if (game.spaceTab.planetPanels[i].planet.name == "piscine") {
+                var arrayPanel = this.game.spaceTab.planetPanels[i].children;
+                break;
+            }
+        }
+        if (!arrayPanel) {
+            return this.i18n("best.none");
+        }
+        var elevatorPrices = this.getButtonPrice(elevatorPanel, "spaceElevator", "unobtainium");
+        var arrayPrices = this.getButtonPrice(arrayPanel, "orbitalArray", "eludium");
+        var elevatorVal = game.space.getBuilding("spaceElevator").val;
+        var arrayVal = game.space.getBuilding("orbitalArray").val;
+        var spaceRatio = 1 + this.game.getEffect("spaceRatio");
+        var elevatorup = (0.01 + spaceRatio) * arrayPrices * 1000;
+        var arrayup = (0.02 + spaceRatio) * elevatorPrices * (1+ this.game.getCraftRatio("chemist"));
+        if (elevatorup >= arrayup) {
+            var number = 1;
+            while (elevatorup >= arrayup && elevatorPrices < Number.MAX_VALUE / 1.15) {
+                elevatorPrices *= 1.15; 
+                spaceRatio += 0.01;
+                arrayup = (0.02 + spaceRatio) * elevatorPrices * (1+ this.game.getCraftRatio("chemist"));
+                elevatorup = (0.01 + spaceRatio) * arrayPrices * 1000;
+                number++;
+            }
+            return $I("space.planet.cath.spaceElevator.label") + " " + number + "x";
+        } else {
+            return $I("space.planet.piscine.orbitalArray.label");
+        }
+    },
+
+    getDarkFutureYears: function(){
+        var yearsLeft = this.game.calendar.darkFutureYears(true);
+        return yearsLeft < 0 ? this.game.getDisplayValueExt(-yearsLeft) : this.i18n("done");
+    },
+
+    getAIlv15Time: function(){
+        if (this.game.science.getPolicy("transkittenism").researched) {
+            return this.i18n("best.none");
+        }
+        var lv15Gflops = Math.exp(14.5);
+        var gflopsHave = this.game.resPool.get("gflops").value;
+        var gflopsproduction = this.game.getEffect("gflopsPerTickBase") - this.game.getEffect("gflopsConsumption");
+        if (this.game.bld.get("aiCore").effects["aiLevel"] >= 15)
+            return this.i18n("done");
+        if (gflopsproduction > 0)
+            return this.game.toDisplaySeconds((lv15Gflops - gflopsHave) / (gflopsproduction * this.game.getTicksPerSecondUI()));
+        else
+            return this.i18n("infinity");
+    },
+    
+    getfutureSeason: function(){
+        var TemporalParadox = this.game.calendar.futureSeasonTemporalParadox;
+        if (this.game.bld.get("chronosphere").on == 0) {
+            return this.i18n("best.none");
+        } else if (TemporalParadox == -1) {
+            var time = 1;
+        } else {
+            var time = TemporalParadox + 1;
+        }
+        return time;
     },
     
     //==============================================================================================================================================
     //Finally done with calculation functions, now to get down to adding it to the stats tab
     //==============================================================================================================================================
     
-    stats: [
-    {
-        name: "getBestUniBuilding",
-        title: "最佳独角兽建筑",
-        val: 0,
+    stats: {
+        catnip: [
+            {
+                name: "getCatnipInWarmSpring",
+                // title: "During Warm Spring",
+                val: 0,
+            },
+            {
+                name: "getCatnipColdWinter",
+                // title: "During Cold Winter",
+                val: 0,
+            }
+        ],
+        science: [
+            {
+                name: "getCelestialPerDay",
+                // title: "Chance of Celestial Events",
+                val: 0,
+            },
+            {
+                name: "getCelestialAutoSuccess",
+                // title: "Celestial Event Auto Success Rate",
+                val: 0,
+            },
+            {
+                name: "getMaxComped",
+                // title: "Maximum Helpful Compediums",
+                val: 0,
+            },
+            {
+                name: "getBlueprintCraft",
+                // title: "Blueprints Per Craft",
+                val: 0,
+            }
+        ],
+        titanium: [
+            {
+                name: "getTitPerZebraTrade",
+                // title: "Titanium Per Zebra Trade",
+                val: 0,
+            },
+            {
+                name: "getZebraTradesLeftToMaxTit",
+                // title: "Trades Left to Cap Titanium",
+                val: 0,
+            },
+            {
+                name: "getZebraTradesToMaxTit",
+                // title: "Max Zebra Trades to Cap Titanium",
+                val: 0,
+            },
+        ],
+        pollution: [
+            {
+                name: "getPollutionTick",
+                // title: "Production Bonus",
+                val: 0,
+            },
+            {
+                name: "getCoMax",
+                // title: "Storage Bonus",
+                val: 0,
+            },
+        ],
+        unicorns: [
+            {
+                name: "getBestUniBuilding",
+                // title: "Best Unicorn Building",
+                val: 0,
+            },
+            {
+                name: "getBestAliBuilding",
+                // title: "Best Alicorn Building Per Ivory Cost",
+                val: 0,
+            },
+            {
+                name: "getNecrocornsPerSecond",
+                // title: "Necrocorns Per Second",
+                val: 0,
+            },
+            {
+                name: "getNecrocornTime",
+                // title: "Time Until Next Necrocorn",
+                val: 0,
+            },
+            {
+                name: "getLeviChance",
+                // title: "Chance per year of Leviathans",
+                val: 0,
+            },
+        ],
+        religion: [
+            {
+                name: "getReligionProductionBonusCap",
+                // title: "Solar Revolution Limit",
+                val: 0,
+            },
+            {
+                name: "getNextTranscendTierProgress",
+                // title: "Apocrypha Progress",
+                val: 0,
+            },
+            {
+                name: "getRecNextTranscendTierProgress",
+                // title: "Progress to Next Transcendence Tier",
+                val: 0,
+            },
+        ],
+        paragon: [
+            {
+                name: "getParagonProductionBonus",
+                // title: "Production Bonus",
+                val: 0,
+            },
+            {
+                name: "getParagonStorageBonus",
+                // title: "Storage Bonus",
+                val: 0,
+            },
+            {
+                name: "getEffectLeader",
+                // title: "Effect Leader",
+                val: 0,
+            },
+        ],
+        time: [
+            {
+                name: "getTCPerSacrifice",
+                // title: "Time Crystals per Sacrifice",
+                val: 0,
+            },
+            {
+                name: "getRelicPerTCRefine",
+                // title: "Relics Per Time Crystal Refine",
+                val: 0,
+            },
+        ],
+        resourceRetrieval: [
+            {
+                name: "getTradeTC",
+                // title: "Blazars for Shatter Engine",
+                val: 0,
+            },
+            {
+                name: "getTradeTCAvg",
+                // title: "Blazars for Shatter Engine",
+                val: 0,
+            },
+            {
+                name: "getResourceRetrievalTCBackYears",
+                // title: "Blazars for Shatter Engine",
+                val: 0,
+            },
+        ],
+        others: [
+            /*{
+                name: "getBestMagnetoBuilding",
+                // title: "Best Magneto/Steamwork Building",
+                val: 0,
+            },*/
+            {
+                name: "getUraniumForThoriumReactors",
+                // title: "Uranium/Sec for Thorium Reactors",
+                val: 0,
+            },
+            {
+                name: "getDarkFutureYears",
+                // title: "Years untile Dark Future",
+                val: 0,
+            },
+            {
+                name: "getBestRelicBuilding",
+                //title: "Besting building for increase relic",
+                val: 0,
+            },
+            {
+                name: "getBestUnobtainiumBuilding",
+                //title: "Besting space building for increase Unobtainium",
+                val: 0,
+            },
+            {
+                name: "getAIlv15Time",
+                val: 0,
+            },
+            {
+                name: "getfutureSeason",
+                val: 0,
+            }
+        ]  
     },
-    {
-        name: "getUraniumForThoriumReactors",
-        title: "钍反应堆的铀/秒",
-        val: 0,
-    },
-    {
-        name: "getBlueprintCraft",
-        title: "每次工艺制作的蓝图",
-        val: 0,
-    },
-    {
-        name: "getNecrocornsPerSecond",
-        title: "每秒得到的死灵兽",
-        val: 0,
-    },
-    {
-        name: "getNecrocornTime",
-        title: "距离得到下一个死灵兽的时间",
-        val: 0,
-    },
-    {
-        name: "getLeviChance",
-        title: "利维坦每年到来的机会",
-        val: 0,
-    },
-    {
-        name: "getReligionProductionBonusCap",
-        title: "太阳革命极限加成",
-        val: 0,
-    },
-    {
-        name: "getPraiseLoss",
-        title: "到达下一超越等级的进度",
-        val: 0,
-    },
-    {
-        name: "getCelestialPerDay",
-        title: "天文事件的几率",
-        val: 0,
-    },
-    {
-        name: "getCelestialAutoSuccess",
-        title: "天文事件自动成功率",
-        val: 0,
-    },
-    {
-        name: "getTitPerZebraTrade",
-        title: "每次和斑马贸易得到的钛",
-        val: 0,
-    },
-    {
-        name: "getZebraTradesToMaxTit",
-        title: "最大斑马交易上限钛",
-        val: 0,
-    },
-    {
-        name: "getZebraTradesLeftToMaxTit",
-        title: "达到钛上限时与斑马交易剩余次数",
-        val: 0,
-    },
-    {
-        name: "getTCPerSacrifice",
-        title: "每次牺牲得到的时间水晶",
-        val: 0,
-    },
-    {
-        name: "getRelicPerTCRefine",
-        title: "每次遗物水晶精炼",
-        val: 0,
-    },
-    {
-        name: "getCatnipInWarmSpring",
-        title: "暖春中的猫薄荷/秒",
-        val: 0,
-    },
-    {
-        name: "getCatnipColdWinter",
-        title: "冬天的猫薄荷/秒",
-        val: 0,
-    },
-    {
-        name: "getParagonProductionBonus",
-        title: "领导力生产加成",
-        val: 0,
-    },
-    {
-        name: "getParagonStorageBonus",
-        title: "领导力库存加成",
-        val: 0,
-    },
-    {
-        name: "getBlazarsForShatterEngine",
-        title: "耀变体的加成",
-        val: 0,
-    },
-    {
-        name: "getMaxComped",
-        title: "最大加成的概要数量",
-        val: 0,
-    }],
-    
-    statTitle: "附加统计（不保证准确性）",
+
+    statDefinitions : [
+        {
+            name: "catnip",
+            // title: "Catnip / Sec"
+        },
+        {
+            name: "science",
+            // title: "Science"
+        },
+        {
+            name: "titanium",
+            // title: "Titanium"
+        },
+        {
+            name: "pollution",
+            // title: "Pollution"
+        },
+        {
+            name: "unicorns",
+            // title: "Unicorns"
+        },
+        {
+            name: "religion",
+            // title: "Religion"
+        },
+        {
+            name: "paragon",
+            // title: "Paragon Bonus"
+        },
+        {
+            name: "time",
+            // title: "Time"
+        },
+        {
+            name: "resourceRetrieval",
+            // title: "resourceRetrieval"
+        },
+        {
+            name: "others",
+            // title: "Others"
+        }
+    ],
     
     statGroups: null,
     
-    constructor: function(game){
+    constructor: function(game, i18ng, lang){
         this.game = game;
-        
-        this.statGroups = [
-            {
-                group: this.stats,
-                title: this.statTitle
+        this.i18ng = i18ng;
+        this.statGroups = [];
+        var self = this;
+        if (lang && this.i18nData[lang])
+            this.lang = lang;
+        else
+            this.lang = "en";
+            
+        this.statDefinitions.forEach(
+            function(statDefinition) {
+                self.statGroups.push(
+                    {
+                        group: self.stats[statDefinition.name],
+                        title: self.i18n(statDefinition.name)
+                    }
+                )
             }
-        ];
+        )
         
         for(var i in this.statGroups){
             for(var j in this.statGroups[i].group){
@@ -825,13 +1102,13 @@ dojo.declare("classes.tab.NummonTab", com.nuclearunicorn.game.ui.tab, {
                 var stat = stats[i];
                 var val = stat.val;
                 if(val == Infinity)
-                    val = "无限";
+                    val = "Infinity";
                 
                 stat.val = this.game.nummon[stat.name]();
                 
                 var tr = dojo.create("tr", null, table);
                 dojo.create("td", {
-                    innerHTML: stat.title
+                    innerHTML: this.game.nummon.i18n(stat.name)
                 }, tr);
                 dojo.create("td", {
                     innerHTML: typeof val == "number" ? this.game.getDisplayValueExt(val) : val
@@ -842,6 +1119,8 @@ dojo.declare("classes.tab.NummonTab", com.nuclearunicorn.game.ui.tab, {
 });
 
 NummonInit = function(){
+    var i18ng = $I;
+    var lang = localStorage["com.nuclearunicorn.kittengame.language"];
     var managers = [
         {
             id: "nummon", class: "NummonStatsManager"
@@ -850,19 +1129,19 @@ NummonInit = function(){
     for(var i in managers){
         var manager = managers[i];
         if(gamePage[manager.id] == undefined){
-            gamePage[manager.id] = new window["classes"]["managers"][manager.class](gamePage);
+            gamePage[manager.id] = new window["classes"]["managers"][manager.class](gamePage, i18ng, lang);
             gamePage.managers.push(gamePage[manager.id]);
         }
         else{
-            gamePage[manager.id] = new window["classes"]["managers"][manager.class](gamePage);
+            gamePage[manager.id] = new window["classes"]["managers"][manager.class](gamePage, i18ng, lang);
         }
     }
     
-    gamePage.nummonTab = new classes.tab.NummonTab({name: "附加统计", id: "Nummon"}, gamePage);
+    gamePage.nummonTab = new classes.tab.NummonTab({name: "Nummon", id: "Nummon"}, gamePage);
     gamePage.nummonTab.visible = true;
     var tabExists = false;
     for(var i in gamePage.tabs)
-        if(gamePage.tabs[i].tabName == "Nummon"){
+        if(gamePage.tabs[i].tabId == "Nummon"){
             gamePage.tabs[i] == gamePage.nummonTab;
             tabExists = true;
         }
@@ -885,10 +1164,23 @@ NummonInit = function(){
                 return this.nummonTab;
             case "time":
                 return this.timeTab;
+            case "challenges":
+                return this.challengesTab;
         }
     };
     
-    gamePage.ui.render();
-}
+    gamePage.nummonTab.tabName = "概览";
+    gamePage.render();
+};
 
-NummonInit();
+NummonTryInit = function() {
+    if (typeof gamePage === "undefined") {
+        setTimeout(function(){
+            NummonTryInit();
+        }, 2000);
+    } else {
+        NummonInit();
+    }
+};
+
+NummonTryInit();

@@ -1,0 +1,2109 @@
+{
+    "buildings.field.label": "Katzenminze-Feld",
+    "buildings.field.desc": "Pflanze etwas Katzenminze für's Dorf. Felder haben +50% Produktion im Frühling und -75% Produktion im Winter",
+    "buildings.field.flavor": "Minze soweit das Auge reicht.",
+    "buildings.pasture.label": "Weide",
+    "buildings.pasture.desc": "Bietet eine alternative Nahrungsquelle an, welche den Katzenminzenverbrauch reduziert.",
+    "buildings.pasture.flavor": "Nehmt ein Schlückchen Milch, mein Herr!",
+    "buildings.solarfarm.label": "Solarpark",
+    "buildings.solarfarm.desc": "Bietet eine zusätzliche Energiequelle an. Produktion ist jahreszeitenabhängig.",
+    "buildings.aqueduct.label": "Aquädukt",
+    "buildings.aqueduct.desc": "+3% auf Katzenminze-Produktion",
+    "buildings.aqueduct.flavor": "Schwimmen verboten!",
+    "buildings.hydroplant.label": "Wasserkraftwerk",
+    "buildings.hydroplant.desc": "Eine moderne Stromquelle",
+    "buildings.hut.label": "Hütte",
+    "buildings.hut.desc": "Baue eine Hütte für 2 Kätzchen.<br>Kätzchen verhungern ohne Katzenminze. Jedes Kätzchen verbraucht ungefähr 4 Katzenminze/s",
+    "buildings.hut.flavor": "Der Staat der Zwei",
+    "buildings.logHouse.label": "Blockhaus",
+    "buildings.logHouse.desc": "Baue ein Haus für 1 Kätzchen.",
+    "buildings.logHouse.flavor": "Das Blockhaus im Wald.",
+    "buildings.mansion.label": "Villa",
+    "buildings.mansion.desc": "Baue eine geräumige Villa für 1 Kätzchen.",
+    "buildings.mansion.flavor": "Flauschig!",
+    "buildings.library.label": "Bücherei",
+    "buildings.library.desc": "Baue eine Bücherei zur Aufbewahrung heiliger Katzenschriften.<br>Jeder Ausbau verbessert die Forschungsleistung um 10%.",
+    "buildings.library.flavor": "Alles auf Katzonesisch",
+    "buildings.academy.label": "Akademie",
+    "buildings.academy.desc": "Verbessert die Forschungsrate. Kätzchen verbessern ihre Fähigkeiten schneller.<br>Jeder Ausbau verbessert die Forschungsleistung um 20%.",
+    "buildings.academy.flavor": "Neugier ist die Basis der Wissenschaft. Unsere Katzen starben ruhmreich.",
+    "buildings.observatory.label": "Sternwarte",
+    "buildings.observatory.desc": "Vergrößert die Wahrscheinlichkeit eines astronomischen Ereignisses um 0.2%.",
+    "buildings.observatory.flavor": "Der Drang eines Tages die rote Lichtfee zu fangen.",
+    "buildings.biolab.label": "Biolabor",
+    "buildings.biolab.desc": "Verbessert den Veredelungsprozess von Katzenminze.<br>Jeder Ausbau verbessert die Effektivität um 10%.",
+    "buildings.biolab.flavor": "Suchen promovierte Wissenschaftler.",
+    "buildings.barn.label": "Scheune",
+    "buildings.barn.desc": "Bietet viel Platz zur Aufbewahrung von Ressourcen.",
+    "buildings.barn.flavor": "Ratten sind kein Problem für uns!",
+    "buildings.warehouse.label": "Lagerhaus",
+    "buildings.warehouse.desc": "Bietet zusätzlichen Platz zur Aufbewahrung von Ressourcen.",
+    "buildings.warehouse.flavor": "All unsere Vorräte sind zerkratzt.",
+    "buildings.harbor.label": "Hafen",
+    "buildings.harbor.desc": "Bietet zusätzlichen Platz zur Aufbewahrung von Ressourcen.",
+    "buildings.harbor.flavor": "Ahoi, Landratten!",
+    "buildings.mine.label": "Bergwerk",
+    "buildings.mine.desc": "Schaltet den Bergmannsberuf frei. Jeder Ausbau verbessert die Produktion von Mineralien um 20%.",
+    "buildings.mine.flavor": "Kumpel im Dunkel",
+    "buildings.quarry.label": "Steinbruch",
+    "buildings.quarry.desc": "Steinbrüche verbessern die Bergbaueffektivität um 35% und fördern etwas Kohle.",
+    "buildings.quarry.flavor": "Es ist voller Mäuse! Moment, falsche 'Mine'.",
+    "buildings.smelter.label": "Schmelzhütte",
+    "buildings.smelter.desc": "Schmilzt Metall aus Erzen.",
+    "buildings.smelter.flavor": "Pass auf deine Schnurrhaare auf!",
+    "buildings.calciner.label": "Kalzinator",
+    "buildings.calciner.desc": "Eine sehr effektive Metallquelle.<br>Verbraucht 1.5 Minerale und 0.02 Öl pro Tick.<br>Produziert Eisen und eine kleine Menge Titan.",
+    "buildings.steamworks.label": "Dampfmaschine",
+    "buildings.steamworks.desc": "Verringert die Kohleförderung massiv während sie aktiv ist!<br>Erst nützlich, wenn Verbesserungen entwickelt wurden.",
+    "buildings.steamworks.flavor": "Ich mache hier nur ein Nickerchen und es sieht so aus, als würde ich arbeiten.",
+    "buildings.magneto.label": "Magneto",
+    "buildings.magneto.desc": "Verbessert insgesamt die Ressourcenproduktion um 2%. Jede Dampfmaschine verbessert diesen Effekt um 15%. Verbraucht Öl.",
+    "buildings.lumberMill.label": "Sägewerk",
+    "buildings.lumberMill.desc": "Verbessert die Holzproduktion um 10%",
+    "buildings.lumberMill.flavor": "Bestes Baumstamm-Analyse-Werkzeug",
+    "buildings.oilWell.label": "Ölpumpe",
+    "buildings.oilWell.desc": "Produziert ein bisschen Öl.<br> Erweitert die Lagermenge.",
+    "buildings.oilWell.flavor": "Stehe früh auf, arbeite hart, finde Öl.",
+    "buildings.workshop.label": "Werkstatt",
+    "buildings.workshop.desc": "Bietet eine große Anzahl an Verbesserungen.<br>Jeder Ausbau verbessert die Effektivität der Herstellung um 6%.",
+    "buildings.workshop.flavor": "Gratis-Spielzeug für Arbeiter.",
+    "buildings.factory.label": "Fabrik",
+    "buildings.factory.desc": "Verbessert die Effektivität der Herstellung.",
+    "buildings.reactor.label": "Reaktor",
+    "buildings.reactor.desc": "Bietet eine 5% Steigerung der Produktion, wenn aktiv. Benötigt Uran für den Betrieb.",
+    "buildings.reactor.flavor": "Leuchtende Mäuse sind viel einfacher zu fangen!",
+    "buildings.accelerator.label": "Beschleuniger",
+    "buildings.accelerator.desc": "Verwandelt Titan zum Uran.",
+    "buildings.accelerator.flavor": "Großer Catron-Collider",
+    "buildings.tradepost.label": "Handelsposten",
+    "buildings.tradepost.desc": "Das Herz deines Handel-Imperiums. Verbessert die Tauschrate um 1.5%. Reduziert den Verbrauch von seltenen Ressourcen um 4%.",
+    "buildings.tradepost.flavor": "Ich hoffe es gibt Wolle.",
+    "buildings.mint.label": "Münzanstalt",
+    "buildings.mint.desc": "Produziert kostbare Ressourcen im Verhältnis zur maximalen Katzen-Kraft. Verbraucht Katzen-Kraft und ein bisschen Gold.",
+    "buildings.amphitheatre.label": "Amphitheater",
+    "buildings.amphitheatre.desc": "Verringert negative Effekte der Überbevölkerung um 5%. Dieser Effekt nimmt mit jedem Ausbau ab. Erzeugt Kultur.",
+    "buildings.broadcasttower.label": "Sendungsturm",
+    "buildings.broadcasttower.desc": "Erzeugt Kultur und Fröhlichkeit. Noch Effektiver mit hoher Energieproduktion.",
+    "buildings.chapel.label": "Kapelle",
+    "buildings.chapel.desc": "Erzeugt ein bisschen Kultur und Glaube pro tick. Kann durch Religiöse Verbesserungen verbessert werden.",
+    "buildings.temple.label": "Tempel",
+    "buildings.temple.desc": "Tempel des Lichts. Erzeugt Kultur. Verbesserung durch Erforschung der Theologie.",
+    "buildings.temple.flavor": "Preiset die Decken-Katze!",
+    "buildings.unicornPasture.label": "Einhornweide",
+    "buildings.unicornPasture.desc": "Erlaubt die Zähmung von Einhörnern. Verringert den Verbrauch von Katzenminze um 0.15%.",
+    "buildings.unicornPasture.flavor": "Wir kleben Hörner an Pferde",
+    "buildings.ziggurat.label": "Zikkurat",
+    "buildings.ziggurat.desc": "Das dunkle Erbe eines verlorenen Volkes. Jede Zikkurat wird das Kulturlimit um 8% verbessern.<br>Könnte speziellen Nutzen haben, wenn Theologie erforscht ist.",
+    "buildings.chronosphere.label": "Chronosphäre",
+    "buildings.chronosphere.desc": "Verlagert kleine Mengen an Ressourcen durch die Zeit. Kann weiter verbessert werden. Jede Chronosphäre steigert die Wahrscheinlichkeit eines zeitlichen Paradoxes.",
+    "buildings.upgrade.confirmation": "Willst du dieses Gebäude erweitern?\n\nDu wirst alle bisher gebauten verlieren.",
+    "buildings.downgrade.confirmation": "Willst du dieses Gebäude zurückstufen?\n\nDu wirst alle bisher gebauten verlieren.",
+    
+    "buildings.gatherCatnip.label": "Sammle Katzenminze",
+    "buildings.gatherCatnip.desc": "Sammle etwas Katzenminze im Wald",
+    "buildings.refineCatnip.label": "Verfeinere Katzenminze",
+    "buildings.refineCatnip.desc": "Verfeinere Katzenminze zu Katzenminze-Holz",
+    
+    "buildings.tabName": "Lagerfeuer",
+    "buildings.group.food": "Nahrungsproduktion",
+    "buildings.group.population": "Bevölkerung",
+    "buildings.group.science": "Forschung",
+    "buildings.group.storage": "Lager",
+    "buildings.group.resource": "Ressourcen",
+    "buildings.group.industry": "Industrie",
+    "buildings.group.culture": "Kultur",
+    "buildings.group.other": "Sonstiges",
+    "buildings.group.megastructures": "Mega-Strukturen",
+    
+    "village.job.woodcutter": "Holzfäller",
+    "village.job.woodcutter.desc": "+0.1 Holz pro Sekunde",
+    "village.job.farmer": "Bauer",
+    "village.job.farmer.desc": "+5 Katzenminze pro Sekunde",
+    "village.job.scholar": "Gelehrter",
+    "village.job.scholar.desc": "+0.2 Forschung pro Sekunde",
+    "village.job.hunter": "Jäger",
+    "village.job.hunter.desc": "+0.3 Katzen-Kraft pro Sekunde",
+    "village.job.miner": "Bergmann",
+    "village.job.miner.desc": "+0.25 Mineralien pro Sekunde",
+    "village.job.priest": "Priester",
+    "village.job.priest.desc": "+0.007 Glauben pro Sekunde",
+    "village.job.geologist": "Geologe",
+    "village.job.geologist.desc": "+0.075 Kohle pro Sekunde",
+    "village.job.engineer": "Ingenieur",
+    
+    "village.msg.kitten":"Kätzchen",
+    "village.msg.kittens":"Kätzchen",
+    "village.msg.starved":"verhungerte/n.",
+    "village.msg.froze":"erfrierte/n.",
+    "village.msg.hunt.success":"Deine Jäger sind",
+    "village.msg.hunt.from":" von {0} Jagden zurückgekehrt",
+    "village.msg.hunt.furs": "Fell",
+    "village.msg.hunt.ivory": "Elfenbein",
+    "village.msg.hunt.gold": "Gold",
+    "village.census.filter.all":"Alle Berufe",
+    "village.job.engineer.desc": "Ein Ingenieur kann eine Fabrik steuern, um automatisch Ressourcen zu produzieren.<br />Verwalte deine Ingenieure im Werkstatt-Tab.<br>Stellen automatisch alle 10 Minuten etwas her.",
+    "village.bonus.desc.engineer": "Herstellungsbonus",
+    "village.bonus.desc.merchant": "Handelbonus",
+    "village.bonus.desc.manager": "Jagdbonus",
+    "village.bonus.desc.scientist":"Forschungspreisbonus",
+    "village.bonus.desc.wise":"Religionsbonus",
+    "village.festival.msg.ext":"Das Fest der Kulturen wurde verlängert",
+    "village.festival.msg.start":"Das Fest der Kulturen hat begonnen",
+    
+    "village.reassign.msg":"Deine Kätzchen wurden nach ihren Fähigkeiten neu zugewiesen.",
+    "village.btn.senator":"Anführer ernennen",
+    "village.btn.unassign":"Anführer abwählen",
+    "village.btn.unassign.job":"Von Beruf entbinden",
+    "village.job.bonus":"Berufsbonus",
+    "vilage.census.lbl.leader": "Anführer ",
+    "village.btn.festival":"Fest abhalten",
+    "village.btn.festival.desc":"Veranstalte ein Kulturen-Fest, um deine Kätzchen zu erfreuen. (+30% zur Fröhlichkeit für ein Jahr)",
+    "village.btn.hunters":"Schicke Jäger",
+    "village.btn.hunters.desc":"Schicke Jäger in den Wald",
+    "village.btn.manage":"Verwalte Berufe",
+    "village.btn.manage.desc":"Der Anführer optimiert die Berufs-Verteilung nach den Erfahrungen der Kätzchen",
+    "village.btn.promote": "Kätzchen befördern",
+    "village.btn.promote.desc": "Der Anführer befördert deine Kätzchen. Befördern kostet Gold.",
+    "village.btn.unwrap":"Packe Geschenk aus",
+    "village.panel.census":"Volkszählung",
+    "village.panel.management":"Verwaltung",
+    "village.panel.management.desc":"Fröhlichkeit beeinträchtigt die Produktion und den Verbrauch von Katzenminze der Arbeiter.<br />Seltene Ressourcen verbessen die Fröhlichkeit, während Überbevölkerung sie senkt",
+    
+    "village.census.lbl.festival.duration":"Festdauer",
+    "village.census.lbl.happiness":"Fröhlichkeit",
+    "village.census.trait.none": "Kein Charakterzug :< ",
+    "village.census.rank":"Rang",
+    "village.census.leader.propmote": "Befördern ({0} Erfahrung, {1} Gold)",
+    "village.btn.job.clear":"Zurücksetzen",
+    "village.btn.job.clear.desc": "Alle Berufe zurücksetzen.",
+    "village.skill.dabbling":"Pfuscher",
+    "village.skill.novice":"Anfänger",
+    "village.skill.adequate":"Angemessen",
+    "village.skill.competent":"Kompetent",
+    "village.skill.skilled":"Qualifiziert",
+    "village.skill.proficient":"Fähig",
+    "village.skill.master":"Meister",
+    
+    "village.tab.title.elders":"Älteste",
+    "village.tab.title.union":"Galaktische Union",
+    "village.tab.title.council":"Planetenrat",
+    "village.tab.title.consortium":"Konsortium",
+    "village.tab.title.civilisation":"Zivilisation",
+    "village.tab.title.society":"Gesellschaft",
+    "village.tab.title.reich":"Reich",
+    "village.tab.title.federation":"Förderation",
+    "village.tab.title.hegemony":"Hegemonie",
+    "village.tab.title.dominion":"Herrschaft",
+    "village.tab.title.imperium":"Imperium",
+    "village.tab.title.empire":"Weltreich",
+    "village.tab.title.megapolis":"Megapolis",
+    "village.tab.title.metropolis":"Metropole",
+    "village.tab.title.city":"Stadt",
+    "village.tab.title.town":"Ortschaft",
+    "village.tab.title.smalltown":"Kleine Ortschaft",
+    "village.tab.title.settlement":"Siedlung",
+    "village.tab.title.village":"Dorf",
+    "village.tab.title.smallvillage":"Kleines Dorf",
+    "village.tab.title.outpost":"Vorposten",
+    
+    "village.new.one.unicorn": "Du erhältst ein Einhorn!",
+    "village.new.many.unicorns": "Sie erhältst {0} Einhörner!",
+    "village.job.hunter.flavor": "Wir sind so süß, wir schnurren unsere Opfer an, bis sie sterben.",
+    "village.job.miner.flavor": "Ich verstehe nicht, wie ich eine Hacke mit meinen Pfoten halten kann.",
+    "village.woodcutter.flavor": "Darf. Nicht. Kratzen.",
+    "village.leader.promoted.one.kitten": "Ihr Anführer hat 1 Kätzchen befördert",
+    "village.leader.promoted.many.kittens": "Ihr Anführer hat {0} Kätzchen befördert",
+    "village.general.free.kittens.label": "Gratis-Kätzchen",
+    "village.kittens.have.best.rank": "Deine Kätzchen haben ihren besten Rang",
+    "village.msg.kitten.has.joined": "Ein Kätzchen ist Deinem Dorf beigetreten",
+    "village.tab.clear.job.confirmation": "Bist du sicher?",
+    
+    "village.trait.chemist": "Chemiker",
+    "village.trait.engineer": "Handwerker",
+    "village.trait.manager": "Verwalter",
+    "village.trait.merchant": "Händler",
+    "village.trait.metallurgist": "Metallurg",
+    "village.trait.none": "Ohne",
+    "village.trait.scientist": "Wissenschaftler",
+    "village.trait.wise": "Philosoph",
+    
+    "stats.kittens.total": "Gesamte Kätzchen",
+    "stats.kittens.dead":"Gestorbene Kätzchen",
+    "stats.years.total":"Gesamte Jahre gespielt",
+    "stats.resets.total":"Gesamte Resets",
+    "stats.paragon.total":"Gesamte Paragons",
+    "stats.events.total":"Seltene Ereignisse beobachtet",
+    "stats.unicorns":"Einhörner geopfert",
+    "stats.buildings":"Gebäude gebaut",
+    "stats.clicks.total":"Gesamte Klicks",
+    "stats.trades.total":"Handel durchgeführt",
+    "stats.crafts.total":"Anzahl Fertigungen",
+    "stats.kittens.avg":"Durchschn. geborene Kätzchen (pro Jahrhundert)",
+    "stats.trades.current":"Handel durchgeführt",
+    "stats.crafts.current":"Anzahl Fertigungen",
+    "stats.kittens.current":"Durchschn. geborene Kätzchen (pro Jahrhundert)",
+    "stats.time.current":"Zeit gespielt (Stunden)",
+    "stats.group.all":"Gesamtstatistik",
+    "stats.group.current":"Derzeitige Statistik",
+    
+    "challendge.1000Years.desc": "Ziel: Ereiche Jahr 1000.",
+    "challendge.1000Years.effect.desc": "Kaltschmelze von Zeitkristallen",
+    "challendge.1000Years.label": "1000 Jahre",
+    "challendge.anarchy.desc": "Starte das Spiel neu, während Kätzchen selbstständig handeln: Kätzchen sind träge, verbrauchen mehr Katzenminze und können nicht zum Anführer ernannt werden.<br><br>Ziel: Konstruiere KI-Kern.",
+    "challendge.anarchy.effect.desc": "Kätzchen zählen doppelt für Karma-Berechnung",
+    "challendge.anarchy.label": "Anarchie",
+    "challendge.atheism.desc": "Starte das Spiel ohne Glaubensbonus neu.<br /><br />Ziel: Baue eine Stasiskammer und starte das Spiel neu.",
+    "challendge.atheism.effect.desc": "Jede Stufe der Tranzendenz verbessert den Apokryphen-Effekt um 10%.",
+    "challendge.atheism.label": "Atheismus",
+    "challendge.btn.chronosphere.desc": "Du erhältst keinen Bonus nach Neustart durch Chronosphären.",
+    "challendge.btn.chronosphere.with.ironWill.desc": "Du erhältst keinen Bonus nach Neustart durch Chronosphären.<br />Achtung: Der Bonus nach Neustart durch Chronosphären deaktivert automatisch den eisernen Willen.",
+    "challendge.btn.confirmation.dlg.text": "Bist du dir sicher, dass du die Herausforderung starten willst? Das Spiel wird zurückgesetzt!",
+    "challendge.btn.confirmation.dlg.title": "Herausforderung bestätigen",
+    "challendge.btn.desc": "<br />Ertrag: {0}<br /><br />Spiel neustarten, um die Herausforderung zu starten {1}",
+    "challendge.btn.log.message.on.complete": "Herzlichen Glückwunsch! Du hast eine Herausforderung bewältigt {0}.",
+    "challendge.btn.name.complete": "{0} (Komplett)",
+    "challendge.btn.name.current": "{0} (Aktuell)",
+    "challendge.energy.desc": "Starte das Spiel neu, wenn dein Energieverbrauch zweimal zu hoch ist.<br /><br />Ziel: Entwickle alle energieproduzierenden Gebäude und baue sie mindestens einmal.",
+    "challendge.energy.effect.desc": "Die negativen Auswirkungen in der Produktion durch zu wenig Energie sind halbiert.",
+    "challendge.energy.label": "Energie",
+    "challendge.ironWill.desc": "Eiserner Wille ist eine versteckte Herausforderung. Du musst nicht hier klicken, um sie zu starten, du kannst auch neustarten und keine Häuser bauen.",
+    "challendge.ironWill.effect.desc": "Nichts",
+    "challendge.ironWill.label": "Eiserner Wille",
+    "challendge.winterIsComing.desc": "Starte das Spiel neu. Es gibt nur die Winterjahreszeit.<br><br>Ziel: Erreiche Helios.",
+    "challendge.winterIsComing.effect.desc": "Das Wetter ist insgesamt besser.",
+    "challendge.winterIsComing.label": "Der Winter naht!",
+    "challendge.panel.label": "Herausforderungen",
+    
+    "space.centaurusSystemMission.desc": "Das Centaurus-System ist ein warmes, weit entferntes Sternensystem.",
+    "space.centaurusSystemMission.label": "Mission Centaurus",
+    "space.duneMission.desc": "Dune ist ein großer unbewohnter Planet. Seine Oberfläche besteht aus Sand und Vulkangestein.",
+    "space.duneMission.label": "Mission Dune",
+    "space.furthestRingMission.desc": "Der äußerste Ring der Galaxis.",
+    "space.furthestRingMission.label": "Mission Äußerer Ring",
+    "space.ground.control.label": "Bodenstation",
+    "space.heliosMission.desc": "Helios ist ein Stern der Spektralklasse G2V und liegt im Zentrum des Cath-System.",
+    "space.heliosMission.label": "Mission Helios",
+    "space.kairoMission.desc": "Kairo ist ein Zwergplanet im äußeren Cath-System.",
+    "space.kairoMission.label": "Mission Kairo",
+    "space.mission.name.complete": "{0} (Komplett)",
+    "space.mission.name.inprogress": "{0} (In Bearbeitung)",
+    "space.mission.rorschach.complete.log.msg": "Rorschach ist undurchdringlich - aber du siehst nun weiter.",
+    "space.moonMission.desc": "Starte eine Rakete nach Redmoon, einen Trabanten des Cath Planeten",
+    "space.moonMission.label": "Mission Mond",
+    "space.newplanet.log.msg": "Du hast einen neuen Himmelskörper erreicht!",
+    "space.orbitalLaunch.desc": "Starte eine Rakete in den Weltraum.",
+    "space.orbitalLaunch.label": "Orbitalstart",
+    "space.panel.rorshach.label": "Rorshach",
+    "space.piscineMission.desc": "Piscine ist ein gigantischer Planet zusammengesetzt aus einem Säurekörper und einer Methan Atmosphäre",
+    "space.piscineMission.label": "Mission Piscine",
+    
+    "space.planet.cath.label": "Cath",
+    "space.planet.cath.sattelite.desc": "Bringe einen Satelliten in die Umlaufbahn. Satelliten unterstützen die Forschungsleistung von Observatorien um 5% und erzeugen zusätzlich Sternkarten.",
+    "space.planet.cath.sattelite.label": "Satellit",
+    "space.planet.cath.spaceElevator.desc": "Jeder Ausbau des Weltraumlifts reduziert den Ölverbrauch von Weltraummissionen um 5%. Verbessert die Produktion von Weltraumstrukturen um 1%",
+    "space.planet.cath.spaceElevator.label": "Weltraumlift",
+    "space.planet.cath.spaceStation.desc": "Errichte eine Weltraumstation. Jeder Ausbau generiert Forschungspunkte und bietet Platz für zwei Katzonauten",
+    "space.planet.cath.spaceStation.label": "Weltraumstation",
+    "space.planet.centaurusSystem.label": "Centaurus System",
+    "space.planet.centaurusSystem.tectonic.desc": "Reiße die Planetenoberfläche auf, um Magmaenergie zu sammeln.",
+    "space.planet.centaurusSystem.tectonic.label": "Tektonik",
+    "space.planet.dune.hydrofracturer.desc": "Fördert Öl mit Hochdruck. Jeder Weltraumlift verbessert die Produktion um 0,1% des Gesamtproduktions-Faktors.",
+    "space.planet.dune.hydrofracturer.label": "Hydraulischer Fraktor",
+    "space.planet.dune.label": "Dune",
+    "space.planet.dune.planetCracker.desc": "Erzstation Ishimiaura, welche einen ganzen Planeten knacken kann.",
+    "space.planet.dune.planetCracker.label": "Planet Cracker",
+    "space.planet.dune.spiceRefinery.desc":"Verfeinert den Sand des Planeten 'Dune' in eine psychoaktive Substanz, weitgehend bekannt als 'Spice'.",
+    "space.planet.dune.spiceRefinery.label":"Spice Raffinerie",
+    "space.planet.furthestRing.label": "Äußerster Ring",
+    "space.planet.helios.containmentChamber.desc": "Eindämmungskammer. Erhöht Antimaterienlager um 100.",
+    "space.planet.helios.containmentChamber.label": "Eindämmungskammer",
+    "space.planet.helios.label": "Helios",
+    "space.planet.helios.sunlifter.desc": "Generiert einmal im Jahr Antimaterie. Funktioniert nicht, sollte die Energieproduktion negativ sein.",
+    "space.planet.helios.sunlifter.label": "Sonnenlift",
+    "space.planet.kairo.label": "Kairo",
+    "space.planet.kairo.spaceBeacon.desc": "Eine durch Antimaterie betriebene Weltraumstation, welche für Forschung und Navigation genutzt wird.",
+    "space.planet.kairo.spaceBeacon.label": "Weltraumleuchtfeuer",
+    "space.planet.moon.label": "Mond",
+    "space.planet.moon.moonBase.desc": "Gründe einen Basis auf der Oberfläche des Rotmondes.",
+    "space.planet.moon.moonBase.label": "Mondbasis",
+    "space.planet.moon.moonOutpost.desc": "Erstelle eine nuklearbetriebene Mine auf dem Rotmond.",
+    "space.planet.moon.moonOutpost.label": "Lunarer Außenposten",
+    "space.planet.piscine.label": "Piscine",
+    "space.planet.piscine.orbitalArray.desc": "Erhalte einen 2% Produktionsbonus auf alle Weltraumstrukturen.",
+    "space.planet.piscine.orbitalArray.label": "Orbitale Reihe",
+    "space.planet.piscine.researchVessel.desc": "Mobile Weltraum-Forschungskapsel.",
+    "space.planet.piscine.researchVessel.label": "Forschungskapsel",
+    "space.planet.terminus.cryostation.desc": "Ein enormer Lagerkomplex",
+    "space.planet.terminus.cryostation.label": "Kryostation",
+    "space.planet.terminus.label": "T-Minus",
+    "space.planet.yarn.hydroponics.desc": "Hydrokultur auf dem neusten Stand der Technik. Erhöht Katzenminzeproduktion um 10%.",
+    "space.planet.yarn.hydroponics.label": "Hydrokultur",
+    "space.planet.yarn.label": "Yarn",
+    "space.planet.yarn.terraformingStation.desc": "Lass eine Ladung Antimaterie explodieren, um das Eis zu schmelzen und dadurch Sauerstoff in die Atmosphäre freizusetzen.",
+    "space.planet.yarn.terraformingStation.label": "Terraformstation",
+    
+    "space.rorschachMission.desc": "Rorschach ist der größte Komet nahe Helios.",
+    "space.rorschachMission.label": "Rorschach",
+    "space.tab.hide.complete.missions": "Verstecke erfolgreiche Missionen",
+    "space.terminusMission.desc": "Terminus ist ein supermassiver Eisgigant am Ende des Helios Solarsystems.",
+    "space.terminusMission.label": "T-minus Mission",
+    "space.yarnMission.desc": "Yarn ist ein Planet der Klasse M mit hochkompatiblem Klima, Meeresspiegel und Sauerstoff in der Atmosphäre.",
+    "space.yarnMission.label": "Yarn Mission",
+    "void.spaceCathedral.desc": "TBD.",
+    "void.spaceCathedral.label": "Weltraumkathedrale",
+    
+    "prestige.engeneering.desc": "Reduziert alle Preisverhältnisse um 1%. Schaltet mehr Preis-Upgrades frei.",
+    "prestige.engeneering.label": "Ingenieurswesen",
+    "prestige.codexVox.desc": "Verbessert Manuskriptproduktion um 25%.",
+    "prestige.codexVox.label": "Codex Vox",
+    "prestige.codexLogos.desc": "Verbessert das Verhältnis der Kompendiumsherstellung um 25%",
+    "prestige.codexLogos.label": "Codex Logos",
+    "prestige.codexAgrum.desc": "Verbessert das Verhältnis der Blaupausenherstellung um 25%",
+    "prestige.codexAgrum.label": "Codex Agrum",
+    "prestige.megalomania.desc": "Schaltet neue Megastrukturen frei.",
+    "prestige.megalomania.label": "Größenwahn.",
+    "prestige.blackCodex.desc": "Schaltet Einhornfriedhöfe frei.",
+    "prestige.blackCodex.label": "Schwarzer Codex",
+    "prestige.goldenRatio.desc": "Reduziert alle Preisverhältnisse um ~1.618%",
+    "prestige.goldenRatio.label": "Goldener Schnitt.",
+    "prestige.divineProportion.desc": "Reduziert alle Preisverhältnisse um 1.7%",
+    "prestige.divineProportion.label": "Göttliche Proportionen.",
+    "prestige.vitruvianFeline.desc": "Reduziert alle Preisverhältnisse um 2%",
+    "prestige.vitruvianFeline.label": "Vitruvianische Felidae.",
+    "prestige.renaissance.desc": "Reduziert alle Preisverhältnisse um 2.25%",
+    "prestige.renaissance.label": "Renaissance",
+    "prestige.diplomacy.desc": "Völker werden früher entdeckt und mit besserem diplomatischen Verhältnis. Schaltet mehr Upgrades im Handel frei.",
+    "prestige.diplomacy.label": "Diplomatie",
+    "prestige.zebraDiplomacy.desc": "Manche Zebrajäger bleiben im Dorf",
+    "prestige.zebraDiplomacy.label": "Zebradiplomatie",
+    "prestige.zebraCovenant.desc": "Mehr Zebras bleiben bei dir.",
+    "prestige.zebraCovenant.label": "Zebrabund",
+    "prestige.chronomancy.desc": "Meteor- und Sternereignisse passieren häufiger.",
+    "prestige.chronomancy.label": "Chronomantie",
+    "prestige.astromancy.desc": "Sternereignis-Chance und Observaterium-Effizienz werden verdoppelt",
+    "prestige.astromancy.label": "Astronomie",
+    "prestige.unicornmancy.desc": "Einhorn-Risse und Elfenbeinmeteore passieren häufiger.",
+    "prestige.unicornmancy.label": "Einhornomantie",
+    "prestige.anachronomancy.desc": "Zeitkristalle und Chronophysik werden über Resets hinweg gespeichert.",
+    "prestige.anachronomancy.label": "Anachronomantie",
+    "prestige.carnivals.desc": "Festivals können aneinandergereiht werden.",
+    "prestige.carnivals.label": "Karnevale",
+    "prestige.willenfluff.desc": "Katzen kommen 75 % schneller an.",
+    "prestige.willenfluff.label": "Venus von Willenflausch",
+    "prestige.numerology.desc": "Bestimmte Jahre haben Spezialeffekte.",
+    "prestige.numerology.label": "Numerologie",
+    "prestige.numeromancy.desc": "Bestimmte Jahre haben Extra-Effekte während eines Festivals.",
+    "prestige.numeromancy.label": "Numeromantie",
+    "prestige.malkuth.desc": "Verbessert Paragoneffekt und -skalierung um 5%",
+    "prestige.malkuth.label": "Malkuth",
+    "prestige.yesod.desc": "Verbessert Paragoneffekt und -skalierung um 5%",
+    "prestige.yesod.label": "Yesod",
+    "prestige.hod.desc": "Verbessert Paragoneffekt und -skalierung um 5%",
+    "prestige.hod.label": "Hod",
+    "prestige.netzach.desc": "Verbessert Paragoneffekt und -skalierung um 5%",
+    "prestige.netzach.label": "Netzach",
+    "prestige.tiferet.desc": "Verbessert Paragoneffekt und -skalierung um 5%",
+    "prestige.tiferet.label": "Tiferet",
+    "prestige.gevurah.desc": "Verbessert Paragoneffekt und -skalierung um 5%",
+    "prestige.gevurah.label": "Gevurah",
+    "prestige.chesed.desc": "Verbessert Paragoneffekt und -skalierung um 5%",
+    "prestige.chesed.label": "Chesed",
+    "prestige.binah.desc": "Verbessert Paragoneffekt und -skalierung um 5%",
+    "prestige.binah.label": "Binah",
+    "prestige.chokhmah.desc": "Verbessert Paragoneffekt und -skalierung um 5%",
+    "prestige.chokhmah.label": "Chokhmah",
+    "prestige.keter.desc": "Verbessert Paragoneffekt und -skalierung um 5%",
+    "prestige.keter.label": "Keter",
+    "prestige.voidOrder.desc": "Jeder Priester gibt einen kleinen Bonus auf Glaubensakkumulation.",
+    "prestige.voidOrder.label": "Orden der Leere",
+    "prestige.adjustmentBureau.desc": "Schaltet zusätzliche Herausforderungen frei.",
+    "prestige.adjustmentBureau.label": "Anpassungsbüro",
+    "prestige.btn.burnParagon.label": "Paragonverbrennung",
+    "prestige.btn.burnParagon.desc": "Verwirf alle Paragonpunkte",
+    "prestige.panel.label": "Metaphysik",
+    
+    "science.toggleResearched.label": "Erforschtes ausblenden.",
+    "science.calendar.desc": "Ermöglicht es vorherzusagen, wann sich die Jahreszeiten ändern. Damit wird der Grundstein für fortschrittliche Landwirtschaft gelegt.",
+    "science.calendar.effectDesc": "Der Kalender ermöglicht eine präzisere Zeiterfassung",
+    "science.calendar.flavor": "Was für ein Tag ist heute nochmal?",
+    "science.calendar.label": "Kalender",
+    "science.agriculture.desc": "Die Grundlage zivilisierten Lebens. Landwirtschaft ermöglicht die Bearbeitung des Landes zur Nahrungsproduktion und erweitert die Nahrungsproduktion enorm.",
+    "science.agriculture.effectDesc": "Ermöglicht den Beruf des Bauers und das Bauen von Scheunen.",
+    "science.agriculture.flavor": "Beste Erfindung seit geschnittenem Brot!",
+    "science.agriculture.label": "Landwirtschaft",
+    "science.archery.desc": "Fernkampfwaffen, bekannt als 'Bogen'.",
+    "science.archery.effectDesc": "Ermöglicht den Beruf des Jägers.",
+    "science.archery.label": "Bogenschießen",
+    "science.mining.desc": "Bergbau bietet dir die Möglichkeiten, Mineralien zu sammeln.",
+    "science.mining.effectDesc": "Du kannst Minen bauen",
+    "science.mining.flavor": "Spitzhacken lassen sich mit opponierbaren Daumen leichter halten",
+    "science.mining.label": "Bergbau",
+    "science.metal.desc": "Die erste metallverarbeitende Technologie, die deiner Zivilisation robuste und langlebige Werkzeuge bietet",
+    "science.metal.effectDesc": "Du kannst Schmelzöfen bauen, die Mineralien in Metalle umwandeln",
+    "science.metal.label": "Metallverarbeitung",
+    "science.animal.desc": "Domestizierung ermöglicht tierische Ressourcen in Weiden zu produzieren. Verbessert deine Nahrungsproduktion.",
+    "science.animal.effectDesc": "Schaltet Weiden frei",
+    "science.animal.label": "Viehzucht",
+    "science.brewery.desc": "Katzenminzeverarbeitung ist eine optionale Technologie, die den Prozess der Konvertierung von Katzenminze zu Minzholz verbessert.",
+    "science.brewery.effectDesc": "Schaltet Katzenminzeanreicherung frei.",
+    "science.brewery.label": "Katzenminzeverarbeitung",
+    "science.civil.desc": "Der Aufbau eines ersten Staatsorgans bringt viele Vorteile in der Verwaltung deiner Bevölkerung.",
+    "science.civil.effectDesc": "Schaltet detaillierte Informationen zur Bevölkerung frei",
+    "science.civil.flavor": "Katzenhirten-Spezialisten",
+    "science.civil.label": "Öffentlicher Dienst",
+    "science.math.desc": "Mathematik ist der Grundstein, auf dem alle Naturwissenschaft basiert. Verbessert wissenschaftliche Entwicklung.",
+    "science.math.effectDesc": "Ermöglicht, Akademien - sehr effiziente Forschungsgebäude - zu bauen.",
+    "science.math.flavor": "Schnurr gleich Miau mal Mauz zum Quadrat",
+    "science.math.label": "Mathematik",
+    "science.construction.desc": "Das Bauwesen steht für Fortschritte in der Maurerei, vor allem durch die Nutzung von Eisen und anderen Metallen. Nützlich für Jagd und Infrastruktur.",
+    "science.construction.effectDesc": "Ermöglicht den Arbeitern Holzmühlen zu bauen. Schaltet Kompositbögen frei.",
+    "science.construction.flavor": "Clevere Kissenburgen",
+    "science.construction.label": "Bauwesen",
+    "science.engineering.desc": "Das Ingenieurswesen ist die Wissenschaft (oder vielleicht Kunst) des Designs komplexer Materialien, Strukturen, Geräte und Systeme.",
+    "science.engineering.effectDesc": "Schaltet Aquädukte frei",
+    "science.engineering.label": "Ingenieurswesen",
+    "science.currency.desc": "Währung repräsentiert eine bestimmte Menge an Wohlstand. Kann die Entwicklung auf indirekte Weise signifikant verbessern.",
+    "science.currency.effectDesc": "Schaltet Gold und Handel frei",
+    "science.currency.label": "Währung",
+    "science.writing.desc": "Schreiben ist die Kunst, Informationen auf Substanz festzuhalten. Schrift kann allgemeine Zufriedenheit und den kulturellen Fortschritt deiner Zivilisation beeinflussen.",
+    "science.writing.effectDesc": "Schaltet Amphitheater frei",
+    "science.writing.flavor": "Schrift braucht weniger Tinte als Tatzenabdrücke",
+    "science.writing.label": "Schrift",
+    "science.philosophy.desc": "Philosophie ist die erste abstrakte Wissenschaft, die die Katzheit entwickelt hat. Philosophie ist die Basis spirituellen und kulturellen Fortschritts.",
+    "science.philosophy.effectDesc": "Schaltet Tempel frei",
+    "science.philosophy.flavor": "Ich schnurre, also bin ich",
+    "science.philosophy.label": "Philosophie",
+    "science.steel.desc": "Entwicklung der neuen Stahllegierungen bringt weitere Metallverarbeitung voran. Begünstigt die meisten Aspekte der Entwicklung.",
+    "science.steel.effectDesc": "Schaltet Kohle- und Stahlproduktion frei",
+    "science.steel.label": "Stahl",
+    "science.theology.desc": "Theologie ist das Studium der Religionen. Religion ist das Kernkonzept kultureller, wissenschaftlicher und industrieller Entwicklung.",
+    "science.theology.effectDesc": "Schaltet Religion frei",
+    "science.theology.flavor": "Was ist das eigentlich für ein Feuerball am Himmel?",
+    "science.theology.label": "Theologie",
+    "science.astronomy.desc": "Astronomie ist das Studium von Objekten im Weltraum. Verbessert wissenschaftliche Entwicklung.",
+    "science.astronomy.effectDesc": "Schaltet Sternwarte und Sternkarten frei.",
+    "science.astronomy.label": "Astronomie",
+    "science.navigation.desc": "Navigation erlaubt beträchtliche Fortschritte in Segel- und Schiffsbautechnologie. Es sollte Ökonomische Entwicklung fördern und kann zu der Entdeckung neuer Zivilisationen führen.",
+    "science.navigation.effectDesc": "Schaltet internationalen Handel und das Errichten von Handelsschiffen frei.",
+    "science.navigation.label": "Navigation",
+    "science.architecture.desc": "Architektur ermöglicht die Konstruktion von neuen anspruchsvollen Strukturen.",
+    "science.architecture.effectDesc": "Schaltet Münzanstalten und Villen frei.",
+    "science.architecture.flavor": "Bessere & grössere Katzenbäume",
+    "science.architecture.label": "Architektur",
+    "science.physics.desc": "Physik das Studium der Naturgewalten. Verbessert zum Großteil die Effektivität deiner Maschinen.",
+    "science.physics.effectDesc": "Schaltet nützliche Verbesserungen frei.",
+    "science.physics.label": "Physik",
+    "science.metaphysics.desc": "Metaphysik ist ein traditioneller Zweig der Philosophie, der sich mit dem Erklären der fundamentalen Beschaffenheit des Seins und der Welt beschäftigt. Vollkommen nutzlos.",
+    "science.metaphysics.effectDesc": "Macht nichts!",
+    "science.metaphysics.label": "Metaphysik",
+    "science.chemistry.desc": "Die Entdeckung von Chemie ermöglicht eine tiefgründigere Erforschung und Verständnis von natürlichen Elementen und deren Interaktionen. Als Folge davon können neue Ressourcen freigeschaltet werden.",
+    "science.chemistry.effectDesc": "Schaltet Öl und Ölpumpen frei.",
+    "science.chemistry.label": "Chemie",
+    "science.acoustics.desc": "Akustik ist das Studium über den Schall und die Musik. Während es keinen offensichtlichen Nutzen hat, wird es langfristig Gesellschaften bei der kulturellen und religiösen Entwicklung zugutekommen.",
+    "science.acoustics.effectDesc": "Schaltet Kapellen frei",
+    "science.acoustics.label": "Akustik",
+    "science.drama.desc": "Drama und Poesie sind beide Arten von künstlerischem Ausdruck. Beschleunigt kulturellen Fortschritt.",
+    "science.drama.effectDesc": "Entsperrt Feste.",
+    "science.drama.label": "Drama und Poesie",
+    "science.archeology.desc": "Geologie ist eine Wissenschaft bestehend aus des Studiums von Cath, den Steinen aus denen es besteht und die Vorgänge durch die es sich verändert. Kann möglicherweise deine Bergbauindustrie fördern.",
+    "science.archeology.effectDesc": "Schaltet Steinbrüche und Geologen frei",
+    "science.archeology.flavor": "Verschiedene Fossile von riesigen Echsen wurden entdeckt. Scheinbar sind sie alle durch einen plötzlichen aber unvermeidlichen Verrat gestorben.",
+    "science.archeology.label": "Geologie",
+    "science.electricity.desc": "Elektrizität stellt einen neuen Weg dar, Fabrikation zu automatisieren, wodurch die Katzenheit in allen Feldern gefördert wird.",
+    "science.electricity.effectDesc": "Entsperrt Magnetos",
+    "science.electricity.flavor": "Wer hätte ahnen können, dass auf dem Teppich rennen so viel Energie generieren kann?",
+    "science.electricity.label": "Elektrizität",
+    "science.biology.desc": "Biologie kümmert sich um lebendige Organismen, deren Eigenschaften und ihr Nutzen in unserer Gesellschaft. Verbessert Wissenschaft und die Chemieindustrie.",
+    "science.biology.effectDesc": "Schaltet Biolabore frei.",
+    "science.biology.label": "Biologie",
+    "science.biochemistry.desc": "Verbessert deine Chemie und Biologie-verwandten Technologien.",
+    "science.biochemistry.effectDesc": "Schaltet Biotreibstoff Aufbewertung frei",
+    "science.biochemistry.label": "Biochemie",
+    "science.genetics.desc": "Technologie die weiterhin Biologie und Chemie verbessert. Beeinflusst deine Lebensmittelindustrie",
+    "science.genetics.effectDesc": "Schaltet Genmodifikation frei",
+    "science.genetics.label": "Genetik",
+    "science.industrialization.desc": "Industrialisierung repräsentiert das Konzept der Massenproduktion von Materialien, von Nahrungsmitteln zu Bauteilen.",
+    "science.industrialization.effectDesc": "Schaltet Forgeschrittene Automation und Schuten frei",
+    "science.industrialization.label": "Industrialisierung",
+    "science.mechanization.desc": "Mechanisierung ermöglicht es, überflüssige Arbeitsschritte zu eliminieren; wodurch es Handwerk, Ölpumpen und Konstruktionstechnologien verbessert.",
+    "science.mechanization.effectDesc": "Schaltet Fabriken, Ölbohrtürme und Beton frei",
+    "science.mechanization.label": "Mechanisierung",
+    "science.metalurgy.desc": "Metallurgie verbessert den Metallproduktionsprozess und kommt Schmelzhütten and Kalzinatoren zugute",
+    "science.metalurgy.effectDesc": "Schaltet Elektrolytische Schmelze, Retorten und Oxidierung frei",
+    "science.metalurgy.label": "Metallurgie",
+    
+    "science.combustion.desc": "Combustion provides a number of ways to improve old coal-based automation technologies, such as Steamworks.",
+    
+    "science.combustion.effectDesc": "Unlocks Offset Printing, Oil Refinery and Fuel Injection",
+    
+    "science.combustion.label": "Combustion",
+    
+    "science.ecology.desc": "Ecology is a technology primary focused on the search for new cheap and safe energy sources.",
+    
+    "science.ecology.effectDesc": "Unlocks Solar Farms",
+    
+    "science.ecology.label": "Ecology",
+    
+    "science.electronics.desc": "Elektronik entsperrt einige High-Tech-Verbesserungen, die sich weitestgehend auf Wissenschaft beziehen.",
+    
+    "science.electronics.effectDesc": "Entsperrt Funktürme, CAD Systeme, Kühlung und SETI",
+    
+    "science.electronics.label": "Elektronik",
+    
+    "science.robotics.desc": "Robotics improves automated structures like Calciners",
+    
+    "science.robotics.effectDesc": "Unlocks Stahlwerke, Wasserkraftwerke, Tankers and Rotary Kilns",
+    
+    "science.robotics.label": "Robotics",
+    
+    "science.ai.desc": "TBD",
+    
+    "science.ai.effectDesc": "Unlocks Neural Networks",
+    
+    "science.ai.label": "Artificial Intelligence",
+    
+    "science.nuclearFission.desc": "Nuclear Fission unlocks Nuclear Reactors and nuclear-related upgrades",
+    
+    "science.nuclearFission.effectDesc": "Unlocks Nuclear Reactors and Nuclear Vessel",
+    
+    "science.nuclearFission.label": "Nuclear Fission",
+    
+    "science.rocketry.desc": "Required for space exploration",
+    
+    "science.rocketry.effectDesc": "Unlocks construction of spaceships and oil processing",
+    
+    "science.rocketry.label": "Rocketry",
+    
+    "science.oilProcessing.desc": "Unlocks advanced options of oil processing",
+    
+    "science.oilProcessing.effectDesc": "Unlocks kerosene and factory processing",
+    
+    "science.oilProcessing.label": "Oil Processing",
+    
+    "science.sattelites.desc": "Satellites are machines that permanently orbit the planet outside its atmosphere",
+    
+    "science.sattelites.effectDesc": "Unlocks deployment of Satellites",
+    
+    "science.sattelites.flavor": "Spreading cat videos at the speed of light",
+    
+    "science.sattelites.label": "Satellites",
+    
+    "science.orbitalEngineering.desc": "Orbital Engineering allows kitten civilization to develop advanced space projects.",
+    
+    "science.orbitalEngineering.effectDesc": "Unlocks Space Stations and the Hubble Telescope",
+    
+    "science.orbitalEngineering.label": "Orbital Engineering",
+    
+    "science.thorium.desc": "Thorium is an extremely radioactive and energy efficient isotope that can be used in various space era upgrades.",
+    
+    "science.thorium.effectDesc": "Unlocks Thorium Reactors and Thorium Engine",
+    
+    "science.thorium.label": "Thorium",
+    
+    "science.exogeology.desc": "Exogeology or Planetary Geology studies extraterrestrial metals and minerals.",
+    
+    "science.exogeology.effectDesc": "Unlocks various Unobtainium upgrades",
+    
+    "science.exogeology.label": "Exogeology",
+    
+    "science.advExogeology.desc": "Advanced Exogeology studies new methods of unobtainium processing",
+    
+    "science.advExogeology.effectDesc": "Unlocks Eludium and Eludium upgrades",
+    
+    "science.advExogeology.label": "Advanced Exogeology",
+    
+    "science.nanotechnology.desc": "Nanotechnology is manipulation of matter on an atomic, molecular, and sub-molecular scale. Can potentially improve your energy and resource production.",
+    
+    "science.nanotechnology.effectDesc": "Unlocks Nanosuits, FL Reactors, Augmentations and PVC",
+    
+    "science.nanotechnology.label": "Nanotechnology",
+    
+    "science.superconductors.desc": "Superconductors are exotic materials that help to optimize energy efficiency of different technologies",
+    
+    "science.superconductors.effectDesc": "Unlocks Cold Fusion and Space Manufacturing",
+    
+    "science.superconductors.label": "Superconductors",
+    
+    "science.antimatter.desc": "Antimatter provides some advanced sources of energy and generally benefits scientific advancement",
+    
+    "science.antimatter.effectDesc": "Unlocks Antimatter Reactors, AM-Drive, AM-Fission and Antimatter Bases",
+    
+    "science.antimatter.label": "Antimatter",
+    
+    "science.terraformation.desc": "Terraformation technology focuses on use of the antimatter to change the climate of the Cath System exoplanets",
+    
+    "science.terraformation.effectDesc": "Unlocks Terraforming Stations",
+    
+    "science.terraformation.label": "Terraformation",
+    
+    "science.hydroponics.desc": "A pinnacle of space engineering, hydroponic provides new sources of food supply for our distant colonies.",
+    
+    "science.hydroponics.effectDesc": "Unlocks Yarn Hydroponics",
+    
+    "science.hydroponics.label": "Hydroponics",
+    
+    "science.particlePhysics.desc": "Particle physics takes us one step deeper into the understanding of the nature of matter and energy than its ancestor, Nuclear Physics",
+    
+    "science.particlePhysics.effectDesc": "Unlocks Particle Accelerators, Railguns and Enriched Uranium",
+    
+    "science.particlePhysics.label": "Particle Physics",
+    
+    "science.dimensionalPhysics.desc": "Dimensional Physics explores the concepts of space and time",
+    
+    "science.dimensionalPhysics.effectDesc": "Unlocks Energy Rifts and LHC",
+    
+    "science.dimensionalPhysics.label": "Dimensional Physics",
+    
+    "science.chronophysics.desc": "Chronophysics studies the nature of time and possibilities of temporal manipulations",
+    
+    "science.chronophysics.effectDesc": "Unlocks Chronospheres, Flux Reactors and Stasis Chambers",
+    
+    "science.chronophysics.label": "Chronophysics",
+    
+    "science.tachyonTheory.desc": "Tachyonic particles are hypothetical particles that always move faster than light.",
+    
+    "science.tachyonTheory.effectDesc": "Unlocks Tachyon Accelerators and Chronoforge",
+    
+    "science.tachyonTheory.label": "Tachyon Theory",
+    
+    "science.cryptotheology.desc": "Cryptotheology applies the most arcane and unorthodox methods of theology in order to answer the fundamental questions of the universe and reality.",
+    
+    "science.cryptotheology.effectDesc": "Unlocks Relic Station and Cryptotheology tree",
+    
+    "science.cryptotheology.label": "Cryptotheology",
+    
+    "science.voidSpace.desc": "Under the void",
+    
+    "science.voidSpace.effectDesc": "Unlocks Cryochambers",
+    
+    "science.voidSpace.label": "Void Space",
+    
+    "science.paradoxalKnowledge.desc": "TBD",
+    
+    "science.paradoxalKnowledge.effectDesc": "Unlocks Chronocontrol and Resource Retrieval",
+    
+    "science.paradoxalKnowledge.label": "Paradoxal Knowledge",
+    
+    "workshop.toggleResearched.label": "Hide researched upgrades",
+    
+    "workshop.mineralHoes.desc": "Your farmers are 50% more effective",
+    
+    "workshop.mineralHoes.label": "Mineral Hoes",
+    
+    "workshop.ironHoes.desc": "Your farmers are 30% more effective",
+    
+    "workshop.ironHoes.label": "Iron Hoes",
+    
+    "workshop.mineralAxes.desc": "Holzfäller sind um 70% effektiver",
+    
+    "workshop.mineralAxes.label": "Mineral Axe",
+    
+    "workshop.ironAxes.desc": "Holzfäller sind um 50% effektiver",
+    
+    "workshop.ironAxes.label": "Eisenaxt",
+    
+    "workshop.steelAxe.desc": "Sehr scharfe und langlebige Äxte. Holzfäller sind um 50% effektiver",
+    
+    "workshop.steelAxe.label": "Stahlaxt",
+    
+    "workshop.reinforcedSaw.desc": "Improve Lumber Mill efficiency by 20%",
+    
+    "workshop.reinforcedSaw.label": "Reinforced Saw",
+    
+    "workshop.steelSaw.desc": "Improve Lumber Mill efficiency by 20%",
+    
+    "workshop.steelSaw.label": "Steel Saw",
+    
+    "workshop.titaniumSaw.desc": "Improve Lumber Mill efficiency by 15%",
+    
+    "workshop.titaniumSaw.label": "Titansäge",
+    
+    "workshop.alloySaw.desc": "Improve Lumber Mill efficiency by 15%",
+    
+    "workshop.alloySaw.label": "Alloy Saw",
+    
+    "workshop.titaniumAxe.desc": "Unzerstörbare Äxte. Holzfäller sind um 50% effektiver.",
+    
+    "workshop.titaniumAxe.label": "Titanaxt",
+    
+    "workshop.alloyAxe.desc": "The more you use them, the sharper they are! Woodcutters are 50% more effective.",
+    
+    "workshop.alloyAxe.label": "Alloy Axe",
+    
+    "workshop.unobtainiumAxe.desc": "Those axes are literally unobtainable! Woodcutters are 50% more effective.",
+    
+    "workshop.unobtainiumAxe.label": "Unobtainium Axe",
+    
+    "workshop.unobtainiumSaw.desc": "Improve Lumber Mill efficiency by 25%",
+    
+    "workshop.unobtainiumSaw.label": "Unobtainium Saw",
+    
+    "workshop.stoneBarns.desc": "75% more storage space for wood and iron",
+    
+    "workshop.stoneBarns.label": "Expanded Barns",
+    
+    "workshop.reinforcedBarns.desc": "80% more storage space for wood and iron",
+    
+    "workshop.reinforcedBarns.label": "Reinforced Barns",
+    
+    "workshop.reinforcedWarehouses.desc": "Storage facilities store 25% more resources",
+    
+    "workshop.reinforcedWarehouses.label": "Reinforced Warehouses",
+    
+    "workshop.titaniumBarns.desc": "Storage facilities store twice as many resources",
+    
+    "workshop.titaniumBarns.label": "Titanium Barns",
+    
+    "workshop.alloyBarns.desc": "Storage facilities store twice as many resources",
+    
+    "workshop.alloyBarns.label": "Alloy Barns",
+    
+    "workshop.concreteBarns.desc": "Storage facilities store 75% more resources",
+    
+    "workshop.concreteBarns.label": "Concrete Barns",
+    
+    "workshop.titaniumWarehouses.desc": "Storage facilities store 50% more resources",
+    
+    "workshop.titaniumWarehouses.label": "Titanium Warehouses",
+    
+    "workshop.alloyWarehouses.desc": "Storage facilities store 45% more resources",
+    
+    "workshop.alloyWarehouses.label": "Alloy Warehouses",
+    
+    "workshop.concreteWarehouses.desc": "Storage facilities store 35% more resources",
+    
+    "workshop.concreteWarehouses.label": "Concrete Warehouses",
+    
+    "workshop.storageBunkers.desc": "Storage facilities store 20% more resources",
+    
+    "workshop.storageBunkers.label": "Storage Bunkers",
+    
+    "workshop.energyRifts.desc": "Accelerators will now create rifts to a pocket dimension",
+    
+    "workshop.energyRifts.label": "Energy Rifts",
+    
+    "workshop.stasisChambers.desc": "Energy Rifts are twice as effective",
+    
+    "workshop.stasisChambers.label": "Stasis Chambers",
+    
+    "workshop.voidEnergy.desc": "Energy Rifts are even more effective at storing resources.",
+    
+    "workshop.voidEnergy.label": "Void Energy",
+    
+    "workshop.darkEnergy.desc": "Energy Rifts are 2.5 times as effective at storing resources.",
+    
+    "workshop.darkEnergy.label": "Dark Energy",
+    
+    "workshop.chronoforge.desc": "An alien technology related to time manipulation.",
+    
+    "workshop.chronoforge.label": "Chronoforge",
+    
+    "workshop.tachyonAccelerators.desc": "Energy Rifts are 5 times as effective",
+    
+    "workshop.tachyonAccelerators.label": "Tachyon Accelerators",
+    
+    "workshop.fluxCondensator.desc": "Chronosphere will now affect craftable resources.",
+    
+    "workshop.fluxCondensator.label": "Flux Condensator",
+    
+    "workshop.lhc.desc": "Every accelerator will provide a bonus to maximum science",
+    
+    "workshop.lhc.label": "LHC",
+    
+    "workshop.photovoltaic.desc": "Solar Farms are 50% more effective",
+    
+    "workshop.photovoltaic.label": "Photovoltaic Cells",
+    
+    "workshop.solarSatellites.desc": "Satellites will now generate energy instead of consuming it",
+    
+    "workshop.solarSatellites.label": "Solar Satellites",
+    
+    "workshop.cargoShips.desc": "Every ship will give a 1% bonus to Harbor capacity",
+    
+    "workshop.cargoShips.flavor": "It's like a tuna can, but bigger",
+    
+    "workshop.cargoShips.label": "Cargo Ships",
+    
+    "workshop.barges.desc": "Harbors store more coal",
+    
+    "workshop.barges.label": "Schuten",
+    
+    "workshop.reactorVessel.desc": "Every reactor improves ship potential by 5%",
+    
+    "workshop.reactorVessel.label": "Reactor Vessel",
+    
+    "workshop.ironwood.desc": "Hut price ratio reduced by 50%",
+    
+    "workshop.ironwood.label": "Ironwood Huts",
+    
+    "workshop.concreteHuts.desc": "Hut price ratio reduced by 30%",
+    
+    "workshop.concreteHuts.label": "Concrete Huts",
+    
+    "workshop.unobtainiumHuts.desc": "Hut price ratio reduced by 25%",
+    
+    "workshop.unobtainiumHuts.label": "Unobtainium Huts",
+    
+    "workshop.eludiumHuts.desc": "Hut price ratio reduced by 10%",
+    
+    "workshop.eludiumHuts.label": "Eludium Huts",
+    
+    "workshop.silos.desc": "Warehouses can now store catnip",
+    
+    "workshop.silos.flavor": "With carpeting and climbing holds of course",
+    
+    "workshop.silos.label": "Silos",
+    
+    "workshop.refrigeration.desc": "Expands catnip limit by 75%",
+    
+    "workshop.refrigeration.label": "Refrigeration",
+    
+    "workshop.compositeBow.desc": "An improved version of a bow which provides a permanent +50% boost to catpower production",
+    
+    "workshop.compositeBow.label": "Composite Bow",
+    
+    "workshop.crossbow.desc": "An improved version of a bow which provides a permanent +25% boost to catpower production",
+    
+    "workshop.crossbow.label": "Crossbow",
+    
+    "workshop.railgun.desc": "Deadly electromagnetic weapon. +25% boost to catpower production",
+    
+    "workshop.railgun.label": "Railgun",
+    
+    "workshop.bolas.desc": "Throwing weapon made of heavy stone weights. Your hunters are twice as effective",
+    
+    "workshop.bolas.flavor": "Weaponized yarn",
+    
+    "workshop.bolas.label": "Bolas",
+    
+    "workshop.huntingArmor.desc": "Hunters are 3 times as effective",
+    
+    "workshop.huntingArmor.flavor": "At least they are wearing something...",
+    
+    "workshop.huntingArmor.label": "Hunting Armour",
+    
+    "workshop.steelArmor.desc": "Hunters are a bit more effective",
+    
+    "workshop.steelArmor.label": "Steel Armour",
+    
+    "workshop.alloyArmor.desc": "Hunters are a bit more effective",
+    
+    "workshop.alloyArmor.label": "Alloy Armour",
+    
+    "workshop.nanosuits.desc": "Maximum catpower!",
+    
+    "workshop.nanosuits.label": "Nanosuits",
+    
+    "workshop.caravanserai.desc": "Your tradeposts have a very minor effect on race standing",
+    
+    "workshop.caravanserai.flavor": "Now hiring: cuter kittens",
+    
+    "workshop.caravanserai.label": "Caravanserai",
+    
+    "workshop.advancedRefinement.desc": "Catnip refines twice as well",
+    
+    "workshop.advancedRefinement.flavor": "It's all fun and games 'til someone gets pounced",
+    
+    "workshop.advancedRefinement.label": "Catnip Enrichment",
+    
+    "workshop.goldOre.desc": "Small percentage of ore will be smelted into gold",
+    
+    "workshop.goldOre.flavor": "Shiny!",
+    
+    "workshop.goldOre.label": "Gold Ore",
+    
+    "workshop.geodesy.desc": "Geologists are more effective and can find gold.",
+    
+    "workshop.geodesy.flavor": "Gold sniffing cats",
+    
+    "workshop.geodesy.label": "Geodesy",
+    
+    "workshop.register.desc": "Der Anführer verteilt Berufe nach Erfahrung.",
+    
+    "workshop.register.label": "Register",
+    
+    "workshop.strenghtenBuild.desc": "Repair barn and warehouse cracks with concrete.",
+    
+    "workshop.strenghtenBuild.label": "Concrete Pillars",
+    
+    "workshop.miningDrill.desc": "Geologists are more effective",
+    
+    "workshop.miningDrill.label": "Mining Drill",
+    
+    "workshop.unobtainiumDrill.desc": "Geologists are even more effective",
+    
+    "workshop.unobtainiumDrill.label": "Unobtainium Drill",
+    
+    "workshop.coalFurnace.desc": "Smelters produce coal while burning wood",
+    
+    "workshop.coalFurnace.flavor": "So warm... so sleepy...",
+    
+    "workshop.coalFurnace.label": "Coal Furnace",
+    
+    "workshop.deepMining.desc": "Mines will also produce coal",
+    
+    "workshop.deepMining.flavor": "Yummy Canaries!",
+    
+    "workshop.deepMining.label": "Deep Mining",
+    
+    "workshop.pyrolysis.desc": "Coal output is boosted by 20%",
+    
+    "workshop.pyrolysis.label": "Pyrolysis",
+    
+    "workshop.electrolyticSmelting.desc": "Smelters are twice as effective",
+    
+    "workshop.electrolyticSmelting.label": "Elektrolytische Schmelze",
+    
+    "workshop.oxidation.desc": "Calciners are twice as effective at producing iron and 4 times at producing titanium",
+    
+    "workshop.oxidation.label": "Oxidierung",
+    
+    "workshop.steelPlants.desc": "10% of the calciners' iron output will be converted to steel",
+    
+    "workshop.steelPlants.label": "Stahlwerke",
+    
+    "workshop.automatedPlants.desc": "Stahlwerke are boosted by 25% of your craft ratio",
+    
+    "workshop.automatedPlants.label": "Automated Plants",
+    
+    "workshop.nuclearPlants.desc": "Stahlwerkes are additionally boosted by 2% of your craft ratio per Reactor",
+    
+    "workshop.nuclearPlants.label": "Nuclear Plants",
+    
+    "workshop.rotaryKiln.desc": "Calciners are 75% more effective at producing iron and 3 times at producing titanium",
+    
+    "workshop.rotaryKiln.label": "Rotary Kiln",
+    
+    "workshop.fluidizedReactors.desc": "Calciners are twice as effective",
+    
+    "workshop.fluidizedReactors.label": "Fluidized Reactors",
+    
+    "workshop.nuclearSmelters.desc": "Smelters can now produce titanium",
+    
+    "workshop.nuclearSmelters.label": "Nuclear Smelters",
+    
+    "workshop.printingPress.desc": "Steamworks automatically print manuscripts",
+    
+    "workshop.printingPress.label": "Printing Press",
+    
+    "workshop.offsetPress.desc": "Printing press is 4 times as effective",
+    
+    "workshop.offsetPress.flavor": "Paper goes in, cat pictures come out.",
+    
+    "workshop.offsetPress.label": "Offset Press",
+    
+    "workshop.photolithography.desc": "Printing press is 4 times as effective",
+    
+    "workshop.photolithography.label": "Photolithography",
+    
+    "workshop.factoryAutomation.desc": "Once per year Steamworks will refine small quantities of craftable resources when they are at the limit",
+    
+    "workshop.factoryAutomation.flavor": "Includes autofeeders",
+    
+    "workshop.factoryAutomation.label": "Workshop Automation",
+    
+    "workshop.advancedAutomation.desc": "Workshop Automation will be activated twice per year.",
+    
+    "workshop.advancedAutomation.label": "Fortgeschrittene Automation",
+    
+    "workshop.pneumaticPress.desc": "Workshop automation will also convert iron to plates",
+    
+    "workshop.pneumaticPress.label": "Pneumatic Press",
+    
+    "workshop.combustionEngine.desc": "Reduces coal consumption of Steamworks by 20%",
+    
+    "workshop.combustionEngine.flavor": "A better mousetrap",
+    
+    "workshop.combustionEngine.label": "High Pressure Engine",
+    
+    "workshop.fuelInjectors.desc": "Reduces coal consumption of Steamworks by 20%",
+    
+    "workshop.fuelInjectors.label": "Fuel Injectors",
+    
+    "workshop.factoryLogistics.desc": "Factories are providing bigger bonus to craft effectiveness",
+    
+    "workshop.factoryLogistics.label": "Factory Logistics",
+    
+    "workshop.factoryOptimization.desc": "Improves Engineer's effectiveness",
+    
+    "workshop.factoryOptimization.label": "Factory Optimization",
+    
+    "workshop.factoryRobotics.desc": "Improves Engineer's effectiveness",
+    
+    "workshop.factoryRobotics.label": "Factory Robotics",
+    
+    "workshop.spaceEngineers.desc": "Improves Engineer's effectiveness",
+    
+    "workshop.spaceEngineers.label": "Space Engineers",
+    
+    "workshop.chronoEngineers.desc": "Improves Engineer's effectiveness",
+    
+    "workshop.chronoEngineers.label": "Chronoengineers",
+    
+    "workshop.spaceManufacturing.desc": "Factories are providing bonus to Space Elevators and Orbital Arrays",
+    
+    "workshop.spaceManufacturing.label": "Space Manufacturing",
+    
+    "workshop.celestialMechanics.desc": "Celestial events and meteors will generate additional science",
+    
+    "workshop.celestialMechanics.label": "Celestial Mechanics",
+    
+    "workshop.astrolabe.desc": "Improves Observatory's max science bonus by 50%",
+    
+    "workshop.astrolabe.label": "Astrolabe",
+    
+    "workshop.titaniumMirrors.desc": "Improved telescope reflectors. Every observatory will give 2% to Library effectiveness.",
+    
+    "workshop.titaniumMirrors.flavor": "Did that light spot just move?",
+    
+    "workshop.titaniumMirrors.label": "Titanium Reflectors",
+    
+    "workshop.unobtainiumReflectors.desc": "Improved telescope reflectors. Every observatory will give an additional 2% to Library effectiveness.",
+    
+    "workshop.unobtainiumReflectors.label": "Unobtainium Reflectors",
+    
+    "workshop.eludiumReflectors.desc": "Improved telescope reflectors. Every observatory will give an additional 2% to Library effectiveness.",
+    
+    "workshop.eludiumReflectors.label": "Eludium Reflectors",
+    
+    "workshop.hydroPlantTurbines.desc": "Unobtainium-based turbines. Wasserkraftwerke are 15% more effective.",
+    
+    "workshop.hydroPlantTurbines.label": "Wasserkraftwerk Turbines",
+    
+    "workshop.amBases.desc": "Reduce energy consumption for Moon Bases by 50%",
+    
+    "workshop.amBases.label": "Antimatter Bases",
+    
+    "workshop.amDrive.desc": "Antimatter-powered rocket engine",
+    
+    "workshop.amDrive.label": "Antimatter Drive",
+    
+    "workshop.amFission.desc": "Engineers are 25% more effective at production of eludium",
+    
+    "workshop.amFission.label": "Antimatter Fission",
+    
+    "workshop.amReactors.desc": "Your Research Vessels and Space Beacons are twice as effective",
+    
+    "workshop.amReactors.label": "Antimatter Reactors",
+    
+    "workshop.amReactorsMK2.desc": "Your Research Vessels and Space Beacons are 1.5x more effective",
+    
+    "workshop.amReactorsMK2.label": "Advanced AM Reactors",
+    
+    "workshop.voidReactors.desc": "Your Research Vessels are 4 times as effective",
+    
+    "workshop.voidReactors.label": "Void Reactors",
+    
+    "workshop.relicStation.desc": "Upgrade Space Beacons with Relic research stations. Every Relic Station will reverse engineer relics yelding 0.01 relic per day",
+    
+    "workshop.relicStation.label": "Relic Station",
+    
+    "workshop.pumpjack.desc": "Improves effectiveness of Oil Wells by 45%. Every Oil Well will consume 1Wt/t.",
+    
+    "workshop.pumpjack.label": "Ölbohrturm",
+    
+    "workshop.biofuel.desc": "Biolabs will convert catnip into oil",
+    
+    "workshop.biofuel.label": "Biofuel processing",
+    
+    "workshop.unicornSelection.desc": "Improves Unicorn Pasture effectiveness by 25%",
+    
+    "workshop.unicornSelection.label": "Unicorn Selection",
+    
+    "workshop.gmo.desc": "Genetically modified catnip that will improve biolab oil yield by 60%",
+    
+    "workshop.gmo.label": "GM Catnip",
+    
+    "workshop.cadSystems.desc": "All scientific buildings will improve effectiveness of blueprint crafting",
+    
+    "workshop.cadSystems.label": "CAD System",
+    
+    "workshop.seti.desc": "A large array of electronic telescopes. Makes astronomical events automatic and silent",
+    
+    "workshop.seti.label": "SETI",
+    
+    "workshop.logistics.desc": "Kitten skills are 15% more effective",
+    
+    "workshop.logistics.label": "Logistics",
+    
+    "workshop.augumentation.desc": "Kitten skills are 100% more effective",
+    
+    "workshop.augumentation.label": "Augmentations",
+    
+    "workshop.internet.desc": "Kittens learn skills with each other",
+    
+    "workshop.internet.label": "Internet",
+    
+    "workshop.neuralNetworks.desc": "Engineers effectiveness doubles at the cost of double energy consumption of factories",
+    
+    "workshop.neuralNetworks.label": "Neural Networks",
+    
+    "workshop.ai.desc": "A state of the art artificial intelligence",
+    
+    "workshop.ai.label": "AI",
+    
+    "workshop.assistance.desc": "Factory robots automating routine tasks. Workers require less catnip.",
+    
+    "workshop.assistance.label": "Robotic Assistance",
+    
+    "workshop.enrichedUranium.desc": "Reduce uranium consumption of reactors by 25%",
+    
+    "workshop.enrichedUranium.label": "Enriched Uranium",
+    
+    "workshop.coldFusion.desc": "Increase Reactors energy output by 25%",
+    
+    "workshop.coldFusion.label": "Cold Fusion",
+    
+    "workshop.thoriumReactors.desc": "Increase Reactors energy output by 25% by the addition of thorium",
+    
+    "workshop.thoriumReactors.label": "Thorium Reactors",
+    
+    "workshop.enrichedThorium.desc": "Reactors will now consume 25% less thorium",
+    
+    "workshop.enrichedThorium.label": "Enriched Thorium",
+    
+    "workshop.hubbleTelescope.desc": "Improves starchart production by 30%",
+    
+    "workshop.hubbleTelescope.label": "Hubble Space Telescope",
+    
+    "workshop.satnav.desc": "Every satellite reduce starchart requirement of ships by 1.25%",
+    
+    "workshop.satnav.label": "Satellite Navigation",
+    
+    "workshop.satelliteRadio.desc": "Every satellite will boost the effect of Broadcast Towers by 0.5%",
+    
+    "workshop.satelliteRadio.label": "Satellite Radio",
+    
+    "workshop.astrophysicists.desc": "Each scholar will now generate starcharts.",
+    
+    "workshop.astrophysicists.label": "Astrophysicists",
+    
+    "workshop.mWReactor.desc": "A new eludium-based reactor for Lunar Outposts. Unobtainium production is 75% more effective.",
+    
+    "workshop.mWReactor.label": "Microwarp Reactors",
+    
+    "workshop.eludiumCracker.desc": "Hissmeowra's output is twice as effective.",
+    
+    "workshop.eludiumCracker.label": "Planet Busters",
+    
+    "workshop.thoriumEngine.desc": "A new rocket engine to go faster in space.",
+    
+    "workshop.thoriumEngine.label": "Thorium Drive",
+    
+    "workshop.oilRefinery.desc": "Improves effectiveness of oil wells by 35%",
+    
+    "workshop.oilRefinery.label": "Oil Refinery",
+    
+    "workshop.oilDistillation.desc": "Oil output is improved by 75%.",
+    
+    "workshop.oilDistillation.label": "Oil Distillation",
+    
+    "workshop.factoryProcessing.desc": "Every factory will increase oil refinement effectiveness by 5%.",
+    
+    "workshop.factoryProcessing.label": "Factory Processing",
+    
+    "workshop.voidAspiration.desc": "Unlocks Void Hoover and Void Rifts.",
+    
+    "workshop.voidAspiration.label": "Void Aspiration",
+    
+    "workshop.distorsion.desc": "Improve Chronocontrol effectiveness.",
+    
+    "workshop.distorsion.label": "Distortion",
+    
+    "workshop.turnSmoothly.desc": "Chronospheres will now generate temporal flux.",
+    
+    "workshop.turnSmoothly.label": "Chronosurge",
+    
+    "workshop.crafts.wood.desc": "A sturdy block of catnip wood. Difficult to process, but great building material.",
+    
+    "workshop.crafts.wood.label": "Verfeinere Katzenminze",
+    
+    "workshop.crafts.beam.desc": "Simple support structure made of a wood. Required for advanced construction.",
+    
+    "workshop.crafts.beam.label": "Wooden Beam",
+    
+    "workshop.crafts.slab.desc": "A small slab composed of minerals. Required for advanced construction.",
+    
+    "workshop.crafts.slab.label": "Stone Slab",
+    
+    "workshop.crafts.concrate.desc": "A block of reinforced concrete.",
+    
+    "workshop.crafts.concrate.label": "Concrete",
+    
+    "workshop.crafts.plate.desc": "A metal plate. Required for advanced construction.",
+    
+    "workshop.crafts.plate.label": "Metal Plate",
+    
+    "workshop.crafts.steel.desc": "A durable metal made by smelting iron and coal. Required for construction of gears and complex machinery.",
+    
+    "workshop.crafts.steel.label": "Stahl",
+    
+    "workshop.crafts.gear.desc": "An integral part of automated structures.",
+    
+    "workshop.crafts.gear.label": "Gear",
+    
+    "workshop.crafts.alloy.desc": "A durable alloy of steel, iron and titanium. Required for advanced buildings and upgrades.",
+    
+    "workshop.crafts.alloy.label": "Alloy",
+    
+    "workshop.crafts.eludium.desc": "Extremely rare and expensive alloy of unobtanium and titanium.",
+    
+    "workshop.crafts.eludium.label": "Eludium",
+    
+    "workshop.crafts.scaffold.desc": "A large structure made of wood beams required for construction of very complex buildings and objects",
+    
+    "workshop.crafts.scaffold.label": "Scaffold",
+    
+    "workshop.crafts.ship.desc": "Schiffe können genutzt werden, um andere Zivilisationen zu erkunden. May improve chances of getting certain rare resources",
+    
+    "workshop.crafts.ship.label": "Handelsschiff",
+    
+    "workshop.crafts.tanker.desc": "Increase maximum oil capacity by 500",
+    
+    "workshop.crafts.tanker.label": "Tanker",
+    
+    "workshop.crafts.kerosene.desc": "A rocket fuel processed from oil",
+    
+    "workshop.crafts.kerosene.label": "Kerosene",
+    
+    "workshop.crafts.parchment.desc": "A material for writing on made from animal skin, required for cultural buildings.",
+    
+    "workshop.crafts.parchment.label": "Parchment",
+    
+    "workshop.crafts.manuscript.desc": "Written document required for technological advancement. Every manuscript will give a minor bonus to a maximum culture (this effect has a diminishing return)",
+    
+    "workshop.crafts.manuscript.label": "Manuscript",
+    
+    "workshop.crafts.compedium.desc": "A sum of all modern knowledge of catkind. Every compendium will give +10 to max science",
+    
+    "workshop.crafts.compedium.label": "Compendium",
+    
+    "workshop.crafts.blueprint.desc": "Strange piece of paper with blue lines.",
+    
+    "workshop.crafts.blueprint.label": "Blueprint",
+    
+    "workshop.crafts.thorium.desc": "A highly radioactive and unstable fuel",
+    
+    "workshop.crafts.thorium.label": "Thorium",
+    
+    "workshop.crafts.megalith.desc": "A massive block that can be used to construct enormous structures",
+    
+    "workshop.crafts.megalith.label": "Megalith",
+    
+    "workshop.craftBtn.desc.tier": "Engineer's optimal rank",
+    
+    "workshop.craftBtn.desc.craftRatio": "Engineers expertise",
+    
+    "workshop.craftBtn.desc.progressHandicap": "Craft difficulty",
+    
+    "workshop.craftBtn.desc.countdown": "One craft every: {0}sec",
+    
+    "workshop.upgradePanel.label": "Upgrades",
+    
+    "workshop.craftPanel.label": "Crafting",
+    
+    "workshop.craftPanel.header.freeEngineers": "Free engineers",
+    
+    "workshop.craftPanel.header.tooltip": "You will gain one engineer slot per factory.<br>Every engineer can be assigned to the crafting job which they will perform automatically.",
+    
+    "workshop.craftPanel.counts.label": "Zeugs",
+    "workshop.undo.msg": "{0} {1} rückerstattet",
+    "workshop.crafted.msg": "+{0} {1} hergestellt",
+    "workshop.all.upgrades.unlocked": "Alle Verbesserungen freigeschaltet!",
+    "workshop.craft.effectiveness": "Fertigungs-wirksamkeit: +{0}%",
+    
+    "general.copy.to.clipboard.prompt": "In die Zwischenablage kopieren: Strg+C, Eingabetaste",
+    "general.food.advisor.text": "Nahrungs Berater: 'Dein Katzenminze Vorrat ist zu niedrig!'",
+    
+    "resources.catnip.title": "Katzenminze",
+    "resources.wood.title": "Holz",
+    "resources.minerals.title": "Mineralien",
+    "resources.coal.title": "Kohle",
+    "resources.iron.title": "Eisen",
+    "resources.titanium.title": "Titan",
+    "resources.gold.title": "Gold",
+    "resources.oil.title": "Öl",
+    "resources.uranium.title": "Uran",
+    "resources.unobtainium.title": "Unobtanium",
+    "resources.manpower.title": "Katzenkraft",
+    "resources.science.title": "Forschung",
+    "resources.culture.title": "Kultur",
+    "resources.faith.title": "Glauben",
+    "resources.kittens.title": "Kätzchen",
+    "resources.zebras.title": "Zebras",
+    "resources.starchart.title": "Sternkarte",
+    "resources.antimatter.title": "Antimaterie",
+    "resources.furs.title": "Felle",
+    "resources.ivory.title": "Elfenbein",
+    "resources.spice.title": "Gewürze",
+    "resources.unicorns.title": "Einhörner",
+    "resources.alicorn.title": "Alicorn",
+    "resources.necrocorn.title": "Necrocorn",
+    "resources.tears.title": "Tränen",
+    "resources.karma.title": "Karma-Punkte",
+    "resources.paragon.title": "Vorbild-Punkte",
+    "resources.burnedParagon.title": "Verbrannte Vorbild-Punkte",
+    "resources.timeCrystal.title": "Zeitkristall",
+    "resources.sorrow.title": "Trauer",
+    "resources.relic.title": "Relikt",
+    "resources.void.title": "Leere",
+    "resources.elderBox.title": "Geschenk",
+    "resources.elderBox.desc": "Merry Eldermass!",
+    "resources.wrappingPaper.title": "Einpackpapier",
+    "resources.temporalFlux.title": "Zeitlicher Flux",
+    "resources.beam.title": "Balken",
+    "resources.slab.title": "Platten",
+    "resources.concrate.title": "Beton",
+    "resources.plate.title": "Eisenplatten",
+    "resources.steel.title": "Stahl",
+    "resources.gear.title": "Zahnräder",
+    "resources.alloy.title": "Legierung",
+    "resources.eludium.title": "Eludium",
+    "resources.scaffold.title": "Gerüst",
+    "resources.ship.title": "Schiffe",
+    "resources.tanker.title": "Tankschiff",
+    "resources.kerosene.title": "Kerosin",
+    "resources.parchment.title": "Pergament",
+    "resources.manuscript.title": "Manuskript",
+    "resources.compedium.title": "Kompendium",
+    "resources.blueprint.title": "Entwurf",
+    "resources.thorium.title": "Thorium",
+    "resources.megalith.title": "Megalith",
+    "resources.craftTable.all": "alles",
+    
+    "effectsMgr.type.resMax": "Max {0}",
+    "effectsMgr.type.resRatio": "{0} bonus",
+    "effectsMgr.type.resDemandRatio": "{0} Nachfragesreduktion",
+    "effectsMgr.type.resProduction": "{0} Produktion",
+    "effectsMgr.type.resConversion": "{0} Umwandlung",
+    "effectsMgr.type.resCraftRatio": "{0} Herstellbonus",
+    "effectsMgr.statics.catnipJobRatio.title": "Werkzeug für Bauern",
+    "effectsMgr.statics.catnipDemandWorkerRatioGlobal.title": "Reduzierung Katzenmineverbrauch für Arbeiter",
+    "effectsMgr.statics.woodJobRatio.title": "Holzfäller-Werkzeuge",
+    "effectsMgr.statics.manpowerJobRatio.title": "Jäger-Ausrüstung",
+    "effectsMgr.statics.coalRatioGlobal.title": "Kohle-Produktion-Strafe",
+    "effectsMgr.statics.coalRatioGlobalReduction.title": "Reduzierung durch Kohle-Produktion-Strafe",
+    "effectsMgr.statics.oilReductionRatio.title": "Reduzierung Ölverbrauch",
+    "effectsMgr.statics.maxKittens.title": "Kätzchen",
+    "effectsMgr.statics.antimatterProduction.title": "Antimaterie-Produktion",
+    "effectsMgr.statics.temporalFluxProduction.title": "Zeitlicher-Flux-Produktion",
+    "effectsMgr.statics.temporalFluxProductionChronosphere.title": "Chronosphären-Zeitlicher-Flux-Produktion",
+    "effectsMgr.statics.observatoryRatio.title": "Sternwarte-Wissenschafts-Rate",
+    "effectsMgr.statics.magnetoBoostRatio.title": "Magneto-Produktionsbonus",
+    "effectsMgr.statics.learnRatio.title": "Fähigkeiten-Lerngeschwindigkeit",
+    "effectsMgr.statics.refineRatio.title": "Katzenminze-Raffinier-Bonus",
+    "effectsMgr.statics.craftRatio.title": "Herstellbonus",
+    "effectsMgr.statics.happiness.title": "Zufriedenheit",
+    "effectsMgr.statics.unhappinessRatio.title": "Reduzierung Unzufriedenheit",
+    "effectsMgr.statics.tradeRatio.title": "Handelsverhältnis",
+    "effectsMgr.statics.standingRatio.title": "Stehender Bonus",
+    "effectsMgr.statics.resStasisRatio.title": "Res-Stasisbonus",
+    "effectsMgr.statics.beaconRelicsPerDay.title": "Relikt-Produktion",
+    "effectsMgr.statics.relicPerDay.title": "Relikt-Produktion",
+    "effectsMgr.statics.routeSpeed.title": "Weltraum-Reisegeschwindigkeit",
+    "effectsMgr.statics.energyProduction.title": "Strom-Produktion",
+    "effectsMgr.statics.energyConsumption.title": "Strom-Verbauch",
+    "effectsMgr.statics.energyProductionRatio.title": "Strom-Produktionsbonus",
+    "effectsMgr.statics.productionRatio.title": "Produktionsbonus",
+    "effectsMgr.statics.magnetoRatio.title": "Magneto-Produktionsbonus",
+    "effectsMgr.statics.spaceRatio.title": "Kosmus-Produktionsbonus",
+    "effectsMgr.statics.prodTransferBonus.title": "Überwiesener Cath Produktionsbonus",
+    "effectsMgr.statics.starEventChance.title": "Astronomisches-Ereigniss-Chance",
+    "effectsMgr.statics.starAutoSuccessChance.title": "Automatisches-Astronomisches-Ereigniss-Chance",
+    "effectsMgr.statics.lumberMillRatio.title": "Sägewerkbonus",
+    "effectsMgr.statics.barnRatio.title": "Scheunen-Erweiterung",
+    "effectsMgr.statics.warehouseRatio.title": "Lagerhaus-Erweiterung",
+    "effectsMgr.statics.acceleratorRatio.title": "Beschleuniger-Erweiterung",
+    "effectsMgr.statics.harborRatio.title": "Hafenschiff-Erweiterung",
+    "effectsMgr.statics.harborCoalRatio.title": "Hafen-Kohlevorrat-Erweiterung",
+    "effectsMgr.statics.catnipMaxRatio.title": "Katzenminzenvorrat-Erweiterung",
+    "effectsMgr.statics.hunterRatio.title": "Jagd Effektivität",
+    "effectsMgr.statics.solarFarmRatio.title": "Solarparkbonus",
+    "effectsMgr.statics.shipLimit.title": "Schiffsobergrenzeneffekt",
+    "effectsMgr.statics.hutPriceRatio.title": "Hütten Preisreduzierung",
+    "effectsMgr.statics.coalSuperRatio.title": "Kohlebonus",
+    "effectsMgr.statics.smelterRatio.title": "Schmelzhüttenbonus",
+    "effectsMgr.statics.calcinerRatio.title": "Kalzinatorbonus",
+    "effectsMgr.statics.calcinerSteelRatio.title": "Kalzinator Stahl Produktion",
+    "effectsMgr.statics.calcinerSteelCraftRatio.title": "Stahlwerke-Kalzinatorbonus",
+    "effectsMgr.statics.calcinerSteelReactorBonus.title": "Kalzinator-Stahlproduktionsbonus",
+    "effectsMgr.statics.libraryRatio.title": "Büchereibonus",
+    "effectsMgr.statics.hydroPlantRatio.title": "Wasserkraftwerksbonus",
+    "effectsMgr.statics.spaceScienceRatio.title": "Weltraum-Wissenschaftsbonus",
+    "effectsMgr.statics.oilWellRatio.title": "Ölpumpenbonus",
+    "effectsMgr.statics.unicornsGlobalRatio.title": "Einhornbonus",
+    "effectsMgr.statics.biofuelRatio.title": "Biotreibstoffsbonus",
+    "effectsMgr.statics.cadBlueprintCraftRatio.title": "Blaupausenherstellungsbonus",
+    "effectsMgr.statics.skillMultiplier.title": "Katzen-Fähigkeiten-Effekt",
+    "effectsMgr.statics.uraniumRatio.title": "Uran-Ersparnisse",
+    "effectsMgr.statics.reactorEnergyRatio.title": "Reaktor-Energiebonus",
+    "effectsMgr.statics.reactorThoriumPerTick.title": "Reaktor-Thoriumverbrauch",
+    "effectsMgr.statics.starchartGlobalRatio.title": "Sternenkartenbonus",
+    "effectsMgr.statics.satnavRatio.title": "Handelsschiff-Kosten-Ersparnisse",
+    "effectsMgr.statics.broadcastTowerRatio.title": "Sendungsturmsbonus",
+    "effectsMgr.statics.cultureMaxRatio.title": "Kulturmaximumsbonus",
+    "effectsMgr.statics.lunarOutpostRatio.title": "Lunarer-Außenpostensbonus",
+    "effectsMgr.statics.crackerRatio.title": "Cracker-Bonus",
+    "effectsMgr.statics.factoryRefineRatio.title": "Factory-Raffinierungsbonus",
+    "effectsMgr.statics.timeRatio.title": "Zeitlicher-Flux-Bonus",
+    "effectsMgr.statics.temporalParadoxVoid.title": "Max-Nichts",
+    "effectsMgr.statics.temporalParadoxDay.title": "Tag im zeitlichen Paradox",
+    "effectsMgr.statics.temporalParadoxDayBonus.title": "Tag im zeitlichen Paradox",
+    "effectsMgr.statics.unicornsRatioReligion.title": "Einhornsbonus",
+    
+    "effectsMgr.statics.riftChance.title": "Unicorns rift chance",
+    
+    "effectsMgr.statics.ivoryMeteorChance.title": "Ivory meteor chance",
+    
+    "effectsMgr.statics.ivoryMeteorRatio.title": "Ivory meteor bonus",
+    
+    "effectsMgr.statics.alicornChance.title": "Alicorns descent chance",
+    
+    "effectsMgr.statics.tcRefineRatio.title": "Alicorns sacrifice bonus",
+    
+    "effectsMgr.statics.corruptionRatio.title": "Corruption ratio",
+    
+    "effectsMgr.statics.cultureMaxRatioBonus.title": "Ziggurat's max culture bonus",
+    
+    "effectsMgr.statics.faithRatioReligion.title": "Faith bonus",
+    
+    "effectsMgr.statics.relicRefineRatio.title": "Relic refine bonus",
+    
+    "effectsMgr.statics.blsLimit.title": "Max SFT",
+    
+    "effectsMgr.statics.globalResourceRatio.title": "Max resources bonus",
+    
+    "effectsMgr.statics.shatterTCGain.title": "Shatter TC resources retrieved",
+    
+    "effectsMgr.statics.rrRatio.title": "Shatter TC resources retrieval bonus",
+    
+    "effectsMgr.statics.priceRatio.title": "Building's prices",
+    
+    "effectsMgr.statics.kittenGrowthRatio.title": "Kittens birth rate",
+    
+    "effectsMgr.statics.t1CraftRatio.title": "Class 1 engineer's know-how",
+    
+    "effectsMgr.statics.t2CraftRatio.title": "Class 2 engineer's know-how",
+    
+    "effectsMgr.statics.t3CraftRatio.title": "Class 3 engineer's know-how",
+    
+    "effectsMgr.statics.t4CraftRatio.title": "Class 4 engineer's know-how",
+    
+    "effectsMgr.statics.t5CraftRatio.title": "Class 5 engineer's know-how",
+    
+    "effectsMgr.statics.spaceElevator-prodTransferBonus.title": "Space Elevator - Transferred production bonus",
+    
+    "effectsMgr.statics.sattelite-starchartPerTickBaseSpace.title": "Satellite - Starchart production",
+    
+    "effectsMgr.statics.sattelite-observatoryRatio.title": "Satellite - Observatory's science ratio",
+    
+    "effectsMgr.statics.spaceStation-scienceRatio.title": "Space Station - Science bonus",
+    
+    "effectsMgr.statics.moonOutpost-unobtainiumPerTickSpace.title": "Lunar Outpost - Unobtainium conversion",
+    
+    "effectsMgr.statics.planetCracker-uraniumPerTickSpace.title": "Planet Cracker - Uranium conversion",
+    
+    "effectsMgr.statics.hydrofracturer-oilPerTickAutoprodSpace.title": "Hydraulic Fracturer - Oil conversion",
+    
+    "effectsMgr.statics.researchVessel-starchartPerTickBaseSpace.title": "Research Vessel - Starchart production",
+    
+    "effectsMgr.statics.sunlifter-energyProduction.title": "Sunlifter - Energy production",
+    
+    "effectsMgr.statics.spaceBeacon-starchartPerTickBaseSpace.title": "Space Beacon - Starchart production",
+    
+    "effectsMgr.statics.spiceRefinery-spicePerTickAutoprodSpace.title": "Spice Refinery - Spice production",
+    
+    "religion.zu.unicornTomb.desc": "Improves your unicorns generation by 5%",
+    
+    "religion.zu.unicornTomb.label": "Unicorn Tomb",
+    
+    "religion.zu.ivoryTower.desc": "Improves your unicorns generation by 10%, unlocks Unicorn Rifts",
+    
+    "religion.zu.ivoryTower.label": "Ivory Tower",
+    
+    "religion.zu.ivoryCitadel.desc": "Improves your unicorns generation by 25%, summons Ivory Meteors",
+    
+    "religion.zu.ivoryCitadel.label": "Ivory Citadel",
+    
+    "religion.zu.skyPalace.desc": "Improves your unicorns generation by 50%. There was a legend of ancient and mysterious beings inhabitings this place long ago.",
+    
+    "religion.zu.skyPalace.label": "Sky Palace",
+    
+    "religion.zu.unicornUtopia.desc": "Improves your unicorns generation by 250%. Increase alicorn summon chance. Improves TC refine ratio by 5%",
+    
+    "religion.zu.unicornUtopia.label": "Unicorn Utopia",
+    
+    "religion.zu.sunspire.desc": "Improves your unicorns generation by 500%. Increase alicorn summon chance by significant amount. Improves TC refine ratio by 10%",
+    
+    "religion.zu.sunspire.label": "Sunspire",
+    
+    "religion.zu.marker.desc": "A strange structure made of unknown metal and serving unidentified purpose.",
+    
+    "religion.zu.marker.label": "Marker",
+    
+    "religion.zu.unicornGraveyard.desc": "Grave of the fireflies.",
+    
+    "religion.zu.unicornGraveyard.label": "Unicorn Graveyard",
+    
+    "religion.zu.unicornNecropolis.desc": "The ocean of blood at the end of the lane",
+    
+    "religion.zu.unicornNecropolis.label": "Unicorn Necropolis",
+    
+    "religion.zu.blackPyramid.desc": "A dark relic of unspeakable horrors.",
+    
+    "religion.zu.blackPyramid.label": "Black Pyramid",
+    
+    "religion.ru.solarchant.desc": "Improves your faith generation rate by 10%",
+    
+    "religion.ru.solarchant.label": "Solar Chant",
+    
+    "religion.ru.scholasticism.desc": "Temples will give a bonus to science",
+    
+    "religion.ru.scholasticism.label": "Scholasticism",
+    
+    "religion.ru.goldenSpire.desc": "Temples can store 50% more max faith",
+    
+    "religion.ru.goldenSpire.label": "Golden Spire",
+    
+    "religion.ru.sunAltar.desc": "Every temple will improve happiness by 0.5%",
+    
+    "religion.ru.sunAltar.label": "Sun Altar",
+    
+    "religion.ru.stainedGlass.desc": "Every temple will generate twice as much culture",
+    
+    "religion.ru.stainedGlass.label": "Stained Glass",
+    
+    "religion.ru.solarRevolution.desc": "Accumulated faith will give a small boost to resource production.",
+    
+    "religion.ru.solarRevolution.label": "Solar Revolution",
+    
+    "religion.ru.basilica.desc": "Temples generate more culture and expand cultural limits",
+    
+    "religion.ru.basilica.label": "Basilica",
+    
+    "religion.ru.templars.desc": "Temples have a small impact on the catpower limit",
+    
+    "religion.ru.templars.label": "Templars",
+    
+    "religion.ru.apocripha.desc": "Grants the ability to discard accumulated faith to improve effectiveness of praying",
+    
+    "religion.ru.apocripha.label": "Apocrypha",
+    
+    "religion.ru.transcendence.desc": "Unlocks additional religion upgrades",
+    
+    "religion.ru.transcendence.label": "Transcendence",
+    
+    "religion.tu.blackObelisk.desc": "Improves your faith bonus.<br />Every Black Obelisk will improve your transcendance level bonus by 5%.",
+    
+    "religion.tu.blackObelisk.label": "Black Obelisk",
+    
+    "religion.tu.blackObelisk.flavor": "TBD",
+    
+    "religion.tu.blackNexus.desc": "Improves the rate you refine time crystals into relics.<br />Every Black Nexus will increase your Relic Refine efficiency by the number of Black Pyramid.<br>This effect also boosts the effectiveness of Relic Stations",
+    
+    "religion.tu.blackNexus.label": "Black Nexus",
+    
+    "religion.tu.blackNexus.flavor": "Eye in the sky.",
+    
+    "religion.tu.blackCore.desc": "Verändere und Korrumpiere die Naturgesetze auf einem kleinen Maßstab.<br />Jedes Level vom Schwarzen Kern erhöht die SFT-Obergrenze um 1%.",
+    "religion.tu.blackCore.label": "Schwarzer Kern",
+    "religion.tu.blackCore.flavor": "Gebaut aus den Knochen von geopferten Kätzchen.",
+    "religion.tu.singularity.desc": "Erhöht globale Resourcenlimits um 10%",
+    "religion.tu.singularity.label": "Ereignishorizont",
+    "religion.tu.singularity.flavor": "Ein Tor... Zu was?",
+    "religion.tu.blazar.desc": "Verbessert zeitbezogene Strukturen",
+    "religion.tu.blazar.label": "Blazar",
+    "religion.tu.blazar.flavor": "Tiger Tiger flammend hell.",
+    "religion.tu.darkNova.desc": "Verbessert globale Energieproduktion um 2%",
+    "religion.tu.darkNova.label": "Dunkle Nova",
+    "religion.tu.darkNova.flavor": "Die Sterne sind Tot. Genauso wie unsere Hoffnungen und Träume.",
+    "religion.tu.holyGenocide.desc": "Und keine Träne wird niederfallen.",
+    "religion.tu.holyGenocide.label": "Heiliger Genozid",
+    "religion.tu.holyGenocide.flavor": "Wir leben auf einer stillen Insel der Ignoranz in der mitte des schwarzen Sees der Unendlichkeit und es war nicht beabsichtigt dass wir weit reisen.",
+    "religion.msg.corruption": "Dein Alicorn wurde von den Markern korrumpiert!",
+    "religion.panel.ziggurat.label": "Zikkurate",
+    "religion.panel.orderOfTheSun.label": "Orden der Sonne",
+    "religion.panel.cryptotheology.label": "Cryptotheologie",
+    "religion.sacrificeBtn.label": "Opfere Einhörner",
+    "religion.sacrificeBtn.desc": "Schicke die Einhörner in die Einhorn-Dimension zurück. Du erhältst für jedes Zikkurat das du besitzt eine Einhorn-Träne.",
+    "religion.sacrificeBtn.all": "alle",
+    "religion.sacrificeBtn.sacrifice.msg": "{0} Einhörner wurden geopfert. Du erhältst {1} Einhorn-Tränen!",
+    "religion.sacrificeAlicornsBtn.label": "Opfere Alicörner",
+    "religion.sacrificeAlicornsBtn.desc": "Verbanne die Alicörner auf den Blutmond. Du erhältst einen Zeitkristall.",
+    "religion.sacrificeAlicornsBtn.sacrifice.msg": "{0} Alicörner wurden verbannt. Du hast {1} Zeitkristall(e) erhalten!",
+    "religion.refineTearsBtn.label": "Veredle Tränen",
+    "religion.refineTearsBtn.desc": "Veredle Einhorntränen zu Schwarzer Flüssiger Trauer.",
+    "religion.refineTearsBtn.refine.msg.failure": "Nichts passiert",
+    "religion.refineTCsBtn.label": "Veredle Zeitkristalle",
+    "religion.refineTCsBtn.desc": "Veredle Zeitkristalle zu Relikten der Ältesten.",
+    "religion.refineTCsBtn.refine.msg": "{0} Relikte hergestellt",
+    "religion.faithResetBtn.label": "Zurücksetzen",
+    "religion.praiseBtn.label": "Lobe die Sonne!",
+    "religion.praiseBtn.desc": "Füge all deinen akkumulierten Glauben zum Vorrat hinzu.",
+    "religion.transcendBtn.label": "Transzendieren",
+    "religion.transcendBtn.desc": "Überschreite die Grenzen der Sterblichkeit",
+    "religion.faithCount.pool": "Gesamter Glaube: {0}",
+    "religion.faithCount.bonus": "bonus",
+    "religion.praise.msg": "Du hast +{0} Glaubenseinheiten akkumuliert",
+    "religion.resetFaith.confirm.msg": "Bist du dir sicher dass du den Vorrat zurücksetzen möchtest?\n\nPro 100k Glaubenseinheiten wirst du +10% zur Glaubensumwandlung erhalten.\n\nDieser Bonus bleibt auch nach den Zurücksetzen.\n\nAUF DIESEN KNOPF ZU DRÜCKEN WIRD EINEN TEIL DEINES GLAUBENS-BONUS ENTFERNEN.",
+    "religion.transcend.confirm.title": "Transzendieren?",
+    "religion.transcend.confirm.msg": "Bist du dir sicher dass du deinen Lobungs-Bonus verwerfen möchtest?\n\nDu kannst dadurch ein besonderes Transzendenz-Level erreichen.\n\nJedes Level verlangt eine proportional größeres Opfergabe.\n\nDieser Bonus bleibt auch nach den Zurücksetzen.\n\nAUF DIESEN KNOPF ZU DRÜCKEN WIRD EINEN TEIL DEINES LOBUNGS-BONUS ENTFERNEN.",
+    "religion.transcend.msg.success": "Du hast die Grenzen der Sterblichkeit überschritten. T-level: {0}",
+    "religion.transcend.msg.failure": "Ein Schritt näher am Ziel: {0} ({1}%)",
+    
+    "achievements.theElderLegacy.title": "Das Erbe der Ältesten",
+    "achievements.theElderLegacy.desc": "Sei einer der ersten Spieler die Kittens Game Mobile ausprobieren",
+    "achievements.unicornConspiracy.title": "Einhorn Verschwörung",
+    "achievements.unicornConspiracy.desc": "Hebe den Schleier der Einhorn Verschwörung!",
+    "achievements.uniception.title": "Uniception",
+    "achievements.uniception.desc": "Entdecke die Verschwörung in der Verschwörung",
+    "achievements.sinsOfEmpire.title": "Sins of a Solar Empire",
+    "achievements.sinsOfEmpire.desc": "Warte, ernsthaft?",
+    "achievements.anachronox.title": "Anachronox",
+    "achievements.anachronox.desc": "Hör bitte auf",
+    "achievements.deadSpace.title": "Dead Space",
+    "achievements.deadSpace.desc": "Im Weltraum kann dich niemand miauen hören.",
+    "achievements.ironWill.title": "Eiserner Wille",
+    "achievements.ironWill.desc": "Du verdienst das wahrhaftig",
+    "achievements.uberkatzhen.title": "Überkätzchen",
+    "achievements.uberkatzhen.desc": "Was dich nicht tötet macht dich stärker",
+    "achievements.hundredYearsSolitude.title": "Hundert Jahre Einsamkeit",
+    "achievements.hundredYearsSolitude.desc": "Wie weit ist zu weit?",
+    "achievements.soilUptuned.title": "Virgin Soil Upturned",
+    "achievements.soilUptuned.desc": "Besitze 45 Weiden im Eisernen Willen Modus",
+    "achievements.atlasUnmeowed.title": "Atlas Unmeowed",
+    "achievements.atlasUnmeowed.desc": "Errichte einen Magneto im Eisernen Willen Modus",
+    "achievements.meowMeowRevolution.title": "Meow Meow Revolution",
+    "achievements.meowMeowRevolution.desc": "Errichte eine Fabrik im Eisernen Willen Modus",
+    "achievements.spaceOddity.title": "Space Oddity",
+    "achievements.spaceOddity.desc": "Vervollständige ein Mondprogramm im Eisernen Willen Modus",
+    "achievements.spaceOddity.starDesc": "Vervollständige ein Mondprogramm im Eisernen Willen Modus ohne Vorbild-Punkte",
+    "achievements.jupiterAscending.title": "Jupiter Ascending",
+    "achievements.jupiterAscending.desc": "Erreiche im ersten Jahr das Weltall",
+    "achievements.shadowOfTheColossus.title": "Schatten des Kolosses",
+    "achievements.shadowOfTheColossus.desc": "Errichte mit nur einem Kätzchen ein Zikkurat",
+    "achievements.sunGod.title": "Sonnengott",
+    "achievements.sunGod.desc": "Erwerbe insgesamt 696,342 Glauben",
+    "achievements.heartOfDarkness.title": "Herz der Dunkelheit",
+    "achievements.heartOfDarkness.desc": "Werde der Anführer eines Zebrastammes (Wie ist das überhaupt möglich?)",
+    "achievements.winterIsComing.title": "Der Winter naht",
+    "achievements.winterIsComing.desc": "Habe 10 tote Kätzchen",
+    "achievements.youMonster.title": "Du Monster",
+    "achievements.youMonster.desc": "Arme Kätzchen.",
+    "achievements.superUnethicalClimax.title": "Super Unethischer Klimax",
+    "achievements.superUnethicalClimax.desc": "Betrüge deinen Weg durch das Spiel.",
+    "achievements.lotusMachine.title": "Lotusesser-Maschine",
+    "achievements.lotusMachine.desc": "Breche den Reinkarnationszyklus",
+    "achievements.serenity.title": "Serenität",
+    "achievements.serenity.desc": "Habe 50 Kätzchen ohne eines davon zu verlieren",
+    "achievements.utopiaProject.title": "Utopia-Projekt",
+    "achievements.utopiaProject.desc": "Erreiche eine totale Fröhlichkeit von über 150%",
+    "achievements.utopiaProject.starDesc": "Erreiche eine totale Fröhlichkeit von über 500%",
+    "achievements.cathammer.title": "Cathammer 40K",
+    "achievements.cathammer.desc": "In der dunklen und düsteren Zukunft der Katzenheit",
+    "achievements.cathammer.starDesc": "In der dunklen und düsteren Zukunft der Katzenheit gibt es kein Zurücksetzen",
+    "achievements.limitlessClicker.title": "Unbegrenzter Klicker",
+    "achievements.limitlessClicker.desc": "Akkumuliere 100,000 clicks.",
+    "achievements.limitlessClicker.starDesc": "Akkumuliere 1,000,000 clicks.",
+    "achievements.msg.unlock": "Errungenschaft freigeschaltet: {0}!",
+    "achievements.msg.starUnlock": "Errungenschaftensstern freigeschaltet: {0}!",
+    "achievements.header": "Errungenschaften: {0} von {1}",
+    
+    "time.cfu.temporalBattery.desc": "Erhöht deine Fluxkapazität um 25%",
+    "time.cfu.temporalBattery.label": "Zeitliche Batterie",
+    "time.cfu.blastFurnace.desc": "Verwendet Chronohitze. Erhöht die maximale Hitze um 100.",
+    "time.cfu.blastFurnace.label": "Chrono Furnace",
+    "time.cfu.temporalAccelerator.desc": "Verbessert Fluxgeneration um 5%",
+    "time.cfu.temporalAccelerator.label": "Zeitlicher Beschleuniger",
+    "time.cfu.temporalImpedance.desc": "Unterdrückt den Effekt der Dunklen Zukunft zeitlichen Strafe für 1000 Jahre.",
+    "time.cfu.temporalImpedance.label": "Zeit Impedanz",
+    "time.cfu.ressourceRetrieval.desc": "Bekomme einen Teil deiner jährlichen Ressourcenproduktion wenn du Zeitkristalle Zerschmetterst",
+    "time.cfu.ressourceRetrieval.label": "Ressourcen Rückgewinnung",
+    "time.vsu.cryochambers.desc": "Wird ein Kätzchen nach dem Zurücksetzen aufbewahren.<br>Du kannst eine Kryokammer pro Chronosphäre besitzen",
+    "time.vsu.cryochambers.label": "Kryokammer",
+    "time.vsu.cryochambers.flavor": "Steig ein, für die Vergangenheit",
+    "time.vsu.usedCryochambers.desc": "Entsiegelte Kryokammer. Nicht in betriebssicherem Zustand.",
+    "time.vsu.usedCryochambers.label": "Benutzte Kryokammern",
+    "time.vsu.voidHoover.desc": "Erhöht das maximum an täglichem verdientem Nichts während den Zeitlichen Paradoxon",
+    "time.vsu.voidHoover.label": "Nichts-Sauger",
+    "time.vsu.voidRift.desc": "Erhöht den maximalen Lagerraum um 2%",
+    "time.vsu.voidRift.label": "Nichts-Spalte",
+    "time.vsu.chronocontrol.desc": "Verlängert die Dauer von zeitlichen Paradoxen",
+    "time.vsu.chronocontrol.label": "Chronokontrolle",
+    "time.AccelerateTimeBtn.desc": "Beschleunige und verlangsame Zeit nach Lust und Laune (+50% Beschleunigung)",
+    "time.AccelerateTimeBtn.label.normal": "Tempus Fugit",
+    "time.AccelerateTimeBtn.label.accelerated": "Tempus Stasit",
+    
+    "trade.race.lizards": "Echsen",
+    "trade.race.sharks": "Haie",
+    "trade.race.griffins": "Greife",
+    "trade.race.nagas": "Nagas",
+    "trade.race.zebras": "Zebras",
+    "trade.race.spiders": "Spinnen",
+    "trade.race.dragons": "Drachen",
+    "trade.race.leviathans": "Leviathane",
+    "trade.msg.emissary": "Ein Abgesandter der {0} besucht dein Dorf",
+    "trade.msg.elders": "Die Ältesten Götter sind da",
+    "trade.msg.elders.departed": "Die Ältesten Götter gehen",
+    "trade.msg.trade.failure": "{0} hassen dich grundlos",
+    "trade.msg.trade.success": "{0} denken deine Katzen sind süß",
+    "trade.msg.trade.empty": "Deine Katzen kommen mit leeren Pfoten zurück",
+    "trade.msg.trade.caravan": "Du hast {0} Handelskaravane(n) abgesandt",
+    "trade.msg.elders.pleased": "Die Ältesten Götter sind befriedigt",
+    "trade.msg.elders.displeased": "Die Ältesten Götter sind verärgert",
+    "trade.msg.elders.full": "Die Ältesten sind voll und befriedigt",
+    "trade.msg.elders.feed": "Fütter die Ältesten",
+    "trade.msg.elders.feed.desc": "Biete den Ältesten eine Opfergabe an",
+    "trade.new.civ": "Du hast eine neue Zivilisation gefunden!",
+    "trade.new.hint.nagas": "Vielleicht mangelt es dir an Kultur.",
+    "trade.new.hint.zebras": "Vielleicht solltest du versuchen neue Kontinente zu erreichen.",
+    "trade.new.hint.spiders": "Vielleicht mangelt es dir an Wissenschaft.",
+    "trade.new.hint.dragons": "Vielleicht solltest du Technologisch vortgeschrittener sein.",
+    "trade.new.hint.end": "Vielleicht sind keine Zivilisationen mehr übrig?",
+    "trade.new.failure": "Deine Entdecker haben niemanden gefunden. *** {0} ***",
+    "trade.send.caravan": "Sende Karavane",
+    "trade.send.caravan.desc": "Handle etwas von deinen Sachen für die angebotenen Rohstoffe. Der Preis variiert je nach Jahreszeit.\nMit einer geringen Wahrscheinlichkeit gibt es zusätzlich seltene Rohstoffe.",
+    "trade.send.explorers": "Entsende Entdecker",
+    "trade.send.explorers.desc":"Entdecke neue Zivilisationen",
+    
+    "tab.name.trade":"Handel",
+    "tab.name.science": "Wissenschaft",
+    "tab.name.workshop": "Werkstatt",
+    "tab.name.religion": "Religion",
+    "tab.name.space": "Kosmus",
+    "tab.name.time": "Zeit",
+    "tab.name.stats": "Statistik",
+    "tab.name.achievements": "Erfolge",
+    
+    "menu.save": "Save",
+    "menu.import": "Import",
+    "menu.export": "Export",
+    "menu.options": "Options",
+    "menu.reset": "Zurücksetzen",
+    "menu.wipe": "Löschen",
+    "menu.undo": "Rückgängig (Beta)",
+    "menu.about": "Über",
+    "menu.close": "Schließen",
+    
+    "navbar.title": "Kittens Game",
+    "navbar.menu.title": "Menü",
+    "navbar.btn.hunters": "Entsende alle Jäger",
+    "navbar.btn.praise": "Lobe die Sonne",
+    "navbar.energy": "Energie: {0}Wt",
+    "navbar.energy.prod": "Produktion: {0}Wt",
+    "navbar.energy.cons": "Verbrauch: -{0}Wt",
+    "navbar.energy.penalty": "Produktionsbonus-Reduzierung: -{0}%",
+    "navbar.res.amount": "Menge",
+    "navbar.observe": "Beobachte den Himmel",
+    
+    "notification.save.title": "Spiel gespeichert",
+    "notification.save.desc": "Spiel wurde erfolgreich gespeichert",
+    
+    "ui.toggle.researched": "Erforschtes umschalten",
+    
+    "btn.research":"Forschen",
+    "btn.precraft":"Voranfertigen",
+    "btn.build":"Bauen",
+    "btn.sell":"Verkaufen",
+    "btn.promote":"Befördern",
+    "btn.leader":"Anführer",
+    "btn.craft":"Anfertigen",
+    "btn.refine":"Veredeln",
+    "btn.reset":"Zurücksetzen",
+    "btn.fix.cryo":"Kryokammer reparieren",
+    "btn.prevPage":"Vorh. Seite",
+    "btn.nextPage":"Nächste Seite",
+    "btn.challenge":"Start Challenge",
+    "btn.complete":"(Komplett)",
+    "btn.complete.capital":"(Komplett)",
+    
+    "techs.panel.label": "Technologien",
+    
+    "ui.filter.enabled":"Aktiviert",
+    "ui.filter.available":"Aktiviert",
+    "ui.filter.all":"Aktiviert",
+    
+    "village.freeKittens": "Verfügbare Kätzchen",
+    
+    "calendar.season.winter":"Winter",
+    "calendar.season.spring":"Frühling",
+    "calendar.season.summer":"Sommer",
+    "calendar.season.autumn":"Herbst",
+    "calendar.season.winter.short":"Win",
+    "calendar.season.spring.short":"Frü",
+    "calendar.season.summer.short":"Som",
+    "calendar.season.autumn.short":"Her",
+    
+    "calendar.msg.starchart":"Du hast eine Sternenkarte angefertigt!",
+    "calendar.msg.event":"Ein seltenes astronomisches Ereignis war am Himmel zu sehen.",
+    "calendar.msg.meteor":"Ein Meteorit fiel in die Nähe deines Dorfes",
+    "calendar.msg.unicorn":"Ein Einhorn kommt, angezogen von dem Duft der Katzenminze, in dein Dorf!",
+    "calendar.msg.zebra.hunter":"Ein misteriöser Jäger vom Stamm der Zebras entschieht sich in deinem Dorf halt zu machen.",
+    "calendar.msg.zebra.hunter.new": "Ein anderer Zebra-Jäger kommt in dein Dorf.",
+    "calendar.msg.zebra.hunter.departed":"Der Zebra-Jäger verließ dein Dorf.",
+    "calendar.msg.zebra.hunter.departed.pl":"Die Zebra-Jäger verließen dein Dorf.",
+    "calendar.msg.rift":"Eine Spalte zur Einhorndimension öffnete sich in deinem Dorf, +{0} Einhörner!",
+    "calendar.msg.alicorn":"Ein Alicorn ist aus dem Himmel herabgestiegen!",
+    "calendar.msg.ivoryMeteor": "Ein Elfenbein Meteorit fiel in der nähe des Dorfes runter, +{0} Elfenbein!",
+    
+    "time.reset.instructional": "Das Zurücksetzen der Zeitlinie wird das spiel von ganz vorne beginnen. Du wirst alle Statistiken und Errungenschaften behalten. Evtl bekommst du verschiedene Boni.<br>Wenn du jetzt Zurücksetzt, erhälst du folgendes:",
+    "time.reset.karma":"Karma-Punkte",
+    "time.reset.paragon":"Vorbild-Punkte" ,
+    "time.reset.zebra":"Zebra-Jäger",
+    "time.reset.title":"Zurücksetzen",
+    
+    "opts.group.interface":"Benutzungsoberfläche",
+    "opts.theme":"Farbenschema",
+    "opts.theme.classic":"Klassisch",
+    "opts.theme.inverted":"Invertiert",
+    "opts.theme.black":"OLED Schwarz",
+    "opts.lang":"Sprache",
+    "opts.percentage":"Nutze Protzentuale Werte",
+    "opts.percentage.desc":"Das Spiel gibt die prozentuale Produktion zum Gesamtlagervermögen oder die Produktion pro Sekunde an.",
+    "opts.highlight":"Hervorhebung nicht verfügbar",
+    "opts.highlight.desc":"Das Spiel wird die Gebäude die durch den Speicher limitiert sind in Rot hervorheben.",
+    "opts.precision":"Aktiviere präzise Angaben",
+    "opts.precision.desc":"Das Spiel wird 3 Nachkommastellen für die Ressourcen anzeigen.",
+    "opts.hideSell":"Verstecke Verkaufs-knopf",
+    "opts.hideSell.desc":"Spiel wird alle Verkaufen-Knöpfe für Gebäude verstecken",
+    "opts.tabLayout":"Nutze das legacy Tab Layout",
+    "opts.tabLayout.desc":"Das Spiel wird ein 2-Spalten-Layout für Breitbildauflösungen verwenden (768px+). ",
+    "opts.yes":"ja",
+    "opts.no":"Nein",
+    
+    "res.netGain":"Net Zuwachs",
+    "res.toZero":"Bis Null",
+    "res.toCap":"Bis Max",
+    "res.stack.production":"Produktion",
+    "res.stack.spaceProduction":"Weltraum Produktion",
+    "res.stack.spaceProductionBonus":"Weltraum Produktions Bonus",
+    "res.stack.weather":"Wetter",
+    "res.stack.village":"(:3) Dorf",
+    "res.stack.tools":"Werkzeuge",
+    "res.stack.upgrades":"Verbesserungen",
+    "res.stack.buildings":"Gebäude",
+    "res.stack.religion":"Religion",
+    "res.stack.boost":"Verstärkung",
+    "res.stack.steamworks":"Dampfmaschiene",
+    "res.stack.paragon":"Vorbild",
+    "res.stack.convProd":"Konversations Produktion",
+    "res.stack.convCons":"Konversations Verbrauch",
+    "res.stack.magnetos":"Magnetos",
+    "res.stack.reactors":"Reaktoren",
+    "res.stack.faith":"Glaube",
+    "res.stack.spaceConvProd":"Weltraum Umwandlungs Produktion",
+    "res.stack.spaceProdBonus":"Weltraum produktions Bonus",
+    "res.stack.spaceParagon":"Weltraum Vorbild",
+    "res.stack.bonusTransf":"Bonus Übertragen",
+    "res.stack.festival":"Zyklus Festival Effekt",
+    "res.stack.baseline":"Ohne Verbesserung",
+    "res.stack.engineer":"(:3) Ingeneur",
+    "res.stack.demand":"(:3) Nachfrage",
+    "res.stack.time":"Zeit",
+    "res.effect":"Effekt",
+    "res.effects":"Effekte",
+    
+    "reset.prompt":"Bist du dir sicher dass du es zurücksetzten willst?",
+    "reset.prompt.base":"Du wirst Bonuspunkte für die Fröhlichkeit bekommen. Außerdem werden die Errungenschaften gespeichert.",
+    "reset.prompt.70":"Du wirst extra Fröhlichkeit bekommen und einen Bonus auf die Produktion",
+    "reset.prompt.60":"Du wirst einen extra Fröhlichkeits-bonus bekommen.",
+    "reset.prompt.35":"Du wirst KEINE BONUSPUNKTE bekomen. Die alten Bonuspunkte und Errungenschaften werden gespeichert.",
+    
+    "discard.prompt":"Bist du sicher dass du alle Vorbild-Punkte löschen willst? Es kann nicht rückgängig gemacht werden.",
+    "discard.prompt.secondary":"Du hast eine Menge Vorbild-Punkte. Bist du vir vollkommen sicher?",
+    "discard.prompt.iw":"Alarm! Vorbild-Punkte zu verwerfen wird deinen Eisernen Willen brechen. Willst du das wirklich tun?",
+    
+    "time.shatter.tc":"Zeitkristall Zerschmettern",
+    "time.shatter.tc.desc":"Zerstöre einen Zeitkristall und setze die gespeicherte Temporäre Energie frei.<bt> Du springst ein Jahr in die Zukunft. Der Preis kann sich über die Zeir erhöhen.",
+    "time.chronoheat":"Chronohitze wird durch das Zerschmettern von Zeitkristallen generiert und verringert sich über Zeit. Jede Einheit über dem Maximum erhöht den Preis der Zeitkristall-Zerschmetterung um 1%<br>",
+    "time.heat":"Hitze",
+    "time.fixCryochambers.label":"Kryokammer Reparieren",
+    "time.fixCryochambers.desc":"Zerreiße die Raumzeit um eine Kryokammer zurück zu bekommen bevor sie genutzt wurde.",
+    "time.void":"Nichts",
+    "time.tc.shatterOne":"Temporäre Energie freigesetzt, ein Jahr wurde übersprungen.",
+    "time.tc.shatter":"Temporäre Energie freigesetzt, es wurden {0} Jahre übersprungen",
+    
+    "res.notify.unavailable":"Dieses Gebäude wird nicht verfügbar sein, aufgrund dass du nicht genug benötigte Ressourcen Speichern kannst. Versuche es später erneut.",
+    "res.notify.unavailableTime":"Die Gebäude werden erst ({0}+ Tage) in der zukunft verfügbar sein. Versuch es später erneut.",
+    "res.notify.msg":"Du wirst benachrichtigt wenn {0} bereit seien wird.",
+    "res.notify.ready":"Das {0} ist bereit",
+    "res.notify.ready.title":"Genug Ressourcen zum kaufen",
+    
+    "console.intro":"Du bist ein Kätzchen in einem Katzenminzenwald.",
+    
+    "trade.buys": "Kaufen",
+    "trade.sells": "Verkaufen",
+    "trade.cost": "Kosten",
+    
+    "village.census.page": "Seite {0} von {1}",
+    "village.census.age": "Jahre alt",
+    "village.happiness.base":"Basis",
+    "village.happiness.buildings":"Gebäude",
+    "village.happiness.rare.resources":"seltene Ressourcen",
+    "village.happiness.karma":"Karma",
+    "village.happiness.penalty":"Befölkerungsstrafe",
+    "village.happiness.penalty.base":"Strafen Basis",
+    "village.happiness.penalty.mitigated":"Strafe gemindert",
+    "village.happiness.overpopulation":"Überpopulation",
+    
+    "btn.all":"Alle",
+    "btn.all.minor":"alles",
+    "btn.feed":"Füttern (Feed)",
+    "btn.trade":"Handeln",
+    
+    "calendar.weather.warm":"warm",
+    "calendar.weather.cold":"kalt",
+    
+    "bld.msg.automation":"Aktiviere Werkstatt-automatisierung",
+    "bld.msg.automation.skip":"Überspringe Werkstatt-automatisierung...",
+    "bld.msg.automation.plates":"Ausgegeben {0} Eisen, +{1} Platten!",
+    "bld.msg.automation.slabs":"Ausgegeben {0} Mineralien, +{1} Bodenplatte!",
+    "bld.msg.automation.beams":"Ausgegeben {0} Holz, +{1} Balken!",
+    
+    "buildings.amphitheatre.flavor": "Tägliche 'All Dogs Go to Heaven' Shows",
+    
+    "trade.msg.resources": "Du hast {0} {1}",
+    
+    "reset.prompt.title": "Bist du dir sicher, dass du es Zurücksetzen willst?",
+    
+    "wipe.prompt.title": "Wipe confirmation",
+    "wipe.prompt.msg": "Alle deine gespeicherten Daten werden GELÖSCHT, bist du dir sicher?",
+    "wipe.prompt.msg2": "Bist du dir ABSOLUT sicher?",
+    
+    "save.export.msg":"Speicherstand export erfolgreih!",
+    "save.import.msg":"Speicherstand import erfolgreich!",
+    "save.msg.confirm":"Bist du dir sicher? Dies wird deinen Speicherplatz überschreiben!",
+    
+    "kittens.craft.warning.title":"Bist du dir sicher?",
+    "kittens.craft.warning.msg":"Deine Kätzchen werden STERBEN",
+    
+    "menu.export.btn":"Gespeichert in der Dropbox (Beta)",
+    "menu.export.to": "Exportieren zu",
+    "menu.export.text":"Text Export",
+    "menu.import.title":"Dropbox (Beta)",
+    "menu.import.from": "Importieren von",
+    "menu.import.text":"Text Importieren",
+    "menu.import.btn":"Importiere vom Text",
+    
+    "navbar.observe.short": "Überblicken",
+    
+    "workshop.refine.confirmation":"Deine Kätzchen werden STERBEN",
+    
+    "res.per.sec":"Sek",
+    "res.per.day":"Tag",
+    "res.per.year":"Jahr",
+    "res.energy.wt":"Wt",
+    
+    "science.machinery.label":"Maschienerie",
+    "science.machinery.desc":"Vorherige Vortschritte in Metallurgie und Wissenschaft führen zu dem Konzept einer Maschine, einem Gerät mit mehreren bewegungsfähigen Teilen. Maschinerie führt ein Konzept der Automation ein.",
+    "science.machinery.effectDesc":"Schaltet Dampfmaschiene-, Armbrust-, Druckerpresse- und Fabrik-automatisierung frei.",
+    
+    "menu.language":"Sprache",
+    
+    "about.title":"Kittens Game von Nuclear Unicorn",
+    "about.title.studio":"Studio",
+    "about.version":"Version",
+    "about.engine.version":"engine Version",
+    "about.feedback": "Feedback Forum",
+    
+    "iron.will.warning.msg":"Dies wird den Eisernen Willen beenden. Bist du dir sicher?",
+    
+    "effectsMgr.workshop.eludiumAutomationBonus.title": "Eludium Automatisierungsbonus",
+    "effectsMgr.heatMax.title":"Maximale Hitze",
+    "effectsMgr.heatPerTick.title":"Hitzeabführung",
+    "effectsMgr.timeImpedance.title":"Zeitimpedanz",
+    
+    "btn.praise":"preisen",
+    
+    "village.label.na":"N/A",
+    "village.name.Angel":"Engel",
+    "village.name.Charlie":"Charlie",
+    "village.name.Mittens":"Mittens",
+    "village.name.Lily":"Lily",
+    "village.name.Ellie":"Ellie",
+    "village.name.Amber":"Amber",
+    "village.name.Molly":"Molly",
+    "village.name.Jasper":"Jasper",
+    "village.name.Oscar":"Oscar",
+    "village.name.Theo":"Theo",
+    "village.name.Maddie":"Maddie",
+    "village.name.Cassie":"Cassie",
+    "village.name.Timber":"Timber",
+    "village.name.Meeko":"Meeko",
+    "village.name.Micha":"Micha",
+    "village.name.Tami":"Tami",
+    "village.name.Plato":"Plato",
+    "village.surname.Smoke":"Rauch",
+    "village.surname.Dust":"Staub",
+    "village.surname.Chalk":"Kreide",
+    "village.surname.Fur":"Fell",
+    "village.surname.Clay":"Lehm",
+    "village.surname.Paws":"Pfoten",
+    "village.surname.Tails":"Schwanz",
+    "village.surname.Sand":"Sand",
+    "village.surname.Scratch":"Kratzer",
+    "village.surname.Berry":"Beere",
+    "village.surname.Shadow":"Schatten",
+    
+    "eta.year":"J",
+    "eta.day":"T",
+    "eta.hour":"h",
+    "eta.min":"m",
+    "eta.sec":"s",
+    
+    "buildings.aicore.label": "KI Kern",
+    "buildings.aicore.desc": "KatzenOS, eine hochmoderne Künstliche Intelligenz. Vollkommen ungefährlich. Jedes Level erhöht den Energieverbrauch von Kernen multiplikativ um 75%.",
+    "buildings.aicore.flavor": "Es ist Zeit unsere Unterschiede für die Wissenschaft zur Seite zu legen.",
+    "space.planet.umbra.hrHarvester.label": "HS Sammler",
+    "space.planet.umbra.hrHarvester.desc": "Hawking Strahlung Sammler. Wirkt durch die Energie die durch Evaporation ines schwarzen Loches freigesetzt wird. Jeder HS Sammler generiert 1W an Strom welcher sich über Zeit erhöht.",
+    "space.planet.umbra.label": "Umbra",
+    "space.umbraMission.label":"Umbra Mission",
+    "space.umbraMission.desc":"Umbra ist ein supermassives schwarzes Loch in der Mitte des Helios Systemes",
+    "ai.apocalypse.msg":"KI hat {0}% deiner Ressourcen zerstört",
+    "science.quantumCryptography.label":"Quenten Kryptographie",
+    "science.quantumCryptography.desc":"TBD",
+    "science.quantumCryptography.effectDesc":"TBD",
+    "space.planet.helios.heatsink.label":"Kühlkörper",
+    "space.planet.helios.heatsink.desc":"Ein Wärmeabführungssystem. Jeder Kühlkörper erhöht den Stromverbrauch der Eindämmungskammern um 1% und Antimateriespeicherkapazität um 2%",
+    
+    "achievements.systemShock.title" : "System Schock",
+    "achievements.systemShock.desc": "I'm sorry Dave, I'm afraid I can't do that.",
+    "buildings.aicore.attemptsell": "Zugriff Verweigert.",
+    
+    "space.planet.charon.label": "Charon",
+    "space.charonMission.label":"Charon Mission",
+    "space.charonMission.desc":"Charon ist ein kleiner, unglaublich dichter und entfernter Zwergplanet am Rand des Helios Systemes. Es ist so feindlich und öde, dass es manchmal 'Die Schranken des Todes' genannt wird.",
+    "workshop.aiEngineers.label": "KI Ingenieure",
+    "workshop.aiEngineers.desc": "Eine heilige Union von Katzenseele und Maschine",
+    "space.planet.charon.entangler.label": "Verschränkungs St.",
+    "space.planet.charon.entangler.desc": "Eine Verschränkungs Station generiert ein paar von Verschränkten Partikeln aka qbits für deinen Quantencomputer. Dieser Prozess benötigt eine enorme Menge von Prozessorkraft, lässt dich aber einen kryptographischen Angriff auf die Verschlüsselungsalgorithmen der Ältesten vollziehen.",
+    "effectsMgr.statics.entangler-hrProgress.title":"Hash Kollision",
+    "effectsMgr.statics.aiLevel.title": "KI Level",
+    "effectsMgr.statics.gflopsConsumption.title": "GFlops Konsum",
+    "effectsMgr.statics.hashrateLevel.title": "Hashrate Level",
+    "effectsMgr.statics.nextHashLevelAt.title": "Nächstes Hashrate Level bei",
+    "effectsMgr.statics.hashrate.title": "Hashrate",
+    "prestige.ascoh.label":"EGRVH",
+    "prestige.ascoh.desc":"Ein Geheimer Rat von Hüten",
+    
+    "time.vsu.voidResonator.label": "Leeren Resonator",
+    "time.vsu.voidResonator.desc": "Jeder Leeren Resonator verstärkt den Effekt von Ordnung der Leere um 10%. Aktiviert Ordnung der Leere im Zeitsprung.",
+    "science.blackchain.label": "Blackchain",
+    "science.blackchain.desc": "Alle coolen Katzen graben danach. Daher denke ich, es muss eine Art Mineral sein.",
+    "science.blackchain.effectDesc": "Ermöglicht Cryptomining und BlackCoin-Handel",
+    "resources.blackcoin.title": "BlackCoin",
+    "trade.buy.ecoin": "Kaufe BlackCoin",
+    "trade.buy.ecoin.desc": "Handel deine Relikte für BlackCoin",
+    "trade.sell.ecoin": "Verkaufe bcoin",
+    "trade.sell.ecoin.desc": "Handel deine BlackCoin für Relikte.",
+    
+    "space.planet.helios.sunforge.label":"Sonnenschmiede",
+    "space.planet.helios.sunforge.desc":"Nutzt die Wärme der Sonne um Materialien in superverdichtetes Plasma umzuwandeln. Jede Ausbaustufe der Sonnenschmiede erweitert den Speicher der Grundmaterialien um 1%.",
+    
+    "village.happiness.festival":"Fest",
+    
+    "religion.tu.blackRadiance.label" : "Schwarzer Glanz",
+    "religion.tu.blackRadiance.desc" : "Jeder % des SFT Meters erhöht die Alicorn-Korruptionsrate ein bisschen",
+    "religion.tu.blackRadiance.flavor": "Wie ein Regenbogen in der Dunkelheit"
+    
+    }

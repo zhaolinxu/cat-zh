@@ -77,10 +77,10 @@ WMapTile = React.createClass({
                 ($r("div", {className: "tooltip-content"}, 
                     [data ? 
                         $r("div", {className: "label"}, [
-                            data.type && $r("div", null, "地形:" + cnItem(data.type)),
-                            $r("div", null, "等级:" + data.level + " ["+ data.cp.toFixed() + "/" + toLevel.toFixed() + " 猫力]("+ percentExplored.toFixed() + "%)")
+                            data.type && $r("div", null, "Terrain:" + data.type),
+                            $r("div", null, "lv." + data.level + " ["+ data.cp.toFixed() + "/" + toLevel.toFixed() + "cp]("+ percentExplored.toFixed() + "%)")
                         ]) 
-                        : $r("div", {className: "label"}, "这里没什么有趣的")]
+                        : $r("div", {className: "label"}, "Nothing interesting here")]
                 ))
         );
     },
@@ -169,8 +169,8 @@ WMapViewport = React.createClass({
 
             nodeBlock = $r("div", null, [
                 "[" + x + "," + y + "]",
-                $r("div", null, "等级" + data.level + " ["+ data.cp.toFixed() + "/" + toLevel.toFixed() + "猫力]("+ percentExplored.toFixed() + "%)"),
-                $r("div", null, "经验成本:" + this.getExplorationPrice(x, y).toFixed(2) + " 猫力/秒"),
+                $r("div", null, "lv." + data.level + " ["+ data.cp.toFixed() + "/" + toLevel.toFixed() + "cp]("+ percentExplored.toFixed() + "%)"),
+                $r("div", null, "Exp. cost:" + this.getExplorationPrice(x, y).toFixed(2) + " cp/sec"),
                 $r("div", {className: "btn nosel modern"}, 
                     $r("div", {className: "btnContent", onClick: this.startExpedition}, "Explore")
                 )
@@ -184,7 +184,7 @@ WMapViewport = React.createClass({
             ),
             $r("div", {className:"map-dashboard"},
                 /*$r("div", null, "Expedition supplies: 100%"),*/
-                $r("div", null, "地图区域:"),
+                $r("div", null, "Map region:"),
                 selectedNode ? 
                     nodeBlock : "N/A"
             )
@@ -276,9 +276,9 @@ WMapSection = React.createClass({
             mapDataset = map.villageData;
 
         return $r("div", null, [
-            $r("div", null, "已探索: " + map.exploredLevel + "% (降价比率: " + (map.getPriceReduction() * 100).toFixed(3) + "%)"),
-            $r("div", null, "探索奖励: " + (map.getExploreRatio() * 10).toFixed() + "%"),
-            $r("a", {className:"link", href:"#", onClick: this.resetMap}, "重置地图"),
+            $r("div", null, "Explored: " + map.exploredLevel + "% (Price reduction: " + (map.getPriceReduction() * 100).toFixed(3) + "%)"),
+            $r("div", null, "Exploration bonus: " + (map.getExploreRatio() * 10).toFixed() + "%"),
+            $r("a", {className:"link", href:"#", onClick: this.resetMap}, "Reset map"),
             $r(WMapViewport, {dataset: mapDataset, exploredLevel: map.exploredLevel})
         ]);
     },
@@ -295,4 +295,3 @@ WMapSection = React.createClass({
         game.render();  //some messy case here
     }
 });
-

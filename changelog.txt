@@ -1,7 +1,151 @@
-v 1.4.6.2 (29 may 2019)
-Major: fixed typo in Orbital Geodesy description
+v 1.4.8.5 (9 may 2021)
+Major:
+* Added pollution mechanic (Zig and Hunter)
+Minor:
+* Bugfix: Fixing Cryochambers doesn't allow to overcap them anymore
+* Staged buildings now can be made togglable
+* Deleted Resource Order file
+* Other bugfixes
+
+v 1.4.8.4 (6 apr 2021)
+Major:
+* Added pacifism challenge
+* Deleted auto reclaim
+Minor:
+* Optimisation refractors
+
+v 1.4.8.3 (16 nov 2020)
+
+Major:
+* Repeatable challenges (rewards on completion, resource reserves)
+* KGNet integration
 
 Minor:
+* Theme bugfixes
+* Instructional text for buildings panel
+* Left/right arrow key navigation (patsy)
+* Various policy and game related fixes (Zig and patsy)
+
+v 1.4.8.2 (15 aug 2020)
+Major:
+* Repeatable challenges (alpha backport, phase 0)
+
+Themes:
+* New themes: Vintage, Wood v2 (permanent unlock), Computer, Arctic, Cyber, Bluish, Grayish, Greenish, Factory
+
+Minor:
+* Added an option for the scientific notation (Cirn09)
+* Shark embassies scaling was reduced from 5-5-5 to 5-3-1
+* Added translation widget
+
+v 1.4.8.1 (18 july 2020)
+Major:
+* Fix per-tick resources that were not gained if offline progression is performed during a Temporal Paradox
+* Make gamma the new mainline
+* Make engineers work during time skips
+* Add new challenge: Black Sky
+* Implement Zebra Outpost
+* Add embassies
+* Double timeout of the “Observe the sky” button for Iron Will
+* Clarify interactions between Praise, Solar Revolution, Apocrypha and Transcend
+
+Themes:
+* New themes: Anthracite, Black, Chocolate
+
+Minor:
+* Caravanserai does not count anymore as a free Tradepost
+* Fix display of Standing ratio for Tradeposts
+* Increase years in stats during offline progression
+* Arrange price lists in buildings and upgrades in the same order as in the left column
+* Prevent food advisor to move stuff in left column
+* Fix effect of Atheism and Black Obelisks
+
+v 1.4.8.0 (11 june 2020)
+Major:
+* Fix precrafted amount
+* Implement Metallurgist and Chemist traits
+* Allow to crash BC market
+* Make BC market evolve during offline progression
+* Make Divine Proportion 16:9 (all hail TV!)
+
+Themes:
+* New theme: Unicorn
+* Add an option in order to move tooltip in right column, like Sleek does by default
+
+Minor:
+* Gear icon will now have a toggle indicator
+* Fix options dialog overflow
+* Clear up checkbox indicators
+* Clear up chat/log slightly
+* Fix tooltip out of window in some conditions
+* Add option allowing to modify the ×10 purchase multiplier for Ctrl key
+* Add option allowing to hide downgrade buttons
+* Fix failing load of very old save files
+* Complete description of the “no confirmation” option
+* Add option allowing to always show festivals/trade/sacrifice/shatter buttons even if not applicable
+* Add option allowing to display craft/trade/sacrifice buttons as percentage
+* In case of unassigned engineers, display the actual number instead of just (!)
+
+v 1.4.7.1 (19 apr 2020)
+Major:
+* Allow to burn paragon without breaking Iron Will mode if insane Space Oddity has already been achieved
+* Improve kittens' save compression
+* Make Hydroponics increase kittens capacity of Terraforming Stations
+* Fix Solar Farms not being affected by Winter Has Come
+* Do not refund AM if energy is negative
+
+Themes:
+* New themes: Gold, Space, Wood, School, Fluid, Vessel, Minimalist, Oil
+* All themes except Classic/Inverted/Grassy/Sleek have to be unlocked (permanent unlock)
+* Add an option in order to hide background image (if applicable)
+* Theme will now apply to the loading screen
+
+Minor:
+* Add confirmation pop-up for present box unwrapping
+* Improve contrast of text in sub-buttons
+* Display energy in orange if it will be negative in winter
+* Fix kittens per tick rate
+* Add special effect on exotic resources and on 777 and 1337
+* Fix gflops consumption display
+* Always display science tab if you have the calendar or chronophysics sciences
+* Use titanium' and blueprints' translated name in trade messages
+* Move 'return empty-pawed' below the corresponding 'sent x trades' message and remove its bullet
+* Fix Chrono Furnace state when exporting save from web to mobile
+* Fix base skill XP not being multiplied by number of ticks in case of offline progression
+* Remove regular faith consumption by OotV, making it a pure bonus as originally implemented
+* Fix confusion about regular faith in left column vs. accumulated faith in Order of the Sun panel (all languages)
+* Fix a lot of visual issues related to large resource values, layout and localization
+* Saves bigger than 5MB should now fit into the localstorage
+* Add option for even better compression, but generates save files incompatible with older versions
+* Players now have a small chance of getting a rare kitten
+* Make Molten Cores 10 times cheaper in science
+
+v 1.4.7.0
+Major:
+* Fix Biofuel Processing (Data Center <-> Biolab synergy now works regardless of powered state)
+* Add Time Boiler, a new building increasing heat capacity of Chrono Furnace
+* Allow to get karma or paragon from present box after getting Anachronomancy
+* Export save content directly in text file
+
+Minor:
+* Fix a lot of typos, texts and translations (especially Russian and Chinese)
+* Fix kittens preserved by Cryochambers (sort by rank, not by remaining XP)
+* Allow to shatter ×500
+* Allow to hold festivals ×100
+* Allow to sacrifice/refine 20/50 % of unicorns/alicorns/TCs (similarly to trades)
+* Fix Tempus Fugit (make an explicit on/off button like Steamworks, save status of Tempus Fugit for refresh (but not for reset))
+* Improve log rendering performance
+* Don't save activation state of Chrono Furnace
+* Display temporal flux total time and heat dissipation remaining/total time
+* Fix workshop automation cap
+* Replace “Resets Made” with “Run Number”
+* Add links to preview versions
+* Highlight ‘+’ link of buildings not fully activated
+
+v 1.4.6.2 (29 may 2019)
+Minor: fixed typo in Orbital Geodesy description
+
+Major:
 TF Cells / QDot Cells
 Esc is back + keypad numbers to change tabs
 Backported Redshift Heat
@@ -191,8 +335,8 @@ v 1.4.4.2
 changes by coderpatsy:
 
 - Fix error when importing save without hats
-- 修正index.html中的错字（https://redd.it/72c4if）
-- 修复村庄的全局小漏洞
+- Fix typo in index.html (https://redd.it/72c4if)
+- Fix minor global leak in village
 - Only check neural networks once per village sim update
 
 Balance tweaks
@@ -305,7 +449,7 @@ Black Nova effect should be now applicable
 
 
 v 1.4.0.4 (25 jan 2017)
-Turn Smoothly was renamed to 时空领域
+Turn Smoothly was renamed to Chronosurge
 Blazar will now boost RR by 2%
 Black Nova will now boost energy production by 2%
 Unicorn Rifts will now get a 10% synergy from the Ziggurat buildings
@@ -489,7 +633,7 @@ Nuclear Plants
 v 1.2.0.0b (23 jul)
 
 changes by bzbarsky:
-Make the time crystal refining effects of Unicorn Utopia and 青睐之光 actually work.
+Make the time crystal refining effects of Unicorn Utopia and Sunspire actually work.
 
 v 1.2.0.0 (20 jul)
 
@@ -502,7 +646,7 @@ v 1.1.9.4 (20 jul)
 UU was split into two upgrades
 UU price was reduced from 65K tears to 5K tears.
 
-UU and 青睐之光 will now increase alicorn to tc refine ratio by 10% and 25%
+UU and Sunspire will now increase alicorn to tc refine ratio by 10% and 25%
 
 
 v 1.1.9.3 (15 jul)
@@ -794,7 +938,7 @@ Changes by Roman Chang:
 
 Changes by coderpatsy:
 
-- Events observed stat increments on manual and 搜寻地外文明计划 observations as well
+- Events observed stat increments on manual and SETI observations as well
 - Fix Dead kittens stat recording more deaths than kittens
 - Add effectMeta for scholar starcharts
 
@@ -1369,7 +1513,7 @@ Space Elevators
 
 v 1.0.3.2 (15 nov)
 
-Fixed 搜寻地外文明计划 preventing other random events
+Fixed SETI preventing other random events
 Religion upgrades will not give double bonuses if transcendence is not researched
 Moon base will now grant storage bonus
 
@@ -1686,7 +1830,7 @@ Log size will be limited to 50 entries
 Fixed CAD SYS not applying correct bonus to the craft
 
 Refrigeration
-搜寻地外文明计划
+SETI
 
 v 0.9.1.2 (31 jul)
 

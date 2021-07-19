@@ -22,9 +22,10 @@ dojo.declare("classes.managers.StatsManager", com.nuclearunicorn.core.TabManager
 			defaultUnlocked: true
         }, {
             name: "totalResets",
-            title: $I("stats.resets.total"),
+            title: $I("stats.run.number"),
             val: 0,
-            unlocked: false
+            unlocked: true,
+            defaultUnlocked: true
         },{
             name: "totalParagon",
             title:  $I("stats.paragon.total"),
@@ -53,11 +54,13 @@ dojo.declare("classes.managers.StatsManager", com.nuclearunicorn.core.TabManager
         },{
             name: "totalTrades",
             title:  $I("stats.trades.total"),
-            val: 0,unlocked: false
+            val: 0,
+            unlocked: false
         },{
             name: "totalCrafts",
             title: $I("stats.crafts.total"),
-            val: 0,unlocked: false
+            val: 0,
+            unlocked: false
         },{
             name: "averageKittens",
             title:  $I("stats.kittens.avg"),
@@ -143,7 +146,7 @@ dojo.declare("classes.managers.StatsManager", com.nuclearunicorn.core.TabManager
 
     getStatCurrent: function (name) {
         var stat = this.getMeta(name, this.statsCurrent);
-        if (stat.calculate) stat.val = stat.calculate(this.game);
+        if (stat.calculate) {stat.val = stat.calculate(this.game);}
         return stat;
     },
 
@@ -191,7 +194,7 @@ dojo.declare("classes.tab.StatsTab", com.nuclearunicorn.game.ui.tab, {
             }, this.container);
 
             var stats = statGroup.group;
-            var table = dojo.create("table", {class: 'statTable'}, this.container);
+            var table = dojo.create("table", {class: "statTable"}, this.container);
 
             for (var i in stats) {
                 var stat = stats[i];
@@ -204,6 +207,10 @@ dojo.declare("classes.tab.StatsTab", com.nuclearunicorn.game.ui.tab, {
                     stat.unlocked = true;
                 }
 
+                if (stat.name == "totalResets") {
+                    stat.val++;
+                }
+
                 var tr = dojo.create("tr", null, table);
                 dojo.create("td", {
                     innerHTML: stat.unlocked ? stat.title : "???"
@@ -213,10 +220,11 @@ dojo.declare("classes.tab.StatsTab", com.nuclearunicorn.game.ui.tab, {
                         ? typeof stat.val == "number" ? this.game.getDisplayValueExt(stat.val) : stat.val
                         : ""
                 }, tr);
+
+                if (stat.name == "totalResets") {
+                    stat.val--;
+                }
             }
         }
-
-
-
     }
 });
