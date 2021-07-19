@@ -756,6 +756,20 @@
 				<!--  | <a href="classic/" target="_blank">classic</a> -->
 			</div>
 		</div>
+		<div id="changeDiv" style="display: none;" align="center" class="dialog help">
+				<a id="changeDialogClose" href="#" class="close" style="position: absolute; top: 10px; right: 15px;">close</a>
+				<div style="font-weight: bold; color:#666;">猫国建设者</div>
+				<hr>
+				<div>
+					<br>
+					<span style="display: block;">链接[<a href="https://petercheney.gitee.io/baike/" target="_blank" title="猫国百科全书">百科</a>]</span>
+					<span style="display: block;">链接[<a href="https://petercheney.gitee.io/baike/?file=004-第三方工具/02-小猫科学家" target="_blank" title="猫国百科全书">小猫珂学家说明书</a>]</span>
+					<span>如果是从likexia点说明书过来的。<br>请在likexia保存按下F5刷新一下。<i>页面可能被缓存了</i></span>
+					<br>
+					<span>链接[<a href="https://likexia.gitee.io/cat-zh/" target="_blank" title="游戏地址">最新版猫国建设者</a>]</span>
+					
+				</div>
+			</div>
 		<!--客服 开始-->
 		<link rel="stylesheet" href="res/kf.css" type="text/css" media="screen" charset="utf-8">
 		<script src="kf.js"></script>
@@ -767,6 +781,9 @@
 		<!-- 客服 结束 -->
 
 		<script type="text/javascript">
+		setTimeout(function() {
+						game.ui.showDialog("changeDiv");
+					}, 4000);
 			var enableKS = function() {
 				localStorage['zh.ks.enable'] = 'enable';
 				$("#ks-label").text("可爱的猫猫科学家为您服务");
