@@ -1147,7 +1147,12 @@ NummonInit = function(){
         }
     if(!tabExists)
         gamePage.addTab(gamePage.nummonTab);
-    
+
+    if (localStorage["com.nuclearunicorn.kittengame.language"] == "zh") {
+        gamePage.nummonTab.tabName = "概览";
+    }
+    gamePage.render();
+
     gamePage.getTab = function(name){
         switch(name) {
             case "science":
@@ -1168,9 +1173,6 @@ NummonInit = function(){
                 return this.challengesTab;
         }
     };
-    
-    gamePage.nummonTab.tabName = "概览";
-    gamePage.render();
 };
 
 NummonTryInit = function() {
