@@ -39,6 +39,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
             "religion": "Religion",
 
             "getReligionProductionBonusCap": "Solar Revolution Limit",
+             "getlowestRatio": "下一次元超越等级减少的顿悟",
             "getNextTranscendTierProgress": "Progress to Next Transcendence Tier",
             "getRecNextTranscendTierProgress": "Rec.Progress to Next Transcendence Tier",
             
@@ -106,8 +107,10 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
             "religion": "宗教",
 
             "getReligionProductionBonusCap": "太阳革命极限加成",
-            "getNextTranscendTierProgress": "到达下一超越等级的进度",
-            "getRecNextTranscendTierProgress": "推荐下一超越等级的进度",
+            "getlowestRatio": "进行次元超越需要的顿悟",
+            "getNextTranscendTierProgress": "当前拥有的顿悟",
+            "getRecNextTranscendTierProgress": "推荐次元超越需要的顿悟",
+            "getBoolean": "（是/否）进行次元超越",
 
             "paragon": "领导力加成",
 
@@ -534,6 +537,12 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         return result + "%";
     },
 
+    getlowestRatio: function(){
+        var tier = this.game.religion.transcendenceTier + 1;
+        var tt = this.game.religion._getTranscendTotalPrice(tier) - game.religion._getTranscendTotalPrice(tier - 1);
+        return tt;
+    },
+
     getRecNextTranscendTierProgress: function() {
         if (this.game.religion.transcendenceTier >= 354)
             return this.i18n("best.none");
@@ -546,17 +555,31 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         var x = tt;
         var k = needpercent;
         var epiphanyRecommend = (1 - k + Math.sqrt(80 * (k * k - 1) * x + (k - 1) * (k - 1))) * k / (40 * (k + 1) * (k + 1) * (k - 1)) + x + x / (k * k - 1);
-        var percent = epiphanyRecommend / tt * 100;
-        percent = Math.round(percent * 1000) / 1000;
-        return percent + "%";
+        var percent = this.game.getDisplayValueExt(epiphanyRecommend);
+        if (game.religion.faith * 2.02 * this.game.religion.transcendenceTier + 3.03 * game.religion.faith > 1e6 * tt && this.game.religion.faithRatio > tt) {
+            return tt;
+        } else {
+            return percent;
+        }
     },
 
     getNextTranscendTierProgress: function(){
+        return this.game.religion.faithRatio;
+    },
+
+    getBoolean: function(){
+        if (!game.religion.getRU("transcendence").on) {
+            return $I("religion.ru.transcendence.label");
+        }
         var tier = this.game.religion.transcendenceTier + 1;
         var tt = this.game.religion._getTranscendTotalPrice(tier) - game.religion._getTranscendTotalPrice(tier - 1);
-        var perc = this.game.religion.faithRatio / tt * 100;
-        perc = Math.round(perc * 1000) / 1000;
-        return perc + "%";
+        if (game.religion.faith * 2.02 * (tier - 1) + 3.03 * game.religion.faith > 1e6 * tt && this.game.religion.faithRatio > tt) {
+            return "是";
+        } else if (this.getRecNextTranscendTierProgress > this.game.religion.faithRatio) {
+            return "是";
+        } else {
+            return "否";
+        }
     },
 
     // PARAGON :
@@ -893,6 +916,11 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
                 val: 0,
             },
             {
+                name: "getlowestRatio",
+                // title: "Solar Revolution Limit",
+                val: 0,
+            },
+            {
                 name: "getNextTranscendTierProgress",
                 // title: "Apocrypha Progress",
                 val: 0,
@@ -900,6 +928,11 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
             {
                 name: "getRecNextTranscendTierProgress",
                 // title: "Progress to Next Transcendence Tier",
+                val: 0,
+            },
+            {
+                name: "getBoolean",
+                // title: "Apocrypha Progress",
                 val: 0,
             },
         ],
