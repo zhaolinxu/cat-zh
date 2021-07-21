@@ -125,7 +125,7 @@
     "buildings.broadcasttower.label": "广播塔",
     "buildings.broadcasttower.desc": "产出文化与幸福。能源过剩时效能提升",
     "buildings.calciner.label": "煅烧炉",
-    "buildings.calciner.desc": "高效的金属来源。每秒消耗 7.5 矿物和 1.2 石油，产出铁和少量的钛",
+    "buildings.calciner.desc": "高效的金属来源。每秒消耗 7.5 矿物和 0.12 石油，产出铁和少量的钛",
     "buildings.chapel.label": "教堂",
     "buildings.chapel.desc": "产出少量的文化与信仰。也许能被宗教的升级提升",
     "buildings.chronosphere.label": "超时空传送仪",
