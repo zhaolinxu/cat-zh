@@ -569,7 +569,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
 
     getBoolean: function(){
         if (!game.religion.getRU("transcendence").on) {
-            return $I("religion.ru.transcendence.label");
+            return this.i18n("best.none");
         }
         var tier = this.game.religion.transcendenceTier + 1;
         var tt = this.game.religion._getTranscendTotalPrice(tier) - game.religion._getTranscendTotalPrice(tier - 1);
