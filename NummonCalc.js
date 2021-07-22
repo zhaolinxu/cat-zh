@@ -555,7 +555,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         var x = tt;
         var k = needpercent;
         var epiphanyRecommend = (1 - k + Math.sqrt(80 * (k * k - 1) * x + (k - 1) * (k - 1))) * k / (40 * (k + 1) * (k + 1) * (k - 1)) + x + x / (k * k - 1);
-        if (game.religion.faith * 2.02 * this.game.religion.transcendenceTier + 3.03 * game.religion.faith > 1e6 * tt && this.game.religion.faithRatio > tt) {
+        if (game.religion.faith * 2.02 * this.game.religion.transcendenceTier + 3.03 * game.religion.faith >= 1e6 * tt && this.game.religion.faithRatio > tt) {
             return tt;
         } else {
             return epiphanyRecommend;
@@ -578,7 +578,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         } else {
             boolean = "是";
         }
-        if (this.game.religion.faith * 2.02 * (tier - 1) + 3.03 * this.game.religion.faith > 1e6 * tt && this.game.religion.faithRatio > tt) {
+        if (this.game.religion.faith * 2.02 * (tier - 1) + 3.03 * this.game.religion.faith >= 1e6 * tt && this.game.religion.faithRatio > tt) {
             boolean = "是";
         }
         return boolean;
