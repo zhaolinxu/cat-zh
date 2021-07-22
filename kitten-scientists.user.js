@@ -1564,12 +1564,14 @@ var run = function() {
                                 storeForSummary('transcend', 1);
                             }
                         }
-                        game.religion._resetFaithInternal(1.01);
+                        if (option.adore.enabled && game.religion.getRU('apocripha').on) {
+                            game.religion._resetFaithInternal(1.01);
 
-                        iactivity('act.adore', [game.getDisplayValueExt(worship), game.getDisplayValueExt(epiphanyInc)], 'ks-adore');
-                        storeForSummary('adore', epiphanyInc);
-                        epiphany = game.religion.faithRatio;
-                        worship = game.religion.faith;
+                            iactivity('act.adore', [game.getDisplayValueExt(worship), game.getDisplayValueExt(epiphanyInc)], 'ks-adore');
+                            storeForSummary('adore', epiphanyInc);
+                            epiphany = game.religion.faithRatio;
+                            worship = game.religion.faith;
+                        }
                     }
                 }
             }
