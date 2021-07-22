@@ -573,13 +573,16 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         }
         var tier = this.game.religion.transcendenceTier + 1;
         var tt = this.game.religion._getTranscendTotalPrice(tier) - game.religion._getTranscendTotalPrice(tier - 1);
-        if (game.religion.faith * 2.02 * (tier - 1) + 3.03 * game.religion.faith > 1e6 * tt && this.game.religion.faithRatio > tt) {
-            return "是";
-        } else if (this.getRecNextTranscendTierProgress < this.game.religion.faithRatio) {
-            return "是";
+        var boolean = "";
+        if (this.game.religion.faithRatio < this.getRecNextTranscendTierProgress) {
+            boolean = "否";
         } else {
-            return "否";
+            boolean = "是";
         }
+        if (game.religion.faith * 2.02 * (tier - 1) + 3.03 * game.religion.faith > 1e6 * tt && this.game.religion.faithRatio > tt) {
+            boolean = "是";
+        }
+        return boolean;
     },
 
     // PARAGON :
