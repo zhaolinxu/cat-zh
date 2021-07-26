@@ -94,6 +94,9 @@ WToolbarHappiness = React.createClass({
 				if(resources[i].name == "elderBox" && this.game.resPool.get("wrappingPaper").value){
 					resHappiness -= happinessPerLuxury; // Present Boxes and Wrapping Paper do not stack.
 				}
+				if(resources[i].type == "uncommon"){
+					resHappiness += this.game.getEffect("consumableLuxuryHappiness");
+				}
 			}
 		}
 		tooltip += $I("village.happiness.rare.resources") + ": +" + this.game.getDisplayValueExt(resHappiness, false, false, 0) + "%<br>";
@@ -215,26 +218,26 @@ WToolbarPollution = React.createClass({
                 getTooltip: this.getTooltip,
                 className: this.freshMessage ? "energy warning": null
             },
-                $r("div", {}, 
+                $r("div", {},
                 "🏭" + (game.science.get("ecology").researched ? (" " + this.getPollutionMod()) : ""))
             );
         }
         return null;
     },
     getTooltip: function(notUpdateFreshMessage){
-        this.game = this.props.game;    //hack
+        var game = this.props.game;
 
         var message = "";
-        var eqPol = this.game.bld.getEquilibriumPollution();
-        var eqPolLvl = this.game.bld.getPollutionLevel(eqPol);
-        var pollution = this.game.bld.cathPollution;
-        var polLvl = this.game.bld.getPollutionLevel();
-        var polLvlShow = this.game.bld.getPollutionLevel(pollution * 2);
+        var eqPol = game.bld.getEquilibriumPollution();
+        var eqPolLvl = game.bld.getPollutionLevel(eqPol);
+        var pollution = game.bld.cathPollution;
+        var polLvl = game.bld.getPollutionLevel();
+        var polLvlShow = game.bld.getPollutionLevel(pollution * 2);
         if (polLvl >= 4){
-            message += $I("pollution.level1") + "<br/>" + $I("pollution.level2") + "<br/>" + $I("pollution.level3", [this.game.getDisplayValueExt(game.villageTab.getVillageTitle(), false, false, 0)]) + "<br/>" + $I("pollution.level4");
+            message += $I("pollution.level1") + "<br/>" + $I("pollution.level2") + "<br/>" + $I("pollution.level3", [game.getDisplayValueExt(game.villageTab.getVillageTitle(), false, false, 0)]) + "<br/>" + $I("pollution.level4");
         }
         else if (polLvlShow == 3){
-            message += $I("pollution.level1") + "<br/>" + $I("pollution.level2") + "<br/>" + $I("pollution.level3", [this.game.getDisplayValueExt(game.villageTab.getVillageTitle(), false, false, 0)]);
+            message += $I("pollution.level1") + "<br/>" + $I("pollution.level2") + "<br/>" + $I("pollution.level3", [game.getDisplayValueExt(game.villageTab.getVillageTitle(), false, false, 0)]);
         }
         else if (polLvlShow == 2){
             message += $I("pollution.level1") + "<br/>" + $I("pollution.level2");
@@ -244,15 +247,15 @@ WToolbarPollution = React.createClass({
         } else {
             message = $I("pollution.level0");
         }
-        
-        var warnLvl = this.game.bld.getPollutionLevel(pollution * 4);
+
+        var warnLvl = game.bld.getPollutionLevel(pollution * 4);
         if (warnLvl >= 1 && warnLvl <= 4 && warnLvl > polLvlShow && warnLvl <= eqPolLvl) {
             message += "<br/>" + $I("pollution.level" + warnLvl + ".warning");
         }
         if (pollution * 1.5 <= eqPol || eqPolLvl > polLvl){
             message += "<br/>" + $I("pollution.increasing");
         }
-        else if (pollution >= 0 && this.game.bld.cathPollutionPerTick <= 0 && eqPolLvl <= polLvl){
+        else if (pollution >= 0 && game.bld.cathPollutionPerTick <= 0 && eqPolLvl <= polLvl){
             message += "<br/>" + $I("pollution.cleaning");
         }
         else if (eqPolLvl == polLvl && eqPol > 0){
@@ -264,13 +267,14 @@ WToolbarPollution = React.createClass({
         if (notUpdateFreshMessage){
             return message;
         }
-        message +="<br/>CO₂: " + (game.science.get("ecology").researched ? 
-            this.getPollutionMod() : $I("pollution.unspecified"));    
+        message +="<br/>CO₂: " + (game.science.get("ecology").researched ?
+            this.getPollutionMod() : $I("pollution.unspecified"));
         this.freshMessage = false;
         return message;
     },
 
-    getPollutionMod(){
+    getPollutionMod: function(){
+        var game = this.props.game;
         return game.getDisplayValueExt((game.bld.cathPollution / game.bld.getPollutionLevelBase())*100) + "ppm";
     }
 });
@@ -556,7 +560,7 @@ WLogin = React.createClass({
                 [
                     $r("span", {
                         className: "kgnet-login-link status-indicator-" + (game.server.userProfile ? "online" : "offline")
-                    }, "* " + (game.server.userProfile ? 
+                    }, "* " + (game.server.userProfile ?
                         $I("ui.kgnet.online") : $I("ui.kgnet.login")
                     )),
                     this.state.isExpanded && $r("div", {
