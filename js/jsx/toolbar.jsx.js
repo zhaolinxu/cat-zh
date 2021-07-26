@@ -436,6 +436,7 @@ WLoginForm = React.createClass({
             if (!text) {
                 game.msg("请检查网络或浏览器设置", "important");
                 console.log(xhr.status);
+                return;
             } else {
                 game.msg('注意如果尝试次数过多，账户会被锁定', "important");
             }
