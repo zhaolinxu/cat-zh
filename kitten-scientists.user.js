@@ -1535,10 +1535,13 @@ var run = function() {
                             var needNextLevel = game.religion._getTranscendTotalPrice(tt + 1) - game.religion._getTranscendTotalPrice(tt);
 
                             var x = needNextLevel;
-                            var k = adoreIncreaceRatio;
+                            var blackObelisk = game.religion.getTU("blackObelisk").val;
+                            var obeliskRatio = ((tt + 1) * 5 * blackObelisk + 1000) / (tt * 5 * blackObelisk + 1000);
+                            var k = adoreIncreaceRatio * obeliskRatio;
                             var epiphanyRecommend = (1 - k + Math.sqrt(80 * (k * k - 1) * x + (k - 1) * (k - 1))) * k / (40 * (k + 1) * (k + 1) * (k - 1)) + x + x / (k * k - 1);
 
-                            if (epiphany > epiphanyRecommend) {
+                            var faithVal = game.religion.faith;
+                            if (epiphany > epiphanyRecommend || (faithVal * 2.02 * tt + 3.03 * faithVal >= 1e6 * needNextLevel && epiphany > needNextLevel)) {
 
                                 // code copy from kittens game's religion.js: game.religion.transcend()
                                 // game.religion.transcend() need confirm by player
