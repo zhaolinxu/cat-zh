@@ -527,7 +527,7 @@ var run = function() {
                     bestUnicornBuilding:    {enabled: true,  misc: true, label: i18n('option.faith.best.unicorn')},
                     autoPraise:             {enabled: true,  misc: true, label: i18n('option.praise'), subTrigger: 0.98},
                     // Former [Faith Reset]
-                    adore:                  {enabled: true, misc: true, label: i18n('option.faith.adore'), subTrigger: 0.75},
+                    adore:                  {enabled: true, misc: true, label: i18n('option.faith.adore'), subTrigger: 0.4},
                     transcend:              {enabled: true, misc: true, label: i18n('option.faith.transcend')},
                 },
                 // Which religious upgrades should be researched?
