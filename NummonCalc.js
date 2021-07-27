@@ -110,7 +110,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
             "getlowestRatio": "进行次元超越需要的顿悟",
             "getNextTranscendTierProgress": "当前拥有的顿悟",
             "getRecNextTranscendTierProgress": "推荐次元超越需要的顿悟",
-            "getBoolean": "（是/否）进行次元超越",
+            "getBoolean": "赞美群星前(是/否)次元超越",
 
             "paragon": "领导力加成",
 
