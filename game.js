@@ -2320,7 +2320,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
             filename = "猫国建设者";
         }
         if (withFullName) {
-            filename += " - " + (this.stats.getStat("totalResets").val + 1) + " 周目 "
+            filename += " - " + (this.stats.getStat("totalResets").val + 1) + " 周目"
                 + " - " + $I("calendar.year.full", [this.calendar.year, this.calendar.getCurSeasonTitle(), Math.floor(this.calendar.day)]);
         }
         $link.attr("download", filename + ".txt");
