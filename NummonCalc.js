@@ -107,6 +107,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
             "religion": "宗教",
 
             "getReligionProductionBonusCap": "太阳革命极限加成",
+            "getAdore": "预计赞美群星后的总顿悟",
             "getlowestRatio": "进行次元超越需要的顿悟",
             "getNextTranscendTierProgress": "当前拥有的顿悟",
             "getRecNextTranscendTierProgress": "推荐次元超越需要的顿悟",
@@ -537,6 +538,12 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         return result + "%";
     },
 
+    getAdore: function(){
+        var ttPlus1 = (this.game.religion.getRU("transcendence").on ? this.game.religion.transcendenceTier : 0) + 1;
+        var faithRatio = this.game.religion.faithRatio;
+        return faithRatio + this.game.religion.faith / 1000000 * ttPlus1 * ttPlus1 * 1.01;
+    },
+
     getlowestRatio: function(){
         var tier = this.game.religion.transcendenceTier + 1;
         var tt = this.game.religion._getTranscendTotalPrice(tier) - game.religion._getTranscendTotalPrice(tier - 1);
@@ -914,6 +921,11 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         religion: [
             {
                 name: "getReligionProductionBonusCap",
+                // title: "Solar Revolution Limit",
+                val: 0,
+            },
+            {
+                name: "getAdore",
                 // title: "Solar Revolution Limit",
                 val: 0,
             },
