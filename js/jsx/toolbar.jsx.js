@@ -549,11 +549,6 @@ WCloudSaves = React.createClass({
                         onClick: function(e){
                             e.stopPropagation();
                             game.server.syncSaveData();
-                            setTimeout(function() {
-                                if (!game.server.saveData) {
-                                    game.msg('同步存档失败，请点击同步存档教程', "important");
-                                }
-                            }, 3000);
                         }
                     }, $I("ui.kgnet.sync")),
                     !saveData && $r("a", {

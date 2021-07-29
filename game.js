@@ -307,8 +307,22 @@ dojo.declare("classes.game.Server", null, {
 
 	syncSaveData: function(){
 		var self = this;
-		this._xhr("/kgnet/save/", "GET", {}, function(resp){
+        /*this._xhr("/kgnet/save/", "GET", {}, function(resp){
+        	self.saveData = resp;
+        });*/
+		$.ajax({
+			cache: false,
+			type: "GET",
+			dataType: "JSON",
+			url: this.getServerUrl() + "/kgnet/save/",
+			xhrFields: {
+				withCredentials: true
+			},
+			data: "{}"
+		}).done(function(resp){
 			self.saveData = resp;
+		}).fail(function(err) {
+			game.msg('同步存档失败，请点击同步存档教程', "important");
 		});
 	},
 
