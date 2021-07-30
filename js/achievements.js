@@ -192,6 +192,13 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
                 return (this.game.village.happiness >= 5 && this.game.resPool.get("kittens").value > 35);
             }
         }, {
+            name: "deathStranding",
+            title: $I("achievements.deathStranding.title"),
+            description: $I("achievements.deathStranding.desc"),
+            condition: function () {
+                return this.game.space.getPlanet("furthestRing").reached;
+            }
+        }, {
             name: "cathammer",
             title: $I("achievements.cathammer.title"),
             description: $I("achievements.cathammer.desc"),
