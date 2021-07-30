@@ -322,7 +322,7 @@ dojo.declare("classes.game.Server", null, {
 		}).done(function(resp){
 			self.saveData = resp;
 		}).fail(function(err) {
-			game.msg('同步存档失败，请点击同步存档教程', "important");
+			game.msg('同步存档信息失败，请点击同步存档教程', "important");
 		});
 	},
 
