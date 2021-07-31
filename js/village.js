@@ -166,6 +166,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	getRankExp: function(rank){
 		return 500 * Math.pow(1.75, rank);
 	},
+	canHaveLeaderOrPromote: function(){
+		return this.game.workshop.get("register").researched && !this.game.challenges.isActive("anarchy");
+	},
 
 	//---------------------------------------------------------
 	//please dont pass params by reference or I will murder you
@@ -1519,6 +1522,21 @@ dojo.declare("classes.village.KittenSim", null, {
 			}
 		}
 
+		var frequency = 1;
+		if (this.kittens.length > 100){
+			frequency = 5;	//update every 5 ticks
+		} else if (this.kittens.length > 500){
+			frequency = 10;	//update every 10 ticks
+		} else if (this.kittens.length > 1000){
+			frequency = 20;	//update every 10 ticks
+		}
+
+		//----- WARNING: DO NOT OVERLOOK THIS -----
+		if (game.ticks % frequency != 0){
+			return;
+		}
+		//----- WARNING END -----
+
 		var baseSkillXP = game.workshop.get("internet").researched ? Math.max(this.getKittens() / 10000, 0.01) : 0.01;
 		var skillXP = (baseSkillXP + game.getEffect("skillXP")) * times;
 		var neuralNetworks = game.workshop.get("neuralNetworks").researched;
@@ -1781,7 +1799,7 @@ dojo.declare("classes.village.KittenSim", null, {
 		if (freeKittens.length){
 			this.kittens[freeKittens[0].id].engineerSpeciality = craft.name;
 			if (craft.name == "wood"){
-				this.game.achievements.unlockHat("treetrunkHat");
+				this.game.achievements.unlockBadge("evergreen");
 			}
 			return true;
 		} else {
@@ -2706,8 +2724,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			controller: new classes.village.ui.VillageButtonController(this.game, {
 				updateVisible: function (model) {
 					model.visible = this.game.village.leader != undefined 
-					&& this.game.workshop.get("register").researched 
-					&& !this.game.challenges.isActive("anarchy");
+					&& this.game.village.canHaveLeaderOrPromote();
 				}
 			})
 		}, this.game);
@@ -2724,8 +2741,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
             controller: new classes.village.ui.VillageButtonController(this.game, {
 				updateVisible: function (model) {
 					model.visible = this.game.village.leader !== undefined && 
-					this.game.workshop.get("register").researched && 
-					!this.game.challenges.isActive("anarchy");
+					this.game.village.canHaveLeaderOrPromote();
 				}
 			})
 		}, this.game);

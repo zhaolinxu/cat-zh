@@ -1269,9 +1269,25 @@ ButtonModernHelper = {
 
 
 		if (model.metadata && model.metadata.isAutomationEnabled !== undefined){	//TODO: use proper metadata flag
-			var descDiv = dojo.create("div", {
+			dojo.create("div", {
 				innerHTML: model.metadata.isAutomationEnabled ? $I("btn.aon.tooltip") : $I("btn.aoff.tooltip"),
 				className: "desc small" + (model.metadata.isAutomationEnabled ? " auto-on" : " auto-off")
+			}, tooltip);
+		}
+		if (model.metadata && model.metadata.effects && 
+			model.metadata.effects["cathPollutionPerTickProd"] > 0 &&
+			controller.game.science.get("chemistry").researched
+		){
+			dojo.create("div", {
+				innerHTML: $I("btn.pollution.tooltip"),
+				className: "desc small pollution"
+			}, tooltip);
+		}
+
+		if (model.metadata && model.metadata.almostLimited){
+			dojo.create("div", {
+				innerHTML: $I("btn.almostlimited.tooltip"),
+				className: "desc small almostlimited"
 			}, tooltip);
 		}
 
