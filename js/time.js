@@ -356,14 +356,14 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         priceRatio: 1.15,
         limitBuild: 0,
         effects: {
-            "shatterYearBoost" : 5,
+            "shatterYearBoost" : 0,
             "energyConsumption": 5
         },
         calculateEffects(self, game){
             if (self.isAutomationEnabled == null) {
                 self.isAutomationEnabled = false;
             }
-            self.effects["shatterYearBoost"] = (self.isAutomationEnabled)? 50 : 5;
+            self.effects["shatterYearBoost"] = (self.isAutomationEnabled)? 5 : 1;
             self.limitBuild = game.getEffect("temporalPressCap");
         },
         /*upgrades: {
