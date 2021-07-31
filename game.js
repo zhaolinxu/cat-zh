@@ -78,6 +78,10 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 	guid: null,
 	game: null,
 
+	buildRevision: null,
+	version: null,
+	errorCount: 0,
+
 	constructor: function(game) {
 		this.guid = this.generateGuid();
 		this.game = game;
@@ -100,22 +104,69 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 		if (data["telemetry"]) {
 			this.guid = data["telemetry"].guid || this.generateGuid();
 		}
+
+		var self = this;
+
+		// FIXME: This really wants to happen before `window.load` is fired, but
+		// this script isn't even loaded yet. So the first PageView will not get
+		// all this data.
+		if (window.newrelic && !this.game.opts.disableTelemetry){
+			// Add a "release" so NR can determine which version of the code was loaded
+			// when a JS error was noticed.
+			window.newrelic.addRelease('KG', this.version + ".r" + this.buildRevision);
+
+			// Log basic information to *all* PageAction and BrowserInteraction events
+			// that follow such as game build, uid, etc.
+			window.newrelic.setCustomAttribute('buildRevision', this.version + ".r" + this.buildRevision);
+			window.newrelic.setCustomAttribute('guid', this.guid);
+
+			if (this.game.server.userProfile){
+				window.newrelic.setCustomAttribute('uid', this.game.server.userProfile.uid);
+			}
+
+			/**
+			 * Known offenders that folks still use
+			 */
+			window.newrelic.setErrorHandler(function (err) {
+				if (self.errorCount >= 100){
+					return true;
+				}
+				//ban error reporting from https://rawgit.com/mikiso1024/kitten-master/master/kitten_master.js
+				if (err.stack.lastIndexOf("mikiso1024") >= 0){
+					return true;
+				} else {
+					self.errorCount++;
+					return false;
+				}
+			});
+
+		}
 	},
 
+	// Use this method to create a new PageAction event
 	logEvent: function(eventType, payload) {
-		/*var event = {
-			guid: this.guid,
-			type: eventType,
-			timestamp: Date.now(),
-			payload: payload,
-			appId: this.game.server.telemetryAppId
-		};
+		payload = payload || {};
 
-		if (!this.game.opts.disableTelemetry) {
-			if (window.FirebasePlugin) {
-				window.FirebasePlugin.logEvent(eventType, event);
-			}
-		}*/
+		if (window.newrelic && !this.game.opts.disableTelemetry){
+			// This will already be decorated by other common things like game build, uid, etc.
+			window.newrelic.addPageAction(eventType, payload);
+		}
+	},
+
+	logRouteChange: function(name) {
+		if (window.newrelic && !this.game.opts.disableTelemetry){
+			// Record the current tab name so the charts look pretty in the NR UI.
+			// Normally this is inferred by route changes, but we don't do that, so we
+			// need to give the browser agent some hints
+
+			// Set the `browserInteractionName` on BrowserInteraction events
+			var interaction = window.newrelic.interaction();
+			window.newrelic.setCurrentRouteName(name);
+			interaction.save();
+
+			// Make a new PageAction event
+			this.logEvent("routeChange", { 'name': name });
+		}
 	}
 });
 
@@ -1577,6 +1628,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	devMode: false,
 	mobileSaveOnPause: true,
 
+	//should this go to the res pool?
+	winterCatnipPerTick: 0,
+
 	constructor: function(containerId){
 		this.id = containerId;
 
@@ -1733,12 +1787,21 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.updateCaches();
 		}), 5);		//once per 5 ticks
 
+		var ONE_MIN = this.ticksPerSecond * 60;
 		this.timer.addEvent(dojo.hitch(this, function(){ this.achievements.update(); }), 50);	//once per 50 ticks, we hardly need this
-		this.timer.addEvent(dojo.hitch(this, function(){ this.server.refresh(); }), this.calendar.ticksPerSecond * 60 * 10);	//reload MOTD and server info every 10 minutes
-		this.timer.addEvent(dojo.hitch(this, function(){ this.heartbeat(); }), this.calendar.ticksPerSecond * 60 * 10);	//send heartbeat every 10 min	//TODO: 30 min eventually
-
+		this.timer.addEvent(dojo.hitch(this, function(){ this.server.refresh(); }), ONE_MIN * 10);	//reload MOTD and server info every 10 minutes
+		this.timer.addEvent(dojo.hitch(this, function(){ this.heartbeat(); }), ONE_MIN * 10);	//send heartbeat every 10 min	//TODO: 30 min eventually
+		this.timer.addEvent(dojo.hitch(this, function(){ this.updateWinterCatnip(); }), 25);	//same as achievements, albeit a bit more frequient
+		this.timer.addEvent(dojo.hitch(this, function(){ this.ui.checkForUpdates(); }), ONE_MIN * 5);	//check new version every 5 min
 
 		this.effectsMgr = new com.nuclearunicorn.game.EffectsManager(this);
+	},
+
+	//update winter catnip consumption for the UI every 5-10 seconds to avoid calculating it every tick
+	updateWinterCatnip: function(){
+		this.winterCatnipPerTick = this.calcResourcePerTick("catnip", { modifiers:{
+			"catnip" : 0.25
+		}});	//calculate estimate winter per tick for catnip;
 	},
 
     setDropboxClient: function(dropBoxClient) {
@@ -1930,6 +1993,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		} else {
 			dojo.publish(topic, arg);
 		}
+	},
+
+	reload: function(){
+		this.save();
+		window.location.reload();
 	},
 
 	save: function(){
@@ -3846,7 +3914,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.ticks++;
 
 		var timestampEnd = new Date().getTime();
-		if (this.isLocalhost) {
+		//if (this.isLocalhost) {	//always collect fps metrics
 			this.totalUpdateTimeTicks++;
 
 			var tsDiff = timestampEnd - timestampStart;
@@ -3872,17 +3940,20 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				avg3: avg3,
 				avg4: avg4
 			};
+		//}
 
-            /*fpsElement = $("#devPanelFPS")[0];
-            if (fpsElement) {
-                fpsElement.textContent = "fps: " + tsDiff + " ms,"
-				+ " avg: " + avg.toFixed() + 
-				" ms [" + avg0.toFixed() + 
-				"." + avg1.toFixed() + 
-				"." + avg2.toFixed() + 
-				"." + avg3.toFixed() + 
-				"." + avg4.toFixed() + "] (Cl. to res.)";
-            }*/
+		//collect fps info every minute or so
+		if (this.ticks % (this.ticksPerSecond * 60) == 0 && this.telemetry) {
+			var memory = null;
+			if (window.performance && window.performance.memory) {
+				memory = performance.memory.usedJSHeapSize;
+			}
+
+			this.telemetry.logEvent("fps", {
+				ms: this.fps.ms,
+				avg: this.fps.avg,
+				memory: memory
+			});
 		}
 	},
 

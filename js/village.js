@@ -1522,6 +1522,21 @@ dojo.declare("classes.village.KittenSim", null, {
 			}
 		}
 
+		var frequency = 1;
+		if (this.kittens.length > 100){
+			frequency = 5;	//update every 5 ticks
+		} else if (this.kittens.length > 500){
+			frequency = 10;	//update every 10 ticks
+		} else if (this.kittens.length > 1000){
+			frequency = 20;	//update every 10 ticks
+		}
+
+		//----- WARNING: DO NOT OVERLOOK THIS -----
+		if (game.ticks % frequency != 0){
+			return;
+		}
+		//----- WARNING END -----
+
 		var baseSkillXP = game.workshop.get("internet").researched ? Math.max(this.getKittens() / 10000, 0.01) : 0.01;
 		var skillXP = (baseSkillXP + game.getEffect("skillXP")) * times;
 		var neuralNetworks = game.workshop.get("neuralNetworks").researched;

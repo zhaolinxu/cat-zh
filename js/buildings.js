@@ -2126,9 +2126,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				}
 			}
 
-			this.calculatePollutionEffects();
 		}
-
+		
+		this.calculatePollutionEffects();
+		
 		/*
 		 * Manpower hack for Iron Will mode. 1000 manpower is absolutely required for civilisation unlock.
 		 * There may be some microperf tweaks, but let's keep it simple
