@@ -150,21 +150,28 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
         effects: {
 			"shatterCostReduction": -0.02,
 			"shatterCostIncreaseChallenge": 0,
-			"shatterVoidCost": 0
+			"shatterVoidCost": 0,
+			"temporalPressCap" : 0
         },
         calculateEffects: function(self, game){
             if (self.active) {
         	    self.effects["shatterCostReduction"] = 0;
                 self.effects["shatterCostIncreaseChallenge"] = 0.5;
                 self.effects["shatterVoidCost"] = 0.4;
+                self.effects["temporalPressCap"] = 0;
              }else{
 				self.effects["shatterCostReduction"] = -0.02;
 				self.effects["shatterCostIncreaseChallenge"] = 0;
 				self.effects["shatterVoidCost"] = 0;
+                self.effects["temporalPressCap"] = 5;
 			}
+			game.upgrade(self.upgrades); //this is a hack. Sometime we should make challenges actually upgrade things.
 		},
 		researched: false,
-		unlocked: false
+		unlocked: false,
+		upgrades:{
+			chronoforge: ["temporalPress"]
+		}
 	},{
 		name: "blackSky",
 		label: $I("challendge.blackSky.label"),

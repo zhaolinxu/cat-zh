@@ -238,6 +238,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         heat: 0,
         on: 0,
         isAutomationEnabled: false,
+        upgradePath: "chronoforge", //for automation self calculate effects
         action: function(self, game) {
             self.calculateEffects(self, game);
 
@@ -344,6 +345,33 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             "shatterTCGain" : 0.01
         },
         unlocked: false
+    },{
+        name: "temporalPress",
+        label: $I("time.cfu.temporalPress.label"),
+        description: $I("time.cfu.temporalPress.desc"),
+        prices: [
+            { name : "timeCrystal", val: 100 },
+            { name : "void", val: 10 }
+        ],
+        priceRatio: 1.15,
+        limitBuild: 0,
+        effects: {
+            "shatterYearBoost" : 5,
+            "energyConsumption": 5
+        },
+        calculateEffects(self, game){
+            if (self.isAutomationEnabled == null) {
+                self.isAutomationEnabled = false;
+            }
+            self.effects["shatterYearBoost"] = (self.isAutomationEnabled)? 50 : 5;
+            self.limitBuild = game.getEffect("temporalPressCap");
+        },
+        /*upgrades: {
+            chronoforge: ["temporalImpedance"]
+        },*/
+        isAutomationEnabled: false,
+        upgradePath: "chronoforge", //for automation self calculate effects
+        unlocked: true
     }],
 
     voidspaceUpgrades: [{
@@ -891,6 +919,10 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
         model.nextCycleLink = this._newLink(model, this.game.calendar.yearsPerCycle);
         model.previousCycleLink = this._newLink(model, this.game.calendar.yearsPerCycle * (this.game.calendar.cyclesPerEra - 1));
         model.tenErasLink = this._newLink(model, 10 * this.game.calendar.yearsPerCycle * this.game.calendar.cyclesPerEra);
+        shatterYearBoost = this.game.getEffect("shatterYearBoost");
+        if(shatterYearBoost){
+            model.customLink = this._newLink(model, shatterYearBoost);
+        }
         return model;
     },
 
@@ -1056,6 +1088,7 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
         this.tenEras = this.addLink(this.model.tenErasLink);
         this.previousCycle = this.addLink(this.model.previousCycleLink);
         this.nextCycle = this.addLink(this.model.nextCycleLink);
+        this.custom = this.addLink(this.model.customLink);
     },
 
     update: function() {
@@ -1063,7 +1096,7 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
         dojo.style(this.nextCycle.link, "display", this.model.nextCycleLink.visible ? "" : "none");
         dojo.style(this.previousCycle.link, "display", this.model.previousCycleLink.visible ? "" : "none");
         dojo.style(this.tenEras.link, "display", this.model.tenErasLink.visible ? "" : "none");
-
+        dojo.style(this.custom.link, "display", (this.model.customLink && this.model.customLink.visible) ? "" : "none")
         if  (this.model.tenErasLink.visible) {
             dojo.addClass(this.tenEras.link,"rightestLink");
             dojo.removeClass(this.previousCycle.link,"rightestLink");
@@ -1072,6 +1105,10 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
             dojo.removeClass(this.nextCycle.link,"rightestLink");
         } else if (this.model.nextCycleLink.visible) {
             dojo.addClass(this.nextCycle.link,"rightestLink");
+        }
+
+        if(this.model.customLink){
+            this.updateLink(this.custom, this.model.customLink); //this might be a hack :3
         }
     }
 });
