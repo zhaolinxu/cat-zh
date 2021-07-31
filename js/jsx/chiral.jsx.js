@@ -178,13 +178,19 @@ WChiral = React.createClass({
 
     render: function(){
         var game = this.state.game;
+        var fr = game.space.getPlanet("furthestRing");
+        
+        if (!fr.reached){
+            return null;
+        }
+
         if (game.server.userProfile){
             return $r("div", null, [
                 $r("div", {className: "row"}, "An alien machine lies here at the End of the Universe."),
                 $r("div", {className: "row"}, "666 nodes online"),
                 $r("div", {className: "row"}, [
                     $r("pre", {
-                        style: { whiteSpace: "pre" }
+                        style: { whiteSpace: "pre-wrap" }
                     }, game.server.chiral || ">")
                 ]),
                 $r("div", {className: "row"}, [

@@ -427,6 +427,12 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	onNewDay: function(){
 		if (this.festivalDays){
 			this.festivalDays--;
+			if(this.game.getEffect("festivalLuxuryConsumptionRatio")){
+				if(!this.game.resPool.get("furs").value || !this.game.resPool.get("ivory").value || !this.game.resPool.get("spice").value){
+					this.game.msg($I("village.festival.msg.deficitEnd"), "important");
+					this.festivalDays = 0;
+				}
+			}
 		}
 
 		var timeRatioBonus = 1 + this.game.getEffect("timeRatio") * 0.25;
@@ -604,6 +610,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		this.game.diplomacy.onNewDay();
 
 		this.adjustCryptoPrice();
+
+		this.game.upgrade({policies: ["authocracy"]}); //policy hack
 	},
 
 	fastForward: function(daysOffset){
@@ -847,6 +855,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		this.game.stats.getStat("totalParagon").val += milleniums;
 	},
 	onNewYears: function(updateUI, years, milleniumChangeCalculated) { // shouldn't be used for more than 5 years, or if you don't have years%50 == 0
+		if(years == 1){
+			this.onNewYear(updateUI);
+			return;
+		}
 		var ty = this.game.stats.getStat("totalYears");
 		ty.val += years;
 
@@ -880,8 +892,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 		
 		this.cycleYear += years;
-		if (years + this.cycleYear >= this.yearsPerCycle) {
-			this.cycleYear = (years + this.cycleYear) % this.yearsPerCycle;
+		if (this.cycleYear >= this.yearsPerCycle) {
+			this.cycleYear = this.cycleYear % this.yearsPerCycle;
 			if ( ++this.cycle >= this.cyclesPerEra) {
 				this.cycle = 0;
 			}

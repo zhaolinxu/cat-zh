@@ -1,6 +1,6 @@
 v 1.4.8.5 (9 may 2021)
 Major:
-* Added pollution mechanic
+* Added pollution mechanic (Zig and Hunter)
 Minor:
 * Bugfix: Fixing Cryochambers doesn't allow to overcap them anymore
 * Staged buildings now can be made togglable

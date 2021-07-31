@@ -78,6 +78,10 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 	guid: null,
 	game: null,
 
+	buildRevision: null,
+	version: null,
+	errorCount: 0,
+
 	constructor: function(game) {
 		this.guid = this.generateGuid();
 		this.game = game;
@@ -100,22 +104,71 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 		if (data["telemetry"]) {
 			this.guid = data["telemetry"].guid || this.generateGuid();
 		}
+
+		var self = this;
+
+		// FIXME: This really wants to happen before `window.load` is fired, but
+		// this script isn't even loaded yet. So the first PageView will not get
+		// all this data.
+		if (window.newrelic && !this.game.opts.disableTelemetry){
+			// Add a "release" so NR can determine which version of the code was loaded
+			// when a JS error was noticed.
+			window.newrelic.addRelease('KG', this.version + ".r" + this.buildRevision);
+
+			// Log basic information to *all* PageAction and BrowserInteraction events
+			// that follow such as game build, uid, etc.
+			window.newrelic.setCustomAttribute('buildRevision', this.version + ".r" + this.buildRevision);
+			window.newrelic.setCustomAttribute('guid', this.guid);
+
+			if (this.game.server.userProfile){
+				window.newrelic.setCustomAttribute('uid', this.game.server.userProfile.uid);
+			}
+
+			/**
+			 * Known offenders that folks still use
+			 */
+			window.newrelic.setErrorHandler(function (err) {
+				self.achievements.unlockBadge("ghostInTheMachine");
+
+				if (self.errorCount >= 100){
+					return true;
+				}
+				//ban error reporting from https://rawgit.com/mikiso1024/kitten-master/master/kitten_master.js
+				if (err.stack.lastIndexOf("mikiso1024") >= 0){
+					return true;
+				} else {
+					self.errorCount++;
+					return false;
+				}
+			});
+
+		}
 	},
 
+	// Use this method to create a new PageAction event
 	logEvent: function(eventType, payload) {
-		/*var event = {
-			guid: this.guid,
-			type: eventType,
-			timestamp: Date.now(),
-			payload: payload,
-			appId: this.game.server.telemetryAppId
-		};
+		payload = payload || {};
 
-		if (!this.game.opts.disableTelemetry) {
-			if (window.FirebasePlugin) {
-				window.FirebasePlugin.logEvent(eventType, event);
-			}
-		}*/
+		if (window.newrelic && !this.game.opts.disableTelemetry){
+			// This will already be decorated by other common things like game build, uid, etc.
+			window.newrelic.addPageAction(eventType, payload);
+		}
+	},
+
+	logRouteChange: function(name) {
+		if (window.newrelic && !this.game.opts.disableTelemetry){
+			// Record the current tab name so the charts look pretty in the NR UI.
+			// Normally this is inferred by route changes, but we don't do that, so we
+			// need to give the browser agent some hints
+
+			// Set the `browserInteractionName` on BrowserInteraction events
+			var interaction = window.newrelic.interaction();
+			window.newrelic.setCurrentRouteName(name);
+			interaction.save();
+
+			// Make a new PageAction event
+			this.logEvent("routeChange", { 'name': name });
+		}
 	}
 });
 
@@ -1303,10 +1356,14 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "fixed"
             },
             //philosophy
-            "luxuryConsuptionReduction":{
-                title: $I("effectsMgr.statics.luxuryConsuptionReduction.title"),
+            "luxuryDemandRatio":{
+                title: $I("effectsMgr.statics.luxuryDemandRatio.title"),
                 type: "ratio"
             },
+			"breweryConsumptionRatio":{
+                title: $I("effectsMgr.statics.breweryConsumptionRatio.title"),
+                type: "ratio"
+			},
             "luxuryHappinessBonus":{
                 title: $I("effectsMgr.statics.luxuryHappinessBonus.title"),
                 type: "fixed"
@@ -1314,16 +1371,31 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
             "rationalityBonus":{
                 title: $I("effectsMgr.statics.rationalityBonus.title"),
                 type: "ratio"
-             },
-             "mysticismBonus":{
-                title: $I("effectsMgr.statics.mysticismBonus.title"),
+            },
+        	"mysticismBonus":{
+        	    title: $I("effectsMgr.statics.mysticismBonus.title"),
+               type: "ratio"
+            },
+			"festivalLuxuryConsumptionRatio":{
+            	title: $I("effectsMgr.statics.festivalLuxuryConsumptionRatio.title"),
+            	type: "ratio"
+			},"consumableLuxuryHappiness":{
+                title: $I("effectsMgr.statics.consumableLuxuryHappiness.title"),
+                type: "fixed"
+			},
+			 "hapinnessConsumptionRatio":{
+                title: $I("effectsMgr.statics.hapinnessConsumptionRatio.title"),
                 type: "ratio"
-             },
+			},
+			 "mintRatio":{
+                title: $I("effectsMgr.statics.mintRatio.title"),
+                type: "ratio"
+			},
              //environment policy
-             "environmentMineralBonus":{
+            "environmentMineralBonus":{
                 title: $I("effectsMgr.statics.environmentMineralBonus.title"),
                 type: "ratio"
-             },
+            },
             "environmentWoodBonus":{
 				title: $I("effectsMgr.statics.environmentWoodBonus.title"),
 				type: "ratio"
@@ -1435,7 +1507,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "hidden"
 			},
 			"cathPollutionRatio":{
-				type: "hidden"
+				title:  $I("effectsMgr.statics.pollutionRatio.title"),
+				type: "ratio"
 			}
 		}
 	}
@@ -1556,6 +1629,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	isLocalhost: false,
 	devMode: false,
 	mobileSaveOnPause: true,
+
+	//should this go to the res pool?
+	winterCatnipPerTick: 0,
 
 	constructor: function(containerId){
 		this.id = containerId;
@@ -1713,12 +1789,21 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.updateCaches();
 		}), 5);		//once per 5 ticks
 
+		var ONE_MIN = this.ticksPerSecond * 60;
 		this.timer.addEvent(dojo.hitch(this, function(){ this.achievements.update(); }), 50);	//once per 50 ticks, we hardly need this
-		this.timer.addEvent(dojo.hitch(this, function(){ this.server.refresh(); }), this.calendar.ticksPerSecond * 60 * 10);	//reload MOTD and server info every 10 minutes
-		this.timer.addEvent(dojo.hitch(this, function(){ this.heartbeat(); }), this.calendar.ticksPerSecond * 60 * 10);	//send heartbeat every 10 min	//TODO: 30 min eventually
-
+		this.timer.addEvent(dojo.hitch(this, function(){ this.server.refresh(); }), ONE_MIN * 10);	//reload MOTD and server info every 10 minutes
+		this.timer.addEvent(dojo.hitch(this, function(){ this.heartbeat(); }), ONE_MIN * 10);	//send heartbeat every 10 min	//TODO: 30 min eventually
+		this.timer.addEvent(dojo.hitch(this, function(){ this.updateWinterCatnip(); }), 25);	//same as achievements, albeit a bit more frequient
+		this.timer.addEvent(dojo.hitch(this, function(){ this.ui.checkForUpdates(); }), ONE_MIN * 5);	//check new version every 5 min
 
 		this.effectsMgr = new com.nuclearunicorn.game.EffectsManager(this);
+	},
+
+	//update winter catnip consumption for the UI every 5-10 seconds to avoid calculating it every tick
+	updateWinterCatnip: function(){
+		this.winterCatnipPerTick = this.calcResourcePerTick("catnip", { modifiers:{
+			"catnip" : 0.25
+		}});	//calculate estimate winter per tick for catnip;
 	},
 
     setDropboxClient: function(dropBoxClient) {
@@ -1910,6 +1995,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		} else {
 			dojo.publish(topic, arg);
 		}
+	},
+
+	reload: function(){
+		this.save();
+		window.location.reload();
 	},
 
 	save: function(){
@@ -2397,7 +2487,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		if (save.saveVersion == 4) {
 			// Use .on instead of .val and .enabled for all buildings
-			if (save.religion.ru) {
+			if (save.religion && save.religion.ru) {
 				for (var i = 0; i < save.religion.ru.length; i++) {
 					var saveRU = save.religion.ru[i];
 					// Hack to fix old saves
@@ -2820,7 +2910,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resConsumption = resMapConsumption[res.name] || 0;
 		resConsumption *= 1 + this.getEffect(res.name + "DemandRatio");
 		if (res.name == "catnip" && this.village.sim.kittens.length > 0 && this.village.happiness > 1) {
-			var hapinnessConsumption = Math.max(this.village.happiness - 1, 0);
+			var hapinnessConsumption = Math.max(this.village.happiness * (1 + this.getEffect("hapinnessConsumptionRatio")) - 1, 0);
 			if (this.challenges.isActive("anarchy")) {
 				resConsumption += resConsumption * hapinnessConsumption * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal"));
 			} else {
@@ -3167,7 +3257,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resConsumption = resMapConsumption[res.name] || 0;
 		resConsumption *= 1 + this.getEffect(res.name + "DemandRatio");
 		if (res.name == "catnip" && this.village.sim.kittens.length > 0 && this.village.happiness > 1) {
-			var hapinnessConsumption = Math.max(this.village.happiness - 1, 0);
+			var hapinnessConsumption = Math.max(this.village.happiness * (1 + this.getEffect("hapinnessConsumptionRatio")) - 1, 0);
 			if (this.challenges.isActive("anarchy")) {
 				resConsumption += resConsumption * hapinnessConsumption * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal"));
 			} else {
@@ -3826,7 +3916,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.ticks++;
 
 		var timestampEnd = new Date().getTime();
-		if (this.isLocalhost) {
+		//if (this.isLocalhost) {	//always collect fps metrics
 			this.totalUpdateTimeTicks++;
 
 			var tsDiff = timestampEnd - timestampStart;
@@ -3852,17 +3942,20 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				avg3: avg3,
 				avg4: avg4
 			};
+		//}
 
-            /*fpsElement = $("#devPanelFPS")[0];
-            if (fpsElement) {
-                fpsElement.textContent = "fps: " + tsDiff + " ms,"
-				+ " avg: " + avg.toFixed() + 
-				" ms [" + avg0.toFixed() + 
-				"." + avg1.toFixed() + 
-				"." + avg2.toFixed() + 
-				"." + avg3.toFixed() + 
-				"." + avg4.toFixed() + "] (Cl. to res.)";
-            }*/
+		//collect fps info every minute or so
+		if (this.ticks % (this.ticksPerSecond * 60) == 0 && this.telemetry) {
+			var memory = null;
+			if (window.performance && window.performance.memory) {
+				memory = performance.memory.usedJSHeapSize;
+			}
+
+			this.telemetry.logEvent("fps", {
+				ms: this.fps.ms,
+				avg: this.fps.avg,
+				memory: memory
+			});
 		}
 	},
 
@@ -3889,15 +3982,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var game = this;
 		game.ui.confirm($I("reset.confirmation.title"), msg, function() {
 			game.challenges.onRunReset();
-			/*if (game.challenges.isActive("atheism") && game.time.getVSU("cryochambers").on > 0) {
+			if (game.challenges.isActive("atheism") && game.time.getVSU("cryochambers").on > 0) {
 				game.challenges.getChallenge("atheism").researched = true;
 
 				if (game.ironWill) {
-					game.achievements.unlockHat("ivoryTowerHat");
+					game.achievements.unlockBadge("ivoryTower");
 				}
-			}*/
+			}
 			if (game.calendar.day < 0) {
-				game.achievements.unlockHat("fezHat");
+				game.achievements.unlockBadge("abOwo");
 			}
 			for (var i = 0; i < game.challenges.challenges.length; i++){
 				game.challenges.challenges[i].pending = false;
@@ -4418,6 +4511,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 			for (var i = list[type].length - 1; i >= 0; i--) {
 				var item = this.getUnlockByName(list[type][i], type);
+				if (!item){
+					console.error("unable to get unlock by [id]", list[type][i], "[type]", type);
+					continue;
+				}
 				if (item.calculateEffects){
 					item.calculateEffects(item, this);
 					if (type == "spaceBuilding") {
