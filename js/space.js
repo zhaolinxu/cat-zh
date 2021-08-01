@@ -1,4 +1,4 @@
-/* global 
+/* global
 	WChiral
 */
 
@@ -342,7 +342,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"unobtainiumPerTickSpace": 0.007 * (1 + game.getEffect("lunarOutpostRatio"))
 				};
 				effects["energyConsumption"] = 5;
-				
+
 				self.effects = effects;
 			},
 			lackResConvert: false,
@@ -1006,6 +1006,17 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			}
 		}
 
+		for (var i = this.planets.length - 1; i >= 0; i--){
+			var planet = this.planets[i];
+			if (planet.buildings){
+				for (var j = planet.buildings.length - 1; j >= 0; j--){
+					var bld = planet.buildings[j];
+					if (bld.val && bld.unlocks){
+						this.game.unlock(bld.unlocks);
+					}
+				}
+			}
+		}
 	},
 
 	update: function(){
@@ -1090,7 +1101,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		if (gflopsConsume <= 0) {
 			return;
 		}
-		
+
 		this.game.resPool.addResEvent("gflops", -gflopsConsume);
 		this.game.resPool.addResEvent("hashrates", gflopsConsume);
 	},
@@ -1321,7 +1332,7 @@ dojo.declare("classes.ui.space.FurthestRingPanel", [classes.ui.space.PlanetPanel
 		var wrapper = new mixin.IReactAware(WChiral, this.game);
 
 		var content = this.inherited(arguments);
-		wrapper.render(content);	
+		wrapper.render(content);
 
 		return content;
 	}

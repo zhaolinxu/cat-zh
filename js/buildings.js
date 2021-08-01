@@ -891,6 +891,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			var effects = {
 				"mineralsRatio": 0.35,
 				"coalPerTickBase": 0.015,
+				"uraniumPerTickBase": 0,
 				"cathPollutionPerTickProd": 0.25
 			};
 			if (game.workshop.get("orbitalGeodesy").researched){
