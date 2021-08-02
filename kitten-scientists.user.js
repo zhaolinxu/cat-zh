@@ -248,7 +248,7 @@ var run = function() {
             'option.autofeed': '献祭上古神',
             'option.hunt': '狩猎',
             'option.crypto': '黑币交易',
-            'option.embassies': '建造大使馆 (Beta)',
+            'option.embassies': '建造大使馆',
             'option.style': '占满屏幕',
             'option.steamworks': '启动蒸汽工房',
 
@@ -724,7 +724,7 @@ var run = function() {
                     accelerateTime:     {enabled: true,  subTrigger: 1,     misc: true, label: i18n('option.accelerate')},
                     timeSkip:           {enabled: false, subTrigger: 5,     misc: true, label: i18n('option.time.skip'), maximum: 50,
                         0: true, 1: true, 2: true, 3: true, 4: true, 5: false, 6: true, 7: true, 8: true, 9: true,
-                        spring: true, summer: false, autumn: false, winter: false},
+                        spring: true, summer: false, autumn: false, winter: false, wait:false},
                     reset:              {enabled: false, subTrigger: 99999, misc: true, label: i18n('option.time.reset')}
                 }
             },
@@ -1267,26 +1267,33 @@ var run = function() {
 
                 var shatter = game.timeTab.cfPanel.children[0].children[0]; // check?
                 var timeCrystal = game.resPool.get('timeCrystal');
-                if (timeCrystal.value < optionVals.timeSkip.subTrigger && !shatter.controller.hasResources(shatter.model))
+                if (timeCrystal.value < Math.max(optionVals.timeSkip.subTrigger, optionVals.timeSkip.maximum))
                     {break TimeSkip;}
 
                 var season = game.calendar.season;
-                if (!optionVals.timeSkip[game.calendar.seasons[season].name])
-                    {break TimeSkip;}
-                
-                var currentCycle = game.calendar.cycle;
-                if (!optionVals.timeSkip[currentCycle])
-                    {break TimeSkip;}
+                if (!optionVals.timeSkip[game.calendar.seasons[season].name] | (optionVals.timeSkip.wait !== false && game.calendar.cycle == 5)) {
+                    if (game.calendar.year != optionVals.timeSkip.wait) {
+                        optionVals.timeSkip.wait = false;
+                    } else {
+                        break TimeSkip;
+                    }
+                }
 
+                var currentCycle = game.calendar.cycle;
                 var heatMax = game.getEffect('heatMax');
                 var heatNow = game.time.heat;
-                if (heatNow >= heatMax)
+
+                if (!optionVals.timeSkip[currentCycle] | heatNow >= heatMax)
                     {break TimeSkip;}
-                
+
+                var factor = game.challenges.getChallenge("1000Years").researched ? 5 : 10;
+                if (optionVals.timeSkip[5] && optionVals.timeSkip.wait === false && game.time.heat > game.getEffect('heatMax') - Math.min(optionVals.timeSkip.maximum * factor, 20 * game.time.getCFU("blastFurnace").on + 20)) {
+                    optionVals.timeSkip.wait = game.calendar.year + 1;
+                }
+
                 var yearsPerCycle = game.calendar.yearsPerCycle;
                 var remainingYearsCurrentCycle = yearsPerCycle - game.calendar.cycleYear;
                 var cyclesPerEra = game.calendar.cyclesPerEra;
-                var factor = game.challenges.getChallenge("1000Years").researched ? 5 : 10;
                 var canSkip = Math.min(Math.floor((heatMax - heatNow) / factor), optionVals.timeSkip.maximum);
                 var willSkip = 0;
                 if (canSkip < remainingYearsCurrentCycle){
