@@ -357,6 +357,11 @@ select > option:disabled {
     border: 1px solid gray;
 }
 
+.achievement.badge {
+    display: inline-block;
+    width: 45%;
+}
+
 .achievement.unethical {
     border-color: red;
 }

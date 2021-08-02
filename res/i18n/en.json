@@ -29,6 +29,7 @@
     "achievements.lotusMachine.desc": "Break the cycle of reincarnations",
     "achievements.meowMeowRevolution.title": "Meow Meow Revolution",
     "achievements.meowMeowRevolution.desc": "Construct a factory in Iron Will mode",
+    "achievements.panel.label":"Achievements",
     "achievements.serenity.title": "Serenity",
     "achievements.serenity.desc": "Have 50 kittens without losing any of them",
     "achievements.shadowOfTheColossus.title": "Shadow Of The Colossus",
@@ -61,8 +62,13 @@
     "achievements.winterIsComing.desc": "Have 10 kittens dead",
     "achievements.youMonster.title": "You Monster",
     "achievements.youMonster.desc": "Poor kittens.",
+    "achievements.deathStranding.title": "Death Stranding",
+    "achievements.deathStranding.desc": "Reach Furthest Ring",
 
     "ai.apocalypse.msg": "AI has destroyed {0}% of your resources",
+
+    "badges.header": "Basges: {0} out of {1}",
+    "badges.panel.label": "Basges",
 
     "bld.msg.automation": "Activating workshop automation",
     "bld.msg.automation.beams": "Spent {0} wood, +{1} beams!",
@@ -76,6 +82,7 @@
     "btn.all.unassign": "[-all]",
     "btn.aoff.tooltip": "Automation disabled",
     "btn.aon.tooltip": "Automation enabled",
+    "btn.almostlimited.tooltip": "* - Upgrading will disable Autocracy",
     "btn.pollution.tooltip": "Generates pollution",
     "btn.build": "Build",
     "btn.challenge": "Start Challenge",
