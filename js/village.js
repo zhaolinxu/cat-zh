@@ -1799,7 +1799,7 @@ dojo.declare("classes.village.KittenSim", null, {
 		if (freeKittens.length){
 			this.kittens[freeKittens[0].id].engineerSpeciality = craft.name;
 			if (craft.name == "wood"){
-				this.game.achievements.unlockHat("treetrunkHat");
+				this.game.achievements.unlockBadge("evergreen");
 			}
 			return true;
 		} else {

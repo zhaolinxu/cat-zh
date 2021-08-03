@@ -128,6 +128,8 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 			 * Known offenders that folks still use
 			 */
 			window.newrelic.setErrorHandler(function (err) {
+				self.achievements.unlockBadge("ghostInTheMachine");
+
 				if (self.errorCount >= 100){
 					return true;
 				}
@@ -4038,15 +4040,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 						game.saveToFile(true);
                 }
 			game.challenges.onRunReset();
-			/*if (game.challenges.isActive("atheism") && game.time.getVSU("cryochambers").on > 0) {
+			if (game.challenges.isActive("atheism") && game.time.getVSU("cryochambers").on > 0) {
 				game.challenges.getChallenge("atheism").researched = true;
 
 				if (game.ironWill) {
-					game.achievements.unlockHat("ivoryTowerHat");
+					game.achievements.unlockBadge("ivoryTower");
 				}
-			}*/
+			}
 			if (game.calendar.day < 0) {
-				game.achievements.unlockHat("fezHat");
+				game.achievements.unlockBadge("abOwo");
 			}
 			for (var i = 0; i < game.challenges.challenges.length; i++){
 				game.challenges.challenges[i].pending = false;
@@ -4555,6 +4557,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 			for (var i = list[type].length - 1; i >= 0; i--) {
 				var item = this.getUnlockByName(list[type][i], type);
+				if (!item){
+					console.error("unable to get unlock by [id]", list[type][i], "[type]", type);
+					continue;
+				}
 				if (item.calculateEffects){
 					item.calculateEffects(item, this);
 					if (type == "spaceBuilding") {
