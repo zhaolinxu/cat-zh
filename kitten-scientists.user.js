@@ -2969,7 +2969,7 @@ var run = function() {
 
                 value -= Math.min(this.getResource(name).maxValue * trigger, value) * (1 - consume);
 
-                if ('unobtainium' === name && value < 1000 && this.getResource(name).value == this.getResource(name).maxValue && this.getResource(name).value >= 1000) {
+                if ('unobtainium' === name && value + stock < 1000 && this.getResource(name).value == this.getResource(name).maxValue && this.getResource(name).value >= 1000) {
                     value = this.getResource(name).value;// fix unobtainium carfting to eludium
                 }
             }
