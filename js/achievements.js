@@ -259,7 +259,7 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
         },{
             name: "evergreen",
             title: "木质奖章",
-            description: "我想你制作了出一块木头？",
+            description: "我想你制作了出一块木材？",
             difficulty: "F"
         },{
             name: "deadSpace",
@@ -273,20 +273,20 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
         },{
             name: "reginaNoctis",
             title: "夜之女王",
-            description: "拥有500只猫咪且没独角兽",
+            description: "拥有500只猫咪且没有天角兽",
             difficulty: "S",
             condition: function(){
                 return (this.game.resPool.get("kittens").value > 500 && this.game.resPool.get("alicorn").value == 0);
             }
         },{
             name: "ghostInTheMachine",
-            title: "Experience a game bug (TBD see newrelic#errorHandle)",
+            title: "遇到了BUG",
             description: "♋︎⬧︎⧫︎♏︎❒︎🕯︎⬧︎ ●︎♋︎■︎♑︎◆︎♋︎♑︎♏︎ 🖳︎✆",
             difficulty: "S"
         },{
             name: "abOwo",
             title: "Ab Owo",
-            description: "Reset in atheism on day 0",
+            description: "TBD(时间悖论中重置)",
             difficulty: "A"
         }
     ],

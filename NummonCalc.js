@@ -96,7 +96,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
             "getPollutionTick": "污染值",
             "getCoMax": "二氧化碳最大值",
 
-            "unicorns": "独角兽",
+            "unicorns": "独角兽宗教",
 
             "getBestUniBuilding": "最佳独角兽建筑",
             "getBestAliBuilding": "象牙性价比最高天角兽建筑",
@@ -104,13 +104,16 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
             "getNecrocornTime": "距离下一个死灵兽的时间",
             "getLeviChance": "利维坦每年到来降临的几率",
 
-            "religion": "宗教",
+            "religion": "太阳教团",
 
             "getReligionProductionBonusCap": "太阳革命极限加成",
+            "getNextTranscendTierProgress": "当前顿悟数量",
             "getAdore": "预计赞美群星后的总顿悟",
-            "getlowestRatio": "进行次元超越需要的顿悟",
-            "getNextTranscendTierProgress": "当前拥有的顿悟",
-            "getRecNextTranscendTierProgress": "推荐次元超越需要的顿悟",
+            
+            "Transcend":"次元超越",
+
+            "getlowestRatio": "进行次元超越消耗的顿悟",
+            "getRecNextTranscendTierProgress": "推荐次元超越拥有的顿悟",
             "getBoolean": "赞美群星前(是/否)次元超越",
 
             "paragon": "领导力加成",
@@ -934,6 +937,8 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
                 // title: "Solar Revolution Limit",
                 val: 0,
             },
+        ],
+        Transcend: [
             {
                 name: "getlowestRatio",
                 // title: "Solar Revolution Limit",
@@ -1052,11 +1057,15 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         },
         {
             name: "unicorns",
-            // title: "Unicorns"
+            // title: "Unicorns""
         },
         {
             name: "religion",
             // title: "Religion"
+        },
+        {
+            name: "Transcend",
+            // title: "Transcend"
         },
         {
             name: "paragon",

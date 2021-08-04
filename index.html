@@ -185,7 +185,7 @@
 				def = _import("i18n", def);
 				def.then(function() {
 					console.log("Loading locale system");
-					var langPromise = i18nLang.init(buildRevision);
+					var langPromise = i18nLang.init(buildRevision + "1");
 					langPromise.done(function() {
 						loadingMessages = [
 							$I("ui.loading.msg.0"),
@@ -820,7 +820,7 @@
 					}, 2000);
 				} else {
 					// NummonInit();
-					document.body.appendChild(document.createElement('script')).src = 'NummonCalc.js?v=24';
+					document.body.appendChild(document.createElement('script')).src = 'NummonCalc.js?v=0' + new Date().getDate();
 				}
 			};
 			_282d5adfdca92885cd9f210a9b60a328();
