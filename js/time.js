@@ -360,7 +360,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             "energyConsumption": 5
         },
         calculateEffects(self, game){
-            if (self.isAutomationEnabled == null) {
+            if (self.isAutomationEnabled == null && game.getEffect("temporalPressCap") > 5) {
                 self.isAutomationEnabled = false;
             }
             self.effects["shatterYearBoost"] = (self.isAutomationEnabled)? 5 : 1;
@@ -369,7 +369,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         /*upgrades: {
             chronoforge: ["temporalImpedance"]
         },*/
-        isAutomationEnabled: false,
+        isAutomationEnabled: null,
         upgradePath: "chronoforge", //for automation self calculate effects
         unlocked: true
     }],
