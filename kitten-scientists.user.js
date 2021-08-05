@@ -1272,9 +1272,13 @@ var run = function() {
 
                 var season = game.calendar.season;
                 if (!optionVals.timeSkip[game.calendar.seasons[season].name] | (optionVals.timeSkip.wait !== false && game.calendar.cycle == 5)) {
-                    if (game.calendar.year != optionVals.timeSkip.wait) {
+                    if (optionVals.timeSkip.wait == 1) {
+                        optionVals.timeSkip.wait = game.calendar.year;
+                    } else if (optionVals.timeSkip.wait === false) {
+                        break TimeSkip;
+                    } else if (optionVals.timeSkip.wait !== game.calendar.year) {
                         optionVals.timeSkip.wait = false;
-                    } else {
+                    } else if (optionVals.timeSkip.wait === game.calendar.year) {
                         break TimeSkip;
                     }
                 }
@@ -1288,7 +1292,7 @@ var run = function() {
 
                 var factor = game.challenges.getChallenge("1000Years").researched ? 5 : 10;
                 if (optionVals.timeSkip[5] && optionVals.timeSkip.wait === false && game.time.heat > game.getEffect('heatMax') - Math.min(optionVals.timeSkip.maximum * factor, 20 * game.time.getCFU("blastFurnace").on + 20)) {
-                    optionVals.timeSkip.wait = game.calendar.year + 1;
+                    optionVals.timeSkip.wait = 1;
                 }
 
                 var yearsPerCycle = game.calendar.yearsPerCycle;
