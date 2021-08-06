@@ -1378,7 +1378,8 @@ var run = function() {
 
             var pastures = (game.bld.getBuildingExt('pasture').meta.stage === 0) ? game.bld.getBuildingExt('pasture').meta.val : 0;
             var aqueducts = (game.bld.getBuildingExt('aqueduct').meta.stage === 0) ? game.bld.getBuildingExt('aqueduct').meta.val : 0;
-            if (this.craftManager.getPotentialCatnip(false, pastures, aqueducts) < 0 && game.science.get("agriculture").researched) {
+            var catnipValue = game.resPool.get("catnip").value - (425 * (4 - game.calendar.season) * game.village.happiness * game.resPool.get("kittens").value);
+            if (this.craftManager.getPotentialCatnip(false, pastures, aqueducts) < 0 && game.science.get("agriculture").researched && catnipValue < 0) {
                 game.village.assignJob(game.village.getJob("farmer"), 1);
                 iactivity('act.distribute', [i18n('$village.job.' + "farmer")], 'ks-distribute');
                 storeForSummary('distribute', 1);
