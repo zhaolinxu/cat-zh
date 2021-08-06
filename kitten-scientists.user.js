@@ -1262,13 +1262,17 @@ var run = function() {
             // Combust time crystal
             TimeSkip:
             if (optionVals.timeSkip.enabled && game.workshop.get('chronoforge').researched) {
-                if (game.calendar.day < 0)
+                var timeCrystal = game.resPool.get('timeCrystal');
+                var currentCycle = game.calendar.cycle;
+                var heatMax = game.getEffect('heatMax');
+                var heatNow = game.time.heat;
+                if (timeCrystal.value < Math.max(optionVals.timeSkip.subTrigger, optionVals.timeSkip.maximum) | game.calendar.day < 0 | !optionVals.timeSkip[currentCycle] | heatNow >= heatMax)
                     {break TimeSkip;}
 
                 var shatter = game.timeTab.cfPanel.children[0].children[0]; // check?
-                var timeCrystal = game.resPool.get('timeCrystal');
-                if (timeCrystal.value < Math.max(optionVals.timeSkip.subTrigger, optionVals.timeSkip.maximum))
-                    {break TimeSkip;}
+                if (!shatter.model.enabled) {
+                    return shatter.controller.updateEnabled(shatter.model);
+                }
 
                 var season = game.calendar.season;
                 if (!optionVals.timeSkip[game.calendar.seasons[season].name] | (optionVals.timeSkip.wait !== false && game.calendar.cycle == 5)) {
@@ -1282,13 +1286,6 @@ var run = function() {
                         break TimeSkip;
                     }
                 }
-
-                var currentCycle = game.calendar.cycle;
-                var heatMax = game.getEffect('heatMax');
-                var heatNow = game.time.heat;
-
-                if (!optionVals.timeSkip[currentCycle] | heatNow >= heatMax)
-                    {break TimeSkip;}
 
                 var factor = game.challenges.getChallenge("1000Years").researched ? 5 : 10;
                 var heatMin = Math.max(20 * optionVals.timeSkip.maximum, optionVals.timeSkip.maximum * factor);
