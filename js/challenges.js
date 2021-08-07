@@ -165,6 +165,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 				self.effects["shatterVoidCost"] = 0;
                 self.effects["temporalPressCap"] = 5;
 			}
+			game.upgrade(self.upgrades); //this is a hack, might need to think of a better sollution later
 		},
 		researched: false,
 		unlocked: false,
@@ -223,6 +224,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 				self.effects["embassyFakeBought"] = 0;
 				self.effects["steamworksFakeBought"] = 0;
 			}
+			game.upgrade(self.upgrades); //this is a hack, might need to think of a better sollution later
 		},
 		checkCompletionConditionOnReset: function(game){
 			return game.science.getPolicy("outerSpaceTreaty").researched;
@@ -299,9 +301,6 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 				if (this.challenges[i].unlocks) {
 					this.game.unlock(this.challenges[i].unlocks);
 				}
-				if(this.challenges[i].upgrades){
-					this.game.upgrade(this.challenges[i].upgrades);
-				}
 			}
 		}
 		if (saveData.challenges.reserves){
@@ -369,9 +368,6 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			}*/
 			if (this.getChallenge(challenge).unlocks) {
 				this.game.unlock(this.getChallenge(challenge).unlocks);
-			}
-			if(this.getChallenge(challenge).upgrades){
-				this.game.upgrade(this.getChallenge(challenge).upgrades);
 			}
 			this.game.calculateAllEffects();
 		}
