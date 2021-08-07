@@ -297,10 +297,8 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			if (this.challenges[i].researched && !this.challenges[i].on) {
 				this.challenges[i].on = 1;
 			}
-			if(this.challenges[i].on){
-				if (this.challenges[i].unlocks) {
-					this.game.unlock(this.challenges[i].unlocks);
-				}
+			if(this.challenges[i].unlocks && this.challenges[i].on && !this.challenges[i].active){
+				this.game.unlock(this.challenges[i].unlocks);
 			}
 		}
 		if (saveData.challenges.reserves){
