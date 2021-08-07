@@ -365,9 +365,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             self.effects["shatterYearBoost"] = (self.isAutomationEnabled)? 5 * game.calendar.yearsPerCycle : game.calendar.yearsPerCycle; //25 or 5 currently
             self.limitBuild = game.getEffect("temporalPressCap");
         },
-        /*upgrades: {
-            chronoforge: ["temporalImpedance"]
-        },*/
         isAutomationEnabled: null,
         unlocked: false
     }],
