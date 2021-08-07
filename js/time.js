@@ -362,7 +362,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             if (self.isAutomationEnabled == null && game.challenges.getChallenge("1000Years").on > 1) {
                 self.isAutomationEnabled = false;
             }
-            self.effects["shatterYearBoost"] = (self.isAutomationEnabled)? 5 : 1;
+            self.effects["shatterYearBoost"] = (self.isAutomationEnabled)? 5 * game.calendar.yearsPerCycle : game.calendar.yearsPerCycle; //25 or 5 currently
             self.limitBuild = game.getEffect("temporalPressCap");
         },
         /*upgrades: {
