@@ -358,7 +358,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             "shatterYearBoost" : 0,
             "energyConsumption": 5
         },
-        calculateEffects(self, game){
+        calculateEffects: function(self, game){
             if (self.isAutomationEnabled == null && game.challenges.getChallenge("1000Years").on > 1) {
                 self.isAutomationEnabled = false;
             }
@@ -917,7 +917,7 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
         model.nextCycleLink = this._newLink(model, this.game.calendar.yearsPerCycle);
         model.previousCycleLink = this._newLink(model, this.game.calendar.yearsPerCycle * (this.game.calendar.cyclesPerEra - 1));
         model.tenErasLink = this._newLink(model, 10 * this.game.calendar.yearsPerCycle * this.game.calendar.cyclesPerEra);
-        shatterYearBoost = this.game.getEffect("shatterYearBoost");
+        var shatterYearBoost = this.game.getEffect("shatterYearBoost");
         if(shatterYearBoost){
             model.customLink = this._newLink(model, shatterYearBoost); //Creates additional custom shatter link based on the effect
         }
