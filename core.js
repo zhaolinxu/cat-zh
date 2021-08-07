@@ -1716,7 +1716,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 	handleToggleAutomationLinkClick: function(model) {
 		var building = model.metadata;
 		building.isAutomationEnabled = !building.isAutomationEnabled;
-			this.game.upgrade({buildings: [building.name]});
+		this.game.upgrade({buildings: [building.name]});
 	}
 });
 

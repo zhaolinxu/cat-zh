@@ -369,7 +369,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             chronoforge: ["temporalImpedance"]
         },*/
         isAutomationEnabled: null,
-        unlocked: true
+        unlocked: false
     }],
 
     voidspaceUpgrades: [{
@@ -919,7 +919,7 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
         model.tenErasLink = this._newLink(model, 10 * this.game.calendar.yearsPerCycle * this.game.calendar.cyclesPerEra);
         shatterYearBoost = this.game.getEffect("shatterYearBoost");
         if(shatterYearBoost){
-            model.customLink = this._newLink(model, shatterYearBoost);
+            model.customLink = this._newLink(model, shatterYearBoost); //Creates additional custom shatter link based on the effect
         }
         return model;
     },
@@ -1110,7 +1110,7 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
         }
 
         if(this.model.customLink){
-            this.updateLink(this.custom, this.model.customLink); //this might be a hack :3
+            this.updateLink(this.custom, this.model.customLink); //need this to sync the changes of effect and shatter number. this might be a hack :3
         }
     }
 });
