@@ -150,21 +150,31 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
         effects: {
 			"shatterCostReduction": -0.02,
 			"shatterCostIncreaseChallenge": 0,
-			"shatterVoidCost": 0
+			"shatterVoidCost": 0,
+			"temporalPressCap" : 0
         },
         calculateEffects: function(self, game){
             if (self.active) {
         	    self.effects["shatterCostReduction"] = 0;
                 self.effects["shatterCostIncreaseChallenge"] = 0.5;
                 self.effects["shatterVoidCost"] = 0.4;
+                self.effects["temporalPressCap"] = 0;
              }else{
 				self.effects["shatterCostReduction"] = -0.02;
 				self.effects["shatterCostIncreaseChallenge"] = 0;
 				self.effects["shatterVoidCost"] = 0;
+				self.effects["temporalPressCap"] = 5;
 			}
+			game.upgrade(self.upgrades); //this is a hack, might need to think of a better sollution later
 		},
 		researched: false,
-		unlocked: false
+		unlocked: false,
+		upgrades:{
+			chronoforge: ["temporalPress"]
+		},
+		unlocks: {
+			chronoforge: ["temporalPress"]
+		}
 	},{
 		name: "blackSky",
 		label: $I("challendge.blackSky.label"),
@@ -214,7 +224,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 				self.effects["embassyFakeBought"] = 0;
 				self.effects["steamworksFakeBought"] = 0;
 			}
-			game.upgrade(self.upgrades); //this is a hack. Sometime we should make challenges actually upgrade things.
+			game.upgrade(self.upgrades); //this is a hack, might need to think of a better sollution later
 		},
 		checkCompletionConditionOnReset: function(game){
 			return game.science.getPolicy("outerSpaceTreaty").researched;
@@ -287,6 +297,9 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			if (this.challenges[i].researched && !this.challenges[i].on) {
 				this.challenges[i].on = 1;
 			}
+			if(this.challenges[i].unlocks && this.challenges[i].on && !this.challenges[i].active){
+				this.game.unlock(this.challenges[i].unlocks);
+			}
 		}
 		if (saveData.challenges.reserves){
 			var kittens = saveData.challenges.reserves.reserveKittens;
@@ -351,6 +364,9 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			/*if(!this.anyChallengeActive() && !this.game.ironWill && !this.getChallenge(challenge).reserveDelay){
 				this.reserves.addReserves();
 			}*/
+			if (this.getChallenge(challenge).unlocks) {
+				this.game.unlock(this.getChallenge(challenge).unlocks);
+			}
 			this.game.calculateAllEffects();
 		}
 	},
