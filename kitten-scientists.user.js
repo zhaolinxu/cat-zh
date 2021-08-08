@@ -1288,8 +1288,8 @@ var run = function() {
                 }
 
                 var factor = game.challenges.getChallenge("1000Years").researched ? 5 : 10;
-                var heatMin = Math.max(20 * optionVals.timeSkip.maximum, optionVals.timeSkip.maximum * factor);
-                if (optionVals.timeSkip[5] && optionVals.timeSkip.wait === false && game.time.heat > game.getEffect('heatMax') - Math.min(heatMin, 20 * game.time.getCFU("blastFurnace").on + 20)) {
+                var heatMin = Math.min(game.getEffect('heatMax') * 0.8, 20 * game.time.getCFU("blastFurnace").on * (1 + game.time.getCFU("timeBoiler").on));
+                if (optionVals.timeSkip[5] && optionVals.timeSkip.wait === false && game.time.heat + heatMin> game.getEffect('heatMax')) {
                     optionVals.timeSkip.wait = 1;
                 }
 
