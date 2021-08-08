@@ -2014,7 +2014,7 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButtonController", com.nuclearunicor
 		  {
 				id: "unassign",
 				title: "[&ndash;]",
-				alt: "minus",
+				alt: "减",
 				handler: function(){
 					self.unassignJobs(model, 1);
 				}
@@ -2042,7 +2042,7 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButtonController", com.nuclearunicor
 			{
 				id: "assign",
 				title: "[+]",
-				alt: "plus",
+				alt: "加",
 				handler: function(){
 					self.assignJobs(model, 1);
 				}
