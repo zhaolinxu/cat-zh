@@ -1262,33 +1262,35 @@ var run = function() {
             // Combust time crystal
             TimeSkip:
             if (optionVals.timeSkip.enabled && game.workshop.get('chronoforge').researched) {
-                if (game.calendar.day < 0)
+                var timeCrystal = game.resPool.get('timeCrystal');
+                var currentCycle = game.calendar.cycle;
+                var heatMax = game.getEffect('heatMax');
+                var heatNow = game.time.heat;
+                if (timeCrystal.value < Math.max(optionVals.timeSkip.subTrigger, optionVals.timeSkip.maximum) | game.calendar.day < 0 | !optionVals.timeSkip[currentCycle] | heatNow >= heatMax)
                     {break TimeSkip;}
 
                 var shatter = game.timeTab.cfPanel.children[0].children[0]; // check?
-                var timeCrystal = game.resPool.get('timeCrystal');
-                if (timeCrystal.value < Math.max(optionVals.timeSkip.subTrigger, optionVals.timeSkip.maximum))
-                    {break TimeSkip;}
+                if (!shatter.model.enabled) {
+                    return shatter.controller.updateEnabled(shatter.model);
+                }
 
                 var season = game.calendar.season;
                 if (!optionVals.timeSkip[game.calendar.seasons[season].name] | (optionVals.timeSkip.wait !== false && game.calendar.cycle == 5)) {
-                    if (game.calendar.year != optionVals.timeSkip.wait) {
+                    if (optionVals.timeSkip.wait == 1) {
+                        optionVals.timeSkip.wait = game.calendar.year;
+                    } else if (optionVals.timeSkip.wait === false) {
+                        break TimeSkip;
+                    } else if (optionVals.timeSkip.wait !== game.calendar.year) {
                         optionVals.timeSkip.wait = false;
-                    } else {
+                    } else if (optionVals.timeSkip.wait === game.calendar.year) {
                         break TimeSkip;
                     }
                 }
 
-                var currentCycle = game.calendar.cycle;
-                var heatMax = game.getEffect('heatMax');
-                var heatNow = game.time.heat;
-
-                if (!optionVals.timeSkip[currentCycle] | heatNow >= heatMax)
-                    {break TimeSkip;}
-
                 var factor = game.challenges.getChallenge("1000Years").researched ? 5 : 10;
-                if (optionVals.timeSkip[5] && optionVals.timeSkip.wait === false && game.time.heat > game.getEffect('heatMax') - Math.min(optionVals.timeSkip.maximum * factor, 20 * game.time.getCFU("blastFurnace").on + 20)) {
-                    optionVals.timeSkip.wait = game.calendar.year + 1;
+                var heatMin = Math.max(20 * optionVals.timeSkip.maximum, optionVals.timeSkip.maximum * factor);
+                if (optionVals.timeSkip[5] && optionVals.timeSkip.wait === false && game.time.heat > game.getEffect('heatMax') - Math.min(heatMin, 20 * game.time.getCFU("blastFurnace").on + 20)) {
+                    optionVals.timeSkip.wait = 1;
                 }
 
                 var yearsPerCycle = game.calendar.yearsPerCycle;
@@ -1373,7 +1375,8 @@ var run = function() {
 
             var pastures = (game.bld.getBuildingExt('pasture').meta.stage === 0) ? game.bld.getBuildingExt('pasture').meta.val : 0;
             var aqueducts = (game.bld.getBuildingExt('aqueduct').meta.stage === 0) ? game.bld.getBuildingExt('aqueduct').meta.val : 0;
-            if (this.craftManager.getPotentialCatnip(false, pastures, aqueducts) < 0 && game.science.get("agriculture").researched) {
+            var catnipValue = game.resPool.get("catnip").value - (425 * (4 - game.calendar.season) * game.village.happiness * game.resPool.get("kittens").value);
+            if (this.craftManager.getPotentialCatnip(false, pastures, aqueducts) < 0 && game.science.get("agriculture").researched && catnipValue < 0) {
                 game.village.assignJob(game.village.getJob("farmer"), 1);
                 iactivity('act.distribute', [i18n('$village.job.' + "farmer")], 'ks-distribute');
                 storeForSummary('distribute', 1);
