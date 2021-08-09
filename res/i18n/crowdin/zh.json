@@ -137,7 +137,7 @@
     "buildings.chronosphere.label": "超时空传送仪",
     "buildings.chronosphere.desc": "使少量资源能够穿越时间。可以进一步升级。每级超时空传送仪都将增加时间悖论的发生概率",
     "buildings.dataCenter.label": "数据中心",
-    "buildings.dataCenter.desc": "提升摘要对最大科学上限的加成效果",
+    "buildings.dataCenter.desc": "提升概要对最大科学上限的加成效果",
     "buildings.factory.label": "工厂",
     "buildings.factory.desc": "提升工艺制作效率",
     "buildings.field.label": "猫薄荷田",
