@@ -1276,20 +1276,19 @@ var run = function() {
 
                 var season = game.calendar.season;
                 if (!optionVals.timeSkip[game.calendar.seasons[season].name] | (optionVals.timeSkip.wait !== false && game.calendar.cycle == 5)) {
-                    if (optionVals.timeSkip.wait == 1) {
+                    if (optionVals.timeSkip.wait == 1 && game.calendar.cycle == 5) {
                         optionVals.timeSkip.wait = game.calendar.year;
-                    } else if (optionVals.timeSkip.wait === false) {
+                        break TimeSkip;
+                    } else if (optionVals.timeSkip.wait === false | optionVals.timeSkip.wait === game.calendar.year) {
                         break TimeSkip;
                     } else if (optionVals.timeSkip.wait !== game.calendar.year) {
                         optionVals.timeSkip.wait = false;
-                    } else if (optionVals.timeSkip.wait === game.calendar.year) {
-                        break TimeSkip;
                     }
                 }
 
                 var factor = game.challenges.getChallenge("1000Years").researched ? 5 : 10;
-                var heatMin = Math.min(game.getEffect('heatMax') * 0.8, 20 * game.time.getCFU("blastFurnace").on * (1 + game.time.getCFU("timeBoiler").on));
-                if (optionVals.timeSkip[5] && optionVals.timeSkip.wait === false && game.time.heat + heatMin> game.getEffect('heatMax')) {
+                var heatMin = 20 * optionVals.timeSkip.maximum * factor;
+                if (optionVals.timeSkip[5] && optionVals.timeSkip.wait === false && game.time.heat > game.getEffect('heatMax') - Math.min(heatMin, 20 * game.time.getCFU("blastFurnace").on + 20)) {
                     optionVals.timeSkip.wait = 1;
                 }
 
