@@ -421,7 +421,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		defaultUnlocked: true,
 		researched: false,
 		unlocks: {
-			"perks": ["ascoh"]
+			"perks": ["ascoh"],
+			"tabs": ["challenges"]
 		}
 	},{
 		name: "ascoh",

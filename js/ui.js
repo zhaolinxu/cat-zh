@@ -3,6 +3,62 @@
     WMidPanel
     WToolbar
 */
+
+
+/**
+ * dojo bridge for react components, use this sparringly
+ * (TODO: consider using HOC for boilerplate like)
+ * 
+ *  getInitialState: function(){
+        return {game: this.props.game};
+    },
+    
+    componentDidMount: function(){
+        var self = this;
+        this.onUpdateHandler = dojo.subscribe("ui/update", function(game){
+            self.setState({game: game});
+        });
+    },
+
+    componentWillUnmount(){
+        dojo.unsubscribe(this.onUpdateHandler);
+    },
+ */
+
+var $r = React.createElement;
+dojo.declare("mixin.IReactAware", null, {
+    component: null,
+    container: null,
+
+    constructor: function(component, game){
+        this.component = component;
+        this.game = game;
+    },
+
+    render: function(container){
+        this.game.ui.dirtyComponents.push(this);
+
+        React.render($r(this.component, {
+            game: this.game
+        }), container);
+
+        this.container = container;
+        return container;
+    },
+
+    update: function(){
+
+    },
+
+    //does not seem to be called automatically
+    destroy: function(){
+        if (!this.container){
+            throw "Integrity failure, trying to unmount component on an empty container";
+        }
+        React.unmountComponentAtNode(this.container);
+    }
+});
+
 /**
  * Class that provides an abstraction layer for UI/model communication
  * Extended in web version and in mobile version, so change signatures below only if you can change them in mobile too!
@@ -81,13 +137,16 @@ dojo.declare("classes.ui.UISystem", null, {
 
     isEffectMultiplierEnabled: function(){
         return false;
+    },
+
+    checkForUpdates: function(){
+        //nothing
     }
 });
 
 /**
  * Legacy UI renderer
  */
-var $r = React.createElement;
 dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     containerId: null,
     toolbar: null,
@@ -112,6 +171,8 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
     defaultSchemes: ["default", "dark", "grassy", "sleek", "black", "wood", "bluish", "grayish", "greenish"],
     allSchemes: ["default"].concat(new classes.KGConfig().statics.schemes),
+
+    dirtyComponents: [],
 
     constructor: function(containerId){
         this.containerId = containerId;
@@ -296,6 +357,12 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         var scrollPosition = midColumn.scrollTop;
 
         var container = dojo.byId(this.containerId);
+
+        //unmount everything that relies on the container
+        for (var i in this.dirtyComponents){
+            this.dirtyComponents[i].destroy();
+        }
+        this.dirtyComponents = [];
         dojo.empty(container);
 
         var tabNavigationDiv = dojo.create("div", { className: "tabsContainer"}, container);
@@ -340,7 +407,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                         this.activeTabId = tab.tabId;
                         this.render();
 
-                        //this.game.telemetry.logEvent("tab", tab.tabId);
+                        this.game.telemetry.logRouteChange(tab.tabId);
                     }, tab)
             );
 
@@ -586,28 +653,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
     updateFastHunt: function(){
         if (!this.fastHuntContainer){
-            this.fastHuntContainer = $("#fastHuntContainer")[0];
-        }
-
-        if (!this.fastHuntContainer){
-            return;
-        }
-
-        var catpower = this.game.resPool.get("manpower");
-        var showFastHunt = (catpower.value >= 100) && (!this.game.challenges.isActive("pacifism"));
-
-        //blazing fast vanilla toggle
-        if (showFastHunt){
-            if (this.fastHuntContainer.style.visibility == "hidden"){
-                this.fastHuntContainer.style.visibility = "visible";
-            }
-            var huntCount = Math.floor(catpower.value / 100);
-            $("#fastHuntContainerCount")[0].innerHTML = this.game.getDisplayValueExt(huntCount, false, false, 0)
-                + " " + (huntCount === 1 ? $I("left.hunt.time") : $I("left.hunt.times"));
-        } else {
-            if (this.fastHuntContainer.style.visibility == "visible"){
-                this.fastHuntContainer.style.visibility = "hidden";
-            }
+            this.fastHuntContainer = dojo.byId("fastHuntContainer");
         }
     },
 
@@ -678,26 +724,6 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     },
 
     updateAdvisors: function(){
-        if (this.game.bld.get("field").on == 0){
-            return;
-        }
-
-        var advDiv = dojo.byId("advisorsContainer");
-        if (!advDiv){
-            return;
-        }
-        dojo.empty(advDiv);
-
-        var calendar = this.game.calendar,
-            winterDays = calendar.daysPerSeason -
-                (calendar.getCurSeason().name === "winter" ? calendar.day : 0);
-
-        var catnipPerTick = this.game.calcResourcePerTick("catnip", { modifiers:{
-            "catnip" : 0.25
-        }});	//calculate estimate winter per tick for catnip;
-
-        var visibility = this.game.resPool.get("catnip").value + winterDays * catnipPerTick * calendar.ticksPerDay <= 0 ? "visible" : "hidden";
-        advDiv.innerHTML = "<span style='visibility: " + visibility + "'>" + $I("general.food.advisor.text") + "<span>";
     },
 
     updateLanguage: function(){
@@ -1092,6 +1118,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 break;
             }
         }
+        this.game.telemetry.logRouteChange(this.activeTabId);
 
         var uiData = LCstorage["com.nuclearunicorn.kittengame.ui"];
         try {
@@ -1135,6 +1162,19 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     isEffectMultiplierEnabled: function(){
         //console.log(this.keyStates);
         return this.keyStates.shiftKey;
+    },
+
+    checkForUpdates: function(){
+        var self = this;
+        var now = Date.now();
+        
+        $.getJSON("build.version.json?=" + now).then(function(json){
+            var buildRevision = json.buildRevision;
+            
+            if (buildRevision > self.game.telemetry.buildRevision){
+                $("#newVersion").toggle(true);
+            }
+        });
     }
 
 });

@@ -84,6 +84,18 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		},
 		value: 0,
 		unlocked: false,
+		calculateEffects: function (self, game) {
+			if(game.challenges.isActive("atheism")){
+				self.unlocked = false;
+				for (var i in game.village.sim.kittens){
+					var kitten = game.village.sim.kittens[i];
+					if(kitten.job == "priest"){
+						game.village.unassignJob(kitten);
+						console.warn("Kitten was unasigned from being a priest in atheism! " + kitten.name + " " + kitten.surname);
+					}
+				}
+			}
+		},
 		evaluateLocks: function(game){
 			return !game.challenges.isActive("atheism");
 		}
@@ -153,6 +165,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 	getRankExp: function(rank){
 		return 500 * Math.pow(1.75, rank);
+	},
+	canHaveLeaderOrPromote: function(){
+		return this.game.workshop.get("register").researched && !this.game.challenges.isActive("anarchy");
 	},
 
 	//---------------------------------------------------------
@@ -236,6 +251,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	getJobLimit: function(jobName) {
 		if (jobName == "engineer"){
 			return this.game.bld.get("factory").val;
+		} else if (jobName == "priest" && this.game.challenges.isActive("atheism")){
+			return 0;
 		} else {
 			return 100000;
 		}
@@ -274,6 +291,11 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		//Allow festivals to double birth rate.
 		if (this.game.calendar.festivalDays > 0) {
 			kittensPerTick = kittensPerTick * (2 + this.game.getEffect("festivalArrivalRatio"));
+		}
+		//pollution decreases arrival speed
+		var pollutionArrivalSlowdown = this.game.bld.pollutionEffects["pollutionArrivalSlowdown"];
+		if (pollutionArrivalSlowdown > 1){
+			kittensPerTick /= pollutionArrivalSlowdown;
 		}
 
 		this.sim.maxKittens = this.maxKittens;
@@ -547,12 +569,12 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 	getResConsumption: function(){
 		var kittens = this.getKittens();
-		var philosophyLuxuryModifier = 1 - this.game.getEffect("luxuryConsuptionReduction");
+		var philosophyLuxuryModifier = (1 + this.game.getEffect("luxuryDemandRatio")) * (1 + ((this.game.calendar.festivalDays)? this.game.getEffect("festivalLuxuryConsumptionRatio") : 0));
 		var res = {
 			"catnip" : this.catnipPerKitten * kittens,
 			"furs" : -0.01 * kittens * philosophyLuxuryModifier,
 			"ivory" : -0.007 * kittens * philosophyLuxuryModifier,
-			"spice" : -0.001 * kittens * philosophyLuxuryModifier
+			"spice" : -0.001 * kittens  * philosophyLuxuryModifier
         };
 		return res;
 	},
@@ -639,7 +661,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
     getEnvironmentEffect: function(){
 		var game = this.game;
 
-		return game.getEffect("environmentHappinessBonus") + game.getEffect("environmentUnhappiness") ;
+		return game.getEffect("environmentHappinessBonus") + game.getEffect("environmentUnhappiness") + game.bld.pollutionEffects["pollutionHappines"];
 	},
 	
 	/** Calculates a total happiness where result is a value of [0..1] **/
@@ -665,6 +687,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 				happiness += happinessPerLuxury;
 				if(resources[i].name == "elderBox" && this.game.resPool.get("wrappingPaper").value){
 					happiness -= happinessPerLuxury; // Present Boxes and Wrapping Paper do not stack.
+				}
+				if(resources[i].type == "uncommon"){
+					happiness += this.game.getEffect("consumableLuxuryHappiness");
 				}
 			}
 		}
@@ -1498,6 +1523,21 @@ dojo.declare("classes.village.KittenSim", null, {
 			}
 		}
 
+		var frequency = 1;
+		if (this.kittens.length > 100){
+			frequency = 5;	//update every 5 ticks
+		} else if (this.kittens.length > 500){
+			frequency = 10;	//update every 10 ticks
+		} else if (this.kittens.length > 1000){
+			frequency = 20;	//update every 10 ticks
+		}
+
+		//----- WARNING: DO NOT OVERLOOK THIS -----
+		if (game.ticks % frequency != 0){
+			return;
+		}
+		//----- WARNING END -----
+
 		var baseSkillXP = game.workshop.get("internet").researched ? Math.max(this.getKittens() / 10000, 0.01) : 0.01;
 		var skillXP = (baseSkillXP + game.getEffect("skillXP")) * times;
 		var neuralNetworks = game.workshop.get("neuralNetworks").researched;
@@ -1760,7 +1800,7 @@ dojo.declare("classes.village.KittenSim", null, {
 		if (freeKittens.length){
 			this.kittens[freeKittens[0].id].engineerSpeciality = craft.name;
 			if (craft.name == "wood"){
-				this.game.achievements.unlockHat("treetrunkHat");
+				this.game.achievements.unlockBadge("evergreen");
 			}
 			return true;
 		} else {
@@ -2685,8 +2725,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			controller: new classes.village.ui.VillageButtonController(this.game, {
 				updateVisible: function (model) {
 					model.visible = this.game.village.leader != undefined 
-					&& this.game.workshop.get("register").researched 
-					&& !this.game.challenges.isActive("anarchy");
+					&& this.game.village.canHaveLeaderOrPromote();
 				}
 			})
 		}, this.game);
@@ -2703,8 +2742,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
             controller: new classes.village.ui.VillageButtonController(this.game, {
 				updateVisible: function (model) {
 					model.visible = this.game.village.leader !== undefined && 
-					this.game.workshop.get("register").researched && 
-					!this.game.challenges.isActive("anarchy");
+					this.game.village.canHaveLeaderOrPromote();
 				}
 			})
 		}, this.game);

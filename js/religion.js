@@ -1021,9 +1021,10 @@ dojo.declare("classes.ui.religion.TransformBtnController", com.nuclearunicorn.ga
 		};
 	},
 
-	buyItem: function(model, event, callback){
+	buyItem: function(model, event, callback) {
 		if (model.enabled && this.hasResources(model)) {
-			callback(this._transform(model, 1));
+			var batchSize = event.ctrlKey ? this.game.opts.batchSize : 1;
+			callback(this._transform(model, batchSize));
 		}
 		callback(false);
 	},
@@ -1064,7 +1065,8 @@ dojo.declare("classes.ui.religion.TransformBtnController", com.nuclearunicorn.ga
 			valTo: gainCount
 		});
 
-		this.game.msg($I(this.controllerOpts.logTextID, [this.game.getDisplayValueExt(priceCount), this.game.getDisplayValueExt(gainCount)]));
+		this.game.msg($I(this.controllerOpts.logTextID, [this.game.getDisplayValueExt(priceCount), this.game.getDisplayValueExt(gainCount)]), this.controllerOpts.logfilterID);
+
 		return true;
 	}
 });
@@ -1092,7 +1094,32 @@ dojo.declare("classes.ui.religion.RefineTearsBtnController", com.nuclearunicorn.
 		return result;
 	},
 
-	buyItem: function(model, event, callback){
+	fetchModel: function (options) {
+		var model = this.inherited(arguments);
+		model.fiveLink = this._newLink(model, 5);
+		model.twentyFiveLink = this._newLink(model, 25);
+		model.hundredLink = this._newLink(model, 100);
+		return model;
+	},
+
+	_newLink: function (model, count) {
+		var self = this;
+		return {
+			visible: this.game.opts.showNonApplicableButtons
+				|| this.game.resPool.get("sorrow").value <= this.game.resPool.get("sorrow").maxValue - count
+				&& self._canAfford(model, count) >= count,
+			title: "x" + count,
+			handler: function (event) {
+				self.buyItem(model, {}, this.update.bind(this), count);
+			}
+		};
+	},
+
+	_canAfford: function(model, count) {
+		return Math.floor(this.game.resPool.get(model.prices[0].name).value / model.prices[0].val);
+	},
+
+	buyItem: function(model, event, callback, count){
 		if (model.enabled && this.hasResources(model)) {
 			if (this.game.resPool.get("sorrow").value >= this.game.resPool.get("sorrow").maxValue){
 				this.game.msg($I("religion.refineTearsBtn.refine.msg.failure"));
@@ -1100,8 +1127,14 @@ dojo.declare("classes.ui.religion.RefineTearsBtnController", com.nuclearunicorn.
 				return;
 			}
 
-			this.payPrice(model);
-			this.refine();
+			for (var batchSize = count || (event.ctrlKey ? this.game.opts.batchSize : 1);
+				 batchSize > 0
+				 && this.hasResources(model)
+				 && this.game.resPool.get("sorrow").value < this.game.resPool.get("sorrow").maxValue;
+				 batchSize--) {
+				this.payPrice(model);
+				this.refine();
+			}
 
 			callback(true);
 		}
@@ -1142,6 +1175,23 @@ dojo.declare("classes.ui.CryptotheologyWGT", [mixin.IChildrenAware, mixin.IGameA
 dojo.declare("classes.ui.CryptotheologyPanel", com.nuclearunicorn.game.ui.Panel, {
 	visible: false,
 });
+
+dojo.declare("classes.ui.religion.RefineBtn", com.nuclearunicorn.game.ui.ButtonModern, {
+	renderLinks: function () {
+		this.hundred = this.addLink(this.model.hundredLink);
+		this.twentyFive = this.addLink(this.model.twentyFiveLink);
+		this.five = this.addLink(this.model.fiveLink);
+	},
+
+	update: function () {
+		this.inherited(arguments);
+
+		dojo.style(this.five.link, "display", this.model.fiveLink.visible ? "" : "none");
+		dojo.style(this.twentyFive.link, "display", this.model.twentyFiveLink.visible ? "" : "none");
+		dojo.style(this.hundred.link, "display", this.model.hundredLink.visible ? "" : "none");
+	}
+});
+
 
 dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.game.ui.tab, {
 
@@ -1189,7 +1239,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 					applyAtGain: function(priceCount) {
 						this.game.stats.getStat("unicornsSacrificed").val += priceCount;
 					},
-					logTextID: "religion.sacrificeBtn.sacrifice.msg"
+					logTextID: "religion.sacrificeBtn.sacrifice.msg",
+					logfilterID: "unicornSacrifice"
 				})
 			}, game);
 			sacrificeBtn.render(content);
@@ -1212,13 +1263,14 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 							zigguratUpgrades: ["skyPalace", "unicornUtopia", "sunspire"]
 						});
 					},
-					logTextID: "religion.sacrificeAlicornsBtn.sacrifice.msg"
+					logTextID: "religion.sacrificeAlicornsBtn.sacrifice.msg",
+					logfilterID: "alicornSacrifice"
 				})
 			}, game);
 			sacrificeAlicornsBtn.render(content);
 			this.sacrificeAlicornsBtn = sacrificeAlicornsBtn;
 
-			var refineBtn = new com.nuclearunicorn.game.ui.ButtonModern({
+			var refineBtn = new classes.ui.religion.RefineBtn({
 				name: $I("religion.refineTearsBtn.label"),
 				description: $I("religion.refineTearsBtn.desc"),
 				prices: [{ name: "tears", val: 10000}],
@@ -1243,7 +1295,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 						return 1 + this.game.getEffect("relicRefineRatio") * this.game.religion.getZU("blackPyramid").getEffectiveValue(this.game);
 					},
 					gainedResource: "relic",
-					logTextID: "religion.refineTCsBtn.refine.msg"
+					logTextID: "religion.refineTCsBtn.refine.msg",
+					logfilterID: "tcRefine"
 				})
 			}, game);
 			refineTCBtn.render(content);

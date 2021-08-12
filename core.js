@@ -285,7 +285,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 
 		if (bld.lackResConvert != undefined) {
 			// Exceptions (when convertion is caused by an upgrade)
-			bld.togglable = (bld.name == "biolab") ? false : true;
+			bld.togglable = true;
 		}
 
 		for (var effect in bld.effects) {
@@ -350,18 +350,33 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 				enabled: true,
 				unlocked: false
 			},
+			"unicornSacrifice": {
+				title: $I("console.filter.unicornSacrifice"),
+				enabled: true,
+				unlocked: false
+			},
 			"alicornRift": {
 				title: $I("console.filter.alicornRift"),
 				enabled: true,
 				unlocked: false
 			},
-			"alicornCorruption":{
-				title: "Alicorn Corruption",
+			"alicornSacrifice": {
+				title: $I("console.filter.alicornSacrifice"),
 				enabled: true,
 				unlocked: false
 			},
-			"tc": {
-				title: $I("console.filter.tc"),
+			"alicornCorruption":{
+				title: $I("console.filter.alicornCorruption"),
+				enabled: true,
+				unlocked: false
+			},
+			"tcShatter": {
+				title: $I("console.filter.tcShatter"),
+				enabled: true,
+				unlocked: false
+			},
+			"tcRefine": {
+				title: $I("console.filter.tcRefine"),
 				enabled: true,
 				unlocked: false
 			},
@@ -1129,6 +1144,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 		var valMultiplier = isEffectMultiplierEnabled && model.metadata ? model.metadata.on : 1;
 		for (var effectName in effectsList) {
 			var effectMeta = this.game.getEffectMeta(effectName);
+			if(effectMeta.type === "hidden") {continue;}
 			if (effectMeta.resName && !this.game.resPool.get(effectMeta.resName).unlocked) {
 				continue;	//hide resource-related effects if we did not unlocked this effect yet
 			}
@@ -1149,7 +1165,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 			var displayEffectValue = "";
 
 			//display resMax values with global ratios like Refrigeration and Paragon
-			if (effectName.substr(-3) === "Max") {
+			if (effectName.substr(-3) === "Max" || effectName.substr(-12) == "MaxChallenge") {
 				var res = this.game.resPool.get(effectMeta.resName || effectName.slice(0, -3));
 				if (res) { // If res is a resource and not just a variable
 					effectValue = this.game.resPool.addResMaxRatios(res, effectValue);
@@ -1253,9 +1269,25 @@ ButtonModernHelper = {
 
 
 		if (model.metadata && model.metadata.isAutomationEnabled !== undefined){	//TODO: use proper metadata flag
-			var descDiv = dojo.create("div", {
+			dojo.create("div", {
 				innerHTML: model.metadata.isAutomationEnabled ? $I("btn.aon.tooltip") : $I("btn.aoff.tooltip"),
 				className: "desc small" + (model.metadata.isAutomationEnabled ? " auto-on" : " auto-off")
+			}, tooltip);
+		}
+		if (model.metadata && model.metadata.effects && 
+			model.metadata.effects["cathPollutionPerTickProd"] > 0 &&
+			controller.game.science.get("chemistry").researched
+		){
+			dojo.create("div", {
+				innerHTML: $I("btn.pollution.tooltip"),
+				className: "desc small pollution"
+			}, tooltip);
+		}
+
+		if (model.metadata && model.metadata.almostLimited){
+			dojo.create("div", {
+				innerHTML: $I("btn.almostlimited.tooltip"),
+				className: "desc small almostlimited"
 			}, tooltip);
 		}
 
@@ -1450,8 +1482,8 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 	updateLink: function(buttonLink, modelLink) {
 		if (buttonLink) {
 			buttonLink.link.textContent = modelLink.title;
-			if (modelLink.cssClass) buttonLink.link.className = modelLink.cssClass;
-			if (modelLink.tooltip) buttonLink.link.title = modelLink.tooltip;
+			if (modelLink.cssClass) {buttonLink.link.className = modelLink.cssClass;}
+			if (modelLink.tooltip) {buttonLink.link.title = modelLink.tooltip;}
 			dojo.style(buttonLink.link, "display", modelLink.visible === undefined || modelLink.visible ? "" : "none");
 		}
 	},
@@ -1562,6 +1594,9 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 
 		if (building.on >= amt){
 			building.on -= amt;
+			if(building.stages){
+				model.metaAccessor.meta.on -= amt; //stage hack
+			}
 			this.metadataHasChanged(model);
 			this.game.upgrade(building.upgrades);
 		}
@@ -1571,6 +1606,9 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 		var building = model.metadata;
 		if (building.on){
 			building.on = 0;
+			if(building.stages){
+				model.metaAccessor.meta.on = 0; //stage hack
+			}
 			this.metadataHasChanged(model);
 			this.game.upgrade(building.upgrades);
 		}
@@ -1588,6 +1626,9 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 
 		if (building.on + amt <= building.val ){
 			building.on += amt;
+			if(building.stages){
+				model.metaAccessor.meta.on += amt; //stage hack
+			}
 			this.metadataHasChanged(model);
 			this.game.upgrade(building.upgrades);
 		}
@@ -1597,6 +1638,9 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 		var building = model.metadata;
 		if (building.on < building.val) {
 			building.on = building.val;
+			if(building.stages){
+				model.metaAccessor.meta.on = building.val; //stage hack
+			}
 			this.metadataHasChanged(model);
 			this.game.upgrade(building.upgrades);
 		}
@@ -1651,7 +1695,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 	decrementValue: function(model) {
 		var building = model.metadata;
 		if (building)
-		building.val--;
+		{building.val--;}
 		if (building.on > building.val){
 			building.on = building.val;
 		}
@@ -1672,6 +1716,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 	handleToggleAutomationLinkClick: function(model) {
 		var building = model.metadata;
 		building.isAutomationEnabled = !building.isAutomationEnabled;
+		this.game.upgrade({buildings: [building.name]});
 	}
 });
 
@@ -1971,11 +2016,15 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 
     incrementValue: function(model) {
 		var meta = model.metadata;
+		var allOff = meta.val > 0 && meta.on == 0;
 		meta.val++;
 		meta.on++;
 
-        // manage togglableOnOff when Off
-        if (meta.togglableOnOff && meta.on == 1){
+		// don't turn on the new building if it's .togglable or .togglableOnOff, you already built at least 1, and all were off before,
+		// or if it's .togglableOnOff, it's your first, and you don't have paragon
+		// (because steamworks isn't useful without upgrades so we don't want to confuse new players)
+		if ((meta.togglableOnOff && (allOff || (meta.val == 1 && this.game.resPool.get("paragon").value == 0))) ||
+			(meta.togglable && allOff)) {
             meta.on--;
         }
 	}

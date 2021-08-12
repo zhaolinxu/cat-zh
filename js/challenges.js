@@ -24,6 +24,9 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		effectDesc: $I("challendge.winterIsComing.effect.desc"),
 		researched: false,
 		unlocked: true,
+		upgrades: {
+			buildings: ["pasture"]
+		},
 		effects: {
 			"springCatnipRatio": 0.05,
 			"summerSolarFarmRatio": 0.05,
@@ -202,7 +205,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 				self.effects["weaponEfficency"] = -0.1; //after 10 completions weapons WILL be useles; no LDR >:3
                 self.effects["policyFakeBought"] = 1;
 				self.effects["embassyFakeBought"] = 1;
-				self.effects["steamworksFakeBought"] = 2;
+				self.effects["steamworksFakeBought"] = Math.floor(1.5 * self.on || 1)/ (self.on || 1);
             }else{
 				self.effects["alicornPerTickRatio"] = 0.1;
 				self.effects["tradeKnowledge"] = 1;
@@ -224,12 +227,14 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		unlocked: false,
 		getTradeBonusEffect: function(game){
 			var self = game.challenges.getChallenge("pacifism");
-			if(!self.val||! game.chellenges.isActive("pacifism")){
+			if(!self.on || game.challenges.isActive("pacifism")){
 				return 0;
 			}
-			var tradepost =game.bld.getBuildingExt("tradepost").meta;
+			var tradepost = game.bld.getBuildingExt("tradepost").meta;
 			var tradeKnowledge = game.getEffect("tradeKnowledge");
-			return (tradepost.effects["tradeRatio"]*Math.min(8 + tradeKnowledge * 2, tradepost.val * (game.getLimitedDR(0.099 + tradeKnowledge * 0.001, 0.25))));
+			var tradepostLimit = (7 + tradeKnowledge * 3) * (0.99 + tradeKnowledge * 0.01);
+			var tradepostRatioLimit = game.getLimitedDR(0.099 + tradeKnowledge * 0.0075, 0.25);
+			return (tradepost.effects["tradeRatio"] * Math.min(tradepostLimit, tradepost.val * tradepostRatioLimit));
 		}
 	}],
 
@@ -259,7 +264,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		};
 		var kittens = [];
 		for (var i in this.game.challenges.reserves.reserveKittens){
-			var _kitten = this.game.challenges.reserves.reserveKittens[i].save(this.game.opts.compressSaveFile, this.jobNames);
+			var _kitten = this.game.challenges.reserves.reserveKittens[i].save(this.game.opts.compressSaveFile, this.game.village.jobNames);
 			kittens.push(_kitten);
 		}
 		saveData.challenges.reserves = this.reserves.getSaveData();
@@ -343,9 +348,9 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			if(this.getChallenge(challenge).actionOnCompletion){
 				this.getChallenge(challenge).actionOnCompletion(this.game);
 			}
-			if(!this.anyChallengeActive() && !this.game.ironWill && !this.getChallenge(challenge).reserveDelay){
+			/*if(!this.anyChallengeActive() && !this.game.ironWill && !this.getChallenge(challenge).reserveDelay){
 				this.reserves.addReserves();
-			}
+			}*/
 			this.game.calculateAllEffects();
 		}
 	},
@@ -477,12 +482,13 @@ dojo.declare("classes.reserveMan", null,{
 		this.game.time.getVSU("usedCryochambers").val += this.reserveKittens.length;
 		this.game.time.getVSU("usedCryochambers").on += this.reserveKittens.length;
 		this.reserveKittens = [];
+		this.game.msg($I("challendge.reservesReclaimed.msg"));
 	},
 
 	getSaveData: function(){
 		var kittens = [];
 		for (var i in this.game.challenges.reserves.reserveKittens){
-			var _kitten = this.game.challenges.reserves.reserveKittens[i].save(this.game.opts.compressSaveFile, this.jobNames);
+			var _kitten = this.game.challenges.reserves.reserveKittens[i].save(this.game.opts.compressSaveFile, this.game.village.jobNames);
 			kittens.push(_kitten);
 		}
 		return {

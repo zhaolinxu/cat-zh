@@ -455,7 +455,11 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			stages: [{bld:"pasture", stage:1}], 	// Solar Farm
-			policies: ["conservation", "openWoodlands"]
+			policies: ["conservation", "openWoodlands"],
+			upgrades: ["carbonSequestration"]
+		},
+		upgrades:{
+			buildings: ["mine", "quarry"]
 		}
 	},
 	{
@@ -890,9 +894,13 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			for (var i = 0; i < game.bld.buildingGroups.length; i++){
     			if(game.bld.buildingGroups[i].name == "population"){
 					for (var k = 0; k < game.bld.buildingGroups[i].buildings.length; k++){
-						if(!game.resPool.isStorageLimited(game.bld.getPrices(game.bld.buildingGroups[i].buildings[k]))){
+						var building = game.bld.getBuildingExt(game.bld.buildingGroups[i].buildings[k]);
+						if(!game.resPool.isStorageLimited(game.bld.getPrices(building.meta.name))){
 							uncappedHousing += 1;
-						}	
+							building.meta.almostLimited = self.researched && game.resPool.isStorageLimited(game.bld.getPrices(building.meta.name, 1));
+						}else{
+							building.meta.almostLimited = false;
+						}
 					}
 					break;
     			}
@@ -1234,7 +1242,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         blocked: false,
         blocks:["outerSpaceTreaty"],
 		evaluateLocks: function(game){
-			return game.space.getBuilding("sattelite").val >0 && !game.challenges.isActive("pacifism");
+			return game.space.getBuilding("sattelite").val > 0 && !game.challenges.isActive("pacifism");
 		}
     },
     //----------------   Philosophy   --------------------
@@ -1246,14 +1254,18 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name : "culture", val: 2500}
         ],
         effects:{
-            "luxuryConsuptionReduction" : 0.5
+            "luxuryDemandRatio" : -0.5,
+			"breweryConsumptionRatio": -0.25
         },
         unlocked: false,
         blocked: false,
         blocks:["epicurianism"],
         unlocks:{
-            policies: ["rationality", "mysticism"]
-        }
+            policies: ["rationality", "mysticism", "rationing", "frugality"]
+        },
+		upgrades: {
+			buildings: ["brewery"]
+		},
     }, {
         name: "epicurianism",
         label: $I("policy.epicurianism.label"),
@@ -1268,9 +1280,67 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         blocked: false,
         blocks:["stoicism"],
         unlocks:{
-            policies: ["rationality", "mysticism"]
+            policies: ["rationality", "mysticism", "carnivale", "extravagance"]
         }
-    }, {
+	}, {
+        name: "carnivale",
+        label: $I("policy.carnivale.label"),
+        description: $I("policy.carnivale.desc"),
+        prices: [
+            {name : "culture", val: 3500}
+        ],
+        effects:{
+			"festivalArrivalRatio" : 0.3,
+			"festivalLuxuryConsumptionRatio": 0.3
+        },
+        unlocked: false,
+        blocked: false,
+        blocks:["extravagance"]
+	}, {
+        name: "extravagance",
+        label: $I("policy.extravagance.label"),
+        description: $I("policy.extravagance.desc"),
+        prices: [
+            {name : "culture", val: 3500}
+        ],
+        effects:{
+			"luxuryDemandRatio" : 2,
+			"consumableLuxuryHappiness": 5
+        },
+        unlocked: false,
+        blocked: false,
+        blocks:["carnivale"]
+	}, {
+        name: "rationing",
+        label: $I("policy.rationing.label"),
+        description: $I("policy.rationing.desc"),
+        prices: [
+            {name : "culture", val: 3500}
+        ],
+        effects:{
+			"hapinnessConsumptionRatio" : -0.1,
+			"hunterRatio": 0.1
+        },
+        unlocked: false,
+        blocked: false,
+        blocks:["frugality"]
+	}, {
+        name: "frugality",
+        label: $I("policy.frugality.label"),
+        description: $I("policy.frugality.desc"),
+        prices: [
+            {name : "culture", val: 3500}
+        ],
+        effects:{
+			"mintRatio" : 0.1
+        },
+        unlocked: false,
+        blocked: false,
+        blocks:["rationing"],
+		upgrades: {
+			buildings: ["mint"]
+		},
+	}, {
         name: "rationality",
         label: $I("policy.rationality.label"),
         description: $I("policy.rationality.desc"),
@@ -1309,7 +1379,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         ],
         effects:{
             "environmentUnhappiness" : -2,
-			"mineralsPolicyRatio" : 0.3
+			"mineralsPolicyRatio" : 0.3,
+			"cathPollutionRatio" : 0.05
         },
         unlocked: false,
         unlocks:{
@@ -1326,7 +1397,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         ],
         effects:{
             "environmentUnhappiness" : -2,
-			"woodPolicyRatio" : 0.3
+			"woodPolicyRatio" : 0.3,
+			"cathPollutionRatio" : 0.05
         },
         unlocked: false,
         unlocks:{
@@ -1342,7 +1414,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name : "culture", val: 2000}
         ],
         effects:{
-            "environmentHappinessBonus" : 3
+            "environmentHappinessBonus" : 3,
+			"cathPollutionRatio" : -0.05
         },
         unlocked: false,
         unlocks:{
@@ -1358,7 +1431,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name : "culture", val: 10000}
         ],
         effects:{
-            "environmentHappinessBonus" : 5
+            "environmentHappinessBonus" : 5,
+			"cathPollutionRatio" : -0.05
         },
         unlocked: false,
         blocked: false,
@@ -1378,7 +1452,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			buildings: ["factory"]
 		},
         effects:{
-            "environmentFactoryCraftBonus" : 0.05
+            "environmentFactoryCraftBonus" : 0.05,
+			"cathPollutionRatio" : 0.05
         },
         unlocked: false,
         blocked: false,
@@ -1395,7 +1470,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name : "culture", val: 10000}
         ],
         effects:{
-            "environmentHappinessBonus" : 5
+            "environmentHappinessBonus" : 5,
+			"cathPollutionRatio" : -0.05
         },
         unlocked: false,
         blocked: false,
@@ -1412,7 +1488,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         ],
         effects:{
             "mineralsPolicyRatio" : 0.125,
-            "woodPolicyRatio" : 0.125
+            "woodPolicyRatio" : 0.125,
+			"cathPollutionRatio" : 0.05
         },
         unlocked: false,
         blocked: false,
@@ -1907,6 +1984,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 			this.metaphysicsPanel.game = this.game;
 			this.metaphysicsPanel.render(tabContainer);
 		}
+		if(this.game.detailedPollutionInfo){
+			this.detailedPollutionInfo = dojo.create("span", { style: { display: "inline-block", marginBottom: "20px"}}, tabContainer);
+		}
 		this.update();
 	},
 
@@ -1918,6 +1998,40 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 		}
 		if (this.policyPanel){
 			this.policyPanel.update();
+		}
+		//detailedPollutionInfo is temporary tag. Don't replace lines belov with i18n lines!
+		if(this.game.detailedPollutionInfo){
+			if(this.detailedPollutionInfo){
+				var currentCathPollution = this.game.bld.cathPollution;
+				var currenCathPerTickPollution = this.game.bld.cathPollutionPerTick;
+				this.detailedPollutionInfo.innerHTML = "Pollution is " + Math.floor(currentCathPollution) + 
+					" (" + this.game.getDisplayValueExt(currentCathPollution) + ") " +
+					"<br>Polution per tick is " + Math.floor(currenCathPerTickPollution);
+				var pollutionLevel = this.game.bld.getPollutionLevel();
+				this.detailedPollutionInfo.innerHTML += "<br>Pollution level is " + pollutionLevel;
+				if(pollutionLevel >= 0){
+					this.detailedPollutionInfo.innerHTML += "<br>Pollution future effects might be at this pollution level:";
+					this.detailedPollutionInfo.innerHTML += "<br>— Less catnip production";
+					if(pollutionLevel >= 1){
+						this.detailedPollutionInfo.innerHTML += "<br>— Less kitten happines: " + this.game.bld.pollutionEffects["pollutionHappines"] + "%";
+					}
+					if(pollutionLevel >= 2){
+						this.detailedPollutionInfo.innerHTML += "<br>— Kittens arrive " + this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] + " times slower.";
+					}
+					if(pollutionLevel > 4){
+						this.detailedPollutionInfo.innerHTML += "<br>— SR effect doesn't apply to wood and catnip";
+					}else if(pollutionLevel >= 3){
+						this.detailedPollutionInfo.innerHTML += "<br>— Less SR effect on wood and catnip";
+					}
+				}
+				if(currenCathPerTickPollution < 0 && currentCathPollution) {
+					var toZero = -currentCathPollution / currenCathPerTickPollution / this.game.calendar.ticksPerDay;
+					this.detailedPollutionInfo.innerHTML += "<br> To zero " + this.game.toDisplaySeconds(toZero.toFixed());
+				}else if(currenCathPerTickPollution > 0){
+					var toNextLevel = (Math.pow(10, 1 + pollutionLevel) * this.game.bld.getPollutionLevelBase() - currentCathPollution) / currenCathPerTickPollution / this.game.calendar.ticksPerDay;
+					this.detailedPollutionInfo.innerHTML += "<br> To next level " + this.game.toDisplaySeconds(toNextLevel.toFixed());
+				}
+			}
 		}
 	},
 
