@@ -1165,7 +1165,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 			var displayEffectValue = "";
 
 			//display resMax values with global ratios like Refrigeration and Paragon
-			if (effectName.substr(-3) === "Max") {
+			if (effectName.substr(-3) === "Max" || effectName.substr(-12) == "MaxChallenge") {
 				var res = this.game.resPool.get(effectMeta.resName || effectName.slice(0, -3));
 				if (res) { // If res is a resource and not just a variable
 					effectValue = this.game.resPool.addResMaxRatios(res, effectValue);
