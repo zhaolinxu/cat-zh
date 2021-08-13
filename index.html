@@ -653,7 +653,7 @@
 				<br>
 				<textarea id="importData" style="width: 550px; height: 220px;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
 				<br>
-				<input id="doImportButton" type="button" value="Import" onclick="gamePage.saveImport(); $('#importDiv').hide(); visibleTrue();" style="margin-top: 10px;">
+				<input id="doImportButton" type="button" value="Import" onclick="gamePage.saveImport(); $('#importDiv').hide();" style="margin-top: 10px;">
 				<input id="cancelButton" type="button" value="Cancel" onclick="$('#importDiv').hide();" style="margin-top: 10px;">
 
 			</div>
@@ -824,15 +824,6 @@
 				}
 			};
 			_282d5adfdca92885cd9f210a9b60a328();
-
-			function visibleTrue() {
-				setTimeout(function() {
-					if (typeof gamePage != "undefined") {
-						gamePage.nummonTab.visible = true;
-						game.render();
-					}
-				}, 4000);
-			}
 		</script>
 
 	</body>

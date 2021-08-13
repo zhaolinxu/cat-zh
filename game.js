@@ -2033,7 +2033,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		for (var i in this.tabs){
-			if (this.tabs[i].tabId != "Bonfire"){
+			if (this.tabs[i].tabId != "Bonfire" | this.tabs[i].tabId != "Nummon"){
 				this.tabs[i].visible = false;
 			}
 		}
