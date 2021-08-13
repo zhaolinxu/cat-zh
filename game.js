@@ -2033,7 +2033,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		for (var i in this.tabs){
-			if (this.tabs[i].tabId != "Bonfire" | this.tabs[i].tabId != "Nummon"){
+			if (this.tabs[i].tabId != "Bonfire"){
 				this.tabs[i].visible = false;
 			}
 		}
@@ -2294,7 +2294,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.prestige.getPerk("adjustmentBureau").researched || 
 			this.prestige.getPerk("adjustmentBureau").reserve);
 
-		if (this.nummonTab) {console.log(1)
+		if (this.nummonTab) {
 			this.nummonTab.visible = true;
 		}
 
