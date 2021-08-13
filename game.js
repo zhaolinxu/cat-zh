@@ -2294,6 +2294,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.prestige.getPerk("adjustmentBureau").researched || 
 			this.prestige.getPerk("adjustmentBureau").reserve);
 
+		if (this.nummonTab) {console.log(1)
+			this.nummonTab.visible = true;
+		}
+
 		this.ui.load();
 		this.updateCaches();
 
