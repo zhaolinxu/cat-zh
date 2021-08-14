@@ -1253,39 +1253,39 @@ dojo.declare("classes.village.Map", null, {
 	biomes: [
 	{
 		name: "village",
-		icon: "=",
 		title: "Village",
-		terrainPenalty: 1.2
+		desc: "Improves exploration rate of all biomes",
+		terrainPenalty: 1.0
 	},		
 	{
 		name: "plains",
-		icon: ".",
 		title: "Plains",
+		desc: "Improves catnip generation by 1% per level",
+		terrainPenalty: 1.0
+	},	
+	{
+		name: "hills",
+		title: "Hills",
 		terrainPenalty: 1.2
 	},
 	{
 		name: "forest",
-		icon: "^",
 		title: "Forest",
 		terrainPenalty: 1.2
 	},{
 		name: "boneForest",
-		icon: "^.",
 		title: "Bone Forest",
 		terrainPenalty: 1.9
 	},{
 		name: "rainForest",
-		icon: "^`",
 		title:"Rain Forest",
 		terrainPenalty: 1.4
 	},{
 		name: "mountain",
-		icon: "*",
 		title: "Mountain",
 		terrainPenalty: 1.2
 	},{
 		name: "desert",
-		icon: "~",
 		title: "Desert",
 		terrainPenalty: 1.5
 	}],
@@ -1302,51 +1302,19 @@ dojo.declare("classes.village.Map", null, {
 		this.init();
 	},
 
-	/*toLevel: function(x, y){
-		var key = x + "_" + y,
-			data = this.villageData[key] || {
-				level: 0,
-			};
-
-		var distance =  Math.sqrt(Math.pow(x - 3, 2) + Math.pow(y - 2, 2)) || 1;
-
-		if (data.biomeInfo){
-			distance *= data.biomeInfo.terrainPenalty;
-		}
-
-		var toLevel = 100 * (1 + 1.1 * Math.pow((distance - 1), 2.8)) * Math.pow(data.level + 1, 1.18 + 0.1 * distance);
-		return toLevel;
-	},*/
-
+	//TODO: account for a signifficant penalty for late game biomes
+	//var toLevel = 100 * (1 + 1.1 * Math.pow((distance - 1), 2.8)) * Math.pow(data.level + 1, 1.18 + 0.1 * distance);
 	toLevel: function(biome){
 		return 100 * (1 + 1.1 * Math.pow(biome.level + 1, 1.18 + 0.1 * biome.terrainPenalty));
 	},
 
 	update: function(){
-		/*
-		var exploredLevel = 0;
-
-		for (var key in this.villageData){
-			var cellData = this.villageData[key];
-			if (cellData.level > 0){
-				cellData.cp -= (0.1 * cellData.level);
-				if (cellData.cp < 0){
-					cellData.cp = 0;
-				}
-			}
-			exploredLevel += cellData.level;
-
-			if (cellData.type == "village"){
-				this.game.globalEffectsCached["exploreRatio"] = (0.1 * (cellData.level - 1));
-				this.villageLevel = cellData.level;
+		for (var i in this.biomes){
+			var biome = this.biomes[i];
+			if (biome.name == "village"){
+				this.game.globalEffectsCached["exploreRatio"] = (0.1 * (biome.level - 1));
 			}
 		}
-
-		this.exploredLevel = exploredLevel;
-
-		if (this.expeditionNode){
-			this.explore(this.expeditionNode.x, this.expeditionNode.y);
-		}*/
 		if(this.currentBiome){
 			this.explore(this.currentBiome);
 		}
@@ -2538,8 +2506,8 @@ dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.I
 
 			this.addChild(new classes.ui.time.BiomeBtn({
 				id: biome.name,
-				name: "[" + biome.icon + "] " + biome.title,
-				description: $I("village.biomeBtn.desc"),
+				name: biome.title,
+				description: biome.desc,
 				prices: [],
 				controller: new classes.ui.time.BiomeBtnController(game)
 			}, game));
