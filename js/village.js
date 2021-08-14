@@ -1236,8 +1236,6 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 
 dojo.declare("classes.village.Map", null, {
 	game: null,
-	villageData: null,
-
 	villageLevel: 0,
 	/*% explored, affects your priceRatio */
 	exploredLevel: 0,
@@ -1249,37 +1247,44 @@ dojo.declare("classes.village.Map", null, {
 	selectedNode: null,
 
 	//TODO: in a long run you can probably have multiple maps and multiple expeditions
-
-	biomes: [{
+	biomes: [
+	{
+		id: "village",
+		icon:"=",
+		title:"Village",
+		terrainPenalty: 1.2
+	},		
+	{
+		id: "plains",
+		icon:".",
+		title:"Plains",
+		terrainPenalty: 1.2
+	},
+	{
 		id: "forest",
 		icon:"^",
 		title:"Forest",
-		terrainPenalty: 1.2,
-		biomeChance: 0.2
+		terrainPenalty: 1.2
 	},{
 		id: "boneForest",
 		icon:"^.",
 		title:"Bone Forest",
-		terrainPenalty: 1.9,
-		biomeChance: 0.02
+		terrainPenalty: 1.9
 	},{
 		id: "rainForest",
 		icon:"^`",
 		title:"Rain Forest",
-		terrainPenalty: 1.4,
-		biomeChance: 0.1
+		terrainPenalty: 1.4
 	},{
 		id: "mountain",
 		icon:"*",
 		title:"Mountain",
-		terrainPenalty: 1.2,
-		biomeChance: 0.05
+		terrainPenalty: 1.2
 	},{
 		id: "desert",
 		icon:"~",
 		title:"Desert",
-		terrainPenalty: 1.5,
-		biomeChance: 0.08
+		terrainPenalty: 1.5
 	}],
 
 	constructor: function(game){
@@ -1288,104 +1293,10 @@ dojo.declare("classes.village.Map", null, {
 	},
 
 	init: function(){
-		this.villageData = {
-			"3_2":{
-				title: "v",
-				type: "village",
-				level: 1,
-				cp: 0
-			}
-		};
 	},
 
 	resetMap: function(){
 		this.init();
-		this.mapgen();
-	},
-
-	generateTile: function(i, j){
-		var key = i + "_" + j;
-
-		for (var _biomeKey in this.biomes){
-			var biome = this.biomes[_biomeKey];
-			if (this.game.rand(100) <= (biome.biomeChance * 100)){
-				this.villageData[key] = {
-					title: biome.icon,
-					type: biome.id,
-					level: 0,
-					cp: 0,
-					unlocked: false,
-					biomeInfo: biome
-				};
-			}
-		}
-		if (!this.villageData[key]){
-			this.villageData[key] = {
-				title: null,
-				type: null,
-				level: 0,
-				cp: 0,
-				unlocked: false,
-				biomeInfo: null
-			};
-		}
-		return this.villageData[key];
-	},
-
-	mapgen: function(){
-		for (var i = 0; i < 7; i++){
-			for (var j = 0; j < 7; j++){
-				var key = i + "_" + j;
-				if (this.villageData[key]){ continue; }
-
-				for (var _biomeKey in this.biomes){
-					var biome = this.biomes[_biomeKey];
-					if (this.game.rand(100) <= (biome.biomeChance * 100)){
-						this.villageData[key] = {
-							title: biome.icon,
-							type: biome.id,
-							level: 0,
-							cp: 0,
-							unlocked: false,
-							biomeInfo: biome
-						};
-					}
-				}
-				if (!this.villageData[key]){
-					this.villageData[key] = {
-						title: null,
-						type: null,
-						level: 0,
-						cp: 0,
-						unlocked: false,
-						biomeInfo: null
-					};
-				}
-			}
-		}
-
-		this.unlockTile(3,2);	//unlock village and 3x3 area around it
-	},
-
-	unlockTile: function(x, y){
-		for (var i = x - 1; i <= x + 1; i++){
-			for (var j = y - 1; j <= y + 1; j++){
-				var tile = this.getTile(i, j);
-				if (tile){
-					tile.unlocked = true;
-				}
-			}
-		}
-	},
-
-	getTile: function(x, y){
-		var key = x + "_" + y,
-			data = this.villageData[key];
-
-		if (!data){
-			data = this.generateTile(x, y);
-		}
-		return data;
 	},
 
 	toLevel: function(x, y){
@@ -1405,6 +1316,7 @@ dojo.declare("classes.village.Map", null, {
 	},
 
 	update: function(){
+		/*
 		var exploredLevel = 0;
 
 		for (var key in this.villageData){
@@ -1427,11 +1339,11 @@ dojo.declare("classes.village.Map", null, {
 
 		if (this.expeditionNode){
 			this.explore(this.expeditionNode.x, this.expeditionNode.y);
-		}
+		}*/
 	},
 
 	explore: function(x, y){
-        var dataset = this.villageData,
+        /*var dataset = this.villageData,
             data = this.getTile(x, y);
 
         var toLevel = this.toLevel(x, y),
@@ -1450,7 +1362,7 @@ dojo.declare("classes.village.Map", null, {
                 this.expeditionNode = null;
                 this.unlockTile(x, y);
             }
-        }
+        }*/
 	},
 
 	getExplorationPrice: function(x, y){
@@ -2556,6 +2468,54 @@ dojo.declare("classes.village.ui.FestivalButton", com.nuclearunicorn.game.ui.But
 	}
 });
 
+dojo.declare("classes.ui.time.BiomeBtnController", com.nuclearunicorn.game.ui.ButtonModernController, {
+    buyItem: function() {
+    }
+});
+
+dojo.declare("classes.ui.time.BiomeBtn", com.nuclearunicorn.game.ui.ButtonModern, {
+    renderLinks: function() {
+        //this.toggle = this.addLink(this.model.toggle);
+    },
+
+    update: function() {
+        this.inherited(arguments);
+        //this.updateLink(this.toggle, this.model.toggle);
+    }
+});
+
+dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.IGameAware], {
+	constructor: function(game){
+		for (var i in game.village.map.biomes){
+			var biome = game.village.map.biomes[i];
+
+			this.addChild(new classes.ui.time.BiomeBtn({
+				name: "[" + biome.icon + "] " + biome.title,
+				description: $I("village.biomeBtn.desc"),
+				prices: [],
+				controller: new classes.ui.time.BiomeBtnController(game)
+			}, game));
+		}
+	},
+
+	render: function(container){
+		var div = dojo.create("div", null, container);
+		dojo.create("div", {innerHTML: "Biomes go there"}, div);
+		//this.villageDiv = dojo.create("div", null, div);
+		this.explorationDiv = dojo.create("div", null, div);
+
+		var btnsContainer = dojo.create("div", {style:{paddingTop:"20px"}}, div);
+       
+		
+		this.inherited(arguments, [btnsContainer]);
+	},
+
+	update: function() {
+		this.explorationDiv.innerHTML = "Currently exploring: [], %";
+		this.inherited(arguments);
+	}
+});
+
 /**
  * Village tab to manage jobs
  */
@@ -2640,19 +2600,16 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.tdTop = tdTop;
 
 		//--------------------------	map ---------------------------
-		/*var isMapVisible = this.game.science.get("archery").researched &&
-			this.game.resPool.get("paragon").value >= 5; */
+		var isMapVisible = this.game.science.get("archery").researched/* &&
+			this.game.resPool.get("paragon").value >= 5*/;
 
+		//TOOD: make all panels IChildAware?
 		this.mapPanel = new com.nuclearunicorn.game.ui.Panel("Map", this.game.village);
-		this.mapPanel.setVisible(false);
+		this.mapPanel.setVisible(isMapVisible);
 
-		/*if (this.mapPanelViewport){
-			React.unmountComponentAtNode(this.mapPanelViewport);
-		}
-		this.mapPanelViewport = this.mapPanel.render(tabContainer);
-		React.render($r(WMapSection, {
-            game: this.game
-        }), this.mapPanelViewport);*/
+		var mapPanelContainer = this.mapPanel.render(tabContainer);
+		this.mapWgt = new classes.village.ui.MapOverviewWgt(this.game);
+		this.mapWgt.render(mapPanelContainer);
 
 		//----------------- happiness and things ----------------------
 
@@ -2749,7 +2706,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.promoteKittensBtn = promoteKittensBtn;
 
 		//redeemGift
-		var config = new classes.KGConfig();
+		//var config = new classes.KGConfig();
 		var redeemGiftBtn = new com.nuclearunicorn.game.ui.ButtonModern({
 			name: $I("village.btn.unwrap"),
 			description: "",
@@ -2771,11 +2728,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 
 		//--------------- bureaucracy ------------------
 		this.censusPanel = new com.nuclearunicorn.game.ui.CensusPanel($I("village.panel.census"), this.game.village, this.game);
-		//this.censusPanel.collapsed = true;
 		if (!this.game.science.get("civil").researched){
 			this.censusPanel.setVisible(false);
 		}
-
 		this.censusPanelContainer = this.censusPanel.render(tabContainer);
 
 		this.update();
@@ -2804,12 +2759,13 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 				this.game.village.getKittens() >= 5 || this.game.resPool.get("zebras").value > 0
 			);
 		}
-		if (this.huntBtn){
-			this.huntBtn.update();
-		}
-		if (this.festivalBtn){
-			this.festivalBtn.update();
-		}
+
+		this.huntBtn && this.huntBtn.update();
+		this.festivalBtn && this.festivalBtn.update();
+
+		this.mapPanel && this.mapPanel.update();
+		this.mapWgt && this.mapWgt.update();
+		
 
 		//update kitten stats
 
@@ -2819,14 +2775,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 
 			this.censusPanel.update();
 		}
-		if (this.game.ironWill && !this.game.village.getKittens()){
-			this.jobsPanel.setVisible(false);
-		}else{
-			this.jobsPanel.setVisible(true);
-		}
+		var jobsHidden = (this.game.ironWill && !this.game.village.getKittens());
+		this.jobsPanel.setVisible(!jobsHidden);
+		
 
-
-		//this.updateCensus();
 		this.updateTab();
 	},
 
