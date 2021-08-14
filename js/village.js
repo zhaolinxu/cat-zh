@@ -1258,39 +1258,48 @@ dojo.declare("classes.village.Map", null, {
 		name: "village",
 		title: "Village",
 		desc: "Improves exploration rate of all biomes",
-		terrainPenalty: 1.0
+		terrainPenalty: 1.0,
+		unlocked: true
 	},		
 	{
 		name: "plains",
 		title: "Plains",
 		desc: "Improves catnip generation by 1% per level",
-		terrainPenalty: 1.0
+		terrainPenalty: 1.0,
+		unlocked: true
 	},	
 	{
 		name: "hills",
 		title: "Hills",
-		terrainPenalty: 1.2
+		terrainPenalty: 1.2,
+		unlocked: false
 	},
 	{
 		name: "forest",
 		title: "Forest",
-		terrainPenalty: 1.2
+		desc: "Improves your wood production by 1% per level",
+		terrainPenalty: 1.2,
+		unlocked: true
 	},{
 		name: "boneForest",
 		title: "Bone Forest",
-		terrainPenalty: 1.9
+		terrainPenalty: 1.9,
+		unlocked: false
 	},{
 		name: "rainForest",
 		title:"Rain Forest",
-		terrainPenalty: 1.4
+		terrainPenalty: 1.4,
+		unlocked: false
 	},{
 		name: "mountain",
 		title: "Mountain",
-		terrainPenalty: 1.2
+		terrainPenalty: 1.2,
+		unlocked: false
 	},{
 		name: "desert",
 		title: "Desert",
-		terrainPenalty: 1.5
+		terrainPenalty: 1.5,
+		unlocked: false
 	}],
 
 	constructor: function(game){
@@ -2476,16 +2485,37 @@ dojo.declare("classes.ui.time.BiomeBtnController", com.nuclearunicorn.game.ui.Bu
 	},
 
 	getName: function(model){
+		var map = this.game.village.map;
+
 		var name = model.options.name;
 		if (this.biome.level !== undefined ){
-			name += ", LV" + this.biome.level;
+			name += ", lv." + this.biome.level;
 		}
 		if (this.biome.cp){
-			var toLevel = this.game.village.map.toLevel(this.biome);
+			var toLevel = map.toLevel(this.biome);
+
+			//TODO: color text red if out of catnip, otherwise it is very confusing
 			name += " [" + (this.biome.cp / toLevel * 100).toFixed(2) + "%]";
+
+			//mark current biome for visual identification
+			if (map.currentBiome == model.options.id){
+				name += " (current)";
+			}
 		}
 		
 		return name;
+	},
+
+	//does not recalc, use proper attachTooltip and override this
+	/*getDescription: function(model){
+		var desc = this.biome.desc;
+
+		var toLevel = this.game.village.map.toLevel(this.biome);
+		return desc + ", cp: " + this.biome.cp.toFixed(2) + " / " + toLevel.toFixed(2);
+	},*/
+
+	updateVisible: function(model){
+		model.visible = this.biome.unlocked;
 	}
 });
 
@@ -2522,6 +2552,10 @@ dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.I
 		dojo.create("div", {innerHTML: "Biomes go there"}, div);
 		//this.villageDiv = dojo.create("div", null, div);
 		this.explorationDiv = dojo.create("div", null, div);
+
+		dojo.create("div", {
+			innerHTML: "Biome data: lv. 1, cp. 666/999, penalty: 1.1, etc"
+		}, div);
 
 		var btnsContainer = dojo.create("div", {style:{paddingTop:"20px"}}, div);
        
