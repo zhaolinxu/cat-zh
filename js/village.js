@@ -2529,7 +2529,7 @@ dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.I
 	update: function() {
 		var map = this.game.village.map;
 
-		this.explorationDiv.innerHTML = "Currently exploring: [" +  map.currentBiome + "], %";
+		this.explorationDiv.innerHTML = "Currently exploring: [" +  map.currentBiome + "], % [Cancel]";	//<-- link TBD
 		this.inherited(arguments);
 	}
 });
