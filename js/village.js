@@ -609,6 +609,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			maxKittens: this.maxKittens,
 			jobs: this.filterMetadata(this.jobs, ["name", "unlocked", "value"]),
 			//map : this.map.villageData
+			biomes: this.filterMetadata(this.map.biomes, ["name", "unlocked", "level", "cp"]),
+			currentBiome: this.map.currentBiome
 		};
 	},
 
@@ -646,9 +648,10 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			this.maxKittens  = saveData.village.maxKittens;
 			this.loadMetadata(this.jobs, saveData.village.jobs);
 
-			/*if (saveData.village.map){
-				this.map.villageData = saveData.village.map;
-			}*/
+			if (saveData.village.biomes){
+				this.loadMetadata(this.map.biomes, saveData.village.biomes);
+				this.map.currentBiome = saveData.village.currentBiome;
+			}
 		}
 
 		this.updateResourceProduction();
