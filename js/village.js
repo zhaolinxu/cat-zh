@@ -2486,17 +2486,13 @@ dojo.declare("classes.village.ui.FestivalButton", com.nuclearunicorn.game.ui.But
 });
 
 dojo.declare("classes.ui.time.BiomeBtnController", com.nuclearunicorn.game.ui.ButtonModernController, {
-	getMetadata: function(model){
-        if (!model.metaCached){
-            model.metaCached = this.game.village.getBiome(model.options.id);
-        }
-        return model.metaCached;
-	},
-
 	fetchModel: function(options){
+		if (!this.biome){
+			this.biome = this.game.village.getBiome(options.id);
+		}
 		var model = this.inherited(arguments);
-		model.biome = this.game.village.getBiome(options.id);
-
+		model.biome = this.biome;
+		
 		return model;
 	},
 	
@@ -2506,6 +2502,19 @@ dojo.declare("classes.ui.time.BiomeBtnController", com.nuclearunicorn.game.ui.Bu
 
 		var map = this.game.village.map;
 		map.currentBiome = biome.name;
+	},
+
+	getName: function(model){
+		var name = model.options.name;
+		if (this.biome.level !== undefined ){
+			name += ", LV" + this.biome.level;
+		}
+		if (this.biome.cp){
+			var toLevel = this.game.village.map.toLevel(this.biome);
+			name += " [" + (this.biome.cp / toLevel * 100).toFixed(2) + "%]";
+		}
+		
+		return name;
 	}
 });
 
