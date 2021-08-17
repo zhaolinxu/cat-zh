@@ -3187,6 +3187,9 @@ var run = function() {
                     var liberty = game.science.getPolicy("liberty");
                     liberty.calculateEffects(liberty, game);
                 }
+                if (meta.unlockScheme && meta.val >= meta.unlockScheme.threshold) {
+                    game.ui.unlockScheme(meta.unlockScheme.name);
+                }
                 if (meta.unlocks) {game.unlock(meta.unlocks);}
                 if (meta.upgrades) {
                     if (meta.updateEffects) {
