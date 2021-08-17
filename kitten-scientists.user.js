@@ -306,7 +306,7 @@ var run = function() {
             'ui.trigger.set': '输入新的 {0} 触发值，取值范围为 0 到 1 的小数。',
             'ui.limit': '限制',
             'ui.trigger.missions.set': '输入一个新的 探索星球 触发值,取值范围为 0 到 13 的整数。\n分别对应13颗星球。',
-            'ui.trigger.crypto.set': '输入一个新的 {0} 触发值,\n遗物数量达到触发值时会进行黑笔交易。',
+            'ui.trigger.crypto.set': '输入一个新的 {0} 触发值,\n遗物数量达到触发值时会进行黑币交易。',
             'ui.engine': '启用小猫珂学家',
             'ui.build': '营火',
             'ui.space': '太空',
@@ -1279,7 +1279,7 @@ var run = function() {
                     if (optionVals.timeSkip.wait == 1 && game.calendar.cycle == 5) {
                         optionVals.timeSkip.wait = game.calendar.year;
                         break TimeSkip;
-                    } else if (optionVals.timeSkip.wait === false | optionVals.timeSkip.wait === game.calendar.year) {
+                    } else if (optionVals.timeSkip.wait === false | optionVals.timeSkip.wait === game.calendar.year | optionVals.timeSkip.wait === 1) {
                         break TimeSkip;
                     } else if (optionVals.timeSkip.wait !== game.calendar.year) {
                         optionVals.timeSkip.wait = false;

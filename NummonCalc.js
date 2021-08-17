@@ -107,7 +107,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
             "religion": "太阳教团",
 
             "getReligionProductionBonusCap": "太阳革命极限加成",
-            "getNextTranscendTierProgress": "当前顿悟数量",
+            "getNextTranscendTierProgress": "当前拥有的顿悟",
             "getAdore": "预计赞美群星后的总顿悟",
             
             "Transcend":"次元超越",
