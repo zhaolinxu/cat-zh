@@ -286,7 +286,7 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
         },{
             name: "abOwo",
             title: "Ab Owo",
-            description: "TBD(时间悖论中重置)",
+            description: "Ab Owo",
             difficulty: "A"
         }
     ],

@@ -362,6 +362,9 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
             return this.i18n("best.none");
         }
         var polltionPerTick = this.game.bld.cathPollutionPerTick;
+        if (polltionPerTick < 0) {
+            polltionPerTick = 0
+        }
         return this.game.getDisplayValueExt(polltionPerTick, true, true);
     },
 

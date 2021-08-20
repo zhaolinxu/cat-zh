@@ -1287,8 +1287,8 @@ var run = function() {
                 }
 
                 var factor = game.challenges.getChallenge("1000Years").researched ? 5 : 10;
-                var heatMin = 20 * optionVals.timeSkip.maximum * factor;
-                if (optionVals.timeSkip[5] && optionVals.timeSkip.wait === false && game.time.heat > game.getEffect('heatMax') - Math.min(heatMin, 20 * game.time.getCFU("blastFurnace").on + 20)) {
+                var heatMin =  4 * optionVals.timeSkip.maximum * factor;
+                if (optionVals.timeSkip[5] && optionVals.timeSkip["summer"] && optionVals.timeSkip.wait === false && game.time.heat > game.getEffect('heatMax') - Math.min(heatMin, 20 * game.time.getCFU("blastFurnace").on + 20)) {
                     optionVals.timeSkip.wait = 1;
                 }
 
@@ -1510,10 +1510,12 @@ var run = function() {
                     }
                 }
             } else {
-                builds = Object.assign({}, builds, Object.fromEntries(Object.entries(options.auto.unicorn.items).filter(([k,v]) => v.variant != 'zp')));
+                //builds = Object.assign({}, builds, Object.fromEntries(Object.entries(options.auto.unicorn.items).filter(([k,v]) => v.variant != 'zp')));
+                builds = Object.assign(builds, options.auto.unicorn.items);
                 if (options.auto.unicorn.items.unicornPasture.enabled) {
                     this.build({unicornPasture: {require: false, enabled: true}});
                 }
+                delete builds.unicornPasture;
             }
             // religion build
             if (this._worship(builds)) {refreshRequired = true;}
