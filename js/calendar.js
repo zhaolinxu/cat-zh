@@ -922,7 +922,7 @@ if (++this.cycleYear >= this.yearsPerCycle) {
 		var aiLevel = this.game.bld.get("aiCore").effects["aiLevel"];
 		if ((aiLevel > 14) && (this.game.science.getPolicy("transkittenism").researched != true)){
 			var aiApocalypseLevel = aiLevel - 14;
-			if(!this.game.getEffect("shatterTCGain") * (1 + this.game.getEffect("rrRatio"))){
+			if(!this.game.getEffect("shatterTCGain")){
 				for (var i in this.game.resPool.resources){
 					var res = this.game.resPool.resources[i];
 					if (res.aiCanDestroy) {
