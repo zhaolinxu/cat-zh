@@ -922,14 +922,12 @@ if (++this.cycleYear >= this.yearsPerCycle) {
 		var aiLevel = this.game.bld.get("aiCore").effects["aiLevel"];
 		if ((aiLevel > 14) && (this.game.science.getPolicy("transkittenism").researched != true)){
 			var aiApocalypseLevel = aiLevel - 14;
-			this.game.msg($I("ai.apocalypse.msg", [aiApocalypseLevel]), "alert", "ai");
-			for (var i in this.game.resPool.resources){
-				var res = this.game.resPool.resources[i];
-				if (res.aiCanDestroy) {
-					if(res.maxValue >= res.value){
-						res.Pool.addResEvent(res.name, -res.value * 0.01 * aiApocalypseLevel);
+			if(!this.game.getEffect("shatterTCGain") * (1 + this.game.getEffect("rrRatio"))){
+				for (var i in this.game.resPool.resources){
+					var res = this.game.resPool.resources[i];
+					if (res.aiCanDestroy) {
+						resPool.addResEvent(res.name, -res.value * (1 - Math.pow(1 - 0.01 * aiApocalypseLevel, years))); //hopefully this will work close enough
 					}
-					else {resPool.addResEvent(res.name, -res.value * (1 - Math.pow(1 - 0.01 * aiApocalypseLevel, years)));}
 				}
 			}
 		}
