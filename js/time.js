@@ -574,6 +574,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         2.4)calculates production per millenia (more accurate for paragon production bonuses)
     3)calculates Millenium production
     4)calculates flux
+    likely to be deprecated after shatterInGroupCycles is finished
     */
     shatterInCycles: function(amt){ 
         amt = amt || 1;
@@ -681,6 +682,12 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         var remainingDaysInFirstYearSaved = remainingDaysInFirstYear;
         cal.day = 0;
         cal.season = 0;
+        var aiLevel = this.game.bld.get("aiCore").effects["aiLevel"];
+        var aiApocalypseLevel = 0;
+		if ((aiLevel > 14) && (this.game.science.getPolicy("transkittenism").researched != true) && amt != 1){ //if amt == 1 we just use usual onNewYear calendar function
+			aiApocalypseLevel = aiLevel - 14;
+		}
+        var aiDestructionMod = -Math.min(1, aiApocalypseLevel * 0.01);
         // Space ETA
         var remainingDays = remainingDaysInFirstYear + (amt - 1) * daysPerYear;
         for (var j in game.space.planets) {
@@ -722,8 +729,25 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                 var limits = {};
                 for (var j = 0; j < game.resPool.resources.length; j++) {
                     var res = game.resPool.resources[j];
-                    limits[res.name] = Math.max(res.value, res.maxValue || Number.POSITIVE_INFINITY);
+                    var resLimit = Math.max(res.value, res.maxValue || Number.POSITIVE_INFINITY);
                     game.resPool.addRes(res, game.getResourcePerTick(res.name, true) * ticksInCurrentCycle * shatterTCGain, false, true);
+                    /*
+                    if resource can be destroyed by ai:
+                        1) and isn't overcapped, we can just limit the cap
+                        2) and doesn't have a cap, it will just decrease the number of resources by decreasing it using power function — approximation, might destroy less or more
+                        3) and (last possible option is that it) is overcapped, we can also limit the cap
+                    */
+                    if (aiApocalypseLevel && res.aiCanDestroy){
+                        console.log(res.name);
+                        if(resLimit == res.MaxValue){
+                            resLimit = Math.min(resLimit, res.value) * (1 + aiDestructionMod);
+                        }else if (!res.maxValue){
+                            game.resPool.addResEvent(res.name, -res.value * (1 - Math.pow(1 + aiDestructionMod, yearsInCurrentCycle))); //hopefully this works
+                        }else /*if (resLimit == res.value)*/{
+                            resLimit = Math.min(resLimit, res.value) * Math.pow(1 + aiDestructionMod, yearsInCurrentCycle);
+                        }
+                    }
+                    limits[res.name] = resLimit;
                 }
                 if (this.game.workshop.get("chronoEngineers").researched) {
                     this.game.workshop.craftByEngineers(ticksInCurrentCycle * shatterTCGain);
@@ -753,6 +777,10 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             game.msg($I("time.tc.shatterOne"), "", "tc");
         } else {
             game.msg($I("time.tc.shatter",[amt]), "", "tc");
+        }
+
+		if(aiApocalypseLevel){
+            this.game.msg($I("ai.apocalypse.msg", [aiApocalypseLevel]), "alert", "ai");
         }
         this.flux += amt - 1 + remainingDaysInFirstYearSaved / daysPerYear;
 
