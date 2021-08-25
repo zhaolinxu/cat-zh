@@ -1358,6 +1358,8 @@ dojo.declare("classes.village.Map", null, {
 				biome.level++;
 				
 				//unlock next biome if level cap reached
+				this.currentBiome = null;
+				this.game.msg("Your explorers have returned", "important", "explore");
             }
 		}
 	},
@@ -2465,7 +2467,7 @@ dojo.declare("classes.village.ui.FestivalButton", com.nuclearunicorn.game.ui.But
 	}
 });
 
-dojo.declare("classes.ui.time.BiomeBtnController", com.nuclearunicorn.game.ui.ButtonModernController, {
+dojo.declare("classes.ui.village.BiomeBtnController", com.nuclearunicorn.game.ui.ButtonModernController, {
 	fetchModel: function(options){
 		if (!this.biome){
 			this.biome = this.game.village.getBiome(options.id);
@@ -2519,7 +2521,7 @@ dojo.declare("classes.ui.time.BiomeBtnController", com.nuclearunicorn.game.ui.Bu
 	}
 });
 
-dojo.declare("classes.ui.time.BiomeBtn", com.nuclearunicorn.game.ui.ButtonModern, {
+dojo.declare("classes.ui.village.BiomeBtn", com.nuclearunicorn.game.ui.ButtonModern, {
     renderLinks: function() {
         //this.toggle = this.addLink(this.model.toggle);
     },
@@ -2537,18 +2539,37 @@ dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.I
 		for (var i in game.village.map.biomes){
 			var biome = game.village.map.biomes[i];
 
-			this.addChild(new classes.ui.time.BiomeBtn({
+			this.addChild(new classes.ui.village.BiomeBtn({
 				id: biome.name,
 				name: biome.title,
 				description: biome.desc,
 				prices: [],
-				controller: new classes.ui.time.BiomeBtnController(game)
+				controller: new classes.ui.village.BiomeBtnController(game)
 			}, game));
 		}
+
+		this.upgradeExplorersBtn = new com.nuclearunicorn.game.ui.ButtonModern({
+			name: $I("village.btn.upgradeExplorers"),
+			description: $I("village.btn.upgradeExplorers.desc"),
+			handler: dojo.hitch(this, function(){
+				//this.sendHunterSquad();
+			}),
+			prices: [{ name : "manpower", val: 100 }],
+			controller: new com.nuclearunicorn.game.ui.ButtonModernController(this.game)
+		}, this.game);
 	},
 
 	render: function(container){
 		var div = dojo.create("div", null, container);
+
+		dojo.create("div", {
+			innerHTML: "Explorers: lvl 0, HP: 10/10, Energy: 100/100"
+		}, div);
+
+		var btnsContainer = dojo.create("div", {style:{paddingTop:"20px"}}, div);
+		this.upgradeExplorersBtn.render(btnsContainer);
+		//----------------------
+
 		dojo.create("div", {innerHTML: "Biomes go there"}, div);
 		//this.villageDiv = dojo.create("div", null, div);
 		this.explorationDiv = dojo.create("div", null, div);

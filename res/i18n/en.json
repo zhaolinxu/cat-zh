@@ -1538,7 +1538,7 @@
     "ui.kgnet.save.save": "Save",
     "ui.kgnet.save.load": "Load",
     "ui.kgnet.sync": "Sync cloud saves",
-    "ui.kgnet.instructional": "^ Click this link to start. After data loads, click on the 'Create save'.",
+    "ui.kgnet.instructional": "<- Click this link to start. After data loads, click on the 'Create save'.",
 
     "ui.toggle.researched": "Toggle Researched",
 
@@ -1669,6 +1669,8 @@
     "village.btn.unassign.job": "Unassign",
     "village.btn.unwrap": "Unwrap present box",
     "village.btn.unwrap.confirmation.msg": "Are you sure that you want to unwrap your present box right now? Maybe you can have a better gift by waiting a bit!",
+    "village.btn.upgradeExplorers": "Upgrade Explorers",
+    "village.btn.upgradeExplorers.desc": "Upgrading your explorers will improve squad HP, stamina and resource gain",
     "village.census.age": "years old",
     "village.census.filter.all": "All jobs",
     "village.census.lbl.festival.duration": "Festival duration",
