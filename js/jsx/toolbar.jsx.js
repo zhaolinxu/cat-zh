@@ -533,7 +533,8 @@ WCloudSaves = React.createClass({
                             e.stopPropagation();
                             game.server.syncSaveData();
                         }
-                    }, $I("ui.kgnet.sync"))
+                    }, $I("ui.kgnet.sync")),
+                    $r("span", {paddingTop:"10px"}, $I("ui.kgnet.instructional"))
                 ])
             ])
         ])
