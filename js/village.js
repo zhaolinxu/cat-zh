@@ -1532,7 +1532,7 @@ dojo.declare("classes.village.KittenSim", null, {
 		}
 
 		//----- WARNING: DO NOT OVERLOOK THIS -----
-		if (game.ticks % frequency != 0 && times != 1){
+		if (game.ticks % frequency != 0 && times == 1){
 			return;
 		}
 		//if times isn't 1, we are using fastforward, so frequency should be IGNORED
