@@ -1500,7 +1500,7 @@ var run = function() {
                             // if no ziggurat, getBestUnicornBuilding will return unicornPasture
                             var maxSacrifice = Math.floor((craftManager.getValue('unicorns') - craftManager.getStock('unicorns')) / 2500);
                             var needSacrifice = Math.ceil((tearNeed - tearHave) / game.bld.getBuildingExt('ziggurat').meta.on);
-                            if (needSacrifice < maxSacrifice) {
+                            if (needSacrifice <= maxSacrifice) {
                                 if (!game.religionTab.sacrificeBtn) {game.religionTab.render();}
                                 game.religionTab.sacrificeBtn.controller._transform(game.religionTab.sacrificeBtn.model, needSacrifice);
                             }
