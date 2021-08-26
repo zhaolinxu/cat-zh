@@ -725,6 +725,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
             // ShatterTC gain
             if (shatterTCGain > 0) {
+                if(yearsInCurrentCycle == 1){ //no need to do AI Apocalypse twice
+                    aiApocalypseLevel = 0;
+                }
                 // XXX Partially duplicates resources#fastforward and #enforceLimits, some nice factorization is probably possible
                 var limits = {};
                 for (var j = 0; j < game.resPool.resources.length; j++) {
