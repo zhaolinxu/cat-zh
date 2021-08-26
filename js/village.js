@@ -1532,11 +1532,14 @@ dojo.declare("classes.village.KittenSim", null, {
 		}
 
 		//----- WARNING: DO NOT OVERLOOK THIS -----
-		if (game.ticks % frequency != 0){
+		if (game.ticks % frequency != 0 && times != 1){
 			return;
 		}
+		//if times isn't 1, we are using fastforward, so frequency should be IGNORED
 		//----- WARNING END -----
-
+		if(times == 1){
+			times = frequency; //fastforward should ignore frequency. Non fastforward should take frequency into the account for skill!
+		}
 		var baseSkillXP = game.workshop.get("internet").researched ? Math.max(this.getKittens() / 10000, 0.01) : 0.01;
 		var skillXP = (baseSkillXP + game.getEffect("skillXP")) * times;
 		var neuralNetworks = game.workshop.get("neuralNetworks").researched;
