@@ -1245,14 +1245,46 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 dojo.declare("classes.village.Map", null, {
 	game: null,
 	villageLevel: 0,
+
 	/*% explored, affects your priceRatio */
+	//TO BE IMPLEMENTED
 	exploredLevel: 0,
-	supplies: 0,
 
 	// point on map currently being explored
 	currentBiome: null,
 
+	//level of expedition squad
+	explorerLevel: 0,
+
+	//hp of a current squad
+	hp: 10,
+
+	//energy/stamina/supplies of your exploration squad
+	energy: 100,
+
 	//TODO: in a long run you can probably have multiple maps and multiple expeditions
+
+	//biome fauna:
+	//none/neutral/agressive
+	//hp/
+
+	/**
+	 * biome progression map
+	 * 
+	 *  badlands
+	 *   |
+	 *  desert    ->   blood desert (restricted biome) -> tundra
+	 *   | 												/
+	 *  plain       -\   ...    /->  coast
+	 *   |
+	 *  village . . .  > hills  ->   mountain 	-> 	
+	 *   |
+	 *  forest      _/	 ...	\->  swamps
+	 *   |											\
+	 *  rainforest 	->  bone forest (restricted biome) -> savanna
+	 *   |
+	 *  jungle
+	 */
 	biomes: [
 	{
 		name: "village",
@@ -1293,12 +1325,26 @@ dojo.declare("classes.village.Map", null, {
 	},{
 		name: "mountain",
 		title: "Mountain",
+		description: "Remember to grab your mandatory 50 meters of rope. The ascend will take quite some time.",
 		terrainPenalty: 1.2,
 		unlocked: false
 	},{
 		name: "desert",
 		title: "Desert",
+		description: "An endless white desert of a sand of unknown origin",
 		terrainPenalty: 1.5,
+		unlocked: false
+	},{
+		name: "bloodDesert",
+		title: "Crimson Desert",
+		description: "A former ocean of blood that evaporated and left the endless wastelands of red salt",
+		terrainPenalty: 1.5,
+		unlocked: false
+	},{
+		name: "swamp",
+		title: "Swamp",
+		description : "Everything that is edible is poisonous and so are the trees and the grass and the air is also poisonous slightly",
+		terrainPenalty: 1.95,
 		unlocked: false
 	}],
 
