@@ -153,7 +153,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
     i18n: function(key, args) {
         if (key[0] == "$")
             return this.i18ng(key.slice(1));
-        value = this.i18nData[this.lang][key];
+        var value = this.i18nData[this.lang][key];
         if (!value) {
             value = this.i18nData["en"][key];
             if (!value) {
@@ -264,7 +264,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         if (game.science.getPolicy("communism").researched) {
             ColdWintercatnip = 0;
         }
-        catnip = this.getPotentialCatnip(ColdWintercatnip);
+        var catnip = this.getPotentialCatnip(ColdWintercatnip);
         return catnip;
     },
     getCatnipInWarmSpring: function(){
@@ -428,7 +428,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
             var btn = this.game.tabs[5].zgUpgradeButtons[i];
             if(validBuildings.indexOf(btn.id)!=-1){
                 if(btn.model.visible){
-                    unicornPrice = 0;
+                    var unicornPrice = 0;
                     for(var j in btn.model.prices){
                         if(btn.model.prices[j].name=="unicorns")
                             unicornPrice += btn.model.prices[j].val;
