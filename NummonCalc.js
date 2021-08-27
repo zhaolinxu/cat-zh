@@ -183,20 +183,25 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         }
     },
     
-    getButtonPrice: function(tabPanel, buttonName, resName){
-        for (var i in tabPanel){
-            if(tabPanel[i].id == buttonName){
-                var bunttonModel = tabPanel[i].model;
+    getButtonPrice: function(tabName, metaNumber, buttonName, resName){
+        var b = this.game[tabName].meta[metaNumber];
+        for (let i = 0; i < b.meta.length; i++) {
+            if(b.meta[i].name == buttonName){
+                var metaData = b.meta[i];
                 break;
             }
         }
-        for (var a in bunttonModel.prices){
-            if(bunttonModel.prices[a].name == resName){
-                var cost = bunttonModel.prices[a].val;
+        for (let i = 0; i < metaData.prices.length; i++) {
+            if(metaData.prices[i].name == resName){
+                var cost = metaData.prices[i].val;
                 break;
             }
         }
-        return cost;
+        var priceRatio = metaData.priceRatio;
+        if (tabName == "bld") {
+            priceRatio += game.getEffect("priceRatio");
+        }
+        return cost * Math.pow(priceRatio, metaData.on);
     },
 
     makeNiceString: function(num, numDigits = 3){
@@ -401,25 +406,25 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         if(this.game.prestige.getPerk("unicornmancy").researched)
             riftChanceRatio *= 1.1;
         var baseRift = this.game.getEffect("riftChance") * riftChanceRatio / (10000 * 2) * baseUnicornsPerRift;
-        if(log){
-            console.log("Unicorns per second: "+total);
-            console.log("Base rift per second average: "+baseRift);
-        }
+        //if(log){
+        //    console.log("Unicorns per second: "+total);
+        //    console.log("Base rift per second average: "+baseRift);
+        //}
         var bestAmoritization = Infinity;
         var bestBuilding = "";
         var pastureAmor = this.game.bld.getBuildingExt("unicornPasture").meta.effects["unicornsPerTickBase"] * this.game.getTicksPerSecondUI();
         pastureAmor = pastureAmor * globalRatio * religionRatio * paragonRatio * faithBonus * cycle;
-        if(log){
-            console.log("unicornPasture");
-            console.log("\tBonus unicorns per second: "+pastureAmor);
-        }
-        pastureAmor = this.game.tabs[0].children[pastureButton].model.prices[0].val / pastureAmor;
-        if(log){
-            var baseWait = gamePage.tabs[0].children[pastureButton].model.prices[0].val / total;
-            var avgWait = gamePage.tabs[0].children[pastureButton].model.prices[0].val / (total + baseRift);
-            console.log("\tMaximum time to build: " + gamePage.toDisplaySeconds(baseWait) + " | Average time to build: " + gamePage.toDisplaySeconds(avgWait));
-            console.log("\tPrice: "+gamePage.tabs[0].children[pastureButton].model.prices[0].val+" | Amortization: "+gamePage.toDisplaySeconds(pastureAmor));
-        }
+        //if(log){
+        //    console.log("unicornPasture");
+        //    console.log("\tBonus unicorns per second: "+pastureAmor);
+        //}
+        pastureAmor = this.getButtonPrice("bld", 0, "unicornPasture", "unicorns") / pastureAmor;
+        //if(log){
+        //    var baseWait = gamePage.tabs[0].children[pastureButton].model.prices[0].val / total;
+        //    var avgWait = gamePage.tabs[0].children[pastureButton].model.prices[0].val / (total + baseRift);
+        //    console.log("\tMaximum time to build: " + gamePage.toDisplaySeconds(baseWait) + " | Average time to build: " + gamePage.toDisplaySeconds(avgWait));
+        //    console.log("\tPrice: "+gamePage.tabs[0].children[pastureButton].model.prices[0].val+" | Amortization: "+gamePage.toDisplaySeconds(pastureAmor));
+        //}
         if(pastureAmor < bestAmoritization){
             bestAmoritization = pastureAmor;
             bestBuilding = unicornPastureKey;
@@ -450,20 +455,20 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
                     var amor = unicornsPerSecond * globalRatio * relBonus * paragonRatio * faithBonus * cycle;
                     amor -= total;
                     amor = amor + riftBonus;
-                    if(log){
-                        console.log(btn.id);
-                        console.log("\tBonus unicorns per second: "+amor);
-                    }
+                    //if(log){
+                    //    console.log(btn.id);
+                    //    console.log("\tBonus unicorns per second: "+amor);
+                    //}
                     amor = unicornPrice / amor;
-                    if(log){
-                        var baseWait = unicornPrice / total;
-                        var avgWait = unicornPrice / (total + baseRift);
-                        var amorSeconds = gamePage.toDisplaySeconds(amor);
-                        if(amorSeconds == "")
-                            amorSeconds = "NA";
-                        console.log("\tMaximum time to build: " + gamePage.toDisplaySeconds(baseWait) + " | Average time to build: " + gamePage.toDisplaySeconds(avgWait));
-                        console.log("\tPrice: "+unicornPrice + " | Amortization: "+amorSeconds);
-                    }
+                    //if(log){
+                    //    var baseWait = unicornPrice / total;
+                    //    var avgWait = unicornPrice / (total + baseRift);
+                    //    var amorSeconds = gamePage.toDisplaySeconds(amor);
+                    //    if(amorSeconds == "")
+                    //        amorSeconds = "NA";
+                    //    console.log("\tMaximum time to build: " + gamePage.toDisplaySeconds(baseWait) + " | Average time to build: " + gamePage.toDisplaySeconds(avgWait));
+                    //    console.log("\tPrice: "+unicornPrice + " | Amortization: "+amorSeconds);
+                    //}
                     if(amor < bestAmoritization)
                         if(riftBonus > 0 || relBonus > religionRatio && unicornPrice > 0){
                             bestAmoritization = amor;
@@ -684,7 +689,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         // (5 × 2.4 [Redmoon] + 5 * 2.4 * game.getEffect("festivalRatio") + 5 × 0.9 [Charon] + 8 × 5 [others]) / 50
         var calendar = (56.5 + 12 * game.getEffect("festivalRatio")) / 50;
         var result = calendar * unobtainiumAvg;
-        var cost = this.getButtonPrice(game.timeTab.cfPanel.children[0].children, "ressourceRetrieval", "timeCrystal");
+        var cost = this.getButtonPrice("time", 0, "ressourceRetrieval", "timeCrystal");
         var number = this.game.time.getCFU("ressourceRetrieval").val;
         if (!this.game.time.getCFU("ressourceRetrieval").unlocked) {
             return this.i18n("$time.cfu.ressourceRetrieval.label");
@@ -729,15 +734,12 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         if (!this.game.religion.getZU("blackPyramid").val) {
             return this.i18n("$religion.zu.blackPyramid.label");
         }
-        if (this.game.religionTab.zgUpgradeButtons.length == 0) {
-            return this.i18n("best.none");
-        }
         var next;
         var cs = Math.floor(Math.log((15 + this.game.religion.getZU("blackPyramid").getEffectiveValue(this.game)) / 5) / Math.log(1.15)) + 1;
         var cs1 = 0;
-        var cs2 = Math.ceil(this.getButtonPrice(this.game.religionTab.zgUpgradeButtons, "blackPyramid", "sorrow")) - this.game.resPool.get("sorrow").maxValue;
-        var bnexus = this.getButtonPrice(this.game.religionTab.ctPanel.children[0].children, "blackNexus", "relic");
-        var bcore = this.getButtonPrice(this.game.religionTab.ctPanel.children[0].children, "blackCore", "relic");
+        var cs2 = Math.ceil(this.getButtonPrice("religion", 0, "blackPyramid", "sorrow")) - this.game.resPool.get("sorrow").maxValue;
+        var bnexus = this.getButtonPrice("religion", 2, "blackNexus", "relic");
+        var bcore = this.getButtonPrice("religion", 2, "blackCore", "relic");
         var a = (Math.pow(1.15, cs2) - 1) / 0.15 * bcore;
         var bnexusup = 0.001 * cs / bnexus;
         var bcoreup = 0.001 * this.game.religion.getTU("blackNexus").val / a;
@@ -759,24 +761,8 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
     },
     
     getBestUnobtainiumBuilding: function() {
-        if (!game.space.getBuilding("orbitalArray").unlocked) {
-            return $I("space.planet.moon.moonOutpost.label");
-        }
-        if (!this.game.spaceTab.planetPanels[0]) {
-            game.spaceTab.render();
-        }
-        var elevatorPanel = this.game.spaceTab.planetPanels[0].children;
-        for (var i = 0; i < this.game.spaceTab.planetPanels.length; i++) {
-            if (game.spaceTab.planetPanels[i].planet.name == "piscine") {
-                var arrayPanel = this.game.spaceTab.planetPanels[i].children;
-                break;
-            }
-        }
-        if (!arrayPanel) {
-            return this.i18n("best.none");
-        }
-        var elevatorPrices = this.getButtonPrice(elevatorPanel, "spaceElevator", "unobtainium");
-        var arrayPrices = this.getButtonPrice(arrayPanel, "orbitalArray", "eludium");
+        var elevatorPrices = this.getButtonPrice("space", 1, "spaceElevator", "unobtainium");
+        var arrayPrices = this.getButtonPrice("space", 4, "orbitalArray", "eludium");
         var elevatorVal = game.space.getBuilding("spaceElevator").val;
         var arrayVal = game.space.getBuilding("orbitalArray").val;
         var spaceRatio = 1 + this.game.getEffect("spaceRatio");
@@ -1141,7 +1127,7 @@ dojo.declare("classes.tab.NummonTab", com.nuclearunicorn.game.ui.tab, {
     
     render: function(content){
         this.container = content;
-        
+        game.religionTab.render();
         this.update();
     },
     
