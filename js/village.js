@@ -1271,9 +1271,9 @@ dojo.declare("classes.village.Map", null, {
 	/**
 	 * biome progression map
 	 * 
-	 *  badlands
+	 *  badlands (?)
 	 *   |
-	 *  desert    ->   blood desert (restricted biome) -> tundra
+	 *  desert    ->   blood desert (restricted biome) -> tundra  ->  arctic
 	 *   | 												/
 	 *  plain       -\   ...    /->  coast
 	 *   |
@@ -1281,9 +1281,9 @@ dojo.declare("classes.village.Map", null, {
 	 *   |
 	 *  forest      _/	 ...	\->  swamps
 	 *   |											\
-	 *  rainforest 	->  bone forest (restricted biome) -> savanna
+	 *  rainforest 	->  bone forest (restricted biome) -> savanna  -> ?
 	 *   |
-	 *  jungle
+	 *  jungle (?)
 	 */
 	biomes: [
 	{
