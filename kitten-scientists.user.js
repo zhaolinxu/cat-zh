@@ -2090,7 +2090,7 @@ var run = function() {
             var cultureProf = 4000 * craftManager.getTickVal(craftManager.getResource('culture'), true) > 5000;
             var parchProf = 4000 * craftManager.getTickVal(craftManager.getResource('parchment'), true) > 2500;
 
-            if (!(catpowProf && cultureProf && parchProf)) {return;}
+            if (!(catpowProf && cultureProf && (craftManager.getValueAvailable('parchment', true) >= 5000 || parchProf))) {return;}
 
             // Render the tab to make sure that the buttons actually exist in the DOM. Otherwise we can't click them.
             if (game.villageTab.festivalBtn == null) {game.villageTab.render();}
