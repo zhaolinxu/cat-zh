@@ -205,7 +205,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 				self.effects["weaponEfficency"] = -0.1; //after 10 completions weapons WILL be useles; no LDR >:3
                 self.effects["policyFakeBought"] = 1;
 				self.effects["embassyFakeBought"] = 1;
-				self.effects["steamworksFakeBought"] = 2;
+				self.effects["steamworksFakeBought"] = Math.floor(1.5 * self.on || 1)/ (self.on || 1);
             }else{
 				self.effects["alicornPerTickRatio"] = 0.1;
 				self.effects["tradeKnowledge"] = 1;

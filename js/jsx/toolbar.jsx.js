@@ -94,6 +94,9 @@ WToolbarHappiness = React.createClass({
 				if(resources[i].name == "elderBox" && this.game.resPool.get("wrappingPaper").value){
 					resHappiness -= happinessPerLuxury; // Present Boxes and Wrapping Paper do not stack.
 				}
+				if(resources[i].type == "uncommon"){
+					resHappiness += this.game.getEffect("consumableLuxuryHappiness");
+				}
 			}
 		}
 		tooltip += $I("village.happiness.rare.resources") + ": +" + this.game.getDisplayValueExt(resHappiness, false, false, 0) + "%<br>";
@@ -105,7 +108,7 @@ WToolbarHappiness = React.createClass({
 
 		if (this.game.calendar.festivalDays > 0){
 			var festivalHappinessEffect = 30 * (1+this.game.getEffect("festivalRatio"));
-			tooltip += $I("village.happiness.festival") + ": +"+festivalHappinessEffect+"%<br>";
+			tooltip += $I("village.happiness.festival") + ": +" + this.game.getDisplayValueExt(festivalHappinessEffect, false, false, 0) + "%<br>";
 		}
 
         var unhappiness = this.game.village.getUnhappiness() / (1 + this.game.getEffect("unhappinessRatio")),
@@ -196,6 +199,83 @@ WToolbarMOTD = React.createClass({
 			server.motdFreshMessage = false;
 			return "Message of the day:<br />" + server.motdContent;
 		}
+    }
+});
+WToolbarPollution = React.createClass({
+    freshMessage: false,
+    message: "",
+
+    render: function(){
+        var game = this.props.game;
+        var message = this.getTooltip(true);
+        if(this.message != message){
+            this.freshMessage = this.message != "";
+            this.message = message;
+        }
+        if(game.bld.cathPollution > 100000 || game.science.get("ecology").researched){
+            return $r(WToolbarIconContainer, {
+                game: game,
+                getTooltip: this.getTooltip,
+                className: this.freshMessage ? "energy warning": null
+            },
+                $r("div", {},
+                "🏭" + (game.science.get("ecology").researched ? (" " + this.getPollutionMod()) : ""))
+            );
+        }
+        return null;
+    },
+    getTooltip: function(notUpdateFreshMessage){
+        var game = this.props.game;
+
+        var message = "";
+        var eqPol = game.bld.getEquilibriumPollution();
+        var eqPolLvl = game.bld.getPollutionLevel(eqPol);
+        var pollution = game.bld.cathPollution;
+        var polLvl = game.bld.getPollutionLevel();
+        var polLvlShow = game.bld.getPollutionLevel(pollution * 2);
+        if (polLvl >= 4){
+            message += $I("pollution.level1") + "<br/>" + $I("pollution.level2") + "<br/>" + $I("pollution.level3", [game.getDisplayValueExt(game.villageTab.getVillageTitle(), false, false, 0)]) + "<br/>" + $I("pollution.level4");
+        }
+        else if (polLvlShow == 3 || polLvl == 3){
+            message += $I("pollution.level1") + "<br/>" + $I("pollution.level2") + "<br/>" + $I("pollution.level3", [game.getDisplayValueExt(game.villageTab.getVillageTitle(), false, false, 0)]);
+        }
+        else if (polLvlShow == 2){
+            message += $I("pollution.level1") + "<br/>" + $I("pollution.level2");
+        }
+        else if (polLvlShow == 1){
+            message += $I("pollution.level1");
+        } else {
+            message = $I("pollution.level0");
+        }
+
+        var warnLvl = game.bld.getPollutionLevel(pollution * 4);
+        if (warnLvl >= 1 && warnLvl <= 4 && warnLvl > polLvlShow && warnLvl <= eqPolLvl) {
+            message += "<br/>" + $I("pollution.level" + warnLvl + ".warning");
+        }
+        if (pollution * 1.5 <= eqPol || eqPolLvl > polLvl){
+            message += "<br/>" + $I("pollution.increasing");
+        }
+        else if (pollution >= 0 && game.bld.cathPollutionPerTick <= 0 && eqPolLvl <= polLvl){
+            message += "<br/>" + $I("pollution.cleaning");
+        }
+        else if (eqPolLvl == polLvl && eqPol > 0){
+            message += "<br/>" + $I("pollution.equilibrium");
+        }
+        else {
+            message += "<br/>" + $I("pollution.pristine");
+        }
+        if (notUpdateFreshMessage){
+            return message;
+        }
+        message +="<br/>CO₂: " + (game.science.get("ecology").researched ?
+            this.getPollutionMod() : $I("pollution.unspecified"));
+        this.freshMessage = false;
+        return message;
+    },
+
+    getPollutionMod: function(){
+        var game = this.props.game;
+        return game.getDisplayValueExt((game.bld.cathPollution / game.bld.getPollutionLevelBase())*100) + "ppm";
     }
 });
 
@@ -408,7 +488,7 @@ WCloudSaves = React.createClass({
                 var isActiveSave = (save.guid == game.telemetry.guid);
                 return $r("div", {className:"save-record"}, [
                     $r("div", {className:"save-record-cell"},
-                        isActiveSave ? "[current]" : ""
+                        isActiveSave ? "[" + $I("ui.kgnet.save.current") + "]" : ""
                     ),
                     $r("div", {className:"save-record-cell"},
                         save.index ?
@@ -427,14 +507,14 @@ WCloudSaves = React.createClass({
                         onClick: function(e){
                             e.stopPropagation();
                             game.server.pushSave();
-                        }}, "Save"),
+                        }}, $I("ui.kgnet.save.save")),
                     $r("a", {
                         className: "link",
                         title: "Download a cloud save and apply it to your game (your current data will be lost)",
                             onClick: function(e){
                             e.stopPropagation();
                             game.server.loadSave(save.guid);
-                        }}, "Load"),
+                        }}, $I("ui.kgnet.save.load")),
                 ])
             })),
 
@@ -453,7 +533,7 @@ WCloudSaves = React.createClass({
                             e.stopPropagation();
                             game.server.syncSaveData();
                         }
-                    }, "Sync cloud saves")
+                    }, $I("ui.kgnet.sync"))
                 ])
             ])
         ])
@@ -479,8 +559,10 @@ WLogin = React.createClass({
                 },
                 [
                     $r("span", {
-                        className: "status-indicator-" + (game.server.userProfile ? "online" : "offline")
-                    }, "* " + (game.server.userProfile ? "Online" : "Offline")),
+                        className: "kgnet-login-link status-indicator-" + (game.server.userProfile ? "online" : "offline")
+                    }, "* " + (game.server.userProfile ?
+                        $I("ui.kgnet.online") : $I("ui.kgnet.login")
+                    )),
                     this.state.isExpanded && $r("div", {
                         className: "login-popup button_tooltip tooltip-block"
                     },
@@ -508,20 +590,25 @@ WToolbar = React.createClass({
 
     componentDidMount: function(){
         var self = this;
-        dojo.subscribe("ui/update", function(game){
+        this.onUpdateHandler = dojo.subscribe("ui/update", function(game){
             self.setState({game: game});
         });
+    },
+
+    componentWillUnmount(){
+        dojo.unsubscribe(this.onUpdateHandler);
     },
 
     getIcons: function(){
         var icons = [];
         icons.push(
-            $r(WToolbarFPS, {game: this.props.game}),
-            $r(WToolbarMOTD, {game: this.props.game}),
-            $r(WToolbarHappiness, {game: this.props.game}),
-            $r(WToolbarEnergy, {game: this.props.game}),
-            $r(WBLS, {game: this.props.game}),
-            $r(WLogin, {game: this.props.game})
+            $r(WToolbarFPS, {game: this.state.game}),
+            $r(WToolbarPollution, {game: this.state.game}),
+            $r(WToolbarHappiness, {game: this.state.game}),
+            $r(WToolbarEnergy, {game: this.state.game}),
+            $r(WBLS, {game: this.state.game}),
+            $r(WToolbarMOTD, {game: this.state.game}),
+            $r(WLogin, {game: this.state.game})
 
         );
         return icons;
