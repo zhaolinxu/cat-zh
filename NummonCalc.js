@@ -287,7 +287,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
     },
 
     // SCIENCE :
-  
+
     getCelestialPerDay: function(){
         var chanceRatio = 1;
         if(this.game.prestige.getPerk("chronomancy").researched)
@@ -310,7 +310,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         if(this.game.prestige.getPerk("astromancy").researched)
             autoChance *= 2;
         autoChance = Math.round(autoChance);
-        if(autoChance > 100)
+        if(autoChance > 100 || this.game.workshop.get("seti").researched)
             autoChance = 100;
         return autoChance + "%";
     },
@@ -343,13 +343,13 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         var titaniumPerTrade = (1.5 + shipAmount * 0.03) * (1 + zebraRelationModifierTitanium);
         return titaniumPerTrade;
     },
-    
+
     getZebraTradesToMaxTit: function(){
         var titaniumPerTrade = this.getTitPerZebraTrade();
         var maxTitanium = this.game.resPool.get("titanium").maxValue;
         return Math.ceil(maxTitanium / titaniumPerTrade);
     },
-    
+
     getZebraTradesLeftToMaxTit: function(){
         var titaniumPerTrade = this.getTitPerZebraTrade();
         var titToFill = this.game.resPool.get("titanium").maxValue;
@@ -367,7 +367,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
             return this.i18n("best.none");
         }
         var polltionPerTick = this.game.bld.cathPollutionPerTick;
-        if (this.game.bld.cathPollution < 0) {
+        if (this.game.bld.cathPollution <= 1) {
             polltionPerTick = 0
         }
         return this.game.getDisplayValueExt(polltionPerTick, true, true);

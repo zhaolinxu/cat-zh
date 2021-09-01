@@ -2207,7 +2207,7 @@ dojo.declare("classes.ui.village.Census", null, {
 					style: {
 						float: "right"
 					},
-					title: "Make a leader"
+					title: "分配领袖"
 				}, linksDiv);
 			}
 
