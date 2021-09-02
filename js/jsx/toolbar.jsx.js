@@ -424,7 +424,7 @@ WLoginForm = React.createClass({
         $.ajax({
             cache: false,
             type: "POST",
-            //dataType: "JSON",
+            dataType: "JSON",
             data: {
                 email: this.state.login,
                 password: this.state.password
@@ -433,8 +433,8 @@ WLoginForm = React.createClass({
 				withCredentials: true
 			},
             timeout : 10000,
-			url: this.props.game.server.getServerUrl() + "/user/login/",
-			dataType: "json",
+			url: game.server.getServerUrl() + "/user/login/",
+			//dataType: "json",
         }).fail(function(xhr){
             var text = xhr.responseText;
             if (!text) {
