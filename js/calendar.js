@@ -375,7 +375,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		var ticksPerYear = this.ticksPerDay * this.daysPerSeason * this.seasonsPerYear;
 		if (this.day < 0){
-			this.game.time.flux -= (1 + timeAccelerationRatio) / ticksPerYear;
+			this.game.time.flux -= 1/(1 + timeAccelerationRatio) / ticksPerYear;
 		} else {
 			this.game.time.flux += timeAccelerationRatio / ticksPerYear;
 		}
