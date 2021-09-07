@@ -174,7 +174,7 @@
     height: 25px;
     padding-top: 7px;
     z-index: 1;
-    overflow: hidden;
+    /* overflow: hidden; */ /* <<<--- Disabled otherwise the KgNet Login window no longer appears correctly */
     background: -moz-linear-gradient(top, #1c1917 0%, #131210 100%); /* FF3.6-15 */
     background: -webkit-linear-gradient(top, #1c1917 0%, #131210 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to bottom, #1c1917 0%, #131210 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */

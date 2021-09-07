@@ -477,6 +477,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				self.effects = {
 					"spicePerTickAutoprodSpace": 0.025
 				};
+			},
+			unlockScheme: {
+				name: "Dune",
+				threshold: 10
 			}
 		}]
 	},{
