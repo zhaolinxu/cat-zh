@@ -2277,7 +2277,7 @@ dojo.declare("classes.ui.village.Census", null, {
 
 	getGovernmentInfo: function() {
 		//update leader stats
-		var leaderInfo = "%username%";
+		var leaderInfo = "无";
 		var leader = this.game.village.leader;
 		if (leader) {
 			var title = leader.trait.name == "none"
@@ -2285,7 +2285,7 @@ dojo.declare("classes.ui.village.Census", null, {
 				: leader.trait.title + " (" + $I("village.bonus.desc." + leader.trait.name) + ") [" + $I("village.census.rank") + " " + leader.rank + "]";
 			var nextRank = Math.floor(this.game.village.getRankExp(leader.rank));
 			leaderInfo = this.getStyledName(leader, true /*is leader panel*/) + ", " + title +
-				"<br /> exp: " + this.game.getDisplayValueExt(leader.exp);
+				"<br /> 经验: " + this.game.getDisplayValueExt(leader.exp);
 
 			if (nextRank > leader.exp) {
 				leaderInfo += " (" + Math.floor(100 * leader.exp / nextRank) + "%)";
