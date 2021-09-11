@@ -273,6 +273,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			if (job.name == "engineer") {
 				this.game.workshopTab.updateTab();
 			}
+			if(job.name == "hunter"){
+				this.sim.hadKittenHunters = true;
+			}
 		}
 	},
 
@@ -610,7 +613,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			jobs: this.filterMetadata(this.jobs, ["name", "unlocked", "value"]),
 			//map : this.map.villageData
 			biomes: this.filterMetadata(this.map.biomes, ["name", "unlocked", "level", "cp"]),
-			currentBiome: this.map.currentBiome
+			currentBiome: this.map.currentBiome,
+			hadKittenHunters: this.sim.hadKittenHunters
 		};
 	},
 
@@ -652,6 +656,11 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 				this.loadMetadata(this.map.biomes, saveData.village.biomes);
 				this.map.currentBiome = saveData.village.currentBiome;
 			}
+			this.sim.hadKittenHunters = (saveData.village.hadKittenHunters === undefined)? true: saveData.village.hadKittenHunters;
+
+			/*if (saveData.village.map){
+				this.map.villageData = saveData.village.map;
+			}*/
 		}
 
 		this.updateResourceProduction();
@@ -1399,6 +1408,8 @@ dojo.declare("classes.village.KittenSim", null, {
 
 	maxKittens: 0,
 
+	hadKittenHunters: false,
+
 	constructor: function(game){
 		this.kittens = [];
 		this.game = game;
@@ -1441,11 +1452,14 @@ dojo.declare("classes.village.KittenSim", null, {
 		}
 
 		//----- WARNING: DO NOT OVERLOOK THIS -----
-		if (game.ticks % frequency != 0){
+		if (game.ticks % frequency != 0 && times == 1){
 			return;
 		}
+		//if times isn't 1, we are using fastforward, so frequency should be IGNORED
 		//----- WARNING END -----
-
+		if(times == 1){
+			times = frequency; //fastforward should ignore frequency. Non fastforward should take frequency into the account for skill!
+		}
 		var baseSkillXP = game.workshop.get("internet").researched ? Math.max(this.getKittens() / 10000, 0.01) : 0.01;
 		var skillXP = (baseSkillXP + game.getEffect("skillXP")) * times;
 		var neuralNetworks = game.workshop.get("neuralNetworks").researched;

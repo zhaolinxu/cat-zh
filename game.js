@@ -4304,6 +4304,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				kittens: newKittens,
 				jobs: [],
 				traits: [],
+				hadKittenHunters: false,
 			},
 			workshop: {
 				hideResearched: this.workshop.hideResearched,
@@ -4311,6 +4312,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				crafts: []
 			},
 			achievements: lsData.achievements,
+			ach: lsData.ach,
 			stats: stats,
 			statsCurrent: statsCurrent,
 			telemetry: {
