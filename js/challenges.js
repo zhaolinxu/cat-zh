@@ -217,6 +217,9 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			game.upgrade(self.upgrades); //this is a hack. Sometime we should make challenges actually upgrade things.
 		},
 		checkCompletionConditionOnReset: function(game){
+			if(!game.village.sim.hadKittenHunters && game.stats.getStatCurrent("totalTrades").val > 0){
+				game.achievements.unlockBadge("cleanPaws"); //hack
+			}
 			return game.science.getPolicy("outerSpaceTreaty").researched;
 		},
 		upgrades: {
