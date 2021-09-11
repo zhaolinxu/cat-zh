@@ -4311,6 +4311,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				crafts: []
 			},
 			achievements: lsData.achievements,
+			ach: lsData.ach,
 			stats: stats,
 			statsCurrent: statsCurrent,
 			telemetry: {
