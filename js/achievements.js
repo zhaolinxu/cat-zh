@@ -291,7 +291,7 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
         },{
             name: "cleanPaws",
             title: "Clean Paws",
-            description: "Peaceful trading without catpower",
+            description: "Peaceful trading without cat-power",
             difficulty: "C"
         }
     ],
