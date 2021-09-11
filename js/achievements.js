@@ -288,6 +288,11 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             title: "Ab Owo",
             description: "Reset in atheism on day 0",
             difficulty: "A"
+        },{
+            name: "cleanPaws",
+            title: "Clean Paws",
+            description: "Peaceful trading without catpower",
+            difficulty: "C"
         }
     ],
 
