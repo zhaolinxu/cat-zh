@@ -1617,6 +1617,7 @@
     "ui.option.app.android": "Android",
     "ui.option.app.ios": "iOS",
     "ui.option.notation": "Notation:",
+    "ui.option.pollution": "Disable pollution effects",
 
     "left.resources": "resources",
     "left.resources.tip": "Ctrl+click resource to hide it, use gear icon for more settings.",
