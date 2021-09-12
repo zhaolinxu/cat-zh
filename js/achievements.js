@@ -288,6 +288,11 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             title: "Ab Owo",
             description: "Ab Owo",
             difficulty: "A"
+        },{
+            name: "cleanPaws",
+            title: "Clean Paws",
+            description: "Peaceful trading without cat-power",
+            difficulty: "C"
         }
     ],
 

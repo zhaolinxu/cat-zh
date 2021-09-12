@@ -268,6 +268,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			if (job.name == "engineer") {
 				this.game.workshopTab.updateTab();
 			}
+			if(job.name == "hunter"){
+				this.sim.hadKittenHunters = true;
+			}
 		}
 	},
 
@@ -604,6 +607,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			maxKittens: this.maxKittens,
 			jobs: this.filterMetadata(this.jobs, ["name", "unlocked", "value"]),
 			//map : this.map.villageData
+			hadKittenHunters: this.sim.hadKittenHunters
 		};
 	},
 
@@ -640,6 +644,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 			this.maxKittens  = saveData.village.maxKittens;
 			this.loadMetadata(this.jobs, saveData.village.jobs);
+
+			this.sim.hadKittenHunters = (saveData.village.hadKittenHunters === undefined)? true: saveData.village.hadKittenHunters;
 
 			/*if (saveData.village.map){
 				this.map.villageData = saveData.village.map;
@@ -1489,6 +1495,8 @@ dojo.declare("classes.village.KittenSim", null, {
 	nextKittenProgress : 0,
 
 	maxKittens: 0,
+
+	hadKittenHunters: false,
 
 	constructor: function(game){
 		this.kittens = [];
