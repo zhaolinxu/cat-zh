@@ -604,7 +604,7 @@ WToolbar = React.createClass({
         var icons = [];
         icons.push(
             $r(WToolbarFPS, {game: this.state.game}),
-            $r(WToolbarPollution, {game: this.state.game}),
+            game.opts.disablePollution ? null : $r(WToolbarPollution, {game: this.state.game}),
             $r(WToolbarHappiness, {game: this.state.game}),
             $r(WToolbarEnergy, {game: this.state.game}),
             $r(WBLS, {game: this.state.game}),
