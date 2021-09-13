@@ -254,7 +254,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		var celestialBonus = this.game.workshop.get("celestialMechanics").researched
 			? this.game.ironWill ? 1.6 : 1.2
 			: 1;
-
+		var sciBonus = 25 * celestialBonus * (1 + this.game.getEffect("scienceRatio"));
 		var isSilent = this.game.workshop.get("seti").researched;
 
 		if (this.game.science.get("astronomy").researched) {
@@ -267,7 +267,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			var starcharts = eventChance <= 1
 				? 1
 				: Math.floor(eventChance) + (this.game.rand(10000) < (eventChance - Math.floor(eventChance)) * 10000 ? 1 : 0);
-			var sciBonus = 25 * celestialBonus * (1 + this.game.getEffect("scienceRatio")) * starcharts;
+			var sciBonus *= starcharts;
 			var sciGain = this.game.resPool.addResEvent("science", sciBonus);
 
 			if (sciGain > 0 && !isSilent){
@@ -279,7 +279,6 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.game.resPool.addResEvent("starchart", starcharts);
 		}
 		else{
-			var sciBonus = 25 * celestialBonus * (1 + this.game.getEffect("scienceRatio"));
 			var sciGain = this.game.resPool.addResEvent("science", sciBonus);
 
 			if (sciGain > 0 && !isSilent){
