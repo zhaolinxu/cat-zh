@@ -267,7 +267,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			var starcharts = eventChance <= 1
 				? 1
 				: Math.floor(eventChance) + (this.game.rand(10000) < (eventChance - Math.floor(eventChance)) * 10000 ? 1 : 0);
-			var sciBonus *= starcharts;
+			sciBonus *= starcharts;
 			var sciGain = this.game.resPool.addResEvent("science", sciBonus);
 
 			if (sciGain > 0 && !isSilent){
