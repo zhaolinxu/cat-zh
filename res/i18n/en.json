@@ -1431,6 +1431,8 @@
     "time.cfu.temporalAccelerator.desc": "Improves time-related effects by 5%",
     "time.cfu.temporalBattery.label": "Temporal Battery",
     "time.cfu.temporalBattery.desc": "Improves your flux energy capacity by 25%",
+    "time.cfu.temporalPress.label": "Temporal Press",
+    "time.cfu.temporalPress.desc": "Allows for fine tuting of shattering",
     "time.cfu.temporalImpedance.label": "Time Impedance",
     "time.cfu.temporalImpedance.desc": "Delay effect of Dark Future temporal penalty by 1000 years.",
     "time.cfu.timeBoiler.label": "Time Boiler",
@@ -1539,6 +1541,7 @@
     "ui.kgnet.save.save": "Save",
     "ui.kgnet.save.load": "Load",
     "ui.kgnet.sync": "Sync cloud saves",
+    "ui.kgnet.instructional": "^ Click this link to start. After data loads, click on the 'Create save'.",
 
     "ui.toggle.researched": "Toggle Researched",
 

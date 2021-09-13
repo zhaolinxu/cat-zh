@@ -1274,9 +1274,10 @@ ButtonModernHelper = {
 				className: "desc small" + (model.metadata.isAutomationEnabled ? " auto-on" : " auto-off")
 			}, tooltip);
 		}
+
 		if (model.metadata && model.metadata.effects && 
 			model.metadata.effects["cathPollutionPerTickProd"] > 0 &&
-			controller.game.science.get("chemistry").researched
+			controller.game.science.get("chemistry").researched && !controller.game.opts.disablePollution
 		){
 			dojo.create("div", {
 				innerHTML: $I("btn.pollution.tooltip"),

@@ -236,7 +236,7 @@ WToolbarPollution = React.createClass({
         if (polLvl >= 4){
             message += $I("pollution.level1") + "<br/>" + $I("pollution.level2") + "<br/>" + $I("pollution.level3", [game.getDisplayValueExt(game.villageTab.getVillageTitle(), false, false, 0)]) + "<br/>" + $I("pollution.level4");
         }
-        else if (polLvlShow == 3){
+        else if (polLvlShow == 3 || polLvl == 3){
             message += $I("pollution.level1") + "<br/>" + $I("pollution.level2") + "<br/>" + $I("pollution.level3", [game.getDisplayValueExt(game.villageTab.getVillageTitle(), false, false, 0)]);
         }
         else if (polLvlShow == 2){
@@ -533,7 +533,8 @@ WCloudSaves = React.createClass({
                             e.stopPropagation();
                             game.server.syncSaveData();
                         }
-                    }, $I("ui.kgnet.sync"))
+                    }, $I("ui.kgnet.sync")),
+                    $r("span", {paddingTop:"10px"}, $I("ui.kgnet.instructional"))
                 ])
             ])
         ])
@@ -603,7 +604,7 @@ WToolbar = React.createClass({
         var icons = [];
         icons.push(
             $r(WToolbarFPS, {game: this.state.game}),
-            $r(WToolbarPollution, {game: this.state.game}),
+            game.opts.disablePollution ? null : $r(WToolbarPollution, {game: this.state.game}),
             $r(WToolbarHappiness, {game: this.state.game}),
             $r(WToolbarEnergy, {game: this.state.game}),
             $r(WBLS, {game: this.state.game}),

@@ -240,12 +240,17 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},
 
 	getJob: function(jobName){
-		for (var i = this.jobs.length - 1; i >= 0; i--) {
+		/*for (var i = this.jobs.length - 1; i >= 0; i--) {
 			if (this.jobs[i].name == jobName){
 				return this.jobs[i];
 			}
 		}
-		throw "Failed to get job for job name '" + jobName + "'";
+		throw "Failed to get job for job name '" + jobName + "'";*/
+		return this.getMeta(jobName, this.jobs);
+	},
+
+	getBiome: function(id){
+		return this.getMeta(id, this.map.biomes);
 	},
 
 	getJobLimit: function(jobName) {
@@ -267,6 +272,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			jobRef.value += amt;
 			if (job.name == "engineer") {
 				this.game.workshopTab.updateTab();
+			}
+			if(job.name == "hunter"){
+				this.sim.hadKittenHunters = true;
 			}
 		}
 	},
@@ -605,6 +613,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			maxKittens: this.maxKittens,
 			jobs: this.filterMetadata(this.jobs, ["name", "unlocked", "value"]),
 			//map : this.map.villageData
+			biomes: this.filterMetadata(this.map.biomes, ["name", "unlocked", "level", "cp"]),
+			currentBiome: this.map.currentBiome,
+			hadKittenHunters: this.sim.hadKittenHunters
 		};
 	},
 
@@ -641,6 +652,12 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 			this.maxKittens  = saveData.village.maxKittens;
 			this.loadMetadata(this.jobs, saveData.village.jobs);
+
+			if (saveData.village.biomes){
+				this.loadMetadata(this.map.biomes, saveData.village.biomes);
+				this.map.currentBiome = saveData.village.currentBiome;
+			}
+			this.sim.hadKittenHunters = (saveData.village.hadKittenHunters === undefined)? true: saveData.village.hadKittenHunters;
 
 			/*if (saveData.village.map){
 				this.map.villageData = saveData.village.map;
@@ -1237,50 +1254,62 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 
 dojo.declare("classes.village.Map", null, {
 	game: null,
-	villageData: null,
-
 	villageLevel: 0,
 	/*% explored, affects your priceRatio */
 	exploredLevel: 0,
 	supplies: 0,
 
 	// point on map currently being explored
-	expeditionNode: null,
-	//point on map currently being selected
-	selectedNode: null,
+	currentBiome: null,
 
 	//TODO: in a long run you can probably have multiple maps and multiple expeditions
-
-	biomes: [{
-		id: "forest",
-		icon:"^",
-		title:"Forest",
+	biomes: [
+	{
+		name: "village",
+		title: "Village",
+		desc: "Improves exploration rate of all biomes",
+		terrainPenalty: 1.0,
+		unlocked: true
+	},		
+	{
+		name: "plains",
+		title: "Plains",
+		desc: "Improves catnip generation by 1% per level",
+		terrainPenalty: 1.0,
+		unlocked: true
+	},	
+	{
+		name: "hills",
+		title: "Hills",
 		terrainPenalty: 1.2,
-		biomeChance: 0.2
+		unlocked: false
+	},
+	{
+		name: "forest",
+		title: "Forest",
+		desc: "Improves your wood production by 1% per level",
+		terrainPenalty: 1.2,
+		unlocked: true
 	},{
-		id: "boneForest",
-		icon:"^.",
-		title:"Bone Forest",
+		name: "boneForest",
+		title: "Bone Forest",
 		terrainPenalty: 1.9,
-		biomeChance: 0.02
+		unlocked: false
 	},{
-		id: "rainForest",
-		icon:"^`",
+		name: "rainForest",
 		title:"Rain Forest",
 		terrainPenalty: 1.4,
-		biomeChance: 0.1
+		unlocked: false
 	},{
-		id: "mountain",
-		icon:"*",
-		title:"Mountain",
+		name: "mountain",
+		title: "Mountain",
 		terrainPenalty: 1.2,
-		biomeChance: 0.05
+		unlocked: false
 	},{
-		id: "desert",
-		icon:"~",
-		title:"Desert",
+		name: "desert",
+		title: "Desert",
 		terrainPenalty: 1.5,
-		biomeChance: 0.08
+		unlocked: false
 	}],
 
 	constructor: function(game){
@@ -1289,169 +1318,58 @@ dojo.declare("classes.village.Map", null, {
 	},
 
 	init: function(){
-		this.villageData = {
-			"3_2":{
-				title: "v",
-				type: "village",
-				level: 1,
-				cp: 0
-			}
-		};
 	},
 
 	resetMap: function(){
 		this.init();
-		this.mapgen();
 	},
 
-	generateTile: function(i, j){
-		var key = i + "_" + j;
-
-		for (var _biomeKey in this.biomes){
-			var biome = this.biomes[_biomeKey];
-			if (this.game.rand(100) <= (biome.biomeChance * 100)){
-				this.villageData[key] = {
-					title: biome.icon,
-					type: biome.id,
-					level: 0,
-					cp: 0,
-					unlocked: false,
-					biomeInfo: biome
-				};
-			}
-		}
-		if (!this.villageData[key]){
-			this.villageData[key] = {
-				title: null,
-				type: null,
-				level: 0,
-				cp: 0,
-				unlocked: false,
-				biomeInfo: null
-			};
-		}
-		return this.villageData[key];
-	},
-
-	mapgen: function(){
-		for (var i = 0; i < 7; i++){
-			for (var j = 0; j < 7; j++){
-				var key = i + "_" + j;
-				if (this.villageData[key]){ continue; }
-
-				for (var _biomeKey in this.biomes){
-					var biome = this.biomes[_biomeKey];
-					if (this.game.rand(100) <= (biome.biomeChance * 100)){
-						this.villageData[key] = {
-							title: biome.icon,
-							type: biome.id,
-							level: 0,
-							cp: 0,
-							unlocked: false,
-							biomeInfo: biome
-						};
-					}
-				}
-				if (!this.villageData[key]){
-					this.villageData[key] = {
-						title: null,
-						type: null,
-						level: 0,
-						cp: 0,
-						unlocked: false,
-						biomeInfo: null
-					};
-				}
-			}
-		}
-
-		this.unlockTile(3,2);	//unlock village and 3x3 area around it
-	},
-
-	unlockTile: function(x, y){
-		for (var i = x - 1; i <= x + 1; i++){
-			for (var j = y - 1; j <= y + 1; j++){
-				var tile = this.getTile(i, j);
-				if (tile){
-					tile.unlocked = true;
-				}
-			}
-		}
-	},
-
-	getTile: function(x, y){
-		var key = x + "_" + y,
-			data = this.villageData[key];
-
-		if (!data){
-			data = this.generateTile(x, y);
-		}
-		return data;
-	},
-
-	toLevel: function(x, y){
-		var key = x + "_" + y,
-			data = this.villageData[key] || {
-				level: 0,
-			};
-
-		var distance =  Math.sqrt(Math.pow(x - 3, 2) + Math.pow(y - 2, 2)) || 1;
-
-		if (data.biomeInfo){
-			distance *= data.biomeInfo.terrainPenalty;
-		}
-
-		var toLevel = 100 * (1 + 1.1 * Math.pow((distance - 1), 2.8)) * Math.pow(data.level + 1, 1.18 + 0.1 * distance);
-		return toLevel;
+	//TODO: account for a signifficant penalty for late game biomes
+	//var toLevel = 100 * (1 + 1.1 * Math.pow((distance - 1), 2.8)) * Math.pow(data.level + 1, 1.18 + 0.1 * distance);
+	toLevel: function(biome){
+		return 100 * (1 + 1.1 * Math.pow(biome.level + 1, 1.18 + 0.1 * biome.terrainPenalty));
 	},
 
 	update: function(){
-		var exploredLevel = 0;
-
-		for (var key in this.villageData){
-			var cellData = this.villageData[key];
-			if (cellData.level > 0){
-				cellData.cp -= (0.1 * cellData.level);
-				if (cellData.cp < 0){
-					cellData.cp = 0;
-				}
-			}
-			exploredLevel += cellData.level;
-
-			if (cellData.type == "village"){
-				this.game.globalEffectsCached["exploreRatio"] = (0.1 * (cellData.level - 1));
-				this.villageLevel = cellData.level;
+		for (var i in this.biomes){
+			var biome = this.biomes[i];
+			if (biome.name == "village"){
+				this.game.globalEffectsCached["exploreRatio"] = (0.1 * (biome.level - 1));
 			}
 		}
-
-		this.exploredLevel = exploredLevel;
-
-		if (this.expeditionNode){
-			this.explore(this.expeditionNode.x, this.expeditionNode.y);
+		if(this.currentBiome){
+			this.explore(this.currentBiome);
 		}
 	},
 
-	explore: function(x, y){
-        var dataset = this.villageData,
-            data = this.getTile(x, y);
+	explore: function(biomeId){
+		var biome = this.game.village.getBiome(biomeId);
+		if (!biome.level){
+			biome.level = 0;
+		}
+		if (!biome.cp){
+			biome.cp = 0;
+		}
 
-        var toLevel = this.toLevel(x, y),
-            explorePower = 1 * (1 + this.getExploreRatio()),
-            explorePrice = this.getExplorationPrice(x, y),
-            catpower = this.game.resPool.get("manpower");
+		var explorePrice = 0.1;
+		var catpower = this.game.resPool.get("manpower");
 
-        if (catpower.value >= explorePrice){
-            catpower.value -= explorePrice;
+		//get biome level price based on the terrain difficulty and current explored level
+		//var toLevel = 100;
+		var toLevel = this.toLevel(biome);
 
-            data.cp += explorePower;
-            if (data.cp >= toLevel){
-                data.cp = 0;
-                data.level++;
+		if (catpower.value >= explorePrice){
+			catpower.value -= explorePrice;
 
-                this.expeditionNode = null;
-                this.unlockTile(x, y);
+			biome.cp += explorePrice;
+
+			if (biome.cp >= toLevel){
+                biome.cp = 0;
+				biome.level++;
+				
+				//unlock next biome if level cap reached
             }
-        }
+		}
 	},
 
 	getExplorationPrice: function(x, y){
@@ -1490,6 +1408,8 @@ dojo.declare("classes.village.KittenSim", null, {
 	nextKittenProgress : 0,
 
 	maxKittens: 0,
+
+	hadKittenHunters: false,
 
 	constructor: function(game){
 		this.kittens = [];
@@ -1533,11 +1453,14 @@ dojo.declare("classes.village.KittenSim", null, {
 		}
 
 		//----- WARNING: DO NOT OVERLOOK THIS -----
-		if (game.ticks % frequency != 0){
+		if (game.ticks % frequency != 0 && times == 1){
 			return;
 		}
+		//if times isn't 1, we are using fastforward, so frequency should be IGNORED
 		//----- WARNING END -----
-
+		if(times == 1){
+			times = frequency; //fastforward should ignore frequency. Non fastforward should take frequency into the account for skill!
+		}
 		var baseSkillXP = game.workshop.get("internet").researched ? Math.max(this.getKittens() / 10000, 0.01) : 0.01;
 		var skillXP = (baseSkillXP + game.getEffect("skillXP")) * times;
 		var neuralNetworks = game.workshop.get("neuralNetworks").researched;
@@ -2557,6 +2480,112 @@ dojo.declare("classes.village.ui.FestivalButton", com.nuclearunicorn.game.ui.But
 	}
 });
 
+dojo.declare("classes.ui.time.BiomeBtnController", com.nuclearunicorn.game.ui.ButtonModernController, {
+	fetchModel: function(options){
+		if (!this.biome){
+			this.biome = this.game.village.getBiome(options.id);
+		}
+		var model = this.inherited(arguments);
+		model.biome = this.biome;
+		
+		return model;
+	},
+	
+	clickHandler: function(model, event){
+		var biome = model.biome;
+		console.log("CURRENT BIOME:", biome);
+
+		var map = this.game.village.map;
+		map.currentBiome = biome.name;
+	},
+
+	getName: function(model){
+		var map = this.game.village.map;
+
+		var name = model.options.name;
+		if (this.biome.level !== undefined ){
+			name += ", lv." + this.biome.level;
+		}
+		if (this.biome.cp){
+			var toLevel = map.toLevel(this.biome);
+
+			//TODO: color text red if out of catnip, otherwise it is very confusing
+			name += " [" + (this.biome.cp / toLevel * 100).toFixed(2) + "%]";
+
+			//mark current biome for visual identification
+			if (map.currentBiome == model.options.id){
+				name += " (current)";
+			}
+		}
+		
+		return name;
+	},
+
+	//does not recalc, use proper attachTooltip and override this
+	/*getDescription: function(model){
+		var desc = this.biome.desc;
+
+		var toLevel = this.game.village.map.toLevel(this.biome);
+		return desc + ", cp: " + this.biome.cp.toFixed(2) + " / " + toLevel.toFixed(2);
+	},*/
+
+	updateVisible: function(model){
+		model.visible = this.biome.unlocked;
+	}
+});
+
+dojo.declare("classes.ui.time.BiomeBtn", com.nuclearunicorn.game.ui.ButtonModern, {
+    renderLinks: function() {
+        //this.toggle = this.addLink(this.model.toggle);
+    },
+
+    update: function() {
+        this.inherited(arguments);
+        //this.updateLink(this.toggle, this.model.toggle);
+    }
+});
+
+dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.IGameAware], {
+	constructor: function(game){
+		this.setGame(game);
+		
+		for (var i in game.village.map.biomes){
+			var biome = game.village.map.biomes[i];
+
+			this.addChild(new classes.ui.time.BiomeBtn({
+				id: biome.name,
+				name: biome.title,
+				description: biome.desc,
+				prices: [],
+				controller: new classes.ui.time.BiomeBtnController(game)
+			}, game));
+		}
+	},
+
+	render: function(container){
+		var div = dojo.create("div", null, container);
+		dojo.create("div", {innerHTML: "Biomes go there"}, div);
+		//this.villageDiv = dojo.create("div", null, div);
+		this.explorationDiv = dojo.create("div", null, div);
+
+		dojo.create("div", {
+			innerHTML: "Biome data: lv. 1, cp. 666/999, penalty: 1.1, etc"
+		}, div);
+
+		var btnsContainer = dojo.create("div", {style:{paddingTop:"20px"}}, div);
+       
+		
+		this.inherited(arguments, [btnsContainer]);
+	},
+
+	update: function() {
+		var map = this.game.village.map;
+
+		this.explorationDiv.innerHTML = "Currently exploring: [" +  map.currentBiome + "], % [Cancel]";	//<-- link TBD
+		this.inherited(arguments);
+	}
+});
+
 /**
  * Village tab to manage jobs
  */
@@ -2641,19 +2670,16 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.tdTop = tdTop;
 
 		//--------------------------	map ---------------------------
-		/*var isMapVisible = this.game.science.get("archery").researched &&
-			this.game.resPool.get("paragon").value >= 5; */
+		var isMapVisible = this.game.science.get("archery").researched/* &&
+			this.game.resPool.get("paragon").value >= 5*/;
 
+		//TOOD: make all panels IChildAware?
 		this.mapPanel = new com.nuclearunicorn.game.ui.Panel("Map", this.game.village);
-		this.mapPanel.setVisible(false);
+		this.mapPanel.setVisible(isMapVisible);
 
-		/*if (this.mapPanelViewport){
-			React.unmountComponentAtNode(this.mapPanelViewport);
-		}
-		this.mapPanelViewport = this.mapPanel.render(tabContainer);
-		React.render($r(WMapSection, {
-            game: this.game
-        }), this.mapPanelViewport);*/
+		var mapPanelContainer = this.mapPanel.render(tabContainer);
+		this.mapWgt = new classes.village.ui.MapOverviewWgt(this.game);
+		this.mapWgt.render(mapPanelContainer);
 
 		//----------------- happiness and things ----------------------
 
@@ -2750,7 +2776,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.promoteKittensBtn = promoteKittensBtn;
 
 		//redeemGift
-		var config = new classes.KGConfig();
+		//var config = new classes.KGConfig();
 		var redeemGiftBtn = new com.nuclearunicorn.game.ui.ButtonModern({
 			name: $I("village.btn.unwrap"),
 			description: "",
@@ -2772,11 +2798,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 
 		//--------------- bureaucracy ------------------
 		this.censusPanel = new com.nuclearunicorn.game.ui.CensusPanel($I("village.panel.census"), this.game.village, this.game);
-		//this.censusPanel.collapsed = true;
 		if (!this.game.science.get("civil").researched){
 			this.censusPanel.setVisible(false);
 		}
-
 		this.censusPanelContainer = this.censusPanel.render(tabContainer);
 
 		this.update();
@@ -2805,12 +2829,13 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 				this.game.village.getKittens() >= 5 || this.game.resPool.get("zebras").value > 0
 			);
 		}
-		if (this.huntBtn){
-			this.huntBtn.update();
-		}
-		if (this.festivalBtn){
-			this.festivalBtn.update();
-		}
+
+		this.huntBtn && this.huntBtn.update();
+		this.festivalBtn && this.festivalBtn.update();
+
+		this.mapPanel && this.mapPanel.update();
+		this.mapWgt && this.mapWgt.update();
+		
 
 		//update kitten stats
 
@@ -2820,14 +2845,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 
 			this.censusPanel.update();
 		}
-		if (this.game.ironWill && !this.game.village.getKittens()){
-			this.jobsPanel.setVisible(false);
-		}else{
-			this.jobsPanel.setVisible(true);
-		}
+		var jobsHidden = (this.game.ironWill && !this.game.village.getKittens());
+		this.jobsPanel.setVisible(!jobsHidden);
+		
 
-
-		//this.updateCensus();
 		this.updateTab();
 	},
 
