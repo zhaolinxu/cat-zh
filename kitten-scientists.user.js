@@ -830,7 +830,7 @@ var run = function() {
                     promote:            {enabled: true,                    misc: true, label: i18n('option.promote')},
                     crypto:             {enabled: false, subTrigger: 10000, misc: true, label: i18n('option.crypto')},
                     fixCry:             {enabled: false,                   misc: true, label: i18n('option.fix.cry')},
-                    buildEmbassies:     {enabled: true, subTrigger: 0.95,   misc: true, label: i18n('option.embassies')},
+                    buildEmbassies:     {enabled: true, subTrigger: 0.99,   misc: true, label: i18n('option.embassies')},
                     style:              {enabled: true,                    misc: true, label: i18n('option.style')},
                     _steamworks:        {enabled: true,                   misc: true, label: i18n('option.steamworks')}
                 }
