@@ -598,6 +598,8 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         }
         if (this.game.religion.faith * 2.02 * (tier - 1) + 3.03 * this.game.religion.faith >= 1e6 * tt && this.game.religion.faithRatio > tt) {
             boolean = "是";
+        } else if (this.game.religion.faith < 1.25e5) {
+            boolean = "否";
         }
         return boolean;
     },
