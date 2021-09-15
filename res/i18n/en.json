@@ -624,6 +624,7 @@
     "opts.theme.cyber": "Cyber",
     "opts.theme.dark": "Inverted",
     "opts.theme.default": "Classic",
+    "opts.theme.dune": "Dune",
     "opts.theme.factory": "Factory",
     "opts.theme.fluid": "Fluid",
     "opts.theme.gold": "Gold",
