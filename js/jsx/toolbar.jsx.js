@@ -530,7 +530,6 @@ WCloudSaves = React.createClass({
                         title: "下载并加载云存档（你当前存档会丢失）",
                             onClick: function(e){
                             e.stopPropagation();
-                            game.msg('从国外官网下载有延迟，请稍候', "important");
                             game.server.loadSave(save.guid);
                         }}, $I("ui.kgnet.save.load")),
                 ])
