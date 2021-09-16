@@ -622,7 +622,7 @@
     "opts.no": "否",
     "opts.notation.si": "国际单位制",
     "opts.notation.e": "科学计数法",
-    "opts.notation.sie": "混和",
+    "opts.notation.sie": "混合",
     "msg.policy.aiNotMerges": "AI 拒绝与猫猫融合",
     "msg.policy.exclusivity": "相同价格的政策是互斥的",
     "msg.policy.kittenNotMadeLeader": "{0} 要求领袖必须担任 {1} 的工作",
