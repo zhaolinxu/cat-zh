@@ -1252,7 +1252,7 @@ var run = function() {
             // Tempus Fugit
             if (optionVals.accelerateTime.enabled && !game.time.isAccelerated && game.science.get("calendar").researched) {
                 var tf = game.resPool.get('temporalFlux');
-                if (tf.value >= tf.maxValue * optionVals.accelerateTime.subTrigger) {
+                if (tf.value >= Math.max(tf.maxValue * optionVals.accelerateTime.subTrigger, 1)) {
                     game.time.isAccelerated = true;
                     iactivity('act.accelerate', [], 'ks-accelerate');
                     storeForSummary('accelerate', 1);
