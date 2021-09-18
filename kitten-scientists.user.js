@@ -830,7 +830,7 @@ var run = function() {
                     promote:            {enabled: true,                    misc: true, label: i18n('option.promote')},
                     crypto:             {enabled: false, subTrigger: 10000, misc: true, label: i18n('option.crypto')},
                     fixCry:             {enabled: false,                   misc: true, label: i18n('option.fix.cry')},
-                    buildEmbassies:     {enabled: true, subTrigger: 0.99,   misc: true, label: i18n('option.embassies')},
+                    buildEmbassies:     {enabled: true, subTrigger: 0.94,   misc: true, label: i18n('option.embassies')},
                     style:              {enabled: true,                    misc: true, label: i18n('option.style')},
                     _steamworks:        {enabled: true,                   misc: true, label: i18n('option.steamworks')}
                 }
@@ -1888,7 +1888,7 @@ var run = function() {
                 var pastureMeta = game.bld.getBuildingExt('pasture').meta;
                 if (pastureMeta.stage === 0) {
                     if (pastureMeta.stages[1].stageUnlocked) {
-                        if (craftManager.getPotentialCatnip(true, 0, aqueducts) > 0) {
+                        if (craftManager.getPotentialCatnip(true, 0, aqueducts) > 4.5) {
                             var prices = pastureMeta.stages[1].prices;
                             var priceRatio = bulkManager.getPriceRatio(pastureMeta, true);
                             if (bulkManager.singleBuildPossible(pastureMeta, prices, 1)) {
