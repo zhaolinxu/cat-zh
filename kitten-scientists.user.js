@@ -2960,7 +2960,7 @@ var run = function() {
                 var aqueducts = (game.bld.getBuildingExt('aqueduct').meta.stage === 0) ? game.bld.getBuildingExt('aqueduct').meta.val : 0;
                 var resPerTick = this.getPotentialCatnip(true, pastures, aqueducts);
 
-                if (resPerTick < 0) {stock -= resPerTick * 202 * 5;}
+                if (resPerTick < 0) {stock -= resPerTick * 400 * 5;}
             }
 
             value = Math.max(value - stock, 0);
