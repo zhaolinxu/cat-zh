@@ -1646,7 +1646,7 @@
     "village.job.farmer": "农民",
     "village.job.farmer.desc": "猫薄荷每秒 +5",
     "village.job.geologist": "地质学家",
-    "village.job.geologist.desc": "煤每秒 +0.075（可升级）",
+    "village.job.geologist.desc": "煤每秒 +0.075（可能有升级）",
     "village.job.hunter": "猎人",
     "village.job.hunter.desc": "喵力每秒 +0.3",
     "village.job.hunter.flavor": "我们真是可爱，直到猎物死掉之前都只是惬意地对着它们咕噜咕噜",

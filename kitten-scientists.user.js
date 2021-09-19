@@ -527,7 +527,7 @@ var run = function() {
                     bestUnicornBuilding:    {enabled: true,  misc: true, label: i18n('option.faith.best.unicorn')},
                     autoPraise:             {enabled: true,  misc: true, label: i18n('option.praise'), subTrigger: 0.98},
                     // Former [Faith Reset]
-                    adore:                  {enabled: true, misc: true, label: i18n('option.faith.adore'), subTrigger: 0.4},
+                    adore:                  {enabled: true, misc: true, label: i18n('option.faith.adore'), subTrigger: 0.325},
                     transcend:              {enabled: true, misc: true, label: i18n('option.faith.transcend')},
                 },
                 // Which religious upgrades should be researched?
@@ -1578,7 +1578,7 @@ var run = function() {
                                 storeForSummary('transcend', 1);
                             }
                         }
-                        if (option.adore.enabled && game.religion.getRU('apocripha').on) {
+                        if (option.adore.enabled && game.religion.getRU('apocripha').on && worship >= 1e5) {
                             game.religion._resetFaithInternal(1.01);
 
                             iactivity('act.adore', [game.getDisplayValueExt(worship), game.getDisplayValueExt(epiphanyInc)], 'ks-adore');
