@@ -1288,7 +1288,7 @@ var run = function() {
 
                 var factor = game.challenges.getChallenge("1000Years").researched ? 5 : 10;
                 var heatMin =  4 * optionVals.timeSkip.maximum * factor;
-                if (optionVals.timeSkip[5] && optionVals.timeSkip["summer"] && optionVals.timeSkip.wait === false && game.time.heat > game.getEffect('heatMax') - Math.min(heatMin, 20 * game.time.getCFU("blastFurnace").on + 20)) {
+                if (optionVals.timeSkip[5] && !optionVals.timeSkip["summer"] && optionVals.timeSkip.wait === false && game.time.heat > game.getEffect('heatMax') - Math.min(heatMin, 20 * game.time.getCFU("blastFurnace").on + 20)) {
                     optionVals.timeSkip.wait = 1;
                 }
 
