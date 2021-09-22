@@ -1888,7 +1888,7 @@ var run = function() {
                 var pastureMeta = game.bld.getBuildingExt('pasture').meta;
                 if (pastureMeta.stage === 0) {
                     if (pastureMeta.stages[1].stageUnlocked) {
-                        if (craftManager.getPotentialCatnip(true, 0, aqueducts) > 4.5) {
+                        if (craftManager.getPotentialCatnip(true, 0, aqueducts) > 45) {
                             var prices = pastureMeta.stages[1].prices;
                             var priceRatio = bulkManager.getPriceRatio(pastureMeta, true);
                             if (bulkManager.singleBuildPossible(pastureMeta, prices, 1)) {
