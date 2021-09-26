@@ -137,7 +137,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
 
             "getBestMagnetoBuilding": "最佳磁电机/蒸汽工坊",
             "getUraniumForThoriumReactors": "钍反应堆每秒耗铀",
-            "getDarkFutureYears": "距离黑暗未来到来年份",
+            "getDarkFutureYears": "距离黑暗未来的惩罚(年)",
             "getBestRelicBuilding": "获取最佳遗物建筑",
             "getBestUnobtainiumBuilding": "难得素最佳太空建筑",
             "getAIlv15Time": "天网觉醒倒计时",
