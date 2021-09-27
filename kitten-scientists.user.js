@@ -2380,14 +2380,16 @@ var run = function() {
             var bestBuilding = '';
             var pastureAmor = game.bld.getBuildingExt('unicornPasture').meta.effects['unicornsPerTickBase'] * game.getTicksPerSecondUI();
             pastureAmor = pastureAmor * globalRatio * religionRatio * paragonRatio * faithBonus * cycle;
+			pastureButton.model.prices = pastureButton.controller.getPrices(pastureButton.model);
             pastureAmor = pastureButton.model.prices[0].val / pastureAmor;
             if(pastureAmor < bestAmoritization){
                 bestAmoritization = pastureAmor;
                 bestBuilding = pastureButton;
             }
-            for(var i in this.religionManager.manager.tab.zgUpgradeButtons){
-                var btn = this.religionManager.manager.tab.zgUpgradeButtons[i];
+            for(var i in game.religionTab.zgUpgradeButtons){
+                var btn = game.religionTab.zgUpgradeButtons[i];
                 if(validBuildings.indexOf(btn.id) != -1){
+					btn.controller.updateVisible(btn.model);
                     if(btn.model.visible){
                         unicornPrice = 0;
                         btn.model.prices = btn.controller.getPrices(btn.model);
@@ -2413,11 +2415,12 @@ var run = function() {
                         amor -= total;
                         amor = amor + riftBonus;
                         amor = unicornPrice / amor;
-                        if(amor < bestAmoritization)
-                            {if(riftBonus > 0 || relBonus > religionRatio && unicornPrice > 0){
+                        if(amor < bestAmoritization) {
+							if(riftBonus > 0 || relBonus > religionRatio && unicornPrice > 0){
                                 bestAmoritization = amor;
                                 bestBuilding = btn;
-                            }}
+                            }
+						}
                     }
                 }
             }
