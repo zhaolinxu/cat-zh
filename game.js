@@ -4042,9 +4042,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 		var game = this;
 		game.ui.confirm($I("reset.confirmation.title"), msg, function() {
-			if (game.opts.autoSaveReset != undefined && game.opts.autoSaveReset) {
-						game.saveToFile(true);
-                }
 			game.challenges.onRunReset();
 			if (game.challenges.isActive("atheism") && game.time.getVSU("cryochambers").on > 0) {
 				game.challenges.getChallenge("atheism").researched = true;
@@ -4064,6 +4061,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	resetAutomatic: function() {
+		if (game.opts.autoSaveReset != undefined && game.opts.autoSaveReset) {
+					game.saveToFile(true);
+		}
 		this.timer.scheduleEvent(dojo.hitch(this, function(){
 			this._resetInternal();
 			this.mobileSaveOnPause = false;
