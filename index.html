@@ -86,7 +86,7 @@
 
 				var i = (Math.floor(Math.random() * loadingMessages.length));
 				$("#loadingProgressInfo").html(loadingMessages[i] + "...&nbsp(" + progress.toFixed() + "%)");
-				return System.import(module + ".js?rev_=" + buildRevision);
+				return System.import(module + ".js?rev_=" + buildRevision + "_" + Date.now());
 			}
 
 			function _import(module, def){

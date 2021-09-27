@@ -302,13 +302,21 @@ dojo.declare("classes.game.Server", null, {
 	},
 
 	pushSave: function(){
-		var self = this;
+		var self = this,
+			game = this.game;
+
 		var saveData = this.game.save();
 		this._xhr("/kgnet/save/upload/", "POST", 
 		{
 			//pre-parsing guid to avoid checking it on the backend side
 			guid: this.game.telemetry.guid,
-			saveData: this.game.compressLZData(JSON.stringify(saveData), true)
+			saveData: this.game.compressLZData(JSON.stringify(saveData), true),
+			metadata: {
+				calendar: {
+					year: game.calendar.year,
+					day: game.calendar.day
+				}
+			}
 		}, 
 		function(resp){
 			console.log("save successful?");

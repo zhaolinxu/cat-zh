@@ -438,7 +438,7 @@ WLoginForm = React.createClass({
     }
 });
 
-WCloudSaves = React.createClass({
+WCloudSaveRecord = React.createClass({
 
     bytesToSize(bytes) {
         var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
@@ -446,6 +446,56 @@ WCloudSaves = React.createClass({
         var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
         return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
     },
+
+    render: function(){
+        var game = this.props.game;
+        var save = this.props.save;
+
+        var isActiveSave = (save.guid == game.telemetry.guid);
+        var guid = save.guid;
+
+        var self = this;
+
+        return $r("div", {className:"save-record"}, [
+            $r("div", {className:"save-record-cell"},
+                $r("a", { }, guid.substring(guid.length-4, guid.length)),
+                isActiveSave ? "[" + $I("ui.kgnet.save.current") + "]" : ""
+            ),
+            $r("div", {className:"save-record-cell"},
+                save.index ?
+                ("Year "+ save.index.calendar.year + ", day " + save.index.calendar.day) :
+                "loading..."
+            ),
+            $r("div", {className:"save-record-cell"},
+                new Date(save.timestamp).toLocaleDateString("en-US", {
+                    month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hourCycle: "h24"
+                })
+            ),
+            $r("div", {className:"save-record-cell"}, self.bytesToSize(save.size)),
+            isActiveSave && $r("a", {
+                className: "link",
+                title: "Upload your current game save to the server (this will owerwrite your old cloud save)",
+                onClick: function(e){
+                    e.stopPropagation();
+                    game.ui.confirm("[S]ave", "This will override [SERVER] save. Y/N", function(){
+                        game.server.pushSave();
+                    });
+                }}, $I("ui.kgnet.save.save")),
+            $r("a", {
+                className: "link",
+                title: "Download a cloud save and apply it to your game (your current data will be lost)",
+                    onClick: function(e){
+                    e.stopPropagation();
+                    game.ui.confirm("[L]oad", "This will override [LOCAL] save. Y/N", function(){
+                        game.server.loadSave(save.guid);
+                    });
+                }}, $I("ui.kgnet.save.load")),
+                
+        ]);
+    }
+})
+
+WCloudSaves = React.createClass({
 
     render: function(){
         var self = this;
@@ -485,37 +535,7 @@ WCloudSaves = React.createClass({
             //body
             //TODO: externalize save record as component?
             saveData && saveData.map(function(save){
-                var isActiveSave = (save.guid == game.telemetry.guid);
-                return $r("div", {className:"save-record"}, [
-                    $r("div", {className:"save-record-cell"},
-                        isActiveSave ? "[" + $I("ui.kgnet.save.current") + "]" : ""
-                    ),
-                    $r("div", {className:"save-record-cell"},
-                        save.index ?
-                        ("Year "+ save.index.calendar.year + ", day " + save.index.calendar.day) :
-                        "loading..."
-                    ),
-                    $r("div", {className:"save-record-cell"},
-                        new Date(save.timestamp).toLocaleDateString("en-US", {
-                            month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hourCycle: "h24"
-                        })
-                    ),
-                    $r("div", {className:"save-record-cell"}, self.bytesToSize(save.size)),
-                    isActiveSave && $r("a", {
-                        className: "link",
-                        title: "Upload your current game save to the server (this will owerwrite your old cloud save)",
-                        onClick: function(e){
-                            e.stopPropagation();
-                            game.server.pushSave();
-                        }}, $I("ui.kgnet.save.save")),
-                    $r("a", {
-                        className: "link",
-                        title: "Download a cloud save and apply it to your game (your current data will be lost)",
-                            onClick: function(e){
-                            e.stopPropagation();
-                            game.server.loadSave(save.guid);
-                        }}, $I("ui.kgnet.save.load")),
-                ])
+                return $r(WCloudSaveRecord, {save: save, game: game});
             })),
 
             $r("div", {className:"save-record-container"}, [
