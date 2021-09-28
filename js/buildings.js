@@ -2324,6 +2324,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			return this.getUndissipatedPollutionPerTick()/ this.pollutionEffects["pollutionDissipationRatio"];
 		}else if(this.cathPollutionPerTick < 0){
 			return 0;
+		}else if(this.cathPollutionPerTick == 0){
+			return this.cathPollution;
+		}else if(this.cathPollutionPerTick > 0){
+			return Number.POSITIVE_INFINITY;
 		}else{
 			console.log("No equilibrium found");
 			return -1;
