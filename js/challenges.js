@@ -257,6 +257,13 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 				self.effects["arrivalSlowdown"] = 0;
 				self.effects["cryochamberSupport"] = 1;
 			}
+			if(game.science.getPolicy("cryochamberExtraction").researched){
+				game.time.getVSU("usedCryochambers").val += 1;
+				game.time.getVSU("usedCryochambers").on += 1;
+				game.science.getPolicy("cryochamberExtraction").researched = false;
+				game.science.getPolicy("cryochamberExtraction").unlocked = false;
+				game.science.getPolicy("terraformingInsight").unlocked = false;
+			}
 		},
 		findRuins: function (self, game) {
 			
@@ -265,10 +272,10 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			return game.bld.cathPollution == 0;
 		},
 		actionOnCompletion: function(game){
-			game.time.getVSU("usedCryochambers").val += 1;
-			game.time.getVSU("usedCryochambers").on += 1;
+			game.science.getPolicy("terraformingInsight").unlocked = true;
+			game.science.getPolicy("cryochamberExtraction").unlocked = true;
 		}
-	}],
+		}],
 
 	game: null,
 

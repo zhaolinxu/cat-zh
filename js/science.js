@@ -1496,6 +1496,36 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		evaluateLocks: function(game){
 			return game.science.getPolicy("environmentalism").researched && game.science.get("ecology").researched;
 		}
+    }, {
+        name: "cryochamberExtraction",
+        //label: $I("policy.openWoodlands.label"),
+        //description: $I("policy.openWoodlands.desc"),
+        label: "Cryochamber extraction",
+        description: "Extract chaimber",
+        prices: [
+            {name : "manpower", val: 10000}
+        ],
+        unlocked: false,
+        blocked: false,
+        blocks:["terraformingInsight"],
+		upgrades: {
+			challenges: ["postApocalypse"]
+		},
+    }, {
+        name: "terraformingInsight",
+        //label: $I("policy.openWoodlands.label"),
+        //description: $I("policy.openWoodlands.desc"),
+		label: "Terraforming insight",
+        description: "Apply knowledge to increase terraforming efficincy",
+        prices: [
+            {name : "manpower", val: 10000}
+        ],
+        effects:{
+            "terraformingMaxKittensRatio": 0.001 //might be too weak - could be fixed later on
+        },
+        unlocked: false,
+        blocked: false,
+        blocks:["cryochamberExtraction"]
     }, /*{
         name: "spaceBasedTerraforming",
         label: $I("policy.spaceBasedTerraforming.label"),
