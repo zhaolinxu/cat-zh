@@ -4173,7 +4173,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		dojo.mixin(lsData.game, {
 			karmaKittens: 		karmaKittens,
 			karmaZebras: 		karmaZebras,
-			ironWill : 			(saveRatio > 0 || this.time.getVSU("cryochambers").on > 0) ? false : true,			//chronospheres will disable IW
+			ironWill : 			(saveRatio > 0 || this.time.getVSU("cryochambers").on > 0) ? false : true,			//chronospheres or cryochaimbers will disable IW. Post Apocalypse allows cryochaimbers to work without chronospheres working.
 			deadKittens: 		0,
 			isCMBREnabled:		false
 		});

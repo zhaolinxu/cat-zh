@@ -1927,7 +1927,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		"faithMax" 		: 100,
 		"hutFakeBought": 0,
 		"logHouseFakeBought": 0,
-		"mansionFakeBought": 0
+		"mansionFakeBought": 0 //these 3 are for Post Apocalypse pollution based housing cost increase — using getEffect instead of special handling
 	},
 	pollutionEffects: {
 		"catnipPollutionRatio" : 0,
@@ -2081,8 +2081,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				this.game.bld.effectsBase["logHouseFakeBought"] = 0;
 				this.game.bld.effectsBase["mansionFakeBought"] = 0;
 			}
-		}else{
-			this.game.bld.pollutionEffects["pollutionDissipationRatio"] = 1e-7;
 		}
 		
 		if(pollutionLevel >= 4){
