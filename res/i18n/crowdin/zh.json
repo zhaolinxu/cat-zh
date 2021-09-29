@@ -1475,7 +1475,7 @@
     "trade.correct.bcoin": "加密货币市场出现了巨大的调整",
     "trade.embassy.label": "大使馆",
     "trade.embassy": "大使馆等级（{0}）",
-    "trade.embassy.desc": "设立大使馆，培养外交友谊",
+    "trade.embassy.desc": "设立大使馆，培养外交友谊。<br />一定数量增加出售资源种类。",
     "trade.embassy.pinned": "固定",
     "trade.embassy.unpinned": "取消固定",
     "ui.filter.all": "全部",
