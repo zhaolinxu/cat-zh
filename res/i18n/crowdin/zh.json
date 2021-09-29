@@ -1642,7 +1642,7 @@
     "village.panel.job": "职业",
     "village.job.bonus": "职业加成",
     "village.job.engineer": "工程师",
-    "village.job.engineer.desc": "工程师在工厂中会消耗资源并自动化生产<br />在工坊页面指派工程师，他们每 10 分钟将自动制作一次",
+    "village.job.engineer.desc": "工程师在工厂中会消耗资源并自动化生产<br />在工坊页面指派工程师，他们每 10 分钟将自动制作一次<br />代替你点击，材料消耗是一样的（没有加成）",
     "village.job.farmer": "农民",
     "village.job.farmer.desc": "猫薄荷每秒 +5",
     "village.job.geologist": "地质学家",
