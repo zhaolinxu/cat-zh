@@ -479,7 +479,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				};
 			},
 			unlockScheme: {
-				name: "Dune",
+				name: "dune",
 				threshold: 10
 			}
 		}]
