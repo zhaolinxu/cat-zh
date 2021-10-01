@@ -677,7 +677,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonController", null, {
 			var price = model.prices[i];
 
 			var res = this.game.resPool.get(price.name);
-			if (res.isRefundable(this.game)) {
+			if (res.isRefundable(this.game) && !price.isTemporary) {
 				this.game.resPool.addResEvent(price.name, price.val * model.refundPercentage);
 			} else {
 				// No refund at all

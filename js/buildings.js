@@ -2058,7 +2058,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		&& bld.get("val") >= 95 - this.game.time.getVSU("usedCryochambers").val - this.getPollutionLevel() ) {
 			var builtWithUnobtanium = Math.max(bld.get("val") + this.game.time.getVSU("usedCryochambers").val - 100, 0);
 			prices.push({val: 15 * Math.pow(ratio, builtWithUnobtanium),
-						name : "unobtainium"});
+						name : "unobtainium",
+						isTemporary: true //can't exploit buy manipulating pollution in postApocalypse
+					});
 	   	}
 		return prices;
 	 },

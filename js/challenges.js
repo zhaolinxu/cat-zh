@@ -256,15 +256,6 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 				self.effects["arrivalSlowdown"] = 0;
 				self.effects["cryochamberSupport"] = 1;
 			}
-			//After the challenge is won player gets two options: make terraforming stations stronger; or get usedCryochamber ONCE.
-			//In case of taking the cryochaimber, both policies become not unlocked and extraction policy becomes NOT researched
-			if(game.science.getPolicy("cryochamberExtraction").researched){
-				game.time.getVSU("usedCryochambers").val += 1;
-				game.time.getVSU("usedCryochambers").on += 1;
-				game.science.getPolicy("cryochamberExtraction").researched = false;
-				game.science.getPolicy("cryochamberExtraction").unlocked = false;
-				game.science.getPolicy("terraformingInsight").unlocked = false;
-			}
 		},
 		findRuins: function (self, game) {
 			
@@ -278,6 +269,8 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			game.bld.effectsBase["mansionFakeBought"] = 0; //in case of some laggy redshift 
 			game.bld.pollutionEffects["pollutionDissipationRatio"] = 1e-7; //putting it back to default at the end of the challenge is enough
 			//policies unlocked ONLY after winning this challenge!
+			//After the challenge is won player gets two options: make terraforming stations stronger; or get usedCryochamber ONCE.
+			//In case of taking the cryochaimber, both policies become not unlocked and extraction policy becomes NOT researched
 			game.science.getPolicy("terraformingInsight").unlocked = true; //policy which helpes to get more paragon this run
 			game.science.getPolicy("cryochamberExtraction").unlocked = true; //single use policy; gets not researched after player gets the bonus
 		}

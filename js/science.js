@@ -1511,6 +1511,14 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		upgrades: {
 			challenges: ["postApocalypse"]
 		},
+		onResearch: function(game){
+			//single use policy
+			game.time.getVSU("usedCryochambers").val += 1;
+			game.time.getVSU("usedCryochambers").on += 1;
+			game.science.getPolicy("cryochamberExtraction").researched = false;
+			game.science.getPolicy("cryochamberExtraction").unlocked = false;
+			game.science.getPolicy("terraformingInsight").unlocked = false;
+		}
     }, {
         name: "terraformingInsight",
         //label: $I("policy.openWoodlands.label"),
@@ -1834,7 +1842,9 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 					policy.blocked = true;
 				}
 			}
-
+			if(meta.onResearch){
+				meta.onResearch(this.game);
+			}
 		}
 });
 
