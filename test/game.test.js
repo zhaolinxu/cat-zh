@@ -161,20 +161,3 @@ test("Test NR calls", () => {
     expect(newrelic.addPageAction).toHaveBeenCalledTimes(0);
 
 });
-
-test("Post Apocalypse extraction policy test", () => {
-    game.heartbeat();
-    game.bld.cathPollution = 10;
-    game.challenges.getChallenge("postApocalypse").active = true;
-    var extrPolicy = game.science.getPolicy("cryochamberExtraction");
-    var usedCryochambers = game.time.getVSU("usedCryochambers");
-    var on1 = usedCryochambers.on;
-    game.upgrade(extrPolicy.upgrades);
-    expect(usedCryochambers.on).toBe(on1);
-    extrPolicy.researched = true;
-    game.upgrade(extrPolicy.upgrades);
-    expect(usedCryochambers.on).toBe(on1 + 1);
-    expect(extrPolicy.researched).toBe(false);
-    game.upgrade(extrPolicy.upgrades);
-    expect(usedCryochambers.on).toBe(on1 + 1);
-});
