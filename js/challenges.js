@@ -420,8 +420,10 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 	},
 	/**
 	 * Apply challenges marked by player as pending
+	 * 
+	 * @isIronWillPending true if we try to apply pending ironWill challenge
 	 */
-	applyPending: function(ironWillCall){
+	applyPending: function(isIronWillPending){
 		var game = this.game;
 		game.ui.confirm(
 			$I("challendge.btn.confirmation.title"), 
@@ -431,10 +433,10 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			// Should put resources and kittens to reserve HERE!
 			// Kittens won't be put into reserve in post apocalypcis!
 			game.challenges.onRunReset();
-			game.challenges.reserves.calculateReserves(ironWillCall);
+			game.challenges.reserves.calculateReserves(isIronWillPending);
 			game.bld.get("chronosphere").val = 0;
 			game.bld.get("chronosphere").on = 0;
-			if(!game.challenges.getChallenge("postApocalypse").pending || ironWillCall){
+			if(!game.challenges.getChallenge("postApocalypse").pending || isIronWillPending){
 				game.time.getVSU("cryochambers").val = 0;
 				game.time.getVSU("cryochambers").on = 0;
 			}else if(game.challenges.getChallenge("anarchy").pending && this.game.village.leader){
@@ -519,9 +521,12 @@ dojo.declare("classes.reserveMan", null,{
 		this.game.challenges.reserves.reserveKittens = 
 		this.game.challenges.reserves.reserveKittens.concat(reserveKittens);
 	},
-	calculateReserves: function(ironWillCall){
+	/*
+		@isIronWillPending - true if we try to apply ironWill challenge
+	*/
+	calculateReserves: function(isIronWillPending){
 		this.game.challenges.reserves.calculateReserveResources();
-		if(!this.game.challenges.getChallenge("postApocalypse").pending || ironWillCall){
+		if(!this.game.challenges.getChallenge("postApocalypse").pending || isIronWillPending){
 			this.game.challenges.reserves.calculateReserveKittens();
 		}
 	},
@@ -638,7 +643,7 @@ dojo.declare("classes.ui.ChallengeBtnController", com.nuclearunicorn.game.ui.Bui
 
 	togglePending: function(model){
 		if (model.metadata.name == "ironWill") {
-			this.game.challenges.applyPending(true);
+			this.game.challenges.applyPending(true	/*isIronWillPending*/);
 			return;
 		}
 		model.metadata.pending = !model.metadata.pending;

@@ -1498,10 +1498,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		}
     }, {
         name: "cryochamberExtraction",
-        //label: $I("policy.openWoodlands.label"),
-        //description: $I("policy.openWoodlands.desc"),
-        label: "Cryochamber extraction",
-        description: "Extract chaimber",
+        label: $I("policy.cryochamberExtraction.label"),
+        description: $I("policy.cryochamberExtraction.desc"),
         prices: [
             {name : "manpower", val: 10000}
         ],
@@ -1521,10 +1519,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		}
     }, {
         name: "terraformingInsight",
-        //label: $I("policy.openWoodlands.label"),
-        //description: $I("policy.openWoodlands.desc"),
-		label: "Terraforming insight",
-        description: "Apply knowledge to increase terraforming efficincy",
+		label: $I("policy.terraformingInsight.label"),
+        description: $I("policy.terraformingInsight.desc"),
         prices: [
             {name : "manpower", val: 10000}
         ],

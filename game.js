@@ -4235,8 +4235,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var cathPollution = 0;
 		if(this.challenges.getChallenge("postApocalypse").pending){
 			if(cryochambers > 0){
-				var newRes = this.resPool.createResource("catnip");
-				newRes.value = cryochambers * 1000 * (1 + this.resPool.get("karma").value/100);
+				var catnip = this.resPool.get("catnip");
+				if (!catnip){
+					catnip = this.resPool.createResource("catnip");
+				}
+				catnip.value = cryochambers * 1000 * (1 + this.resPool.get("karma").value/100);
 				newResources.push(newRes);
 			}
 			cathPollution = (this.challenges.getChallenge("postApocalypse").on + cryochambers) * 1e+13 + 1e+15;
