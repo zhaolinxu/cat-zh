@@ -70,10 +70,10 @@ body.scheme_cyber {
 .scheme_cyber .btn.modern.disabled:hover span.btnTitle {
 	color: #909090;
 }
-.scheme_cyber .btn.modern.disabled span.btnTitle.limited { /* to change only the properties of the button name for buttons limited */
+.scheme_cyber .btn.modern.disabled.limited span.btnTitle { /* to change only the properties of the button name for buttons limited */
 	color: #ba2922;
 }
-.scheme_cyber .btn.modern.disabled:hover span.btnTitle.limited {
+.scheme_cyber .btn.modern.disabled.limited:hover span.btnTitle {
 	color: #da3a32;
 }
 .scheme_cyber .btn.modern:not(.disabled) {
@@ -319,7 +319,7 @@ body.scheme_cyber {
 .scheme_cyber #topBar a.copyright:hover {
 	color: #79d9ff;
 }
-.scheme_cyber #headerLinks .links-block { /* a link separator : | on header links */
+.scheme_cyber #topBar .links-block { /* a link separator : | on topBar links */
 	color: transparent;
 }
 .scheme_cyber #topBar div,
@@ -402,6 +402,7 @@ body.scheme_cyber {
 }
 .scheme_cyber .button_tooltip {
 	background-color: transparent;
+	backdrop-filter: none; /* default : backdrop-filter: blur(2px); */
 }
 .scheme_cyber .button_tooltip div { /* tooltip window == left column: right text | center column :highlighting text */
 	color: #b0b0b0;
