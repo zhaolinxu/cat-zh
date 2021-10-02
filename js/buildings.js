@@ -1924,14 +1924,17 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		"manpowerMax"	: 100,
 		"scienceMax"    : 250,
 		"cultureMax"	: 100,
-		"faithMax" 		: 100
+		"faithMax" 		: 100,
+		"hutFakeBought": 0,
+		"logHouseFakeBought": 0,
+		"mansionFakeBought": 0 //these 3 are for Post Apocalypse pollution based housing cost increase — using getEffect instead of special handling
 	},
 	pollutionEffects: {
 		"catnipPollutionRatio" : 0,
 		"pollutionHappines" : 0,
 		"solarRevolutionPollution" : 0,
 		"pollutionDissipationRatio" :  1e-7,
-		"pollutionArrivalSlowdown": 0
+		"pollutionArrivalSlowdown": 0,
 	},
 
 	//deprecated, use getBuildingExt
@@ -2049,7 +2052,16 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				}
 			}
 		}
-
+		if (this.game.challenges.isActive("postApocalypse")
+		&& bld.get("name") == "field"
+		&& this.getPollutionLevel() >= 5
+		&& bld.get("val") >= 95 - this.game.time.getVSU("usedCryochambers").val - this.getPollutionLevel() ) {
+			var builtWithUnobtanium = Math.max(bld.get("val") + this.game.time.getVSU("usedCryochambers").val - 100, 0);
+			prices.push({val: 15 * Math.pow(ratio, builtWithUnobtanium),
+						name : "unobtainium",
+						isTemporary: true //can't exploit buy manipulating pollution in postApocalypse
+					});
+	   	}
 		return prices;
 	 },
 
@@ -2059,7 +2071,20 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 		var pollutionLevel = this.getPollutionLevel();
 		var pollution = this.cathPollution;
-
+		//post apocalypse effects
+		if(this.game.challenges.isActive("postApocalypse")){
+			this.game.bld.pollutionEffects["pollutionDissipationRatio"] = 0;
+			if(pollutionLevel > 8){
+				this.game.bld.effectsBase["hutFakeBought"] = pollutionLevel - 8;
+				this.game.bld.effectsBase["logHouseFakeBought"] = pollutionLevel - 8;
+				this.game.bld.effectsBase["mansionFakeBought"] = pollutionLevel - 8;
+			}else{
+				this.game.bld.effectsBase["hutFakeBought"] = 0;
+				this.game.bld.effectsBase["logHouseFakeBought"] = 0;
+				this.game.bld.effectsBase["mansionFakeBought"] = 0;
+			}
+		}
+		
 		if(pollutionLevel >= 4){
 			this.pollutionEffects["catnipPollutionRatio"] = this.game.getLimitedDR(-0.5 - 0.1 * Math.log(pollution), 10)/10;
 			this.pollutionEffects["pollutionHappines"] = -Math.log(pollution) * 1.2;
@@ -2299,6 +2324,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			return this.getUndissipatedPollutionPerTick()/ this.pollutionEffects["pollutionDissipationRatio"];
 		}else if(this.cathPollutionPerTick < 0){
 			return 0;
+		}else if(this.cathPollutionPerTick == 0){
+			return this.cathPollution;
+		}else if(this.cathPollutionPerTick > 0){
+			return Number.POSITIVE_INFINITY;
 		}else{
 			console.log("No equilibrium found");
 			return -1;
@@ -2311,7 +2340,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		}
 	},
 	cathPollutionFastForward: function(ticks, simplified){
-		if(simplified) {
+		if(simplified || !this.pollutionEffects["pollutionDissipationRatio"]) {
 			this.cathPollution += this.cathPollutionPerTick * ticks;
 		}
 		else {

@@ -87,6 +87,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			if (this.transcendenceTier >= tu.tier) {
 				tu.unlocked = true;
 			}
+			if(tu.val > 0 && tu.unlocks){
+				this.game.unlock(tu.unlocks);
+			}
 		}
 	},
 
@@ -740,6 +743,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 		},
 		unlocked: false,
+		unlocks: {
+			challenges: ["postApocalypse"]
+		},
 		flavor: $I("religion.tu.holyGenocide.flavor")
 	}
 		//Holy Memecide

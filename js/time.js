@@ -388,7 +388,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 			voidSpace: ["cryochambers"]
 		},
         calculateEffects: function(self, game){
-			self.limitBuild = game.bld.get("chronosphere").on;
+			self.limitBuild = game.bld.get("chronosphere").on + game.getEffect("cryochamberSupport");
 			self.on = Math.min(self.val, self.limitBuild);
         },
         unlocked: false,
