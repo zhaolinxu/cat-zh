@@ -42,7 +42,7 @@ body.scheme_gold {
 .scheme_gold .btn.modern.disabled span.btnTitle { /* to change only the properties of the button name for buttons disabled */
     color: #919084;
 }
-.scheme_gold .btn.modern.disabled span.btnTitle.limited { /* to change only the properties of the button name for buttons limited */
+.scheme_gold .btn.modern.disabled.limited span.btnTitle { /* to change only the properties of the button name for buttons limited */
 	color: #C83B00;
 }
 .scheme_gold .btn.modern:not(.disabled) {
@@ -238,7 +238,7 @@ body.scheme_gold {
 .scheme_gold #topBar a.copyright:hover {
 	color: #DFCE99;
 }
-.scheme_gold #headerLinks .links-block { /* a link separator : | on header links */
+.scheme_gold #topBar .links-block { /* a link separator : | on topBar links */
 	color: #404040;
 }
 .scheme_gold #topBar div {
@@ -310,6 +310,7 @@ body.scheme_gold {
 }
 .scheme_gold .button_tooltip {
     background-color: transparent;
+    backdrop-filter: none; /* default : backdrop-filter: blur(2px); */
 }
 .scheme_gold .button_tooltip div { /* tooltip window == left column: right text | center column :highlighting text */
 	color: #c3c3c3;
