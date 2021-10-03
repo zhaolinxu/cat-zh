@@ -97,9 +97,11 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	setEffectsCachedExisting: function() {
 		// Set effectsCachedExisting based on meta
 		for (var a = 0; a < this.meta.length; a++){
-			for (var i = 0; i < this.meta[a].meta.length; i++){
-				for (var effect in this.meta[a].meta[i].effects) {
-					this.effectsCachedExisting[effect] = 0;
+			if (this.meta[a].meta){
+				for (var i = 0; i < this.meta[a].meta.length; i++){
+					for (var effect in this.meta[a].meta[i].effects) {
+						this.effectsCachedExisting[effect] = 0;
+					}
 				}
 			}
 		}
