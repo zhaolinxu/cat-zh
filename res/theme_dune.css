@@ -1,5 +1,5 @@
 /* ********************************************************* */
-/* ***            Dune 1.0.0 Theme © Volkeyrn            *** */
+/* ***            Dune 1.0.2 Theme © Volkeyrn            *** */
 /* ********************************************************* */
 
  @import url(https://fonts.googleapis.com/css?family=Signika+Negative:wght@400,700&display=swap);
@@ -46,7 +46,7 @@ body.scheme_dune {
 .scheme_dune .btn.modern.disabled span.btnTitle { /* to change only the properties of the button name for buttons disabled */
 	color: #9393b2;
 }
-.scheme_dune .btn.modern.disabled span.btnTitle.limited { /* to change only the properties of the button name for buttons limited */
+.scheme_dune .btn.modern.disabled.limited span.btnTitle { /* to change only the properties of the button name for buttons limited */
 	color: #ac0307;
 }
 .scheme_dune .btn.modern:not(.disabled) {
@@ -94,7 +94,7 @@ body.scheme_dune {
 	text-transform: capitalize;
 }
 .scheme_dune h1:first-child {
-    margin-top: 0;
+    margin-top: 15px;
 }
 .scheme_dune .btn.modern.small-text {
 	font-size: 100% !important; /* default font-size: 90%; */
@@ -171,6 +171,7 @@ body.scheme_dune {
 .scheme_dune select:hover { /* dropdown list on settlement tab and options windows */
 	background-color: #281028;
 	color: #e3e3eb;
+	cursor: pointer;
 }
 .scheme_dune select>option {
     background-color: #3a1d42;
@@ -184,13 +185,12 @@ body.scheme_dune {
 }
 .scheme_dune .dialog input#batchSize {
 	background-color: #281028;
-    color: #e3e3eb;
+    color: #bbbbbb;
     padding: 3px 1px 3px 5px;
     margin-right: 5px;
-	border: 1px inset #6d2a6e;
+	border: 1px groove #180a18;
 	border-radius: 5px;
-    box-shadow: inset -1px -1px 2px #472165,
-                inset 2px 2px 5px #000000;
+    box-shadow: none;
 	margin-top: 3px;
 	margin-bottom: 3px;
 }
@@ -209,11 +209,29 @@ body.scheme_dune {
 .scheme_dune textarea#importData,
 .scheme_dune textarea#exportData {
 	background-color: #281028;
-	color: #d3d3e0;
-	box-shadow: inset 0 0 3px 2px #000000;
-	border: solid 1px #6d2a6e;
+	color: #bbbbbb;	
+	border: solid 2px #180a18;
 	padding: 5px;
 	border-radius: 7px;
+}
+.scheme_dune .dialog input#batchSize:focus,
+.scheme_dune textarea#importData:focus,
+.scheme_dune textarea#exportData:focus {
+	background-color : #380038;
+	color: #fad5b4;
+	border-color: #6d2a6e;
+	border-style: inset;
+	box-shadow: inset 0 0 3px 1px #000000;
+}
+.scheme_dune h1#importFrom,
+.scheme_dune h1#exportTo {
+	margin-top: 20px; /* default margin-top: 30px; */
+	/* default margin-bottom: 8px; */
+}
+.scheme_dune h1#importFromText,
+.scheme_dune h1#exportToText {	
+	margin-top: 15px; /* default margin-top: 30px; */
+	margin-bottom: 0; /* default margin-bottom: 8px; */
 }
 .scheme_dune input:active,
 .scheme_dune select:active,
@@ -226,12 +244,9 @@ body.scheme_dune {
 /* *********************************************** */
 .scheme_dune #topBar {
 	background: #230e25;
-	font-size: 90%;
-    height: 18px;
 	border-bottom: 1px solid #642d69;
 	box-shadow: inset 0 -1px 5px #52215a;
 	top: 0; /* for no shadow on top */
-	padding-bottom: 3px;
 }
 .scheme_dune #topBar a.copyright {
 	color: #ac0307;
@@ -239,7 +254,7 @@ body.scheme_dune {
 .scheme_dune #topBar a.copyright:hover {
 	color: #fca9fe;
 }
-.scheme_dune #topBar .links-block { /* a link separator : | on header links */
+.scheme_dune #topBar .links-block { /* a link separator : | on topBar links */
 	color: #230e25;
 }
 .scheme_dune #topBar div,
@@ -289,6 +304,24 @@ body.scheme_dune {
 }
 .scheme_dune .toolbarIcon .status-indicator-offline {
 	color: #ac0307;
+}
+.scheme_dune #topBar .toolbarIcon.pollutionIcon div {
+    color: #a0a0a0;
+}
+.scheme_dune .toolbarIcon.pollutionIcon {
+    background: no-repeat top left url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='14' fill='%23a0a0a0' viewBox='0 0 16 16'%3E%3Cpath d='M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383zm.653.757c-.757.653-1.153 1.44-1.153 2.056v.448l-.445.049C2.064 6.805 1 7.952 1 9.318 1 10.785 2.23 12 3.781 12h8.906C13.98 12 15 10.988 15 9.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 4.825 10.328 3 8 3a4.53 4.53 0 0 0-2.941 1.1z'/%3E%3C/svg%3E");
+}
+.scheme_dune .toolbarIcon.happiness {
+    background: no-repeat top left url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' fill='%23e7610c' viewBox='0, 0, 400,365.7142857142857'%3E%3Cg %3E%3Cpath id='path0' d='M23.809 26.069 C 9.506 63.687,-3.876 244.068,5.454 273.466 C 42.343 389.691,311.117 402.522,383.842 291.529 C 400.102 266.714,401.966 245.454,395.450 159.135 C 383.595 2.098,363.666 -27.023,299.032 18.249 C 261.840 44.299,133.578 44.945,105.157 19.224 C 74.567 -8.459,35.693 -5.188,23.809 26.069 M95.086 43.441 C 121.604 72.743,266.428 71.037,311.785 40.888 C 351.877 14.240,351.212 13.344,366.764 114.971 C 393.215 287.824,351.297 345.860,200.000 345.860 C 57.492 345.860,12.935 293.440,31.361 147.462 C 47.965 15.915,56.931 1.281,95.086 43.441 '%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
+}
+.scheme_dune .toolbarIcon.energy {
+    background: no-repeat top left url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='13' fill='%235cac03' viewBox='0 0 16 16'%3E%3Cpath d='M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09zM4.157 8.5H7a.5.5 0 0 1 .478.647L6.11 13.59l5.732-6.09H9a.5.5 0 0 1-.478-.647L9.89 2.41 4.157 8.5z'/%3E%3C/svg%3E");
+}
+.scheme_dune .toolbarIcon.energy.warning {
+    background: no-repeat top left url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='13' fill='%23ac0307' viewBox='0 0 16 16'%3E%3Cpath d='M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09zM4.157 8.5H7a.5.5 0 0 1 .478.647L6.11 13.59l5.732-6.09H9a.5.5 0 0 1-.478-.647L9.89 2.41 4.157 8.5z'/%3E%3C/svg%3E");
+}
+.scheme_dune .toolbarIcon.energy.warningWinter {
+    background: no-repeat top left url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='13' fill='%23e7610c' viewBox='0 0 16 16'%3E%3Cpath d='M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09zM4.157 8.5H7a.5.5 0 0 1 .478.647L6.11 13.59l5.732-6.09H9a.5.5 0 0 1-.478-.647L9.89 2.41 4.157 8.5z'/%3E%3C/svg%3E");
 }
 
 /* ********************************************** */
@@ -384,17 +417,23 @@ body.scheme_dune {
 .scheme_dune .button_tooltip.login-popup input[type="email"],
 .scheme_dune .button_tooltip.login-popup input[type="password"] {
 	background-color: #281028;
-    color: #e3e3eb;
+    color: #bbbbbb;
+	border: 1px groove #180a18;
+    box-shadow: none;
     padding: 3px 1px 3px 5px;
     margin: 0 5px;
-	border: 1px inset #6d2a6e;
 	border-radius: 5px;
-    box-shadow: inset -1px -1px 2px #472165,
-                inset 2px 2px 5px #000000;
 	margin-top: 3px;
 	margin-bottom: 3px;
 }
-
+.scheme_dune .button_tooltip.login-popup input[type="email"]:focus,
+.scheme_dune .button_tooltip.login-popup input[type="password"]:focus {
+	background-color : #380038;
+	color: #fad5b4;
+	border-color: #6d2a6e;
+	border-style: inset;
+	box-shadow: inset 0 0 3px 1px #000000;
+}
 
 /* ***************************************************** */
 /* ******************* CENTER COLUMN ******************* */
@@ -426,14 +465,12 @@ body.scheme_dune {
 }
 .scheme_dune .tabsContainer {
 	padding-bottom: 2px; /* default padding-bottom: 15px; */
-	padding-top: 0; /* default padding-top: 2px; */
+	padding-top: 3px; /* default padding-top: 2px; */
+	/* default top: 5px; */
 	font-size: 15px;
 }
 .scheme_dune .tabsContainer span {
 	font-size: 12px;
-}
-.scheme_dune .tabsContainer span:not(.genericWarning) { /* separator | for tab */
-	color: transparent;
 }
 .scheme_dune .activeTab {
 	color: #fca9fe;
@@ -442,6 +479,17 @@ body.scheme_dune {
 }
 .scheme_dune a.activeTab:hover {
     color: #fca9fe;
+}
+.scheme_dune .tabsContainer span:not(.genericWarning), /* separator | for tab */
+.scheme_dune .expandAllBar { /* separator | for expandAllBar */
+	color: transparent;
+}
+.scheme_dune .tabInner.Workshop span:first-child, /* for text: Craft effectiveness: +xxx% */
+.scheme_dune .expandAllBar:first-child span { /* for text: Trade effectiveness +xxx% */
+	color: #9d5de0;
+}
+.scheme_dune .expandAllBar:not(:first-child) {
+	font-size: smaller; /* smaller font for expand all and collapse all links */
 }
 .scheme_dune span.genericWarning { /* number of kittens free or engineering free on tab */
 	color: #be4151;
@@ -477,16 +525,6 @@ body.scheme_dune {
 .scheme_dune .bldTopContainer a.activeTab:hover {
     color: #fca9fe;
 	opacity: 0.7; /* default opacity 0.7 on not hover */
-}
-.scheme_dune .expandAllBar { /* separator | for tab and expandAllBar */
-	color: transparent;
-}
-.scheme_dune .expandAllBar:first-child span { /* for text: Trade effectiveness +xxx% */
-	/* color: #a92ca9; */
-	color: #9d5de0;
-}
-.scheme_dune .expandAllBar:not(:first-child) {
-	font-size: smaller; /* smaller font for expand all and collapse all links */
 }
 .scheme_dune .bldGroupContainer { /* container for all buttons on center column */
     padding-top: 4px; /* default 15px */
@@ -636,9 +674,23 @@ body.scheme_dune {
 }
 .scheme_dune .tabInner.Stats table.statTable:last-of-type {
     background-color: rgba(97, 68, 231, 0.1);
-    color: #fee0dd;
 	border: 1px inset #6d2a6e;
 	box-shadow: inset 2px 2px 5px #000000;
+}
+.scheme_dune .tabInner.Stats table.statTable {
+	color: #d3d3e0;
+}
+.scheme_dune .tabInner.Stats table.statTable:first-of-type tr:first-child td:last-child { /* select total kittens value */
+	color: #5cac03;
+}
+.scheme_dune .tabInner.Stats table.statTable td:last-child { /* select value column */
+    color: #fee0dd;
+}
+.scheme_dune .tabInner.Stats table.statTable:first-of-type tr:first-child + tr > td:last-child { /* select kittens dead value */
+    color: #ac0307;
+}
+.scheme_dune .tabInner.Stats table.statTable:last-of-type tr:last-child td:last-child { /* select time played value */
+	color: #9d5de0;
 }
 .scheme_dune .panelContainer .title {
 	padding: 3px 3px 0 20px; /* default padding: 4px; */ /* default padding-left: 10px; */
@@ -913,7 +965,7 @@ body.scheme_dune {
 	width: calc(50% - 345px);
 	max-width: 440px;
 	top: 5px;
-	margin-top: 16px;
+	margin-top: 20px;
 }
 .scheme_dune #toggleCenter,
 .scheme_dune span.toggleCenter {
@@ -1027,7 +1079,7 @@ body.scheme_dune {
 /* ******************* LEFT COLUMN ******************* */
 /* *************************************************** */
 .scheme_dune #leftColumn {
-	margin-top: 5px;
+	margin-top: 10px;
 	max-width: 380px; /* -20px gained on res-table (12px) with border collapse and padding-right (8px). default max-width: 400px; */
 	padding-right: 12px; /* -8px gained on res-toolbar.right padding-right default padding right : 20px */
 }

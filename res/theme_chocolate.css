@@ -56,7 +56,7 @@ body.scheme_chocolate.with_background_image {
 .scheme_chocolate .btn.modern.disabled span.btnTitle { /* to change only the properties of the button name for buttons disabled */
 	color: #120f0c;
 }
-.scheme_chocolate .btn.modern.disabled span.btnTitle.limited { /* to change only the properties of the button name for buttons limited */
+.scheme_chocolate .btn.modern.disabled.limited span.btnTitle { /* to change only the properties of the button name for buttons limited */
 	color: #cb000b;
 }
 .scheme_chocolate .btn.modern:not(.disabled) {
@@ -257,7 +257,7 @@ body.scheme_chocolate.with_background_image {
 .scheme_chocolate #topBar a.copyright:hover {
 	color: #e8969f;
 }
-.scheme_chocolate #headerLinks .links-block { /* a link separator : | on header links */
+.scheme_chocolate #topBar .links-block { /* a link separator : | on topBar links */
 	color: #70543d;
 }
 .scheme_chocolate #topBar div,
@@ -336,6 +336,7 @@ body.scheme_chocolate.with_background_image {
 }
 .scheme_chocolate .button_tooltip {
 	background-color: transparent;
+	backdrop-filter: none; /* default : backdrop-filter: blur(2px); */
 }
 .scheme_chocolate .button_tooltip div { /* tooltip window == left column: right text | center column :highlighting text */
 	color: #c0c0c0;
