@@ -67,9 +67,9 @@ WToolbarHappiness = React.createClass({
             getTooltip: this.getTooltip,
             className: "happiness"
         },
-            $r("div", {
+            $r("div", {className:"happinessText",
                 dangerouslySetInnerHTML: {
-                    __html: "(:3)&nbsp;" + Math.floor(game.village.happiness * 100) + "%"
+                    __html: Math.floor(game.village.happiness * 100) + "%"
                 }
             })
         );
@@ -149,9 +149,9 @@ WToolbarEnergy = React.createClass({
             getTooltip: this.getTooltip,
             className: "energy" + className
         },
-            $r("div", {
+            $r("div", {className:"energyText",
                 dangerouslySetInnerHTML: {
-                    __html: "&#9889;&nbsp;" + game.getDisplayValueExt(resPool.energyProd - resPool.energyCons) + $I("unit.watt")
+                    __html: game.getDisplayValueExt(resPool.energyProd - resPool.energyCons) + $I("unit.watt")
 				}
             })
         );
@@ -212,10 +212,10 @@ WToolbarPollution = React.createClass({
             return $r(WToolbarIconContainer, {
                 game: game,
                 getTooltip: this.getTooltip,
-                className: this.freshMessage ? "energy warning": null
+                className: "pollutionIcon " + (this.freshMessage ? "energy warning": null)
             },
-                $r("div", {},
-                "🏭" + (game.science.get("ecology").researched ? (" " + this.getPollutionMod()) : ""))
+                $r("div", {className:"pollutionText"},
+                (game.science.get("ecology").researched ? (this.getPollutionMod()) : "\xa0"))
             );
         }
         return null;

@@ -753,27 +753,27 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 	updateEnabled: function(){
 		if ( this.domNode ){
 			var hasClass = dojo.hasClass(this.domNode, "disabled");
+			var hasClassLimited = dojo.hasClass(this.domNode, "limited");
 			if (this.model.enabled){
 				if (hasClass){
 					dojo.removeClass(this.domNode, "disabled");
+				}
+				if (hasClassLimited){
+					dojo.removeClass(this.domNode, "limited");
 				}
 			} else {
 				if (!hasClass){
 					dojo.addClass(this.domNode, "disabled");
 				}
-			}
+				if (!hasClassLimited && this.model.resourceIsLimited){
+					dojo.addClass(this.domNode, "limited");
+				}
+			}			
 		}
-
-
-		if (!this.buttonTitle || !this.model.highlightUnavailable){
-			return;
-		}
-
 		//---------------------------------------------------
 		//		a bit hackish place for price highlight
 		//---------------------------------------------------
 		//---- now highlight some stuff in vanilla js way ---
-		this.buttonTitle.className = "btnTitle" + (this.model.resourceIsLimited ? " limited" : "");
 	},
 
 	update: function() {

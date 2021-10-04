@@ -1,5 +1,5 @@
 /* ******************************************************** */
-/* ***			Black 1.0.1 Theme © Volkeyrn            *** */
+/* ***			Black 1.0.2 Theme © Volkeyrn            *** */
 /* ******************************************************** */
 
 @import url(https://fonts.googleapis.com/css?family=Asap:ital,wght@400,600,700,400italic,600italic,700italic&display=swap);
@@ -33,7 +33,7 @@ body.scheme_black {
 .scheme_black .btn.modern.disabled span.btnTitle { /* to change only the properties of the button name for buttons disabled */
 	color: #505050;
 }
-.scheme_black .btn.modern.disabled span.btnTitle.limited { /* to change only the properties of the button name for buttons limited */
+.scheme_black .btn.modern.disabled.limited span.btnTitle { /* to change only the properties of the button name for buttons limited */
 	color: #f9002b;
 }
 .scheme_black .btn.modern:not(.disabled) {
@@ -138,8 +138,12 @@ body.scheme_black {
     color: #b0b0b0;
 	border: solid 1px #181818;
 	border-radius: 3px;
-	font-size: 13px;
+	font-size: 14px;
 	margin-left: 3px;
+}
+.scheme_black select:hover {
+	cursor: pointer;
+	border-color: #6e42ff;
 }
 .scheme_black select>option {
 	background-color: #101010;
@@ -165,26 +169,50 @@ body.scheme_black {
 	color: #a0a0a0;
 }
 .scheme_black .dialog input#batchSize {
-	background-color: #202020;
+	background-color: rgba(240, 240, 240, 0.2);
     color: #b0b0b0;
     padding: 3px 1px 3px 5px;
     margin-right: 5px;
-	border: 2px inset #181818;
-    box-shadow: inset -1px -1px 2px #505050,
-                inset 2px 2px 5px #000000;
+	border: 1px groove #282828;
+	box-shadow: inset 0 0 3px 1px #000000;
+	border-radius: 3px;
 	margin-top: 3px;
 	margin-bottom: 3px;
 }
 .scheme_black textarea#importData,
 .scheme_black textarea#exportData {
-	background-color: rgba(240, 240, 240, 0.4);
-	box-shadow: inset 0 0 3px 2px #000000;
-	border: solid 1px #6e42ff;
+	background-color: rgba(240, 240, 240, 0.2);	
+	border: groove 2px #282828;
+	box-shadow: inset 0 0 5px 2px #000000;
+	color: #b0b0b0;
 	padding: 5px;
 	border-radius: 5px;
 	/* Only FireFox */
 	scrollbar-width: thin;
    	scrollbar-color: #a0a0a0 #202020;
+}
+.scheme_black .dialog input#batchSize:focus,
+.scheme_black textarea#importData:focus,
+.scheme_black textarea#exportData:focus {
+	background-color: rgba(240, 240, 240, 0.4);
+	border-color: #6e42ff;
+	border-style: inset;	
+	color: #000000;
+}
+.scheme_black h1#importFrom,
+.scheme_black h1#exportTo {
+	margin-top: 20px; /* default margin-top: 30px; */
+	/* default margin-bottom: 8px; */
+}
+.scheme_black h1#importFromText,
+.scheme_black h1#exportToText {	
+	margin-top: 15px; /* default margin-top: 30px; */
+	margin-bottom: 0; /* default margin-bottom: 8px; */
+}
+.scheme_black input:active,
+.scheme_black select:active,
+.scheme_black textarea:active {
+    border-color: #6e42ff !important;
 }
 
 /* *********************************************** */
@@ -202,7 +230,7 @@ body.scheme_black {
 .scheme_black #topBar a.copyright:hover {
 	color: #d0d0d0;
 }
-.scheme_black #headerLinks .links-block { /* a link separator : | on header links */
+.scheme_black #topBar .links-block { /* a link separator : | on topBar links */
 	color: transparent;
 }
 .scheme_black #topBar div,
@@ -247,6 +275,30 @@ body.scheme_black {
 .scheme_black .button_tooltip .energyPenalty {
 	color: #f9002b;
 }
+.scheme_black .toolbarIcon .status-indicator-online {
+    color: #00b029;
+}
+.scheme_black .toolbarIcon .status-indicator-offline {
+    color: #f9002b;
+}
+.scheme_black #topBar .toolbarIcon.pollutionIcon div {
+    color: #a0a0a0;
+}
+.scheme_black .toolbarIcon.pollutionIcon {
+    background: no-repeat top left url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='14' fill='%23a0a0a0' viewBox='0 0 16 16'%3E%3Cpath d='M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383zm.653.757c-.757.653-1.153 1.44-1.153 2.056v.448l-.445.049C2.064 6.805 1 7.952 1 9.318 1 10.785 2.23 12 3.781 12h8.906C13.98 12 15 10.988 15 9.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 4.825 10.328 3 8 3a4.53 4.53 0 0 0-2.941 1.1z'/%3E%3C/svg%3E");
+}
+.scheme_black .toolbarIcon.happiness {
+    background: no-repeat top left url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' fill='%23ff6e42' viewBox='0, 0, 400,365.7142857142857'%3E%3Cg %3E%3Cpath id='path0' d='M23.809 26.069 C 9.506 63.687,-3.876 244.068,5.454 273.466 C 42.343 389.691,311.117 402.522,383.842 291.529 C 400.102 266.714,401.966 245.454,395.450 159.135 C 383.595 2.098,363.666 -27.023,299.032 18.249 C 261.840 44.299,133.578 44.945,105.157 19.224 C 74.567 -8.459,35.693 -5.188,23.809 26.069 M95.086 43.441 C 121.604 72.743,266.428 71.037,311.785 40.888 C 351.877 14.240,351.212 13.344,366.764 114.971 C 393.215 287.824,351.297 345.860,200.000 345.860 C 57.492 345.860,12.935 293.440,31.361 147.462 C 47.965 15.915,56.931 1.281,95.086 43.441 '%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
+}
+.scheme_black .toolbarIcon.energy {
+    background: no-repeat top left url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='13' fill='%2300b029' viewBox='0 0 16 16'%3E%3Cpath d='M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09zM4.157 8.5H7a.5.5 0 0 1 .478.647L6.11 13.59l5.732-6.09H9a.5.5 0 0 1-.478-.647L9.89 2.41 4.157 8.5z'/%3E%3C/svg%3E");
+}
+.scheme_black .toolbarIcon.energy.warning {
+    background: no-repeat top left url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='13' fill='%23f9002b' viewBox='0 0 16 16'%3E%3Cpath d='M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09zM4.157 8.5H7a.5.5 0 0 1 .478.647L6.11 13.59l5.732-6.09H9a.5.5 0 0 1-.478-.647L9.89 2.41 4.157 8.5z'/%3E%3C/svg%3E");
+}
+.scheme_black .toolbarIcon.energy.warningWinter {
+    background: no-repeat top left url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='13' fill='%23ff6e42' viewBox='0 0 16 16'%3E%3Cpath d='M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09zM4.157 8.5H7a.5.5 0 0 1 .478.647L6.11 13.59l5.732-6.09H9a.5.5 0 0 1-.478-.647L9.89 2.41 4.157 8.5z'/%3E%3C/svg%3E");
+}
 
 /* ********************************************** */
 /* ******************* FOOTER ******************* */
@@ -273,6 +325,7 @@ body.scheme_black {
 }
 .scheme_black .button_tooltip {
 	background-color: transparent;
+	backdrop-filter: none; /* default : backdrop-filter: blur(2px); */
 }
 .scheme_black .button_tooltip div { /* tooltip window == left column: right text | center column :highlighting text */
 	color: #b0b0b0;
@@ -312,6 +365,24 @@ body.scheme_black {
 	font-size: 13px !important; /* in core.js !important needed */
 	padding-right: 7px;
 }
+.scheme_black .button_tooltip.login-popup input[type="email"],
+.scheme_black .button_tooltip.login-popup input[type="password"] {
+	background-color: rgba(240, 240, 240, 0.2);
+    color: #b0b0b0;
+	border: 1px groove #282828;
+    padding: 3px 1px 3px 5px;
+    margin: 0 5px;
+	border-radius: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+.scheme_black .button_tooltip.login-popup input[type="email"]:focus,
+.scheme_black .button_tooltip.login-popup input[type="password"]:focus {
+	background-color: rgba(240, 240, 240, 0.4);
+	border: groove 1px #6e42ff;
+	box-shadow: inset 0 0 2px 1px #000000;
+	color: #000000;
+}
 
 /* ***************************************************** */
 /* ******************* CENTER COLUMN ******************* */
@@ -335,9 +406,6 @@ body.scheme_black {
 }
 .scheme_black .tabsContainer a {
 	font-size: 14px;
-}
-.scheme_black .tabsContainer span:not(.genericWarning) { /* separator | for tab */
-	color: #202020;
 }
 .scheme_black .tab.traitLeaderBonus::before {
 	content: "\2605"; /* BLACK STAR */
@@ -369,6 +437,17 @@ body.scheme_black {
 }
 .scheme_black .tabsContainer a.activeTab:hover {
     color: #f0f0f0;
+}
+.scheme_black .tabsContainer span:not(.genericWarning), /* separator | for tab */
+.scheme_black .expandAllBar { /* separator | for expandAllBar */
+	color: #202020;
+}
+.scheme_black .tabInner.Workshop span:first-child, /* for text: Craft effectiveness: +xxx% */
+.scheme_black .expandAllBar:first-child span { /* for text: Trade effectiveness +xxx% */
+	color: #6e42ff;
+}
+.scheme_black .expandAllBar:not(:first-child) {
+	font-size: smaller; /* smaller font for expand all and collapse all links */
 }
 .scheme_black span.genericWarning { /* number of kittens free or engineering free on tab */
 	color: #f9002b;
@@ -563,6 +642,21 @@ body.scheme_black {
 }
 .scheme_black .panelContainer div.censusFilters {
 	margin-bottom: 2px; /* for add a margin under the 2 lists (select) in the settlement tab */
+}
+.scheme_black .tabInner.Stats table.statTable {
+	color: #a0a0a0;
+}
+.scheme_black .tabInner.Stats table.statTable:first-of-type tr:first-child td:last-child { /* select total kittens value */
+	color: #00b029;
+}
+.scheme_black .tabInner.Stats table.statTable td:last-child { /* select value column */
+    color: #d0d0d0;
+}
+.scheme_black .tabInner.Stats table.statTable:first-of-type tr:first-child + tr > td:last-child { /* select kittens dead value */
+    color: #f9002b;
+}
+.scheme_black .tabInner.Stats table.statTable:last-of-type tr:last-child td:last-child { /* select time played value */
+	color: #4275FF;
 }
 /* ---------- Village ----------*/
 /* container 'Census' -> list of kittens in settlement tab */
