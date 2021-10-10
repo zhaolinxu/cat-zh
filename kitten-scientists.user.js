@@ -3164,6 +3164,10 @@ var run = function() {
                         } else if (cryoKarma) {
                             tempPool['karma'] -= karmaPrice * Math.pow(priceRatio, k + data.val);
                         } else {
+							//if building value greater than limit value should not calculated.
+							if (build.val >= build.limit && build.limit != -1) {
+								continue bulkLoop;
+							}
                             var pVal = prices[p].val * Math.pow(priceRatio, k + data.val);
                             tempPool[prices[p].name] -= (prices[p].name === 'void') ? Math.ceil(pVal) : pVal;
                         }
