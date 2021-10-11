@@ -3165,7 +3165,7 @@ var run = function() {
                             tempPool['karma'] -= karmaPrice * Math.pow(priceRatio, k + data.val);
                         } else {
 							//if building value greater than limit value should not calculated.
-							if (build.val >= build.limit && build.limit != -1) {
+							if (build.val >= build.limit && build.limit > 0) {
 								continue bulkLoop;
 							}
                             var pVal = prices[p].val * Math.pow(priceRatio, k + data.val);
