@@ -301,9 +301,9 @@ body.scheme_factory {
 .scheme_factory .toolbarIcon.sorrow.max div {
     color: #fe5a5a !important; /* in default.js !important needed */
 }
-.scheme_factory #topBar > div:first-child > span:first-child:after {
+.scheme_factory #topBar > div:first-child > span:last-of-type::after {
     color: #e39827;
-    content: '\00a0\00a0\00a0Theme by Volkeyrn\00a0\00a0\00a0';
+    content: '\00a0\00a0\00a0Theme by Volkeyrn';
     text-decoration: none;
 	font-weight: normal;
 }

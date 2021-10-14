@@ -2226,7 +2226,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", [com.nuclearunicorn.game.ui.Con
 
 		this.toggle = dojo.create("div", {
 			innerHTML: this.collapsed ? "+" : "-",
-			className: "toggle",
+			className: "toggle" + (this.collapsed ? " collapsed" : ""),
 			style: {
 				float: "right"
 			}
@@ -2265,6 +2265,12 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", [com.nuclearunicorn.game.ui.Con
 		this.toggle.innerHTML = isCollapsed ? "+" : "-";
 
 		this.onToggle(isCollapsed);
+		var hasClassCollapsed = dojo.hasClass(this.toggle, "collapsed");
+		if (isCollapsed && !hasClassCollapsed){
+			dojo.addClass(this.toggle, "collapsed");			
+		} else if (!isCollapsed && hasClassCollapsed) {
+			dojo.removeClass(this.toggle, "collapsed");			
+		}
 	},
 
 	onToggle: function(isCollapsed){

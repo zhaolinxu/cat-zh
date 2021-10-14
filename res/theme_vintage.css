@@ -291,9 +291,9 @@ body.scheme_vintage {
 .scheme_vintage .toolbarIcon.sorrow.max div {
     color: #cd564f !important; /* in default.js !important needed */
 }
-.scheme_vintage #topBar > div:first-child > span:first-child:after {
+.scheme_vintage #topBar > div:first-child > span:last-of-type::after {
     color: #d4b356;
-    content: '\00a0\00a0\00a0Theme by Volkeyrn\00a0\00a0\00a0';
+    content: '\00a0\00a0\00a0Theme by Volkeyrn';
     text-decoration: none;
 	font-weight: normal;
 }

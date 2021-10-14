@@ -300,10 +300,10 @@ body.scheme_arctic.with_background_image {
 	color: #b72200 !important; /* in default.js !important needed */
 	text-shadow: 0 -1px 1px #ffa894;
 }
-.scheme_arctic #topBar > div:first-child > span:first-child:after {
+.scheme_arctic #topBar > div:first-child > span:last-of-type::after {
     color: #023152;
 	text-shadow: 0 -1px 1px #93c4cf;
-    content: '\00a0\00a0\00a0Theme by Volkeyrn\00a0\00a0\00a0';
+    content: '\00a0\00a0\00a0Theme by Volkeyrn';
 	text-decoration: none;
 	font-weight: normal;
 }
