@@ -2424,8 +2424,7 @@ dojo.declare("classes.ui.village.Census", null, {
 		return "<span class='name color-" +
 			((kitten.color && kitten.colors[kitten.color + 1]) ? kitten.colors[kitten.color + 1].color : "none") +
 			" variety-" + ((kitten.variety && kitten.varieties[kitten.variety + 1]) ? kitten.varieties[kitten.variety + 1].style : "none") +
-			"'>" +
-			(isLeaderPanel ? ":3 " : "") + kitten.name + " " + kitten.surname +
+			"'>" + kitten.name + " " + kitten.surname +
 		"</span>";
 	},
 
@@ -2440,7 +2439,7 @@ dojo.declare("classes.ui.village.Census", null, {
 		var govInfo = this.getGovernmentInfo();
 
 		if (!this.game.challenges.isActive("anarchy")) {
-			this.leaderDiv.innerHTML = "<strong>" + $I("village.census.lbl.leader") + ":</strong> " + govInfo.leaderInfo;
+			this.leaderDiv.innerHTML = "<span>" + $I("village.census.lbl.leader") + ":</span> " + govInfo.leaderInfo;
 		}
 
 		//TODO: update senators

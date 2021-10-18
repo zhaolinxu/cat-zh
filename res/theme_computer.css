@@ -257,9 +257,9 @@ body.scheme_computer {
 .scheme_computer .toolbarIcon.sorrow.max div {
     color: #f05858 !important; /* in default.js !important needed */
 }
-.scheme_computer #topBar > div:first-child > span:first-child:after {
+.scheme_computer #topBar > div:first-child > span:last-of-type::after {
     color: #7a8490;
-    content: '\00a0\00a0\00a0Theme by Volkeyrn\00a0\00a0\00a0';
+    content: '\00a0\00a0\00a0Theme by Volkeyrn';
     text-decoration: none;
 	font-weight: normal;
 }
