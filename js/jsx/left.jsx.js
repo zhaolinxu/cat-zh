@@ -749,7 +749,7 @@ WLeftPanel = React.createClass({
                 winterDays = calendar.daysPerSeason -
                 (calendar.getCurSeason().name === "winter" ? calendar.day : 0);
 
-            var catnipPerTick = game.winderCatnipPerTick;
+            var catnipPerTick = game.winterCatnipPerTick;
 
             showAdvisor = (game.resPool.get("catnip").value + winterDays * catnipPerTick * calendar.ticksPerDay) <= 0;
         }

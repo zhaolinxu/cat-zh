@@ -246,7 +246,7 @@ var run = function() {
             'option.praise': '赞美太阳',
             'option.shipOverride': '强制243船',
             'option.autofeed': '献祭上古神',
-            'option.hunt': '狩猎',
+            'option.hunt': '猎人狩猎',
             'option.crypto': '黑币交易',
             'option.embassies': '建造大使馆',
             'option.style': '占满屏幕',
@@ -877,7 +877,7 @@ var run = function() {
                 }
             },
             resources: {
-                furs:        {enabled: true,  stock: 1000, checkForReset: false, stockForReset: Infinity},
+                furs:        {enabled: true,  stock: 500, checkForReset: false, stockForReset: Infinity},
                 timeCrystal: {enabled: false, stock: 0,    checkForReset: true,  stockForReset: 500000}
             },
             policies: [],
@@ -2965,7 +2965,14 @@ var run = function() {
                 var aqueducts = (game.bld.getBuildingExt('aqueduct').meta.stage === 0) ? game.bld.getBuildingExt('aqueduct').meta.val : 0;
                 var resPerTick = this.getPotentialCatnip(true, pastures, aqueducts);
 
-                if (resPerTick < 0) {stock -= resPerTick * 400 * 5;}
+				console.log(this.getResource(name).perTickCached, this.getTickVal(name,true))
+                if (resPerTick < 0) {
+					if (game.calendar.season === 0 && this.getResource(name).maxValue * trigger >= this.getResource(name).value) {
+						
+					} else {
+						stock -= resPerTick * 400 * 5;
+					}
+				}
             }
 
             value = Math.max(value - stock, 0);
