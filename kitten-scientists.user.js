@@ -1913,7 +1913,7 @@ var run = function() {
                 var aqueductMeta = game.bld.getBuildingExt('aqueduct').meta;
                 if (aqueductMeta.stage === 0) {
                     if (aqueductMeta.stages[1].stageUnlocked) {
-                        if (craftManager.getPotentialCatnip(true, pastures, 0) > 0) {
+                        if (craftManager.getPotentialCatnip(true, pastures, 0) > 45) {
                             var prices = aqueductMeta.stages[1].prices;
                             var priceRatio = bulkManager.getPriceRatio(aqueductMeta, true);
                             if (bulkManager.singleBuildPossible(aqueductMeta, prices, 1)) {
@@ -2965,13 +2965,8 @@ var run = function() {
                 var aqueducts = (game.bld.getBuildingExt('aqueduct').meta.stage === 0) ? game.bld.getBuildingExt('aqueduct').meta.val : 0;
                 var resPerTick = this.getPotentialCatnip(true, pastures, aqueducts);
 
-				console.log(this.getResource(name).perTickCached, this.getTickVal(name,true))
-                if (resPerTick < 0) {
-					if (game.calendar.season === 0 && this.getResource(name).maxValue * trigger >= this.getResource(name).value) {
-						
-					} else {
-						stock -= resPerTick * 400 * 5;
-					}
+                if (resPerTick < 0 && (game.calendar.season !== 0 || this.getResource(name).maxValue * trigger < this.getResource(name).value || game.getResourcePerTick("catnip", true) < 0)) {
+					stock -= resPerTick * 400 * 5;
 				}
             }
 
