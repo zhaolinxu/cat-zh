@@ -130,7 +130,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
             "resourceRetrieval": "资源回复",
 
             "getTradeTC": "当前周期烧水晶的水晶贸易收入",
-            "getTradeTCAvg": "平均周期烧水晶的水晶贸易收入",
+            "getTradeTCAvg": "平均周期烧水晶的水晶平均收入",
             "getResourceRetrievalTCBackYears": "升级后烧水晶使水晶回本的预计时间",
 
             "others": "其他",
