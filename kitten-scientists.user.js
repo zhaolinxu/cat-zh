@@ -2392,7 +2392,7 @@ var run = function() {
                 var btn = game.religionTab.zgUpgradeButtons[i];
                 if(validBuildings.indexOf(btn.id) != -1){
 					btn.controller.updateVisible(btn.model);
-                    if(btn.model.visible){
+                    if(btn.model.metadata.unlocked){
                         unicornPrice = 0;
                         btn.model.prices = btn.controller.getPrices(btn.model);
                         for(var j of btn.model.prices){
