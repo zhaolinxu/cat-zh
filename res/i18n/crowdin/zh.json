@@ -1490,7 +1490,7 @@
     "ui.kgnet.save.current": "当前",
     "ui.kgnet.save.save": "上传",
     "ui.kgnet.save.load": "加载",
-    "ui.kgnet.sync": "同步云存档",
+    "ui.kgnet.sync": "同步存档信息",
 
     "ui.toggle.researched": "切换已研究",
     "ui.loading.msg.0": "正在饲喂斑马",
