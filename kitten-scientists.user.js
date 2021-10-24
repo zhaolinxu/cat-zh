@@ -1483,16 +1483,15 @@ var run = function() {
 
             if (option.bestUnicornBuilding.enabled) {
                 var btn = this.getBestUnicornBuilding();
+				console.log(btn)
                 if (btn) {
-                    btn.model.prices = btn.controller.getPrices(btn.model);
-                    btn.controller.updateEnabled(btn.model);
-                    if (btn.opts.building == 'unicornPasture') {
+                    if (btn.opts) {
+						btn.controller.updateEnabled(btn.model);
                         buildManager.build(btn.opts.building, undefined, 1);
                     } else {
-                        if (!btn || !btn.model.metadata) {game.religionTab.render();}
-                        for (var i of btn.model.prices) {
-                            if (i.name == 'tears') {
-                                var tearNeed = i.val;
+                        for (var i = 0; i < btn.prices.length; i++) {
+                            if (btn.prices[i].name == 'tears') {
+                                var tearNeed = btn.prices[i].val * Math.pow(1.15, btn.on);
                             }
                         }
                         var tearHave = craftManager.getValue('tears') - craftManager.getStock('tears');
@@ -1506,7 +1505,7 @@ var run = function() {
                             }
                             // iactivity?
                         }
-                        religionManager.build(btn.id, 'z', 1);
+                        religionManager.build(btn.name, 'z', 1);
                     }
                 }
             } else {
@@ -1552,9 +1551,9 @@ var run = function() {
                             var epiphanyRecommend = (1 - k + Math.sqrt(80 * (k * k - 1) * x + (k - 1) * (k - 1))) * k / (40 * (k + 1) * (k + 1) * (k - 1)) + x + x / (k * k - 1);
 
                             if (
-							(epiphany > epiphanyRecommend && worship > 1e5) 
-							|| (worship * 2.02 * tt + 3.03 * worship >= 1e6 * needNextLevel && epiphany > needNextLevel)
-							) {
+                            (epiphany > epiphanyRecommend && worship > 1e5) 
+                            || (worship * 2.02 * tt + 3.03 * worship >= 1e6 * needNextLevel && epiphany > needNextLevel)
+                            ) {
 
                                 // code copy from kittens game's religion.js: game.religion.transcend()
                                 // game.religion.transcend() need confirm by player
@@ -2359,57 +2358,71 @@ var run = function() {
         getBestUnicornBuilding: function () {
             var unicornPasture = 'unicornPasture';
             var pastureButton = buildManager.getBuildButton('unicornPasture');
-            if (typeof pastureButton === 'undefined') {return;}
-            if (!pastureButton.model.metadata) {return game.bldTab.render();}
-            var validBuildings = ['unicornTomb','ivoryTower','ivoryCitadel','skyPalace','unicornUtopia','sunspire'];
+            if (typeof pastureButton === 'undefined') {
+                return;
+            }
+            if (!pastureButton.model.metadata) {
+                return game.bldTab.render();
+            }
+            var validBuildings = ['unicornTomb', 'ivoryTower', 'ivoryCitadel', 'skyPalace', 'unicornUtopia','sunspire'];
             var unicornsPerSecond = game.getEffect('unicornsPerTickBase') * game.getTicksPerSecondUI();
             var globalRatio = game.getEffect('unicornsGlobalRatio') + 1;
             var religionRatio = game.getEffect('unicornsRatioReligion') + 1;
             var paragonRatio = game.prestige.getParagonProductionRatio() + 1;
             var faithBonus = game.religion.getSolarRevolutionRatio() + 1;
             var cycle = 1;
-            if(game.calendar.cycles[game.calendar.cycle].festivalEffects['unicorns'] != undefined)
-                {if(game.prestige.getPerk('numeromancy').researched && game.calendar.festivalDays)
-                    {cycle = game.calendar.cycles[game.calendar.cycle].festivalEffects['unicorns'];}}
+            if (game.calendar.cycles[game.calendar.cycle].festivalEffects['unicorns'] != undefined) {
+                if (game.prestige.getPerk('numeromancy').researched && game.calendar.festivalDays) {
+                    cycle = game.calendar.cycles[game.calendar.cycle].festivalEffects['unicorns'];
+                }
+            }
             var onZig = Math.max(game.bld.getBuildingExt('ziggurat').meta.on, 1);
             var total = unicornsPerSecond * globalRatio * religionRatio * paragonRatio * faithBonus * cycle;
             var baseUnicornsPerRift = 500 * (1 + game.getEffect('unicornsRatioReligion') * 0.1);
             var riftChanceRatio = 1;
-            if(game.prestige.getPerk('unicornmancy').researched)
-                {riftChanceRatio *= 1.1;}
+            if (game.prestige.getPerk('unicornmancy').researched) {
+                riftChanceRatio *= 1.1;
+            }
             var baseRift = game.getEffect('riftChance') * riftChanceRatio / (10000 * 2) * baseUnicornsPerRift;
             var bestAmoritization = Infinity;
             var bestBuilding = '';
             var pastureAmor = game.bld.getBuildingExt('unicornPasture').meta.effects['unicornsPerTickBase'] * game.getTicksPerSecondUI();
             pastureAmor = pastureAmor * globalRatio * religionRatio * paragonRatio * faithBonus * cycle;
-			pastureButton.model.prices = pastureButton.controller.getPrices(pastureButton.model);
+            pastureButton.model.prices = pastureButton.controller.getPrices(pastureButton.model);
             pastureAmor = pastureButton.model.prices[0].val / pastureAmor;
-            if(pastureAmor < bestAmoritization){
+            if (pastureAmor < bestAmoritization) {
                 bestAmoritization = pastureAmor;
                 bestBuilding = pastureButton;
             }
-            for(var i in game.religionTab.zgUpgradeButtons){
-                var btn = game.religionTab.zgUpgradeButtons[i];
-                if(validBuildings.indexOf(btn.id) != -1){
-					btn.controller.updateVisible(btn.model);
-                    if(btn.model.metadata.unlocked){
-                        unicornPrice = 0;
-                        btn.model.prices = btn.controller.getPrices(btn.model);
-                        for(var j of btn.model.prices){
-                            if(j.name == 'unicorns')
-                                {unicornPrice += j.val;}
-                            if(j.name == 'tears')
-                                {unicornPrice += j.val * 2500 / onZig;}
+            for (var i = 0; i < 6; i ++) {
+                var btn = game.religion.meta[0].meta[i];
+                if (validBuildings.indexOf(btn.name) != -1) {
+                    if (btn.unlocked) {
+                        var unicornPrice = 0;
+                        for (var j = 0; j < btn.prices.length; j++) {
+                            //if (j.name == 'unicorns') {
+                                //unicornPrice += j.val;
+                            //}
+                            if (btn.prices[j].name == 'tears') {
+                                unicornPrice += btn.prices[j].val * Math.pow(1.15 , btn.on) * 2500 / onZig;
+                            }
                         }
-                        var bld = game.religion.getZU(btn.id);
+                        //var bld = game.religion.getZU(btn.name);
                         var relBonus = religionRatio;
                         var riftChance = game.getEffect('riftChance');
-                        for(var j in bld.effects){
-                            if(j == 'unicornsRatioReligion')
-                                {relBonus += bld.effects[j];}
-                            if(j == 'riftChance')
-                                {riftChance += bld.effects[j];}
+						
+                        relBonus += btn.effects.unicornsRatioReligion;
+                        if (btn.effects.riftChance) {
+                            riftChance += btn.effects.riftChance;
                         }
+                        /*for (var j in bld.effects) {
+                            if (j == 'unicornsRatioReligion') {
+                                relBonus += bld.effects[j];
+                            }
+                            if (j == 'riftChance') {
+                                riftChance += bld.effects[j];
+                            }
+                        }*/
                         var unicornsPerRift = 500 * ((relBonus - 1) * 0.1 + 1);
                         var riftBonus = riftChance * riftChanceRatio / (10000 * 2) * unicornsPerRift;
                         riftBonus -= baseRift;
@@ -2417,12 +2430,12 @@ var run = function() {
                         amor -= total;
                         amor = amor + riftBonus;
                         amor = unicornPrice / amor;
-                        if(amor < bestAmoritization) {
-							if(riftBonus > 0 || relBonus > religionRatio && unicornPrice > 0){
+                        if (amor < bestAmoritization) {
+                            if (riftBonus > 0 || relBonus > religionRatio && unicornPrice > 0) {
                                 bestAmoritization = amor;
                                 bestBuilding = btn;
                             }
-						}
+                        }
                     }
                 }
             }
@@ -2966,8 +2979,8 @@ var run = function() {
                 var resPerTick = this.getPotentialCatnip(true, pastures, aqueducts);
 
                 if (resPerTick < 0 && (game.calendar.season !== 0 || this.getResource(name).maxValue * trigger < this.getResource(name).value || game.getResourcePerTick("catnip", true) < 0)) {
-					stock -= resPerTick * 400 * 5;
-				}
+                    stock -= resPerTick * 400 * 5;
+                }
             }
 
             value = Math.max(value - stock, 0);
@@ -3166,10 +3179,10 @@ var run = function() {
                         } else if (cryoKarma) {
                             tempPool['karma'] -= karmaPrice * Math.pow(priceRatio, k + data.val);
                         } else {
-							//if building value greater than limit value should not calculated.
-							if (build.val >= build.limit && build.limit > 0) {
-								continue bulkLoop;
-							}
+                            //if building value greater than limit value should not calculated.
+                            if (build.val >= build.limit && build.limit > 0) {
+                                continue bulkLoop;
+                            }
                             var pVal = prices[p].val * Math.pow(priceRatio, k + data.val);
                             tempPool[prices[p].name] -= (prices[p].name === 'void') ? Math.ceil(pVal) : pVal;
                         }
