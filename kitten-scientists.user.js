@@ -1483,10 +1483,8 @@ var run = function() {
 
             if (option.bestUnicornBuilding.enabled) {
                 var btn = this.getBestUnicornBuilding();
-				console.log(btn)
                 if (btn) {
                     if (btn.opts) {
-						btn.controller.updateEnabled(btn.model);
                         buildManager.build(btn.opts.building, undefined, 1);
                     } else {
                         for (var i = 0; i < btn.prices.length; i++) {
