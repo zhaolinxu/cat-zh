@@ -735,7 +735,9 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
     getBestRelicBuilding: function() {
         if (!this.game.religion.getZU("blackPyramid").val) {
             return this.i18n("$religion.zu.blackPyramid.label");
-        }
+        } else if (!this.game.religion.getTU("blackNexus").on) {
+			return this.i18n("$religion.tu.blackNexus.label");
+		}
         var next;
         var cs = Math.floor(Math.log((15 + this.game.religion.getZU("blackPyramid").getEffectiveValue(this.game)) / 5) / Math.log(1.15)) + 1;
         var cs1 = 0;
@@ -752,9 +754,9 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
                 bcoreup += 0.001 / a;
                 cs1++;
             }
-            next = this.i18n("$religion.tu.blackNexus.label") + " " + cs1 + "x";
+            next = this.i18n("$religion.tu.blackNexus.label") + " +" + cs1 + "级";
         } else {
-            next = this.i18n("$religion.tu.blackCore.label") + " " + cs2 + "x";
+            next = this.i18n("$religion.tu.blackCore.label") + " +" + cs2 + "级";
             if (cs2 < 1) {
                 next = this.i18n("$religion.zu.blackPyramid.label");
             }
@@ -779,7 +781,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
                 elevatorup = (0.01 + spaceRatio) * arrayPrices * 1000;
                 number++;
             }
-            return $I("space.planet.cath.spaceElevator.label") + " " + number + "x";
+            return $I("space.planet.cath.spaceElevator.label") + " +" + number + "级";
         } else {
             return $I("space.planet.piscine.orbitalArray.label");
         }
