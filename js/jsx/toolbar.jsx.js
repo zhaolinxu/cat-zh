@@ -508,9 +508,10 @@ WCloudSaves = React.createClass({
                         isActiveSave ? "[" + $I("ui.kgnet.save.current") + "]" : ""
                     ),
                     $r("div", {className:"save-record-cell"},
-                        save.index ?
-                        (save.index.calendar.year +"年" + "，" + save.index.calendar.day + " 天 ") :
-                        "加载中..."
+                        //save.index ?
+                        //(save.index.calendar.year +"年" + "，" + save.index.calendar.day + " 天 ") :
+                        //"加载中..."
+						"参考右列"
                     ),
                     $r("div", {className:"save-record-cell"},
                         new Date(save.timestamp).toLocaleDateString("zh-CN", {
