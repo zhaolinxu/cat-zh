@@ -1509,10 +1509,14 @@ var run = function() {
                             // iactivity?
                         }
 						var btnButton = religionManager.getBuildButton(btn.name, 'z');
-						if (btnButton.model.enabled) {
-							btnButton.controller.updateEnabled(btnButton.model);
+						if (!btnButton) {
+							this.religionManager.manager.render();
+						} else {
+							if (btnButton.model.enabled) {
+								btnButton.controller.updateEnabled(btnButton.model);
+							}
+							religionManager.build(btn.name, 'z', 1);
 						}
-						religionManager.build(btn.name, 'z', 1);
                     }
                 }
             } else {
@@ -1638,7 +1642,7 @@ var run = function() {
                 } else {
                     var model = buildManager.getBuildButton(name, build.variant).model;
                     var panel = (build.variant === 'c') ? game.science.get('cryptotheology').researched : true;
-                    if (!model.enabled) {buildManager.getBuildButton(name, build.variant).controller.updateEnabled(model);}
+                    //if (!model.enabled) {buildManager.getBuildButton(name, build.variant).controller.updateEnabled(model);}
                     metaData[name].rHidden = !(model.visible && model.enabled && panel);
                 }
             }
