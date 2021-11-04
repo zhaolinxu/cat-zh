@@ -4240,7 +4240,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					catnip = this.resPool.createResource("catnip");
 				}
 				catnip.value = cryochambers * 1000 * (1 + this.resPool.get("karma").value/100);
-				newResources.push(newRes);
+				newResources.push(catnip);
 			}
 			cathPollution = (this.challenges.getChallenge("postApocalypse").on + cryochambers) * 1e+13 + 1e+15;
 		}
