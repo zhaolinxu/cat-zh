@@ -2290,7 +2290,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},
 
 	getPollutionLevel: function(cathPollution) {
-		if(!cathPollution) {cathPollution = this.cathPollution;}
+		if(cathPollution == undefined) {cathPollution = this.cathPollution;}
 		if(cathPollution <= 0){return 0;}
 		return Math.max(Math.floor(Math.log10(cathPollution * 10 / this.getPollutionLevelBase())), 0);
 	},
