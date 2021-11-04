@@ -677,7 +677,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonController", null, {
 			var price = model.prices[i];
 
 			var res = this.game.resPool.get(price.name);
-			if (res.isRefundable(this.game)) {
+			if (res.isRefundable(this.game) && !price.isTemporary) {
 				this.game.resPool.addResEvent(price.name, price.val * model.refundPercentage);
 			} else {
 				// No refund at all
@@ -1274,9 +1274,10 @@ ButtonModernHelper = {
 				className: "desc small" + (model.metadata.isAutomationEnabled ? " auto-on" : " auto-off")
 			}, tooltip);
 		}
+
 		if (model.metadata && model.metadata.effects && 
 			model.metadata.effects["cathPollutionPerTickProd"] > 0 &&
-			controller.game.science.get("chemistry").researched
+			controller.game.science.get("chemistry").researched && !controller.game.opts.disablePollution
 		){
 			dojo.create("div", {
 				innerHTML: $I("btn.pollution.tooltip"),

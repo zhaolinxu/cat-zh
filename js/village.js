@@ -300,8 +300,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		if (this.game.calendar.festivalDays > 0) {
 			kittensPerTick = kittensPerTick * (2 + this.game.getEffect("festivalArrivalRatio"));
 		}
-		//pollution decreases arrival speed
-		var pollutionArrivalSlowdown = this.game.bld.pollutionEffects["pollutionArrivalSlowdown"];
+		//pollution and postApocalypse challenge decreases arrival speed
+		var pollutionArrivalSlowdown = this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] + this.game.getEffect("arrivalSlowdown");
 		if (pollutionArrivalSlowdown > 1){
 			kittensPerTick /= pollutionArrivalSlowdown;
 		}
@@ -902,6 +902,10 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},
 
 	getValueModifierPerSkill: function(value){
+		if(this.game.challenges.isActive("anarchy")) {
+			return 0;
+		}
+		
 		var bonus = 0;
 		switch (true) {
 		case value < 100:
