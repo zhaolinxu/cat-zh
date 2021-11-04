@@ -92,6 +92,7 @@ var run = function() {
             'ui.trigger': 'trigger',
             'ui.trigger.set': 'Enter a new trigger value for {0}. Should be in the range of 0 to 1.',
             'ui.limit': 'Limited',
+			'ui.trigger.shipOverride.set': 'Enter a new trigger value for {0}. Corresponds to the amount of ship needed before the exchange is made.',
             'ui.trigger.missions.set': 'Enter a new trigger value for missions. Should be in the range of 0 to 13. Corresponds to each planet sort',
             'ui.trigger.crypto.set': 'Enter a new trigger value for {0}. Corresponds to the amount of Relics needed before the exchange is made.',
             'ui.engine': 'Enable Scientists',
@@ -244,7 +245,7 @@ var run = function() {
             'option.observe': '观测天文事件',
             'option.festival': '举办节日',
             'option.praise': '赞美太阳',
-            'option.shipOverride': '强制243船',
+            'option.shipOverride': '强制贸易船',
             'option.autofeed': '献祭上古神',
             'option.hunt': '猎人狩猎',
             'option.crypto': '黑币交易',
@@ -305,8 +306,9 @@ var run = function() {
             'ui.trigger': '触发条件',
             'ui.trigger.set': '输入新的 {0} 触发值，取值范围为 0 到 1 的小数。',
             'ui.limit': '限制',
+			'ui.trigger.shipOverride.set': '输入一个新的 强制贸易船 触发值，\n贸易船数量低于触发条件时会无视贸易船工艺的勾选。',
             'ui.trigger.missions.set': '输入一个新的 探索星球 触发值,取值范围为 0 到 13 的整数。\n分别对应13颗星球。',
-            'ui.trigger.crypto.set': '输入一个新的 {0} 触发值,\n遗物数量达到触发值时会进行黑币交易。',
+            'ui.trigger.crypto.set': '输入一个新的 {0} 触发值，\n遗物数量达到触发值时会进行黑币交易。',
             'ui.engine': '启用小猫珂学家',
             'ui.build': '营火',
             'ui.space': '太空',
@@ -759,7 +761,7 @@ var run = function() {
                     concrate:   {require: false,         max: 0, limited: true,  limRat: 0.5, enabled: true},
                     gear:       {require: false,         max: 0, limited: true,  limRat: 0.5, enabled: true},
                     scaffold:   {require: false,         max: 0, limited: true,  limRat: 0.5, enabled: true},
-                    ship:       {require: false,         max: 0, limited: true,  limRat: 0.5, enabled: true},
+                    ship:       {require: false,         max: 0, limited: true,  limRat: 0.5, enabled: false},
                     tanker:     {require: false,         max: 0, limited: true,  limRat: 0.5, enabled: false},
                     parchment:  {require: false,         max: 0, limited: false, limRat: 0.5, enabled: true},
                     manuscript: {require: 'culture',     max: 0, limited: true,  limRat: 0.5, enabled: true},
@@ -824,7 +826,7 @@ var run = function() {
                 items: {
                     observe:            {enabled: true,                    misc: true, label: i18n('option.observe')},
                     festival:           {enabled: true,                    misc: true, label: i18n('option.festival')},
-                    shipOverride:       {enabled: true,                    misc: true, label: i18n('option.shipOverride')},
+                    shipOverride:       {enabled: true,  subTrigger: 243,  misc: true, label: i18n('option.shipOverride')},
                     autofeed:           {enabled: true,                    misc: true, label: i18n('option.autofeed')},
                     hunt:               {enabled: true, subTrigger: 0.98,  misc: true, label: i18n('option.hunt')},
                     promote:            {enabled: true,                    misc: true, label: i18n('option.promote')},
@@ -877,7 +879,7 @@ var run = function() {
                 }
             },
             resources: {
-                furs:        {enabled: true,  stock: 500, checkForReset: false, stockForReset: Infinity},
+                furs:        {enabled: true,  stock: 750, checkForReset: false, stockForReset: Infinity},
                 timeCrystal: {enabled: false, stock: 0,    checkForReset: true,  stockForReset: 500000}
             },
             policies: [],
@@ -1485,7 +1487,10 @@ var run = function() {
                 var btn = this.getBestUnicornBuilding();
                 if (btn) {
                     if (btn.opts) {
-                        buildManager.build(btn.opts.building, undefined, 1);
+						if (btn.model.enabled) {
+							btn.controller.updateEnabled(btn.model);
+						}
+						buildManager.build(btn.opts.building, undefined, 1);
                     } else {
                         for (var i = 0; i < btn.prices.length; i++) {
                             if (btn.prices[i].name == 'tears') {
@@ -1503,7 +1508,11 @@ var run = function() {
                             }
                             // iactivity?
                         }
-                        religionManager.build(btn.name, 'z', 1);
+						var btnButton = religionManager.getBuildButton(btn.name, 'z');
+						if (btnButton.model.enabled) {
+							btnButton.controller.updateEnabled(btnButton.model);
+						}
+						religionManager.build(btn.name, 'z', 1);
                     }
                 }
             } else {
@@ -2274,7 +2283,8 @@ var run = function() {
                     var embassyBulk = {};
                     var bulkTracker = [];
 
-                    for (var i = 0; i < racePanels.length; i++) {
+					var racesLength = racePanels.length - ((game.diplomacy.get('leviathans').unlocked) ? 1 : 0);
+                    for (var i = 0; i < racesLength; i++) {
                         if (!racePanels[i].embassyButton) {
                             game.diplomacyTab.render();
                             continue;
@@ -2532,7 +2542,7 @@ var run = function() {
                     var buttons = this.manager.tab.children[0].children[0].children;
             }
             var build = this.getBuild(name, variant);
-            for (var i in buttons) {
+            for (var i = 0; i < buttons.length; i++) {
                 var haystack = buttons[i].model.name;
                 if (haystack.indexOf(build.label) !== -1) {
                     return buttons[i];
@@ -2840,6 +2850,7 @@ var run = function() {
             var ratio = game.getResCraftRatio(craft.name);
             var trigger = options.auto.craft.trigger;
             var optionVal = options.auto.options.enabled && options.auto.options.items.shipOverride.enabled;
+			var optionShipVal =  options.auto.options.items.shipOverride.subTrigger;
 
             // Safeguard if materials for craft cannot be determined.
             if (!materials) {return 0;}
@@ -2863,7 +2874,7 @@ var run = function() {
 
             for (var i in materials) {
                 var delta = undefined;
-                if (! limited || (this.getResource(i).maxValue > 0 && aboveTrigger) || (name === 'ship' && optionVal && (this.getResource('ship').value < 243)) ) {
+                if (! limited || (this.getResource(i).maxValue > 0 && aboveTrigger) || (name === 'ship' && optionVal && (this.getResource('ship').value < optionShipVal)) ) {
                     // If there is a storage limit, we can just use everything returned by getValueAvailable, since the regulation happens there
                     delta = this.getValueAvailable(i) / materials[i];
                 } else {
@@ -5134,8 +5145,13 @@ var run = function() {
 
             triggerButton.on('click', function () {
                 var value;
-                if (name == 'crypto'){value = window.prompt(i18n('ui.trigger.crypto.set', [option.label]), option.subTrigger);}
-                else{value = window.prompt(i18n('ui.trigger.set', [option.label]), option.subTrigger);}
+                if (name == 'crypto') {
+					value = window.prompt(i18n('ui.trigger.crypto.set', [option.label]), option.subTrigger);
+				} else if (name == 'shipOverride') {
+					value = window.prompt(i18n('ui.trigger.shipOverride.set', [option.label]), option.subTrigger);
+				} else {
+					value = window.prompt(i18n('ui.trigger.set', [option.label]), option.subTrigger);
+				}
 
                 if (value !== null) {
                     option.subTrigger = parseFloat(value);
