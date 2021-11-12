@@ -1641,6 +1641,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	//should this go to the res pool?
 	winterCatnipPerTick: 0,
 
+	//====== Feature Flags =======
+
+	//a quick way of disabling particular feature on mainline/beta without maintaining boolean flags in the code
+	//there is still no simple way to figure out on WHICH branch we are, especially on local, but we can parse URL
+
+	featureFlags: {
+		VILLAGE_MAP: {
+			beta: true,
+			main: false
+		}
+	},
+
 	constructor: function(containerId){
 		this.id = containerId;
 
@@ -1805,6 +1817,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.timer.addEvent(dojo.hitch(this, function(){ this.ui.checkForUpdates(); }), ONE_MIN * 5);	//check new version every 5 min
 
 		this.effectsMgr = new com.nuclearunicorn.game.EffectsManager(this);
+	},
+
+	getFeatureFlag: function(flagId){
+		var host = window.location.hostname;
+		var isLocalhost = window.location.protocol == "file:" || host == "localhost" || host == "127.0.0.1";
+
+		if (isLocalhost){
+			return true;
+		}
+
+		var isBeta = (window.location.href.indexOf("beta") >= 0);
+		return this.featureFlags[flagId][isBeta ? "beta" : "main"];
 	},
 
 	//update winter catnip consumption for the UI every 5-10 seconds to avoid calculating it every tick

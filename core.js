@@ -1252,13 +1252,8 @@ ButtonModernHelper = {
 		if (model.tooltipName) {
 			dojo.create("div", {
 				innerHTML: model.name,
-				className: "tooltip-divider",
-				style: {
-					textAlign: "center",
-					width: "100%",
-					borderBottom: "1px solid gray",
-					paddingBottom: "4px"
-			}}, tooltip);
+				className: "tooltip-divider"
+			}, tooltip);
 		}
 
 		// description
@@ -1413,8 +1408,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 		dojo.addClass(this.domNode, "modern");
 
 		this.renderLinks();
-
-		this.attachTooltip(dojo.partial(ButtonModernHelper.getTooltipHTML, this.controller, this.model));
+		this.attachTooltip(dojo.partial(this.getTooltipHTML(), this.controller, this.model));
 
 		this.buttonContent.title = "";	//no old title for modern buttons :V
 
@@ -1428,6 +1422,10 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 					this.game.clearSelectedObject();
 				}));
 		}
+	},
+
+	getTooltipHTML: function(){
+		return ButtonModernHelper.getTooltipHTML;
 	},
 
 	attachTooltip: function(htmlProvider) {

@@ -406,6 +406,13 @@ td.resLimitWarn, .res-cell.resLimitWarn  {
     left: auto !important;
 }
 
+.tooltip-divider {
+    text-align: center;
+    width: 100%;
+    border-bottom: "1px solid gray";
+    padding-bottom: "4px";
+}
+
 .msg {
     display: block;
 }

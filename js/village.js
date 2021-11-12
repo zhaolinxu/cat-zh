@@ -1291,6 +1291,9 @@ dojo.declare("classes.village.Map", null, {
 		name: "forest",
 		title: "Forest",
 		desc: "Improves your wood production by 1% per level",
+		lore: {
+			5: "It smells really nice"
+		},
 		terrainPenalty: 1.2,
 		unlocked: true
 	},{
@@ -2483,7 +2486,7 @@ dojo.declare("classes.village.ui.FestivalButton", com.nuclearunicorn.game.ui.But
 	}
 });
 
-dojo.declare("classes.ui.time.BiomeBtnController", com.nuclearunicorn.game.ui.ButtonModernController, {
+dojo.declare("classes.ui.village.BiomeBtnController", com.nuclearunicorn.game.ui.ButtonModernController, {
 	fetchModel: function(options){
 		if (!this.biome){
 			this.biome = this.game.village.getBiome(options.id);
@@ -2537,7 +2540,7 @@ dojo.declare("classes.ui.time.BiomeBtnController", com.nuclearunicorn.game.ui.Bu
 	}
 });
 
-dojo.declare("classes.ui.time.BiomeBtn", com.nuclearunicorn.game.ui.ButtonModern, {
+dojo.declare("classes.ui.village.BiomeBtn", com.nuclearunicorn.game.ui.ButtonModern, {
     renderLinks: function() {
         //this.toggle = this.addLink(this.model.toggle);
     },
@@ -2545,7 +2548,53 @@ dojo.declare("classes.ui.time.BiomeBtn", com.nuclearunicorn.game.ui.ButtonModern
     update: function() {
         this.inherited(arguments);
         //this.updateLink(this.toggle, this.model.toggle);
-    }
+	},
+	
+	getTooltipHTML: function(){
+		return function(controller, model){
+			controller.fetchExtendedModel(model);
+
+			console.log("biome model:", model);
+			var tooltip = dojo.create("div", { className: "tooltip-inner" }, null);
+
+			if (model.tooltipName) {
+				dojo.create("div", {
+					innerHTML: model.name,
+					className: "tooltip-divider"
+				}, tooltip);
+			}
+	
+			// description
+
+			//get hightest available lore level on biome
+			var biomeMeta = model.biome;
+			var loreDesc = null;
+			if (biomeMeta.lore){
+				for (var i in biomeMeta.lore){
+					if (biomeMeta.level > i){
+						loreDesc = biomeMeta.lore[i];
+					}
+				}
+			}
+
+			var desc = dojo.create("div", {
+				innerHTML: model.description,
+				className: "desc"
+			}, tooltip);
+			
+			if (loreDesc){
+				dojo.create("div", {
+					innerHTML: loreDesc,
+					className: "desc"
+				}, tooltip);
+
+				dojo.style(desc, "borderBottom", "1px solid gray");
+			}
+
+
+			return tooltip.outerHTML;
+		};
+	}
 });
 
 dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.IGameAware], {
@@ -2555,12 +2604,12 @@ dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.I
 		for (var i in game.village.map.biomes){
 			var biome = game.village.map.biomes[i];
 
-			this.addChild(new classes.ui.time.BiomeBtn({
+			this.addChild(new classes.ui.village.BiomeBtn({
 				id: biome.name,
 				name: biome.title,
 				description: biome.desc,
 				prices: [],
-				controller: new classes.ui.time.BiomeBtnController(game)
+				controller: new classes.ui.village.BiomeBtnController(game)
 			}, game));
 		}
 	},
@@ -2573,6 +2622,10 @@ dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.I
 
 		dojo.create("div", {
 			innerHTML: "Biome data: lv. 1, cp. 666/999, penalty: 1.1, etc"
+		}, div);
+
+		this.teamDiv = dojo.create("div", {
+			innerHTML: "Explorers: Supplies []"
 		}, div);
 
 		var btnsContainer = dojo.create("div", {style:{paddingTop:"20px"}}, div);
@@ -2673,8 +2726,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.tdTop = tdTop;
 
 		//--------------------------	map ---------------------------
-		var isMapVisible = this.game.science.get("archery").researched/* &&
+		var isMapVisible = this.game.getFeatureFlag("VILLAGE_MAP") && this.game.science.get("archery").researched/* &&
 			this.game.resPool.get("paragon").value >= 5*/;
+
 
 		//TOOD: make all panels IChildAware?
 		this.mapPanel = new com.nuclearunicorn.game.ui.Panel("Map", this.game.village);
