@@ -1299,7 +1299,7 @@ ButtonModernHelper = {
 			dojo.style(descDiv, "paddingBottom", "8px");
 
 			// prices
-			if (prices){
+			if (prices && prices.length){
 				dojo.style(descDiv, "borderBottom", "1px solid gray");
 				ButtonModernHelper.renderPrices(tooltip, model);	//simple prices
 			}
