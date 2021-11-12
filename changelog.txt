@@ -1,3 +1,14 @@
+v 1.4.8.6
+Major:
+* Biomes
+* Basges
+* Post Apocalypse challenge (Zig)
+
+Minor:
+* Levi filter
+* Fixed IRC embedded link
+* Crowdin will no longer block page in offline mode
+
 v 1.4.8.5 (9 may 2021)
 Major:
 * Added pollution mechanic (Zig and Hunter)
