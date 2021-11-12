@@ -384,6 +384,11 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 				title: $I("console.filter.faith"),
 				enabled: true,
 				unlocked: false
+			},
+			"elders": {
+				title: $I("console.filter.elders"),
+				enabled: true,
+				unlocked: false
 			}
 		}
 	},

@@ -348,7 +348,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		
 		if(elders.autoPinned){elders.pinned = true;}
 
-        this.game.msg($I("trade.msg.elders"), "urgent");
+        this.game.msg($I("trade.msg.elders"), "urgent", "elders");
     },
 
     onNewDay: function(){
@@ -356,7 +356,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
         if (elders.duration <= 0  && elders.unlocked){
 			elders.unlocked = false;
 			elders.pinned = false;
-			this.game.msg($I("trade.msg.elders.departed"), "notice");
+			this.game.msg($I("trade.msg.elders.departed"), "notice", "elders");
 
 			this.game.render();
 
