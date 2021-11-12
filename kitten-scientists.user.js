@@ -2341,7 +2341,7 @@ var run = function() {
                 var fixed = 0;
                 var btn = this.timeManager.manager.tab.vsPanel.children[0].children[0]; //check?
                 // buyItem will check resources
-                while (btn.controller.buyItem(btn.model, {}, function(callback) {return callback;})) {
+                while (btn.controller.buyItem(btn.model, {}, function() {})) {
                     fixed += 1;
                 }
                 if (fixed > 0) {
