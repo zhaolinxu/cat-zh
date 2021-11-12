@@ -466,7 +466,7 @@ var run = function() {
         // i18n('xx') mean load string from ks
         if (key[0] == "$")
             {return i18ng(key.slice(1));}
-        value = i18nData[lang][key];
+        var value = i18nData[lang][key];
         if (typeof value === 'undefined') {
             value = i18nData['en'][key];
             if (!value) {
@@ -545,31 +545,31 @@ var run = function() {
                     // unicornUtopia:      {require: 'gold',        enabled: false, variant: 'z'},
                     // sunspire:           {require: 'gold',        enabled: false, variant: 'z'},
                     // UNICORN BUILDING END
-                    marker:             {require: 'unobtainium', enabled: false, variant: 'z', checkForReset: true, triggerForReset: -1},
-                    unicornGraveyard:   {require: false,         enabled: false, variant: 'z', checkForReset: true, triggerForReset: -1},
-                    unicornNecropolis:  {require: false,         enabled: false, variant: 'z', checkForReset: true, triggerForReset: -1},
-                    blackPyramid:       {require: 'unobtainium', enabled: false, variant: 'z', checkForReset: true, triggerForReset: -1},
+                    marker:             {require: 'unobtainium', enabled: false, max:-1, variant: 'z', checkForReset: true, triggerForReset: -1},
+                    unicornGraveyard:   {require: false,         enabled: false, max:-1, variant: 'z', checkForReset: true, triggerForReset: -1},
+                    unicornNecropolis:  {require: false,         enabled: false, max:-1, variant: 'z', checkForReset: true, triggerForReset: -1},
+                    blackPyramid:       {require: 'unobtainium', enabled: false, max:-1, variant: 'z', checkForReset: true, triggerForReset: -1},
                     // Order of the Sun is variant s.
-                    solarchant:         {require: 'faith',       enabled: true,  variant: 's', checkForReset: true, triggerForReset: -1},
-                    scholasticism:      {require: 'faith',       enabled: true,  variant: 's', checkForReset: true, triggerForReset: -1},
-                    goldenSpire:        {require: 'faith',       enabled: true,  variant: 's', checkForReset: true, triggerForReset: -1},
-                    sunAltar:           {require: 'faith',       enabled: true,  variant: 's', checkForReset: true, triggerForReset: -1},
-                    stainedGlass:       {require: 'faith',       enabled: true,  variant: 's', checkForReset: true, triggerForReset: -1},
-                    solarRevolution:    {require: 'faith',       enabled: true,  variant: 's', checkForReset: true, triggerForReset: -1},
-                    basilica:           {require: 'faith',       enabled: true,  variant: 's', checkForReset: true, triggerForReset: -1},
-                    templars:           {require: 'faith',       enabled: true,  variant: 's', checkForReset: true, triggerForReset: -1},
-                    apocripha:          {require: 'faith',       enabled: false, variant: 's', checkForReset: true, triggerForReset: -1},
-                    transcendence:      {require: 'faith',       enabled: true,  variant: 's', checkForReset: true, triggerForReset: -1},
+                    solarchant:         {require: 'faith',       enabled: true, max:-1,  variant: 's', checkForReset: true, triggerForReset: -1},
+                    scholasticism:      {require: 'faith',       enabled: true, max:-1,  variant: 's', checkForReset: true, triggerForReset: -1},
+                    goldenSpire:        {require: 'faith',       enabled: true, max:-1,  variant: 's', checkForReset: true, triggerForReset: -1},
+                    sunAltar:           {require: 'faith',       enabled: true, max:-1,  variant: 's', checkForReset: true, triggerForReset: -1},
+                    stainedGlass:       {require: 'faith',        enabled: true, max:1,  variant: 's', checkForReset: true, triggerForReset: -1},
+                    solarRevolution:    {require: 'faith',        enabled: true, max:1,  variant: 's', checkForReset: true, triggerForReset: -1},
+                    basilica:           {require: 'faith',       enabled: true, max:-1,  variant: 's', checkForReset: true, triggerForReset: -1},
+                    templars:           {require: 'faith',       enabled: true, max:-1,  variant: 's', checkForReset: true, triggerForReset: -1},
+                    apocripha:          {require: 'faith',       enabled: false, max:1,  variant: 's', checkForReset: true, triggerForReset: -1},
+                    transcendence:      {require: 'faith',        enabled: true, max:1,  variant: 's', checkForReset: true, triggerForReset: -1},
                     // Cryptotheology is variant c.
-                    blackObelisk:       {require: false,         enabled: false, variant: 'c', checkForReset: true, triggerForReset: -1},
-                    blackNexus:         {require: false,         enabled: false, variant: 'c', checkForReset: true, triggerForReset: -1},
-                    blackCore:          {require: false,         enabled: false, variant: 'c', checkForReset: true, triggerForReset: -1},
-                    singularity:        {require: false,         enabled: false, variant: 'c', checkForReset: true, triggerForReset: -1},
-                    blackLibrary:       {require: false,         enabled: false, variant: 'c', checkForReset: true, triggerForReset: -1},
-                    blackRadiance:      {require: false,         enabled: false, variant: 'c', checkForReset: true, triggerForReset: -1},
-                    blazar:             {require: false,         enabled: false, variant: 'c', checkForReset: true, triggerForReset: -1},
-                    darkNova:           {require: false,         enabled: false, variant: 'c', checkForReset: true, triggerForReset: -1},
-                    holyGenocide:       {require: false,         enabled: false, variant: 'c', checkForReset: true, triggerForReset: -1},
+                    blackObelisk:       {require: false,         enabled: false, max:-1, variant: 'c', checkForReset: true, triggerForReset: -1},
+                    blackNexus:         {require: false,         enabled: false, max:-1, variant: 'c', checkForReset: true, triggerForReset: -1},
+                    blackCore:          {require: false,         enabled: false, max:-1, variant: 'c', checkForReset: true, triggerForReset: -1},
+                    singularity:        {require: false,         enabled: false, max:-1, variant: 'c', checkForReset: true, triggerForReset: -1},
+                    blackLibrary:       {require: false,         enabled: false, max:-1, variant: 'c', checkForReset: true, triggerForReset: -1},
+                    blackRadiance:      {require: false,         enabled: false, max:-1, variant: 'c', checkForReset: true, triggerForReset: -1},
+                    blazar:             {require: false,         enabled: false, max:-1, variant: 'c', checkForReset: true, triggerForReset: -1},
+                    darkNova:           {require: false,         enabled: false, max:-1, variant: 'c', checkForReset: true, triggerForReset: -1},
+                    holyGenocide:       {require: false,         enabled: false, max:-1, variant: 'c', checkForReset: true, triggerForReset: -1},
                 }
             },
             build: {
@@ -1012,7 +1012,7 @@ var run = function() {
             if (options.auto.timeCtrl.enabled && options.auto.timeCtrl.items.reset.enabled) {await this.reset();}
         },
         halfInterval: async function() {
-            return new Promise((resolve, reject) => {
+            return new Promise(() => {
                 setTimeout(() => {
                     this.hunt();
                 }, Math.floor(options.interval / 2));
@@ -1232,6 +1232,7 @@ var run = function() {
                 return;
             }
 
+			var kittenStorage;
             if (typeof kittenStorage.reset === 'undefined')
                 {kittenStorage.reset = {};}
             
@@ -1767,10 +1768,10 @@ var run = function() {
 
                         // A **little** more efficient than game.science.getPolicy if options.policies is right order
                         for (var i in options.policies) {
-                            targetName = options.policies[i];
+                            var targetName = options.policies[i];
                             for (var j in policies) {
                                 j = parseInt(j); // fuck js
-                                policy = policies[(j + lastIndex) % length];
+                                var policy = policies[(j + lastIndex) % length];
                                 if (policy.name == targetName) {
                                     lastIndex = j + lastIndex + 1;
                                     if (!policy.researched) {
@@ -4303,6 +4304,7 @@ var run = function() {
                         list.append(getDistributeOption(itemName, auto.items[itemName]));
                         break;
                     case 'build':
+					case 'faith':
                     case 'space':
                         list.append(getLimitedOption(itemName, auto.items[itemName]));
                         break;
