@@ -1963,13 +1963,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 		},
 		action: function(self, game){
-			self.effects = {
-				"ivoryPerTickCon": -100,
-				"mineralsPerTickProd": 1,
-				"titaniumPerTickCon": 0,
-				"alicornPerTickCon": 0,
-				"tMythrilPerTick": 0
-			};
 			if (self.isAutomationEnabled){
 				self.effects = {
 					"ivoryPerTickCon": -200,
@@ -1977,6 +1970,14 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					"titaniumPerTickCon": -2,
 					"alicornPerTickCon": -0.00002,
 					"tMythrilPerTick": 0.00005
+				};
+			}else {
+				self.effects = {
+					"ivoryPerTickCon": -100,
+					"mineralsPerTickProd": 1,
+					"titaniumPerTickCon": 0,
+					"alicornPerTickCon": 0,
+					"tMythrilPerTick": 0
 				};
 			}
 			var amt = game.resPool.getAmtDependsOnStock(
