@@ -1288,7 +1288,7 @@ dojo.declare("classes.village.Map", null, {
 	 *   |
 	 *  desert    ->   blood desert (restricted biome) -> tundra  ->  arctic
 	 *   | 												/
-	 *  plain       -\   ...    /->  coast
+	 *  plain       -\   ...    /->  coast -> stone ocean
 	 *   |
 	 *  village . . .  > hills  ->   mountain 	-> 	
 	 *   |
