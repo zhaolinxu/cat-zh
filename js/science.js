@@ -891,7 +891,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		calculateEffects: function(self, game){
 			var uncappedHousing = 0;
 			for (var i = 0; i < game.bld.buildingGroups.length; i++){
-    			if(game.bld.buildingGroups[i].name == "population"){
+				if(game.bld.buildingGroups[i].name == "population"){
 					for (var k = 0; k < game.bld.buildingGroups[i].buildings.length; k++){
 						var building = game.bld.getBuildingExt(game.bld.buildingGroups[i].buildings[k]);
 						if(!game.resPool.isStorageLimited(game.bld.getPrices(building.meta.name))){
@@ -902,7 +902,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 						}
 					}
 					break;
-    			}
+				}
 			}
 			self.effects["rankLeaderBonusConversion"] = 0.004 * uncappedHousing;
 		},
@@ -1756,8 +1756,8 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 		var prices = [];
 		for (var i = 0; i < meta.prices.length; i++){
             prices.push({
-            	val: meta.prices[i].val * Math.pow(1.25, policyFakeBought),
-            	name: meta.prices[i].name
+				val: meta.prices[i].val * Math.pow(1.25, policyFakeBought),
+				name: meta.prices[i].name
 			});
 		}
         return prices;

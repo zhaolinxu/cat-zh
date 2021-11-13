@@ -611,10 +611,10 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			kittens : kittens,
 			maxKittens: this.maxKittens,
 			jobs: this.filterMetadata(this.jobs, ["name", "unlocked", "value"]),
-			//map : this.map.villageData
 			biomes: this.filterMetadata(this.map.biomes, ["name", "unlocked", "level", "cp"]),
 			currentBiome: this.map.currentBiome,
-			hadKittenHunters: this.sim.hadKittenHunters
+			hadKittenHunters: this.sim.hadKittenHunters,
+			map: this.map.save()
 		};
 	},
 
@@ -642,10 +642,6 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 				if (newKitten.isLeader){
 						this.game.village.leader = newKitten;
 				}
-				/*if (newKitten.isSenator){
-					this.game.village.senators.unshift(newKitten);
-				}*/
-
 				this.sim.kittens.unshift(newKitten);
 			}
 
@@ -658,9 +654,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			}
 			this.sim.hadKittenHunters = (saveData.village.hadKittenHunters === undefined)? true: saveData.village.hadKittenHunters;
 
-			/*if (saveData.village.map){
-				this.map.villageData = saveData.village.map;
-			}*/
+			if (saveData.village.map){
+				this.map.load(saveData.village.map);
+			}
 		}
 
 		this.updateResourceProduction();
@@ -1272,6 +1268,9 @@ dojo.declare("classes.village.Map", null, {
 	//level of expedition squad
 	explorerLevel: 0,
 
+	//level of your supply depo
+	hqLevel: 0,
+
 	//hp of a current squad
 	hp: 10,
 
@@ -1516,6 +1515,16 @@ dojo.declare("classes.village.Map", null, {
 
 	updateEffectCached: function(){
 		this.game.globalEffectsCached["mapPriceReduction"] = -this.getPriceReduction();
+	},
+
+	save: function(){
+		return {
+			hqLevel: this.hqLevel
+		};
+	},
+
+	load: function(data){
+		this.hqLevel = data.hqLevel;
 	}
 });
 
@@ -1655,6 +1664,16 @@ dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.I
 			prices: [{ name : "manpower", val: 100 }],
 			controller: new com.nuclearunicorn.game.ui.ButtonModernController(this.game)
 		}, this.game);
+
+		this.upgradeHQBtn = new com.nuclearunicorn.game.ui.ButtonModern({
+			name: $I("village.btn.upgradeHQ"),
+			description: $I("village.btn.upgradeHQ.desc"),
+			handler: dojo.hitch(this, function(){
+				//this.sendHunterSquad();
+			}),
+			prices: [{ name : "catnip", val: 1000 }],
+			controller: new com.nuclearunicorn.game.ui.ButtonModernController(this.game)
+		}, this.game);
 	},
 
 	render: function(container){
@@ -1666,6 +1685,7 @@ dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.I
 
 		var btnsContainer = dojo.create("div", {style:{paddingTop:"20px"}}, div);
 		this.upgradeExplorersBtn.render(btnsContainer);
+		this.upgradeHQBtn.render(btnsContainer);
 		//----------------------
 
 		dojo.create("div", {innerHTML: "Biomes go there"}, div);
@@ -1699,6 +1719,9 @@ dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.I
 		} else {
 			this.biomeDiv.innerHTML = "";
 		}
+
+		this.upgradeExplorersBtn.update();
+		this.upgradeHQBtn.update();
 
 		this.teamDiv.innerHTML = "Supplies [" + map.energy.toFixed(0) + " days]";
 		this.inherited(arguments);
