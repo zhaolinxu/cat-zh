@@ -549,7 +549,7 @@ WCloudSaves = React.createClass({
                 $r("div", {className:"save-record"},[
                     $r("a", {
                         className: "link",
-                        title: "更新信存档信息。这是安全按钮不会改变任何数据。",
+                        title: "更新存档信息。这是安全按钮不会改变任何数据。",
                         onClick: function(e){
                             e.stopPropagation();
                             game.server.syncSaveData();
@@ -560,7 +560,7 @@ WCloudSaves = React.createClass({
                         target: "_blank",
                         title: "同步存档教程",
                         href: "https://petercheney.gitee.io/baike/?file=007-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/02-%E4%BA%91%E5%AD%98%E6%A1%A3"
-                    }, "还未获取存档信息")
+                    }, "先同步才能上传和加载")
                 ])
             ])
         ])
