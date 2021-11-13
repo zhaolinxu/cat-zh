@@ -1690,7 +1690,7 @@ dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.I
 		this.upgradeHQBtn.render(btnsContainer);
 		//----------------------
 
-		dojo.create("div", {innerHTML: "Biomes go there"}, div);
+		dojo.create("div", {innerHTML: "Biomes", style: { paddingBottom: "10px"} }, div);
 		//this.villageDiv = dojo.create("div", null, div);
 		this.explorationDiv = dojo.create("div", null, div);
 
@@ -1713,13 +1713,18 @@ dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.I
 
 		var biome = map.currentBiome ? this.game.village.getBiome(map.currentBiome) : null;
 
+		
+
 		if (biome){
+			var toLevel = map.toLevel(biome);
+
 			this.biomeDiv.innerHTML = "Biome data: lv. " + biome.level + 
-				", cp. " + biome.cp.toFixed(1) + "/???, penalty: " + biome.terrainPenalty + 
-				", etc";
-			this.explorationDiv.innerHTML = "Currently exploring: [" +  biome.title + "], % [Cancel]";	//<-- link TBD
+				", cp. " + biome.cp.toFixed(1) + "/???, penalty: " + biome.terrainPenalty + "x";
+			this.explorationDiv.innerHTML = "Currently exploring: [" + biome.title + "], " +
+			(biome.cp / toLevel * 100).toFixed(0) +
+			"% [Cancel]";	//<-- link TBD
 		} else {
-			this.biomeDiv.innerHTML = "";
+			this.biomeDiv.innerHTML = "Explorers awaiting for deployment";
 		}
 
 		this.upgradeExplorersBtn.update();
