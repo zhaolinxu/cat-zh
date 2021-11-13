@@ -1390,8 +1390,9 @@ dojo.declare("classes.village.Map", null, {
 		description: "",
 		terrainPenalty: 1.5,
 		lore: {
-			5: "A former ocean of blood that evaporated and left the endless wastelands of red salt",
-			10: "You can travel further. But you don’t really want to see what’s there in the desert."
+			5: "There are tales of horrible monsters and lost cities and endless deserts of red sand",
+			10: "You can travel further. But you don’t really want to see what’s there in the desert.",
+			15: "Once there was an ocean of blood. No one knows why, maybe a frozen shard of Redmoon felt there millenia ago."
 		},
 		unlocked: false
 	},{
