@@ -1519,12 +1519,14 @@ dojo.declare("classes.village.Map", null, {
 
 	save: function(){
 		return {
-			hqLevel: this.hqLevel
+			hqLevel: this.hqLevel,
+			energy: this.energy
 		};
 	},
 
 	load: function(data){
-		this.hqLevel = data.hqLevel;
+		this.hqLevel = data.hqLevel || 0;
+		this.energy = data.energy || 100;
 	}
 });
 
