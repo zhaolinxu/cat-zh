@@ -4485,6 +4485,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return this.challenges.getChallenge(unlockId);
 			case "schemes":
 				return unlockId;
+			case "biomes":
+				return this.village.getBiome(unlockId);
 		}
 	},
 

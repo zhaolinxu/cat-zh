@@ -1311,13 +1311,19 @@ dojo.declare("classes.village.Map", null, {
 		title: "Plains",
 		desc: "Improves catnip generation by 1% per level",
 		terrainPenalty: 1.0,
-		unlocked: true
+		unlocked: true,
+		unlocks: {
+			biomes: ["hills"]
+		}
 	},	
 	{
 		name: "hills",
 		title: "Hills",
 		terrainPenalty: 1.2,
 		unlocked: false,
+		unlocks: {
+			biomes: ["mountains"]
+		},
 		evaluateLocks: function(game){
 			return game.village.getBiome("plains").level >= 5 || game.village.getBiome("forest").level >= 5;
 		},
@@ -1335,7 +1341,10 @@ dojo.declare("classes.village.Map", null, {
 			15: "There is something in the forest and no one knows what it is. Not many sure if it really exists. If it does, it is somewhere deep below, days of travel, years, centuries maybe."
 		},
 		terrainPenalty: 1.2,
-		unlocked: true
+		unlocked: true,
+		unlocks: {
+			biomes: ["boneForest"]
+		}
 	},
 	{
 		name: "boneForest",
