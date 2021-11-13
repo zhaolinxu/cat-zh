@@ -1317,50 +1317,93 @@ dojo.declare("classes.village.Map", null, {
 		name: "hills",
 		title: "Hills",
 		terrainPenalty: 1.2,
-		unlocked: false
+		unlocked: false,
+		evaluateLocks: function(game){
+			return game.village.getBiome("plains").level >= 5 || game.village.getBiome("forest").level >= 5;
+		},
+		lore: {
+			5: "You can see small lizards enjoying the sun"
+		},
 	},
 	{
 		name: "forest",
 		title: "Forest",
 		desc: "Improves your wood production by 1% per level",
 		lore: {
-			5: "It smells really nice"
+			5: "It smells really nice",
+			10: "The forest is rumored to be endless and covering half of the planet",
+			15: "There is something in the forest and no one knows what it is. Not many sure if it really exists. If it does, it is somewhere deep below, days of travel, years, centuries maybe."
 		},
 		terrainPenalty: 1.2,
 		unlocked: true
-	},{
+	},
+	{
 		name: "boneForest",
 		title: "Bone Forest",
 		terrainPenalty: 1.9,
-		unlocked: false
+		unlocked: false,
+		evaluateLocks: function(game){
+			return game.village.getBiome("forest").level >= 25 && game.village.getBiome("rainForest").level >= 5;
+		},
+		lore: {
+			5: "A place where trees are made of bones"
+		},
 	},{
 		name: "rainForest",
 		title:"Rain Forest",
 		terrainPenalty: 1.4,
-		unlocked: false
-	},{
+		unlocked: false,
+		5: "The trees are so tall you don't see where it ends. When the rains start they can go for hundreds of years.",
+		10: "In the fog you can see the mountains. The mountains have eyes and sometime change places."
+	},
+	{
 		name: "mountain",
 		title: "Mountain",
-		description: "Remember to grab your mandatory 50 meters of rope. The ascend will take quite some time.",
+		description: "Improves mineral generation by 1% per level",
 		terrainPenalty: 1.2,
+		lore: {
+			5: "Remember to grab your mandatory 50 meters of rope. The ascend will take quite some time.",
+			10: "A small and larger structures cut from a limestone are towering there. Griffins call this place The White Citadel.",
+			15: "Everything is so pale and white we don’t know what exactly is it made of. There are some red marking and drawings everywhere",
+			20: "Why is this place called a citadel? You can see some system there. This place is a structure on its own, a ziggurat made of ziggurats."
+
+		},
+		evaluateLocks: function(game){
+			return game.village.getBiome("hills").level >= 10;
+		},
 		unlocked: false
 	},{
 		name: "desert",
 		title: "Desert",
-		description: "An endless white desert of a sand of unknown origin",
+		description: "",
 		terrainPenalty: 1.5,
-		unlocked: false
+		unlocked: false,
+		lore: {
+			5: "An endless white desert with occasional red rock formations"
+		},
+		evaluateLocks: function(game){
+			return game.village.getBiome("plains").level >= 15;
+		}
 	},{
 		name: "bloodDesert",
 		title: "Crimson Desert",
-		description: "A former ocean of blood that evaporated and left the endless wastelands of red salt",
+		description: "",
 		terrainPenalty: 1.5,
+		lore: {
+			5: "A former ocean of blood that evaporated and left the endless wastelands of red salt",
+			10: "You can travel further. But you don’t really want to see what’s there in the desert."
+		},
 		unlocked: false
 	},{
 		name: "swamp",
 		title: "Swamp",
 		description : "Everything that is edible is poisonous and so are the trees and the grass and the air is also poisonous slightly",
 		terrainPenalty: 1.95,
+		lore: {
+			5: "Everything here tries to kill you",
+			10: "All plants here are poisonous and so are the trees and the water and the air is also poisonous slightly",
+			15: "All you can see are the endless swamplands with lost ziggurats and rotten watchtowers"
+		},
 		unlocked: false
 	}],
 
