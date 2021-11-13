@@ -3304,9 +3304,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				? ((1 + refineRatio) * (1 + this.getEffect("woodRatio"))) - 1
 				: refineRatio;
 		}
-		if(craftedResName == "bloodstone" || craftedResName == "tMythril"){
+		/*if(craftedResName == "bloodstone" || craftedResName == "tMythril"){
 			return this.getEffect(craftedResName + "CraftRatio") * (1 + this.getEffect(craftedResName + "GlobalCraftRatio"));
-		}
+		}*/
 
 		var ratio = this.getCraftRatio(this.resPool.get(craftedResName).tag);
 

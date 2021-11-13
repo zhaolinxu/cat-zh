@@ -1911,7 +1911,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		priceRatio: 1.15,
 		zebraRequired: 10,
 		effects: {
-			"bloodstoneCraftRatio" : 0.01
+			//"bloodstoneCraftRatio" : 0.01
 		}
 	},{
 		name: "zebraForge",
@@ -1928,7 +1928,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		priceRatio: 1.15,
 		zebraRequired: 50,
 		effects: {
-			"bloodstoneCraftRatio" : 0.02,
+			//"bloodstoneCraftRatio" : 0.02,
 			"tMythrilCraftRatio" : 0.01,
 		},
 	},{
