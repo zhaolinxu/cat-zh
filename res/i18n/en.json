@@ -224,7 +224,7 @@
     "buildings.workshop.desc": "Provides a vast variety of upgrades. Improves craft effectiveness by 6%",
     "buildings.workshop.flavor": "Free toys for workers",
     "buildings.zebraForge.label": "Zebra Forge",
-    "buildings.zebraForge.desc": "Unlocks the craft of bloodstones and t-mythril. Automates alicorn ascension rituals.",
+    "buildings.zebraForge.desc": "Unlocks the craft of bloodstones and t-mythril.",
     "buildings.zebraOutpost.label": "Zebra Outpost",
     "buildings.zebraOutpost.desc": "Provides a base for the hunting expeditions. Every level of upgrade improves expedition effectiveness by 5%",
     "buildings.zebraWorkshop.label": "Zebra Workshop",
@@ -2198,6 +2198,6 @@
     "workshop.zebraUpgrade.minerologyDepartment.label": "Minerology department",
     "workshop.zebraUpgrade.minerologyDepartment.desc": "Minerology is being taught in the Academy, leading to better production from meteors",
     "workshop.zebraUpgrade.whispers.label": "Whispers",
-    "workshop.zebraUpgrade.whispers.desc": "Unlock Alicorn Ascention rituals at Ivory Temples. Alicorn Ascention produces T-Mythril and increases mineral production.",
+    "workshop.zebraUpgrade.whispers.desc": "Unlock Alicorn Ascension rituals at Ivory Temples. Alicorn Ascension produces T-Mythril and increases mineral production.",
     "workshop.zebraUpgradesPanel.label": "Zebra Upgrades"
 }
