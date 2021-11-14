@@ -92,7 +92,7 @@ var run = function() {
             'ui.trigger': 'trigger',
             'ui.trigger.set': 'Enter a new trigger value for {0}. Should be in the range of 0 to 1.',
             'ui.limit': 'Limited',
-			'ui.trigger.shipOverride.set': 'Enter a new trigger value for {0}. Corresponds to the amount of ship needed before the exchange is made.',
+            'ui.trigger.shipOverride.set': 'Enter a new trigger value for {0}. Corresponds to the amount of ship needed before the exchange is made.',
             'ui.trigger.missions.set': 'Enter a new trigger value for missions. Should be in the range of 0 to 13. Corresponds to each planet sort',
             'ui.trigger.crypto.set': 'Enter a new trigger value for {0}. Corresponds to the amount of Relics needed before the exchange is made.',
             'ui.engine': 'Enable Scientists',
@@ -306,7 +306,7 @@ var run = function() {
             'ui.trigger': '触发条件',
             'ui.trigger.set': '输入新的 {0} 触发值，取值范围为 0 到 1 的小数。',
             'ui.limit': '限制',
-			'ui.trigger.shipOverride.set': '输入一个新的 强制贸易船 触发值，\n贸易船数量低于触发条件时会无视贸易船工艺的勾选。',
+            'ui.trigger.shipOverride.set': '输入一个新的 强制贸易船 触发值，\n贸易船数量低于触发条件时会无视贸易船工艺的勾选。',
             'ui.trigger.missions.set': '输入一个新的 探索星球 触发值,取值范围为 0 到 13 的整数。\n分别对应13颗星球。',
             'ui.trigger.crypto.set': '输入一个新的 {0} 触发值，\n遗物数量达到触发值时会进行黑币交易。',
             'ui.engine': '启用小猫珂学家',
@@ -1232,7 +1232,7 @@ var run = function() {
                 return;
             }
 
-			var kittenStorage;
+            var kittenStorage;
             if (typeof kittenStorage.reset === 'undefined')
                 {kittenStorage.reset = {};}
             
@@ -1488,10 +1488,10 @@ var run = function() {
                 var btn = this.getBestUnicornBuilding();
                 if (btn) {
                     if (btn.opts) {
-						if (btn.model.enabled) {
-							btn.controller.updateEnabled(btn.model);
-						}
-						buildManager.build(btn.opts.building, undefined, 1);
+                        if (btn.model.enabled) {
+                            btn.controller.updateEnabled(btn.model);
+                        }
+                        buildManager.build(btn.opts.building, undefined, 1);
                     } else {
                         for (var i = 0; i < btn.prices.length; i++) {
                             if (btn.prices[i].name == 'tears') {
@@ -1509,15 +1509,15 @@ var run = function() {
                             }
                             // iactivity?
                         }
-						var btnButton = religionManager.getBuildButton(btn.name, 'z');
-						if (!btnButton) {
-							this.religionManager.manager.render();
-						} else {
-							if (btnButton.model.enabled) {
-								btnButton.controller.updateEnabled(btnButton.model);
-							}
-							religionManager.build(btn.name, 'z', 1);
-						}
+                        var btnButton = religionManager.getBuildButton(btn.name, 'z');
+                        if (!btnButton) {
+                            this.religionManager.manager.render();
+                        } else {
+                            if (btnButton.model.enabled) {
+                                btnButton.controller.updateEnabled(btnButton.model);
+                            }
+                            religionManager.build(btn.name, 'z', 1);
+                        }
                     }
                 }
             } else {
@@ -2288,7 +2288,7 @@ var run = function() {
                     var embassyBulk = {};
                     var bulkTracker = [];
 
-					var racesLength = racePanels.length - ((game.diplomacy.get('leviathans').unlocked) ? 1 : 0);
+                    var racesLength = racePanels.length - ((game.diplomacy.get('leviathans').unlocked) ? 1 : 0);
                     for (var i = 0; i < racesLength; i++) {
                         if (!racePanels[i].embassyButton) {
                             game.diplomacyTab.render();
@@ -2423,7 +2423,7 @@ var run = function() {
                         //var bld = game.religion.getZU(btn.name);
                         var relBonus = religionRatio;
                         var riftChance = game.getEffect('riftChance');
-						
+                        
                         relBonus += btn.effects.unicornsRatioReligion;
                         if (btn.effects.riftChance) {
                             riftChance += btn.effects.riftChance;
@@ -2855,7 +2855,7 @@ var run = function() {
             var ratio = game.getResCraftRatio(craft.name);
             var trigger = options.auto.craft.trigger;
             var optionVal = options.auto.options.enabled && options.auto.options.items.shipOverride.enabled;
-			var optionShipVal =  options.auto.options.items.shipOverride.subTrigger;
+            var optionShipVal =  options.auto.options.items.shipOverride.subTrigger;
 
             // Safeguard if materials for craft cannot be determined.
             if (!materials) {return 0;}
@@ -4304,7 +4304,7 @@ var run = function() {
                         list.append(getDistributeOption(itemName, auto.items[itemName]));
                         break;
                     case 'build':
-					case 'faith':
+                    case 'faith':
                     case 'space':
                         list.append(getLimitedOption(itemName, auto.items[itemName]));
                         break;
@@ -5152,12 +5152,12 @@ var run = function() {
             triggerButton.on('click', function () {
                 var value;
                 if (name == 'crypto') {
-					value = window.prompt(i18n('ui.trigger.crypto.set', [option.label]), option.subTrigger);
-				} else if (name == 'shipOverride') {
-					value = window.prompt(i18n('ui.trigger.shipOverride.set', [option.label]), option.subTrigger);
-				} else {
-					value = window.prompt(i18n('ui.trigger.set', [option.label]), option.subTrigger);
-				}
+                    value = window.prompt(i18n('ui.trigger.crypto.set', [option.label]), option.subTrigger);
+                } else if (name == 'shipOverride') {
+                    value = window.prompt(i18n('ui.trigger.shipOverride.set', [option.label]), option.subTrigger);
+                } else {
+                    value = window.prompt(i18n('ui.trigger.set', [option.label]), option.subTrigger);
+                }
 
                 if (value !== null) {
                     option.subTrigger = parseFloat(value);
