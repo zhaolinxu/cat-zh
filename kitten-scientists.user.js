@@ -334,7 +334,7 @@ var run = function() {
             'ui.faith.addtion': '附加',
             'option.faith.best.unicorn': '优先最佳独角兽建筑',
             'option.faith.best.unicorn.desc': '当眼泪不够建造最佳独角兽建筑时也会自动献祭独角兽',
-            'option.faith.transcend': '自动超越',
+            'option.faith.transcend': '自动最佳次元超越',
             'act.transcend': '消耗 {0} 顿悟，达到超越 {1}',
             'summary.transcend': '超越了 {0} 次',
             'filter.transcend': '超越',
@@ -342,7 +342,7 @@ var run = function() {
             'act.adore': '赞美群星! 转化 {0} 虔诚为 {1} 顿悟',
             'summary.adore': '通过赞美群星积累了 {0} 顿悟',
             'filter.adore': '赞美群星',
-            'adore.trigger.set': '为自动赞美群星设定一个新触发值，取值范围为 0 到 1 的小数。\n如果赞美群星后第一次赞美太阳可将太阳革命加成恢复到(触发值*太阳革命太阳革命极限加成)，那么珂学家将自动赞美群星。\n\n注意：太阳革命加成在到达上限的75%后便会收益递减。',
+            'adore.trigger.set': '为自动赞美群星设定一个新触发值，取值范围为 0 到 1 的小数。\n当赞美群星再赞美太阳后太阳革命加成达到触发值 * 1000%\n珂学家将自动赞美群星。\n次元超越等级低于10以下会根据猫薄荷产量。',
 
             'resources.add': '添加资源',
             'resources.clear.unused': '清除未使用',
@@ -529,7 +529,7 @@ var run = function() {
                     bestUnicornBuilding:    {enabled: true,  misc: true, label: i18n('option.faith.best.unicorn')},
                     autoPraise:             {enabled: true,  misc: true, label: i18n('option.praise'), subTrigger: 0.98},
                     // Former [Faith Reset]
-                    adore:                  {enabled: true, misc: true, label: i18n('option.faith.adore'), subTrigger: 0.325},
+                    adore:                  {enabled: true, misc: true, label: i18n('option.faith.adore'), subTrigger: 0.325, lastFaith: false},
                     transcend:              {enabled: true, misc: true, label: i18n('option.faith.transcend')},
                 },
                 // Which religious upgrades should be researched?
@@ -558,7 +558,7 @@ var run = function() {
                     solarRevolution:    {require: 'faith',        enabled: true, max:1,  variant: 's', checkForReset: true, triggerForReset: -1},
                     basilica:           {require: 'faith',       enabled: true, max:-1,  variant: 's', checkForReset: true, triggerForReset: -1},
                     templars:           {require: 'faith',       enabled: true, max:-1,  variant: 's', checkForReset: true, triggerForReset: -1},
-                    apocripha:          {require: 'faith',       enabled: false, max:1,  variant: 's', checkForReset: true, triggerForReset: -1},
+                    apocripha:          {require: 'faith',       enabled: true, max:1,  variant: 's', checkForReset: true, triggerForReset: -1},
                     transcendence:      {require: 'faith',        enabled: true, max:1,  variant: 's', checkForReset: true, triggerForReset: -1},
                     // Cryptotheology is variant c.
                     blackObelisk:       {require: false,         enabled: false, max:-1, variant: 'c', checkForReset: true, triggerForReset: -1},
@@ -1540,77 +1540,104 @@ var run = function() {
                 var epiphany = game.religion.faithRatio;
                 var transcendenceReached = game.religion.getRU("transcendence").on;
                 var tt = transcendenceReached ? game.religion.transcendenceTier : 0;
+                
+                // After Adore epiphany
+                var maxSolarRevolution = 10 + game.getEffect("solarRevolutionLimit");
+                var triggerSolarRevolution = maxSolarRevolution * option.adore.subTrigger;
+                var epiphanyInc = worship / 1000000 * (tt + 1) * (tt + 1) * 1.01;
+                var epiphanyAfterAdore = epiphany + epiphanyInc;
+                var worshipAfterAdore = 0.01 + faith.value * (1 + game.getUnlimitedDR(epiphanyAfterAdore, 0.1) * 0.1);
+                var solarRevolutionAdterAdore = game.getLimitedDR(game.getUnlimitedDR(worshipAfterAdore, 1000) / 100, maxSolarRevolution);
 
-                // Adore
-                if (option.adore.enabled && game.religion.getRU('apocripha').on || (option.transcend.enabled && game.religion.transcendenceTier > 11)) {
-                    // game version: 1.4.8.1
-                    var maxSolarRevolution = 10 + game.getEffect("solarRevolutionLimit");
-                    var triggerSolarRevolution = maxSolarRevolution * option.adore.subTrigger;
-                    var epiphanyInc = worship / 1000000 * (tt + 1) * (tt + 1) * 1.01;
-                    var epiphanyAfterAdore = epiphany + epiphanyInc;
-                    var worshipAfterAdore = 0.01 + faith.value * (1 + game.getUnlimitedDR(epiphanyAfterAdore, 0.1) * 0.1);
-                    var solarRevolutionAdterAdore = game.getLimitedDR(game.getUnlimitedDR(worshipAfterAdore, 1000) / 100, maxSolarRevolution);
-                    if (solarRevolutionAdterAdore >= triggerSolarRevolution) {
+                //catnip
+                var catnipTick = 1;
+                if (tt<10) {
+                    catnipTick = game.village.getResConsumption()['catnip'] * (1 + game.getEffect("catnipDemandRatio")) + game.getResourcePerTickConvertion('catnip');
+                    if (game.village.sim.kittens.length > 0 && game.village.happiness > 1) {
+                        catnipTick += catnipTick * Math.max(game.village.happiness * (1 + game.getEffect("hapinnessConsumptionRatio")) - 1, 0) * (1 + game.getEffect("catnipDemandWorkerRatioGlobal"));
+                    }
+                    var solarRevolutionRatio = 1 + game.religion.getSolarRevolutionRatio() * (1 + game.bld.pollutionEffects["solarRevolutionPollution"]);
+                    catnipTick = ((game.resPool.get('catnip').perTickCached + catnipTick) * (1 + solarRevolutionAdterAdore) / solarRevolutionRatio) - catnipTick;
+                }
 
-                        // Transcend
-                        if (option.transcend.enabled && transcendenceReached) {
-                            var adoreIncreaceRatio = Math.pow((tt + 2) / (tt + 1), 2);
-                            var needNextLevel = game.religion._getTranscendTotalPrice(tt + 1) - game.religion._getTranscendTotalPrice(tt);
+                var forceStep = false;
+                // Transcend
+                if (option.transcend.enabled && transcendenceReached) {
+                    var TranscendTimes;
+                    if (tt > 10) {
+                        TranscendTimes = 1;
+                    } else if (tt < 10 && game.calendar.season <= 1 && worship > 1e5 && game.religion.getRU('apocripha').on && catnipTick > 0) {
+                        TranscendTimes = 4;
+                    } else {
+                        TranscendTimes = 0;
+                    }
 
-                            var x = needNextLevel;
-                            var blackObelisk = game.religion.getTU("blackObelisk").val;
-                            var obeliskRatio = ((tt + 1) * 5 * blackObelisk + 1000) / (tt * 5 * blackObelisk + 1000);
-                            var k = adoreIncreaceRatio * obeliskRatio;
-                            var epiphanyRecommend = (1 - k + Math.sqrt(80 * (k * k - 1) * x + (k - 1) * (k - 1))) * k / (40 * (k + 1) * (k + 1) * (k - 1)) + x + x / (k * k - 1);
-
-                            if (
-                            (epiphany > epiphanyRecommend && worship > 1e5) 
-                            || (worship * 2.02 * tt + 3.03 * worship >= 1e6 * needNextLevel && epiphany > needNextLevel)
-                            ) {
-
-                                // code copy from kittens game's religion.js: game.religion.transcend()
-                                // game.religion.transcend() need confirm by player
-                                // game version: 1.4.8.1
-                                // ========================================================================================================
-                                // DO TRANSCEND START
-                                // ========================================================================================================
-                                game.religion.faithRatio -= needNextLevel;
-                                game.religion.tcratio += needNextLevel;
-                                game.religion.transcendenceTier += 1;
-                                var atheism = game.challenges.getChallenge("atheism");
-                                atheism.calculateEffects(atheism, game);
-                                var blackObelisk = game.religion.getTU("blackObelisk");
-                                blackObelisk.calculateEffects(blackObelisk, game);
-                                game.msg($I("religion.transcend.msg.success", [game.religion.transcendenceTier]));
-                                // ========================================================================================================
-                                // DO TRANSCEND END
-                                // ========================================================================================================
-
-                                epiphany = game.religion.faithRatio;
-                                tt = game.religion.transcendenceTier;
-                                iactivity('act.transcend', [game.getDisplayValueExt(needNextLevel), tt], 'ks-transcend');
-                                storeForSummary('transcend', 1);
+                    while (TranscendTimes) {
+                        var epiphany = game.religion.faithRatio;
+                        var tt = transcendenceReached ? game.religion.transcendenceTier : 0;
+                        var adoreIncreaceRatio = Math.pow((tt + 2) / (tt + 1), 2);
+                        var needNextLevel = game.religion._getTranscendTotalPrice(tt + 1) - game.religion._getTranscendTotalPrice(tt);
+                        var x = needNextLevel;
+                        var blackObelisk = game.religion.getTU("blackObelisk").val;
+                        var obeliskRatio = ((tt + 1) * 5 * blackObelisk + 1000) / (tt * 5 * blackObelisk + 1000);
+                        var k = adoreIncreaceRatio * obeliskRatio;
+                        var epiphanyRecommend = (1 - k + Math.sqrt(80 * (k * k - 1) * x + (k - 1) * (k - 1))) * k / (40 * (k + 1) * (k + 1) * (k - 1)) + x + x / (k * k - 1);
+                        var needNextLevel = game.religion._getTranscendTotalPrice(tt + 1) - game.religion._getTranscendTotalPrice(tt);
+                        var booleanforEpiphany = (epiphany > epiphanyRecommend && worship > 1e5);
+                        var afterAdoreMoreEpiphany = (worship * 2.02 * tt + 3.03 * worship >= 1e6 * needNextLevel && epiphany > needNextLevel);
+                        if (booleanforEpiphany || afterAdoreMoreEpiphany) {
+                            // code copy from kittens game's religion.js: game.religion.transcend()
+                            // game.religion.transcend() need confirm by player
+                            // game version: 1.4.8.1
+                            // ========================================================================================================
+                            // DO TRANSCEND START
+                            // ========================================================================================================
+                            game.religion.faithRatio -= needNextLevel;
+                            game.religion.tcratio += needNextLevel;
+                            game.religion.transcendenceTier += 1;
+                            var atheism = game.challenges.getChallenge("atheism");
+                            atheism.calculateEffects(atheism, game);
+                            var blackObelisk = game.religion.getTU("blackObelisk");
+                            blackObelisk.calculateEffects(blackObelisk, game);
+                            game.msg($I("religion.transcend.msg.success", [game.religion.transcendenceTier]));
+                            // ========================================================================================================
+                            // DO TRANSCEND END
+                            // ========================================================================================================
+                            tt = game.religion.transcendenceTier;
+                            if (tt < 8) {
+                                forceStep = true;
                             }
-                        }
-                        if (option.adore.enabled && game.religion.getRU('apocripha').on && worship >= 1e5) {
-                            game.religion._resetFaithInternal(1.01);
-
-                            iactivity('act.adore', [game.getDisplayValueExt(worship), game.getDisplayValueExt(epiphanyInc)], 'ks-adore');
-                            storeForSummary('adore', epiphanyInc);
-                            epiphany = game.religion.faithRatio;
-                            worship = game.religion.faith;
+                            refreshRequired = true;
+                            TranscendTimes--;
+                            iactivity('act.transcend', [game.getDisplayValueExt(needNextLevel), tt], 'ks-transcend');
+                            storeForSummary('transcend', 1);
+                        } else {
+                            TranscendTimes = 0;
                         }
                     }
                 }
+                // Adore
+                var BooleanForLastFaith = (!option.adore.lastFaith || worship > option.adore.lastFaith);
+                var booleanForAdore = (solarRevolutionAdterAdore >= triggerSolarRevolution && worship >= 1e5 && BooleanForLastFaith);
+                if ((option.adore.enabled && game.religion.getRU('apocripha').on && booleanForAdore && catnipTick > 0) || forceStep) {
+                    if (tt<12) {
+                         option.adore.lastFaith = worship;
+                    }
+                    game.religion._resetFaithInternal(1.01);
+
+                    iactivity('act.adore', [game.getDisplayValueExt(worship), game.getDisplayValueExt(epiphanyInc)], 'ks-adore');
+                    storeForSummary('adore', epiphanyInc);
+                }
             }
             // Praise
-            if (option.autoPraise.enabled && rate >= option.autoPraise.subTrigger) {
+            var booleanForPraise = (option.autoPraise.enabled && rate >= option.autoPraise.subTrigger && worship && !game.challenges.isActive("atheism"));
+            if (booleanForPraise || forceStep) {
                 if (!game.religion.getFaithBonus) {
                     var apocryphaBonus = game.religion.getApocryphaBonus();
                 } else {
                     var apocryphaBonus = game.religion.getFaithBonus();
                 }
-                var worshipInc = faith.value * (1 + apocryphaBonus); 
+                var worshipInc = faith.value * (1 + apocryphaBonus);
                 storeForSummary('praise', worshipInc);
                 iactivity('act.praise', [game.getDisplayValueExt(faith.value), game.getDisplayValueExt(worshipInc)], 'ks-praise');
                 game.religion.praise();
