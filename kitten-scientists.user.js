@@ -1554,6 +1554,16 @@ var run = function() {
 
             var faith = craftManager.getResource('faith');
             var rate = faith.value / faith.maxValue;
+            var catnipTick = 1;
+            if (tt<10) {
+                catnipTick = game.village.getResConsumption()['catnip'] * (1 + game.getEffect("catnipDemandRatio")) + game.getResourcePerTickConvertion('catnip');
+                if (game.village.sim.kittens.length > 0 && game.village.happiness > 1) {
+                    catnipTick += catnipTick * Math.max(game.village.happiness * (1 + game.getEffect("hapinnessConsumptionRatio")) - 1, 0) * (1 + game.getEffect("catnipDemandWorkerRatioGlobal"));
+                }
+                var solarRevolutionRatio = 1 + game.religion.getSolarRevolutionRatio() * (1 + game.bld.pollutionEffects["solarRevolutionPollution"]);
+                catnipTick = ((game.resPool.get('catnip').perTickCached + catnipTick) * (1 + solarRevolutionAdterAdore) / solarRevolutionRatio) - catnipTick;
+            }
+            var forceStep = false;
             // enough faith, and then TAP
             if (0.98 <= rate) {
                 var worship = game.religion.faith;
@@ -1569,18 +1579,6 @@ var run = function() {
                 var worshipAfterAdore = 0.01 + faith.value * (1 + game.getUnlimitedDR(epiphanyAfterAdore, 0.1) * 0.1);
                 var solarRevolutionAdterAdore = game.getLimitedDR(game.getUnlimitedDR(worshipAfterAdore, 1000) / 100, maxSolarRevolution);
 
-                //catnip
-                var catnipTick = 1;
-                if (tt<10) {
-                    catnipTick = game.village.getResConsumption()['catnip'] * (1 + game.getEffect("catnipDemandRatio")) + game.getResourcePerTickConvertion('catnip');
-                    if (game.village.sim.kittens.length > 0 && game.village.happiness > 1) {
-                        catnipTick += catnipTick * Math.max(game.village.happiness * (1 + game.getEffect("hapinnessConsumptionRatio")) - 1, 0) * (1 + game.getEffect("catnipDemandWorkerRatioGlobal"));
-                    }
-                    var solarRevolutionRatio = 1 + game.religion.getSolarRevolutionRatio() * (1 + game.bld.pollutionEffects["solarRevolutionPollution"]);
-                    catnipTick = ((game.resPool.get('catnip').perTickCached + catnipTick) * (1 + solarRevolutionAdterAdore) / solarRevolutionRatio) - catnipTick;
-                }
-
-                var forceStep = false;
                 // Transcend
                 if (option.transcend.enabled && transcendenceReached) {
                     var TranscendTimes;
@@ -1650,7 +1648,7 @@ var run = function() {
                 }
             }
             // Praise
-            var booleanForPraise = (option.autoPraise.enabled && rate >= option.autoPraise.subTrigger && worship && !game.challenges.isActive("atheism"));
+            var booleanForPraise = (option.autoPraise.enabled && rate >= option.autoPraise.subTrigger && faith.value && !game.challenges.isActive("atheism"));
             if (booleanForPraise || forceStep) {
                 if (!game.religion.getFaithBonus) {
                     var apocryphaBonus = game.religion.getApocryphaBonus();
