@@ -598,7 +598,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         }
         if (this.game.religion.faith * 2.02 * (tier - 1) + 3.03 * this.game.religion.faith >= 1e6 * tt && this.game.religion.faithRatio > tt) {
             boolean = "是";
-        } else if (this.game.religion.faith < 1.25e5) {
+        } else if (this.game.religion.faith < 1e5) {
             boolean = "否（虔诚太少）";
         }
         return boolean;
@@ -754,9 +754,9 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
                 bcoreup += 0.001 / a;
                 cs1++;
             }
-            next = this.i18n("$religion.tu.blackNexus.label") + " +" + cs1 + "级";
+            next = this.i18n("$religion.tu.blackNexus.label") + " +" + cs1 + "个";
         } else {
-            next = this.i18n("$religion.tu.blackCore.label") + " +" + cs2 + "级";
+            next = this.i18n("$religion.tu.blackCore.label") + " +" + cs2 + "个";
             if (cs2 < 1) {
                 next = this.i18n("$religion.zu.blackPyramid.label");
             }
@@ -781,7 +781,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
                 elevatorup = (0.01 + spaceRatio) * arrayPrices * 1000;
                 number++;
             }
-            return $I("space.planet.cath.spaceElevator.label") + " +" + number + "级";
+            return $I("space.planet.cath.spaceElevator.label") + " +" + number + "个";
         } else {
             return $I("space.planet.piscine.orbitalArray.label");
         }
