@@ -252,6 +252,7 @@ var run = function() {
             'option.embassies': '建造大使馆',
             'option.style': '占满屏幕',
             'option.steamworks': '启动蒸汽工房',
+            'option.useWorkers': '启用后台webWorker',
 
             'filter.build': '建筑',
             'filter.craft': '工艺',
@@ -388,6 +389,7 @@ var run = function() {
             'filter.promote': '提拔领袖',
             'summary.promote': '提拔领袖 {0} 次',
 
+            'ui.trigger.useWorkers.alert': '珂学家将会在后台运行，注意这会消耗更多性能。\n需满足浏览器支持且游戏选项的web worker启用。\n启用后需要重新勾选启用珂学家',
             'ui.timeCtrl': '时间操纵',
             'option.accelerate': '时间加速',
             'act.accelerate': '固有时制御，二倍速!',
@@ -834,7 +836,8 @@ var run = function() {
                     fixCry:             {enabled: false,                   misc: true, label: i18n('option.fix.cry')},
                     buildEmbassies:     {enabled: true, subTrigger: 0.94,   misc: true, label: i18n('option.embassies')},
                     style:              {enabled: true,                    misc: true, label: i18n('option.style')},
-                    _steamworks:        {enabled: true,                   misc: true, label: i18n('option.steamworks')}
+                    _steamworks:        {enabled: true,                   misc: true, label: i18n('option.steamworks')},
+                    useWorkers:         {enabled: false,                  misc: true, label: i18n('option.useWorkers')}
                 }
             },
             distribute: {
@@ -978,12 +981,29 @@ var run = function() {
         cacheManager: undefined,
         loop: undefined,
         start: function (msg = true) {
-            if (this.loop) {return;}
-
-            this.loop = setInterval(this.iterate.bind(this), options.interval);
-            if(msg) {imessage('status.ks.enable');}
+            if (game.isWebWorkerSupported() && game.useWorkers && options.auto.options.items.useWorkers.enabled) {
+                var blob = new Blob([
+                    "onmessage = function(e) { setInterval(function(){postMessage('miaowu')}, '" + options.interval + "' ); }"
+                ]);
+                var blobURL = window.URL.createObjectURL(blob);
+            
+                this.worker = new Worker(blobURL);
+                this.worker.addEventListener('message', this.iterate.bind(this));
+                this.worker.postMessage("miaowu");
+                message('后台珂学家上钟了~ ＞▽＜');
+            } else {
+                if (this.loop) {return;}
+    
+                this.loop = setInterval(this.iterate.bind(this), options.interval);
+                if(msg) {imessage('status.ks.enable');}
+            }
         },
         stop: function (msg = true) {
+            if (game.isWebWorkerSupported() && this.worker) {
+                this.worker.terminate();
+                if (msg) {message('后台珂学家爪巴了');}
+                return;
+            }
             if (!this.loop) {return;}
 
             clearInterval(this.loop);
@@ -5160,6 +5180,18 @@ var run = function() {
                     document.body.setAttribute('data-ks-style', '');
                 } else {
                     document.body.removeAttribute('data-ks-style');
+                }
+            });
+        }
+        if (name == 'useWorkers') {
+            var input = element.children('input');
+            input.unbind('change');
+            input.on('change', function () {
+                option.enabled = input.prop('checked');
+                kittenStorage.items[input.attr('id')] = option.enabled;
+                saveToKittenStorage();
+                if (option.enabled) {
+                    alert(i18n('ui.trigger.useWorkers.alert'));
                 }
             });
         }
