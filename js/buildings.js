@@ -2043,6 +2043,14 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				prices[i].val *= prices[i].name == "titanium" ? 0 : 11;
 			}
 		}
+		if (this.game.ironWill && this.game.challenges.isActive("blackSky")
+		  && bld.get("name") == "amphitheatre"
+		  && bld.get("val") == 0) {
+			for (var i = 0; i < prices.length; i++) {
+				prices[i].val *= prices[i].name == "minerals" ? 0 : 21;
+			}
+		}
+
 		if (this.game.challenges.isActive("pacifism")
 		 && bld.get("name") == "steamworks"
 		 && bld.get("val") == 0) {
