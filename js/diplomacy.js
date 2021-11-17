@@ -5,6 +5,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 
 	game: null,
 
+	defaultGoldCost: 15,
+	defaultManpowerCost: 50,
 	baseGoldCost: 15,
 	baseManpowerCost: 50,
 
@@ -354,9 +356,11 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			}
 
 			// BSK+IW free trade!
+			this.baseGoldCost = this.defaultGoldCost;
+			this.baseManpowerCost = this.defaultManpowerCost;
 			if (!this.game.workshop.get("goldOre").researched) {
-				this.baseGoldCost = (this.game.resPool.get('gold').value == 0) ? 0 : 15;
-				this.baseManpowerCost = (this.game.resPool.get('manpower').value == 0) ? 0 : 50;
+				this.baseGoldCost = (this.game.resPool.get('gold').value == 0) ? 0 : this.baseGoldCost;
+				this.baseManpowerCost = (this.game.resPool.get('manpower').value == 0) ? 0 : this.baseManpowerCost;
 			}
 
 			// BSK+IW discount!
