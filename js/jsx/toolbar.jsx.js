@@ -432,7 +432,7 @@ WLoginForm = React.createClass({
 			xhrFields: {
 				withCredentials: true
 			},
-            timeout : 10000,
+            timeout : 20000,
 			url: game.server.getServerUrl() + "/user/login/",
 			//dataType: "json",
         }).fail(function(xhr){
