@@ -227,8 +227,10 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			game.upgrade(self.upgrades); //this is a hack, might need to think of a better sollution later
 		},
 		checkCompletionConditionOnReset: function(game){
-			if(!game.village.sim.hadKittenHunters && game.stats.getStatCurrent("totalTrades").val > 0){
-				game.achievements.unlockBadge("cleanPaws"); //hack
+			if(game.diplomacy.baseManpowerCost > 0) { // BSK+IW precaution
+				if(!game.village.sim.hadKittenHunters && game.stats.getStatCurrent("totalTrades").val > 0){
+					game.achievements.unlockBadge("cleanPaws"); //hack
+				}
 			}
 			return game.science.getPolicy("outerSpaceTreaty").researched;
 		},

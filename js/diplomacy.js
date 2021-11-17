@@ -339,6 +339,20 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 
 		 if(this.game.ironWill && this.game.challenges.isActive('blackSky')) {
 
+			// BSK+IW emissaries
+			var sharks = this.get("sharks");
+			var griffins = this.get("griffins");
+			if (this.hasUnlockedRaces()) {
+				if (!sharks.unlocked) {
+					this.game.msg($I("trade.msg.emissary", [sharks.title]), "notice");
+					sharks.unlocked = true;
+				}
+				if (!griffins.unlocked) {
+					this.game.msg($I("trade.msg.emissary", [griffins.title]), "notice");
+					griffins.unlocked = true;
+				}
+			}
+
 			// BSK+IW free trade!
 			if (!this.game.workshop.get("goldOre").researched) {
 				this.baseGoldCost = (this.game.resPool.get('gold').value == 0) ? 0 : 15;
@@ -346,7 +360,6 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			}
 
 			// BSK+IW discount!
-			var griffins = this.get("griffins");
 			for (var i = 0; i < griffins.buys.length; i++) {
 				if(griffins.buys[i].name == "wood") {
 					griffins.buys[i].val = 400;
@@ -354,7 +367,6 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			}
 
 			// sharks got science!
-			var sharks = this.get("sharks");
 			for (var i = 0; i < sharks.sells.length; i++) {
 			    var sellResource = sharks.sells[i];
 				if(sellResource["name"] == "catnip") {
