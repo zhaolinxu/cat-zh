@@ -340,8 +340,10 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		 if(this.game.ironWill && this.game.challenges.isActive('blackSky')) {
 
 			// BSK+IW free trade!
-			this.baseGoldCost = (this.game.resPool.get('gold').value == 0) ? 0 : 15;
-			this.baseManpowerCost = (this.game.resPool.get('manpower').value == 0) ? 0 : 50;
+			if (!this.game.workshop.get("goldOre").researched) {
+				this.baseGoldCost = (this.game.resPool.get('gold').value == 0) ? 0 : 15;
+				this.baseManpowerCost = (this.game.resPool.get('manpower').value == 0) ? 0 : 50;
+			}
 
 			// BSK+IW discount!
 			var griffins = this.get("griffins");
@@ -357,15 +359,12 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			    var sellResource = sharks.sells[i];
 				if(sellResource["name"] == "catnip") {
 					sellResource.name = "science";
-					sellResource.value = 200;
+					sellResource.value = 80;
 					sellResource.seasons = {
 				            "spring": 0,
 				            "summer": -0.1,
 				            "autumn": -0.2,
 				            "winter": -1};
-				}
-				if(sellResource["name"] == "parchment") {
-					sellResource.minLevel = false;
 				}
 			}
 		 }
@@ -408,11 +407,10 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		 // BSK early unlocks!
 		 if(this.game.ironWill && this.game.challenges.isActive('blackSky')) {
 			if(race.name == "griffins") {
-				this.game.resPool.get('iron').unlocked = true
+				this.game.resPool.get('iron').unlocked = true;
 			}
 			if(race.name == "sharks") {
-				this.game.resPool.get('science').unlocked = true
-				this.game.resPool.get('parchment').unlocked = true
+				this.game.resPool.get('science').unlocked = true;
 			}
 		 }
 

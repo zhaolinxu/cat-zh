@@ -1615,6 +1615,13 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		var prices_result = $.extend(true, [], prices); // Create a new array to keep original values
 		prices_result = this.game.village.getEffectLeader("scientist", prices_result);
 
+		// this is to force Gold Ore pathway in BSK+IW and avoid soft locks
+		if(this.game.ironWill && this.game.challenges.isActive('blackSky')) {
+			if(tech.name == 'construction') {
+				prices_result = prices_result.concat([{name: "gold", val: 5}]);
+			}
+		}
+
 		return prices_result;
 	},
     /*getEffect: function(effectName){
@@ -1919,7 +1926,16 @@ dojo.declare("com.nuclearunicorn.game.ui.TechButtonController", com.nuclearunico
     },
 
 	getPrices: function(model) {
-        return this.game.village.getEffectLeader("scientist", this.inherited(arguments));
+		var prices_result = this.game.village.getEffectLeader("scientist", this.inherited(arguments));
+
+		// this is to force Gold Ore pathway in BSK+IW and avoid soft locks
+		if(this.game.ironWill && this.game.challenges.isActive('blackSky')) {
+			if(model.metadata.name == 'construction') {
+				prices_result = prices_result.concat([{name: "gold", val: 5}]);
+			}
+		}
+
+		return prices_result;
     },
 
 	updateVisible: function(model){
