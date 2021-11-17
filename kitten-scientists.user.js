@@ -1554,6 +1554,8 @@ var run = function() {
 
             var faith = craftManager.getResource('faith');
             var rate = faith.value / faith.maxValue;
+            var transcendenceReached = game.religion.getRU("transcendence").on;
+            var tt = transcendenceReached ? game.religion.transcendenceTier : 0;
             var catnipTick = 1;
             if (tt<10) {
                 catnipTick = game.village.getResConsumption()['catnip'] * (1 + game.getEffect("catnipDemandRatio")) + game.getResourcePerTickConvertion('catnip');
@@ -1564,13 +1566,13 @@ var run = function() {
                 catnipTick = ((game.resPool.get('catnip').perTickCached + catnipTick) * (1 + solarRevolutionAdterAdore) / solarRevolutionRatio) - catnipTick;
             }
             var forceStep = false;
+            var autoPraiseEnabled = option.autoPraise.enabled;
             // enough faith, and then TAP
+            // (game.time.getCFU("ressourceRetrieval").val > 1&& autoPraiseEnabled)
             if (0.98 <= rate) {
                 var worship = game.religion.faith;
                 var epiphany = game.religion.faithRatio;
-                var transcendenceReached = game.religion.getRU("transcendence").on;
-                var tt = transcendenceReached ? game.religion.transcendenceTier : 0;
-                
+
                 // After Adore epiphany
                 var maxSolarRevolution = 10 + game.getEffect("solarRevolutionLimit");
                 var triggerSolarRevolution = maxSolarRevolution * option.adore.subTrigger;
@@ -1602,7 +1604,7 @@ var run = function() {
                         var epiphanyRecommend = (1 - k + Math.sqrt(80 * (k * k - 1) * x + (k - 1) * (k - 1))) * k / (40 * (k + 1) * (k + 1) * (k - 1)) + x + x / (k * k - 1);
                         var needNextLevel = game.religion._getTranscendTotalPrice(tt + 1) - game.religion._getTranscendTotalPrice(tt);
                         var booleanforEpiphany = (epiphany > epiphanyRecommend && worship > 1e5);
-                        var afterAdoreMoreEpiphany = (worship * 2.02 * tt + 3.03 * worship >= 1e6 * needNextLevel && epiphany > needNextLevel);
+                        var afterAdoreMoreEpiphany = (worship * 2.02 * tt + 3.03 * worship > 1e6 * needNextLevel && epiphany > needNextLevel);
                         if (booleanforEpiphany || afterAdoreMoreEpiphany) {
                             // code copy from kittens game's religion.js: game.religion.transcend()
                             // game.religion.transcend() need confirm by player
@@ -1648,7 +1650,7 @@ var run = function() {
                 }
             }
             // Praise
-            var booleanForPraise = (option.autoPraise.enabled && rate >= option.autoPraise.subTrigger && faith.value && !game.challenges.isActive("atheism"));
+            var booleanForPraise = (autoPraiseEnabled && rate >= option.autoPraise.subTrigger && faith.value && !game.challenges.isActive("atheism"));
             if (booleanForPraise || forceStep) {
                 if (!game.religion.getFaithBonus) {
                     var apocryphaBonus = game.religion.getApocryphaBonus();
