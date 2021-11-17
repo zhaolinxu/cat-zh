@@ -389,7 +389,7 @@ var run = function() {
             'filter.promote': '提拔领袖',
             'summary.promote': '提拔领袖 {0} 次',
 
-            'ui.trigger.useWorkers.alert': '珂学家将会在后台运行，注意这会消耗更多性能。\n需满足浏览器支持且游戏选项的web worker启用。\n启用后需要重新勾选启用珂学家',
+            'ui.trigger.useWorkers.alert': '珂学家将会在后台满速运行，注意这会消耗更多性能。\n需满足浏览器支持且游戏选项的web worker启用。\n启用后需要重新勾选启用珂学家',
             'ui.timeCtrl': '时间操纵',
             'option.accelerate': '时间加速',
             'act.accelerate': '固有时制御，二倍速!',
