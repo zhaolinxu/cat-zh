@@ -1311,7 +1311,7 @@ var run = function() {
 
                 var factor = game.challenges.getChallenge("1000Years").researched ? 5 : 10;
                 var heatMin =  4 * optionVals.timeSkip.maximum * factor;
-				var booleanForHeat = (game.time.heat > game.getEffect('heatMax') - Math.min(heatMin, 20 * game.time.getCFU("blastFurnace").on + 20));
+                var booleanForHeat = (game.time.heat > game.getEffect('heatMax') - Math.min(heatMin, 20 * game.time.getCFU("blastFurnace").on + 20));
                 if (optionVals.timeSkip[5] && game.prestige.meta[0].meta[22].researched && optionVals.timeSkip.wait === false && booleanForHeat) {
                     optionVals.timeSkip.wait = 1;
                 }
@@ -1595,6 +1595,8 @@ var run = function() {
                     while (TranscendTimes) {
                         var epiphany = game.religion.faithRatio;
                         var tt = transcendenceReached ? game.religion.transcendenceTier : 0;
+
+                        // Epiphany Recommend
                         var adoreIncreaceRatio = Math.pow((tt + 2) / (tt + 1), 2);
                         var needNextLevel = game.religion._getTranscendTotalPrice(tt + 1) - game.religion._getTranscendTotalPrice(tt);
                         var x = needNextLevel;
@@ -1603,8 +1605,10 @@ var run = function() {
                         var k = adoreIncreaceRatio * obeliskRatio;
                         var epiphanyRecommend = (1 - k + Math.sqrt(80 * (k * k - 1) * x + (k - 1) * (k - 1))) * k / (40 * (k + 1) * (k + 1) * (k - 1)) + x + x / (k * k - 1);
                         var needNextLevel = game.religion._getTranscendTotalPrice(tt + 1) - game.religion._getTranscendTotalPrice(tt);
-                        var booleanforEpiphany = (epiphany > epiphanyRecommend && worship > 1e5);
-                        var afterAdoreMoreEpiphany = (worship * 2.02 * tt + 3.03 * worship > 1e6 * needNextLevel && epiphany > needNextLevel);
+
+                        // Transcend Condition
+                        var booleanforEpiphany = (epiphany > epiphanyRecommend && worship > Math.min((tt - 3) * 1e6, 0) + 1e6);
+                        var afterAdoreMoreEpiphany = (worship * 2.02 * tt + 3.03 * worship >= 1e6 * needNextLevel && epiphany > needNextLevel);
                         if (booleanforEpiphany || afterAdoreMoreEpiphany) {
                             // code copy from kittens game's religion.js: game.religion.transcend()
                             // game.religion.transcend() need confirm by player
@@ -1627,7 +1631,12 @@ var run = function() {
                             if (tt < 8) {
                                 forceStep = true;
                             }
-                            refreshRequired = true;
+                            for (var i = 0; i < game.religion.transcendenceUpgrades.length; i++) {
+                                if (!game.religion.transcendenceUpgrades[i].unlocked && tt >= game.religion.transcendenceUpgrades[i].tier) {
+                                    game.religion.transcendenceUpgrades[i].unlocked = true;
+                                    refreshRequired = true;
+                                }
+                            }
                             TranscendTimes--;
                             iactivity('act.transcend', [game.getDisplayValueExt(needNextLevel), tt], 'ks-transcend');
                             storeForSummary('transcend', 1);
