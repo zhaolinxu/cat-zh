@@ -1608,7 +1608,7 @@ var run = function() {
 
                         // Transcend Condition
                         var booleanforEpiphany = (epiphany > epiphanyRecommend && worship > Math.min((tt - 3) * 1e6, 0) + 1e6);
-                        var afterAdoreMoreEpiphany = (worship * 2.02 * tt + 3.03 * worship >= 1e6 * needNextLevel && epiphany > needNextLevel);
+                        var afterAdoreMoreEpiphany = (worship * 2.02 * tt + 3.03 * worship > 1e6 * needNextLevel && epiphany > needNextLevel);
                         if (booleanforEpiphany || afterAdoreMoreEpiphany) {
                             // code copy from kittens game's religion.js: game.religion.transcend()
                             // game.religion.transcend() need confirm by player
