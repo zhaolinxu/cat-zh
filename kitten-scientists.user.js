@@ -728,7 +728,7 @@ var run = function() {
                     accelerateTime:     {enabled: true,  subTrigger: 1,     misc: true, label: i18n('option.accelerate')},
                     timeSkip:           {enabled: false, subTrigger: 5,     misc: true, label: i18n('option.time.skip'), maximum: 50,
                         0: true, 1: true, 2: true, 3: true, 4: true, 5: false, 6: true, 7: true, 8: true, 9: true,
-                        spring: true, summer: false, autumn: false, winter: false, wait:false},
+                        spring: true, summer: false, autumn: false, winter: false, wait: false, adore: false},
                     reset:              {enabled: false, subTrigger: 99999, misc: true, label: i18n('option.time.reset')}
                 }
             },
@@ -1312,7 +1312,7 @@ var run = function() {
                 var factor = game.challenges.getChallenge("1000Years").researched ? 5 : 10;
                 var heatMin =  4 * optionVals.timeSkip.maximum * factor;
                 var booleanForHeat = (game.time.heat > game.getEffect('heatMax') - Math.min(heatMin, 20 * game.time.getCFU("blastFurnace").on + 20));
-                if (optionVals.timeSkip[5] && game.prestige.meta[0].meta[22].researched && optionVals.timeSkip.wait === false && booleanForHeat) {
+                if (optionVals.timeSkip[5] && game.prestige.getPerk("numerology").researched && optionVals.timeSkip.wait === false && booleanForHeat) {
                     optionVals.timeSkip.wait = 1;
                 }
 
@@ -1336,6 +1336,7 @@ var run = function() {
                         {willSkip += canSkip;}
                 }
                 if (willSkip > 0) {
+                    optionVals.timeSkip.adore = true;
                     iactivity('act.time.skip', [willSkip], 'ks-timeSkip');
                     shatter.controller.doShatterAmt(shatter.model, willSkip);
                     storeForSummary('time.skip', willSkip);
@@ -1567,9 +1568,11 @@ var run = function() {
             }
             var forceStep = false;
             var autoPraiseEnabled = option.autoPraise.enabled;
+            var autoAdoreEnabled = option.adore.enabled;
+            var doAdoreAfterTimeSkip = (options.auto.timeCtrl.items.timeSkip.adore && autoPraiseEnabled && autoAdoreEnabled)
             // enough faith, and then TAP
-            // (game.time.getCFU("ressourceRetrieval").val > 1&& autoPraiseEnabled)
-            if (0.98 <= rate) {
+            if (0.98 <= rate || (doAdoreAfterTimeSkip && game.time.getCFU("ressourceRetrieval").val > 4)) {
+                options.auto.timeCtrl.items.timeSkip.adore = false;
                 var worship = game.religion.faith;
                 var epiphany = game.religion.faithRatio;
 
@@ -1648,7 +1651,7 @@ var run = function() {
                 // Adore
                 var BooleanForLastFaith = (!option.adore.lastFaith || worship > option.adore.lastFaith);
                 var booleanForAdore = (solarRevolutionAdterAdore >= triggerSolarRevolution && worship >= 1e5 && BooleanForLastFaith);
-                if ((option.adore.enabled && game.religion.getRU('apocripha').on && booleanForAdore && catnipTick > 0) || forceStep) {
+                if ((autoAdoreEnabled && game.religion.getRU('apocripha').on && booleanForAdore && catnipTick > 0) || forceStep) {
                     if (tt<12) {
                          option.adore.lastFaith = worship;
                     }
