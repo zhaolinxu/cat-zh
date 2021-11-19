@@ -261,7 +261,7 @@ var run = function() {
             'filter.trade': '贸易',
             'filter.hunt': '狩猎',
             'filter.praise': '赞美太阳',
-            'filter.faith': '太阳秩序',
+            'filter.faith': '太阳教团',
             'filter.festival': '节日',
             'filter.star': '天文事件',
             'filter.misc': '杂项',
