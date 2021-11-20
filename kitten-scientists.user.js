@@ -1557,6 +1557,15 @@ var run = function() {
             var rate = faith.value / faith.maxValue;
             var transcendenceReached = game.religion.getRU("transcendence").on;
             var tt = transcendenceReached ? game.religion.transcendenceTier : 0;
+
+            // After Adore epiphany
+            var maxSolarRevolution = 10 + game.getEffect("solarRevolutionLimit");
+            var triggerSolarRevolution = maxSolarRevolution * option.adore.subTrigger;
+            var epiphanyInc = worship / 1000000 * (tt + 1) * (tt + 1) * 1.01;
+            var epiphanyAfterAdore = epiphany + epiphanyInc;
+            var worshipAfterAdore = 0.01 + faith.value * (1 + game.getUnlimitedDR(epiphanyAfterAdore, 0.1) * 0.1);
+            var solarRevolutionAdterAdore = game.getLimitedDR(game.getUnlimitedDR(worshipAfterAdore, 1000) / 100, maxSolarRevolution);
+
             var catnipTick = 1;
             if (tt<10) {
                 catnipTick = game.village.getResConsumption()['catnip'] * (1 + game.getEffect("catnipDemandRatio")) + game.getResourcePerTickConvertion('catnip');
@@ -1575,14 +1584,6 @@ var run = function() {
                 options.auto.timeCtrl.items.timeSkip.adore = false;
                 var worship = game.religion.faith;
                 var epiphany = game.religion.faithRatio;
-
-                // After Adore epiphany
-                var maxSolarRevolution = 10 + game.getEffect("solarRevolutionLimit");
-                var triggerSolarRevolution = maxSolarRevolution * option.adore.subTrigger;
-                var epiphanyInc = worship / 1000000 * (tt + 1) * (tt + 1) * 1.01;
-                var epiphanyAfterAdore = epiphany + epiphanyInc;
-                var worshipAfterAdore = 0.01 + faith.value * (1 + game.getUnlimitedDR(epiphanyAfterAdore, 0.1) * 0.1);
-                var solarRevolutionAdterAdore = game.getLimitedDR(game.getUnlimitedDR(worshipAfterAdore, 1000) / 100, maxSolarRevolution);
 
                 // Transcend
                 if (option.transcend.enabled && transcendenceReached) {
