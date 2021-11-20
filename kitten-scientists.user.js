@@ -332,7 +332,7 @@ var run = function() {
             'ui.upgrade.policies.load': '读取',
             'ui.upgrade.policies.show': '列表',
 
-            'ui.faith.addtion': '附加',
+            'ui.faith.addtion': '功能',
             'option.faith.best.unicorn': '优先最佳独角兽建筑',
             'option.faith.best.unicorn.desc': '当眼泪不够建造最佳独角兽建筑时也会自动献祭独角兽',
             'option.faith.transcend': '自动最佳次元超越',
@@ -1559,6 +1559,8 @@ var run = function() {
             var tt = transcendenceReached ? game.religion.transcendenceTier : 0;
 
             // After Adore epiphany
+            var worship = game.religion.faith;
+            var epiphany = game.religion.faithRatio;
             var maxSolarRevolution = 10 + game.getEffect("solarRevolutionLimit");
             var triggerSolarRevolution = maxSolarRevolution * option.adore.subTrigger;
             var epiphanyInc = worship / 1000000 * (tt + 1) * (tt + 1) * 1.01;
