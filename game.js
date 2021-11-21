@@ -1517,6 +1517,15 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			"cathPollutionRatio":{
 				title:  $I("effectsMgr.statics.pollutionRatio.title"),
 				type: "ratio"
+			},
+            //zebra workshop upgrades
+            "zebraPreparations": {
+                title: $I("effectsMgr.statics.zebraPreparations.title"),
+                type: "fixed"
+			},
+			"academyMeteorBonus": {
+                title: $I("effectsMgr.statics.academyMeteorBonus.title"),
+                type: "ratio"
 			}
 		}
 	}
@@ -4355,7 +4364,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			workshop: {
 				hideResearched: this.workshop.hideResearched,
 				upgrades: [],
-				crafts: []
+				crafts: [],
+				zebraUpgrades: []
 			},
 			achievements: lsData.achievements,
 			ach: lsData.ach,
@@ -4459,6 +4469,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return this.workshop.getCraft(unlockId);
 			case "upgrades":
 				return this.workshop.get(unlockId);
+			case "zebraUpgrades":
+				return this.workshop.getZebraUpgrade(unlockId);
 			case "tabs":
 				return this.getTab(unlockId);
 			case "buildings":

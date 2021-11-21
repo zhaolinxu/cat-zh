@@ -505,16 +505,18 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.game.science.get("mining").researched){	//0.1% chance of meteors
 
 			var mineralsAmt = 50 + 25 * this.game.getEffect("mineralsRatio");
+			var minerologyBonus = this.game.getEffect("academyMeteorBonus");
 
 			if (this.game.ironWill){
 				mineralsAmt += mineralsAmt * 0.1;	//+10% of minerals for iron will
 			}
-
+			mineralsAmt *= 1 + minerologyBonus;
 			var mineralsGain = this.game.resPool.addResEvent("minerals", mineralsAmt);
 
 			var sciGain = 0;
 			if (this.game.workshop.get("celestialMechanics").researched) {
 				var sciBonus = 15 * (1 + this.game.getEffect("scienceRatio"));
+				sciBonus *= 1 + minerologyBonus;
 				sciGain = this.game.resPool.addResEvent("science", sciBonus);
 			}
 
@@ -558,7 +560,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				this.game.resPool.addResEvent("zebras", 1);
 				this.game.msg($I("calendar.msg.zebra.hunter"));
 			} else if ( zebras.value > 0 && zebras.value <= this.game.karmaZebras && this.game.karmaZebras > 0){
-				if (this.game.rand(100000) <= 500){
+				var chanceModifier = (this.game.workshop.getZebraUpgrade("darkBrew").researched && this.festivalDays)?
+				2 + this.game.getEffect("festivalArrivalRatio") : 1; //bigger chance for zebras to arive after darkBrew is researched
+				if (this.game.rand(100000) <= 500 * chanceModifier){
 					this.game.resPool.addResEvent("zebras", 1);
 					this.game.msg($I("calendar.msg.zebra.hunter.new"));
 					this.game.ui.render();

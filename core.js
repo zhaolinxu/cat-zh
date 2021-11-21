@@ -1997,6 +1997,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 				this.game.ironWill = false;
 				var liberty = this.game.science.getPolicy("liberty");
 				liberty.calculateEffects(liberty, this.game);
+				var zebraOutpostMeta = this.game.bld.getBuildingExt("zebraOutpost").meta;
+				zebraOutpostMeta.calculateEffects(zebraOutpostMeta, this.game);
 			}
 
 			if (meta.unlocks) {

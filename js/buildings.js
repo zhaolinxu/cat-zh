@@ -226,7 +226,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},{
 		name: "zebraBuildings",
 		title: $I("buildings.group.zebraBuildings"),
-		buildings: ["zebraOutpost", "zebraWorkshop", "zebraForge"]
+		buildings: ["zebraOutpost", "zebraWorkshop", "zebraForge", "ivoryTemple"]
 	}
 	],
 
@@ -602,7 +602,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"scienceRatio": 0.2,
 			"skillXP": 0.0005,
 			"scienceMax": 500,
-			"cultureMax": 25
+			"cultureMax": 25,
+			"academyMeteorBonus": 0
+		},
+		calculateEffects: function(self, game){
+			if(game.workshop.getZebraUpgrade("minerologyDepartment").researched) self.effects["academyMeteorBonus"] = 0.01;
 		},
 		flavor: $I("buildings.academy.flavor"),
 		unlockScheme: {
@@ -1578,6 +1582,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			return amt;
 		},
 		flavor: $I("buildings.brewery.flavor"),
+		unlocks:{
+			zebraUpgrades: ["darkBrew"]
+		},
 		unlockScheme: {
 			name: "chocolate",
 			threshold: 10
@@ -1882,7 +1889,13 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		priceRatio: 1.35,
 		zebraRequired: 5,
 		effects: {
-			"hunterRatio" : 0.05
+			"hunterRatio" : 0.05,
+			"zebraPreparations" : 0
+		},
+		calculateEffects: function(self, game){
+			if(game.workshop.getZebraUpgrade("darkRevolution").researched){
+				self.effects["zebraPreparations"] = game.ironWill? 1:0.1;
+			}
 		}
 	},{
 		name: "zebraWorkshop",
@@ -1892,9 +1905,14 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		prices: [
 			{ name : "bloodstone", val: 5 }
 		],
+		unlocks: {
+			zebraUpgrades:["darkRevolution"]
+		},
 		priceRatio: 1.15,
 		zebraRequired: 10,
-		effects: {}
+		effects: {
+			//"bloodstoneCraftRatio" : 0.01
+		}
 	},{
 		name: "zebraForge",
 		label: $I("buildings.zebraForge.label"),
@@ -1903,9 +1921,77 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		prices: [
 			{ name : "bloodstone", val: 50 }
 		],
+		unlocks: {
+			crafts: ["bloodstone", "tMythril"],
+			zebraUpgrades: ["whispers"],
+		},
 		priceRatio: 1.15,
 		zebraRequired: 50,
-		effects: {}
+		effects: {
+			//"bloodstoneCraftRatio" : 0.02,
+			"tMythrilCraftRatio" : 0.01,
+		},
+	},{
+		name: "ivoryTemple",
+		defaultUnlockable: true,
+		//label: $I("buildings.ivoryTemple.label"),
+		//description: $I("buildings.ivoryTemple.desc"),
+		label: "Ivory Temple",
+		description: "Mystical temple where ivory is converted into minerals",
+		unlockRatio: 0.1,
+		prices: [
+			{ name : "tMythril", val: 1 },
+			{ name : "ivory", val: 100 }
+		],
+		/*unlocks: {
+			zebraUpgrades:["darkRevolution"]
+		},*/
+		priceRatio: 1.15,
+		//zebraRequired: 10,
+		effects: {
+			"ivoryPerTickCon": 0,
+			"mineralsPerTickProd": 0,
+			"titaniumPerTickCon": 0,
+			"alicornPerTickCon": 0,
+			"tMythrilPerTick": 0,
+		},
+		lackResConvert: false,
+		togglable: true,
+		calculateEffects: function(self, game){
+			if(game.workshop.getZebraUpgrade("whispers").researched && self.on > 0){
+				self.isAutomationEnabled = true;
+			}
+		},
+		action: function(self, game){
+			if (self.isAutomationEnabled){
+				self.effects = {
+					"ivoryPerTickCon": -200,
+					"mineralsPerTickProd": 2,
+					"titaniumPerTickCon": -2,
+					"alicornPerTickCon": -0.00002,
+					"tMythrilPerTick": 0.00005
+				};
+			}else {
+				self.effects = {
+					"ivoryPerTickCon": -100,
+					"mineralsPerTickProd": 1,
+					"titaniumPerTickCon": 0,
+					"alicornPerTickCon": 0,
+					"tMythrilPerTick": 0
+				};
+			}
+			var amt = game.resPool.getAmtDependsOnStock(
+				[{res: "ivory", amt: -self.effects["ivoryPerTickCon"]},
+				{res: "titanium", amt: -self.effects["titaniumPerTickCon"]},
+				{res: "alicorn", amt: -self.effects["alicornPerTickCon"]}],
+				self.on
+			);
+			self.effects["ivoryPerTickCon"] *= amt;
+			self.effects["mineralsPerTickProd"] *= amt;
+			self.effects["titaniumPerTickCon"] *= amt;
+			self.effects["alicornPerTickCon"] *= amt;
+			self.effects["tMythrilPerTick"] *= amt;
+		}
 	}
 	],
 
