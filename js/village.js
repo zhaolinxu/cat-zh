@@ -1266,7 +1266,7 @@ dojo.declare("classes.village.Map", null, {
 	currentBiome: null,
 
 	//level of expedition squad
-	explorerLevel: 0,
+	explorersLevel: 0,
 
 	//level of your supply depo
 	hqLevel: 0,
@@ -1502,14 +1502,25 @@ dojo.declare("classes.village.Map", null, {
 			if (this.energy < this.getMaxEnergy()) {
 				this.energy += 0.5;
 			}
-			if (this.hp < 10) {
+			if (this.hp < this.getMaxHP()) {
 				this.hp += 0.01;
+			}
+			//cap eneergy and hp
+			if (this.energy > this.getMaxEnergy()) {
+				this.energy = this.getMaxEnergy();
+			}
+			if (this.hp > this.getMaxHP()) {
+				this.hp = this.getMaxHP();
 			}
 		}
 	},
 
 	getMaxEnergy: function(){
 		return (70 + this.hqLevel * 5) * (1 + (0.01 * this.hqLevel));
+	},
+
+	getMaxHP: function(){
+		return (10 + this.explorersLevel * 0.1) * (1 + (0.01 * this.explorersLevel));
 	},
 
 	explore: function(biomeId){
@@ -1799,6 +1810,53 @@ dojo.declare("classes.village.ui.map.UpgradeHQController", com.nuclearunicorn.ga
 	}
 });
 
+dojo.declare("classes.village.ui.map.UpgradeExplorersController", com.nuclearunicorn.game.ui.BuildingStackableBtnController, {
+	defaults: function() {
+		var result = this.inherited(arguments);
+		result.simplePrices = false;
+		return result;
+	},
+	
+	getMetadata: function(model) {
+		var map = this.game.village.map;
+		if (!model.metaCached) {
+			model.metaCached = {
+				label: $I("village.btn.upgradeExplorers"),
+				description: $I("village.btn.upgradeExplorers.desc"),
+				val: map.explorersLevel,
+				on: map.explorersLevel
+			};
+		}
+		return model.metaCached;
+	},
+
+	getPrices: function(model) {
+		var prices = dojo.clone(model.options.prices);
+		for (var i = 0; i < prices.length; i++) {
+            prices[i].val *= Math.pow(1.25, this.game.village.map.explorersLevel);
+		}
+		return prices;
+	},
+
+	buyItem: function(model, event, callback) {
+		this.inherited(arguments);
+		this.game.ui.render();
+	},
+
+	incrementValue: function(model) {
+		this.inherited(arguments);
+		this.game.village.map.explorersLevel++;
+	},
+
+	hasSellLink: function(model){
+		return false;
+	},
+
+	updateVisible: function(model){
+		model.visible = true;
+	}
+});
+
 dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.IGameAware], {
 	constructor: function(game){
 		this.setGame(game);
@@ -1822,7 +1880,7 @@ dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.I
 				//this.sendHunterSquad();
 			}),
 			prices: [{ name : "manpower", val: 100 }],
-			controller: new com.nuclearunicorn.game.ui.ButtonModernController(this.game)
+			controller: new classes.village.ui.map.UpgradeExplorersController(this.game)
 		}, this.game);
 
 		this.upgradeHQBtn = new com.nuclearunicorn.game.ui.ButtonModern({
@@ -1858,7 +1916,7 @@ dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.I
 		}, div);
 
 		this.explorerDiv = dojo.create("div", {
-			innerHTML: "Explorers: lvl 0, HP: " + map.hp.toFixed(1) + "/10"
+			innerHTML: "Explorers: lvl 0, HP: " + map.hp.toFixed(1) + "/" + map.getMaxHP()
 		}, div);
 
 		var btnsContainer = dojo.create("div", {style:{paddingTop:"20px"}}, div);
@@ -1889,7 +1947,7 @@ dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.I
 		this.upgradeHQBtn.update();
 
 		this.teamDiv.innerHTML = "Supplies [" + map.energy.toFixed(0) + " days]";
-		this.explorerDiv.innerHTML = "Explorers: lvl 0, HP: " + map.hp.toFixed(1) + "/10";
+		this.explorerDiv.innerHTML = "Explorers: HP: " + map.hp.toFixed(1) + "/" + map.getMaxHP().toFixed(1);
 		this.inherited(arguments);
 	}
 });
