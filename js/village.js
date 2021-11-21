@@ -1443,11 +1443,32 @@ dojo.declare("classes.village.Map", null, {
 			if (biome.name == "village"){
 				this.game.globalEffectsCached["exploreRatio"] = (0.1 * (biome.level - 1));
 			}
+
+			//todo: take it from the biome
+			var faunaNames = ["giant moth", "mantis", "slime mold"];
+			var faunaName = faunaNames[this.game.rand(faunaNames.length)];
+
+			//5% of chance to spawn enemy per tick
+			if (!biome.fauna || !biome.fauna.length){
+				if (this.game.rand(10000) <= 10){
+					biome.fauna = [{
+						title: faunaName,
+						hp: this.game.rand(10) + 5,
+						atk: 1,
+						def: 1
+					}];
+				}
+			}
 		}
 		if(this.currentBiome){
 			this.explore(this.currentBiome);
-		} else if (this.energy < 100) {
-			this.energy += 0.5;
+		} else {
+			if (this.energy < 100) {
+				this.energy += 0.5;
+			}
+			if (this.hp < 10) {
+				this.hp += 0.01;
+			}
 		}
 	},
 
@@ -1464,9 +1485,19 @@ dojo.declare("classes.village.Map", null, {
 		var catpower = this.game.resPool.get("manpower");
 
 		this.energy -= 0.1;	// 10 ticks per day
+		if (biome.fauna){
+			//todo: combat round timeout
+			this.combat();
+		}
+
 		if (this.energy <= 0){
 			this.currentBiome = null;
 			this.game.msg("Your explorers have returned from expedition", "important", "explore");
+		}
+
+		if (this.hp <= 0){
+			this.currentBiome = null;
+			this.game.msg("Your explorers have been eatend alive", "important", "explore");
 		}
 
 		//get biome level price based on the terrain difficulty and current explored level
@@ -1486,6 +1517,22 @@ dojo.declare("classes.village.Map", null, {
 				//this.game.msg("Your explorers have returned", "important", "explore");
             }
 		}
+	},
+
+	combat: function(){
+		var biome = this.game.village.getBiome(this.currentBiome);
+		for (var i in biome.fauna ){
+			var fauna = biome.fauna[i];
+
+			var combatSpeed = 0.1;
+			if (fauna.hp > 0){
+				this.hp = this.hp - fauna.atk * combatSpeed;
+				fauna.hp -= 2 /*this.atk */ * combatSpeed;
+			}
+		}
+		biome.fauna = biome.fauna.filter(function(fauna) {
+			return fauna.hp > 0;
+		});
 	},
 
 	onLevelUp: function(biome){
@@ -1635,6 +1682,29 @@ dojo.declare("classes.ui.village.BiomeBtn", com.nuclearunicorn.game.ui.ButtonMod
 				dojo.style(desc, "borderBottom", "1px solid gray");
 			}
 
+			if (biomeMeta.fauna){
+				for (var i in biomeMeta.fauna){
+					var fauna = biomeMeta.fauna[i];
+
+					var faunaNode = dojo.create("div", {
+						style : {
+							overflow: "hidden"
+						}
+					}, tooltip);
+					
+					var nameSpan = dojo.create("span", { 
+						innerHTML: fauna.title /*+ " | a:" + fauna.atk + ", d:" + fauna.def*/, 
+						style: { float: "left" } 
+					}, faunaNode );
+					var statsSpan = dojo.create("span", { 
+						innerHTML: this.game.getDisplayValueExt(fauna.hp) + "hp", 
+						style: { float: "right" } 
+					}, faunaNode );
+
+					//faunaNode.push({ "name" : nameSpan, "price": statsSpan});
+				}
+			}
+
 
 			return tooltip.outerHTML;
 		};
@@ -1679,11 +1749,8 @@ dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.I
 	},
 
 	render: function(container){
+		var map = this.game.village.map;
 		var div = dojo.create("div", null, container);
-
-		dojo.create("div", {
-			innerHTML: "Explorers: lvl 0, HP: 10/10, Energy: 100/100"
-		}, div);
 
 		var btnsContainer = dojo.create("div", {style:{paddingTop:"20px"}}, div);
 		this.upgradeExplorersBtn.render(btnsContainer);
@@ -1702,6 +1769,10 @@ dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.I
 			innerHTML: "Explorers: Supplies []"
 		}, div);
 
+		this.explorerDiv = dojo.create("div", {
+			innerHTML: "Explorers: lvl 0, HP: " + map.hp.toFixed(1) + "/10"
+		}, div);
+
 		var btnsContainer = dojo.create("div", {style:{paddingTop:"20px"}}, div);
        
 		
@@ -1713,24 +1784,23 @@ dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.I
 
 		var biome = map.currentBiome ? this.game.village.getBiome(map.currentBiome) : null;
 
-		
-
 		if (biome){
 			var toLevel = map.toLevel(biome);
 
 			this.biomeDiv.innerHTML = "Biome data: lv. " + biome.level + 
-				", cp. " + biome.cp.toFixed(1) + "/???, penalty: " + biome.terrainPenalty + "x";
+				", cp. " + biome.cp.toFixed(1) + "/???, difficulty: x" + biome.terrainPenalty;
 			this.explorationDiv.innerHTML = "Currently exploring: [" + biome.title + "], " +
 			(biome.cp / toLevel * 100).toFixed(0) +
 			"% [Cancel]";	//<-- link TBD
 		} else {
-			this.biomeDiv.innerHTML = "Explorers awaiting for deployment";
+			this.biomeDiv.innerHTML = "Explorers awaiting at the base";
 		}
 
 		this.upgradeExplorersBtn.update();
 		this.upgradeHQBtn.update();
 
 		this.teamDiv.innerHTML = "Supplies [" + map.energy.toFixed(0) + " days]";
+		this.explorerDiv.innerHTML = "Explorers: lvl 0, HP: " + map.hp.toFixed(1) + "/10";
 		this.inherited(arguments);
 	}
 });
