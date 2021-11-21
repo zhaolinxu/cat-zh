@@ -1531,7 +1531,7 @@ dojo.declare("classes.village.Map", null, {
 
 			if (this.hp <= 0){
 				this.currentBiome = null;
-				this.game.msg("Your explorers have been eatened alive", "important", "explore");
+				this.game.msg("All contact with the expedition have been lost", "important", "explore");
 			}
 			//return;	//do not explore further if obstacle encountered
 		}
