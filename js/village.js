@@ -1275,7 +1275,7 @@ dojo.declare("classes.village.Map", null, {
 	hp: 10,
 
 	//energy/stamina/supplies of your exploration squad
-	energy: 100,
+	energy: 70,
 
 	//TODO: in a long run you can probably have multiple maps and multiple expeditions
 
@@ -1499,13 +1499,17 @@ dojo.declare("classes.village.Map", null, {
 		if(this.currentBiome){
 			this.explore(this.currentBiome);
 		} else {
-			if (this.energy < 100) {
+			if (this.energy < this.getMaxEnergy()) {
 				this.energy += 0.5;
 			}
 			if (this.hp < 10) {
 				this.hp += 0.01;
 			}
 		}
+	},
+
+	getMaxEnergy: function(){
+		return (70 + this.hqLevel * 5) * (1 + (0.01 * this.hqLevel));
 	},
 
 	explore: function(biomeId){
@@ -1748,6 +1752,53 @@ dojo.declare("classes.ui.village.BiomeBtn", com.nuclearunicorn.game.ui.ButtonMod
 	}
 });
 
+dojo.declare("classes.village.ui.map.UpgradeHQController", com.nuclearunicorn.game.ui.BuildingStackableBtnController, {
+	defaults: function() {
+		var result = this.inherited(arguments);
+		result.simplePrices = false;
+		return result;
+	},
+	
+	getMetadata: function(model) {
+		var map = this.game.village.map;
+		if (!model.metaCached) {
+			model.metaCached = {
+				label: $I("village.btn.upgradeHQ"),
+				description: $I("village.btn.upgradeHQ.desc"),
+				val: map.hqLevel,
+				on: map.hqLevel
+			};
+		}
+		return model.metaCached;
+	},
+
+	getPrices: function(model) {
+		var prices = dojo.clone(model.options.prices);
+		for (var i = 0; i < prices.length; i++) {
+            prices[i].val *= Math.pow(1.25, this.game.village.map.hqLevel);
+		}
+		return prices;
+	},
+
+	buyItem: function(model, event, callback) {
+		this.inherited(arguments);
+		this.game.ui.render();
+	},
+
+	incrementValue: function(model) {
+		this.inherited(arguments);
+		this.game.village.map.hqLevel++;
+	},
+
+	hasSellLink: function(model){
+		return false;
+	},
+
+	updateVisible: function(model){
+		model.visible = true;
+	}
+});
+
 dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.IGameAware], {
 	constructor: function(game){
 		this.setGame(game);
@@ -1778,10 +1829,10 @@ dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.I
 			name: $I("village.btn.upgradeHQ"),
 			description: $I("village.btn.upgradeHQ.desc"),
 			handler: dojo.hitch(this, function(){
-				//this.sendHunterSquad();
+				//this.game.village.map.hqLevel++;
 			}),
 			prices: [{ name : "catnip", val: 1000 }],
-			controller: new com.nuclearunicorn.game.ui.ButtonModernController(this.game)
+			controller: new classes.village.ui.map.UpgradeHQController(this.game)
 		}, this.game);
 	},
 
@@ -1798,9 +1849,9 @@ dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.I
 		//this.villageDiv = dojo.create("div", null, div);
 		this.explorationDiv = dojo.create("div", null, div);
 
-		this.biomeDiv = dojo.create("div", {
+		/*this.biomeDiv = dojo.create("div", {
 			innerHTML: "Biome: lv. 1, cp. 666/999, penalty: 1.1, etc"
-		}, div);
+		}, div);*/
 
 		this.teamDiv = dojo.create("div", {
 			innerHTML: "Explorers: Supplies []"
@@ -1824,13 +1875,14 @@ dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.I
 		if (biome){
 			var toLevel = map.toLevel(biome);
 
-			this.biomeDiv.innerHTML = "Biome data: lv. " + biome.level + 
-				", cp. " + biome.cp.toFixed(1) + "/???, difficulty: x" + biome.terrainPenalty;
+			/*this.biomeDiv.innerHTML = "Biome data: lv. " + biome.level + 
+				", cp. " + biome.cp.toFixed(1) + "/???, difficulty: x" + biome.terrainPenalty; */
+
 			this.explorationDiv.innerHTML = "Currently exploring: [" + biome.title + "], " +
 			(biome.cp / toLevel * 100).toFixed(0) +
 			"% [Cancel]";	//<-- link TBD
 		} else {
-			this.biomeDiv.innerHTML = "Explorers awaiting at the base";
+			//this.biomeDiv.innerHTML = "Explorers awaiting at the base";
 		}
 
 		this.upgradeExplorersBtn.update();
