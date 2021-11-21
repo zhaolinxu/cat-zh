@@ -1330,10 +1330,11 @@ dojo.declare("classes.village.Map", null, {
 	{
 		name: "hills",
 		title: "Hills",
+		desc: "TBD",
 		terrainPenalty: 1.2,
 		unlocked: false,
 		unlocks: {
-			biomes: ["mountains"]
+			biomes: ["mountain"]
 		},
 		evaluateLocks: function(game){
 			return game.village.getBiome("plains").level >= 5 || game.village.getBiome("forest").level >= 5;
@@ -1371,7 +1372,8 @@ dojo.declare("classes.village.Map", null, {
 		},
 	},{
 		name: "rainForest",
-		title:"Rain Forest",
+		title: "Rain Forest",
+		description: "TBD",
 		terrainPenalty: 1.4,
 		unlocked: false,
 		5: "The trees are so tall you don't see where it ends. When the rains start they can go for hundreds of years.",
@@ -1392,11 +1394,28 @@ dojo.declare("classes.village.Map", null, {
 		evaluateLocks: function(game){
 			return game.village.getBiome("hills").level >= 10;
 		},
+		unlocks: {
+			biomes: ["volcano"]
+		},
 		unlocked: false
-	},{
+	},
+	{
+		name: "volcano",
+		title: "Volcano",
+		description: "TBD",
+		terrainPenalty: 3.5,
+		unlocked: false,
+		lore: {
+			5: "TBD"
+		},
+		evaluateLocks: function(game){
+			return game.village.getBiome("mountain").level >= 25;
+		}
+	},
+	{
 		name: "desert",
 		title: "Desert",
-		description: "",
+		description: "TBD",
 		terrainPenalty: 1.5,
 		unlocked: false,
 		lore: {
@@ -1454,6 +1473,12 @@ dojo.declare("classes.village.Map", null, {
 				this.game.globalEffectsCached["exploreRatio"] = (0.1 * (biome.level - 1));
 			}
 
+			//TEMP TEMP TEMP
+			/*if (biome.unlocks){
+				this.game.unlock(biome.unlocks);
+			}*/
+			//TEMP TEMP TEMP
+
 			//todo: take it from the biome
 			var faunaNames = biome.faunaNames || this.defaultFaunaNames;
 			var faunaName = faunaNames[this.game.rand(faunaNames.length)];
@@ -1496,19 +1521,20 @@ dojo.declare("classes.village.Map", null, {
 		var catpower = this.game.resPool.get("manpower");
 
 		this.energy -= 0.1;	// 10 ticks per day
-		if (biome.fauna){
+		if (biome.fauna && biome.fauna.length){
 			//todo: combat round timeout
 			this.combat();
+
+			if (this.hp <= 0){
+				this.currentBiome = null;
+				this.game.msg("Your explorers have been eatened alive", "important", "explore");
+			}
+			//return;	//do not explore further if obstacle encountered
 		}
 
 		if (this.energy <= 0){
 			this.currentBiome = null;
 			this.game.msg("Your explorers have returned from expedition", "important", "explore");
-		}
-
-		if (this.hp <= 0){
-			this.currentBiome = null;
-			this.game.msg("Your explorers have been eatend alive", "important", "explore");
 		}
 
 		//get biome level price based on the terrain difficulty and current explored level
