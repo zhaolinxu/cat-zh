@@ -1283,6 +1283,8 @@ dojo.declare("classes.village.Map", null, {
 	//none/neutral/agressive
 	//hp/
 
+	defaultFaunaNames : ["giant moth", "mantis", "slime mold"],
+
 	/**
 	 * biome progression map
 	 * 
@@ -1300,12 +1302,19 @@ dojo.declare("classes.village.Map", null, {
 	 *   |
 	 *  jungle (?)
 	 */
+
+
+	/**
+	 * terrainPenalty - affects how much cp exploration will cost
+	 * faunaPenalty - affects mob spawn rate (% chance where x1.0 is 100%)
+	 **/ 
 	biomes: [
 	{
 		name: "village",
 		title: "Village",
 		desc: "Improves exploration rate of all biomes",
 		terrainPenalty: 1.0,
+		faunaPenalty: 0,
 		unlocked: true
 	},		
 	{
@@ -1343,6 +1352,7 @@ dojo.declare("classes.village.Map", null, {
 			15: "There is something in the forest and no one knows what it is. Not many are sure if it really exists. If it does, it is somewhere deep below, days of travel, years, centuries maybe."
 		},
 		terrainPenalty: 1.2,
+		faunaPenalty: 1.5,
 		unlocked: true,
 		unlocks: {
 			biomes: ["boneForest"]
@@ -1445,12 +1455,13 @@ dojo.declare("classes.village.Map", null, {
 			}
 
 			//todo: take it from the biome
-			var faunaNames = ["giant moth", "mantis", "slime mold"];
+			var faunaNames = biome.faunaNames || this.defaultFaunaNames;
 			var faunaName = faunaNames[this.game.rand(faunaNames.length)];
 
 			//5% of chance to spawn enemy per tick
 			if (!biome.fauna || !biome.fauna.length){
-				if (this.game.rand(10000) <= 10){
+				var spawnChance = 10 * (biome.faunaPenalty || 1.0);
+				if (this.game.rand(10000) <= spawnChance){
 					biome.fauna = [{
 						title: faunaName,
 						hp: this.game.rand(10) + 5,
