@@ -306,7 +306,10 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			kittensPerTick /= pollutionArrivalSlowdown;
 		}
 
-		this.sim.maxKittens = this.maxKittens;
+		var maxKittensRatio = this.game.getEffect("maxKittensRatio");
+		this.sim.maxKittens = Math.round(this.maxKittens * (1 - this.game.getLimitedDR(maxKittensRatio, 1)));
+		//todo: consider discarding extra population, but DO account for disabled buildings like space stations
+		//likely the best way to do it is once, upon HG upgrade
 
 		var catnipPerTick = this.game.getResourcePerTick("catnip", true);
 		var catnipVal = this.game.resPool.get("catnip").value;

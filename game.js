@@ -2842,13 +2842,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// +VILLAGE JOB PRODUCTION
 		var resMapProduction = this.village.getResProduction();
 		var resProduction = resMapProduction[res.name] ? resMapProduction[res.name] : 0;
-
+		
+		// +HOLY GENOCIDE SCALING BONUS
+		resProduction = resProduction * (1 + this.getEffect("simScalingRatio"));
 		perTick += resProduction;
 
 		// +VILLAGE JOB PRODUCTION (UPGRADE EFFECTS JOBS)
 		var workshopResRatio = this.getEffect(res.name + "JobRatio");
-
 		perTick += resProduction * workshopResRatio;
+
 
 		// +*BEFORE PRODUCTION BOOST (UPGRADE EFFECTS GLOBAL)
 		perTick *= 1 + this.getEffect(res.name + "GlobalRatio");
@@ -3038,6 +3040,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					name: $I("res.stack.village"),
 					type: "fixed",
 					value: resMapProduction[res.name] || 0
+				});
+				villageStack.push({
+					name: $I("res.stack.holyGenocide"),
+					type: "ratio",
+					value: this.getEffect("simScalingRatio")
 				});
 				villageStack.push({
 					name: $I("res.stack.tools"),
@@ -4136,7 +4143,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	_resetInternal: function(){
-		var kittens = this.resPool.get("kittens").value;
+		var kittens = Math.round(
+			this.resPool.get("kittens").value * (1 + this.getEffect("simScalingRatio"))
+		);
 		var karmaKittens = this.karmaKittens;
 		if (kittens > 35){
 			karmaKittens += this._getKarmaKittens(kittens);
@@ -4384,6 +4393,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		// Hack to prevent an autosave from occurring before the reload completes
 		this.isPaused = true;
+
+		return saveData;
 	},
 
 	//TO BE USED EXTERNALLY

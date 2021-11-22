@@ -730,7 +730,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		},
 		unlocked: false,
 		flavor: $I("religion.tu.darkNova.flavor")
-	},{
+	},
+		//pacts can go to the TT23
+	{
 		name: "holyGenocide",
 		label: $I("religion.tu.holyGenocide.label"),
 		description: $I("religion.tu.holyGenocide.desc"),
@@ -741,6 +743,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		tier: 25,
 		priceRatio: 1.15,
 		effects: {
+			"maxKittensRatio": 0.01,
+			"simScalingRatio": 0.02
 		},
 		unlocked: false,
 		unlocks: {

@@ -32,6 +32,15 @@ test("basic sanity check, game must load hoglasave without crashing", () => {
     expect(loadResult).toBe(true);
 });
 
+// HELPER FUNCTIONS TO REDUCE BOILERPLATE
+var _build = function(id, val){
+    var undo = game.registerUndoChange();
+    undo.addEvent("building", {
+        action:"build",
+        metaId: id,
+        val: val
+    });
+};
 
 //--------------------------------
 //      Basic faith stuff
@@ -148,6 +157,29 @@ test("Pollution values must be sane", () => {
     expect(effects["pollutionArrivalSlowdown"]).toBeLessThanOrEqual(15);
     expect(effects["solarRevolutionPollution"]).toBeLessThanOrEqual(-1); //should never be > -1
 
+});
+
+//--------------------------------
+//      Reset test
+//--------------------------------
+test("Reset should assign a correct ammount of paragon and preserve certain upgrades", () => {
+    game.resPool.get("faith").value = 100000;
+    _build("hut", 100);
+
+    for (var i = 0; i < 100; i++){
+        game.village.sim.addKitten();
+    }
+
+    game.update();
+    expect(game.village.sim.kittens.length).toBe(100);
+    var saveData = game._resetInternal();
+
+    //TODO: whatever assertions we want to do over save data
+    expect(saveData.resources.length).toBe(1);
+    
+    game.load();
+    expect(game.resPool.get("paragon").value).toBe(30);
+    //TBD: please add more reset test cases there
 });
 
 test("Test NR calls", () => {
