@@ -606,7 +606,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"academyMeteorBonus": 0
 		},
 		calculateEffects: function(self, game){
-			if(game.workshop.getZebraUpgrade("minerologyDepartment").researched) self.effects["academyMeteorBonus"] = 0.01;
+			if(game.workshop.getZebraUpgrade("minerologyDepartment").researched) {
+				self.effects["academyMeteorBonus"] = 0.01;
+			}
 		},
 		flavor: $I("buildings.academy.flavor"),
 		unlockScheme: {
