@@ -1821,6 +1821,34 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			"routeSpeed" : 50
 		}
 	},
+	{
+		name: "spiceNavigation",
+		label: $I("workshop.spiceNavigation.label"),
+		description: $I("workshop.spiceNavigation.desc"),
+		prices:[
+			{ name : "science",  val: 350000 },
+			{ name : "starchart",  val: 500000 }
+		],
+		unlocks: {
+			spaceBuilding: ["navigationRelay"],
+		},
+		flavor: $I("workshop.spiceNavigation.flavor")
+	},
+	{
+		name: "longRangeSpaceships",
+		label: $I("workshop.longRangeSpaceships.label"),
+		description: $I("workshop.longRangeSpaceships.desc"),
+		prices:[
+			{ name : "science",  val: 440000 },
+			{ name : "gear", val: 90000 },
+			{ name : "alloy", val: 3500 },
+			{ name : "tanker", val: 500 },
+		],
+		unlocks: {
+			spaceBuilding: ["spaceShuttle"],
+		},
+		flavor: $I("workshop.longRangeSpaceships.flavor")
+	},
 	//------------------- oil --------------------------
     {
 		name: "oilRefinery",
