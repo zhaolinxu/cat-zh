@@ -23,6 +23,7 @@ var address = '1HDV6VEnXH9m8PJuT4eQD7v8jRnucbneaq';
 var game = null;
 var i18ng = null;
 var lang = 'en';
+var hunt;
 
 var run = function() {
 
@@ -1033,7 +1034,7 @@ var run = function() {
         },
         halfInterval: async function() {
             return new Promise(() => {
-                setTimeout(() => {
+                hunt = setTimeout(()=> {
                     this.hunt();
                 }, Math.floor(options.interval / 2));
             });
@@ -2192,6 +2193,7 @@ var run = function() {
             }
         },
         hunt: function () {
+            clearTimeout(hunt);
             var manpower = this.craftManager.getResource('manpower');
             if (manpower.value < 100 || game.challenges.isActive("pacifism")) {return;}
 

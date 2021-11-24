@@ -726,7 +726,7 @@
 					<script type="text/javascript">
 						var abc = function() {
 							if (typeof gamePage === "undefined") {
-								setTimeout(function() {
+								var paragonTest = setTimeout(function() {
 									abc();
 								}, 10000);
 							} else {
@@ -735,6 +735,7 @@
 								var c = game.resPool.get('timeCrystal').value;
 								var d = game.religion.getTU("blackObelisk").val;
 								var e = localStorage['zh.ks.enable'];
+                                clearTimeout(paragon)
 								if (b > 2.5 && c > 2e5 && d > 55 && e == 'enable') {
 									for (var i = a.length - 1; i > 0; i--) {
 										if (a[i].href == "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN") {
@@ -745,7 +746,7 @@
 										}
 									}
 								} else {
-									setTimeout(function() {
+									var paragon = setTimeout(function b() {
 										abc();
 									}, 10000);
 								}
