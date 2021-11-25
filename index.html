@@ -701,15 +701,15 @@
 					<br>
 					<div class="btn modern" style="font-size:16px;" onclick="gamePage.server.register()">注册</div>
 					<div style="color:#01A9DB;">
-                        <ul>
+						<ul>
 						<li>因为官方网站注册有几率会被墙。</li>
-                        <li>这里注册可以代替官网注册账号。</li>
+						<li>这里注册可以代替官网注册账号。</li>
 						<li>网页存档可以手机存档一键同步。</li>
-                        <li>不同电脑使用云存档能一键同步。</li>
-                        <li>后续设置可能有点麻烦按需使用。</li>
+						<li>不同电脑使用云存档能一键同步。</li>
+						<li>后续设置可能有点麻烦按需使用。</li>
 						<li>国外官网上传和加载都有些延迟。</li>
-                        <li>成功或者失败游戏日志会有提示。</li>
-                        </ul>
+						<li>成功或者失败游戏日志会有提示。</li>
+						</ul>
 					</div>
 				</div>
 			</div>
@@ -724,18 +724,15 @@
 				<body>
 					<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN" target="_blank">捐赠</a> |
 					<script type="text/javascript">
-						var abc = function() {
+						var paragonWebsite = function() {
 							if (typeof gamePage === "undefined") {
-								var paragonTest = setTimeout(function() {
-									abc();
-								}, 10000);
+								setTimeout(paragonWebsite, 10000);
 							} else {
 								var a = document.getElementsByTagName("a");
 								var b = game.prestige.getParagonStorageRatio();
 								var c = game.resPool.get('timeCrystal').value;
 								var d = game.religion.getTU("blackObelisk").val;
 								var e = localStorage['zh.ks.enable'];
-                                clearTimeout(paragon)
 								if (b > 2.5 && c > 2e5 && d > 55 && e == 'enable') {
 									for (var i = a.length - 1; i > 0; i--) {
 										if (a[i].href == "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN") {
@@ -746,13 +743,11 @@
 										}
 									}
 								} else {
-									var paragon = setTimeout(function b() {
-										abc();
-									}, 10000);
+									setTimeout(paragonWebsite, 10000);
 								}
 							}
 						}
-						abc();
+						paragonWebsite();
 					</script>
 				</body>
 				<a href="https://www.patreon.com/bloodrizer" target="_blank">支持</a>

@@ -1034,9 +1034,7 @@ var run = function() {
         },
         halfInterval: async function() {
             return new Promise(() => {
-                hunt = setTimeout(()=> {
-                    this.hunt();
-                }, Math.floor(options.interval / 2));
+                setTimeout(this.hunt(), Math.floor(options.interval / 2));
             });
         },
         setHunt: async function() {
@@ -2193,7 +2191,6 @@ var run = function() {
             }
         },
         hunt: function () {
-            clearTimeout(hunt);
             var manpower = this.craftManager.getResource('manpower');
             if (manpower.value < 100 || game.challenges.isActive("pacifism")) {return;}
 
