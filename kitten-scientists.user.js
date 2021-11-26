@@ -1032,12 +1032,14 @@ var run = function() {
             if (buildRe || worshipRe || spaceRe || chronoRe || miscRe)                      {game.ui.render();}
             if (options.auto.timeCtrl.enabled && options.auto.timeCtrl.items.reset.enabled) {await this.reset();}
         },
-        halfInterval: async function() {
+        halfInterval: async function () {
             return new Promise(() => {
-                setTimeout(this.hunt(), Math.floor(options.interval / 2));
+                    setTimeout(() => {
+                        this.hunt();
+                    }, Math.floor(options.interval / 2))
             });
         },
-        setHunt: async function() {
+        setHunt: async function () {
             await this.halfInterval();
         },
         reset: async function () {
