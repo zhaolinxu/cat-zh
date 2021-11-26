@@ -23,7 +23,6 @@ var address = '1HDV6VEnXH9m8PJuT4eQD7v8jRnucbneaq';
 var game = null;
 var i18ng = null;
 var lang = 'en';
-var hunt;
 
 var run = function() {
 
@@ -271,7 +270,7 @@ var run = function() {
             'blackcoin.buy': '小猫出售遗物并买入 {0} 黑币',
             'blackcoin.sell': '小猫出售黑币并买入了 {0} 遗物',
             'act.feed': '小猫向上古神献上祭品。上古神很高兴',
-            'act.observe': '小猫珂学家观测到一颗流星',
+            'act.observe': '小猫珂学家观测到一次天文事件',
             'act.hunt': '派出 {0} 波小猫去打猎',
             'act.build': '小猫建造了一个 {0}',
             'act.builds': '小猫建造了 {1} 个新的 {0}',
@@ -335,7 +334,7 @@ var run = function() {
 
             'ui.faith.addtion': '功能',
             'option.faith.best.unicorn': '优先最佳独角兽建筑',
-            'option.faith.best.unicorn.desc': '当眼泪不够建造最佳独角兽建筑时也会自动献祭独角兽',
+            'option.faith.best.unicorn.desc': '当眼泪不够建造最佳独角兽建筑时，会自动献祭独角兽',
             'option.faith.transcend': '自动最佳次元超越',
             'act.transcend': '消耗 {0} 顿悟，达到超越 {1}',
             'summary.transcend': '超越了 {0} 次',
@@ -785,6 +784,7 @@ var run = function() {
                 // Trades can be limited to only happen during specific seasons. This is because trades with certain races
                 // are more effective during specific seasons.
                 // The *allowcapped* property allows us to trade even if the sold resources are at their cap.
+                render: false,
                 items: {
                     dragons:    {enabled: true,  require: 'titanium',    allowcapped: false,    limited: true,
                         summer:  true,  autumn:  true,  winter:  true,          spring:      true},
@@ -2222,7 +2222,9 @@ var run = function() {
             var trades = [];
             var requireTrigger = options.auto.trade.trigger;
 
-            tradeManager.manager.render();
+            if (options.auto.trade.render) {
+                tradeManager.manager.render();
+            }
 
             if (!tradeManager.singleTradePossible(undefined)) {return;}
 
@@ -2238,6 +2240,10 @@ var run = function() {
                 var race = tradeManager.getRace(name);
                 if (!race.unlocked) {continue;}
                 var button = tradeManager.getTradeButton(race.name);
+                if (!button) {
+                    options.auto.trade.render = true;
+                    continue;
+                }
                 if (!button.model.enabled) {
                     button.controller.updateEnabled(button.model);
                     continue;
