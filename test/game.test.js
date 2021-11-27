@@ -188,9 +188,17 @@ test("Reset should assign a correct ammount of paragon and preserve certain upgr
     //========= HOLY GENOCIDE ==================
     game.religion.getTU("holyGenocide").val = 10;
     expect(game.religion.activeHolyGenocide).toBe(0);
+    expect(game.getEffect("maxKittensRatio")).toBe(0);
 
     var saveData = game._resetInternal();
     expect(saveData.religion.activeHolyGenocide).toBe(10);
+    game.load();
+    game.religion.updateEffectCached();
+
+    expect(game.religion.getTU("holyGenocide").val).toBe(10);
+
+    //TODO: figure out why this does not work
+    //expect(game.getEffect("maxKittensRatio")).toBe(10);
 });
 
 

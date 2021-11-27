@@ -34,13 +34,13 @@ dojo.declare("classes.BuildingMeta", classes.Metadata, {
 
 	// We need to avoid to use the function since it is slow, use get method intead which should be faster
     getMeta: function(){
-    	var bld = this.meta;
-    	if (bld.stage !== this._metaCacheStage) {
-    		this._metaCache = null; // invalidate cache if the stage has changed
-    	}
-    	if (this._metaCache) {
-    		return this._metaCache;
-    	}
+		var bld = this.meta;
+		if (bld.stage !== this._metaCacheStage) {
+			this._metaCache = null; // invalidate cache if the stage has changed
+		}
+		if (this._metaCache) {
+			return this._metaCache;
+		}
 
         if (bld.stages){
 			//some specific hack for stagable buildings
@@ -55,7 +55,7 @@ dojo.declare("classes.BuildingMeta", classes.Metadata, {
 				// 	copy[attr] = currentStage[attr];
 				// }
 		        if (bld.hasOwnProperty(attr)){
-		        	copy[attr] = bld[attr];
+					copy[attr] = bld[attr];
 		        }
 		    }
 
@@ -66,10 +66,10 @@ dojo.declare("classes.BuildingMeta", classes.Metadata, {
 		    }
 
 			this._metaCache = copy;
-        	this._metaCacheStage = bld.stage;
+			this._metaCacheStage = bld.stage;
         } else {
-        	this._metaCache = bld;
-        	this._metaCacheStage = bld.stage;
+			this._metaCache = bld;
+			this._metaCacheStage = bld.stage;
         }
         return this._metaCache;
     },
@@ -155,10 +155,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					if (currentStage.effects) {
 						effectValue = currentStage.effects[effectName];
 					} else {
-			        	effectValue = bld.effects[effectName];
+						effectValue = bld.effects[effectName];
 			        }
 		        } else {
-		        	effectValue = bld.effects[effectName];
+					effectValue = bld.effects[effectName];
 		        }
 
 
@@ -1065,7 +1065,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					if(calledByAction){
 						var amt = game.resPool.getAmtDependsOnStock(
 							[{res: "coal", amt: -self.effects["coalPerTickCon"]},
-						 	{res: "iron", amt: -self.effects["ironPerTickCon"]}],
+							{res: "iron", amt: -self.effects["ironPerTickCon"]}],
 							self.on
 						);
 
@@ -1348,8 +1348,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			effects["energyConsumption"] = 2;
 			if(game.workshop.get("carbonSequestration").researched){
-				self.isAutomationEnabled = (self.isAutomationEnabled === null)? true: self.isAutomationEnabled;
-			}else{
+				self.isAutomationEnabled = (self.isAutomationEnabled === null) ? true : self.isAutomationEnabled;
+			} else {
 				self.isAutomationEnabled = null;
 			}
 			effects["energyConsumption"] *= (self.isAutomationEnabled)? 2 : 1;
@@ -2150,7 +2150,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 						name : "unobtainium",
 						isTemporary: true //can't exploit buy manipulating pollution in postApocalypse
 					});
-	   	}
+		}
 		return prices;
 	 },
 
@@ -2410,21 +2410,21 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},
 	getEquilibriumPollution: function(){ //returns pollution value at which pollutionDissipationRatio will make pollutionPerTick equal to 0, or -1 if such value doesn't exits
 		if (this.pollutionEffects["pollutionDissipationRatio"]){
-			return this.getUndissipatedPollutionPerTick()/ this.pollutionEffects["pollutionDissipationRatio"];
-		}else if(this.cathPollutionPerTick < 0){
+			return this.getUndissipatedPollutionPerTick() / this.pollutionEffects["pollutionDissipationRatio"];
+		} else if(this.cathPollutionPerTick < 0) {
 			return 0;
-		}else if(this.cathPollutionPerTick == 0){
+		} else if(this.cathPollutionPerTick == 0) {
 			return this.cathPollution;
-		}else if(this.cathPollutionPerTick > 0){
+		} else if(this.cathPollutionPerTick > 0) {
 			return Number.POSITIVE_INFINITY;
-		}else{
+		} else {
 			console.log("No equilibrium found");
 			return -1;
 		}
 	},
 	setEquilibriumPollution: function(){
 		var equilibriumPollution = this.getEquilibriumPollution();
-		if(equilibriumPollution != -1){
+		if(equilibriumPollution != -1) {
 			this.cathPollution = equilibriumPollution;
 		}
 	},
@@ -2433,17 +2433,18 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			this.cathPollution += this.cathPollutionPerTick * ticks;
 		}
 		else {
-		/*t = time in ticks, p = pollution, UPPT — undissipated pollution per tick, pdr — pollution dissipation ratio
-		solved differential equation:
-			p(t = 0) = this.cathPollution
-			d(p)/dt = UPPT + pdr * p
-		*/
-		var pdr = - this.pollutionEffects["pollutionDissipationRatio"];
-		var expon = Math.exp(pdr * ticks);
-		var uppt = this.getUndissipatedPollutionPerTick();
-		this.cathPollution = Math.max(((this.cathPollution * pdr + uppt) * expon - uppt)/pdr, 0);
+			/*t = time in ticks, p = pollution, UPPT — undissipated pollution per tick, pdr — pollution dissipation ratio
+			solved differential equation:
+				p(t = 0) = this.cathPollution
+				d(p)/dt = UPPT + pdr * p
+			*/
+			var pdr = - this.pollutionEffects["pollutionDissipationRatio"];
+			var expon = Math.exp(pdr * ticks);
+			var uppt = this.getUndissipatedPollutionPerTick();
+			this.cathPollution = Math.max(((this.cathPollution * pdr + uppt) * expon - uppt) / pdr, 0);
 		}
 	},
+	
 	fastforward: function(daysOffset) {
 		var game = this.game;
 
