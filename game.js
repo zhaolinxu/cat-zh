@@ -204,6 +204,11 @@ dojo.declare("classes.game.Server", null, {
 	chiral: null,
 
 	/**
+	 * When was the last time save was uploaded to the cloud. (Unix timestamp)
+	 */
+	lastBackup: null,
+
+	/**
 	 * Current client snapshot of the save data
 	 * All operations with the cloud saves should return the save snapshot?
 	 */
@@ -304,6 +309,8 @@ dojo.declare("classes.game.Server", null, {
 	pushSave: function(){
 		var self = this,
 			game = this.game;
+
+		game.lastBackup = new Date().getTime();
 
 		var saveData = this.game.save();
 		this._xhr("/kgnet/save/upload/", "POST", 
@@ -2048,6 +2055,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		var saveData = {
 			saveVersion: this.saveVersion,
+			lastBackup: this.lastBackup,
 			resources: this.resPool.filterMetadata(
 				this.resPool.resources, ["name", "value", "unlocked", "isHidden"]
 			)
@@ -2242,6 +2250,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.cheatMode = (data.cheatMode !== undefined) ? data.cheatMode : false;
 
 			this.isCMBREnabled = (data.isCMBREnabled !== undefined) ? data.isCMBREnabled : true;	//true for all existing games
+			this.lastBackup = data.lastBackup || 0;
 
 			// ora ora
 			if (data.opts) {

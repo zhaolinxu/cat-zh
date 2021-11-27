@@ -571,6 +571,8 @@ WLogin = React.createClass({
     render: function(){
         var game = this.props.game;
 
+        var lastBackup = (new Date().getTime() - game.lastBackup) / (1000 * 60 * 6 * 24);
+
         return $r(WToolbarIconContainer, {
             game: game,
         },
@@ -588,6 +590,11 @@ WLogin = React.createClass({
                         className: "login-popup button_tooltip tooltip-block"
                     },
                         $r("div", null,
+                            $r("div", null, [
+                                (lastBackup > 24 * 7) && $r("span", {className: "hazard"}),
+                                "Last backup: ", lastBackup.toFixed(1) + " days ago",
+                                (lastBackup > 24 * 7) && $r("span", {className: "hazard"})
+                            ]),
                             $r(WLoginForm, {game: game}),
                             $r(WCloudSaves, {game: game})
                         )
