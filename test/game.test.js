@@ -193,12 +193,24 @@ test("Reset should assign a correct ammount of paragon and preserve certain upgr
     var saveData = game._resetInternal();
     expect(saveData.religion.activeHolyGenocide).toBe(10);
     game.load();
+
+    game.globalEffectsCached = {};
     game.religion.updateEffectCached();
 
     expect(game.religion.getTU("holyGenocide").val).toBe(10);
 
     //TODO: figure out why this does not work
     //expect(game.getEffect("maxKittensRatio")).toBe(10);
+    _build("hut", 100);
+    for (var i = 0; i < 100; i++){
+        game.village.sim.addKitten();
+    }
+    var saveData = game._resetInternal();
+    game.load();
+    //figure out HG effects
+    expect(game.resPool.get("paragon").value).toBe(30);
+
+
 });
 
 
