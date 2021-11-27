@@ -25,7 +25,15 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		this.game = game;
 		this.registerMeta("stackable", this.zigguratUpgrades, null);
 		this.registerMeta("stackable", this.religionUpgrades, null);
-		this.registerMeta("stackable", this.transcendenceUpgrades, null);
+		this.registerMeta("stackable", this.transcendenceUpgrades, {
+			getEffect: function(bld, effectName){
+				var effectValue = bld.effects[effectName];
+				if (bld.name == "holyGenocide"){
+					return effectValue * game.religion.activeHolyGenocide;
+				}
+				return effectValue * bld.on;
+			}
+		});
 		this.setEffectsCachedExisting();
 	},
 
@@ -60,7 +68,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			faithRatio: this.faithRatio,
 			transcendenceTier: this.transcendenceTier,
 			activeHolyGenocide: this.activeHolyGenocide,
-			
+
 			// Duplicated save, for older versions like mobile
 			tcratio: this._getTranscendTotalPrice(this.transcendenceTier),
 			zu: this.filterMetadata(this.zigguratUpgrades, ["name", "val", "on", "unlocked"]),
