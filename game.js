@@ -4339,6 +4339,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			religion: {
 				transcendenceTier: this.religion.transcendenceTier,
 				faithRatio: faithRatio,
+				activeHolyGenocide: this.religion.getTU("holyGenocide").val,
 				zu: [],
 				ru: [],
 				tu: this.religion.filterMetadata(this.religion.transcendenceUpgrades, ["name", "val", "on", "unlocked"])

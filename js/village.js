@@ -2995,7 +2995,7 @@ dojo.declare("classes.village.ui.FestivalButtonController", classes.village.ui.V
     _newLink: function(holdQuantity) {
         var self = this;
         return {
-        	title: "x" + holdQuantity,
+			title: "x" + holdQuantity,
             visible: this.game.prestige.getPerk("carnivals").researched && (this.game.opts.showNonApplicableButtons || this.hasMultipleResources(holdQuantity)),
             handler: function(btn, callback){
 				if (!self.hasMultipleResources(holdQuantity)) {

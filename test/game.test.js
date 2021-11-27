@@ -163,6 +163,7 @@ test("Pollution values must be sane", () => {
 //      Reset test
 //--------------------------------
 test("Reset should assign a correct ammount of paragon and preserve certain upgrades", () => {
+    //========= GENERAL RESET AND PARAGON ============
     game.resPool.get("faith").value = 100000;
     _build("hut", 100);
 
@@ -176,11 +177,22 @@ test("Reset should assign a correct ammount of paragon and preserve certain upgr
 
     //TODO: whatever assertions we want to do over save data
     expect(saveData.resources.length).toBe(1);
+    expect(saveData.resources[0].name).toBe("paragon");
+    expect(saveData.resources[0].value).toBe(30);
     
     game.load();
     expect(game.resPool.get("paragon").value).toBe(30);
     //TBD: please add more reset test cases there
+
+
+    //========= HOLY GENOCIDE ==================
+    game.religion.getTU("holyGenocide").val = 10;
+    expect(game.religion.activeHolyGenocide).toBe(0);
+
+    var saveData = game._resetInternal();
+    expect(saveData.religion.activeHolyGenocide).toBe(10);
 });
+
 
 test("Test NR calls", () => {
     game.heartbeat();

@@ -18,6 +18,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 	alicornCounter: 0,
 
+	//the amount of currently active HG buildings (typically refils during reset)
+	activeHolyGenocide: 0,
+
 	constructor: function(game){
 		this.game = game;
 		this.registerMeta("stackable", this.zigguratUpgrades, null);
@@ -56,6 +59,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			corruption: this.corruption,
 			faithRatio: this.faithRatio,
 			transcendenceTier: this.transcendenceTier,
+			activeHolyGenocide: this.activeHolyGenocide,
+			
 			// Duplicated save, for older versions like mobile
 			tcratio: this._getTranscendTotalPrice(this.transcendenceTier),
 			zu: this.filterMetadata(this.zigguratUpgrades, ["name", "val", "on", "unlocked"]),
@@ -69,18 +74,22 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			return;
 		}
 
-		this.faith = saveData.religion.faith || 0;
-		this.corruption = saveData.religion.corruption || 0;
-		this.faithRatio = saveData.religion.faithRatio || 0;
-		this.transcendenceTier = saveData.religion.transcendenceTier || 0;
+		var _data = saveData.religion;
+
+		this.faith = _data.faith || 0;
+		this.corruption = _data.corruption || 0;
+		this.faithRatio = _data.faithRatio || 0;
+		this.transcendenceTier = _data.transcendenceTier || 0;
+		this.activeHolyGenocide = _data.activeHolyGenocide || 0;
+
 		// Read old save
-		if (this.transcendenceTier == 0 && saveData.religion.tcratio > 0) {
-			this.transcendenceTier = Math.max(0, Math.round(Math.log(10 * this.game.getUnlimitedDR(saveData.religion.tcratio, 0.1))));
+		if (this.transcendenceTier == 0 && _data.tcratio > 0) {
+			this.transcendenceTier = Math.max(0, Math.round(Math.log(10 * this.game.getUnlimitedDR(_data.tcratio, 0.1))));
 		}
 
-		this.loadMetadata(this.zigguratUpgrades, saveData.religion.zu);
-		this.loadMetadata(this.religionUpgrades, saveData.religion.ru);
-		this.loadMetadata(this.transcendenceUpgrades, saveData.religion.tu);
+		this.loadMetadata(this.zigguratUpgrades, _data.zu);
+		this.loadMetadata(this.religionUpgrades, _data.ru);
+		this.loadMetadata(this.transcendenceUpgrades, _data.tu);
 
 		for (var i = 0; i < this.transcendenceUpgrades.length; i++){
 			var tu = this.transcendenceUpgrades[i];
