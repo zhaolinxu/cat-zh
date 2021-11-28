@@ -187,14 +187,14 @@ test("Reset should assign a correct ammount of paragon and preserve certain upgr
 
 
     //========= HOLY GENOCIDE ==================
-    game.religion.getTU("holyGenocide").val = 10;
-    game.religion.getTU("holyGenocide").on = 10;
+    game.religion.getTU("holyGenocide").val = 4000;
+    game.religion.getTU("holyGenocide").on = 4000;
 
     expect(game.religion.activeHolyGenocide).toBe(0);
     expect(game.getEffect("maxKittensRatio")).toBe(0);
 
     var saveData = game._resetInternal();
-    expect(saveData.religion.activeHolyGenocide).toBe(10);
+    expect(saveData.religion.activeHolyGenocide).toBe(4000);
     game.load();
 
     game.globalEffectsCached = {};
@@ -221,19 +221,18 @@ test("Reset should assign a correct ammount of paragon and preserve certain upgr
 
     //do not forget to include paragon
     var paragonProductionRatio = game.prestige.getParagonProductionRatio();
-    expect(hgProduction).toBeLessThanOrEqual(baselineProduction * (1 + paragonProductionRatio) * 1.25);
+    expect(hgProduction).toBeLessThanOrEqual(baselineProduction * (1 + paragonProductionRatio) * 100);
     //-----------------------------------------------------
 
-    
-    expect(game.religion.getTU("holyGenocide").val).toBe(10);
-    expect(game.getEffect("maxKittensRatio")).toBe(0.1);
-    expect(game.getEffect("simScalingRatio")).toBe(0.2);
+    expect(game.religion.getTU("holyGenocide").val).toBe(4000);
+    expect(game.getEffect("maxKittensRatio")).toBe(40);
+    expect(game.getEffect("simScalingRatio")).toBe(80);
     //expect(game.resPool.get("kittens").maxValue).toBe(1);
 
     var saveData = game._resetInternal();
     game.load();
 
-    expect(game.resPool.get("paragon").value).toBe(80);
+    expect(game.resPool.get("paragon").value).toBe(8060);
 });
 
 
