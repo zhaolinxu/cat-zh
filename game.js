@@ -2055,7 +2055,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		var saveData = {
 			saveVersion: this.saveVersion,
-			lastBackup: this.lastBackup,
 			resources: this.resPool.filterMetadata(
 				this.resPool.resources, ["name", "value", "unlocked", "isHidden"]
 			)
@@ -2085,6 +2084,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			cheatMode: this.cheatMode,
 
 			opts : this.opts,
+			lastBackup: this.lastBackup
 		};
 
 		var saveDataString = JSON.stringify(saveData);

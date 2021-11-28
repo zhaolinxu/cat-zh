@@ -583,6 +583,7 @@ WLogin = React.createClass({
                 [
                     $r("span", {
                         className: "kgnet-login-link status-indicator-" + (game.server.userProfile ? "online" : "offline")
+                        + (lastBackup >= 7 ? " freshMessage" : "")
                     }, "* " + (game.server.userProfile ?
                         $I("ui.kgnet.online") : $I("ui.kgnet.login")
                     )),
@@ -590,7 +591,7 @@ WLogin = React.createClass({
                         className: "login-popup button_tooltip tooltip-block"
                     },
                         $r("div", null,
-                            $r("div", null, [
+                            $r("div", {className: "last-backup"}, [
                                 (lastBackup > 24 * 7) && $r("span", {className: "hazard"}),
                                 "Last backup: ", lastBackup.toFixed(1) + " days ago",
                                 (lastBackup > 24 * 7) && $r("span", {className: "hazard"})

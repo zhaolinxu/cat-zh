@@ -630,6 +630,11 @@ table.craftTable tr:hover td {
     font-size: 15px;
 }
 
+.login-popup .last-backup {
+    margin-bottom: 10px;
+    border-bottom: 1px solid gray;
+}
+
 .hazard {
     background-image: linear-gradient(135deg, #f5ce31 25%, #2b4352 25%, #2b4352 50%, #f5ce31 50%, #f5ce31 75%, #2b4352 75%, #2b4352 100%);
     background-size: 28.28px 28.28px;
