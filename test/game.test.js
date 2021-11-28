@@ -206,6 +206,24 @@ test("Reset should assign a correct ammount of paragon and preserve certain upgr
 
     game.updateModel();
     game.updateCaches();
+
+    //-------- test effects scaling on population ---------
+    game.village.sim.assignJob("woodcutter", 100);
+    game.updateResources();
+
+    var hgProduction = game.getResourcePerTick("wood");
+    var baselineProduction = game.village.getResProduction()["wood"];
+
+
+    //HG-boosted production should be reasonably high, but not too high (25%, ~= of expected 0.02 * 10 bonus)
+    expect(hgProduction).toBeGreaterThanOrEqual(0);
+    expect(hgProduction).toBeGreaterThanOrEqual(baselineProduction);
+
+    //do not forget to include paragon
+    var paragonProductionRatio = game.prestige.getParagonProductionRatio();
+    expect(hgProduction).toBeLessThanOrEqual(baselineProduction * (1 + paragonProductionRatio) * 1.25);
+    //-----------------------------------------------------
+
     
     expect(game.religion.getTU("holyGenocide").val).toBe(10);
     expect(game.getEffect("maxKittensRatio")).toBe(0.1);

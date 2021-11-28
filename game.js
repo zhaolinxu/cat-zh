@@ -2853,7 +2853,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resProduction = resMapProduction[res.name] ? resMapProduction[res.name] : 0;
 		
 		// +HOLY GENOCIDE SCALING BONUS
-		resProduction = resProduction * (1 + this.getEffect("simScalingRatio"));
+
+		//TODO: calculate prod scaling effect differently for HG
+		var hgScalingBonus = (1 / (1 - this.getEffect("simScalingRatio")));
+		//var hgScalingBonus = Math.pow(1.01, this.religion.getTU("holyGenocide").val * 2);
+		resProduction = resProduction * hgScalingBonus;
+
+		//resProduction = resProduction * (1 + this.getEffect("simScalingRatio"));
 		perTick += resProduction;
 
 		// +VILLAGE JOB PRODUCTION (UPGRADE EFFECTS JOBS)
