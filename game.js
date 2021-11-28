@@ -4157,7 +4157,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		return bonusZebras;
 	},
 
-	_resetInternal: function(){
+	getResetPrestige: function(){
 		var kittens = Math.round(
 			this.resPool.get("kittens").value * (1 + this.getEffect("simScalingRatio"))
 		);
@@ -4171,6 +4171,17 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (kittens > 70){
 			paragonPoints = (kittens - 70);
 		}
+		return {
+			karmaKittens: karmaKittens,
+			paragonPoints: paragonPoints
+		};
+	},
+
+	_resetInternal: function(){
+		var _prestige = this.getResetPrestige();
+
+		var karmaKittens = _prestige.karmaKittens,
+			paragonPoints = _prestige.paragonPoints;
 
 		var addRes = {
 			"paragon": paragonPoints
