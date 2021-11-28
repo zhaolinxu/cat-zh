@@ -2250,7 +2250,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.cheatMode = (data.cheatMode !== undefined) ? data.cheatMode : false;
 
 			this.isCMBREnabled = (data.isCMBREnabled !== undefined) ? data.isCMBREnabled : true;	//true for all existing games
-			this.lastBackup = data.lastBackup || 0;
+			this.lastBackup = data.lastBackup || new Date().getTime();
 
 			// ora ora
 			if (data.opts) {
