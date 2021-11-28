@@ -2855,8 +2855,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// +HOLY GENOCIDE SCALING BONUS
 
 		//TODO: calculate prod scaling effect differently for HG
-		var hgScalingBonus = (1 / (1 - this.getEffect("simScalingRatio")));
-		//var hgScalingBonus = Math.pow(1.01, this.religion.getTU("holyGenocide").val * 2);
+		//var hgScalingBonus = (1 / (1 - this.getEffect("simScalingRatio")));
+		var hgScalingBonus = Math.pow(1.01, this.religion.getTU("holyGenocide").val * 2);
 		resProduction = resProduction * hgScalingBonus;
 
 		//resProduction = resProduction * (1 + this.getEffect("simScalingRatio"));
