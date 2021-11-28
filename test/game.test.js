@@ -171,7 +171,8 @@ test("Reset should assign a correct ammount of paragon and preserve certain upgr
         game.village.sim.addKitten();
     }
 
-    game.update();
+    game.updateModel();
+
     expect(game.village.sim.kittens.length).toBe(100);
     var saveData = game._resetInternal();
 
@@ -187,6 +188,8 @@ test("Reset should assign a correct ammount of paragon and preserve certain upgr
 
     //========= HOLY GENOCIDE ==================
     game.religion.getTU("holyGenocide").val = 10;
+    game.religion.getTU("holyGenocide").on = 10;
+
     expect(game.religion.activeHolyGenocide).toBe(0);
     expect(game.getEffect("maxKittensRatio")).toBe(0);
 
@@ -195,22 +198,24 @@ test("Reset should assign a correct ammount of paragon and preserve certain upgr
     game.load();
 
     game.globalEffectsCached = {};
-    game.religion.updateEffectCached();
-
-    expect(game.religion.getTU("holyGenocide").val).toBe(10);
-
-    //TODO: figure out why this does not work
-    //expect(game.getEffect("maxKittensRatio")).toBe(10);
+    
     _build("hut", 100);
     for (var i = 0; i < 100; i++){
         game.village.sim.addKitten();
     }
+
+    game.updateModel();
+    game.updateCaches();
+    
+    expect(game.religion.getTU("holyGenocide").val).toBe(10);
+    expect(game.getEffect("maxKittensRatio")).toBe(0.1);
+    expect(game.getEffect("simScalingRatio")).toBe(0.2);
+    //expect(game.resPool.get("kittens").maxValue).toBe(1);
+
     var saveData = game._resetInternal();
     game.load();
-    //figure out HG effects
-    expect(game.resPool.get("paragon").value).toBe(30);
 
-
+    expect(game.resPool.get("paragon").value).toBe(80);
 });
 
 
