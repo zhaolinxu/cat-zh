@@ -128,7 +128,7 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 			 * Known offenders that folks still use
 			 */
 			window.newrelic.setErrorHandler(function (err) {
-				self.achievements.unlockBadge("ghostInTheMachine");
+				self.game.achievements.unlockBadge("ghostInTheMachine");
 
 				if (self.errorCount >= 100){
 					return true;
@@ -2860,7 +2860,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				1 - (1 - this.getLimitedDR(this.getEffect("simScalingRatio"), 1)
 			)
 		)) + this.religion.getTU("holyGenocide").val * 0.01;
-		
+
 		//var hgScalingBonus = Math.pow(1.01, this.religion.getTU("holyGenocide").val * 2);
 		resProduction = resProduction * hgScalingBonus;
 
@@ -3791,6 +3791,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	getDisplayValueExt: function(value, prefix, usePerTickHack, precision, postfix){
 
 		if(!value){ return "0"; }
+		if (value === Infinity) {
+			return "∞";
+		}
 
 		usePerTickHack &= this.opts.usePerSecondValues;
 		if (usePerTickHack) {
