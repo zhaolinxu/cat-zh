@@ -4155,6 +4155,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var kittens = Math.round(
 			this.resPool.get("kittens").value * (1 + this.getEffect("simScalingRatio"))
 		);
+
 		var karmaKittens = this.karmaKittens;
 		if (kittens > 35){
 			karmaKittens += this._getKarmaKittens(kittens);
