@@ -592,9 +592,9 @@ WLogin = React.createClass({
                     },
                         $r("div", null,
                             $r("div", {className: "last-backup"}, [
-                                (lastBackup > 24 * 7) && $r("span", {className: "hazard"}),
+                                (lastBackup >= 7) && $r("span", {className: "hazard"}),
                                 "Last backup: ", lastBackup.toFixed(1) + " days ago",
-                                (lastBackup > 24 * 7) && $r("span", {className: "hazard"})
+                                (lastBackup >= 7) && $r("span", {className: "hazard"})
                             ]),
                             $r(WLoginForm, {game: game}),
                             $r(WCloudSaves, {game: game})
