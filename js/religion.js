@@ -25,7 +25,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		this.game = game;
 		this.registerMeta("stackable", this.zigguratUpgrades, null);
 		this.registerMeta("stackable", this.religionUpgrades, null);
-		this.registerMeta("stackable", this.transcendenceUpgrades, {
+		this.registerMeta(/*"stackable"*/false, this.transcendenceUpgrades, {
 			getEffect: function(bld, effectName){
 				var effectValue = bld.effects[effectName] || 0;
 				if (bld.name == "holyGenocide"){
