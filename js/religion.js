@@ -793,6 +793,20 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		return this.game.getUnlimitedDR(this.faithRatio, 0.1) * 0.1;
 	},
 
+	getHGScalingBonus: function(){
+		//TODO: test this
+		var scalingRatio = this.game.getLimitedDR(this.game.getEffect("simScalingRatio"), 1);
+		if (!scalingRatio){
+			return 0;
+		}
+
+		return (1 / 
+			(
+				1 - (1 - this.game.getLimitedDR(this.game.getEffect("simScalingRatio"), 1)
+			)
+		)) + this.getTU("holyGenocide").val * 0.01;
+	},
+
 	praise: function(){
 		var faith = this.game.resPool.get("faith");
 		this.faith += faith.value * (1 + this.getApocryphaBonus()); //starting up from 100% ratio will work surprisingly bad

@@ -2855,12 +2855,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// +HOLY GENOCIDE SCALING BONUS
 
 		//TODO: calculate prod scaling effect differently for HG
-		var hgScalingBonus = (1 / 
-			(
-				1 - (1 - this.getLimitedDR(this.getEffect("simScalingRatio"), 1)
-			)
-		)) + this.religion.getTU("holyGenocide").val * 0.01;
-
+		var hgScalingBonus = this.religion.getHGScalingBonus();
+		
 		//var hgScalingBonus = Math.pow(1.01, this.religion.getTU("holyGenocide").val * 2);
 		resProduction = resProduction * hgScalingBonus;
 
@@ -3054,6 +3050,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		// +VILLAGE JOB PRODUCTION
 		var resMapProduction = this.village.getResProduction();
+		var hgScalingBonus = this.religion.getHGScalingBonus();
 		var villageStack = [];
 		//---->
 				villageStack.push({
@@ -3064,7 +3061,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				villageStack.push({
 					name: $I("res.stack.holyGenocide"),
 					type: "ratio",
-					value: this.getEffect("simScalingRatio")
+					value: hgScalingBonus
 				});
 				villageStack.push({
 					name: $I("res.stack.tools"),
