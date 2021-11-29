@@ -380,7 +380,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				            "spring": 0,
 				            "summer": -0.1,
 				            "autumn": -0.2,
-				            "winter": -1};
+				            "winter": -0.5};
 				}
 			}
 		 }
