@@ -63,6 +63,7 @@
 		<script type="text/javascript">
 			var version = "1485";
 			var buildRevision = 0;
+			var ksVision = 0;
 
 			var loadingProgress = 0,
 				progressMax = 0;
@@ -167,6 +168,7 @@
 
 				var def = $.getJSON("build.version.json?=" + now).then(function(json) {
 					buildRevision = json.buildRevision;
+					ksVision = json.ksVision;
 					console.log("build revison is" + buildRevision);
 					$("#versionLink").html(displayedVersion + ".r" + buildRevision);
 				});
@@ -769,17 +771,27 @@
 				localStorage['zh.ks.enable'] = 'enable';
 				$("#ks-label").text("可爱的猫猫科学家为您服务");
 				$("#set-ks-enable").attr("checked", true);
-				document.body.appendChild(document.createElement('script')).src = 'kitten-scientists.user.js?v=2' + new Date().getDate();
+				document.body.appendChild(document.createElement('script')).src = 'kitten-scientists.user.js?v=' + new Date().getDate() + ksVision;
 			};
 			var disableKS = function() {
 				localStorage['zh.ks.enable'] = 'disable';
 				$("#ks-label").text("小猫科学家将在页面刷新后关闭");
 				$("#set-ks-enable").attr("checked", false);
 			};
-
-			if (localStorage['zh.ks.enable'] === 'enable') {
-				enableKS()
+			
+		   var ks =function() {
+				if (ksVision) {
+					if (localStorage['zh.ks.enable'] === 'enable') {
+						enableKS();
+					}
+				} else {
+					setTimeout(function() {
+						ks();
+					}, 500);
+				}
 			}
+			ks();
+
 			$("#set-ks-enable").on('change', function() {
 				if (localStorage['zh.ks.enable'] === 'enable') {
 					disableKS();

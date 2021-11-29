@@ -242,7 +242,7 @@ var run = function() {
             'summary.show': 'Show activity',
         },
         'zh': {
-            'option.observe': '观测天文事件',
+            'option.observe': '观测天文现象',
             'option.festival': '举办节日',
             'option.praise': '赞美太阳',
             'option.shipOverride': '强制贸易船',
@@ -263,14 +263,14 @@ var run = function() {
             'filter.praise': '赞美太阳',
             'filter.faith': '太阳教团',
             'filter.festival': '节日',
-            'filter.star': '天文事件',
+            'filter.star': '天文现象',
             'filter.misc': '杂项',
 
             'dispose.necrocorn': '小猫处理掉了影响效率的多余死灵兽',
             'blackcoin.buy': '小猫出售遗物并买入 {0} 黑币',
             'blackcoin.sell': '小猫出售黑币并买入了 {0} 遗物',
             'act.feed': '小猫向上古神献上祭品。上古神很高兴',
-            'act.observe': '小猫珂学家观测到一次天文事件',
+            'act.observe': '小猫珂学家观测到一次天文现象',
             'act.hunt': '派出 {0} 波小猫去打猎',
             'act.build': '小猫建造了一个 {0}',
             'act.builds': '小猫建造了 {1} 个新的 {0}',
@@ -1417,7 +1417,7 @@ var run = function() {
                 var unlocked = game.village.jobs[i].unlocked;
                 var enabled = options.auto.distribute.items[name].enabled;
                 var maxGame = game.village.getJobLimit(name);
-                var maxKS = options.auto.distribute.items[name].max;
+                var maxKS = (options.auto.distribute.items[name].max === -1) ? Number.MAX_VALUE : options.auto.distribute.items[name].max;
                 var val = game.village.jobs[i].value;
                 var limited = options.auto.distribute.items[name].limited;
                 if (unlocked && enabled && val < maxGame && (!limited || val < maxKS)) {
