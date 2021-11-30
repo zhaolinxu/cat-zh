@@ -802,9 +802,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 		return (1 / 
 			(
-				(1 - scalingRatio)
+				(1 - this.game.getLimitedDR(this.game.getEffect("maxKittensRatio")))
 			)
-		) + this.game.getEffect("maxKittensRatio");
+		) *(1 + scalingRatio);
 	},
 
 	praise: function(){
