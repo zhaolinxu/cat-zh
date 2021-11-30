@@ -2858,7 +2858,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var hgScalingBonus = this.religion.getHGScalingBonus();
 		
 		//var hgScalingBonus = Math.pow(1.01, this.religion.getTU("holyGenocide").val * 2);
-		resProduction = resProduction * (1 + hgScalingBonus);
+		resProduction = resProduction * hgScalingBonus;
 
 		//resProduction = resProduction * (1 + this.getEffect("simScalingRatio"));
 		perTick += resProduction;

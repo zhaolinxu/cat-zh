@@ -797,14 +797,14 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		//TODO: test this
 		var scalingRatio = this.game.getLimitedDR(this.game.getEffect("simScalingRatio"), 1);
 		if (!scalingRatio){
-			return 0;
+			return 1;
 		}
 
 		return (1 / 
 			(
-				1 - (1 - this.game.getLimitedDR(this.game.getEffect("simScalingRatio"), 1)
+				(1 - scalingRatio)
 			)
-		)) + this.getTU("holyGenocide").val * 0.01;
+		) + this.game.getEffect("maxKittensRatio");
 	},
 
 	praise: function(){
