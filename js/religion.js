@@ -797,7 +797,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		//TODO: test this
 		var scalingRatio = this.game.getLimitedDR(this.game.getEffect("simScalingRatio"), 1);
 		if (!scalingRatio){
-			return 0;
+			return 1;
 		}
 
 		return (1 / 
