@@ -97,9 +97,11 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	setEffectsCachedExisting: function() {
 		// Set effectsCachedExisting based on meta
 		for (var a = 0; a < this.meta.length; a++){
-			for (var i = 0; i < this.meta[a].meta.length; i++){
-				for (var effect in this.meta[a].meta[i].effects) {
-					this.effectsCachedExisting[effect] = 0;
+			if (this.meta[a].meta){
+				for (var i = 0; i < this.meta[a].meta.length; i++){
+					for (var effect in this.meta[a].meta[i].effects) {
+						this.effectsCachedExisting[effect] = 0;
+					}
 				}
 			}
 		}
@@ -751,27 +753,27 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 	updateEnabled: function(){
 		if ( this.domNode ){
 			var hasClass = dojo.hasClass(this.domNode, "disabled");
+			var hasClassLimited = dojo.hasClass(this.domNode, "limited");
 			if (this.model.enabled){
 				if (hasClass){
 					dojo.removeClass(this.domNode, "disabled");
+				}
+				if (hasClassLimited){
+					dojo.removeClass(this.domNode, "limited");
 				}
 			} else {
 				if (!hasClass){
 					dojo.addClass(this.domNode, "disabled");
 				}
-			}
+				if (!hasClassLimited && this.model.resourceIsLimited){
+					dojo.addClass(this.domNode, "limited");
+				}
+			}			
 		}
-
-
-		if (!this.buttonTitle || !this.model.highlightUnavailable){
-			return;
-		}
-
 		//---------------------------------------------------
 		//		a bit hackish place for price highlight
 		//---------------------------------------------------
 		//---- now highlight some stuff in vanilla js way ---
-		this.buttonTitle.className = "btnTitle" + (this.model.resourceIsLimited ? " limited" : "");
 	},
 
 	update: function() {
@@ -2224,7 +2226,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", [com.nuclearunicorn.game.ui.Con
 
 		this.toggle = dojo.create("div", {
 			innerHTML: this.collapsed ? "+" : "-",
-			className: "toggle",
+			className: "toggle" + (this.collapsed ? " collapsed" : ""),
 			style: {
 				float: "right"
 			}
@@ -2263,6 +2265,12 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", [com.nuclearunicorn.game.ui.Con
 		this.toggle.innerHTML = isCollapsed ? "+" : "-";
 
 		this.onToggle(isCollapsed);
+		var hasClassCollapsed = dojo.hasClass(this.toggle, "collapsed");
+		if (isCollapsed && !hasClassCollapsed){
+			dojo.addClass(this.toggle, "collapsed");			
+		} else if (!isCollapsed && hasClassCollapsed) {
+			dojo.removeClass(this.toggle, "collapsed");			
+		}
 	},
 
 	onToggle: function(isCollapsed){
