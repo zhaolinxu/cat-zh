@@ -1890,7 +1890,7 @@
     "workshop.barges.label": "Barges",
     "workshop.barges.desc": "Harbors store more coal",
     "workshop.biofuel.label": "Biofuel Processing",
-    "workshop.biofuel.desc": "Bio Labs will convert catnip into oil",
+    "workshop.biofuel.desc": "Bio Labs will convert catnip into oil. Every Bio Lab will consume 1Wt/t.",
     "workshop.bolas.label": "Bolas",
     "workshop.bolas.desc": "Throwing weapon made of heavy stone weights. Your hunters are twice as effective",
     "workshop.bolas.flavor": "Weaponized yarn",
