@@ -4164,7 +4164,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	getResetPrestige: function(){
 		var kittens = Math.round(
-			this.resPool.get("kittens").value * ((this.game.village.maxKittensRatioApplied)?(1 + this.getEffect("simScalingRatio")):1)
+			this.resPool.get("kittens").value * ((this.village.maxKittensRatioApplied)?(1 + this.getEffect("simScalingRatio")):1)
 		);
 
 		var karmaKittens = this.karmaKittens;
