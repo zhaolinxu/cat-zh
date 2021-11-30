@@ -65,7 +65,7 @@
 
 		<script type="text/javascript">
 
-			var version = "1485";
+			var version = "1490";
 			var buildRevision = 0;
 
 			var loadingProgress = 0,
@@ -258,7 +258,7 @@
 
 					$('iframe#kiwiirc_iframe').attr(
 						'src', 
-						'https://kiwiirc.com/nextclient/?settings=98efrnr34rbd&nick=kitten_?'
+						'https://kiwiirc.com/client/irc.canternet.org/?nick=kitten_?#kittensgame'
 					);
 
 					var config = new classes.KGConfig();
@@ -329,7 +329,7 @@
 
 			<div id="topBar">
 				<div style="padding-left: 10px; min-width: 0px; max-width: 400px; overflow: hidden; text-overflow: ellipsis;">
-					Kittens Game 
+					<span class="gameTitle">Kittens Game </span>
 					<span style="font-size: small;">
 						by <a href="http://kittensgame.com/" class="copyright" target="_blank">bloodrizer</a>
 					</span>
@@ -706,6 +706,7 @@
 
 
 	  <script
+	  	async
 		type="text/javascript"
 		src="https://crowdin.com/js/crowdjet/crowdjet.js">
 	  </script>

@@ -254,14 +254,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		var celestialBonus = this.game.workshop.get("celestialMechanics").researched
 			? this.game.ironWill ? 1.6 : 1.2
 			: 1;
-
 		var sciBonus = 25 * celestialBonus * (1 + this.game.getEffect("scienceRatio"));
-		var sciGain = this.game.resPool.addResEvent("science", sciBonus);
-
 		var isSilent = this.game.workshop.get("seti").researched;
-		if (sciGain > 0 && !isSilent){
-			this.game.msg($I("calendar.msg.science", [this.game.getDisplayValueExt(sciGain)]), "", "astronomicalEvent", true);
-		}
 
 		if (this.game.science.get("astronomy").researched) {
 			var timeRatioBonus = 1 + this.game.getEffect("timeRatio") * 0.25;
@@ -273,11 +267,23 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			var starcharts = eventChance <= 1
 				? 1
 				: Math.floor(eventChance) + (this.game.rand(10000) < (eventChance - Math.floor(eventChance)) * 10000 ? 1 : 0);
+			sciBonus *= starcharts;
+			var sciGain = this.game.resPool.addResEvent("science", sciBonus);
 
+			if (sciGain > 0 && !isSilent){
+				this.game.msg($I("calendar.msg.science", [this.game.getDisplayValueExt(sciGain)]), "", "astronomicalEvent", true);
+			}
 			if (!isSilent) {
 				this.game.msg($I("calendar.msg.starchart", [starcharts]), "", "astronomicalEvent");
 			}
 			this.game.resPool.addResEvent("starchart", starcharts);
+		}
+		else{
+			var sciGain = this.game.resPool.addResEvent("science", sciBonus);
+
+			if (sciGain > 0 && !isSilent){
+				this.game.msg($I("calendar.msg.science", [this.game.getDisplayValueExt(sciGain)]), "", "astronomicalEvent", true);
+			}
 		}
 	},
 
@@ -499,16 +505,18 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.game.science.get("mining").researched){	//0.1% chance of meteors
 
 			var mineralsAmt = 50 + 25 * this.game.getEffect("mineralsRatio");
+			var minerologyBonus = this.game.getEffect("academyMeteorBonus");
 
 			if (this.game.ironWill){
 				mineralsAmt += mineralsAmt * 0.1;	//+10% of minerals for iron will
 			}
-
+			mineralsAmt *= 1 + minerologyBonus;
 			var mineralsGain = this.game.resPool.addResEvent("minerals", mineralsAmt);
 
 			var sciGain = 0;
 			if (this.game.workshop.get("celestialMechanics").researched) {
 				var sciBonus = 15 * (1 + this.game.getEffect("scienceRatio"));
+				sciBonus *= 1 + minerologyBonus;
 				sciGain = this.game.resPool.addResEvent("science", sciBonus);
 			}
 
@@ -552,7 +560,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				this.game.resPool.addResEvent("zebras", 1);
 				this.game.msg($I("calendar.msg.zebra.hunter"));
 			} else if ( zebras.value > 0 && zebras.value <= this.game.karmaZebras && this.game.karmaZebras > 0){
-				if (this.game.rand(100000) <= 500){
+				var chanceModifier = (this.game.workshop.getZebraUpgrade("darkBrew").researched && this.festivalDays)?
+				2 + this.game.getEffect("festivalArrivalRatio") : 1; //bigger chance for zebras to arive after darkBrew is researched
+				if (this.game.rand(100000) <= 500 * chanceModifier){
 					this.game.resPool.addResEvent("zebras", 1);
 					this.game.msg($I("calendar.msg.zebra.hunter.new"));
 					this.game.ui.render();

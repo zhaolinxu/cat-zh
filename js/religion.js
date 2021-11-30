@@ -18,11 +18,22 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 	alicornCounter: 0,
 
+	//the amount of currently active HG buildings (typically refils during reset)
+	activeHolyGenocide: 0,
+
 	constructor: function(game){
 		this.game = game;
 		this.registerMeta("stackable", this.zigguratUpgrades, null);
 		this.registerMeta("stackable", this.religionUpgrades, null);
-		this.registerMeta("stackable", this.transcendenceUpgrades, null);
+		this.registerMeta(/*"stackable"*/false, this.transcendenceUpgrades, {
+			getEffect: function(bld, effectName){
+				var effectValue = bld.effects[effectName] || 0;
+				if (bld.name == "holyGenocide"){
+					return effectValue * game.religion.activeHolyGenocide;
+				}
+				return effectValue * bld.on;
+			}
+		});
 		this.setEffectsCachedExisting();
 	},
 
@@ -56,6 +67,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			corruption: this.corruption,
 			faithRatio: this.faithRatio,
 			transcendenceTier: this.transcendenceTier,
+			activeHolyGenocide: this.activeHolyGenocide,
+
 			// Duplicated save, for older versions like mobile
 			tcratio: this._getTranscendTotalPrice(this.transcendenceTier),
 			zu: this.filterMetadata(this.zigguratUpgrades, ["name", "val", "on", "unlocked"]),
@@ -69,18 +82,22 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			return;
 		}
 
-		this.faith = saveData.religion.faith || 0;
-		this.corruption = saveData.religion.corruption || 0;
-		this.faithRatio = saveData.religion.faithRatio || 0;
-		this.transcendenceTier = saveData.religion.transcendenceTier || 0;
+		var _data = saveData.religion;
+
+		this.faith = _data.faith || 0;
+		this.corruption = _data.corruption || 0;
+		this.faithRatio = _data.faithRatio || 0;
+		this.transcendenceTier = _data.transcendenceTier || 0;
+		this.activeHolyGenocide = _data.activeHolyGenocide || 0;
+
 		// Read old save
-		if (this.transcendenceTier == 0 && saveData.religion.tcratio > 0) {
-			this.transcendenceTier = Math.max(0, Math.round(Math.log(10 * this.game.getUnlimitedDR(saveData.religion.tcratio, 0.1))));
+		if (this.transcendenceTier == 0 && _data.tcratio > 0) {
+			this.transcendenceTier = Math.max(0, Math.round(Math.log(10 * this.game.getUnlimitedDR(_data.tcratio, 0.1))));
 		}
 
-		this.loadMetadata(this.zigguratUpgrades, saveData.religion.zu);
-		this.loadMetadata(this.religionUpgrades, saveData.religion.ru);
-		this.loadMetadata(this.transcendenceUpgrades, saveData.religion.tu);
+		this.loadMetadata(this.zigguratUpgrades, _data.zu);
+		this.loadMetadata(this.religionUpgrades, _data.ru);
+		this.loadMetadata(this.transcendenceUpgrades, _data.tu);
 
 		for (var i = 0; i < this.transcendenceUpgrades.length; i++){
 			var tu = this.transcendenceUpgrades[i];
@@ -730,7 +747,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		},
 		unlocked: false,
 		flavor: $I("religion.tu.darkNova.flavor")
-	},{
+	},
+		//pacts can go to the TT23
+	{
 		name: "holyGenocide",
 		label: $I("religion.tu.holyGenocide.label"),
 		description: $I("religion.tu.holyGenocide.desc"),
@@ -741,6 +760,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		tier: 25,
 		priceRatio: 1.15,
 		effects: {
+			"maxKittensRatio": 0.01,
+			"simScalingRatio": 0.02
 		},
 		unlocked: false,
 		unlocks: {
@@ -772,6 +793,20 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		return this.game.getUnlimitedDR(this.faithRatio, 0.1) * 0.1;
 	},
 
+	getHGScalingBonus: function(){
+		//TODO: test this
+		var scalingRatio = this.game.getLimitedDR(this.game.getEffect("simScalingRatio"), 1);
+		if (!scalingRatio){
+			return 1;
+		}
+
+		return (1 / 
+			(
+				(1 - scalingRatio)
+			)
+		) + this.game.getEffect("maxKittensRatio");
+	},
+
 	praise: function(){
 		var faith = this.game.resPool.get("faith");
 		this.faith += faith.value * (1 + this.getApocryphaBonus()); //starting up from 100% ratio will work surprisingly bad
@@ -790,7 +825,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 
 	resetFaith: function(bonusRatio, withConfirmation) {
-		if (withConfirmation) {
+		if (withConfirmation && !this.game.opts.noConfirm) {
 			var self = this;
 			this.game.ui.confirm("", $I("religion.adore.confirmation.msg"), function() {
 				self._resetFaithInternal(bonusRatio);

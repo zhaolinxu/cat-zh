@@ -128,7 +128,7 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 			 * Known offenders that folks still use
 			 */
 			window.newrelic.setErrorHandler(function (err) {
-				self.achievements.unlockBadge("ghostInTheMachine");
+				self.game.achievements.unlockBadge("ghostInTheMachine");
 
 				if (self.errorCount >= 100){
 					return true;
@@ -202,6 +202,11 @@ dojo.declare("classes.game.Server", null, {
 	 */
 	userProfile: null,
 	chiral: null,
+
+	/**
+	 * When was the last time save was uploaded to the cloud. (Unix timestamp)
+	 */
+	lastBackup: null,
 
 	/**
 	 * Current client snapshot of the save data
@@ -304,6 +309,8 @@ dojo.declare("classes.game.Server", null, {
 	pushSave: function(){
 		var self = this,
 			game = this.game;
+
+		game.lastBackup = new Date().getTime();
 
 		var saveData = this.game.save();
 		this._xhr("/kgnet/save/upload/", "POST", 
@@ -1517,6 +1524,15 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			"cathPollutionRatio":{
 				title:  $I("effectsMgr.statics.pollutionRatio.title"),
 				type: "ratio"
+			},
+            //zebra workshop upgrades
+            "zebraPreparations": {
+                title: $I("effectsMgr.statics.zebraPreparations.title"),
+                type: "fixed"
+			},
+			"academyMeteorBonus": {
+                title: $I("effectsMgr.statics.academyMeteorBonus.title"),
+                type: "ratio"
 			}
 		}
 	}
@@ -1640,6 +1656,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	//should this go to the res pool?
 	winterCatnipPerTick: 0,
+
+	//====== Feature Flags =======
+
+	//a quick way of disabling particular feature on mainline/beta without maintaining boolean flags in the code
+	//there is still no simple way to figure out on WHICH branch we are, especially on local, but we can parse URL
+
+	featureFlags: {
+		VILLAGE_MAP: {
+			beta: true,
+			main: false
+		}
+	},
 
 	constructor: function(containerId){
 		this.id = containerId;
@@ -1805,6 +1833,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.timer.addEvent(dojo.hitch(this, function(){ this.ui.checkForUpdates(); }), ONE_MIN * 5);	//check new version every 5 min
 
 		this.effectsMgr = new com.nuclearunicorn.game.EffectsManager(this);
+	},
+
+	getFeatureFlag: function(flagId){
+		var host = window.location.hostname;
+		var isLocalhost = window.location.protocol == "file:" || host == "localhost" || host == "127.0.0.1";
+
+		if (isLocalhost){
+			return true;
+		}
+
+		var isBeta = (window.location.href.indexOf("beta") >= 0);
+		return this.featureFlags[flagId][isBeta ? "beta" : "main"];
 	},
 
 	//update winter catnip consumption for the UI every 5-10 seconds to avoid calculating it every tick
@@ -2044,6 +2084,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			cheatMode: this.cheatMode,
 
 			opts : this.opts,
+			lastBackup: this.lastBackup
 		};
 
 		var saveDataString = JSON.stringify(saveData);
@@ -2209,6 +2250,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.cheatMode = (data.cheatMode !== undefined) ? data.cheatMode : false;
 
 			this.isCMBREnabled = (data.isCMBREnabled !== undefined) ? data.isCMBREnabled : true;	//true for all existing games
+			this.lastBackup = data.lastBackup || new Date().getTime();
 
 			// ora ora
 			if (data.opts) {
@@ -2809,13 +2851,22 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// +VILLAGE JOB PRODUCTION
 		var resMapProduction = this.village.getResProduction();
 		var resProduction = resMapProduction[res.name] ? resMapProduction[res.name] : 0;
+		
+		// +HOLY GENOCIDE SCALING BONUS
 
+		//TODO: calculate prod scaling effect differently for HG
+		var hgScalingBonus = this.religion.getHGScalingBonus();
+		
+		//var hgScalingBonus = Math.pow(1.01, this.religion.getTU("holyGenocide").val * 2);
+		resProduction = resProduction * hgScalingBonus;
+
+		//resProduction = resProduction * (1 + this.getEffect("simScalingRatio"));
 		perTick += resProduction;
 
 		// +VILLAGE JOB PRODUCTION (UPGRADE EFFECTS JOBS)
 		var workshopResRatio = this.getEffect(res.name + "JobRatio");
-
 		perTick += resProduction * workshopResRatio;
+
 
 		// +*BEFORE PRODUCTION BOOST (UPGRADE EFFECTS GLOBAL)
 		perTick *= 1 + this.getEffect(res.name + "GlobalRatio");
@@ -2999,12 +3050,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		// +VILLAGE JOB PRODUCTION
 		var resMapProduction = this.village.getResProduction();
+		var hgScalingBonus = this.religion.getHGScalingBonus();
 		var villageStack = [];
 		//---->
 				villageStack.push({
 					name: $I("res.stack.village"),
 					type: "fixed",
 					value: resMapProduction[res.name] || 0
+				});
+				villageStack.push({
+					name: $I("res.stack.holyGenocide"),
+					type: "ratio",
+					value: hgScalingBonus
 				});
 				villageStack.push({
 					name: $I("res.stack.tools"),
@@ -3731,6 +3788,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	getDisplayValueExt: function(value, prefix, usePerTickHack, precision, postfix){
 
 		if(!value){ return "0"; }
+		if (value === Infinity) {
+			return "∞";
+		}
 
 		usePerTickHack &= this.opts.usePerSecondValues;
 		if (usePerTickHack) {
@@ -4102,8 +4162,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		return bonusZebras;
 	},
 
-	_resetInternal: function(){
-		var kittens = this.resPool.get("kittens").value;
+	getResetPrestige: function(){
+		var kittens = Math.round(
+			this.resPool.get("kittens").value * (1 + this.getEffect("simScalingRatio"))
+		);
+
 		var karmaKittens = this.karmaKittens;
 		if (kittens > 35){
 			karmaKittens += this._getKarmaKittens(kittens);
@@ -4113,6 +4176,17 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (kittens > 70){
 			paragonPoints = (kittens - 70);
 		}
+		return {
+			karmaKittens: karmaKittens,
+			paragonPoints: paragonPoints
+		};
+	},
+
+	_resetInternal: function(){
+		var _prestige = this.getResetPrestige();
+
+		var karmaKittens = _prestige.karmaKittens,
+			paragonPoints = _prestige.paragonPoints;
 
 		var addRes = {
 			"paragon": paragonPoints
@@ -4297,6 +4371,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			religion: {
 				transcendenceTier: this.religion.transcendenceTier,
 				faithRatio: faithRatio,
+				activeHolyGenocide: this.religion.getTU("holyGenocide").val,
 				zu: [],
 				ru: [],
 				tu: this.religion.filterMetadata(this.religion.transcendenceUpgrades, ["name", "val", "on", "unlocked"])
@@ -4331,7 +4406,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			workshop: {
 				hideResearched: this.workshop.hideResearched,
 				upgrades: [],
-				crafts: []
+				crafts: [],
+				zebraUpgrades: []
 			},
 			achievements: lsData.achievements,
 			ach: lsData.ach,
@@ -4350,6 +4426,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		// Hack to prevent an autosave from occurring before the reload completes
 		this.isPaused = true;
+
+		return saveData;
 	},
 
 	//TO BE USED EXTERNALLY
@@ -4435,6 +4513,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return this.workshop.getCraft(unlockId);
 			case "upgrades":
 				return this.workshop.get(unlockId);
+			case "zebraUpgrades":
+				return this.workshop.getZebraUpgrade(unlockId);
 			case "tabs":
 				return this.getTab(unlockId);
 			case "buildings":
@@ -4461,6 +4541,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return this.challenges.getChallenge(unlockId);
 			case "schemes":
 				return unlockId;
+			case "biomes":
+				return this.village.getBiome(unlockId);
 		}
 	},
 

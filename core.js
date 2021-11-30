@@ -97,9 +97,11 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	setEffectsCachedExisting: function() {
 		// Set effectsCachedExisting based on meta
 		for (var a = 0; a < this.meta.length; a++){
-			for (var i = 0; i < this.meta[a].meta.length; i++){
-				for (var effect in this.meta[a].meta[i].effects) {
-					this.effectsCachedExisting[effect] = 0;
+			if (this.meta[a].meta){
+				for (var i = 0; i < this.meta[a].meta.length; i++){
+					for (var effect in this.meta[a].meta[i].effects) {
+						this.effectsCachedExisting[effect] = 0;
+					}
 				}
 			}
 		}
@@ -382,6 +384,11 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 			},
 			"faith": {
 				title: $I("console.filter.faith"),
+				enabled: true,
+				unlocked: false
+			},
+			"elders": {
+				title: $I("console.filter.elders"),
 				enabled: true,
 				unlocked: false
 			}
@@ -751,27 +758,27 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 	updateEnabled: function(){
 		if ( this.domNode ){
 			var hasClass = dojo.hasClass(this.domNode, "disabled");
+			var hasClassLimited = dojo.hasClass(this.domNode, "limited");
 			if (this.model.enabled){
 				if (hasClass){
 					dojo.removeClass(this.domNode, "disabled");
+				}
+				if (hasClassLimited){
+					dojo.removeClass(this.domNode, "limited");
 				}
 			} else {
 				if (!hasClass){
 					dojo.addClass(this.domNode, "disabled");
 				}
-			}
+				if (!hasClassLimited && this.model.resourceIsLimited){
+					dojo.addClass(this.domNode, "limited");
+				}
+			}			
 		}
-
-
-		if (!this.buttonTitle || !this.model.highlightUnavailable){
-			return;
-		}
-
 		//---------------------------------------------------
 		//		a bit hackish place for price highlight
 		//---------------------------------------------------
 		//---- now highlight some stuff in vanilla js way ---
-		this.buttonTitle.className = "btnTitle" + (this.model.resourceIsLimited ? " limited" : "");
 	},
 
 	update: function() {
@@ -1252,13 +1259,8 @@ ButtonModernHelper = {
 		if (model.tooltipName) {
 			dojo.create("div", {
 				innerHTML: model.name,
-				className: "tooltip-divider",
-				style: {
-					textAlign: "center",
-					width: "100%",
-					borderBottom: "1px solid gray",
-					paddingBottom: "4px"
-			}}, tooltip);
+				className: "tooltip-divider"
+			}, tooltip);
 		}
 
 		// description
@@ -1299,7 +1301,7 @@ ButtonModernHelper = {
 			dojo.style(descDiv, "paddingBottom", "8px");
 
 			// prices
-			if (prices){
+			if (prices && prices.length){
 				dojo.style(descDiv, "borderBottom", "1px solid gray");
 				ButtonModernHelper.renderPrices(tooltip, model);	//simple prices
 			}
@@ -1413,8 +1415,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 		dojo.addClass(this.domNode, "modern");
 
 		this.renderLinks();
-
-		this.attachTooltip(dojo.partial(ButtonModernHelper.getTooltipHTML, this.controller, this.model));
+		this.attachTooltip(dojo.partial(this.getTooltipHTML(), this.controller, this.model));
 
 		this.buttonContent.title = "";	//no old title for modern buttons :V
 
@@ -1428,6 +1429,10 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 					this.game.clearSelectedObject();
 				}));
 		}
+	},
+
+	getTooltipHTML: function(){
+		return ButtonModernHelper.getTooltipHTML;
 	},
 
 	attachTooltip: function(htmlProvider) {
@@ -1992,6 +1997,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 				this.game.ironWill = false;
 				var liberty = this.game.science.getPolicy("liberty");
 				liberty.calculateEffects(liberty, this.game);
+				var zebraOutpostMeta = this.game.bld.getBuildingExt("zebraOutpost").meta;
+				zebraOutpostMeta.calculateEffects(zebraOutpostMeta, this.game);
 			}
 
 			if (meta.unlocks) {
@@ -2225,7 +2232,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", [com.nuclearunicorn.game.ui.Con
 
 		this.toggle = dojo.create("div", {
 			innerHTML: this.collapsed ? "+" : "-",
-			className: "toggle",
+			className: "toggle" + (this.collapsed ? " collapsed" : ""),
 			style: {
 				float: "right"
 			}
@@ -2264,6 +2271,12 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", [com.nuclearunicorn.game.ui.Con
 		this.toggle.innerHTML = isCollapsed ? "+" : "-";
 
 		this.onToggle(isCollapsed);
+		var hasClassCollapsed = dojo.hasClass(this.toggle, "collapsed");
+		if (isCollapsed && !hasClassCollapsed){
+			dojo.addClass(this.toggle, "collapsed");			
+		} else if (!isCollapsed && hasClassCollapsed) {
+			dojo.removeClass(this.toggle, "collapsed");			
+		}
 	},
 
 	onToggle: function(isCollapsed){
