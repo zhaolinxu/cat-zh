@@ -291,7 +291,16 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 		kitten.job = null;
 	},
-
+	calculateSimMaxKittens: function(){
+		var maxKittensRatio = this.game.getEffect("maxKittensRatio");
+		if(!maxKittensRatio){
+			return this.maxKittens;
+		}
+		var hgImmuneMaxKittens = Math.max(2, this.game.time.getVSU("usedCryochambers").val);
+		var withRatioMaxKittens = Math.round(this.maxKittens * (1 - this.game.getLimitedDR(maxKittensRatio, 1)));
+		this.maxKittensRatioApplied = (hgImmuneMaxKittens < withRatioMaxKittens);
+		return (this.maxKittensRatioApplied)? withRatioMaxKittens : Math.min(this.maxKittens, hgImmuneMaxKittens);
+	},
 	update: function(){
 		//calculate kittens
 		var kittensPerTick = this.kittensPerTickBase * (1 + this.game.getEffect("kittenGrowthRatio"));
@@ -307,7 +316,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		}
 
 		var maxKittensRatio = this.game.getEffect("maxKittensRatio");
-		this.sim.maxKittens = Math.round(this.maxKittens * (1 - this.game.getLimitedDR(maxKittensRatio, 1)));
+		this.sim.maxKittens = this.calculateSimMaxKittens();
+		//this.sim.maxKittens = Math.round(this.maxKittens * (1 - this.game.getLimitedDR(maxKittensRatio, 1)));
 		//todo: consider discarding extra population, but DO account for disabled buildings like space stations
 		//likely the best way to do it is once, upon HG upgrade
 
@@ -378,7 +388,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			kittensPerTick = kittensPerTick * (2 + this.game.getEffect("festivalArrivalRatio"));
 		}
 
-		this.sim.maxKittens = this.maxKittens;
+		this.sim.maxKittens = this.calculateSimMaxKittens();
 		this.sim.update(kittensPerTick, times);
 	},
 

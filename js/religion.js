@@ -796,13 +796,13 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	getHGScalingBonus: function(){
 		//TODO: test this
 		var scalingRatio = this.game.getLimitedDR(this.game.getEffect("simScalingRatio"), 1);
-		if (!scalingRatio){
+		if (!scalingRatio || !this.game.village.maxKittensRatioApplied){
 			return 1;
 		}
 
-		return (1 / 
+		return (1 /
 			(
-				(1 - this.game.getLimitedDR(this.game.getEffect("maxKittensRatio")))
+				(1 - this.game.getLimitedDR(this.game.getEffect("maxKittensRatio"), 1))
 			)
 		) *(1 + scalingRatio);
 	},

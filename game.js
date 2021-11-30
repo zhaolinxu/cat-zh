@@ -3050,7 +3050,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		// +VILLAGE JOB PRODUCTION
 		var resMapProduction = this.village.getResProduction();
-		var hgScalingBonus = this.religion.getHGScalingBonus();
+		var hgScalingBonus = this.religion.getHGScalingBonus() - 1;
 		var villageStack = [];
 		//---->
 				villageStack.push({
@@ -4164,7 +4164,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	getResetPrestige: function(){
 		var kittens = Math.round(
-			this.resPool.get("kittens").value * (1 + this.getEffect("simScalingRatio"))
+			this.resPool.get("kittens").value * ((this.game.village.maxKittensRatioApplied)?(1 + this.getEffect("simScalingRatio")):1)
 		);
 
 		var karmaKittens = this.karmaKittens;
