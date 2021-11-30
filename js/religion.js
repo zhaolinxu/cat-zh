@@ -802,9 +802,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 		return (1 / 
 			(
-				(1 - this.game.getLimitedDR(this.game.getEffect("simScalingRatio"), 1)
+				(1 - scalingRatio)
 			)
-		)) + this.activeHolyGenocide * 0.01;
+		) + this.game.getEffect("maxKittensRatio");
 	},
 
 	praise: function(){
