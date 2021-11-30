@@ -23,7 +23,6 @@ var address = '1HDV6VEnXH9m8PJuT4eQD7v8jRnucbneaq';
 var game = null;
 var i18ng = null;
 var lang = 'en';
-var hunt;
 
 var run = function() {
 
@@ -243,7 +242,7 @@ var run = function() {
             'summary.show': 'Show activity',
         },
         'zh': {
-            'option.observe': '观测天文事件',
+            'option.observe': '观测天文现象',
             'option.festival': '举办节日',
             'option.praise': '赞美太阳',
             'option.shipOverride': '强制贸易船',
@@ -264,14 +263,14 @@ var run = function() {
             'filter.praise': '赞美太阳',
             'filter.faith': '太阳教团',
             'filter.festival': '节日',
-            'filter.star': '天文事件',
+            'filter.star': '天文现象',
             'filter.misc': '杂项',
 
             'dispose.necrocorn': '小猫处理掉了影响效率的多余死灵兽',
             'blackcoin.buy': '小猫出售遗物并买入 {0} 黑币',
             'blackcoin.sell': '小猫出售黑币并买入了 {0} 遗物',
             'act.feed': '小猫向上古神献上祭品。上古神很高兴',
-            'act.observe': '小猫珂学家观测到一颗流星',
+            'act.observe': '小猫珂学家观测到一次天文现象',
             'act.hunt': '派出 {0} 波小猫去打猎',
             'act.build': '小猫建造了一个 {0}',
             'act.builds': '小猫建造了 {1} 个新的 {0}',
@@ -335,7 +334,7 @@ var run = function() {
 
             'ui.faith.addtion': '功能',
             'option.faith.best.unicorn': '优先最佳独角兽建筑',
-            'option.faith.best.unicorn.desc': '当眼泪不够建造最佳独角兽建筑时也会自动献祭独角兽',
+            'option.faith.best.unicorn.desc': '当眼泪不够建造最佳独角兽建筑时，会自动献祭独角兽',
             'option.faith.transcend': '自动最佳次元超越',
             'act.transcend': '消耗 {0} 顿悟，达到超越 {1}',
             'summary.transcend': '超越了 {0} 次',
@@ -785,6 +784,7 @@ var run = function() {
                 // Trades can be limited to only happen during specific seasons. This is because trades with certain races
                 // are more effective during specific seasons.
                 // The *allowcapped* property allows us to trade even if the sold resources are at their cap.
+                render: false,
                 items: {
                     dragons:    {enabled: true,  require: 'titanium',    allowcapped: false,    limited: true,
                         summer:  true,  autumn:  true,  winter:  true,          spring:      true},
@@ -1032,14 +1032,14 @@ var run = function() {
             if (buildRe || worshipRe || spaceRe || chronoRe || miscRe)                      {game.ui.render();}
             if (options.auto.timeCtrl.enabled && options.auto.timeCtrl.items.reset.enabled) {await this.reset();}
         },
-        halfInterval: async function() {
+        halfInterval: async function () {
             return new Promise(() => {
-                hunt = setTimeout(()=> {
-                    this.hunt();
-                }, Math.floor(options.interval / 2));
+                    setTimeout(() => {
+                        this.hunt();
+                    }, Math.floor(options.interval / 2))
             });
         },
-        setHunt: async function() {
+        setHunt: async function () {
             await this.halfInterval();
         },
         reset: async function () {
@@ -1417,7 +1417,7 @@ var run = function() {
                 var unlocked = game.village.jobs[i].unlocked;
                 var enabled = options.auto.distribute.items[name].enabled;
                 var maxGame = game.village.getJobLimit(name);
-                var maxKS = options.auto.distribute.items[name].max;
+                var maxKS = (options.auto.distribute.items[name].max === -1) ? Number.MAX_VALUE : options.auto.distribute.items[name].max;
                 var val = game.village.jobs[i].value;
                 var limited = options.auto.distribute.items[name].limited;
                 if (unlocked && enabled && val < maxGame && (!limited || val < maxKS)) {
@@ -2193,7 +2193,6 @@ var run = function() {
             }
         },
         hunt: function () {
-            clearTimeout(hunt);
             var manpower = this.craftManager.getResource('manpower');
             if (manpower.value < 100 || game.challenges.isActive("pacifism")) {return;}
 
@@ -2225,7 +2224,9 @@ var run = function() {
             var trades = [];
             var requireTrigger = options.auto.trade.trigger;
 
-            tradeManager.manager.render();
+            if (options.auto.trade.render) {
+                tradeManager.manager.render();
+            }
 
             if (!tradeManager.singleTradePossible(undefined)) {return;}
 
@@ -2241,6 +2242,10 @@ var run = function() {
                 var race = tradeManager.getRace(name);
                 if (!race.unlocked) {continue;}
                 var button = tradeManager.getTradeButton(race.name);
+                if (!button) {
+                    options.auto.trade.render = true;
+                    continue;
+                }
                 if (!button.model.enabled) {
                     button.controller.updateEnabled(button.model);
                     continue;
