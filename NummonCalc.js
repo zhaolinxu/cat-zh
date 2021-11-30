@@ -309,6 +309,9 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         var autoChance = this.game.getEffect("starAutoSuccessChance") * 100;
         if(this.game.prestige.getPerk("astromancy").researched)
             autoChance *= 2;
+        if (game.ironWill) {
+            autoChane = Math.min(26, autoChance);
+        }
         autoChance = Math.round(autoChance);
         if(autoChance > 100 || this.game.workshop.get("seti").researched)
             autoChance = 100;
