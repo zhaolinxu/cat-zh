@@ -1174,6 +1174,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             
             if (buildRevision > self.game.telemetry.buildRevision){
                 $("#newVersion").toggle(true);
+                self.game.msg("有新版本，可以点击右上角更新按钮。");
             }
         });
     }
