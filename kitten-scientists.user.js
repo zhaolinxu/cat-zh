@@ -379,6 +379,7 @@ var run = function() {
             'distribute.unlimited': '分配 {0} 不受限',
             'distribute.makeLeader': '分配领袖',
             'act.distribute': '分配一只猫猫成为 {0}',
+            'act.distribute.catnip': '珂学家担心你的猫猫没有猫薄荷吸并强制分配到农民',
             'act.distributeLeader': '分配一只 {0} 猫猫领袖',
             'ui.max.set': '设置 {0} 的最大值',
             'summary.distribute': '帮助 {0} 只猫猫找到工作',
@@ -1403,6 +1404,7 @@ var run = function() {
             var catnipValue = game.resPool.get("catnip").value - (1700 * game.village.happiness * game.resPool.get("kittens").value);
             if (this.craftManager.getPotentialCatnip(false, pastures, aqueducts) < 0 && game.science.get("agriculture").researched && catnipValue < 0 && game.resPool.get("catnip").value <= game.resPool.get("catnip").maxValue) {
                 game.village.assignJob(game.village.getJob("farmer"), 1);
+                iactivity('act.distribute.catnip', [], 'ks-distribute');
                 iactivity('act.distribute', [i18n('$village.job.' + "farmer")], 'ks-distribute');
                 storeForSummary('distribute', 1);
                 this.villageManager.render();
@@ -1707,7 +1709,9 @@ var run = function() {
                 } else {
                     var model = buildManager.getBuildButton(name, build.variant).model;
                     var panel = (build.variant === 'c') ? game.science.get('cryptotheology').researched : true;
-                    //if (!model.enabled) {buildManager.getBuildButton(name, build.variant).controller.updateEnabled(model);}
+                    if (model.visible && !model.enabled && (!model.metadata.noStackable || model.metadata.noStackable === true && model.metadata.on == 0)) {
+                        buildManager.getBuildButton(name, build.variant).controller.updateEnabled(model);
+                    }
                     metaData[name].rHidden = !(model.visible && model.enabled && panel);
                 }
             }
@@ -1722,11 +1726,7 @@ var run = function() {
                 }
             }
 
-            if (refreshRequired) {
-                return true;
-            } else {
-                return false;
-            }
+            return refreshRequired;
         },
         chrono: function () {
             var refreshRequired = false;
