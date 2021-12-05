@@ -1507,16 +1507,10 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         unlocked: false,
         blocked: false,
         blocks:["terraformingInsight"],
-		upgrades: {
-			challenges: ["postApocalypse"]
-		},
 		onResearch: function(game){
 			//single use policy
 			game.time.getVSU("usedCryochambers").val += 1;
 			game.time.getVSU("usedCryochambers").on += 1;
-			game.science.getPolicy("cryochamberExtraction").researched = false;
-			game.science.getPolicy("cryochamberExtraction").unlocked = false;
-			game.science.getPolicy("terraformingInsight").unlocked = false;
 		}
     }, {
         name: "terraformingInsight",
