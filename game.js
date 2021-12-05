@@ -1533,6 +1533,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			"academyMeteorBonus": {
                 title: $I("effectsMgr.statics.academyMeteorBonus.title"),
                 type: "ratio"
+			},
+			"activeHG":{
+				title: $I("effectsMgr.statics.activeHG.title"),
+				type: "fixed",
+				calculation: "constant"
+
 			}
 		}
 	}
@@ -4164,7 +4170,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	getResetPrestige: function(){
 		var kittens = Math.round(
-			this.resPool.get("kittens").value * ((this.village.maxKittensRatioApplied)?(1 + this.getEffect("simScalingRatio")):1)
+			this.resPool.get("kittens").value * (1 + this.getEffect("simScalingRatio"))
+			//this.resPool.get("kittens").value * ((this.village.maxKittensRatioApplied)?(1 + this.getEffect("simScalingRatio")):1)
 		);
 
 		var karmaKittens = this.karmaKittens;
@@ -4371,7 +4378,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			religion: {
 				transcendenceTier: this.religion.transcendenceTier,
 				faithRatio: faithRatio,
-				activeHolyGenocide: this.religion.getTU("holyGenocide").val,
+				activeHolyGenocide: this.religion.getTU("holyGenocide").on,
 				zu: [],
 				ru: [],
 				tu: this.religion.filterMetadata(this.religion.transcendenceUpgrades, ["name", "val", "on", "unlocked"])

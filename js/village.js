@@ -296,10 +296,12 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		if(!maxKittensRatio){
 			return this.maxKittens;
 		}
-		var hgImmuneMaxKittens = Math.max(2, this.game.time.getVSU("usedCryochambers").val);
+		var withRatioMaxKittens = Math.round(this.maxKittens * (1 - this.game.getLimitedDR(maxKittensRatio, 1)));
+		return withRatioMaxKittens;
+		/*var hgImmuneMaxKittens = 2;//Math.max(2, this.game.time.getVSU("usedCryochambers").val);
 		var withRatioMaxKittens = Math.round(this.maxKittens * (1 - this.game.getLimitedDR(maxKittensRatio, 1)));
 		this.maxKittensRatioApplied = (hgImmuneMaxKittens <= withRatioMaxKittens);
-		return (this.maxKittensRatioApplied)? withRatioMaxKittens : Math.min(this.maxKittens, hgImmuneMaxKittens);
+		return (this.maxKittensRatioApplied)? withRatioMaxKittens : Math.min(this.maxKittens, hgImmuneMaxKittens);*/
 	},
 	update: function(){
 		//calculate kittens
