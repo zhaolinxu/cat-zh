@@ -427,9 +427,13 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 	 */
 	applyPending: function(isIronWillPending){
 		var game = this.game;
+		var winterAndPA = (game.challenges.getChallenge("postApocalypse").pending && 
+			game.challenges.getChallenge("winterIsComing").pending &&
+			!isIronWillPending && game.time.getVSU("cryochambers").val);
+		var WPA_warning = $I("challendge.btn.confirmation_postApocalypse_winterIsComing.msg");
 		game.ui.confirm(
 			$I("challendge.btn.confirmation.title"), 
-			$I("challendge.btn.confirmation.msg"), function() 
+			((winterAndPA)? ($I("challendge.btn.confirmation.msg") + WPA_warning) :$I("challendge.btn.confirmation.msg")), function() 
 		{
 			// Reset with any benefit of chronosphere (resources, kittens, etc...)
 			// Should put resources and kittens to reserve HERE!
