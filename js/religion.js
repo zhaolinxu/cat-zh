@@ -761,12 +761,17 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		priceRatio: 1.15,
 		effects: {
 			"maxKittensRatio": 0.01,
-			"simScalingRatio": 0.02
+			"simScalingRatio": 0.02,
+			"activeHG": 0
 		},
 		unlocked: false,
 		unlocks: {
 			challenges: ["postApocalypse"]
 		},
+		calculateEffects: function(self, game){
+			self.effects["activeHG"] = game.religion.activeHolyGenocide;
+		},
+		togglable: true,
 		flavor: $I("religion.tu.holyGenocide.flavor")
 	}
 		//Holy Memecide
@@ -796,7 +801,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	getHGScalingBonus: function(){
 		//TODO: test this
 		var scalingRatio = this.game.getLimitedDR(this.game.getEffect("simScalingRatio"), 1);
-		if (!scalingRatio || !this.game.village.maxKittensRatioApplied){
+		if (!scalingRatio /*|| !this.game.village.maxKittensRatioApplied*/){
 			return 1;
 		}
 

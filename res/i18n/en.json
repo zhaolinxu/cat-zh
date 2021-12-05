@@ -331,6 +331,7 @@
 
     "effectsMgr.statics.academyMeteorBonus.title": "Meteor production bonus",
     "effectsMgr.statics.acceleratorRatio.title": "Accelerator expansion",
+    "effectsMgr.statics.activeHG.title": "Active",
     "effectsMgr.statics.aiCoreProductivity.title": "AI core productivity",
     "effectsMgr.statics.aiCoreUpgradeBonus.title" : "AI core synergies bonuses",
     "effectsMgr.statics.aiLevel.title": "AI Level",
