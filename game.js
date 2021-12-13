@@ -1515,6 +1515,10 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			"policyFakeBought":{
 				title: $I("effectsMgr.statics.policyFakeBought.title")
 			},
+			"mausoleumBonus":{
+				title: $I("effectsMgr.statics.mausoleumBonus.title"),
+				type: "ratio"
+			},
 			//pacts
             "pactsAvailable":{
 				title: $I("effectsMgr.statics.pactsAvailable.title"),

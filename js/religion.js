@@ -845,10 +845,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		//pacts can go to the TT23
 	{
 		name: "mausoleum",
-		//label: $I("religion.tu.mausoleum.label"),
-		//description: $I("religion.tu.mausoleum.desc"),
-		label: "Mausoleum",
-		description: "Venerate kittens of the past. Adds available pacts.",
+		label: $I("religion.tu.mausoleum.label"),
+		description: $I("religion.tu.mausoleum.desc"),
 		tier: 23,
 		priceRatio: 1.15,
 		prices: [
