@@ -1083,6 +1083,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		upgrades: {
 			transcendenceUpgrades:["mausoleum"]
 		},
+		unlocks: {
+			pacts: ["pactOfCleansing", "pactOfDestruction",  "pactOfExtermination", "pactOfPurity"]
+		},
 		unlocked: false,
 		blocked: false,
 		blocks:["transkittenism", "necrocracy"]
