@@ -870,7 +870,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			self.effects = {
 				"pactsAvailable": 1 + game.getEffect("mausoleumBonus")
 			};
-			if(game.religion.getPact("fractured").on>=1){
+			if(game.religion.getPact("fractured").on >= 1){
 				self.effects["pactsAvailable"] = 0;
 			}
 			game.updateCaches();
@@ -1035,7 +1035,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 				"pyramidGlobalResourceRatio" : -0.5,
 				"pyramidGlobalProductionRatio" : -0.5,
 				"pyramidFaithRatio" : -0.5,
+				"pactsAvailable": 0,
 			},
+			limitBuild: 1,
 			special: true,
 			unlocked: false,
 			calculateEffects: function(self, game){
@@ -1047,6 +1049,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 					}
 					self.val = 1;
 					self.on = 1;
+					//self.effects["pactsAvailable"] = -game.getEffect("pactsAvailable");
 				}
 			}
 		}
@@ -1061,7 +1064,14 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		}
 		this.game.religion.getPact("fractured").on = 1;
 		this.game.religion.getPact("fractured").val = 1;
-		this.game.religion.getPact("fractured").calculateEffects(this.game.religion.getPact("fractured"), this.game);
+		this.game.upgrade(
+			{
+				transcendenceUpgrades:["mausoleum"],
+				policies:["radicalXenophobia"],
+				pacts:["fractured"]
+			}
+		)
+		//this.game.religion.getPact("fractured").calculateEffects(this.game.religion.getPact("fractured"), this.game);
 		this.game.religion.necrocornDeficit = 0;
 		this.game.msg($I("msg.pacts.fractured", [Math.round(100 * this.game.resPool.get("alicorn").value)/100]),"alert", "ai");
 		this.game.resPool.get("alicorn").value = 0;

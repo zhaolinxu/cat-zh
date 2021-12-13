@@ -1083,6 +1083,12 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		upgrades: {
 			transcendenceUpgrades:["mausoleum"]
 		},
+		calculateEffects: function (self, game){
+			if(game.religion.getPact("fractured").on >= 1){
+				self.effects["pactsAvailable"] = 0;
+			}
+			game.updateCaches();
+		},
 		unlocks: {
 			pacts: ["pactOfCleansing", "pactOfDestruction",  "pactOfExtermination", "pactOfPurity"]
 		},
