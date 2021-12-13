@@ -139,7 +139,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		}
 		this.getZU("blackPyramid").updateEffects(this.getZU("blackPyramid"), this.game);
 		console.log("pactsAdjustment");
-		if(!this.getPact("fractured").researched && this.getZU("blackPyramid").val > 0 && (game.religion.getTU("mausoleum").val > 0 || game.science.getPolicy("radicalXenophobia").researched)){
+		if(!this.getPact("fractured").researched && this.getZU("blackPyramid").val > 0 && (this.game.religion.getTU("mausoleum").val > 0 || this.game.science.getPolicy("radicalXenophobia").researched)){
 			this.game.unlock({
 				pacts: ["pactOfCleansing", "pactOfDestruction",  "pactOfExtermination", "pactOfPurity"]
 			});
@@ -1068,7 +1068,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 				policies:["radicalXenophobia"],
 				pacts:["fractured"]
 			}
-		)
+		);
 		//this.game.religion.getPact("fractured").calculateEffects(this.game.religion.getPact("fractured"), this.game);
 		this.game.religion.necrocornDeficit = 0;
 		this.game.msg($I("msg.pacts.fractured", [Math.round(100 * this.game.resPool.get("alicorn").value)/100]),"alert", "ai");
