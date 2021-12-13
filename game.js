@@ -1515,6 +1515,56 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			"policyFakeBought":{
 				title: $I("effectsMgr.statics.policyFakeBought.title")
 			},
+			//pacts
+            "pactsAvailable":{
+				title: $I("effectsMgr.statics.pactsAvailable.title"),
+				type: "fixed"
+			},
+            "kittensKarmaPerMinneliaRatio":{
+				title: $I("effectsMgr.statics.kittensKarmaPerMinneliaRatio.pact.title"),
+				type: "ratio"
+			},
+            "necrocornPerDay":{
+				title: $I("effectsMgr.statics.necrocornPerDay.pact.title"),
+				type: "perDay"
+			},
+            "pactGlobalResourceRatio":{
+				title: $I("effectsMgr.statics.pactGlobalResourceRatio.title"),
+				type: "ratio"
+			},
+            "pactGlobalProductionRatio":{
+				title: $I("effectsMgr.statics.pactGlobalProductionRatio.title"),
+				type: "ratio"
+			},
+            "pactFaithRatio":{
+				title: $I("effectsMgr.statics.pactFaithRatio.title"),
+				type: "ratio"
+			},
+			"pyramidGlobalResourceRatio":{
+				title: $I("effectsMgr.statics.pyramidGlobalResourceRatio.title"),
+				type: "ratio"
+			},
+			"pyramidGlobalProductionRatio":{
+				title: $I("effectsMgr.statics.pyramidGlobalProductionRatio.title"),
+				type: "ratio"
+			},
+			"deficitRecoveryRatio":{
+				title: $I("effectsMgr.statics.deficitRecoveryRatio.title"),
+				type: "ratio"
+			},
+			"pyramidFaithRatio":{
+				title: $I("effectsMgr.statics.pyramidFaithRatio.title"),
+				type: "ratio"
+			},
+			"pactBlackLibraryBoost":{
+				title: $I("effectsMgr.statics.pactBlackLibraryBoost.title"),
+				type: "ratio"
+			},
+			"pactDeficitRecoveryRatio":{
+				title: $I("effectsMgr.statics.pactDeficitRecoveryRatio.title"),
+				type: "ratio"
+			},
+			//pollution
 			"cathPollutionPerTickProd":{
 				type: "hidden"
 			},
@@ -2985,7 +3035,22 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// +POLICY EFFECTS
 
 		//necrocracy global effect
-		perTick *= (1 + (this.resPool.get("sorrow").value * this.getEffect("blsProductionBonus"))); 
+		perTick *= (1 + (this.resPool.get("sorrow").value * this.getEffect("blsProductionBonus")));
+		//pact Global Production Ratio- effect from pacts per pyramid
+		var pyramidGlobalProductionRatio = this.getEffect("pyramidGlobalProductionRatio");
+		/*if(pyramidGlobalProductionRatio < 0){
+			pyramidGlobalProductionRatio = -this.getLimitedDR(-pyramidGlobalProductionRatio * 1000, 950)/1000
+		}*/
+		perTick *= 1 + pyramidGlobalProductionRatio;
+
+		//pyramid faith ratio
+		if(res.name=="faith"){
+			var pyramidFaithRatio = this.getEffect("pyramidFaithRatio");
+			if(pyramidFaithRatio < 0){
+				pyramidFaithRatio = -this.getLimitedDR(-pyramidFaithRatio * 1000, 950)/1000;
+			}
+			perTick *= 1 + pyramidFaithRatio;
+		}
 		//policy ratio effects
 		perTick *= (1 + this.getEffect(res.name + "PolicyRatio"));
 
@@ -3225,6 +3290,26 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
                 type: "ratio",
                 value: this.getEffect("blsProductionBonus") * this.resPool.get("sorrow").value,
             });
+		}
+		var pyramidGlobalProductionRatio = this.getEffect("pyramidGlobalProductionRatio");
+		if(pyramidGlobalProductionRatio < 0){
+			pyramidGlobalProductionRatio = -this.getLimitedDR(-pyramidGlobalProductionRatio * 1000, 950)/1000;
+		}
+		stack.push({
+			name: $I("res.stack.destruction"),
+			type: "ratio",
+			value: pyramidGlobalProductionRatio
+		});
+		var pyramidFaithRatio = this.getEffect("pyramidFaithRatio");
+		if(pyramidFaithRatio < 0){
+			pyramidFaithRatio = -this.getLimitedDR(-pyramidFaithRatio * 1000, 950)/1000;
+		}
+		if(res.name == "faith"){
+			stack.push({
+                name: $I("res.stack.extermination"),
+				type: "ratio",
+				value: pyramidFaithRatio
+			});
 		}
 		// +*POLICY
 		stack.push({
@@ -4501,6 +4586,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			zigguratUpgrades: this.religion.zigguratUpgrades.map(function(item){return item.name;}),
 			religion: this.religion.religionUpgrades.map(function(item){return item.name;}),
 			transcendenceUpgrades: this.religion.transcendenceUpgrades.map(function(item){return item.name;}),
+			pacts: this.religion.pacts.map(function(item){return item.name;}),
 			challenges: this.challenges.challenges.map(function(item){return item.name;})
 		});
 		this.upgrade({policies: ["authocracy"]});
@@ -4544,6 +4630,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return this.religion.getRU(unlockId);
 			case "transcendenceUpgrades":
 				return this.religion.getTU(unlockId);
+			case "pacts":
+				return this.religion.getPact(unlockId);
 			case "challenges":
 				return this.challenges.getChallenge(unlockId);
 			case "schemes":
@@ -4841,7 +4929,44 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	isEldermass: function(){
 		var date = new Date();
 		return (date.getMonth() == 11 && date.getDate() >= 15  && date.getDate() <= 31);
-	}
+	},
+	createRandomName: function(lenConst, charPool) {
+		if(!charPool) {
+			charPool = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■◆◆åœ∑ß≈ç∂´®ƒ√∫©†¥˙˜µ∆¨ˆ˚µ≤¬øπ≥…π“æ÷æ«§¡™£¢∞§¶•ªº≠"; //◆ 
+		}
+		var nameLength = Math.floor(Math.random() * 6 + 5);
+		if(lenConst) {
+			nameLength = lenConst - 1;
+		}
+		var name = "";
+		for (var i = 0; i <= nameLength; i++){
+			name += charPool[Math.floor(Math.random() * charPool.length)];
+		}
+		return name;
+	},
 
+	createRandomVarietyAndColor: function(ch1, ch2){
+		if(ch1 == null) {
+			ch1 = 10;
+		}
+		if(ch2 == null) {
+			ch2 = 10;
+		}
+		function rand(ratio){
+			return (Math.floor(Math.random() * ratio));
+		}
+		var color = 0;
+		var variety = 0;
+		//10% of chance to generate one of 6 primary colors (rare colors TBD)
+		if (rand(100) <= ch1){
+			color = rand(6) + 1;
+
+			//10% of chance of colored cat to be one of 5 rare varieties (dual, tabby, torbie, calico, spots)
+			if (rand(100) <= ch2){
+				variety = rand(4) + 1;
+			}
+		}
+		return [color, variety];
+	}
 });
 

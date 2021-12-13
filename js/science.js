@@ -1077,7 +1077,11 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "culture", val: 1500000}
 		],
 		effects:{
-			"holyGenocideBonus" : 1
+			"mausoleumBonus" : 1,
+			"pactsAvailable" : 5
+		},
+		upgrades: {
+			transcendenceUpgrades:["mausoleum"]
 		},
 		unlocked: false,
 		blocked: false,

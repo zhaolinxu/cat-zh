@@ -574,7 +574,14 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 				value: this.game.religion.faithRatio,
 				unlocked: true,
 				visible: false
-			}
+			},
+			{
+				name: "necrocornDeficit",
+				title: $I("resources.necrocornDeficit.title"),
+				value: this.game.religion.necrocornDeficit,
+				unlocked: true,
+				visible: false,
+				color: "#E00000"}
 		];
 		//TODO: mixin unlocked and visible automatically
 	},
@@ -826,7 +833,14 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		if (!this.isNormalCraftableResource(res) && !res.transient) {
 			maxValue *= 1 + this.game.getEffect("globalResourceRatio");
 		}
-
+		//pacts effect
+		if (!this.isNormalCraftableResource(res) && !res.transient) {
+			var pyramidModifier = this.game.getEffect("pyramidGlobalResourceRatio");
+			/*if(pyramidModifier < 0){
+				pyramidModifier = -this.game.getLimitedDR(-pyramidModifier * 1000, 1000)/1000
+			}*/
+			maxValue *= 1 + pyramidModifier;
+		}
 		if (res.tag == "baseMetal") {
 			maxValue *= 1 + this.game.getEffect("baseMetalMaxRatio");
 		}

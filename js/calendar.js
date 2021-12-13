@@ -452,7 +452,28 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			//------------------------- relic -------------------------
 			this.game.resPool.addResPerTick("relic", this.game.getEffect("relicPerDay"));
 		}
+		//------------------------- necrocorns pacts -------------------------
+		//deficit changing
+		var necrocornDeficitRepaymentModifier = 1;
+		var necrocornPerDay = this.game.getEffect("necrocornPerDay");
+		if(this.game.religion.necrocornDeficit>0){
+			necrocornDeficitRepaymentModifier = 1 + 0.15 * (1 + this.game.getEffect("deficitRecoveryRatio")/2);
+		}
+		if((this.game.resPool.get("necrocorn").value + necrocornPerDay* necrocornDeficitRepaymentModifier ) < 0){
+			this.game.religion.necrocornDeficit += Math.max(-necrocornPerDay - this.game.resPool.get("necrocorn").value, 0);
+			necrocornDeficitRepaymentModifier = 1;
+		}else if(this.game.religion.necrocornDeficit>0){
+			this.game.religion.necrocornDeficit += necrocornPerDay *(0.15 *(1 + this.game.getEffect("deficitRecoveryRatio")));
+			this.game.religion.necrocornDeficit = Math.max(this.game.religion.necrocornDeficit, 0);
+		}
+		this.game.resPool.addResPerTick("necrocorn", necrocornPerDay * necrocornDeficitRepaymentModifier);
+		this.game.religion.getZU("blackPyramid").updateEffects(this.game.religion.getZU("blackPyramid"), this.game);
+		this.game.religion.getPact("payDebt").onNewDay(this.game);
 
+		//-------------------------  paying the price -------------------------
+		if(this.game.religion.necrocornDeficit>=this.game.religion.fractureNecrocornDeficit){
+			this.game.religion.payThePrice();
+		}
 		//------------------------- astronomical events -------------------------
 		if (this.game.bld.get("library").on > 0) {
 			var eventChance = (0.0025 + this.game.getEffect("starEventChance")) * chanceRatio;
@@ -753,6 +774,21 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		beacons.action(beacons, this.game);
 		this.game.updateCaches();
 		this.game.resPool.addResPerTick("relic", this.game.getEffect("relicPerDay") * daysOffset);
+		//------------------------- necrocorns pacts -------------------------
+		//deficit changing
+		var necrocornDeficitRepaymentModifier = 1;
+		var necrocornPerDay = this.game.getEffect("necrocornPerDay");
+		if(this.game.religion.necrocornDeficit>0){
+			necrocornDeficitRepaymentModifier = 1 + 0.15 * (1 + this.game.getEffect("deficitRecoveryRatio")/2);
+		}
+		if((this.game.resPool.get("necrocorn").value + necrocornPerDay * daysOffset * necrocornDeficitRepaymentModifier) < 0){
+			this.game.religion.necrocornDeficit += Math.max(-necrocornPerDay * daysOffset - this.game.resPool.get("necrocorn").value, 0);
+			necrocornDeficitRepaymentModifier = 1;
+		}else if(this.game.religion.necrocornDeficit>0){
+			this.game.religion.necrocornDeficit += necrocornPerDay *(0.15 * (1 + this.game.getEffect("deficitRecoveryRatio")) * daysOffset);
+			this.game.religion.necrocornDeficit = Math.max(this.game.religion.necrocornDeficit, 0);
+		}
+		this.game.resPool.addResPerTick("necrocorn", necrocornPerDay * necrocornDeficitRepaymentModifier);
 
 		//not sure if it is a good idea
 		//calculate amount of void earned on average per day, then multiply by days and percentage of time in paradox
@@ -788,6 +824,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			resPool.addResEvent("paragon", paragon);
 			this.game.stats.getStat("totalParagon").val += paragon;
 		}
+		this.mausoleumMilleniumKarma(paragon);
 		this.year += yearsOffset;
 		this.game.stats.getStat("totalYears").val += yearsOffset;
 		//------------------------------------------------------------------
@@ -863,6 +900,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	calculateMilleniumProduction: function(milleniums){
 		this.game.resPool.addResEvent("paragon", milleniums);
 		this.game.stats.getStat("totalParagon").val += milleniums;
+		this.mausoleumMilleniumKarma(milleniums);
 	},
 	onNewYears: function(updateUI, years, milleniumChangeCalculated) { // shouldn't be used for more than 5 years, or if you don't have years%50 == 0
 		if(years == 1){
@@ -948,6 +986,25 @@ if (++this.cycleYear >= this.yearsPerCycle) {
 			this.game.ui.render();
 		}
 	},
+	mausoleumMilleniumKarma: function(millenium){
+		//holy genocide karma effect
+		var kittens = this.game.resPool.get("kittens").value;
+		if (kittens > 35 && this.game.getEffect("pactsAvailable") > 0){
+			var oldKarmaKittens = this.game.karmaKittens;
+			var kittensKarmaPerMinneliaRatio = this.game.getEffect("kittensKarmaPerMinneliaRatio");
+			this.game.karmaKittens += millenium * this.game._getKarmaKittens(kittens) *
+				this.game.getUnlimitedDR(
+					kittensKarmaPerMinneliaRatio * 
+					Math.max(1 + 0.1 * this.game.religion.transcendenceTier - 25, 1)*
+					(this.game.getEffect("pactsAvailable"))
+				, 100);
+			var karmaOld = this.game.resPool.get("karma").value;
+			this.game.updateKarma();
+			console.log("produced " + String(this.game.resPool.get("karma").value - karmaOld) + " karma");
+			console.log("produced " + String(this.game.karmaKittens - oldKarmaKittens) + " karmaKittens"); //for testing purposes - comment over before merging into ML
+		}
+		return this.game.resPool.get("karma").value - karmaOld;
+	},
 	onNewYear: function(updateUI){
 
 		var ty = this.game.stats.getStat("totalYears");
@@ -968,6 +1025,10 @@ if (++this.cycleYear >= this.yearsPerCycle) {
 		if ( this.year % 1000 === 0 ){
 			this.game.resPool.addResEvent("paragon", 1);
 			this.game.stats.getStat("totalParagon").val++;
+			var kittens = this.game.resPool.get("kittens").value;
+
+			//holy genocide karma effect
+			this.mausoleumMilleniumKarma(1);
 		}
 
 		var pyramidVal = this.game.religion.getZU("blackPyramid").getEffectiveValue(this.game);
