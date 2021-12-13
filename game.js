@@ -3038,17 +3038,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		perTick *= (1 + (this.resPool.get("sorrow").value * this.getEffect("blsProductionBonus")));
 		//pact Global Production Ratio- effect from pacts per pyramid
 		var pyramidGlobalProductionRatio = this.getEffect("pyramidGlobalProductionRatio");
-		/*if(pyramidGlobalProductionRatio < 0){
-			pyramidGlobalProductionRatio = -this.getLimitedDR(-pyramidGlobalProductionRatio * 1000, 950)/1000
-		}*/
 		perTick *= 1 + pyramidGlobalProductionRatio;
 
 		//pyramid faith ratio
 		if(res.name=="faith"){
 			var pyramidFaithRatio = this.getEffect("pyramidFaithRatio");
-			if(pyramidFaithRatio < 0){
-				pyramidFaithRatio = -this.getLimitedDR(-pyramidFaithRatio * 1000, 950)/1000;
-			}
 			perTick *= 1 + pyramidFaithRatio;
 		}
 		//policy ratio effects
@@ -3292,18 +3286,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
             });
 		}
 		var pyramidGlobalProductionRatio = this.getEffect("pyramidGlobalProductionRatio");
-		if(pyramidGlobalProductionRatio < 0){
-			pyramidGlobalProductionRatio = -this.getLimitedDR(-pyramidGlobalProductionRatio * 1000, 950)/1000;
-		}
 		stack.push({
 			name: $I("res.stack.destruction"),
 			type: "ratio",
 			value: pyramidGlobalProductionRatio
 		});
 		var pyramidFaithRatio = this.getEffect("pyramidFaithRatio");
-		if(pyramidFaithRatio < 0){
-			pyramidFaithRatio = -this.getLimitedDR(-pyramidFaithRatio * 1000, 950)/1000;
-		}
 		if(res.name == "faith"){
 			stack.push({
                 name: $I("res.stack.extermination"),
