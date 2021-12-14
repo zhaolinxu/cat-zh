@@ -738,7 +738,20 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			upgrades: ["energyRifts", "lhc"]
+			// tech: ["artificialGravity"] -- see SPACE_EXPL feature flag
 		}
+	}, {
+		name: "artificialGravity",
+		label: $I("science.artificialGravity.label"),
+		description: $I("science.artificialGravity.desc"),
+		effectDesc: $I("science.artificialGravity.effectDesc"),
+		prices: [
+			{name : "science", val: 320000}
+		],
+		unlocks: {
+			upgrades: ["spiceNavigation", "longRangeSpaceships"]
+		},
+		flavor: $I("science.artificialGravity.flavor")
 	}, {
 		name: "chronophysics",
 		label: $I("science.chronophysics.label"),
@@ -1560,6 +1573,21 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         "environmentUnhappinessModifier" : 1
 	},
 	constructor: function(game){
+
+		// note: possible to unlock artificialGravity (and the continuation of
+		//	   the space exploration tech tree) iff SPACE_EXPL feature flag
+		//
+		if (game.getFeatureFlag("SPACE_EXPL")) {
+			for (var i = this.techs.length - 1; i >= 0; i--) {
+				if (this.techs[i].name == 'dimensionalPhysics') {
+					if (!this.techs[i].unlocks.tech) {
+						this.techs[i].unlocks.tech = ['artificialGravity'];
+					}
+					break;
+				}
+			}
+		}
+
 		this.game = game;
 		this.metaCache = {};
         this.registerMeta("research", this.techs, {
