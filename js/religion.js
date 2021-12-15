@@ -1669,10 +1669,10 @@ dojo.declare("classes.religion.pacts", null, {
 			unlocked: false,
 			calculateEffects: function(self, game){
 				if(self.on>=1){
-					for(var i = 0; i<game.religion.pacts.length; i++){
-						game.religion.pacts[i].on = 0;
-						game.religion.pacts[i].val = 0;
-						game.religion.pacts[i].unlocked = game.religion.pacts[i].name =="fractured";
+					for(var i = 0; i<game.religion.pactsManager.pacts.length; i++){
+						game.religion.pactsManager.pacts[i].on = 0;
+						game.religion.pactsManager.pacts[i].val = 0;
+						game.religion.pactsManager.pacts[i].unlocked = game.religion.pactsManager.pacts[i].name =="fractured";
 					}
 					self.val = 1;
 					self.on = 1;
