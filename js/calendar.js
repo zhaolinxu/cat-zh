@@ -816,7 +816,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			resPool.addResEvent("paragon", paragon);
 			this.game.stats.getStat("totalParagon").val += paragon;
 		}
-		this.mausoleumMilleniumKarma(paragon);
+		this.pactsMilleniumKarmaKittens(paragon);
 		this.year += yearsOffset;
 		this.game.stats.getStat("totalYears").val += yearsOffset;
 		//------------------------------------------------------------------
@@ -892,7 +892,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	calculateMilleniumProduction: function(milleniums){
 		this.game.resPool.addResEvent("paragon", milleniums);
 		this.game.stats.getStat("totalParagon").val += milleniums;
-		this.mausoleumMilleniumKarma(milleniums);
+		this.pactsMilleniumKarmaKittens(milleniums);
 	},
 	onNewYears: function(updateUI, years, milleniumChangeCalculated) { // shouldn't be used for more than 5 years, or if you don't have years%50 == 0
 		if(years == 1){
@@ -978,8 +978,14 @@ if (++this.cycleYear >= this.yearsPerCycle) {
 			this.game.ui.render();
 		}
 	},
-	mausoleumMilleniumKarma: function(millenium){
-		//holy genocide karma effect
+	pactsMilleniumKarmaKittens: function(millenium){
+		//pacts karma effect
+		/*
+		unspent pacts generate karma each 1000 years based on kitten numbers
+		pactsAvailable are created by mausoleum cryptotheology and radicalXenophobia
+		this function adds appropriate karmaKittens and returns change in karma; temporary logs karma generation
+		TODO: maybe make HG bonus play into this
+		*/
 		var kittens = this.game.resPool.get("kittens").value;
 		if (kittens > 35 && this.game.getEffect("pactsAvailable") > 0){
 			var oldKarmaKittens = this.game.karmaKittens;
@@ -1020,7 +1026,7 @@ if (++this.cycleYear >= this.yearsPerCycle) {
 			var kittens = this.game.resPool.get("kittens").value;
 
 			//holy genocide karma effect
-			this.mausoleumMilleniumKarma(1);
+			this.pactsMilleniumKarmaKittens(1);
 		}
 
 		var pyramidVal = this.game.religion.getZU("blackPyramid").getEffectiveValue(this.game);
