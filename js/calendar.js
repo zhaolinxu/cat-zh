@@ -427,6 +427,23 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		this.day = Math.round(this.day * 100) / 100;
 	},
 
+	necrocornConsumption: function(days){
+		//------------------------- necrocorns pacts -------------------------
+		//deficit changing
+		var necrocornDeficitRepaymentModifier = 1;
+		var necrocornPerDay = this.game.getEffect("necrocornPerDay");
+		if(this.game.religion.necrocornDeficit>0){
+			necrocornDeficitRepaymentModifier = 1 + 0.15 * (1 + this.game.getEffect("deficitRecoveryRatio")/2);
+		}
+		if((this.game.resPool.get("necrocorn").value + necrocornPerDay * days * necrocornDeficitRepaymentModifier) < 0){
+			this.game.religion.necrocornDeficit += Math.max(-necrocornPerDay * days - this.game.resPool.get("necrocorn").value, 0);
+			necrocornDeficitRepaymentModifier = 1;
+		}else if(this.game.religion.necrocornDeficit>0){
+			this.game.religion.necrocornDeficit += necrocornPerDay *(0.15 * (1 + this.game.getEffect("deficitRecoveryRatio")) * daysOffset);
+			this.game.religion.necrocornDeficit = Math.max(this.game.religion.necrocornDeficit, 0);
+		}
+		this.game.resPool.addResPerTick("necrocorn", necrocornPerDay * necrocornDeficitRepaymentModifier);
+	},
 	/*
 	 * All daily chances are in 1/10K units (OPTK) (0.0X%)
 	 */
@@ -454,25 +471,13 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 		//------------------------- necrocorns pacts -------------------------
 		//deficit changing
-		var necrocornDeficitRepaymentModifier = 1;
-		var necrocornPerDay = this.game.getEffect("necrocornPerDay");
-		if(this.game.religion.necrocornDeficit>0){
-			necrocornDeficitRepaymentModifier = 1 + 0.15 * (1 + this.game.getEffect("deficitRecoveryRatio")/2);
-		}
-		if((this.game.resPool.get("necrocorn").value + necrocornPerDay* necrocornDeficitRepaymentModifier ) < 0){
-			this.game.religion.necrocornDeficit += Math.max(-necrocornPerDay - this.game.resPool.get("necrocorn").value, 0);
-			necrocornDeficitRepaymentModifier = 1;
-		}else if(this.game.religion.necrocornDeficit>0){
-			this.game.religion.necrocornDeficit += necrocornPerDay *(0.15 *(1 + this.game.getEffect("deficitRecoveryRatio")));
-			this.game.religion.necrocornDeficit = Math.max(this.game.religion.necrocornDeficit, 0);
-		}
-		this.game.resPool.addResPerTick("necrocorn", necrocornPerDay * necrocornDeficitRepaymentModifier);
+		this.necrocornConsumption(1);
 		this.game.religion.getZU("blackPyramid").updateEffects(this.game.religion.getZU("blackPyramid"), this.game);
 		this.game.religion.getPact("payDebt").onNewDay(this.game);
 
-		//-------------------------  paying the price -------------------------
+		//-------------------------  consequenses of accumulating too much necrocorn deficit -------------------------
 		if(this.game.religion.necrocornDeficit>=this.game.religion.fractureNecrocornDeficit){
-			this.game.religion.payThePrice();
+			this.game.religion.necrocornDeficitPunishment();
 		}
 		//------------------------- astronomical events -------------------------
 		if (this.game.bld.get("library").on > 0) {
@@ -775,20 +780,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		this.game.updateCaches();
 		this.game.resPool.addResPerTick("relic", this.game.getEffect("relicPerDay") * daysOffset);
 		//------------------------- necrocorns pacts -------------------------
-		//deficit changing
-		var necrocornDeficitRepaymentModifier = 1;
-		var necrocornPerDay = this.game.getEffect("necrocornPerDay");
-		if(this.game.religion.necrocornDeficit>0){
-			necrocornDeficitRepaymentModifier = 1 + 0.15 * (1 + this.game.getEffect("deficitRecoveryRatio")/2);
-		}
-		if((this.game.resPool.get("necrocorn").value + necrocornPerDay * daysOffset * necrocornDeficitRepaymentModifier) < 0){
-			this.game.religion.necrocornDeficit += Math.max(-necrocornPerDay * daysOffset - this.game.resPool.get("necrocorn").value, 0);
-			necrocornDeficitRepaymentModifier = 1;
-		}else if(this.game.religion.necrocornDeficit>0){
-			this.game.religion.necrocornDeficit += necrocornPerDay *(0.15 * (1 + this.game.getEffect("deficitRecoveryRatio")) * daysOffset);
-			this.game.religion.necrocornDeficit = Math.max(this.game.religion.necrocornDeficit, 0);
-		}
-		this.game.resPool.addResPerTick("necrocorn", necrocornPerDay * necrocornDeficitRepaymentModifier);
+		this.necrocornConsumption(daysOffset);
 
 		//not sure if it is a good idea
 		//calculate amount of void earned on average per day, then multiply by days and percentage of time in paradox

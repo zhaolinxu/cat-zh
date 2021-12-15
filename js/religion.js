@@ -1053,7 +1053,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		}
 	],
 
-	payThePrice: function(){
+	necrocornDeficitPunishment: function(){
 		for(var kitten in this.game.village.sim.kittens){
 			var skills = this.game.village.sim.kittens[kitten].skills;
 			for(var job in skills){
