@@ -488,10 +488,10 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			for(var counter in self.simpleEffectNames){
 				self.effectsPreDeficit["pyramid" + self.simpleEffectNames[counter]] = game.getEffect("pact" + self.simpleEffectNames[counter]) * transcendenceTierModifier;
 			}
+			self.effectsPreDeficit["deficitRecoveryRatio"] = game.getEffect("pactDeficitRecoveryRatio");
 			var pactBlackLibraryBoost = game.getEffect("pactBlackLibraryBoost") * transcendenceTierModifier;
 			if(pactBlackLibraryBoost) {
 				var unicornGraveyard = game.religion.getZU("unicornGraveyard");
-				self.effectsPreDeficit["deficitRecoveryRatio"] = game.getEffect("pactDeficitRecoveryRatio") * transcendenceTierModifier;
 				self.effectsPreDeficit["blackLibraryBonus"] = pactBlackLibraryBoost * unicornGraveyard.effects["blackLibraryBonus"] * (1 + unicornGraveyard.on);
 			}
 		},
@@ -500,7 +500,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 				self.cashPreDeficitEffects(game);
 				self.jammed = true;
 			}
-			self.effects["deficitRecoveryRatio"] = self.effectsPreDeficit["pactDeficitRecoveryRatio"];
+			self.effects["deficitRecoveryRatio"] = self.effectsPreDeficit["deficitRecoveryRatio"];
 			//applying deficit
 			var deficiteModifier = (1 - game.religion.pactsManager.necrocornDeficit/50);
 			var existsDifference = false;
@@ -911,7 +911,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			}
 		);
 		//this.game.religion.getPact("fractured").calculateEffects(this.game.religion.getPact("fractured"), this.game);
-		this.game.religion.pactsManager.necrocornDeficit = 0;
+		this.game.religion.necrocornDeficit = 0;
 		this.game.msg($I("msg.pacts.fractured", [Math.round(100 * this.game.resPool.get("alicorn").value)/100]),"alert", "ai");
 		this.game.resPool.get("alicorn").value = 0;
 		var blackPyramid = this.game.religion.getZU("blackPyramid");
@@ -1395,8 +1395,9 @@ dojo.declare("classes.ui.PactsWGT", [mixin.IChildrenAware, mixin.IGameAware], {
 
 	render: function(container){
 		var div = dojo.create("div", null, container);
+		var span1 = dojo.create("span", {innerHTML: this.game.religion.pactsManager.getPactsTextSum()}, div);
 		var btnsContainer = dojo.create("div", null, div);
-		//var content = game.religionTab.ptPanel.render(container);
+		var span2 = dojo.create("span", {innerHTML: this.game.religion.pactsManager.getPactsTextDeficit()}, div);
 		this.inherited(arguments, [btnsContainer]);
 	},
 
@@ -1708,12 +1709,28 @@ dojo.declare("classes.religion.pacts", null, {
 	resetState: function(){
 		//console.warn(this)
 		//console.warn(this.game.religion.pactsManager)
-		console.warn(this.game.religion.pactsManager.pacts)
+		console.warn(this.game.religion.pactsManager.pacts);
 		for(var i in this.game.religion.pactsManager.pacts){
 			this.game.religion.pactsManager.pacts[i].on = 0;
 			this.game.religion.pactsManager.pacts[i].val = 0;
 			this.game.religion.pactsManager.pacts[i].unlocked = false;
 		}
+	},
+	getPactsTextSum: function(){
+		return $I("msg.pacts.info", [this.game.getEffect("pactsAvailable"), -this.game.getEffect("pactNecrocornConsumption")]);
+	},
+	getPactsTextDeficit: function(){
+		if(this.game.religion.pactsManager.necrocornDeficit > 0){
+			return $I("msg.necrocornDeficit.info", [Math.round(this.game.religion.pactsManager.necrocornDeficit * 10000)/10000, 
+				-Math.round(100*
+				((this.game.religion.pactsManager.necrocornDeficit/50))),
+				Math.round(10000*
+					(0.15 *(1 + this.game.getEffect("deficitRecoveryRatio")/2)))/100,
+					-Math.round((this.game.getEffect("necrocornPerDay") *(0.15 *(1 + this.game.getEffect("deficitRecoveryRatio"))))*1000000)/1000000
+				]);
+			}else{
+				return "";
+			}
 	}
 });
 dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.game.ui.tab, {
