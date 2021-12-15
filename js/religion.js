@@ -69,11 +69,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			tu.unlocked = false;
 			this.resetStateStackable(tu);
 		}
-		for (i = 0; i < this.pactsManager.pacts.length; i++){
-			var pact = this.pactsManager.pacts[i];
-			pact.unlocked = false;
-			this.resetStateStackable(pact);
-		}
+		this.pactsManager.resetState();
 	},
 
 	save: function(saveData){
@@ -1708,8 +1704,18 @@ dojo.declare("classes.religion.pacts", null, {
 	},
 	constructor: function(game){
 		this.game = game;
+	},
+	resetState: function(){
+		//console.warn(this)
+		//console.warn(this.game.religion.pactsManager)
+		console.warn(this.game.religion.pactsManager.pacts)
+		for(var i in this.game.religion.pactsManager.pacts){
+			this.game.religion.pactsManager.pacts[i].on = 0;
+			this.game.religion.pactsManager.pacts[i].val = 0;
+			this.game.religion.pactsManager.pacts[i].unlocked = false;
+		}
 	}
-})
+});
 dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.game.ui.tab, {
 
 	sacrificeBtn : null,
