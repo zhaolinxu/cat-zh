@@ -1634,13 +1634,15 @@ dojo.declare("classes.village.Map", null, {
 	save: function(){
 		return {
 			hqLevel: this.hqLevel,
-			energy: this.energy
+			energy: this.energy,
+			explorersLevel: this.explorersLevel
 		};
 	},
 
 	load: function(data){
 		this.hqLevel = data.hqLevel || 0;
 		this.energy = data.energy || 100;
+		this.explorersLevel = data.explorersLevel || 0;
 	}
 });
 
