@@ -439,7 +439,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.game.religion.necrocornDeficit += Math.max(-necrocornPerDay * days - this.game.resPool.get("necrocorn").value, 0);
 			necrocornDeficitRepaymentModifier = 1;
 		}else if(this.game.religion.necrocornDeficit>0){
-			this.game.religion.necrocornDeficit += necrocornPerDay *(0.15 * (1 + this.game.getEffect("deficitRecoveryRatio")) * daysOffset);
+			this.game.religion.necrocornDeficit += necrocornPerDay *(0.15 * (1 + this.game.getEffect("deficitRecoveryRatio")) * days);
 			this.game.religion.necrocornDeficit = Math.max(this.game.religion.necrocornDeficit, 0);
 		}
 		this.game.resPool.addResPerTick("necrocorn", necrocornPerDay * necrocornDeficitRepaymentModifier);
@@ -477,7 +477,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		//-------------------------  consequenses of accumulating too much necrocorn deficit -------------------------
 		if(this.game.religion.necrocornDeficit>=this.game.religion.fractureNecrocornDeficit){
-			this.game.religion.necrocornDeficitPunishment();
+			this.game.religion.pactsManager.necrocornDeficitPunishment();
 		}
 		//------------------------- astronomical events -------------------------
 		if (this.game.bld.get("library").on > 0) {

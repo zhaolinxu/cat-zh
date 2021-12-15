@@ -4,6 +4,7 @@
 dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabManager, {
 
 	game: null,
+	pactsManager: null,
 
 	//your TT level!
 	transcendenceTier: 0,
@@ -43,7 +44,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 				return effectValue * bld.on;
 			}
 		});
-		this.registerMeta("stackable", this.pacts, null);
+		this.pactsManager = new classes.religion.pacts(game);
+		this.registerMeta("stackable", this.pactsManager.pacts, null);
 		this.setEffectsCachedExisting();
 	},
 
@@ -69,8 +71,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			tu.unlocked = false;
 			this.resetStateStackable(tu);
 		}
-		for (i = 0; i < this.pacts.length; i++){
-			var pact = this.pacts[i];
+		for (i = 0; i < this.pactsManager.pacts.length; i++){
+			var pact = this.pactsManager.pacts[i];
 			pact.unlocked = false;
 			this.resetStateStackable(pact);
 		}
@@ -90,7 +92,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			zu: this.filterMetadata(this.zigguratUpgrades, ["name", "val", "on", "unlocked"]),
 			ru: this.filterMetadata(this.religionUpgrades, ["name", "val", "on"]),
 			tu: this.filterMetadata(this.transcendenceUpgrades, ["name", "val", "on", "unlocked"]),
-			pact: this.filterMetadata(this.pacts, ["name", "val", "on", "unlocked"])
+			pact: this.filterMetadata(this.pactsManager.pacts, ["name", "val", "on", "unlocked"])
 
 		};
 	},
@@ -117,7 +119,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		this.loadMetadata(this.zigguratUpgrades, _data.zu);
 		this.loadMetadata(this.religionUpgrades, _data.ru);
 		this.loadMetadata(this.transcendenceUpgrades, _data.tu);
-		this.loadMetadata(this.pacts, _data.pact);
+		this.loadMetadata(this.pactsManager.pacts, _data.pact);
 
 		for (var i = 0; i < this.transcendenceUpgrades.length; i++){
 			var tu = this.transcendenceUpgrades[i];
@@ -129,13 +131,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			}
 		}
 		//necrocorn deficit affecting 
-
-		var pacts = this.pacts;
-
+		var pacts = this.pactsManager.pacts;
 		for(var i = 0; i < pacts.length; i++){
-
 			pacts[i].calculateEffects(pacts[i], this.game);
-
 		}
 		this.getZU("blackPyramid").updateEffects(this.getZU("blackPyramid"), this.game);
 		console.log("pactsAdjustment");
@@ -483,7 +481,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		},
 		calculateEffects: function(self, game) {
 			self.togglable = false;
-			var pacts = game.religion.pacts;
+			var pacts = game.religion.pactsManager.pacts;
 			for(var i = 0; i < pacts.length; i++){
 				if(pacts[i].updatePreDeficitEffects){
 					pacts[i].updatePreDeficitEffects(game);
@@ -902,157 +900,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	},
 		//Holy Memecide
 	],
-	pacts: [
-		{
-			name: "pactOfCleansing",
-			label: $I("religion.pact.pactOfCleansing.label"),
-			description: $I("religion.pact.pactOfCleansing.desc"),
-			prices: [				
-				{ name : "relic", val: 100},
-			],
-			unlocks: {
-				//"pacts": ["pactOfFanaticism"]
-			},
-			priceRatio: 1,
-			effects: {
-				"pactsAvailable": -1,
-				"necrocornPerDay" : 0,
-				"pactDeficitRecoveryRatio": 0.003,
-				"pactGlobalResourceRatio" : 0.0005,
-				//"cathPollutionPerTickCon" : -5
-			},
-			unlocked: false,
-			calculateEffects: function(self, game){
-				self.effects["necrocornPerDay"] = game.getEffect("pactNecrocornConsumption");
-			}
-		},{
-			name: "pactOfDestruction",
-			label: $I("religion.pact.pactOfDestruction.label"),
-			description: $I("religion.pact.pactOfDestruction.desc"),
-			prices: [				
-				{ name : "relic", val: 100},
-			],
-			priceRatio: 1,
-			unlocks: {
-				//"pacts": ["pactOfGlowing"] will deal with this later
-			},
-			effects: {
-				"pactsAvailable": -1,
-				"necrocornPerDay": 0,
-				"pactDeficitRecoveryRatio": -0.0001,
-				"pactGlobalProductionRatio": 0.0005,
-				//"cathPollutionPerTickProd" : 10
-			},
-			unlocked: false,
-			calculateEffects: function(self, game){
-				self.effects["necrocornPerDay"] = game.getEffect("pactNecrocornConsumption");
-			}
-		},{
-			name: "pactOfExtermination",
-			label: $I("religion.pact.pactOfExtermination.label"),
-			description: $I("religion.pact.pactOfExtermination.desc"),
-			prices: [
-				{ name : "relic", val: 100},
-			],
-			priceRatio: 1.02,
-			effects: {
-				"pactsAvailable": -1,
-				"necrocornPerDay" : 0,
-				"pactFaithRatio": 0.001
-			},
-			unlocked: false,
-			calculateEffects: function(self, game){
-				self.effects["necrocornPerDay"] = game.getEffect("pactNecrocornConsumption");
-			}
-		},{
-			name: "pactOfPurity",
-			label: $I("religion.pact.pactOfPurity.label"),
-			description: $I("religion.pact.pactOfPurity.desc"),
-			prices: [
-				{ name : "relic", val: 100},
-			],
-			//unlocks: {
-				//"pacts": ["pactOfFlame", "pactOfFanaticism"]
-			//},
-			priceRatio: 1,
-			effects: {
-				"pactsAvailable": -1,
-				"necrocornPerDay": 0,
-				"pactDeficitRecoveryRatio": 0.005,
-				"pactBlackLibraryBoost": 0.0005,
-				//"cathPollutionPerTickCon" : -7
-			},
-			unlocked: false,
-			calculateEffects: function(self, game){
-				self.effects["necrocornPerDay"] = game.getEffect("pactNecrocornConsumption");
-				game.religion.getZU("blackPyramid").jammed = false;
-			}
-		},{
-			name: "payDebt",
-			label: $I("religion.pact.payDebt.label"),
-			description: $I("religion.pact.payDebt.desc"),
-			prices: [
-				{ name : "necrocorn", val: 0},
-			],
-			upgrades: {
-				pacts: ["payDebt"]
-			},
-			priceRatio: 1,
-			effects: {
-				"pactsAvailable": 0,
-			},
-			special: true,
-			unlocked: false,
-			calculateEffects: function(self, game){
-				self.onNewDay(game);
-				if(self.val > 0){
-					self.on = 0;
-					self.val = 0;
-					game.religion.necrocornDeficit = 0;
-					self.unlocked = false;
-				}
-			},
-			onNewDay: function(game){
-				var self = game.religion.getPact("payDebt");
-				self.prices[0].val = Math.ceil(game.religion.necrocornDeficit);
-				self.unlocked = this.evaluateLocks(game);
-			},
-			limitBuild: 1,
-			notAddDeficit: true,
-			evaluateLocks: function(game){
-				return game.religion.necrocornDeficit > 0;
-			},
-		},{
-			name: "fractured",
-			label: $I("religion.pact.fractured.label"),
-			description: $I("religion.pact.fractured.desc"),
-			prices: [
-				{ name : "catnip", val: 1 }
-			],
-			effects: {
-				"pyramidGlobalResourceRatio" : -0.5,
-				"pyramidGlobalProductionRatio" : -0.5,
-				"pyramidFaithRatio" : -0.5,
-				"pactsAvailable": 0,
-			},
-			limitBuild: 1,
-			special: true,
-			unlocked: false,
-			calculateEffects: function(self, game){
-				if(self.on>=1){
-					for(var i = 0; i<game.religion.pacts.length; i++){
-						game.religion.pacts[i].on = 0;
-						game.religion.pacts[i].val = 0;
-						game.religion.pacts[i].unlocked = game.religion.pacts[i].name =="fractured";
-					}
-					self.val = 1;
-					self.on = 1;
-					//self.effects["pactsAvailable"] = -game.getEffect("pactsAvailable");
-				}
-			}
-		}
-	],
-
 	necrocornDeficitPunishment: function(){
 		for(var kitten in this.game.village.sim.kittens){
 			var skills = this.game.village.sim.kittens[kitten].skills;
@@ -1098,7 +945,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		return this.getMeta(name, this.transcendenceUpgrades);
 	},
 	getPact: function(name){
-		return this.getMeta(name, this.pacts);
+		return this.getMeta(name, this.pactsManager.pacts);
 	},
 	getSolarRevolutionRatio: function() {
 		var uncappedBonus = this.getRU("solarRevolution").on ? this.game.getUnlimitedDR(this.faith, 1000) / 100 : 0;
@@ -1537,6 +1384,36 @@ dojo.declare("classes.ui.CryptotheologyPanel", com.nuclearunicorn.game.ui.Panel,
 	visible: false,
 });
 
+dojo.declare("classes.ui.PactsWGT", [mixin.IChildrenAware, mixin.IGameAware], {
+	constructor: function(game){
+		var self = this;
+		var controller = com.nuclearunicorn.game.ui.PactsBtnController(game);
+		dojo.forEach(game.religion.pactsManager.pacts, function(tu, i){
+			var button = new com.nuclearunicorn.game.ui.BuildingStackableBtn({
+				id: 		tu.name,
+				name: 		tu.label,
+				description: tu.description,
+				controller: controller
+			}, game);
+			self.addChild(button);
+		});
+	},
+
+	render: function(container){
+		var div = dojo.create("div", null, container);
+		var btnsContainer = dojo.create("div", null, div);
+		//var content = game.religionTab.ptPanel.render(container);
+		this.inherited(arguments, [btnsContainer]);
+	},
+
+	update: function(){
+		this.inherited(arguments);
+	}
+});
+dojo.declare("classes.ui.PactsPanel", com.nuclearunicorn.game.ui.Panel, {
+	visible: false
+});
+
 /**
  * A button controller for pacts upgrade
  */
@@ -1652,7 +1529,187 @@ dojo.declare("classes.ui.religion.RefineBtn", com.nuclearunicorn.game.ui.ButtonM
 	}
 });
 
-
+dojo.declare("classes.religion.pacts", null, {
+	game: null,
+	pacts: [
+		{
+			name: "pactOfCleansing",
+			label: $I("religion.pact.pactOfCleansing.label"),
+			description: $I("religion.pact.pactOfCleansing.desc"),
+			prices: [				
+				{ name : "relic", val: 100},
+			],
+			unlocks: {
+				//"pacts": ["pactOfFanaticism"]
+			},
+			priceRatio: 1,
+			effects: {
+				"pactsAvailable": -1,
+				"necrocornPerDay" : 0,
+				"pactDeficitRecoveryRatio": 0.003,
+				"pactGlobalResourceRatio" : 0.0005,
+				//"cathPollutionPerTickCon" : -5
+			},
+			unlocked: false,
+			calculateEffects: function(self, game){
+				self.effects["necrocornPerDay"] = game.getEffect("pactNecrocornConsumption");
+			}
+		},{
+			name: "pactOfDestruction",
+			label: $I("religion.pact.pactOfDestruction.label"),
+			description: $I("religion.pact.pactOfDestruction.desc"),
+			prices: [				
+				{ name : "relic", val: 100},
+			],
+			priceRatio: 1,
+			unlocks: {
+				//"pacts": ["pactOfGlowing"] will deal with this later
+			},
+			effects: {
+				"pactsAvailable": -1,
+				"necrocornPerDay": 0,
+				"pactDeficitRecoveryRatio": -0.0001,
+				"pactGlobalProductionRatio": 0.0005,
+				//"cathPollutionPerTickProd" : 10
+			},
+			unlocked: false,
+			calculateEffects: function(self, game){
+				self.effects["necrocornPerDay"] = game.getEffect("pactNecrocornConsumption");
+			}
+		},{
+			name: "pactOfExtermination",
+			label: $I("religion.pact.pactOfExtermination.label"),
+			description: $I("religion.pact.pactOfExtermination.desc"),
+			prices: [
+				{ name : "relic", val: 100},
+			],
+			priceRatio: 1.02,
+			effects: {
+				"pactsAvailable": -1,
+				"necrocornPerDay" : 0,
+				"pactFaithRatio": 0.001
+			},
+			unlocked: false,
+			calculateEffects: function(self, game){
+				self.effects["necrocornPerDay"] = game.getEffect("pactNecrocornConsumption");
+			}
+		},{
+			name: "pactOfPurity",
+			label: $I("religion.pact.pactOfPurity.label"),
+			description: $I("religion.pact.pactOfPurity.desc"),
+			prices: [
+				{ name : "relic", val: 100},
+			],
+			//unlocks: {
+				//"pacts": ["pactOfFlame", "pactOfFanaticism"]
+			//},
+			priceRatio: 1,
+			effects: {
+				"pactsAvailable": -1,
+				"necrocornPerDay": 0,
+				"pactDeficitRecoveryRatio": 0.005,
+				"pactBlackLibraryBoost": 0.0005,
+				//"cathPollutionPerTickCon" : -7
+			},
+			unlocked: false,
+			calculateEffects: function(self, game){
+				self.effects["necrocornPerDay"] = game.getEffect("pactNecrocornConsumption");
+				game.religion.getZU("blackPyramid").jammed = false;
+			}
+		},{
+			name: "payDebt",
+			label: $I("religion.pact.payDebt.label"),
+			description: $I("religion.pact.payDebt.desc"),
+			prices: [
+				{ name : "necrocorn", val: 0},
+			],
+			upgrades: {
+				pacts: ["payDebt"]
+			},
+			priceRatio: 1,
+			effects: {
+				"pactsAvailable": 0,
+			},
+			special: true,
+			unlocked: false,
+			calculateEffects: function(self, game){
+				self.onNewDay(game);
+				if(self.val > 0){
+					self.on = 0;
+					self.val = 0;
+					game.religion.necrocornDeficit = 0;
+					self.unlocked = false;
+				}
+			},
+			onNewDay: function(game){
+				var self = game.religion.getPact("payDebt");
+				self.prices[0].val = Math.ceil(game.religion.necrocornDeficit);
+				self.unlocked = this.evaluateLocks(game);
+			},
+			limitBuild: 1,
+			notAddDeficit: true,
+			evaluateLocks: function(game){
+				return game.religion.necrocornDeficit > 0;
+			},
+		},{
+			name: "fractured",
+			label: $I("religion.pact.fractured.label"),
+			description: $I("religion.pact.fractured.desc"),
+			prices: [
+				{ name : "catnip", val: 1 }
+			],
+			effects: {
+				"pyramidGlobalResourceRatio" : -0.5,
+				"pyramidGlobalProductionRatio" : -0.5,
+				"pyramidFaithRatio" : -0.5,
+				"pactsAvailable": 0,
+			},
+			limitBuild: 1,
+			special: true,
+			unlocked: false,
+			calculateEffects: function(self, game){
+				if(self.on>=1){
+					for(var i = 0; i<game.religion.pacts.length; i++){
+						game.religion.pacts[i].on = 0;
+						game.religion.pacts[i].val = 0;
+						game.religion.pacts[i].unlocked = game.religion.pacts[i].name =="fractured";
+					}
+					self.val = 1;
+					self.on = 1;
+				}
+			}
+		}
+	],
+	necrocornDeficitPunishment: function(){
+		for(var kitten in this.game.village.sim.kittens){
+			var skills = this.game.village.sim.kittens[kitten].skills;
+			for(var job in skills){
+				skills[job] = 0;
+			}
+		}
+		this.game.religion.getPact("fractured").on = 1;
+		this.game.religion.getPact("fractured").val = 1;
+		this.game.upgrade(
+			{
+				transcendenceUpgrades:["mausoleum"],
+				policies:["radicalXenophobia"],
+				pacts:["fractured"]
+			}
+		);
+		//this.game.religion.getPact("fractured").calculateEffects(this.game.religion.getPact("fractured"), this.game);
+		this.game.religion.necrocornDeficit = 0;
+		this.game.msg($I("msg.pacts.fractured", [Math.round(100 * this.game.resPool.get("alicorn").value)/100]),"alert", "ai");
+		this.game.resPool.get("alicorn").value = 0;
+		var blackPyramid = this.game.religion.getZU("blackPyramid");
+		for (var i in blackPyramid.effectsPreDeficit){
+			blackPyramid.effectsPreDeficit[i] = 0;
+		}
+		this.game.religion.getZU("blackPyramid").updateEffects(this.game.religion.getZU("blackPyramid"), this.game);
+	},
+	constructor: function(game){
+		this.game = game;
+	}
+})
 dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.game.ui.tab, {
 
 	sacrificeBtn : null,
@@ -1676,6 +1733,14 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		var wgt = new classes.ui.CryptotheologyWGT(this.game);
 		wgt.setGame(this.game);
 		ctPanel.addChild(wgt);
+
+		var ptPanel = new classes.ui.PactsPanel("Pacts");
+		ptPanel.game = this.game;
+		this.addChild(ptPanel);
+		this.ptPanel = ptPanel;
+		var wgtP = new classes.ui.PactsWGT(this.game);
+		wgtP.setGame(this.game);
+		ptPanel.addChild(wgtP);
 	},
 
 	render: function(container) {
@@ -1858,16 +1923,16 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 				}
 				this.rUpgradeButtons.push(button);
 			}
-		}
-		if (zigguratCount > 0 && (game.religion.getTU("mausoleum").val > 0 || game.science.getPolicy("radicalXenophobia").researched) && game.religion.getZU("blackPyramid").val > 0){
-			//var pactsPanel = new com.nuclearunicorn.game.ui.Panel($I("religion.panel.orderOfTheSun.label"), game.religion);
+		}/////pacts PANEL 1234
+		/*if (zigguratCount > 0 && (game.religion.getTU("mausoleum").val > 0 || game.science.getPolicy("radicalXenophobia").researched) && game.religion.getZU("blackPyramid").val > 0){
+			
 			var pactsPanel = new com.nuclearunicorn.game.ui.Panel("Pacts", game.religion);	
 			var content = pactsPanel.render(container);
 			var msgBox = dojo.create("span", { style: { display: "inline-block", marginBottom: "10px"}}, content);
 			game.religion.getTU("holyGenocide").calculateEffects(game.religion.getTU("holyGenocide"), game);
 			msgBox.innerHTML = $I("msg.pacts.info", [game.getEffect("pactsAvailable"), -game.getEffect("pactNecrocornConsumption")]);
 			var pactController = new com.nuclearunicorn.game.ui.PactsBtnController(game);
-			var pacts = game.religion.pacts;
+			var pacts = game.religion.pactsManager.pacts;
 			for (var i = 0; i < pacts.length; i++) {
 				var upgr = pacts[i];
 
@@ -1892,26 +1957,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 				}
 				this.pactUpgradeButtons.push(button);
 			}
-			var necrocornDeficitMsgBox = dojo.create("span", { style: { display: "inline-block", marginBottom: "10px"}}, content);
-			this.necrocornDeficitMsgBox = necrocornDeficitMsgBox;
-			if(game.religion.necrocornDeficit > 0){
-				necrocornDeficitMsgBox.innerHTML = $I("msg.necrocornDeficit.info", [Math.round(game.religion.necrocornDeficit * 10000)/10000, 
-					-Math.round(
-					(1 - game.religion.necrocornDeficit/50) > 0 ? 
-					(- game.religion.necrocornDeficit/50) * 100: 
-					game.getLimitedDR(game.religion.necrocornDeficit*2, 500)
-				)|| 0, Math.round(10000*
-					(0.15 *(1 + game.getEffect("deficitRecoveryRatio")/2)))/100 || 0,
-					Math.round(game.getEffect("necrocornPerDay") *(0.15 *(1 + game.getEffect("deficitRecoveryRatio")))*1000000)/1000000
-				]);
-			}
-		}
-		if(this.pactsPanel){
-			//console.log(pactsPanel);
-			for(var i = 0; i < this.pactsPanel.length; i++){
-				this.pactsPanel[i].updateEnabled(pactsPanel[i]);
-			}
-		}
+		}*/
 		this.inherited(arguments);
 		this.update();
 	},
@@ -1972,9 +2018,12 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		}
 
 		dojo.forEach(this.zgUpgradeButtons, function(e, i){ e.update(); });
-
-		dojo.forEach(this.pactUpgradeButtons, function(e, i){ e.update(); });
-		if(this.necrocornDeficitMsgBox){
+		var canSeePacts = !this.game.religion.getPact("fractured").researched && this.game.religion.getZU("blackPyramid").val > 0 && (this.game.religion.getTU("mausoleum").val > 0 || this.game.science.getPolicy("radicalXenophobia").researched);
+		if(canSeePacts){
+			this.ptPanel.setVisible(true);
+		}
+		//dojo.forEach(this.pactUpgradeButtons, function(e, i){ e.update(); });
+		/*if(this.necrocornDeficitMsgBox){
 			if(this.game.religion.necrocornDeficit > 0){
 				this.necrocornDeficitMsgBox.innerHTML = $I("msg.necrocornDeficit.info", [Math.round(this.game.religion.necrocornDeficit * 10000)/10000, 
 					-Math.round(100*
@@ -1989,7 +2038,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			else {
 				this.necrocornDeficitMsgBox.innerHTML = null;
 			}
-		}
+		}*/
 	}
 
 });

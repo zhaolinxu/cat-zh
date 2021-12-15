@@ -4578,7 +4578,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			zigguratUpgrades: this.religion.zigguratUpgrades.map(function(item){return item.name;}),
 			religion: this.religion.religionUpgrades.map(function(item){return item.name;}),
 			transcendenceUpgrades: this.religion.transcendenceUpgrades.map(function(item){return item.name;}),
-			pacts: this.religion.pacts.map(function(item){return item.name;}),
+			pacts: this.religion.pactsManager.pacts.map(function(item){return item.name;}),
 			challenges: this.challenges.challenges.map(function(item){return item.name;})
 		});
 		this.upgrade({policies: ["authocracy"]});
