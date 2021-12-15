@@ -199,7 +199,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                 blastFurnace.heat -= 100 * amt;
                 //this.shatter(amt);
                 if(this.testShatter == 1) {this.shatterInGroupCycles(amt);}
-                else if(this.testShatter == 2) {this.shatterInCycles(amt);}
+                //else if(this.testShatter == 2) {this.shatterInCycles(amt);}
+                //shatterInCycles is deprecated
                 else {this.shatter(amt);}
             }
         }
@@ -261,7 +262,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                 self.heat -= 100 * amt;
                 //game.time.shatter(amt);
                 if(game.time.testShatter == 1) {game.time.shatterInGroupCycles(amt);}
-                else if(game.time.testShatter == 2) {game.time.shatterInCycles(amt);}
+                //else if(game.time.testShatter == 2) {game.time.shatterInCycles(amt);}
+                //shatterInCycles is deprecated
                 else  {game.time.shatter(amt);}
             }
         },
@@ -311,6 +313,13 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         effects: {
             "timeRatio" : 0.05
         },
+        calculateEffects: function(self, game) {
+            if(self.isAutomationEnabled === null){
+                self.isAutomationEnabled = (game.time.testShatter == 1);
+            }
+            game.time.testShatter = (self.isAutomationEnabled)? 1 : 0;
+        },
+        isAutomationEnabled: null,
         upgrades: {
             chronoforge: ["temporalImpedance"]
         },
@@ -1096,7 +1105,8 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
         this.game.time.heat += amt * factor;
         //this.game.time.shatter(amt);
         if(this.game.time.testShatter == 1) {this.game.time.shatterInGroupCycles(amt);}
-        else if(this.game.time.testShatter == 2) {this.game.time.shatterInCycles(amt);}
+        //else if(this.game.time.testShatter == 2) {this.game.time.shatterInCycles(amt);} 
+        //shatterInCycles is deprecated
         else {this.game.time.shatter(amt);}
     },
 
