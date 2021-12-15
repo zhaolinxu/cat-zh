@@ -432,15 +432,15 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		//deficit changing
 		var necrocornDeficitRepaymentModifier = 1;
 		var necrocornPerDay = this.game.getEffect("necrocornPerDay");
-		if(this.game.religion.necrocornDeficit>0){
+		if(this.game.religion.pactsManager.necrocornDeficit>0){
 			necrocornDeficitRepaymentModifier = 1 + 0.15 * (1 + this.game.getEffect("deficitRecoveryRatio")/2);
 		}
 		if((this.game.resPool.get("necrocorn").value + necrocornPerDay * days * necrocornDeficitRepaymentModifier) < 0){
-			this.game.religion.necrocornDeficit += Math.max(-necrocornPerDay * days - this.game.resPool.get("necrocorn").value, 0);
+			this.game.religion.pactsManager.necrocornDeficit += Math.max(-necrocornPerDay * days - this.game.resPool.get("necrocorn").value, 0);
 			necrocornDeficitRepaymentModifier = 1;
 		}else if(this.game.religion.necrocornDeficit>0){
-			this.game.religion.necrocornDeficit += necrocornPerDay *(0.15 * (1 + this.game.getEffect("deficitRecoveryRatio")) * days);
-			this.game.religion.necrocornDeficit = Math.max(this.game.religion.necrocornDeficit, 0);
+			this.game.religion.pactsManager.necrocornDeficit += necrocornPerDay *(0.15 * (1 + this.game.getEffect("deficitRecoveryRatio")) * days);
+			this.game.religion.pactsManager.necrocornDeficit = Math.max(this.game.religion.pactsManager.necrocornDeficit, 0);
 		}
 		this.game.resPool.addResPerTick("necrocorn", necrocornPerDay * necrocornDeficitRepaymentModifier);
 	},
@@ -476,7 +476,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		this.game.religion.getPact("payDebt").onNewDay(this.game);
 
 		//-------------------------  consequenses of accumulating too much necrocorn deficit -------------------------
-		if(this.game.religion.necrocornDeficit>=this.game.religion.fractureNecrocornDeficit){
+		if(this.game.religion.pactsManager.necrocornDeficit>=this.game.religion.pactsManager.fractureNecrocornDeficit){
 			this.game.religion.pactsManager.necrocornDeficitPunishment();
 		}
 		//------------------------- astronomical events -------------------------

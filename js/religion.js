@@ -21,8 +21,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 	//the amount of currently active HG buildings (typically refils during reset)
 	activeHolyGenocide: 0,
-	necrocornDeficit: 0,
-	fractureNecrocornDeficit: 50,
 
 	constructor: function(game){
 		this.game = game;
@@ -85,7 +83,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			faithRatio: this.faithRatio,
 			transcendenceTier: this.transcendenceTier,
 			activeHolyGenocide: this.activeHolyGenocide,
-			necrocornDeficit: this.necrocornDeficit,
+			necrocornDeficit: this.pactsManager.necrocornDeficit,
 
 			// Duplicated save, for older versions like mobile
 			tcratio: this._getTranscendTotalPrice(this.transcendenceTier),
@@ -109,7 +107,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		this.faithRatio = _data.faithRatio || 0;
 		this.transcendenceTier = _data.transcendenceTier || 0;
 		this.activeHolyGenocide = _data.activeHolyGenocide || 0;
-		this.necrocornDeficit = saveData.religion.necrocornDeficit || 0;
+		this.pactsManager.necrocornDeficit = saveData.religion.necrocornDeficit || 0;
 
 		// Read old save
 		if (this.transcendenceTier == 0 && _data.tcratio > 0) {
@@ -508,7 +506,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			}
 			self.effects["deficitRecoveryRatio"] = self.effectsPreDeficit["pactDeficitRecoveryRatio"];
 			//applying deficit
-			var deficiteModifier = (1 - game.religion.necrocornDeficit/50);
+			var deficiteModifier = (1 - game.religion.pactsManager.necrocornDeficit/50);
 			var existsDifference = false;
 			//console.warn(deficiteModifier);
 			for(var name in self.effectsPreDeficit){
@@ -917,7 +915,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			}
 		);
 		//this.game.religion.getPact("fractured").calculateEffects(this.game.religion.getPact("fractured"), this.game);
-		this.game.religion.necrocornDeficit = 0;
+		this.game.religion.pactsManager.necrocornDeficit = 0;
 		this.game.msg($I("msg.pacts.fractured", [Math.round(100 * this.game.resPool.get("alicorn").value)/100]),"alert", "ai");
 		this.game.resPool.get("alicorn").value = 0;
 		var blackPyramid = this.game.religion.getZU("blackPyramid");
@@ -1471,7 +1469,7 @@ dojo.declare("classes.ui.PactsPanel", com.nuclearunicorn.game.ui.Panel, {
 	        }
 
 			if(!meta.notAddDeficit){
-				this.game.religion.necrocornDeficit += 0.5 * counter;
+				this.game.religion.pactsManager.necrocornDeficit += 0.5 * counter;
 			}
 	        if (counter > 1) {
 		        this.game.msg(meta.label + " x" + counter + " constructed.", "notice");
@@ -1531,6 +1529,8 @@ dojo.declare("classes.ui.religion.RefineBtn", com.nuclearunicorn.game.ui.ButtonM
 
 dojo.declare("classes.religion.pacts", null, {
 	game: null,
+	necrocornDeficit: 0,
+	fractureNecrocornDeficit: 50,
 	pacts: [
 		{
 			name: "pactOfCleansing",
@@ -1637,19 +1637,19 @@ dojo.declare("classes.religion.pacts", null, {
 				if(self.val > 0){
 					self.on = 0;
 					self.val = 0;
-					game.religion.necrocornDeficit = 0;
+					game.religion.pactsManager.necrocornDeficit = 0;
 					self.unlocked = false;
 				}
 			},
 			onNewDay: function(game){
 				var self = game.religion.getPact("payDebt");
-				self.prices[0].val = Math.ceil(game.religion.necrocornDeficit);
+				self.prices[0].val = Math.ceil(game.religion.pactsManager.necrocornDeficit);
 				self.unlocked = this.evaluateLocks(game);
 			},
 			limitBuild: 1,
 			notAddDeficit: true,
 			evaluateLocks: function(game){
-				return game.religion.necrocornDeficit > 0;
+				return game.religion.pactsManager.necrocornDeficit > 0;
 			},
 		},{
 			name: "fractured",
@@ -1697,7 +1697,7 @@ dojo.declare("classes.religion.pacts", null, {
 			}
 		);
 		//this.game.religion.getPact("fractured").calculateEffects(this.game.religion.getPact("fractured"), this.game);
-		this.game.religion.necrocornDeficit = 0;
+		this.game.religion.pactsManager.necrocornDeficit = 0;
 		this.game.msg($I("msg.pacts.fractured", [Math.round(100 * this.game.resPool.get("alicorn").value)/100]),"alert", "ai");
 		this.game.resPool.get("alicorn").value = 0;
 		var blackPyramid = this.game.religion.getZU("blackPyramid");
