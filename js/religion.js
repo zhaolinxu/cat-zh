@@ -1731,7 +1731,24 @@ dojo.declare("classes.religion.pacts", null, {
 			}else{
 				return "";
 			}
-	}
+	},
+	necrocornConsumptionDays: function(days){
+		//------------------------- necrocorns pacts -------------------------
+		//deficit changing
+		var necrocornDeficitRepaymentModifier = 1;
+		var necrocornPerDay = this.game.getEffect("necrocornPerDay");
+		if(this.necrocornDeficit>0){
+			necrocornDeficitRepaymentModifier = 1 + 0.15 * (1 + this.game.getEffect("deficitRecoveryRatio")/2);
+		}
+		if((this.game.resPool.get("necrocorn").value + necrocornPerDay * days * necrocornDeficitRepaymentModifier) < 0){
+			this.necrocornDeficit += Math.max(-necrocornPerDay * days - this.game.resPool.get("necrocorn").value, 0);
+			necrocornDeficitRepaymentModifier = 1;
+		}else if(this.necrocornDeficit>0){
+			this.necrocornDeficit += necrocornPerDay *(0.15 * (1 + this.game.getEffect("deficitRecoveryRatio")) * days);
+			this.necrocornDeficit = Math.max(this.necrocornDeficit, 0);
+		}
+		this.game.resPool.addResPerTick("necrocorn", necrocornPerDay * necrocornDeficitRepaymentModifier);
+	},
 });
 dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.game.ui.tab, {
 
@@ -1946,41 +1963,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 				}
 				this.rUpgradeButtons.push(button);
 			}
-		}/////pacts PANEL 1234
-		/*if (zigguratCount > 0 && (game.religion.getTU("mausoleum").val > 0 || game.science.getPolicy("radicalXenophobia").researched) && game.religion.getZU("blackPyramid").val > 0){
-			
-			var pactsPanel = new com.nuclearunicorn.game.ui.Panel("Pacts", game.religion);	
-			var content = pactsPanel.render(container);
-			var msgBox = dojo.create("span", { style: { display: "inline-block", marginBottom: "10px"}}, content);
-			game.religion.getTU("holyGenocide").calculateEffects(game.religion.getTU("holyGenocide"), game);
-			msgBox.innerHTML = $I("msg.pacts.info", [game.getEffect("pactsAvailable"), -game.getEffect("pactNecrocornConsumption")]);
-			var pactController = new com.nuclearunicorn.game.ui.PactsBtnController(game);
-			var pacts = game.religion.pactsManager.pacts;
-			for (var i = 0; i < pacts.length; i++) {
-				var upgr = pacts[i];
-
-				var button = new com.nuclearunicorn.game.ui.BuildingStackableBtn({
-					id: upgr.name,
-					name: upgr.label,
-					description: upgr.description,
-					prices: upgr.prices,
-					controller: pactController,
-					//controller: zigguratController,
-					handler: function(btn){
-						var upgrade = btn.model.metadata;
-						if (upgrade.upgrades){
-							game.upgrade(upgrade.upgrades);
-						}
-					}
-				}, game);
-				button.render(content);
-				var associatedButton = buttonAssociations[upgr.name];
-				if (associatedButton) {
-					associatedButton.render(content);
-				}
-				this.pactUpgradeButtons.push(button);
-			}
-		}*/
+		}
 		this.inherited(arguments);
 		this.update();
 	},
