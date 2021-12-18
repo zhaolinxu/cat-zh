@@ -2452,7 +2452,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		}
 
 		var kittenResProduction = (this.game.village.getResProduction()["ES" + resName] || 0) * (this.game.workshop.get("neuralNetworks").researched ? 2 : 1);
-
+		kittenResProduction *= this.game.religion.getHGScalingBonus();
+		
 		var tierCraftRatio = this.game.getEffect("t" + craft.tier + "CraftRatio") || 0;
 		if (tierCraftRatio == 0) {
 			tierCraftRatio = 1;
