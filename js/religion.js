@@ -42,7 +42,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 				return effectValue * bld.on;
 			}
 		});
-		this.pactsManager = new classes.religion.pacts(game);
+		this.pactsManager = new classes.religion.pactsManager(game);
 		this.registerMeta("stackable", this.pactsManager.pacts, null);
 		this.setEffectsCachedExisting();
 	},
@@ -1524,7 +1524,7 @@ dojo.declare("classes.ui.religion.RefineBtn", com.nuclearunicorn.game.ui.ButtonM
 	}
 });
 
-dojo.declare("classes.religion.pacts", null, {
+dojo.declare("classes.religion.pactsManager", null, {
 	game: null,
 	necrocornDeficit: 0,
 	fractureNecrocornDeficit: 50,
