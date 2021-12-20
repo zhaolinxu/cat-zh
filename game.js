@@ -320,6 +320,7 @@ dojo.declare("classes.game.Server", null, {
 			xhrFields: {
 				withCredentials: true
 			},
+            crossDomain: true,
 			data: "{}"
 		}).done(function(resp){
 			self.saveData = resp;
