@@ -1610,9 +1610,6 @@ var run = function() {
             var doAdoreAfterTimeSkip = (timeSkipAdore && autoPraiseEnabled && autoAdoreEnabled);
             // enough faith, and then TAP
             if (0.98 <= rate || (doAdoreAfterTimeSkip && game.time.getCFU("ressourceRetrieval").val > 4)) {
-                if (timeSkipAdore) {
-                    options.auto.timeCtrl.items.timeSkip.adore = false;
-                }
                 var worship = game.religion.faith;
                 var epiphany = game.religion.faithRatio;
 
@@ -1689,6 +1686,11 @@ var run = function() {
                         option.adore.lastFaith = worship;
                     }
                     game.religion._resetFaithInternal(1.01);
+
+                    if (timeSkipAdore) {
+                        options.auto.timeCtrl.items.timeSkip.adore = false;
+                        forceStep = true;
+                    }
 
                     iactivity('act.adore', [game.getDisplayValueExt(worship), game.getDisplayValueExt(epiphanyInc)], 'ks-adore');
                     storeForSummary('adore', epiphanyInc);
