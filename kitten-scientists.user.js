@@ -1607,9 +1607,9 @@ var run = function() {
             var autoPraiseEnabled = option.autoPraise.enabled;
             var autoAdoreEnabled = option.adore.enabled;
             var timeSkipAdore = options.auto.timeCtrl.items.timeSkip.adore;
-            var doAdoreAfterTimeSkip = (timeSkipAdore && autoPraiseEnabled && autoAdoreEnabled);
+            var doAdoreAfterTimeSkip = (timeSkipAdore && autoPraiseEnabled && autoAdoreEnabled && game.time.getCFU("ressourceRetrieval").val > 4);
             // enough faith, and then TAP
-            if (0.98 <= rate || (doAdoreAfterTimeSkip && game.time.getCFU("ressourceRetrieval").val > 4)) {
+            if (0.98 <= rate || doAdoreAfterTimeSkip) {
                 var worship = game.religion.faith;
                 var epiphany = game.religion.faithRatio;
 
@@ -1687,7 +1687,7 @@ var run = function() {
                     }
                     game.religion._resetFaithInternal(1.01);
 
-                    if (timeSkipAdore) {
+                    if (doAdoreAfterTimeSkip) {
                         options.auto.timeCtrl.items.timeSkip.adore = false;
                         forceStep = true;
                     }
