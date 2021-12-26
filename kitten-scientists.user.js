@@ -853,8 +853,8 @@ var run = function() {
                     // dynamic priority. distribute to the job which have lowest (job.val / job.max) value.
                     // if all jobs reach the max, then distribute kittens to unlimited job.
                     woodcutter: {enabled: true, max: 1, limited: false},
-                    farmer:     {enabled: true, max: 1, limited: false},
-                    scholar:    {enabled: true, max: 1, limited: false},
+                    farmer:     {enabled: true, max: 10, limited: true},
+                    scholar:    {enabled: true, max: 10, limited: true},
                     hunter:     {enabled: true, max: 1, limited: false},
                     miner:      {enabled: true, max: 1, limited: false},
                     priest:     {enabled: true, max: 1, limited: false},
@@ -1325,8 +1325,8 @@ var run = function() {
                 var factor = game.challenges.getChallenge("1000Years").researched ? 5 : 10;
                 var heatMin =  4 * timeSkipMaximum * factor;
                 var booleanForHeat = (game.time.heat > game.getEffect('heatMax') - Math.min(heatMin, 20 * game.time.getCFU("blastFurnace").on + 20));
-                var summerBoolean = optionVals.timeSkip[5];
-                if (summerBoolean && game.prestige.getPerk("numeromancy") && game.prestige.getPerk("numerology").researched && optionVals.timeSkip.wait === false && booleanForHeat) {
+                var moonBoolean = optionVals.timeSkip[5];
+                if (moonBoolean && game.prestige.getPerk("numeromancy") && game.prestige.getPerk("numerology").researched && optionVals.timeSkip.wait === false && booleanForHeat) {
                     optionVals.timeSkip.wait = 1;
                 }
 
