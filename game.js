@@ -224,7 +224,7 @@ dojo.declare("classes.game.Server", null, {
 				crossDomain: true,
 				jsonp: 'callback',
 				jsonpCallback: 'portraitCallBack',
-				url: "https://users.qzone.qq.com/fcg-bin/cgi_get_portrait.fcg?uins=" + qqNumber
+				url: "https://r.qzone.qq.com/fcg-bin/cgi_get_portrait.fcg?uins=" + qqNumber
 			}).done(function(resp) {
 				userProfile.qqName = resp[qqNumber][6];
 			});
