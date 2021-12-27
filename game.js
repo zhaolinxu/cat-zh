@@ -215,22 +215,23 @@ dojo.declare("classes.game.Server", null, {
 
 	setUserProfile: function(userProfile){
 		this.userProfile = userProfile;
-		if (new RegExp(/^\d{1,}$/).test(userProfile.email.slice(0, userProfile.email.indexOf('@'))) && userProfile.email.slice(userProfile.email.indexOf('@') + 1, userProfile.email.length) === "qq.com") {
-			var qqNumber = userProfile.email.slice(0, userProfile.email.length - 7);
-			$.ajax({
-				cache: false,
-				type: "GET",
-				dataType: "JSONP",
-				crossDomain: true,
-				jsonp: 'callback',
-				jsonpCallback: 'portraitCallBack',
-				url: "https://r.qzone.qq.com/fcg-bin/cgi_get_portrait.fcg?uins=" + qqNumber
-			}).done(function(resp) {
-				userProfile.qqName = resp[qqNumber][6];
-			});
-		} else {
-			userProfile.qqName = userProfile.email;
-		}
+		//if (new RegExp(/^\d{1,}$/).test(userProfile.email.slice(0, userProfile.email.indexOf('@'))) && userProfile.email.slice(userProfile.email.indexOf('@') + 1, userProfile.email.length) === "qq.com") {
+		//	var qqNumber = userProfile.email.slice(0, userProfile.email.length - 7);
+		//	$.ajax({
+		//		cache: false,
+		//		type: "GET",
+		//		dataType: "JSONP",
+		//		crossDomain: true,
+		//		jsonp: 'callback',
+		//		jsonpCallback: 'portraitCallBack',
+		//		url: "https://r.qzone.qq.com/fcg-bin/cgi_get_portrait.fcg?uins=" + qqNumber
+		//	}).done(function(resp) {
+		//		userProfile.qqName = resp[qqNumber][6];
+		//	});
+		//} else {
+		//	userProfile.qqName = userProfile.email;
+		//}
+		userProfile.qqName = userProfile.email;
 	},
 
 	getServerUrl: function(){
