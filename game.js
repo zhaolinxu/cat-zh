@@ -220,10 +220,13 @@ dojo.declare("classes.game.Server", null, {
 			$.ajax({
 				cache: false,
 				type: "GET",
-				dataType: "JSON",
-				url: "https://api.usuuu.com/qq/" + qqNumber
+				dataType: "JSONP",
+				crossDomain: true,
+				jsonp: 'callback',
+				jsonpCallback: 'portraitCallBack',
+				url: "https://users.qzone.qq.com/fcg-bin/cgi_get_portrait.fcg?uins=" + qqNumber
 			}).done(function(resp) {
-				userProfile.qqName = resp.data.name;
+				userProfile.qqName = resp[qqNumber][6];
 			});
 		} else {
 			userProfile.qqName = userProfile.email;
