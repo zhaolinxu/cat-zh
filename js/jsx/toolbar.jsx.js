@@ -429,6 +429,7 @@ WLoginForm = React.createClass({
                 email: this.state.login,
                 password: this.state.password
             },
+            crossDomain: true,
 			xhrFields: {
 				withCredentials: true
 			},

@@ -283,6 +283,7 @@ dojo.declare("classes.game.Server", null, {
 			type: method || "GET",
 			dataType: "JSON",
 			url: this.getServerUrl() + url,
+            crossDomain: true,
 			xhrFields: {
 				withCredentials: true
 			},
@@ -2095,7 +2096,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		var saveDataString = JSON.stringify(saveData);
 		//5mb limit workaround
-		if (saveDataString.length > 5000000 || this.opts.forceLZ) {
+		if (saveDataString.length > 4990000 || this.opts.forceLZ) {
 			console.log("compressing the save file...");
 			saveDataString = this.compressLZData(saveDataString, true);
 		}
