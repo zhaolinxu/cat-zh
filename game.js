@@ -223,8 +223,8 @@ dojo.declare("classes.game.Server", null, {
 				dataType: "JSON",
 				crossDomain: true,
 				url: "https://api.usuuu.com/qq/"+ qqNumber
-			}).always(function(resp) {
-				if (resp.status) {
+			}).done(function(resp) {
+				if (resp) {
 					userProfile.qqName = resp.data.name;
 				} else {
 					userProfile.qqName = userProfile.email;
