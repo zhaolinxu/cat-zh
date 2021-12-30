@@ -1922,7 +1922,7 @@ var run = function() {
                 }
             }
 
-            if (upgrades.races.enabled && gamePage.diplomacyTab.visible) {
+            if (upgrades.races.enabled && game.diplomacy.hasUnlockedRaces()) {
                 var maxRaces = (game.diplomacy.get('leviathans').unlocked) ? 8 : 7;
                 if (game.diplomacyTab.racePanels.length < maxRaces) {
                     var manpower = craftManager.getValueAvailable('manpower', true);
