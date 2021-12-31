@@ -2039,7 +2039,8 @@ dojo.declare("classes.village.KittenSim", null, {
 		if(times == 1){
 			times = frequency; //fastforward should ignore frequency. Non fastforward should take frequency into the account for skill!
 		}
-		var baseSkillXP = game.workshop.get("internet").researched ? Math.max(this.getKittens() / 10000, 0.01) : 0.01;
+		var hgSkillModifier = (this.kittens.length <= this.maxKittens)? game.religion.getHGScalingBonus() : 1; //overcrowding makes it not work
+		var baseSkillXP = game.workshop.get("internet").researched ? Math.max(this.getKittens() * hgSkillModifier / 10000, 0.01) : 0.01;
 		var skillXP = (baseSkillXP + game.getEffect("skillXP")) * times;
 		var neuralNetworks = game.workshop.get("neuralNetworks").researched;
 		var skillsCap = 20001;
