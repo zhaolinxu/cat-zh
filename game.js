@@ -4728,21 +4728,21 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				if(!this.prestige.getPerk("goldenRatio").researched) {
 					this.prestige.getPerk("goldenRatio").researched = true;
 					this.unlock(this.prestige.getPerk("goldenRatio").unlocks);
-					var perk = "Golden Ratio";
+					var perk = $I("prestige.goldenRatio.label");;
 				}
 				else if (!this.prestige.getPerk("divineProportion").researched) {
 					this.prestige.getPerk("divineProportion").researched = true;
 					this.unlock(this.prestige.getPerk("divineProportion").unlocks);
-					var perk = "Divine Proportion";
+					var perk = $I("prestige.divineProportion.label");
 				}
 				else if (!this.prestige.getPerk("vitruvianFeline").researched) {
 					this.prestige.getPerk("vitruvianFeline").researched = true;
 					this.unlock(this.prestige.getPerk("vitruvianFeline").unlocks);
-					var perk = "Vitruvian Feline";
+					var perk = $I("prestige.vitruvianFeline.label");
 				}
 				else if (!this.prestige.getPerk("renaissance").researched) {
 					this.prestige.getPerk("renaissance").researched = true;
-					var perk = "Renaissance";
+					var perk = $I("prestige.renaissance.label");
 				}
 				var msg = $I("gift.metaphysics", [perk]);
 				break;

@@ -3200,7 +3200,6 @@ var run = function() {
                 if (data.tHidden === true) {continue;}
                 if (data.rHidden === true) {continue;}
                 if ((data.rHidden === undefined) && !data.unlocked) {continue;}
-				if (data.almostLimited && !game.workshop.get('geodesy').researched){continue;}
                 if (name === 'cryochambers' && (game.time.getVSU('usedCryochambers').val > 0
                     || game.bld.getBuildingExt('chronosphere').meta.val <= data.val)) {continue;}
                 if (name === 'ressourceRetrieval' && data.val >= 100) {continue;}
@@ -3208,6 +3207,7 @@ var run = function() {
                 if (build.variant === 's') {prices = game.village.getEffectLeader("wise", dojo.clone(data.prices));}
                 var priceRatio = this.getPriceRatio(data, source);
                 if (!this.singleBuildPossible(data, prices, priceRatio, source)) {continue;}
+                if (data.almostLimited && !game.workshop.get('geodesy').researched){continue;}
                 var require = !build.require ? false : this.craftManager.getResource(build.require);
                 if (!require || trigger <= require.value / require.maxValue) {
                     if (typeof(build.stage) !== 'undefined' && build.stage !== data.stage) {
