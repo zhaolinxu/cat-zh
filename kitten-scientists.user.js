@@ -335,7 +335,7 @@ var run = function() {
             'ui.upgrade.policies.show': '列表',
 
             'ui.faith.addtion': '功能',
-            'option.faith.best.unicorn': '优先最佳独角兽建筑',
+            'option.faith.best.unicorn': '自动最效率独角兽建筑',
             'option.faith.best.unicorn.desc': '当眼泪不够建造最佳独角兽建筑时，会自动献祭独角兽',
             'option.faith.transcend': '自动最佳次元超越',
             'act.transcend': '消耗 {0} 顿悟，达到次元超越 {1}',
