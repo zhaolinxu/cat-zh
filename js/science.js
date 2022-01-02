@@ -1090,7 +1090,20 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "culture", val: 1500000}
 		],
 		effects:{
-			"holyGenocideBonus" : 1
+			"mausoleumBonus" : 1,
+			"pactsAvailable" : 5
+		},
+		upgrades: {
+			transcendenceUpgrades:["mausoleum"]
+		},
+		calculateEffects: function (self, game){
+			if(game.religion.getPact("fractured").on >= 1){
+				self.effects["pactsAvailable"] = 0;
+			}
+			game.updateCaches();
+		},
+		unlocks: {
+			pacts: ["pactOfCleansing", "pactOfDestruction",  "pactOfExtermination", "pactOfPurity"]
 		},
 		unlocked: false,
 		blocked: false,

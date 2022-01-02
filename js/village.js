@@ -2913,11 +2913,31 @@ dojo.declare("classes.ui.village.Census", null, {
 	},
 
 	getStyledName: function(kitten, isLeaderPanel){
+		if(!this.game.religion.getPact("fractured").val){
 		return "<span class='name color-" +
 			((kitten.color && kitten.colors[kitten.color + 1]) ? kitten.colors[kitten.color + 1].color : "none") +
 			" variety-" + ((kitten.variety && kitten.varieties[kitten.variety + 1]) ? kitten.varieties[kitten.variety + 1].style : "none") +
 			"'>" + kitten.name + " " + kitten.surname +
 		"</span>";
+		}
+		else{
+			if(!kitten.randTimer){
+				var color_and_variety;
+				color_and_variety = this.game.createRandomVarietyAndColor(this.game.rand(76), this.game.rand(76));
+				kitten.fakeColor = color_and_variety[0];
+				kitten.fakeName = this.game.createRandomName() + this.game.createRandomName(1, "    -/_") + this.game.createRandomName();
+				kitten.fakeVariety = color_and_variety[1];
+				kitten.randTimer = 10 + this.game.rand(41);
+			}else{
+				kitten.randTimer += -1;
+			}
+			return "<span class='name color-" +
+			((kitten.fakeColor && kitten.colors[kitten.fakeColor + 1]) ? kitten.colors[kitten.fakeColor + 1].color : "none") +
+			" variety-" + ((kitten.fakeVariety && kitten.varieties[kitten.fakeVariety + 1]) ? kitten.varieties[kitten.fakeVariety + 1].style : "none") +
+			"'>" +
+			( /*"shade"*/kitten.fakeName) +
+		"</span>";
+		}
 	},
 
 	update: function(){
@@ -2949,8 +2969,9 @@ dojo.declare("classes.ui.village.Census", null, {
 			
 			record.content.innerHTML =
 				"<div class='info'>" + this.getStyledName(kitten) +
-				 ", " + kitten.age + " " + $I("village.census.age") + ", "
-				+ kitten.trait["title"]
+				 ", " + (this.game.religion.getPact("fractured").val? "???": kitten.age)
+				+ " " + $I("village.census.age") + ", "
+				+ (this.game.religion.getPact("fractured").val? "???": kitten.trait["title"])
 				+ (kitten.rank == 0 ? "" : " (" + $I("village.census.rank") + " " + kitten.rank + ")") + "</div>";
 
             //--------------- skills ----------------
