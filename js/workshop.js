@@ -1821,6 +1821,34 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			"routeSpeed" : 50
 		}
 	},
+	{
+		name: "spiceNavigation",
+		label: $I("workshop.spiceNavigation.label"),
+		description: $I("workshop.spiceNavigation.desc"),
+		prices:[
+			{ name : "science",  val: 350000 },
+			{ name : "starchart",  val: 500000 }
+		],
+		unlocks: {
+			spaceBuilding: ["navigationRelay"],
+		},
+		flavor: $I("workshop.spiceNavigation.flavor")
+	},
+	{
+		name: "longRangeSpaceships",
+		label: $I("workshop.longRangeSpaceships.label"),
+		description: $I("workshop.longRangeSpaceships.desc"),
+		prices:[
+			{ name : "science",  val: 440000 },
+			{ name : "gear", val: 90000 },
+			{ name : "alloy", val: 3500 },
+			{ name : "tanker", val: 500 },
+		],
+		unlocks: {
+			spaceBuilding: ["spaceShuttle"],
+		},
+		flavor: $I("workshop.longRangeSpaceships.flavor")
+	},
 	//------------------- oil --------------------------
     {
 		name: "oilRefinery",
@@ -2424,7 +2452,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		}
 
 		var kittenResProduction = (this.game.village.getResProduction()["ES" + resName] || 0) * (this.game.workshop.get("neuralNetworks").researched ? 2 : 1);
-
+		kittenResProduction *= this.game.religion.getHGScalingBonus();
+		
 		var tierCraftRatio = this.game.getEffect("t" + craft.tier + "CraftRatio") || 0;
 		if (tierCraftRatio == 0) {
 			tierCraftRatio = 1;

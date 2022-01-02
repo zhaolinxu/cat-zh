@@ -1634,13 +1634,15 @@ dojo.declare("classes.village.Map", null, {
 	save: function(){
 		return {
 			hqLevel: this.hqLevel,
-			energy: this.energy
+			energy: this.energy,
+			explorersLevel: this.explorersLevel
 		};
 	},
 
 	load: function(data){
 		this.hqLevel = data.hqLevel || 0;
 		this.energy = data.energy || 100;
+		this.explorersLevel = data.explorersLevel || 0;
 	}
 });
 
@@ -2037,7 +2039,8 @@ dojo.declare("classes.village.KittenSim", null, {
 		if(times == 1){
 			times = frequency; //fastforward should ignore frequency. Non fastforward should take frequency into the account for skill!
 		}
-		var baseSkillXP = game.workshop.get("internet").researched ? Math.max(this.getKittens() / 10000, 0.01) : 0.01;
+		var hgSkillModifier = (this.kittens.length <= this.maxKittens)? 1 /(1 - this.game.getLimitedDR(this.game.getEffect("maxKittensRatio"), 1)): 1; //overcrowding makes it not work
+		var baseSkillXP = game.workshop.get("internet").researched ? Math.max(this.getKittens() * hgSkillModifier / 10000, 0.01) : 0.01;
 		var skillXP = (baseSkillXP + game.getEffect("skillXP")) * times;
 		var neuralNetworks = game.workshop.get("neuralNetworks").researched;
 		var skillsCap = 20001;

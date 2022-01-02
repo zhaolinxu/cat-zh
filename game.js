@@ -1726,6 +1726,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		VILLAGE_MAP: {
 			beta: true,
 			main: false
+		},
+		SPACE_EXPL: {
+			beta: true,
+			main: false
 		}
 	},
 

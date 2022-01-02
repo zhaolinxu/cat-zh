@@ -199,7 +199,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                 blastFurnace.heat -= 100 * amt;
                 //this.shatter(amt);
                 if(this.testShatter == 1) {this.shatterInGroupCycles(amt);}
-                else if(this.testShatter == 2) {this.shatterInCycles(amt);}
+                //else if(this.testShatter == 2) {this.shatterInCycles(amt);}
+                //shatterInCycles is deprecated
                 else {this.shatter(amt);}
             }
         }
@@ -261,7 +262,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                 self.heat -= 100 * amt;
                 //game.time.shatter(amt);
                 if(game.time.testShatter == 1) {game.time.shatterInGroupCycles(amt);}
-                else if(game.time.testShatter == 2) {game.time.shatterInCycles(amt);}
+                //else if(game.time.testShatter == 2) {game.time.shatterInCycles(amt);}
+                //shatterInCycles is deprecated
                 else  {game.time.shatter(amt);}
             }
         },
@@ -311,6 +313,13 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         effects: {
             "timeRatio" : 0.05
         },
+        calculateEffects: function(self, game) {
+            if(self.isAutomationEnabled === null){
+                self.isAutomationEnabled = (game.time.testShatter == 1);
+            }
+            game.time.testShatter = (self.isAutomationEnabled)? 1 : 0;
+        },
+        isAutomationEnabled: null,
         upgrades: {
             chronoforge: ["temporalImpedance"]
         },
@@ -364,6 +373,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             }
             self.effects["shatterYearBoost"] = (self.isAutomationEnabled)? 5 * game.calendar.yearsPerCycle : game.calendar.yearsPerCycle; //25 or 5 currently
             self.limitBuild = game.getEffect("temporalPressCap");
+            self.priceRatio = Math.max(1.05, 1.1 - game.challenges.getChallenge("1000Years").on * 0.001); //first 50 completions of 1000Years make priceRatio cheaper
         },
         isAutomationEnabled: null,
         unlocked: false
@@ -769,12 +779,13 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
             // Calendar
             cal.year += Math.min(5, maxYearsShattered);
-            cal.onNewYears(endYear == cal.year, yearsInCurrentCycle, false);
+            cal.onNewYears(endYear == cal.year, Math.min(5, maxYearsShattered), false);
             maxYearsShattered -= Math.min(5, maxYearsShattered);
             remainingDaysInFirstYear = cal.daysPerSeason * cal.seasonsPerYear;
         }
+        if(maxYearsShattered < 0){console.error("max years shattered negative " + toString(maxYearsShattered));}
         cal.year += maxYearsShattered;
-        //cal.onNewYears(endYear == cal.year, maxYearsShattered, false);
+        cal.onNewYears(endYear == cal.year, maxYearsShattered, false);
         cal.calculateMilleniumProduction(cal.getMilleniaChanged(startYear, cal.year));
         if (amt == 1) {
             game.msg($I("time.tc.shatterOne"), "", "tc");
@@ -1096,7 +1107,8 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
         this.game.time.heat += amt * factor;
         //this.game.time.shatter(amt);
         if(this.game.time.testShatter == 1) {this.game.time.shatterInGroupCycles(amt);}
-        else if(this.game.time.testShatter == 2) {this.game.time.shatterInCycles(amt);}
+        //else if(this.game.time.testShatter == 2) {this.game.time.shatterInCycles(amt);} 
+        //shatterInCycles is deprecated
         else {this.game.time.shatter(amt);}
     },
 
