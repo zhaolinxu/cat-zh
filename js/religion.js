@@ -1717,7 +1717,7 @@ dojo.declare("classes.religion.pactsManager", null, {
 		}
 	},
 	getPactsTextSum: function(){
-		return $I("msg.pacts.info", [this.game.getEffect("pactsAvailable"), -this.game.getEffect("pactNecrocornConsumption")]);
+		return $I("msg.pacts.info", [this.game.getEffect("pactsAvailable"), -this.game.getEffect("pactNecrocornConsumption")]); //Every TT above 25 adds 100% to pact effects (not consumption) and 10% to karma per millenia effect
 	},
 	getPactsTextDeficit: function(){
 		if(this.game.religion.pactsManager.necrocornDeficit > 0){

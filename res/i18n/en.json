@@ -677,7 +677,7 @@
     "opts.notation.sie": "Simplified (SI+E)",
 
     "msg.necrocornDeficit.info": "Necrocorn deficit: {0}. Due to the deficit your pacts have {1}% effectivness. Deficit is consuming additional {2}% of necrocorns per day and is deminishing {3} per day (if you have enough necrocorns).",
-    "msg.pacts.info": "Karma kittens per millenia are based on available pacts. Pacts do not persist. Available pacts: {0}. Every pact devours {1} necrocorns per day. Every TT above 25 adds 100% to pact effects (not consumption) and 10% to karma per millenia effect",
+    "msg.pacts.info": "Karma kittens per millenia are based on available pacts. Pacts do not persist. Available pacts: {0}. Every pact devours {1} necrocorns per day.",
     "msg.pacts.fractured": "You didn't fulfill your part of the deal... You lost {0} alicorns!",
 
     "msg.policy.aiNotMerges" : "AI does not want to merge with kittens.",
