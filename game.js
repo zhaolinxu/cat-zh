@@ -4728,7 +4728,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				if(!this.prestige.getPerk("goldenRatio").researched) {
 					this.prestige.getPerk("goldenRatio").researched = true;
 					this.unlock(this.prestige.getPerk("goldenRatio").unlocks);
-					var perk = $I("prestige.goldenRatio.label");;
+					var perk = $I("prestige.goldenRatio.label");
 				}
 				else if (!this.prestige.getPerk("divineProportion").researched) {
 					this.prestige.getPerk("divineProportion").researched = true;

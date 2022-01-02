@@ -820,7 +820,7 @@
     "religion.panel.cryptotheology.label": "奥秘神学",
     "religion.panel.orderOfTheSun.label": "太阳教团",
     "religion.panel.ziggurat.label": "庙塔",
-    "religion.praise.msg": "你积累了 +{0} 信仰",
+    "religion.praise.msg": "你转变了 +{0} 信仰",
     "religion.praiseBtn.desc": "将积累的信仰转化为虔诚",
     "religion.praiseBtn.label": "赞美太阳!",
     "religion.refineTCsBtn.desc": "将时间水晶精炼为上古遗物",
