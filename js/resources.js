@@ -578,7 +578,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			{
 				name: "necrocornDeficit",
 				title: $I("resources.necrocornDeficit.title"),
-				value: this.game.religion.necrocornDeficit,
+				value: this.game.religion.pactsManager.necrocornDeficit,
 				unlocked: true,
 				visible: false,
 				color: "#E00000"}
