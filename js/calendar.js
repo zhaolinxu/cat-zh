@@ -799,7 +799,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			resPool.addResEvent("paragon", paragon);
 			this.game.stats.getStat("totalParagon").val += paragon;
 		}
-		this.pactsMilleniumKarmaKittens(paragon);
+		this.game.religion.pactsManager.pactsMilleniumKarmaKittens(paragon);
 		this.year += yearsOffset;
 		this.game.stats.getStat("totalYears").val += yearsOffset;
 		//------------------------------------------------------------------
@@ -875,7 +875,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	calculateMilleniumProduction: function(milleniums){
 		this.game.resPool.addResEvent("paragon", milleniums);
 		this.game.stats.getStat("totalParagon").val += milleniums;
-		this.pactsMilleniumKarmaKittens(milleniums);
+		this.game.religion.pactsManager.pactsMilleniumKarmaKittens(milleniums);
 	},
 	onNewYears: function(updateUI, years, milleniumChangeCalculated) { // shouldn't be used for more than 5 years, or if you don't have years%50 == 0
 		if(years == 1){
@@ -961,31 +961,6 @@ if (++this.cycleYear >= this.yearsPerCycle) {
 			this.game.ui.render();
 		}
 	},
-	pactsMilleniumKarmaKittens: function(millenium){
-		//pacts karma effect
-		/*
-		unspent pacts generate karma each 1000 years based on kitten numbers
-		pactsAvailable are created by mausoleum cryptotheology and radicalXenophobia
-		this function adds appropriate karmaKittens and returns change in karma; temporary logs karma generation
-		TODO: maybe make HG bonus play into this
-		*/
-		var kittens = this.game.resPool.get("kittens").value;
-		if (kittens > 35 && this.game.getEffect("pactsAvailable") > 0){
-			var oldKarmaKittens = this.game.karmaKittens;
-			var kittensKarmaPerMinneliaRatio = this.game.getEffect("kittensKarmaPerMinneliaRatio");
-			this.game.karmaKittens += millenium * this.game._getKarmaKittens(kittens) *
-				this.game.getUnlimitedDR(
-					kittensKarmaPerMinneliaRatio * 
-					Math.max(1 + 0.1 * this.game.religion.transcendenceTier - 25, 1)*
-					(this.game.getEffect("pactsAvailable"))
-				, 100);
-			var karmaOld = this.game.resPool.get("karma").value;
-			this.game.updateKarma();
-			console.log("produced " + String(this.game.resPool.get("karma").value - karmaOld) + " karma");
-			console.log("produced " + String(this.game.karmaKittens - oldKarmaKittens) + " karmaKittens"); //for testing purposes - comment over before merging into ML
-		}
-		return this.game.resPool.get("karma").value - karmaOld;
-	},
 	onNewYear: function(updateUI){
 
 		var ty = this.game.stats.getStat("totalYears");
@@ -1009,7 +984,7 @@ if (++this.cycleYear >= this.yearsPerCycle) {
 			var kittens = this.game.resPool.get("kittens").value;
 
 			//holy genocide karma effect
-			this.pactsMilleniumKarmaKittens(1);
+			this.game.religion.pactsManager.pactsMilleniumKarmaKittens(1);
 		}
 
 		var pyramidVal = this.game.religion.getZU("blackPyramid").getEffectiveValue(this.game);

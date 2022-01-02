@@ -1749,6 +1749,32 @@ dojo.declare("classes.religion.pactsManager", null, {
 		}
 		this.game.resPool.addResPerTick("necrocorn", necrocornPerDay * necrocornDeficitRepaymentModifier);
 	},
+	pactsMilleniumKarmaKittens: function(millenium){
+		//pacts karma effect
+		/*
+		unspent pacts generate karma each 1000 years based on kitten numbers
+		pactsAvailable are created by mausoleum cryptotheology and radicalXenophobia
+		this function adds appropriate karmaKittens and returns change in karma; temporary logs karma generation
+		TODO: maybe make HG bonus play into this
+		*/
+		var kittens = this.game.resPool.get("kittens").value;
+		if (kittens > 35 && this.game.getEffect("pactsAvailable") > 0){
+			var oldKarmaKittens = this.game.karmaKittens;
+			var kittensKarmaPerMinneliaRatio = this.game.getEffect("kittensKarmaPerMinneliaRatio");
+			this.game.karmaKittens += millenium * this.game._getKarmaKittens(kittens) *
+				this.game.getUnlimitedDR(
+					kittensKarmaPerMinneliaRatio * 
+					Math.max(1 + 0.1 * this.game.religion.transcendenceTier - 25, 1)*
+					(this.game.getEffect("pactsAvailable"))
+				, 100);
+			var karmaOld = this.game.resPool.get("karma").value;
+			this.game.updateKarma();
+			console.log("produced " + String(this.game.resPool.get("karma").value - karmaOld) + " karma");
+			console.log("produced " + String(this.game.karmaKittens - oldKarmaKittens) + " karmaKittens"); //for testing purposes - comment over before merging into ML
+			return this.game.resPool.get("karma").value - karmaOld;
+		}
+		return 0;
+	},
 });
 dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.game.ui.tab, {
 
