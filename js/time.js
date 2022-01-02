@@ -779,14 +779,11 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
             // Calendar
             cal.year += Math.min(5, maxYearsShattered);
-            cal.onNewYears(endYear == cal.year, Math.min(5, maxYearsShattered), false);
+            cal.onNewYears(endYear == cal.year, yearsInCurrentCycle, false);
             maxYearsShattered -= Math.min(5, maxYearsShattered);
             remainingDaysInFirstYear = cal.daysPerSeason * cal.seasonsPerYear;
-            //console.log(maxYearsShattered)
         }
-        if(maxYearsShattered < 0){console.error("max years shattered negative " + toString(maxYearsShattered))}
         cal.year += maxYearsShattered;
-        cal.onNewYears(endYear == cal.year, maxYearsShattered, false);
         //cal.onNewYears(endYear == cal.year, maxYearsShattered, false);
         cal.calculateMilleniumProduction(cal.getMilleniaChanged(startYear, cal.year));
         if (amt == 1) {
