@@ -1730,6 +1730,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		SPACE_EXPL: {
 			beta: true,
 			main: false
+		},
+		MAUSOLEUM_PACTS:{
+			beta: true,
+			main: false
 		}
 	},
 

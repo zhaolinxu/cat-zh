@@ -1097,7 +1097,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			transcendenceUpgrades:["mausoleum"]
 		},
 		calculateEffects: function (self, game){
-			if(game.religion.getPact("fractured").on >= 1){
+			if(game.religion.getPact("fractured").on >= 1 || !game.getFeatureFlag("MAUSOLEUM_PACTS")){
 				self.effects["pactsAvailable"] = 0;
 			}
 			game.updateCaches();
