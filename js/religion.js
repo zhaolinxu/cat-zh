@@ -475,7 +475,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		},
 		calculateEffects: function(self, game) {
 			self.togglable = false;
-			if(!this.game.getFeatureFlag("MAUSOLEUM_PACTS")){
+			if(!game.getFeatureFlag("MAUSOLEUM_PACTS")){
 				for (var eff in self.effects){
 					self.effects[eff] = 0;
 				}
@@ -863,7 +863,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			pacts: ["pactOfCleansing", "pactOfDestruction",  "pactOfExtermination", "pactOfPurity"]
 		},
 		calculateEffects: function (self, game){
-			if(!this.game.getFeatureFlag("MAUSOLEUM_PACTS")){
+			if(!game.getFeatureFlag("MAUSOLEUM_PACTS")){
 				self.effects["pactsAvailable"] = 0;
 				self.unlocked = false;
 				game.updateCaches();
@@ -878,7 +878,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			game.updateCaches();
 		},
 		evaluateLocks: function(game){
-			return this.game.getFeatureFlag("MAUSOLEUM_PACTS");
+			return game.getFeatureFlag("MAUSOLEUM_PACTS");
 		}
 		//flavor: $I("religion.tu.mausoleum.flavor")
 	},
@@ -1564,7 +1564,7 @@ dojo.declare("classes.religion.pactsManager", null, {
 			},
 			unlocked: false,
 			calculateEffects: function(self, game){
-				if(!this.game.getFeatureFlag("MAUSOLEUM_PACTS")){
+				if(!game.getFeatureFlag("MAUSOLEUM_PACTS")){
 					return;
 				}
 				self.effects["necrocornPerDay"] = game.getEffect("pactNecrocornConsumption");
@@ -1589,7 +1589,7 @@ dojo.declare("classes.religion.pactsManager", null, {
 			},
 			unlocked: false,
 			calculateEffects: function(self, game){
-				if(!this.game.getFeatureFlag("MAUSOLEUM_PACTS")){
+				if(!game.getFeatureFlag("MAUSOLEUM_PACTS")){
 					return;
 				}
 				self.effects["necrocornPerDay"] = game.getEffect("pactNecrocornConsumption");
@@ -1609,7 +1609,7 @@ dojo.declare("classes.religion.pactsManager", null, {
 			},
 			unlocked: false,
 			calculateEffects: function(self, game){
-				if(!this.game.getFeatureFlag("MAUSOLEUM_PACTS")){
+				if(!game.getFeatureFlag("MAUSOLEUM_PACTS")){
 					return;
 				}
 				self.effects["necrocornPerDay"] = game.getEffect("pactNecrocornConsumption");
@@ -1634,7 +1634,7 @@ dojo.declare("classes.religion.pactsManager", null, {
 			},
 			unlocked: false,
 			calculateEffects: function(self, game){
-				if(!this.game.getFeatureFlag("MAUSOLEUM_PACTS")){
+				if(!game.getFeatureFlag("MAUSOLEUM_PACTS")){
 					return;
 				}
 				self.effects["necrocornPerDay"] = game.getEffect("pactNecrocornConsumption");
@@ -1673,7 +1673,7 @@ dojo.declare("classes.religion.pactsManager", null, {
 			limitBuild: 1,
 			notAddDeficit: true,
 			evaluateLocks: function(game){
-				return game.religion.pactsManager.necrocornDeficit > 0 && this.game.getFeatureFlag("MAUSOLEUM_PACTS");
+				return game.religion.pactsManager.necrocornDeficit > 0 && game.getFeatureFlag("MAUSOLEUM_PACTS");
 			},
 		},{
 			name: "fractured",
@@ -1692,7 +1692,7 @@ dojo.declare("classes.religion.pactsManager", null, {
 			special: true,
 			unlocked: false,
 			calculateEffects: function(self, game){
-				if(!this.game.getFeatureFlag("MAUSOLEUM_PACTS")){
+				if(!game.getFeatureFlag("MAUSOLEUM_PACTS")){
 					self.on = 0;
 					return;
 				}
