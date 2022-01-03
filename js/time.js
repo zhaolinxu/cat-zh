@@ -676,6 +676,10 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     */
     shatterInGroupCycles: function(amt){
         amt = amt || 1;
+        if (amt == 1){
+            this.shatter(1);
+            return;
+        }
         var maxYearsShattered = amt;
 
         var game = this.game;

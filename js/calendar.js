@@ -864,11 +864,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		this.game.resPool.addResEvent("paragon", milleniums);
 		this.game.stats.getStat("totalParagon").val += milleniums;
 	},
-	onNewYears: function(updateUI, years, milleniumChangeCalculated) { // shouldn't be used for more than 5 years, or if you don't have years%50 == 0
-		if(years == 1){
-			this.onNewYear(updateUI);
-			return;
-		}
+	onNewYears: function(updateUI, years, milleniumChangeCalculated) {
 		var ty = this.game.stats.getStat("totalYears");
 		ty.val += years;
 
