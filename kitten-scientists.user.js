@@ -336,7 +336,7 @@ var run = function() {
 
             'ui.faith.addtion': '功能',
             'option.faith.best.unicorn': '自动最效率独角兽建筑',
-            'option.faith.best.unicorn.desc': '当眼泪不够建造最佳独角兽建筑时，会自动献祭独角兽',
+            'option.faith.best.unicorn.desc': '自动献祭独角兽，并会建造最佳独角兽建筑',
             'option.faith.transcend': '自动最佳次元超越',
             'act.transcend': '消耗 {0} 顿悟，达到次元超越 {1}',
             'summary.transcend': '次元超越了 {0} 次',
@@ -536,7 +536,7 @@ var run = function() {
                     bestUnicornBuilding:    {enabled: true,  misc: true, label: i18n('option.faith.best.unicorn')},
                     autoPraise:             {enabled: true,  misc: true, label: i18n('option.praise'), subTrigger: 0.98},
                     // Former [Faith Reset]
-                    adore:                  {enabled: true, misc: true, label: i18n('option.faith.adore'), subTrigger: 0.325, lastFaith: false},
+                    adore:                  {enabled: true, misc: true, label: i18n('option.faith.adore'), subTrigger: 0.17, lastFaith: false},
                     transcend:              {enabled: true, misc: true, label: i18n('option.faith.transcend')},
                 },
                 // Which religious upgrades should be researched?

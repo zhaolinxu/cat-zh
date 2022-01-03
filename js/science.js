@@ -1890,6 +1890,10 @@ dojo.declare("com.nuclearunicorn.game.ui.TechButtonController", com.nuclearunico
 		var meta = model.metadata;
 		model.visible = meta.unlocked;
 
+		if (meta.name == 'metaphysics' && !this.game.space.programs[0].on && game.stats.getStat("totalResets").val < 3){
+			return model.visible = false;
+		}
+
 		if (meta.researched && this.game.science.hideResearched){
 			model.visible = false;
 		}
