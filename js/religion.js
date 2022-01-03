@@ -1693,7 +1693,12 @@ dojo.declare("classes.religion.pactsManager", null, {
 			unlocked: false,
 			calculateEffects: function(self, game){
 				if(!game.getFeatureFlag("MAUSOLEUM_PACTS")){
-					self.on = 0;
+					self.effects = {
+						"pyramidGlobalResourceRatio" : 0,
+						"pyramidGlobalProductionRatio" : 0,
+						"pyramidFaithRatio" : 0,
+						"pactsAvailable": 0,
+					};
 					return;
 				}
 				if(self.on>=1){

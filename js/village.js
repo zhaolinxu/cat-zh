@@ -2913,7 +2913,7 @@ dojo.declare("classes.ui.village.Census", null, {
 	},
 
 	getStyledName: function(kitten, isLeaderPanel){
-		if(!this.game.religion.getPact("fractured").val){
+		if(!this.game.religion.getPact("fractured").val || !this.game.getFeatureFlag("MAUSOLEUM_PACTS")){
 		return "<span class='name color-" +
 			((kitten.color && kitten.colors[kitten.color + 1]) ? kitten.colors[kitten.color + 1].color : "none") +
 			" variety-" + ((kitten.variety && kitten.varieties[kitten.variety + 1]) ? kitten.varieties[kitten.variety + 1].style : "none") +
@@ -2969,9 +2969,9 @@ dojo.declare("classes.ui.village.Census", null, {
 			
 			record.content.innerHTML =
 				"<div class='info'>" + this.getStyledName(kitten) +
-				 ", " + (this.game.religion.getPact("fractured").val? "???": kitten.age)
+				 ", " + ((this.game.religion.getPact("fractured").val && this.game.getFeatureFlag("MAUSOLEUM_PACTS"))? "???": kitten.age)
 				+ " " + $I("village.census.age") + ", "
-				+ (this.game.religion.getPact("fractured").val? "???": kitten.trait["title"])
+				+ ((this.game.religion.getPact("fractured").val && this.game.getFeatureFlag("MAUSOLEUM_PACTS"))? "???": kitten.trait["title"])
 				+ (kitten.rank == 0 ? "" : " (" + $I("village.census.rank") + " " + kitten.rank + ")") + "</div>";
 
             //--------------- skills ----------------
