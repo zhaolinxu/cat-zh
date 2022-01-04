@@ -553,8 +553,8 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         var worshipAfterAdore = 0.01 + faith * (1 + game.getUnlimitedDR(faithRatioAfterAdore, 0.1) * 0.1);
         var uncappedBonus = this.game.getUnlimitedDR(worshipAfterAdore, 1000) / 100;
 		var precision = game.opts.forceHighPrecision ? 3 : 2;
-        var Sloar = this.game.getLimitedDR(uncappedBonus, 10 + this.game.getEffect("solarRevolutionLimit") + (this.game.challenges.getChallenge("atheism").researched ? (this.game.religion.transcendenceTier) : 0)) * (1 + this.game.getLimitedDR(this.game.getEffect("faithSolarRevolutionBoost"), 4));
-		return Sloar.toFixed(precision + 2) * 100 + "%";
+        var Sloar = this.game.getLimitedDR(uncappedBonus, 10 + this.game.getEffect("solarRevolutionLimit") + (this.game.challenges.getChallenge("atheism").researched ? (this.game.religion.transcendenceTier) : 0)) * (1 + this.game.getLimitedDR(this.game.getEffect("faithSolarRevolutionBoost"), 4)) * 100;
+		return this.game.getDisplayValueExt(Sloar) + "%";
     },
 
     getlowestRatio: function() {
