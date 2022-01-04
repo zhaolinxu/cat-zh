@@ -108,13 +108,14 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
             "religion": "太阳教团",
 
             "getReligionProductionBonusCap": "太阳革命极限加成",
-            "getNextTranscendTierProgress": "当前拥有的顿悟",
-            "getAdore": "预计赞美群星后的总顿悟",
+            "getNextTranscendTierProgress": "当前顿悟值",
+            "getAdore": "赞美群星后的顿悟值",
+			 "getAdoreSloar": "赞美群星再赞美太阳的太阳革命加成",
 
             "Transcend": "次元超越",
 
-            "getlowestRatio": "进行次元超越消耗的顿悟",
-            "getRecNextTranscendTierProgress": "推荐次元超越拥有的顿悟",
+            "getlowestRatio": "进行次元超越的顿悟减少值",
+            "getRecNextTranscendTierProgress": "推荐次元超越的当前顿悟值",
             "getBoolean": "赞美群星前(是/否)次元超越",
 
             "paragon": "领导力加成",
@@ -534,9 +535,26 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
     },
 
     getAdore: function() {
+		if (!game.religion.meta[1].meta[8].on) {
+		    return this.i18n("best.none");
+		}
         var ttPlus1 = (this.game.religion.getRU("transcendence").on ? this.game.religion.transcendenceTier : 0) + 1;
         var faithRatio = this.game.religion.faithRatio;
-        return faithRatio + this.game.religion.faith / 1000000 * ttPlus1 * ttPlus1 * 1.01;
+        return faithRatio + this.game.religion.faith * 1e-6 * ttPlus1 * ttPlus1 * 1.01;
+    },
+
+    getAdoreSloar: function() {
+        if (!game.religion.getRU("solarRevolution").on || !game.religion.meta[1].meta[8].on) {
+            return this.i18n("best.none");
+        }
+        var ttPlus1 = (this.game.religion.getRU("transcendence").on ? this.game.religion.transcendenceTier : 0) + 1;
+        var faithRatioAfterAdore = this.game.religion.faithRatio + this.game.religion.faith * 1e-6 * ttPlus1 * ttPlus1 * 1.01;
+        var faith = this.game.resPool.resources[14].value;
+        var worshipAfterAdore = 0.01 + faith * (1 + game.getUnlimitedDR(faithRatioAfterAdore, 0.1) * 0.1);
+        var uncappedBonus = this.game.getUnlimitedDR(worshipAfterAdore, 1000) / 100;
+		var precision = game.opts.forceHighPrecision ? 3 : 2;
+        var Sloar = this.game.getLimitedDR(uncappedBonus, 10 + this.game.getEffect("solarRevolutionLimit") + (this.game.challenges.getChallenge("atheism").researched ? (this.game.religion.transcendenceTier) : 0)) * (1 + this.game.getLimitedDR(this.game.getEffect("faithSolarRevolutionBoost"), 4));
+		return Sloar.toFixed(precision + 2) * 100 + "%";
     },
 
     getlowestRatio: function() {
@@ -844,7 +862,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
             },
             {
                 name: "getCatnipColdWinter",
-                // title: "During Cold Winter",
+                title: "大于 0 才不会饿死喵喵呢",
                 val: 0,
             }
         ],
@@ -937,6 +955,11 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
                 // title: "Solar Revolution Limit",
                 val: 0,
             },
+			{
+			    name: "getAdoreSloar",
+			    title: "供珂学家赞美群星触发条件参考",
+			    val: 0,
+			},
         ],
         Transcend: [{
                 name: "getlowestRatio",
@@ -945,7 +968,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
             },
             {
                 name: "getRecNextTranscendTierProgress",
-                // title: "Progress to Next Transcendence Tier",
+                title: "有这么多顿悟再次元超越是最效率的喵~",
                 val: 0,
             },
             {
@@ -1025,10 +1048,12 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
             },
             {
                 name: "getAIlv15Time",
+				title: "小心机器人",
                 val: 0,
             },
             {
                 name: "getFutureSeason",
+				title: "非酋程度",
                 val: 0,
             },
             {
@@ -1159,7 +1184,8 @@ dojo.declare("classes.tab.NummonTab", com.nuclearunicorn.game.ui.tab, {
 
                 var tr = dojo.create("tr", null, table);
                 dojo.create("td", {
-                    innerHTML: this.game.nummon.i18n(stat.name)
+                    innerHTML: this.game.nummon.i18n(stat.name),
+					title: (stat.title) ? stat.title : ''
                 }, tr);
                 dojo.create("td", {
                     innerHTML: typeof val == "number" ? this.game.getDisplayValueExt(val) : val
