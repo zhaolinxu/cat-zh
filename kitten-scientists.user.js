@@ -2168,6 +2168,8 @@ var run = function() {
             }
         },
         craft: function () {
+            if (!game.bld.getBuildingExt('steamworks').meta.on) {return;}
+
             var crafts = options.auto.craft.items;
             var manager = this.craftManager;
             var trigger = options.auto.craft.trigger;
