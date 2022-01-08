@@ -1352,7 +1352,13 @@ var run = function() {
                 if (willSkip > 0) {
                     optionVals.timeSkip.adore = true;
                     var beforeSkipYear = game.calendar.year;
-                    shatter.controller.doShatterAmt(shatter.model, willSkip);
+                    if (willSkip < 5) {
+                        game.time.testShatter = 2;
+                        shatter.controller.doShatterAmt(shatter.model, willSkip);
+                        game.time.testShatter = 0;
+                    } else {
+                        shatter.controller.doShatterAmt(shatter.model, willSkip);
+                    }
                     willSkip = game.calendar.year - beforeSkipYear;
                     if (!willSkip) {return;}
                     iactivity('act.time.skip', [willSkip], 'ks-timeSkip');
