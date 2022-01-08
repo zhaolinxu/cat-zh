@@ -645,7 +645,7 @@ var run = function() {
                     // storage
                     barn:           {require: 'wood',        enabled: true, max:-1, checkForReset: true, triggerForReset: -1},
                     harbor:         {require: false,         enabled: false,max:-1,  checkForReset: true, triggerForReset: -1},
-                    warehouse:      {require: false,         enabled: false,max:-1,  checkForReset: true, triggerForReset: -1},
+                    warehouse:      {require: false,         enabled: false,max:200, checkForReset: true, triggerForReset: -1},
             
             // zebras
                     zebraOutpost:   {require: 'bloodstone',  enabled: false, max:-1, checkForReset: true, triggerForReset: -1},

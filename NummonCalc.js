@@ -144,7 +144,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
             "getBestUnobtainiumBuilding": "难得素最佳太空建筑",
             "getAIlv15Time": "天网觉醒倒计时",
             "getFutureSeason": "距离下次时间悖论(季节)",
-            "getadjustDay": "黑币最高价格倒计时",
+            "getadjustDay": "黑币最高价格期望倒计时",
 
             "best.none": "无",
             "infinity": "∞",
