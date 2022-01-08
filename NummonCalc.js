@@ -783,6 +783,9 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
     },
 
     getBestUnobtainiumBuilding: function() {
+		if (!game.science.get('nanotechnology').researched) {
+			return this.i18n("best.none");
+		}
         var elevatorPrices = this.getButtonPrice("space", 1, "spaceElevator", "unobtainium");
         var arrayPrices = this.getButtonPrice("space", 4, "orbitalArray", "eludium");
         var elevatorVal = game.space.getBuilding("spaceElevator").val;
@@ -791,6 +794,9 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         var elevatorup = (0.01 + spaceRatio) * arrayPrices * 1000;
         var arrayup = (0.02 + spaceRatio) * elevatorPrices * (1 + this.game.getCraftRatio("chemist"));
         if (elevatorup >= arrayup) {
+			if (elevatorPrices > game.resPool.resources[9].maxValue) {
+				return this.i18n("best.none");
+			}
             var number = 1;
             while (elevatorup >= arrayup && elevatorPrices < Number.MAX_VALUE / 1.15) {
                 elevatorPrices *= 1.15;
