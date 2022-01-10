@@ -197,7 +197,7 @@ WToolbarMOTD = React.createClass({
         var server = this.game.server;
 		if (server.showMotd && server.motdContent) {
 			server.motdFreshMessage = false;
-			return "有问题找百科或者猫国QQ群<br />" + server.motdContent;
+			return "Message of the day:<br />" + server.motdContent;
 		}
     }
 });
@@ -207,7 +207,11 @@ WToolbarPollution = React.createClass({
 
     render: function(){
         var game = this.props.game;
-
+        var message = this.getTooltip(true);
+        if(this.message != message){
+            this.freshMessage = this.message != "";
+            this.message = message;
+        }
         if(game.bld.cathPollution > 100000 || game.science.get("ecology").researched){
             return $r(WToolbarIconContainer, {
                 game: game,
@@ -251,7 +255,7 @@ WToolbarPollution = React.createClass({
         if (pollution * 1.5 <= eqPol || eqPolLvl > polLvl){
             message += "<br/>" + $I("pollution.increasing");
         }
-        else if (pollution >= 0 && game.bld.cathPollutionPerTick <= 0 && eqPolLvl <= polLvl){
+        else if (pollution >= 0 && game.bld.cathPollutionPerTick <= 0 && eqPolLvl < polLvl){
             message += "<br/>" + $I("pollution.cleaning");
         }
         else if (eqPolLvl == polLvl && eqPol > 0){
@@ -263,8 +267,8 @@ WToolbarPollution = React.createClass({
         if (notUpdateFreshMessage){
             return message;
         }
-        message +="<br/>二氧化碳: " + (game.science.get("ecology").researched ? 
-            this.getPollutionMod() : $I("pollution.unspecified"));    
+        message +="<br/>CO₂: " + (game.science.get("ecology").researched ?
+            this.getPollutionMod() : $I("pollution.unspecified"));
         this.freshMessage = false;
         return message;
     },
@@ -338,27 +342,24 @@ WLoginForm = React.createClass({
         return {
             login: null,
             password: null,
-            isLoading: false,
-            setEmail:null,
+            isLoading: false
         }
     },
 
     render: function(){
         if (this.state.isLoading){
-            return $r("span", null, "加载中...");
+            return $r("span", null, "Loading...");
         }
         var game = this.props.game;
         if (game.server.userProfile){
             var userProfile = game.server.userProfile;
             return $r("div", {className: "userProfile"},[
-                $r("img", {src: "https://q2.qlogo.cn/headimg_dl?dst_uin=" +
-                    (userProfile.email ? userProfile.email : "n/a")
-                + "&spec=1",
-                width:"25px",
-                height:"25px"}),
+                $r("img", {src: "https://www.gravatar.com/avatar/" +
+                    (userProfile.email ? md5(userProfile.email) : "n/a")
+                + "?s=15"}),
                 $r("a", {
-                    href: "https://kittensgame.com/ui/profile", target:"_blank"
-                }, userProfile.qqName)
+                    href:"/ui/profile", target:"_blank"
+                }, userProfile.id)
             ]);
 
         }
@@ -367,13 +368,13 @@ WLoginForm = React.createClass({
             {onClick: function (e){ e.stopPropagation(); }},
             [
                 $r("div", {className: "row"}, [
-                    "邮箱:",
+                    "Email:",
                         $r("input", {
                             type: "email",
                             onChange: this.setLogin,
                             value: this.state.login
                         } ),
-                    "密码:",
+                    "Password:",
                         $r("input", {
                             type: "password",
                             onChange: this.setPassword,
@@ -384,12 +385,11 @@ WLoginForm = React.createClass({
                     $r("a", {
                         href:"#",
                         onClick: this.login
-                    }, "登录"),
+                    }, "login"),
                     $r("a", {
-                        onClick: function(e){
-                            e.stopPropagation();
-                            game.ui.showDialog("registerDiv");
-                    }}, "注册")
+                        target: "_blank",
+                        href: "http://kittensgame.com/ui/register"
+                    }, "register")
                 ])
             ]
         )
@@ -403,12 +403,6 @@ WLoginForm = React.createClass({
         this.setState({login: e.target.value});
     },
 
-    setEmail(){
-        e.stopPropagation();
-        e.nativeEvent.stopImmediatePropagation();
-
-        this.setState({login: e.target.value});
-    },
 
     setPassword(e){
         e.stopPropagation();
@@ -429,23 +423,11 @@ WLoginForm = React.createClass({
                 email: this.state.login,
                 password: this.state.password
             },
-            crossDomain: true,
 			xhrFields: {
 				withCredentials: true
 			},
-            timeout : 20000,
-			url: game.server.getServerUrl() + "/user/login/",
-			//dataType: "json",
-        }).fail(function(xhr){
-            var text = xhr.responseText;
-            if (!text) {
-                game.msg("请检查网络或浏览器设置", "important");
-                console.log(xhr.status);
-                return;
-            } else {
-                game.msg('注意如果尝试次数过多，账户会被锁定', "important");
-            }
-            game.msg($I(text), "important");
+			url: this.props.game.server.getServerUrl() + "/user/login/",
+			dataType: "json"
 		}).done(function(resp){
             if (resp.id){
                 self.props.game.server.setUserProfile(resp);
@@ -456,7 +438,7 @@ WLoginForm = React.createClass({
     }
 });
 
-WCloudSaves = React.createClass({
+WCloudSaveRecord = React.createClass({
 
     bytesToSize(bytes) {
         var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
@@ -464,6 +446,56 @@ WCloudSaves = React.createClass({
         var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
         return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
     },
+
+    render: function(){
+        var game = this.props.game;
+        var save = this.props.save;
+
+        var isActiveSave = (save.guid == game.telemetry.guid);
+        var guid = save.guid;
+
+        var self = this;
+
+        return $r("div", {className:"save-record"}, [
+            $r("div", {className:"save-record-cell"},
+                $r("a", { }, guid.substring(guid.length-4, guid.length)),
+                isActiveSave ? "[" + $I("ui.kgnet.save.current") + "]" : ""
+            ),
+            $r("div", {className:"save-record-cell"},
+                save.index ?
+                ("Year "+ save.index.calendar.year + ", day " + save.index.calendar.day) :
+                "loading..."
+            ),
+            $r("div", {className:"save-record-cell"},
+                new Date(save.timestamp).toLocaleDateString("en-US", {
+                    month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hourCycle: "h24"
+                })
+            ),
+            $r("div", {className:"save-record-cell"}, self.bytesToSize(save.size)),
+            isActiveSave && $r("a", {
+                className: "link",
+                title: "Upload your current game save to the server (this will owerwrite your old cloud save)",
+                onClick: function(e){
+                    e.stopPropagation();
+                    game.ui.confirm("[S]ave", "This will override [SERVER] save. Y/N", function(){
+                        game.server.pushSave();
+                    });
+                }}, $I("ui.kgnet.save.save")),
+            $r("a", {
+                className: "link",
+                title: "Download a cloud save and apply it to your game (your current data will be lost)",
+                    onClick: function(e){
+                    e.stopPropagation();
+                    game.ui.confirm("[L]oad", "This will override [LOCAL] save. Y/N", function(){
+                        game.server.loadSave(save.guid);
+                    });
+                }}, $I("ui.kgnet.save.load")),
+                
+        ]);
+    }
+})
+
+WCloudSaves = React.createClass({
 
     render: function(){
         var self = this;
@@ -494,74 +526,35 @@ WCloudSaves = React.createClass({
             $r("div", {className:"save-record-container"},
             //header
             saveData && $r("div", {className:"save-record header"}, [
-                $r("div", {className:"save-record-cell"}, "存档ID"),
-                $r("div", {className:"save-record-cell"}, "该列数据不准"),
-                $r("div", {className:"save-record-cell"}, "上次更新时间"),
-                $r("div", {className:"save-record-cell"}, "大小"),
-                $r("div", {className:"save-record-cell"}, "存档操作")
+                $r("div", {className:"save-record-cell"}, "Id"),
+                $r("div", {className:"save-record-cell"}, "Save"),
+                $r("div", {className:"save-record-cell"}, "Last update"),
+                $r("div", {className:"save-record-cell"}, "Size"),
+                $r("div", {className:"save-record-cell"}, "Actions")
             ]),
             //body
             //TODO: externalize save record as component?
             saveData && saveData.map(function(save){
-                var isActiveSave = (save.guid == game.telemetry.guid);
-                return $r("div", {className:"save-record"}, [
-                    $r("div", {className:"save-record-cell"},
-                        isActiveSave ? "[" + $I("ui.kgnet.save.current") + "]" : ""
-                    ),
-                    $r("div", {className:"save-record-cell"},
-                        //save.index ?
-                        //(save.index.calendar.year +"年" + "，" + save.index.calendar.day + " 天 ") :
-                        //"加载中..."
-						"参考右列"
-                    ),
-                    $r("div", {className:"save-record-cell"},
-                        new Date(save.timestamp).toLocaleDateString("zh-CN", {
-                            month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hourCycle: "h24"
-                        })
-                    ),
-                    $r("div", {className:"save-record-cell"}, self.bytesToSize(save.size)),
-                    isActiveSave && $r("a", {
-                        className: "link",
-                        title: "上传你当前游戏存档到官网（会覆盖旧存档）",
-                        onClick: function(e){
-                            e.stopPropagation();
-                            game.server.pushSave();
-                        }}, $I("ui.kgnet.save.save")),
-                    $r("a", {
-                        className: "link",
-                        title: "下载并加载云存档（你当前存档会丢失）",
-                            onClick: function(e){
-                            e.stopPropagation();
-                            game.server.loadSave(save.guid);
-                        }}, $I("ui.kgnet.save.load")),
-                ])
+                return $r(WCloudSaveRecord, {save: save, game: game});
             })),
 
             $r("div", {className:"save-record-container"}, [
                 (saveData && !hasActiveSaves) && $r("div", {className:"save-record"},[
-                    $r("a", {
-                        title: "保存该存档到国外官网（注意保存你需要保存的）",
-                        onClick: function(e){
-                            e.stopPropagation();
-                            game.server.pushSave();
-                        }
-                    }, "保存新的存档 (" + game.telemetry.guid + ")")
+                    $r("a", {onClick: function(e){
+                        e.stopPropagation();
+                        game.server.pushSave();
+                    }}, "Create new save (" + game.telemetry.guid + ")")
                 ]),
                 $r("div", {className:"save-record"},[
                     $r("a", {
                         className: "link",
-                        title: "更新存档信息。这是安全按钮不会改变任何数据。",
+                        title: "Fetch the latest information about your cloud saves from the serer. This is a safe operation and it wont change any data.",
                         onClick: function(e){
                             e.stopPropagation();
                             game.server.syncSaveData();
                         }
                     }, $I("ui.kgnet.sync")),
-                    !saveData && $r("a", {
-                        className: "link",
-                        target: "_blank",
-                        title: "同步存档教程",
-                        href: "https://petercheney.gitee.io/baike/?file=007-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/02-%E4%BA%91%E5%AD%98%E6%A1%A3"
-                    }, "先同步才能上传和加载")
+                    $r("span", {paddingTop:"10px"}, $I("ui.kgnet.instructional"))
                 ])
             ])
         ])
@@ -578,6 +571,8 @@ WLogin = React.createClass({
     render: function(){
         var game = this.props.game;
 
+        var lastBackup = (new Date().getTime() - game.lastBackup) / (1000 * 60 * 6 * 24);
+
         return $r(WToolbarIconContainer, {
             game: game,
         },
@@ -587,15 +582,20 @@ WLogin = React.createClass({
                 },
                 [
                     $r("span", {
-                        className: "kgnet-login-link status-indicator-" + (game.server.userProfile ? "online" : "offline"),
-                        title: "国外官方云存档"
-                    }, "* " + (game.server.userProfile ? 
+                        className: "kgnet-login-link status-indicator-" + (game.server.userProfile ? "online" : "offline")
+                        + (lastBackup >= 7 ? " freshMessage" : "")
+                    }, "* " + (game.server.userProfile ?
                         $I("ui.kgnet.online") : $I("ui.kgnet.login")
                     )),
                     this.state.isExpanded && $r("div", {
                         className: "login-popup button_tooltip tooltip-block"
                     },
                         $r("div", null,
+                            $r("div", {className: "last-backup"}, [
+                                (lastBackup >= 7) && $r("span", {className: "hazard"}),
+                                "Last backup: ", lastBackup.toFixed(1) + " days ago",
+                                (lastBackup >= 7) && $r("span", {className: "hazard"})
+                            ]),
                             $r(WLoginForm, {game: game}),
                             $r(WCloudSaves, {game: game})
                         )
@@ -632,7 +632,7 @@ WToolbar = React.createClass({
         var icons = [];
         icons.push(
             $r(WToolbarFPS, {game: this.state.game}),
-            $r(WToolbarPollution, {game: this.state.game}),
+            game.opts.disablePollution ? null : $r(WToolbarPollution, {game: this.state.game}),
             $r(WToolbarHappiness, {game: this.state.game}),
             $r(WToolbarEnergy, {game: this.state.game}),
             $r(WBLS, {game: this.state.game}),

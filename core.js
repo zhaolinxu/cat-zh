@@ -386,6 +386,11 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 				title: $I("console.filter.faith"),
 				enabled: true,
 				unlocked: false
+			},
+			"elders": {
+				title: $I("console.filter.elders"),
+				enabled: true,
+				unlocked: false
 			}
 		}
 	},
@@ -679,7 +684,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonController", null, {
 			var price = model.prices[i];
 
 			var res = this.game.resPool.get(price.name);
-			if (res.isRefundable(this.game)) {
+			if (res.isRefundable(this.game) && !price.isTemporary) {
 				this.game.resPool.addResEvent(price.name, price.val * model.refundPercentage);
 			} else {
 				// No refund at all
@@ -1167,7 +1172,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 			var displayEffectValue = "";
 
 			//display resMax values with global ratios like Refrigeration and Paragon
-			if (effectName.substr(-3) === "Max") {
+			if (effectName.substr(-3) === "Max" || effectName.substr(-12) == "MaxChallenge") {
 				var res = this.game.resPool.get(effectMeta.resName || effectName.slice(0, -3));
 				if (res) { // If res is a resource and not just a variable
 					effectValue = this.game.resPool.addResMaxRatios(res, effectValue);
@@ -1254,13 +1259,8 @@ ButtonModernHelper = {
 		if (model.tooltipName) {
 			dojo.create("div", {
 				innerHTML: model.name,
-				className: "tooltip-divider",
-				style: {
-					textAlign: "center",
-					width: "100%",
-					borderBottom: "1px solid gray",
-					paddingBottom: "4px"
-			}}, tooltip);
+				className: "tooltip-divider"
+			}, tooltip);
 		}
 
 		// description
@@ -1276,9 +1276,10 @@ ButtonModernHelper = {
 				className: "desc small" + (model.metadata.isAutomationEnabled ? " auto-on" : " auto-off")
 			}, tooltip);
 		}
+
 		if (model.metadata && model.metadata.effects && 
 			model.metadata.effects["cathPollutionPerTickProd"] > 0 &&
-			controller.game.science.get("chemistry").researched
+			controller.game.science.get("chemistry").researched && !controller.game.opts.disablePollution
 		){
 			dojo.create("div", {
 				innerHTML: $I("btn.pollution.tooltip"),
@@ -1300,7 +1301,7 @@ ButtonModernHelper = {
 			dojo.style(descDiv, "paddingBottom", "8px");
 
 			// prices
-			if (prices){
+			if (prices && prices.length){
 				dojo.style(descDiv, "borderBottom", "1px solid gray");
 				ButtonModernHelper.renderPrices(tooltip, model);	//simple prices
 			}
@@ -1414,8 +1415,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 		dojo.addClass(this.domNode, "modern");
 
 		this.renderLinks();
-
-		this.attachTooltip(dojo.partial(ButtonModernHelper.getTooltipHTML, this.controller, this.model));
+		this.attachTooltip(dojo.partial(this.getTooltipHTML(), this.controller, this.model));
 
 		this.buttonContent.title = "";	//no old title for modern buttons :V
 
@@ -1429,6 +1429,10 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 					this.game.clearSelectedObject();
 				}));
 		}
+	},
+
+	getTooltipHTML: function(){
+		return ButtonModernHelper.getTooltipHTML;
 	},
 
 	attachTooltip: function(htmlProvider) {
@@ -1993,6 +1997,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 				this.game.ironWill = false;
 				var liberty = this.game.science.getPolicy("liberty");
 				liberty.calculateEffects(liberty, this.game);
+				var zebraOutpostMeta = this.game.bld.getBuildingExt("zebraOutpost").meta;
+				zebraOutpostMeta.calculateEffects(zebraOutpostMeta, this.game);
 			}
 
 			if (meta.unlocks) {

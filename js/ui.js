@@ -705,7 +705,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             var calendarSignSpan = dojo.byId("calendarSign");
             var cycle = calendar.cycles[calendar.cycle];
             if (cycle && this.game.science.get("astronomy").researched) {
-            	calendarSignSpan.style.color = calendar.cycleYearColor();
+                calendarSignSpan.style.color = calendar.cycleYearColor();
                 calendarSignSpan.innerHTML = cycle.glyph + " ";
             }
         } else {
@@ -1002,6 +1002,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#appAndroid").text($I("ui.option.app.android"));
         $("#appIOS").text($I("ui.option.app.ios"));
         $("#optionNotation").text($I("ui.option.notation"));
+        $("#optionDisablePollution").text($I("ui.option.pollution"));
     },
 
     _createFilter: function(filter, fId, filtersDiv){
