@@ -222,7 +222,7 @@ dojo.declare("classes.game.Server", null, {
 				type: "GET",
 				dataType: "JSON",
 				crossDomain: true,
-				url: "https://api.usuuu.com/qq/"+ qqNumber
+				url: "https://api.usuuu.com/qq/" + qqNumber
 			}).done(function(resp) {
 				if (resp) {
 					userProfile.qqName = resp.data.name;
@@ -332,8 +332,8 @@ dojo.declare("classes.game.Server", null, {
 			self.saveData = resp;
 		}).fail(function(err) {
 			game.msg('获取存档信息失败，即将打开同步存档教程', "important");
-            var tempwindow=window.open();
-            tempwindow.location='https://petercheney.gitee.io/baike/?file=007-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/02-%E4%BA%91%E5%AD%98%E6%A1%A3';
+            var tempwindow = window.open();
+            tempwindow.location = 'https://petercheney.gitee.io/baike/?file=007-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/02-%E4%BA%91%E5%AD%98%E6%A1%A3';
 		});
 	},
 
@@ -1851,10 +1851,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		var ONE_MIN = this.ticksPerSecond * 60;
 		this.timer.addEvent(dojo.hitch(this, function(){ this.achievements.update(); }), 50);	//once per 50 ticks, we hardly need this
-		this.timer.addEvent(dojo.hitch(this, function(){ this.server.refresh(); }), ONE_MIN * 60);	//reload MOTD and server info every 10 minutes
-		this.timer.addEvent(dojo.hitch(this, function(){ this.heartbeat(); }), ONE_MIN * 10);	//send heartbeat every 10 min	//TODO: 30 min eventually
+		this.timer.addEvent(dojo.hitch(this, function(){ this.server.refresh(); }), ONE_MIN * 3e2);	//reload MOTD and server info every 10 minutes
+		this.timer.addEvent(dojo.hitch(this, function(){ this.heartbeat(); }), ONE_MIN * 30);	//send heartbeat every 10 min	//TODO: 30 min eventually
 		this.timer.addEvent(dojo.hitch(this, function(){ this.updateWinterCatnip(); }), 25);	//same as achievements, albeit a bit more frequient
-		this.timer.addEvent(dojo.hitch(this, function(){ this.ui.checkForUpdates(); }), ONE_MIN * 60);	//check new version every 5 min
+		this.timer.addEvent(dojo.hitch(this, function(){ this.ui.checkForUpdates(); }), ONE_MIN * 180);	//check new version every 5 min
 
 		this.effectsMgr = new com.nuclearunicorn.game.EffectsManager(this);
 	},

@@ -334,7 +334,7 @@ var run = function() {
             'ui.upgrade.policies.load': '读取',
             'ui.upgrade.policies.show': '列表',
 
-            'ui.faith.addtion': '功能',
+            'ui.faith.addtion': '宗教选项',
             'option.faith.best.unicorn': '自动最效率独角兽建筑',
             'option.faith.best.unicorn.desc': '自动献祭独角兽，并会建造最佳独角兽建筑',
             'option.faith.transcend': '自动最佳次元超越',
