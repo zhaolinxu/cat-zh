@@ -1017,23 +1017,24 @@ var run = function() {
         },
         iterate: async function () {
             var subOptions = options.auto.options;
+			var refresh = 0;
             if (subOptions.enabled && subOptions.items.observe.enabled)                     {this.observeStars();}
             if (options.auto.upgrade.enabled)                                               {this.upgrade();}
             if (subOptions.enabled && subOptions.items.festival.enabled)                    {this.holdFestival();}
-            if (options.auto.build.enabled)                                                 {var buildRe = this.build();}
-            if (options.auto.space.enabled)                                                 {var spaceRe = this.space();}
+            if (options.auto.build.enabled)                                                 {refresh += this.build();}
+            if (options.auto.space.enabled)                                                 {refresh += this.space();}
             if (options.auto.craft.enabled)                                                 {this.craft();}
             if (subOptions.enabled && subOptions.items.hunt.enabled)                        {this.setHunt();}
             if (options.auto.trade.enabled)                                                 {this.trade();}
-            if (options.auto.faith.enabled)                                                 {var worshipRe = this.worship();}
-            if (options.auto.time.enabled)                                                  {var chronoRe = this.chrono();}
+            if (options.auto.faith.enabled)                                                 {refresh += this.worship();}
+            if (options.auto.time.enabled)                                                  {refresh += this.chrono();}
             if (subOptions.enabled && subOptions.items.crypto.enabled)                      {this.crypto();}
             if (subOptions.enabled && subOptions.items.autofeed.enabled)                    {this.autofeed();}
             if (subOptions.enabled && subOptions.items.promote.enabled)                     {this.promote();}
             if (options.auto.distribute.enabled)                                            {this.distribute();}
             if (options.auto.timeCtrl.enabled)                                              {this.timeCtrl();}
-            if (subOptions.enabled)                                                         {var miscRe = this.miscOptions();}
-            if (buildRe || worshipRe || spaceRe || chronoRe || miscRe)                      {game.ui.render();}
+            if (subOptions.enabled)                                                         {refresh += this.miscOptions();}
+            if (refresh)                                                                    {game.ui.render();}
             if (options.auto.timeCtrl.enabled && options.auto.timeCtrl.items.reset.enabled) {await this.reset();}
         },
         halfInterval: async function () {
@@ -1515,7 +1516,7 @@ var run = function() {
             var buildManager = this.buildManager;
             var craftManager = this.craftManager;
             var option = options.auto.faith.addition;
-            var refreshRequired = false;
+            var refreshRequired = 0;
 
             if (option.bestUnicornBuilding.enabled) {
                 var validBuildings = ['unicornTomb', 'ivoryTower', 'ivoryCitadel', 'skyPalace', 'unicornUtopia','sunspire'];
@@ -1567,7 +1568,7 @@ var run = function() {
                 delete builds.unicornPasture;
             }
             // religion build
-            if (this._worship(builds)) {refreshRequired = true;}
+            if (this._worship(builds)) {refreshRequired = 1;}
 
             var faith = craftManager.getResource('faith');
             var rate = faith.value / faith.maxValue;
@@ -1656,7 +1657,7 @@ var run = function() {
                             for (var i = 0; i < game.religion.transcendenceUpgrades.length; i++) {
                                 if (!game.religion.transcendenceUpgrades[i].unlocked && tt >= game.religion.transcendenceUpgrades[i].tier) {
                                     game.religion.transcendenceUpgrades[i].unlocked = true;
-                                    refreshRequired = true;
+                                    refreshRequired = 1;
                                 }
                             }
                             TranscendTimes--;
@@ -1737,18 +1738,18 @@ var run = function() {
 
             var buildList = bulkManager.bulk(builds, metaData, trigger);
 
-            var refreshRequired = false;
+            var refreshRequired = 0;
             for (var entry in buildList) {
                 if (buildList[entry].count > 0) {
                     buildManager.build(buildList[entry].id, buildList[entry].variant, buildList[entry].count);
-                    refreshRequired = true;
+                    refreshRequired = 1;
                 }
             }
 
             return refreshRequired;
         },
         chrono: function () {
-            var refreshRequired = false;
+            var refreshRequired = 0;
             if (!game.timeTab.visible) {return refreshRequired;}
             var builds = options.auto.time.items;
             var buildManager = this.timeManager;
@@ -1785,7 +1786,7 @@ var run = function() {
             for (var entry in buildList) {
                 if (buildList[entry].count > 0) {
                     buildManager.build(buildList[entry].id, buildList[entry].variant, buildList[entry].count);
-                    refreshRequired = true;
+                    refreshRequired = 1;
                 }
             }
 
@@ -1797,7 +1798,7 @@ var run = function() {
             var craftManager = this.craftManager;
             var bulkManager = this.bulkManager;
             var buildManager = this.buildManager;
-            var refreshRequired = false;
+            var refreshRequired = 0;
 
             //upgradeManager.workManager.render();
             //upgradeManager.sciManager.render();
@@ -1920,7 +1921,7 @@ var run = function() {
                             game.resPool.get('manpower').value -= 1000;
                             iactivity('upgrade.race', [game.diplomacy.unlockRandomRace().title], 'ks-upgrade');
                             manpower -= 1000;
-                            refreshRequired = true;
+                            refreshRequired = 1;
                         }
                     }
                     if (!game.diplomacy.get('sharks').unlocked) {
@@ -1928,7 +1929,7 @@ var run = function() {
                             game.resPool.get('manpower').value -= 1000;
                             iactivity('upgrade.race', [game.diplomacy.unlockRandomRace().title], 'ks-upgrade');
                             manpower -= 1000;
-                            refreshRequired = true;
+                            refreshRequired = 1;
                         }
                     }
                     if (!game.diplomacy.get('griffins').unlocked) {
@@ -1936,7 +1937,7 @@ var run = function() {
                             game.resPool.get('manpower').value -= 1000;
                             iactivity('upgrade.race', [game.diplomacy.unlockRandomRace().title], 'ks-upgrade');
                             manpower -= 1000;
-                            refreshRequired = true;
+                            refreshRequired = 1;
                         }
                     }
                     if (!game.diplomacy.get('nagas').unlocked && game.resPool.get("culture").value >= 1500) {
@@ -1944,7 +1945,7 @@ var run = function() {
                             game.resPool.get('manpower').value -= 1000;
                             iactivity('upgrade.race', [game.diplomacy.unlockRandomRace().title], 'ks-upgrade');
                             manpower -= 1000;
-                            refreshRequired = true;
+                            refreshRequired = 1;
                         }
                     }
                     if (!game.diplomacy.get('zebras').unlocked && game.resPool.get("ship").value >= 1) {
@@ -1952,7 +1953,7 @@ var run = function() {
                             game.resPool.get('manpower').value -= 1000;
                             iactivity('upgrade.race', [game.diplomacy.unlockRandomRace().title], 'ks-upgrade');
                             manpower -= 1000;
-                            refreshRequired = true;
+                            refreshRequired = 1;
                         }
                     }
                     if (!game.diplomacy.get('spiders').unlocked && game.resPool.get("ship").value >= 100 && game.resPool.get("science").maxValue > 125000) {
@@ -1960,7 +1961,7 @@ var run = function() {
                             game.resPool.get('manpower').value -= 1000;
                             iactivity('upgrade.race', [game.diplomacy.unlockRandomRace().title], 'ks-upgrade');
                             manpower -= 1000;
-                            refreshRequired = true;
+                            refreshRequired = 1;
                         }
                     }
                     if (!game.diplomacy.get('dragons').unlocked && game.science.get("nuclearFission").researched) {
@@ -1968,7 +1969,7 @@ var run = function() {
                             game.resPool.get('manpower').value -= 1000;
                             iactivity('upgrade.race', [ game.diplomacy.unlockRandomRace().title], 'ks-upgrade');
                             manpower -= 1000;
-                            refreshRequired = true;
+                            refreshRequired = 1;
                         }
                     }
                 }
@@ -2103,7 +2104,7 @@ var run = function() {
 
             var buildList = bulkManager.bulk(builds, metaData, trigger, 'bonfire');
 
-            var refreshRequired = false;
+            var refreshRequired = 0;
             if (game.challenges.isActive("blackSky") && options.auto.build.items.calciner.enabled && buildManager.getBuildButton("calciner") && game.bld.getBuildingExt('calciner').meta.val == 0) {
                 buildManager.build("calciner", undefined, 1);
             }
@@ -2111,15 +2112,11 @@ var run = function() {
             for (var entry in buildList) {
                 if (buildList[entry].count > 0) {
                     buildManager.build(buildList[entry].name || buildList[entry].id, buildList[entry].stage, buildList[entry].count);
-                    refreshRequired = true;
+                    refreshRequired = 1;
                 }
             }
 
-            if (refreshRequired) {
-                return true;
-            } else {
-                return false;
-            }
+            return refreshRequired;
         },
         space: function () {
             var builds = options.auto.space.items;
@@ -2139,7 +2136,7 @@ var run = function() {
 
             var buildList = bulkManager.bulk(builds, metaData, trigger, 'space');
 
-            var refreshRequired = false;
+            var refreshRequired = 0;
             if (game.challenges.isActive("blackSky") && builds.sattelite.enabled && buildManager.getBuildButton("sattelite") && game.space.getBuilding('sattelite').val == 0) {
                 buildManager.build("sattelite", 1);
             }
@@ -2147,14 +2144,11 @@ var run = function() {
             for (var entry in buildList) {
                 if (buildList[entry].count > 0) {
                     buildManager.build(buildList[entry].id, buildList[entry].count);
-                    refreshRequired = true;
+                    refreshRequired = 1;
                 }
             }
-            if (refreshRequired) {
-                return true;
-            } else {
-                return false;
-            }
+
+            return refreshRequired;
         },
         craft: function () {
             if (!game.bld.getBuildingExt('workshop').meta.on) {return;}
@@ -2374,7 +2368,7 @@ var run = function() {
             var craftManager = this.craftManager;
             var buildManager = this.buildManager;
             var optionVals = options.auto.options.items;
-            var refreshRequired = false;
+            var refreshRequired = 0;
 
             AutoEmbassy:
             if (optionVals.buildEmbassies.enabled && !!game.diplomacy.races[0].embassyPrices) {
@@ -2410,7 +2404,7 @@ var run = function() {
                                 cultureVal -= nextPrice;
                                 emBulk.priceSum += nextPrice;
                                 emBulk.val += 1;
-                                refreshRequired = true;
+                                refreshRequired = 1;
                             } else {
                                 bulkTracker.splice(i, 1);
                                 i--;
@@ -2820,7 +2814,7 @@ var run = function() {
             if (amount !== amountTemp) {warning(label + ' Amount ordered: ' + amountTemp + ' Amount Constructed: ' + amount);}
             storeForSummary(label, amount, 'build');
 
-            if (amount === 0) {
+            if (amount == 0) {
                 return;
             } else if (amount === 1) {
                 iactivity('act.build', [label], 'ks-build');
