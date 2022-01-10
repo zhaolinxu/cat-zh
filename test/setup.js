@@ -48,10 +48,11 @@ try {
             }
         },
         clone: function(mixin){return Object.assign({}, mixin);},
-        hitch: function(ctx, method){ return method.bind(ctx, arguments)},
+        hitch: function(ctx, method){ return method.bind(ctx, arguments);},
         connect: function(){},
         publish: function(){},
-        subscribe: function(){}
+        subscribe: function(){},
+        mixin: function(obj, mixin){return Object.assign(obj, mixin); }
     };
 
     var xhrMock = {

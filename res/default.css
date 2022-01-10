@@ -412,6 +412,13 @@ td.resLimitWarn, .res-cell.resLimitWarn  {
     left: auto !important;
 }
 
+.tooltip-divider {
+    text-align: center;
+    width: 100%;
+    border-bottom: "1px solid gray";
+    padding-bottom: "4px";
+}
+
 .msg {
     display: block;
 }
@@ -621,6 +628,19 @@ table.craftTable tr:hover td {
 
     margin-left: -35px;
     font-size: 15px;
+}
+
+.login-popup .last-backup {
+    margin-bottom: 10px;
+    border-bottom: 1px solid gray;
+}
+
+.hazard {
+    background-image: linear-gradient(135deg, #f5ce31 25%, #2b4352 25%, #2b4352 50%, #f5ce31 50%, #f5ce31 75%, #2b4352 75%, #2b4352 100%);
+    background-size: 28.28px 28.28px;
+    display: block;
+    height: 5px;
+    width: 100%;
 }
 
 .login-popup a.link {
