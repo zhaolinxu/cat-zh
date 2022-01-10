@@ -742,6 +742,9 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
     },*/
 
     getUraniumForThoriumReactors: function() {
+		if (!game.workshop.get("thoriumReactors").researched) {
+			return this.i18n("best.none");
+		}
         var needed = 250 * .1875 * this.game.bld.getBuildingExt("reactor").meta.val;
         needed /= 1 + this.game.getResCraftRatio({
             name: "thorium"
