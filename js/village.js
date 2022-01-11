@@ -1298,7 +1298,7 @@ dojo.declare("classes.village.Map", null, {
 	//none/neutral/agressive
 	//hp/
 
-	defaultFaunaNames : ["giant moth", "mantis", "slime mold"],
+	defaultFaunaNames : ["巨蛾", "mantis", "slime mold"],
 
 	/**
 	 * biome progression map
@@ -1680,7 +1680,7 @@ dojo.declare("classes.ui.village.BiomeBtnController", com.nuclearunicorn.game.ui
 
 			//mark current biome for visual identification
 			if (map.currentBiome == model.options.id){
-				name += " (current)";
+				name += " (当前)";
 			}
 		}
 		
@@ -1714,7 +1714,7 @@ dojo.declare("classes.ui.village.BiomeBtn", com.nuclearunicorn.game.ui.ButtonMod
 		return function(controller, model){
 			controller.fetchExtendedModel(model);
 
-			console.log("biome model:", model);
+			//console.log("biome model:", model);
 			var tooltip = dojo.create("div", { className: "tooltip-inner" }, null);
 
 			if (model.tooltipName) {
@@ -1953,7 +1953,7 @@ dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.I
 			/*this.biomeDiv.innerHTML = "Biome data: lv. " + biome.level + 
 				", cp. " + biome.cp.toFixed(1) + "/???, difficulty: x" + biome.terrainPenalty; */
 
-			this.explorationDiv.innerHTML = "Currently exploring: [" + biome.title + "], " +
+			this.explorationDiv.innerHTML = "当前探索: [" + biome.title + "], " +
 			(biome.cp / toLevel * 100).toFixed(0) +
 			"% [Cancel]";	//<-- link TBD
 		} else {
