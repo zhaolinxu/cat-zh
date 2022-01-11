@@ -25,13 +25,11 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	constructor: function(game){
 		this.game = game;
 		this.registerMeta(/*"stackable"*/false, this.zigguratUpgrades, {
-			getEffect: function(bld, effectName){
-				var effectValue = bld.effects[effectName] || 0;
-				if (bld.name == "holyGenocide"){
-					return effectValue * game.religion.activeHolyGenocide;
-				}
-				return effectValue * bld.on;
+		getEffect : function(bld, effect){
+				if(bld.name == "blackPyramid") {
+					return (bld.effects) ? bld.effects[effect] * bld.getEffectiveValue(game) : 0;
 			}
+			return (bld.effects) ? bld.effects[effect] * bld.on : 0;
 		});
 		this.registerMeta("stackable", this.religionUpgrades, null);
 		this.registerMeta(/*"stackable"*/false, this.transcendenceUpgrades, {
