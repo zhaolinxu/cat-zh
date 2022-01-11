@@ -41,7 +41,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 				return (bld.effects) ? bld.effects[effect] * bld.on : 0;
 			}
 		});
-		this.registerMeta("stackable", this.transcendenceUpgrades, { null});
+		this.registerMeta("stackable", this.transcendenceUpgrades, null);
 		this.pactsManager = new classes.religion.pactsManager(game);
 		this.registerMeta("stackable", this.pactsManager.pacts, null);
 		this.setEffectsCachedExisting();
