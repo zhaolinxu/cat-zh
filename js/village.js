@@ -1326,16 +1326,16 @@ dojo.declare("classes.village.Map", null, {
 	biomes: [
 	{
 		name: "village",
-		title: "Village",
-		desc: "Improves exploration rate of all biomes",
+		title: "村庄",
+		desc: "提高所有的生物群落",
 		terrainPenalty: 1.0,
 		faunaPenalty: 0,
 		unlocked: true
 	},		
 	{
 		name: "plains",
-		title: "Plains",
-		desc: "Improves catnip generation by 1% per level",
+		title: "平原",
+		desc: "每等级提高猫薄荷产量 1%",
 		terrainPenalty: 1.0,
 		unlocked: true,
 		unlocks: {
@@ -1360,8 +1360,8 @@ dojo.declare("classes.village.Map", null, {
 	},
 	{
 		name: "forest",
-		title: "Forest",
-		desc: "Improves your wood production by 1% per level",
+		title: "森林",
+		desc: "每等级提高木材产量 1%",
 		lore: {
 			5: "It smells really nice",
 			10: "The forest is rumored to be endless and covering half of the planet",
@@ -1387,7 +1387,7 @@ dojo.declare("classes.village.Map", null, {
 		},
 	},{
 		name: "rainForest",
-		title: "Rain Forest",
+		title: "雨林",
 		description: "TBD",
 		terrainPenalty: 1.4,
 		unlocked: false,
@@ -1396,8 +1396,8 @@ dojo.declare("classes.village.Map", null, {
 	},
 	{
 		name: "mountain",
-		title: "Mountain",
-		description: "Improves mineral generation by 1% per level",
+		title: "高山",
+		description: "每等级提高矿物产量 1%",
 		terrainPenalty: 1.2,
 		lore: {
 			5: "Remember to grab your mandatory 50 meters of rope. The ascend will take quite some time.",
@@ -1920,7 +1920,7 @@ dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.I
 		this.upgradeHQBtn.render(btnsContainer);
 		//----------------------
 
-		dojo.create("div", {innerHTML: "Biomes", style: { paddingBottom: "10px"} }, div);
+		dojo.create("div", {innerHTML: "生物群落", style: { paddingBottom: "10px"} }, div);
 		//this.villageDiv = dojo.create("div", null, div);
 		this.explorationDiv = dojo.create("div", null, div);
 
@@ -1929,11 +1929,11 @@ dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.I
 		}, div);*/
 
 		this.teamDiv = dojo.create("div", {
-			innerHTML: "Explorers: Supplies []"
+			innerHTML: "探索者: 补给 []"
 		}, div);
 
 		this.explorerDiv = dojo.create("div", {
-			innerHTML: "Explorers: lvl 0, HP: " + map.hp.toFixed(1) + "/" + map.getMaxHP()
+			innerHTML: "探索者: lvl 0, HP: " + map.hp.toFixed(1) + "/" + map.getMaxHP()
 		}, div);
 
 		var btnsContainer = dojo.create("div", {style:{paddingTop:"20px"}}, div);
@@ -1963,8 +1963,8 @@ dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.I
 		this.upgradeExplorersBtn.update();
 		this.upgradeHQBtn.update();
 
-		this.teamDiv.innerHTML = "Supplies [" + map.energy.toFixed(0) + " days]";
-		this.explorerDiv.innerHTML = "Explorers: HP: " + map.hp.toFixed(1) + "/" + map.getMaxHP().toFixed(1);
+		this.teamDiv.innerHTML = "补给 [" + map.energy.toFixed(0) + " days]";
+		this.explorerDiv.innerHTML = "探索者: HP: " + map.hp.toFixed(1) + "/" + map.getMaxHP().toFixed(1);
 		this.inherited(arguments);
 	}
 });

@@ -197,7 +197,7 @@ WToolbarMOTD = React.createClass({
         var server = this.game.server;
 		if (server.showMotd && server.motdContent) {
 			server.motdFreshMessage = false;
-			return "Message of the day:<br />" + server.motdContent;
+			return "有问题找百科或者猫国QQ群<br />" + server.motdContent;
 		}
     }
 });
@@ -352,14 +352,25 @@ WLoginForm = React.createClass({
         }
         var game = this.props.game;
         if (game.server.userProfile){
+            //var userProfile = game.server.userProfile;
+            //return $r("div", {className: "userProfile"},[
+            //    $r("img", {src: "https://www.gravatar.com/avatar/" +
+            //        (userProfile.email ? md5(userProfile.email) : "n/a")
+            //    + "?s=15"}),
+            //    $r("a", {
+            //        href:"/ui/profile", target:"_blank"
+            //    }, userProfile.id)
+            //]);
             var userProfile = game.server.userProfile;
             return $r("div", {className: "userProfile"},[
-                $r("img", {src: "https://www.gravatar.com/avatar/" +
-                    (userProfile.email ? md5(userProfile.email) : "n/a")
-                + "?s=15"}),
+                $r("img", {src: "https://q2.qlogo.cn/headimg_dl?dst_uin=" +
+                    (userProfile.email ? userProfile.email : "n/a")
+                + "&spec=1",
+                width:"25px",
+                height:"25px"}),
                 $r("a", {
-                    href:"/ui/profile", target:"_blank"
-                }, userProfile.id)
+                    href: "https://kittensgame.com/ui/profile", target:"_blank"
+                }, userProfile.qqName)
             ]);
 
         }
@@ -463,11 +474,11 @@ WCloudSaveRecord = React.createClass({
             ),
             $r("div", {className:"save-record-cell"},
                 save.index ?
-                ("Year "+ save.index.calendar.year + ", day " + save.index.calendar.day) :
-                "loading..."
+                (save.index.calendar.year +"年" + "，" + save.index.calendar.day + " 天 ") :
+                "加载中.."
             ),
             $r("div", {className:"save-record-cell"},
-                new Date(save.timestamp).toLocaleDateString("en-US", {
+                new Date(save.timestamp).toLocaleDateString("zh-CN", {
                     month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hourCycle: "h24"
                 })
             ),
@@ -477,7 +488,7 @@ WCloudSaveRecord = React.createClass({
                 title: "Upload your current game save to the server (this will owerwrite your old cloud save)",
                 onClick: function(e){
                     e.stopPropagation();
-                    game.ui.confirm("[S]ave", "This will override [SERVER] save. Y/N", function(){
+                    game.ui.confirm("上传", "这会覆盖云端的存档。确定/取消", function(){
                         game.server.pushSave();
                     });
                 }}, $I("ui.kgnet.save.save")),
@@ -486,7 +497,7 @@ WCloudSaveRecord = React.createClass({
                 title: "Download a cloud save and apply it to your game (your current data will be lost)",
                     onClick: function(e){
                     e.stopPropagation();
-                    game.ui.confirm("[L]oad", "This will override [LOCAL] save. Y/N", function(){
+                    game.ui.confirm("加载", "这会覆盖本地的存档. 确定/取消", function(){
                         game.server.loadSave(save.guid);
                     });
                 }}, $I("ui.kgnet.save.load")),
@@ -526,11 +537,11 @@ WCloudSaves = React.createClass({
             $r("div", {className:"save-record-container"},
             //header
             saveData && $r("div", {className:"save-record header"}, [
-                $r("div", {className:"save-record-cell"}, "Id"),
-                $r("div", {className:"save-record-cell"}, "Save"),
-                $r("div", {className:"save-record-cell"}, "Last update"),
-                $r("div", {className:"save-record-cell"}, "Size"),
-                $r("div", {className:"save-record-cell"}, "Actions")
+                $r("div", {className:"save-record-cell"}, "存档ID"),
+                $r("div", {className:"save-record-cell"}, "游戏年(数据仅供参考)"),
+                $r("div", {className:"save-record-cell"}, "上次更新"),
+                $r("div", {className:"save-record-cell"}, "大小"),
+                $r("div", {className:"save-record-cell"}, "存档操作")
             ]),
             //body
             //TODO: externalize save record as component?
@@ -543,7 +554,7 @@ WCloudSaves = React.createClass({
                     $r("a", {onClick: function(e){
                         e.stopPropagation();
                         game.server.pushSave();
-                    }}, "Create new save (" + game.telemetry.guid + ")")
+                    }}, "创建新的存档 (" + game.telemetry.guid + ")")
                 ]),
                 $r("div", {className:"save-record"},[
                     $r("a", {
@@ -593,7 +604,7 @@ WLogin = React.createClass({
                         $r("div", null,
                             $r("div", {className: "last-backup"}, [
                                 (lastBackup >= 7) && $r("span", {className: "hazard"}),
-                                "Last backup: ", lastBackup.toFixed(1) + " days ago",
+                                "上次更新：", lastBackup.toFixed(1) + " 天前",
                                 (lastBackup >= 7) && $r("span", {className: "hazard"})
                             ]),
                             $r(WLoginForm, {game: game}),
