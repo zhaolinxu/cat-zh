@@ -485,7 +485,7 @@ WCloudSaveRecord = React.createClass({
             $r("div", {className:"save-record-cell"}, self.bytesToSize(save.size)),
             isActiveSave && $r("a", {
                 className: "link",
-                title: "Upload your current game save to the server (this will owerwrite your old cloud save)",
+                title: "上传你当前游戏存档到官网（会覆盖旧存档）",
                 onClick: function(e){
                     e.stopPropagation();
                     game.ui.confirm("上传", "这会覆盖云端的存档。确定/取消", function(){
@@ -494,10 +494,10 @@ WCloudSaveRecord = React.createClass({
                 }}, $I("ui.kgnet.save.save")),
             $r("a", {
                 className: "link",
-                title: "Download a cloud save and apply it to your game (your current data will be lost)",
+                title: "下载并加载云存档（你当前的存档会丢失）",
                     onClick: function(e){
                     e.stopPropagation();
-                    game.ui.confirm("加载", "这会覆盖本地的存档. 确定/取消", function(){
+                    game.ui.confirm("加载", "这会覆盖本地的存档。 确定/取消", function(){
                         game.server.loadSave(save.guid);
                     });
                 }}, $I("ui.kgnet.save.load")),
@@ -538,7 +538,7 @@ WCloudSaves = React.createClass({
             //header
             saveData && $r("div", {className:"save-record header"}, [
                 $r("div", {className:"save-record-cell"}, "存档ID"),
-                $r("div", {className:"save-record-cell"}, "游戏年(数据仅供参考)"),
+                $r("div", {className:"save-record-cell"}, "游戏年"),
                 $r("div", {className:"save-record-cell"}, "上次更新"),
                 $r("div", {className:"save-record-cell"}, "大小"),
                 $r("div", {className:"save-record-cell"}, "存档操作")
@@ -559,7 +559,7 @@ WCloudSaves = React.createClass({
                 $r("div", {className:"save-record"},[
                     $r("a", {
                         className: "link",
-                        title: "Fetch the latest information about your cloud saves from the serer. This is a safe operation and it wont change any data.",
+                        title: "更新存档信息。这是安全按钮不会改变任何数据。",
                         onClick: function(e){
                             e.stopPropagation();
                             game.server.syncSaveData();
