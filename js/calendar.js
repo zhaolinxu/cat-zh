@@ -452,7 +452,16 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			//------------------------- relic -------------------------
 			this.game.resPool.addResPerTick("relic", this.game.getEffect("relicPerDay"));
 		}
+		//------------------------- necrocorns pacts -------------------------
+		//deficit changing
+		this.game.religion.pactsManager.necrocornConsumptionDays(1);
+		this.game.religion.getZU("blackPyramid").updateEffects(this.game.religion.getZU("blackPyramid"), this.game);
+		this.game.religion.getPact("payDebt").onNewDay(this.game);
 
+		//-------------------------  consequenses of accumulating too much necrocorn deficit -------------------------
+		if(this.game.religion.pactsManager.necrocornDeficit>=this.game.religion.pactsManager.fractureNecrocornDeficit){
+			this.game.religion.pactsManager.necrocornDeficitPunishment();
+		}
 		//------------------------- astronomical events -------------------------
 		if (this.game.bld.get("library").on > 0) {
 			var eventChance = (0.0025 + this.game.getEffect("starEventChance")) * chanceRatio;
@@ -505,16 +514,18 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.game.science.get("mining").researched){	//0.1% chance of meteors
 
 			var mineralsAmt = 50 + 25 * this.game.getEffect("mineralsRatio");
+			var minerologyBonus = this.game.getEffect("academyMeteorBonus");
 
 			if (this.game.ironWill){
 				mineralsAmt += mineralsAmt * 0.1;	//+10% of minerals for iron will
 			}
-
+			mineralsAmt *= 1 + minerologyBonus;
 			var mineralsGain = this.game.resPool.addResEvent("minerals", mineralsAmt);
 
 			var sciGain = 0;
 			if (this.game.workshop.get("celestialMechanics").researched) {
 				var sciBonus = 15 * (1 + this.game.getEffect("scienceRatio"));
+				sciBonus *= 1 + minerologyBonus;
 				sciGain = this.game.resPool.addResEvent("science", sciBonus);
 			}
 
@@ -558,7 +569,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				this.game.resPool.addResEvent("zebras", 1);
 				this.game.msg($I("calendar.msg.zebra.hunter"));
 			} else if ( zebras.value > 0 && zebras.value <= this.game.karmaZebras && this.game.karmaZebras > 0){
-				if (this.game.rand(100000) <= 500){
+				var chanceModifier = (this.game.workshop.getZebraUpgrade("darkBrew").researched && this.festivalDays)?
+				2 + this.game.getEffect("festivalArrivalRatio") : 1; //bigger chance for zebras to arive after darkBrew is researched
+				if (this.game.rand(100000) <= 500 * chanceModifier){
 					this.game.resPool.addResEvent("zebras", 1);
 					this.game.msg($I("calendar.msg.zebra.hunter.new"));
 					this.game.ui.render();
@@ -749,6 +762,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		beacons.action(beacons, this.game);
 		this.game.updateCaches();
 		this.game.resPool.addResPerTick("relic", this.game.getEffect("relicPerDay") * daysOffset);
+		//------------------------- necrocorns pacts -------------------------
+		this.game.religion.pactsManager.necrocornConsumptionDays(daysOffset);
 
 		//not sure if it is a good idea
 		//calculate amount of void earned on average per day, then multiply by days and percentage of time in paradox
@@ -784,6 +799,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			resPool.addResEvent("paragon", paragon);
 			this.game.stats.getStat("totalParagon").val += paragon;
 		}
+		this.game.religion.pactsManager.pactsMilleniumKarmaKittens(paragon);
 		this.year += yearsOffset;
 		this.game.stats.getStat("totalYears").val += yearsOffset;
 		//------------------------------------------------------------------
@@ -859,6 +875,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	calculateMilleniumProduction: function(milleniums){
 		this.game.resPool.addResEvent("paragon", milleniums);
 		this.game.stats.getStat("totalParagon").val += milleniums;
+		this.game.religion.pactsManager.pactsMilleniumKarmaKittens(milleniums);
 	},
 	onNewYears: function(updateUI, years, milleniumChangeCalculated) {
 		var ty = this.game.stats.getStat("totalYears");
@@ -895,9 +912,12 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		
 		this.cycleYear += years;
 		if (this.cycleYear >= this.yearsPerCycle) {
+			var cyclesChange = Math.floor(this.cycleYear / this.yearsPerCycle);
 			this.cycleYear = this.cycleYear % this.yearsPerCycle;
-			if ( ++this.cycle >= this.cyclesPerEra) {
-				this.cycle = 0;
+			if (cyclesChange + this.cycle >= this.cyclesPerEra) {
+				this.cycle = (cyclesChange + this.cycle)%this.cyclesPerEra;
+			} else{
+				this.cycle += cyclesChange;
 			}
 		}
 /*
@@ -924,14 +944,12 @@ if (++this.cycleYear >= this.yearsPerCycle) {
 		var aiLevel = this.game.bld.get("aiCore").effects["aiLevel"];
 		if ((aiLevel > 14) && (this.game.science.getPolicy("transkittenism").researched != true)){
 			var aiApocalypseLevel = aiLevel - 14;
-			this.game.msg($I("ai.apocalypse.msg", [aiApocalypseLevel]), "alert", "ai");
-			for (var i in this.game.resPool.resources){
-				var res = this.game.resPool.resources[i];
-				if (res.aiCanDestroy) {
-					if(res.maxValue >= res.value){
-						res.Pool.addResEvent(res.name, -res.value * 0.01 * aiApocalypseLevel);
+			if(!this.game.getEffect("shatterTCGain")){
+				for (var i in this.game.resPool.resources){
+					var res = this.game.resPool.resources[i];
+					if (res.aiCanDestroy) {
+						resPool.addResEvent(res.name, -res.value * (1 - Math.pow(1 - 0.01 * aiApocalypseLevel, years))); //hopefully this will work close enough
 					}
-					else {resPool.addResEvent(res.name, -res.value * (1 - Math.pow(1 - 0.01 * aiApocalypseLevel, years)));}
 				}
 			}
 		}
@@ -962,6 +980,10 @@ if (++this.cycleYear >= this.yearsPerCycle) {
 		if ( this.year % 1000 === 0 ){
 			this.game.resPool.addResEvent("paragon", 1);
 			this.game.stats.getStat("totalParagon").val++;
+			var kittens = this.game.resPool.get("kittens").value;
+
+			//holy genocide karma effect
+			this.game.religion.pactsManager.pactsMilleniumKarmaKittens(1);
 		}
 
 		var pyramidVal = this.game.religion.getZU("blackPyramid").getEffectiveValue(this.game);

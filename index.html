@@ -65,7 +65,7 @@
 
 		<script type="text/javascript">
 
-			var version = "1485";
+			var version = "1490";
 			var buildRevision = 0;
 
 			var loadingProgress = 0,
@@ -86,7 +86,7 @@
 
 				var i = (Math.floor(Math.random() * loadingMessages.length));
 				$("#loadingProgressInfo").html(loadingMessages[i] + "...&nbsp(" + progress.toFixed() + "%)");
-				return System.import(module + ".js?rev_=" + buildRevision);
+				return System.import(module + ".js?rev_=" + buildRevision + "_" + Date.now());
 			}
 
 			function _import(module, def){
@@ -258,7 +258,7 @@
 
 					$('iframe#kiwiirc_iframe').attr(
 						'src', 
-						'https://kiwiirc.com/nextclient/?settings=98efrnr34rbd&nick=kitten_?'
+						'https://kiwiirc.com/client/irc.canternet.org/?nick=kitten_?#kittensgame'
 					);
 
 					var config = new classes.KGConfig();
@@ -624,6 +624,9 @@
 					<input id="enableRedshift" type="checkbox" onclick="gamePage.opts.enableRedshift = $('#enableRedshift')[0].checked;">
 					<label id="optionEnableRedshift" for="enableRedshift">Enable offline progression</label>
 					<br>
+					<input id="disablePollution" type="checkbox" onclick="gamePage.opts.disablePollution = $('#disablePollution')[0].checked;">
+					<label id="optionDisablePollution" for="disablePollution">Disable pollution effects</label>
+					<br>
 					<input id="enableRedshiftGflops" type="checkbox" onclick="gamePage.opts.enableRedshiftGflops = $('#enableRedshiftGflops')[0].checked;">
 					<label id="optionEnableRedshiftGflops" for="enableRedshiftGflops">Enable offline gflops production</label>
 					<br>
@@ -689,8 +692,8 @@
 			</div>
 
 			<div id="footerLinks" class="links-block">
-				<a id="reddit" href="http://www.reddit.com/r/kittensgame/" target="_blank">reddit</a> |
-				<a id="wiki" href="http://bloodrizer.ru/games/kittens/wiki/" target="_blank">wiki</a> |
+				<a id="reddit" href="https://www.reddit.com/r/kittensgame/" target="_blank">reddit</a> |
+				<a id="wiki" href="https://wiki.kittensgame.com/" target="_blank">wiki</a> |
 				<a id="discord" href="https://discord.gg/2arBf9K" target="_blank">Discord</a> |
 				<!-- <a href="http://kittensgame.tumblr.com" target="_blank">tumblr</a> | -->
 				<!-- <a href="#" onclick="$('#helpDiv').toggle();">help</a> | -->
@@ -703,6 +706,7 @@
 
 
 	  <script
+	  	async
 		type="text/javascript"
 		src="https://crowdin.com/js/crowdjet/crowdjet.js">
 	  </script>
