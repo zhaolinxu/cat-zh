@@ -411,7 +411,7 @@ var run = function() {
             'time.skip.trigger.set': '为跳转时间(燃烧时间水晶)设定一个新触发值，取值范围为正整数',
             'summary.time.skip': '跳过 {0} 年',
             'filter.time.skip': '时间跳转',
-            'option.time.reset': '重启时间线 (危险!)',
+            'option.time.reset': '重启时间线 (弃用)',
             'status.reset.check.enable': '在重启时间线前检查 {0}',
             'status.reset.check.disable': '在重启时间线前不检查 {0}',
             'ui.min': 'Min: {0}',

@@ -574,11 +574,11 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         var needpercent = adoreIncreaceRatio * obeliskRatio;
         var x = tt;
         var k = needpercent;
-        var epiphanyRecommend = (1 - k + Math.sqrt(80 * (k * k - 1) * x + (k - 1) * (k - 1))) * k / (40 * (k + 1) * (k + 1) * (k - 1)) + x + x / (k * k - 1);
+        var epiphanyRecommend = x-0.0125+0.0125*(Math.pow(((Math.sqrt((80*k*x+361*k-361+80*x)/(k-1))-19*k)/(k+1)),2));
         if (game.religion.faith * 2.02 * this.game.religion.transcendenceTier + 3.03 * game.religion.faith >= 1e6 * tt && this.game.religion.faithRatio > tt) {
             return tt;
         } else {
-            return epiphanyRecommend;
+            return Math.max(epiphanyRecommend, tt);
         }
     },
 
@@ -617,9 +617,8 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
     getParagonStorageBonus: function() {
         var storeRatio = 1 + this.game.prestige.getParagonStorageRatio();
         var singularity = 1 + this.game.getEffect("globalResourceRatio");
-        storeRatio = Math.round(storeRatio * 1000 * singularity) / 1000;
-        storeRatio = this.game.getDisplayValueExt(storeRatio - 1);
-        return storeRatio + "x";
+        storeRatio = this.game.getDisplayValueExt(storeRatio * 100 * singularity - 100);
+        return storeRatio + "%";
     },
 
     getEffectLeader: function() {
