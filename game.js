@@ -990,9 +990,9 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "ratio"
             },
 
-			"shatterYearBoost":{
+            "shatterYearBoost":{
                 title: $I("effectsMgr.statics.shatterYearBoost.title")
-			},
+            },
 
 			"priceRatio" :  {
                 title: $I("effectsMgr.statics.priceRatio.title"),
