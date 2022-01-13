@@ -334,7 +334,7 @@ var run = function() {
             'ui.upgrade.policies.load': '读取',
             'ui.upgrade.policies.show': '列表',
 
-            'ui.faith.addtion': '宗教选项',
+            'ui.faith.addtion': '赞美功能',
             'option.faith.best.unicorn': '自动最效率独角兽建筑',
             'option.faith.best.unicorn.desc': '自动献祭独角兽，并会建造最佳独角兽建筑',
             'option.faith.transcend': '自动最佳次元超越',
@@ -4427,6 +4427,7 @@ var run = function() {
                 var addition = $('<div/>', {
                     id: 'toggle-addition-controls',
                     text: i18n('ui.faith.addtion'),
+                    title: "太阳教团的自动化项目",
                     css: {cursor: 'pointer',
                         display: 'inline-block',
                         float: 'right',
