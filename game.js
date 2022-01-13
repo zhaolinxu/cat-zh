@@ -1055,6 +1055,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "ratio"
             },
 
+            "shatterYearBoost" :  {
+                title: $I("effectsMgr.statics.shatterYearBoost.title"),
+                type: "fixed"
+            },
+
             "rrRatio" :  {
                 title: $I("effectsMgr.statics.rrRatio.title"),
                 type: "ratio"
