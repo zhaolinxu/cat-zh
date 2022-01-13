@@ -790,28 +790,28 @@ var run = function() {
                 // The *allowcapped* property allows us to trade even if the sold resources are at their cap.
                 render: false,
                 items: {
-                    dragons:    {enabled: true,  require: 'titanium',    allowcapped: false,    limited: true,
+                    dragons:    {enabled: false,  require: 'titanium',    allowcapped: false,    limited: true,
                         summer:  true,  autumn:  true,  winter:  true,          spring:      true},
 
                     zebras:     {enabled: true,  require: false,         allowcapped: false,    limited: true,
                         summer:  true,  autumn:  true,  winter:  true,          spring:      true},
 
-                    lizards:    {enabled: true,  require: 'minerals',    allowcapped: false,    limited: true,
+                    lizards:    {enabled: false,  require: 'minerals',    allowcapped: false,    limited: true,
                         summer:  true,  autumn:  false, winter:  false,         spring:      false},
 
-                    sharks:     {enabled: true,  require: 'iron',        allowcapped: false,    limited: true,
+                    sharks:     {enabled: false,  require: 'iron',        allowcapped: false,    limited: true,
                         summer:  false, autumn:  false, winter:  true,          spring:      false},
 
-                    griffins:   {enabled: true,  require: 'wood',        allowcapped: false,    limited: true,
+                    griffins:   {enabled: false,  require: 'wood',        allowcapped: false,    limited: true,
                         summer:  false, autumn:  true,  winter:  false,         spring:      false},
 
-                    nagas:      {enabled: true,  require: false,         allowcapped: false,    limited: true,
+                    nagas:      {enabled: false,  require: false,         allowcapped: false,    limited: true,
                         summer:  false, autumn:  false, winter:  false,         spring:      true},
 
-                    spiders:    {enabled: true,  require: false,         allowcapped: false,    limited: true,
+                    spiders:    {enabled: false,  require: false,         allowcapped: false,    limited: true,
                         summer:  false, autumn:  true,  winter:  false,         spring:      false},
 
-                    leviathans: {enabled: true,  require: 'unobtainium', allowcapped: true,     limited: true,
+                    leviathans: {enabled: false,  require: 'unobtainium', allowcapped: true,     limited: true,
                         summer:  true,  autumn:  true,  winter:  true,          spring:      true}
                 }
             },
