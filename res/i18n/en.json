@@ -491,6 +491,7 @@
     "effectsMgr.statics.shatterCostReduction.title": "Shatter TC cost reduction",
     "effectsMgr.statics.shatterTCGain.title": "Shatter TC resources retrieved",
     "effectsMgr.statics.shatterVoidCost.title": "Base shatter void cost",
+    "effectsMgr.statics.shatterYearBoost.title": "Custom shatter year",
     "effectsMgr.statics.shipLimit.title": "Ship limit effect",
     "effectsMgr.statics.skillMultiplier.title": "Kitten's skill effect",
     "effectsMgr.statics.masterSkillMultiplier.title": "Master Kitten's skill effect",
