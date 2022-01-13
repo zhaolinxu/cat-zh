@@ -329,7 +329,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			buildings: ["quarry"],
 			jobs: ["geologist"],
 			tech: ["biology"],
-			upgrades:["geodesy"]
+			upgrades:["geodesy"],
+			zebraUpgrades: ["minerologyDepartment"]
 		},
 		flavor: $I("science.archeology.flavor")
 	}, {
@@ -737,7 +738,20 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			upgrades: ["energyRifts", "lhc"]
+			// tech: ["artificialGravity"] -- see SPACE_EXPL feature flag
 		}
+	}, {
+		name: "artificialGravity",
+		label: $I("science.artificialGravity.label"),
+		description: $I("science.artificialGravity.desc"),
+		effectDesc: $I("science.artificialGravity.effectDesc"),
+		prices: [
+			{name : "science", val: 320000}
+		],
+		unlocks: {
+			upgrades: ["spiceNavigation", "longRangeSpaceships"]
+		},
+		flavor: $I("science.artificialGravity.flavor")
 	}, {
 		name: "chronophysics",
 		label: $I("science.chronophysics.label"),
@@ -891,7 +905,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		calculateEffects: function(self, game){
 			var uncappedHousing = 0;
 			for (var i = 0; i < game.bld.buildingGroups.length; i++){
-    			if(game.bld.buildingGroups[i].name == "population"){
+				if(game.bld.buildingGroups[i].name == "population"){
 					for (var k = 0; k < game.bld.buildingGroups[i].buildings.length; k++){
 						var building = game.bld.getBuildingExt(game.bld.buildingGroups[i].buildings[k]);
 						if(!game.resPool.isStorageLimited(game.bld.getPrices(building.meta.name))){
@@ -902,7 +916,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 						}
 					}
 					break;
-    			}
+				}
 			}
 			self.effects["rankLeaderBonusConversion"] = 0.004 * uncappedHousing;
 		},
@@ -1076,7 +1090,20 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "culture", val: 1500000}
 		],
 		effects:{
-			"holyGenocideBonus" : 1
+			"mausoleumBonus" : 1,
+			"pactsAvailable" : 5
+		},
+		upgrades: {
+			transcendenceUpgrades:["mausoleum"]
+		},
+		calculateEffects: function (self, game){
+			if(game.religion.getPact("fractured").on >= 1 || !game.getFeatureFlag("MAUSOLEUM_PACTS")){
+				self.effects["pactsAvailable"] = 0;
+			}
+			game.updateCaches();
+		},
+		unlocks: {
+			pacts: ["pactOfCleansing", "pactOfDestruction",  "pactOfExtermination", "pactOfPurity"]
 		},
 		unlocked: false,
 		blocked: false,
@@ -1496,6 +1523,34 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		evaluateLocks: function(game){
 			return game.science.getPolicy("environmentalism").researched && game.science.get("ecology").researched;
 		}
+    }, {
+        name: "cryochamberExtraction",
+        label: $I("policy.cryochamberExtraction.label"),
+        description: $I("policy.cryochamberExtraction.desc"),
+        prices: [
+            {name : "manpower", val: 10000}
+        ],
+        unlocked: false,
+        blocked: false,
+        blocks:["terraformingInsight"],
+		onResearch: function(game){
+			//single use policy
+			game.time.getVSU("usedCryochambers").val += 1;
+			game.time.getVSU("usedCryochambers").on += 1;
+		}
+    }, {
+        name: "terraformingInsight",
+		label: $I("policy.terraformingInsight.label"),
+        description: $I("policy.terraformingInsight.desc"),
+        prices: [
+            {name : "manpower", val: 10000}
+        ],
+        effects:{
+            "terraformingMaxKittensRatio": 0.001 //might be too weak - could be fixed later on
+        },
+        unlocked: false,
+        blocked: false,
+        blocks:["cryochamberExtraction"]
     }, /*{
         name: "spaceBasedTerraforming",
         label: $I("policy.spaceBasedTerraforming.label"),
@@ -1531,6 +1586,21 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         "environmentUnhappinessModifier" : 1
 	},
 	constructor: function(game){
+
+		// note: possible to unlock artificialGravity (and the continuation of
+		//	   the space exploration tech tree) iff SPACE_EXPL feature flag
+		//
+		if (game.getFeatureFlag("SPACE_EXPL")) {
+			for (var i = this.techs.length - 1; i >= 0; i--) {
+				if (this.techs[i].name == 'dimensionalPhysics') {
+					if (!this.techs[i].unlocks.tech) {
+						this.techs[i].unlocks.tech = ['artificialGravity'];
+					}
+					break;
+				}
+			}
+		}
+
 		this.game = game;
 		this.metaCache = {};
         this.registerMeta("research", this.techs, {
@@ -1580,6 +1650,13 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 
 		var prices_result = $.extend(true, [], prices); // Create a new array to keep original values
 		prices_result = this.game.village.getEffectLeader("scientist", prices_result);
+
+		// this is to force Gold Ore pathway in BSK+IW and avoid soft locks
+		if(this.game.ironWill && this.game.challenges.isActive('blackSky')) {
+			if(tech.name == 'construction') {
+				prices_result = prices_result.concat([{name: "gold", val: 5}]);
+			}
+		}
 
 		return prices_result;
 	},
@@ -1722,8 +1799,8 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 		var prices = [];
 		for (var i = 0; i < meta.prices.length; i++){
             prices.push({
-            	val: meta.prices[i].val * Math.pow(1.25, policyFakeBought),
-            	name: meta.prices[i].name
+				val: meta.prices[i].val * Math.pow(1.25, policyFakeBought),
+				name: meta.prices[i].name
 			});
 		}
         return prices;
@@ -1804,7 +1881,9 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 					policy.blocked = true;
 				}
 			}
-
+			if(meta.onResearch){
+				meta.onResearch(this.game);
+			}
 		}
 });
 
@@ -1883,12 +1962,25 @@ dojo.declare("com.nuclearunicorn.game.ui.TechButtonController", com.nuclearunico
     },
 
 	getPrices: function(model) {
-        return this.game.village.getEffectLeader("scientist", this.inherited(arguments));
+		var prices_result = this.game.village.getEffectLeader("scientist", this.inherited(arguments));
+
+		// this is to force Gold Ore pathway in BSK+IW and avoid soft locks
+		if(this.game.ironWill && this.game.challenges.isActive('blackSky')) {
+			if(model.metadata.name == 'construction') {
+				prices_result = prices_result.concat([{name: "gold", val: 5}]);
+			}
+		}
+
+		return prices_result;
     },
 
 	updateVisible: function(model){
 		var meta = model.metadata;
 		model.visible = meta.unlocked;
+
+		if (meta.name == 'metaphysics' && !this.game.space.programs[0].on && game.stats.getStat("totalResets").val < 3){
+			return model.visible = false;
+		}
 
 		if (meta.researched && this.game.science.hideResearched){
 			model.visible = false;

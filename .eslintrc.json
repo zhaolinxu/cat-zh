@@ -15,7 +15,7 @@
           }
         }
     ],
-    "ignorePatterns": ["lib/**/*", "node_modules/**/*"],
+    "ignorePatterns": ["lib/**/*"],
     "rules": {
         "quotes": [
             "warn",

@@ -370,6 +370,22 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			     "-o-animation": "neon-red 1.5s ease-in-out infinite alternate"
 		}*/
 	},
+	{
+		name: "tMythril",
+		title: $I("resources.tMythril.title"),
+		type : "exotic",
+		transient: true,
+		calculatePerTick: true,
+		craftable: true,
+		visible: true,
+		color: "#00e6b8"
+		/*style: {
+			         animation : "neon-red 1.5s ease-in-out infinite alternate",
+			"-webkit-animation": "neon-red 1.5s ease-in-out infinite alternate",
+			   "-moz-animation": "neon-red 1.5s ease-in-out infinite alternate",
+			     "-o-animation": "neon-red 1.5s ease-in-out infinite alternate"
+		}*/
+	},
 	//=========================================
 	// 				    CRAFT
 	//=========================================
@@ -558,7 +574,14 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 				value: this.game.religion.faithRatio,
 				unlocked: true,
 				visible: false
-			}
+			},
+			{
+				name: "necrocornDeficit",
+				title: $I("resources.necrocornDeficit.title"),
+				value: this.game.religion.pactsManager.necrocornDeficit,
+				unlocked: true,
+				visible: false,
+				color: "#E00000"}
 		];
 		//TODO: mixin unlocked and visible automatically
 	},
@@ -679,7 +702,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 			maxValue = this.addResMaxRatios(res, maxValue);
 			
-			var challengeEffect = this.game.getLimitedDR(this.game.getEffect(res.name + "MaxChallenge"), maxValue);
+			var challengeEffect = this.game.getLimitedDR(this.addResMaxRatios(res, this.game.getEffect(res.name + "MaxChallenge")), maxValue - 1);
 			maxValue += challengeEffect;
 
 			if (maxValue < 0 ){
@@ -810,7 +833,14 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		if (!this.isNormalCraftableResource(res) && !res.transient) {
 			maxValue *= 1 + this.game.getEffect("globalResourceRatio");
 		}
-
+		//pacts effect
+		if (!this.isNormalCraftableResource(res) && !res.transient) {
+			var pyramidModifier = this.game.getEffect("pyramidGlobalResourceRatio");
+			/*if(pyramidModifier < 0){
+				pyramidModifier = -this.game.getLimitedDR(-pyramidModifier * 1000, 1000)/1000
+			}*/
+			maxValue *= 1 + pyramidModifier;
+		}
 		if (res.tag == "baseMetal") {
 			maxValue *= 1 + this.game.getEffect("baseMetalMaxRatio");
 		}

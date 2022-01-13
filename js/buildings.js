@@ -34,13 +34,13 @@ dojo.declare("classes.BuildingMeta", classes.Metadata, {
 
 	// We need to avoid to use the function since it is slow, use get method intead which should be faster
     getMeta: function(){
-    	var bld = this.meta;
-    	if (bld.stage !== this._metaCacheStage) {
-    		this._metaCache = null; // invalidate cache if the stage has changed
-    	}
-    	if (this._metaCache) {
-    		return this._metaCache;
-    	}
+		var bld = this.meta;
+		if (bld.stage !== this._metaCacheStage) {
+			this._metaCache = null; // invalidate cache if the stage has changed
+		}
+		if (this._metaCache) {
+			return this._metaCache;
+		}
 
         if (bld.stages){
 			//some specific hack for stagable buildings
@@ -55,7 +55,7 @@ dojo.declare("classes.BuildingMeta", classes.Metadata, {
 				// 	copy[attr] = currentStage[attr];
 				// }
 		        if (bld.hasOwnProperty(attr)){
-		        	copy[attr] = bld[attr];
+					copy[attr] = bld[attr];
 		        }
 		    }
 
@@ -66,10 +66,10 @@ dojo.declare("classes.BuildingMeta", classes.Metadata, {
 		    }
 
 			this._metaCache = copy;
-        	this._metaCacheStage = bld.stage;
+			this._metaCacheStage = bld.stage;
         } else {
-        	this._metaCache = bld;
-        	this._metaCacheStage = bld.stage;
+			this._metaCache = bld;
+			this._metaCacheStage = bld.stage;
         }
         return this._metaCache;
     },
@@ -155,10 +155,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					if (currentStage.effects) {
 						effectValue = currentStage.effects[effectName];
 					} else {
-			        	effectValue = bld.effects[effectName];
+						effectValue = bld.effects[effectName];
 			        }
 		        } else {
-		        	effectValue = bld.effects[effectName];
+					effectValue = bld.effects[effectName];
 		        }
 
 
@@ -226,7 +226,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},{
 		name: "zebraBuildings",
 		title: $I("buildings.group.zebraBuildings"),
-		buildings: ["zebraOutpost", "zebraWorkshop", "zebraForge"]
+		buildings: ["zebraOutpost", "zebraWorkshop", "zebraForge", "ivoryTemple"]
 	}
 	],
 
@@ -602,7 +602,15 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"scienceRatio": 0.2,
 			"skillXP": 0.0005,
 			"scienceMax": 500,
-			"cultureMax": 25
+			"cultureMax": 25,
+			"academyMeteorBonus": 0
+		},
+		calculateEffects: function(self, game){
+			if(game.workshop.getZebraUpgrade("minerologyDepartment").researched) {
+				self.effects["academyMeteorBonus"] = 0.01;
+			}else{
+				self.effects["academyMeteorBonus"] = 0;
+			}
 		},
 		flavor: $I("buildings.academy.flavor"),
 		unlockScheme: {
@@ -847,7 +855,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		effects: {
 			"mineralsRatio": 0,
-			"coalPerTickBase": 0
+			"coalPerTickBase": 0,
+			"cathPollutionPerTickProd": 0
 		},
 		calculateEffects: function(self, game){
 			var effects = {
@@ -890,6 +899,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			var effects = {
 				"mineralsRatio": 0.35,
 				"coalPerTickBase": 0.015,
+				"uraniumPerTickBase": 0,
 				"cathPollutionPerTickProd": 0.25
 			};
 			if (game.workshop.get("orbitalGeodesy").researched){
@@ -1057,13 +1067,13 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					if(calledByAction){
 						var amt = game.resPool.getAmtDependsOnStock(
 							[{res: "coal", amt: -self.effects["coalPerTickCon"]},
-						 	{res: "iron", amt: -self.effects["ironPerTickCon"]}],
+							{res: "iron", amt: -self.effects["ironPerTickCon"]}],
 							self.on
 						);
-					
+
 						self.effects["coalPerTickCon"] *= amt;
 						self.effects["ironPerTickCon"] *= amt;
-						
+
 						// Automated production, metallurgist leader won't help here
 						self.effects["steelPerTickProd"] *= amt * (1 + game.getCraftRatio() * game.getEffect("calcinerSteelCraftRatio") + game.bld.get("reactor").on * game.getEffect("calcinerSteelReactorBonus"));
 
@@ -1340,8 +1350,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			effects["energyConsumption"] = 2;
 			if(game.workshop.get("carbonSequestration").researched){
-				self.isAutomationEnabled = (self.isAutomationEnabled === null)? true: self.isAutomationEnabled;
-			}else{
+				self.isAutomationEnabled = (self.isAutomationEnabled === null) ? true : self.isAutomationEnabled;
+			} else {
 				self.isAutomationEnabled = null;
 			}
 			effects["energyConsumption"] *= (self.isAutomationEnabled)? 2 : 1;
@@ -1555,27 +1565,30 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		togglable: true,
 		lackResConvert: false,
 		calculateEffects: function(self, game){
-			self.effectsCalculated = {
+			self.effects = {
 				"catnipPerTickCon" : -1 * (1 + game.getEffect("breweryConsumptionRatio")),
 				"spicePerTickCon" : -0.1 * (1 + game.getEffect("breweryConsumptionRatio")),
 				"festivalRatio" : 0.01,
 				"festivalArrivalRatio" : 0.001
 			};
+			self.effectsCalculated = dojo.clone(self.effects);
 		},
 		action: function(self, game) {
-			self.effects = self.effectsCalculated;
 			var amt = game.resPool.getAmtDependsOnStock(
-				[{res: "catnip", amt: -self.effects["catnipPerTickCon"]},
-				 {res: "spice", amt: -self.effects["spicePerTickCon"]}],
+				[{res: "catnip", amt: -self.effectsCalculated["catnipPerTickCon"]},
+				 {res: "spice", amt: -self.effectsCalculated["spicePerTickCon"]}],
 				self.on
 			);
-			self.effects["catnipPerTickCon"] *= amt; 
-			self.effects["spicePerTickCon"] *= amt; 
-			self.effects["festivalRatio"] *= amt; 
-			self.effects["festivalArrivalRatio"] *= amt; 
+			self.effects["catnipPerTickCon"] = self.effectsCalculated["catnipPerTickCon"] * amt;
+			self.effects["spicePerTickCon"] = self.effectsCalculated["spicePerTickCon"] * amt;
+			self.effects["festivalRatio"] = self.effectsCalculated["festivalRatio"] * amt;
+			self.effects["festivalArrivalRatio"] = self.effectsCalculated["festivalArrivalRatio"] * amt;
 			return amt;
 		},
 		flavor: $I("buildings.brewery.flavor"),
+		unlocks:{
+			zebraUpgrades: ["darkBrew"]
+		},
 		unlockScheme: {
 			name: "chocolate",
 			threshold: 10
@@ -1880,7 +1893,13 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		priceRatio: 1.35,
 		zebraRequired: 5,
 		effects: {
-			"hunterRatio" : 0.05
+			"hunterRatio" : 0.05,
+			"zebraPreparations" : 0
+		},
+		calculateEffects: function(self, game){
+			if(game.workshop.getZebraUpgrade("darkRevolution").researched){
+				self.effects["zebraPreparations"] = game.ironWill? 1:0.1;
+			}
 		}
 	},{
 		name: "zebraWorkshop",
@@ -1890,9 +1909,14 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		prices: [
 			{ name : "bloodstone", val: 5 }
 		],
+		unlocks: {
+			zebraUpgrades:["darkRevolution"]
+		},
 		priceRatio: 1.15,
 		zebraRequired: 10,
-		effects: {}
+		effects: {
+			//"bloodstoneCraftRatio" : 0.01
+		}
 	},{
 		name: "zebraForge",
 		label: $I("buildings.zebraForge.label"),
@@ -1901,9 +1925,77 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		prices: [
 			{ name : "bloodstone", val: 50 }
 		],
+		unlocks: {
+			crafts: ["bloodstone", "tMythril"],
+			zebraUpgrades: ["whispers"],
+		},
 		priceRatio: 1.15,
 		zebraRequired: 50,
-		effects: {}
+		effects: {
+			//"bloodstoneCraftRatio" : 0.02,
+			"tMythrilCraftRatio" : 0.01,
+		},
+	},{
+		name: "ivoryTemple",
+		defaultUnlockable: true,
+		//label: $I("buildings.ivoryTemple.label"),
+		//description: $I("buildings.ivoryTemple.desc"),
+		label: "Ivory Temple",
+		description: "Mystical temple where ivory is converted into minerals",
+		unlockRatio: 0.1,
+		prices: [
+			{ name : "tMythril", val: 1 },
+			{ name : "ivory", val: 100 }
+		],
+		/*unlocks: {
+			zebraUpgrades:["darkRevolution"]
+		},*/
+		priceRatio: 1.15,
+		//zebraRequired: 10,
+		effects: {
+			"ivoryPerTickCon": 0,
+			"mineralsPerTickProd": 0,
+			"titaniumPerTickCon": 0,
+			"alicornPerTickCon": 0,
+			"tMythrilPerTick": 0,
+		},
+		lackResConvert: false,
+		togglable: true,
+		calculateEffects: function(self, game){
+			if(game.workshop.getZebraUpgrade("whispers").researched && self.on > 0 && self.isAutomationEnabled == null){
+				self.isAutomationEnabled = true;
+			}
+		},
+		action: function(self, game){
+			if (self.isAutomationEnabled){
+				self.effects = {
+					"ivoryPerTickCon": -200,
+					"mineralsPerTickProd": 2,
+					"titaniumPerTickCon": -2,
+					"alicornPerTickCon": -0.00002,
+					"tMythrilPerTick": 0.00005
+				};
+			}else {
+				self.effects = {
+					"ivoryPerTickCon": -100,
+					"mineralsPerTickProd": 1,
+					"titaniumPerTickCon": 0,
+					"alicornPerTickCon": 0,
+					"tMythrilPerTick": 0
+				};
+			}
+			var amt = game.resPool.getAmtDependsOnStock(
+				[{res: "ivory", amt: -self.effects["ivoryPerTickCon"]},
+				{res: "titanium", amt: -self.effects["titaniumPerTickCon"]},
+				{res: "alicorn", amt: -self.effects["alicornPerTickCon"]}],
+				self.on
+			);
+			self.effects["ivoryPerTickCon"] *= amt;
+			self.effects["mineralsPerTickProd"] *= amt;
+			self.effects["titaniumPerTickCon"] *= amt;
+			self.effects["alicornPerTickCon"] *= amt;
+			self.effects["tMythrilPerTick"] *= amt;
+		}
 	}
 	],
 
@@ -1922,14 +2014,17 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		"manpowerMax"	: 100,
 		"scienceMax"    : 250,
 		"cultureMax"	: 100,
-		"faithMax" 		: 100
+		"faithMax" 		: 100,
+		"hutFakeBought": 0,
+		"logHouseFakeBought": 0,
+		"mansionFakeBought": 0 //these 3 are for Post Apocalypse pollution based housing cost increase — using getEffect instead of special handling
 	},
 	pollutionEffects: {
 		"catnipPollutionRatio" : 0,
 		"pollutionHappines" : 0,
 		"solarRevolutionPollution" : 0,
 		"pollutionDissipationRatio" :  1e-7,
-		"pollutionArrivalSlowdown": 0
+		"pollutionArrivalSlowdown": 0,
 	},
 
 	//deprecated, use getBuildingExt
@@ -2038,6 +2133,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				prices[i].val *= prices[i].name == "titanium" ? 0 : 11;
 			}
 		}
+
 		if (this.game.challenges.isActive("pacifism")
 		 && bld.get("name") == "steamworks"
 		 && bld.get("val") == 0) {
@@ -2047,7 +2143,16 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				}
 			}
 		}
-
+		if (this.game.challenges.isActive("postApocalypse")
+		&& bld.get("name") == "field"
+		&& this.getPollutionLevel() >= 5
+		&& bld.get("val") >= 95 - this.game.time.getVSU("usedCryochambers").val - this.getPollutionLevel() ) {
+			var builtWithUnobtanium = Math.max(bld.get("val") + this.game.time.getVSU("usedCryochambers").val - 100, 0);
+			prices.push({val: 15 * Math.pow(ratio, builtWithUnobtanium),
+						name : "unobtainium",
+						isTemporary: true //can't exploit buy manipulating pollution in postApocalypse
+					});
+		}
 		return prices;
 	 },
 
@@ -2057,49 +2162,62 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 		var pollutionLevel = this.getPollutionLevel();
 		var pollution = this.cathPollution;
-
+		//post apocalypse effects
+		if(this.game.challenges.isActive("postApocalypse")){
+			this.game.bld.pollutionEffects["pollutionDissipationRatio"] = 0;
+			if(pollutionLevel > 8){
+				this.game.bld.effectsBase["hutFakeBought"] = pollutionLevel - 8;
+				this.game.bld.effectsBase["logHouseFakeBought"] = pollutionLevel - 8;
+				this.game.bld.effectsBase["mansionFakeBought"] = pollutionLevel - 8;
+			}else{
+				this.game.bld.effectsBase["hutFakeBought"] = 0;
+				this.game.bld.effectsBase["logHouseFakeBought"] = 0;
+				this.game.bld.effectsBase["mansionFakeBought"] = 0;
+			}
+		}
+		
 		if(pollutionLevel >= 4){
-			this.game.bld.pollutionEffects["catnipPollutionRatio"] = this.game.getLimitedDR(-0.5 - 0.1 * Math.log(pollution), 10)/10;
-			this.game.bld.pollutionEffects["pollutionHappines"] = -Math.log(pollution) * 1.2;
-			this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] = Math.log10(this.game.bld.cathPollution) * 1.2;
-			this.game.bld.pollutionEffects["solarRevolutionPollution"] = -Math.min(1e-10 * (pollution - POL_LBASE * 1000)/9, 1); //linear HERE AND ONLY HERE
+			this.pollutionEffects["catnipPollutionRatio"] = this.game.getLimitedDR(-0.5 - 0.1 * Math.log(pollution), 10)/10;
+			this.pollutionEffects["pollutionHappines"] = -Math.log(pollution) * 1.2;
+			this.pollutionEffects["pollutionArrivalSlowdown"] = Math.log10(this.game.bld.cathPollution) * 1.2;
+			this.pollutionEffects["solarRevolutionPollution"] = -Math.min(1e-10 * (pollution - POL_LBASE * 1000)/9, 1); //linear HERE AND ONLY HERE
 		}
 		else if(pollutionLevel == 3){
-			this.game.bld.pollutionEffects["catnipPollutionRatio"] = this.game.getLimitedDR(-0.5 - 0.1 * Math.log(pollution), 10)/10;
-			this.game.bld.pollutionEffects["pollutionHappines"] =-Math.log(pollution) * 1.18;
-			this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] = Math.log10(this.game.bld.cathPollution) * 1.11;
-			this.game.bld.pollutionEffects["solarRevolutionPollution"] = 0;
+			this.pollutionEffects["catnipPollutionRatio"] = this.game.getLimitedDR(-0.5 - 0.1 * Math.log(pollution), 10)/10;
+			this.pollutionEffects["pollutionHappines"] =-Math.log(pollution) * 1.18;
+			this.pollutionEffects["pollutionArrivalSlowdown"] = Math.log10(this.game.bld.cathPollution) * 1.11;
+			this.pollutionEffects["solarRevolutionPollution"] = 0;
 		}
 		else if(pollutionLevel == 2){
-			this.game.bld.pollutionEffects["catnipPollutionRatio"] = this.game.getLimitedDR(-0.5 - 0.1 * Math.log(pollution), 10)/10;
-			this.game.bld.pollutionEffects["pollutionHappines"] = -Math.log(pollution) * 1.08;
-			this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] = 
+			this.pollutionEffects["catnipPollutionRatio"] = this.game.getLimitedDR(-0.5 - 0.1 * Math.log(pollution), 10)/10;
+			this.pollutionEffects["pollutionHappines"] = -Math.log(pollution) * 1.08;
+			this.pollutionEffects["pollutionArrivalSlowdown"] =
 				((pollution >= POL_LBASE * 100 / 2) ? 1 + 1.68e-8 * (pollution - POL_LBASE * 100 / 2): 0); //linear
-			this.game.bld.pollutionEffects["solarRevolutionPollution"] = 0;
+			this.pollutionEffects["solarRevolutionPollution"] = 0;
 		}
 		else if(pollutionLevel == 1){
-			this.game.bld.pollutionEffects["catnipPollutionRatio"] = this.game.bld.pollutionEffects["pollutionHappines"] = 
+			this.pollutionEffects["catnipPollutionRatio"] =
 			-0.2 - ((pollution - POL_LBASE) * 0.05 / (POL_LBASE * 10));	//linear between -0.2 : -0.25;
 
-			this.game.bld.pollutionEffects["pollutionHappines"] = 
+			this.pollutionEffects["pollutionHappines"] =
 				((pollution >= POL_LBASE * 10 / 2) ? -0.00000032 * (pollution - POL_LBASE * 10 / 2) : 0); //linear
-			this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] = 0;
-			this.game.bld.pollutionEffects["solarRevolutionPollution"] = 0;
+			this.pollutionEffects["pollutionArrivalSlowdown"] = 0;
+			this.pollutionEffects["solarRevolutionPollution"] = 0;
 		}
 		else if(pollutionLevel == 0){
 			//0% at 50% pollution, -20% at lvl 1
-			this.game.bld.pollutionEffects["catnipPollutionRatio"] = (pollution >= POL_LBASE/2) ? 
+			this.pollutionEffects["catnipPollutionRatio"] = (pollution >= POL_LBASE/2) ?
 				(
 					-0.2 * (pollution - POL_LBASE/2) / (POL_LBASE/2)
 				) : 0 ; //linear between 0 : -0.2 with first 50% zero
-			this.game.bld.pollutionEffects["pollutionHappines"] = 0;
-			this.game.bld.pollutionEffects["pollutionArrivalSlowdown"] = 0;
-			this.game.bld.pollutionEffects["solarRevolutionPollution"] = 0;
+			this.pollutionEffects["pollutionHappines"] = 0;
+			this.pollutionEffects["pollutionArrivalSlowdown"] = 0;
+			this.pollutionEffects["solarRevolutionPollution"] = 0;
 		}
 
 		//limit negative ratios with 75%
-		if (this.game.bld.pollutionEffects["catnipPollutionRatio"] < -0.75){
-			this.game.bld.pollutionEffects["catnipPollutionRatio"] = -0.75;
+		if (this.pollutionEffects["catnipPollutionRatio"] < -0.75){
+			this.pollutionEffects["catnipPollutionRatio"] = -0.75;
 		}
 	},
 	update: function(){
@@ -2127,9 +2245,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 
 		}
-		
+
 		this.calculatePollutionEffects();
-		
+
 		/*
 		 * Manpower hack for Iron Will mode. 1000 manpower is absolutely required for civilisation unlock.
 		 * There may be some microperf tweaks, but let's keep it simple
@@ -2263,9 +2381,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},
 
 	getPollutionLevel: function(cathPollution) {
-		if(!cathPollution) {cathPollution = this.cathPollution;}
+		if(cathPollution == undefined) {cathPollution = this.cathPollution;}
 		if(cathPollution <= 0){return 0;}
-		return Math.max(Math.floor(Math.log10(cathPollution * 10 / this.getPollutionLevelBase())), 0);	
+		return Math.max(Math.floor(Math.log10(cathPollution * 10 / this.getPollutionLevelBase())), 0);
 	},
     //============ dev =============
     devAddStorage: function(){
@@ -2285,7 +2403,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		var craftRatio = this.game.getResCraftRatio("wood");
 		this.game.resPool.addResEvent("wood", 1 + craftRatio);
 	},
-	
+
 	getUndissipatedPollutionPerTick: function(){
 		return this.game.getEffect("cathPollutionPerTickProd") * this.getPollutionRatio() * (1 + this.game.getEffect("cathPollutionRatio")) + this.game.getEffect("cathPollutionPerTickCon");
 	},
@@ -2294,39 +2412,44 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},
 	getEquilibriumPollution: function(){ //returns pollution value at which pollutionDissipationRatio will make pollutionPerTick equal to 0, or -1 if such value doesn't exits
 		if (this.pollutionEffects["pollutionDissipationRatio"]){
-			return this.getUndissipatedPollutionPerTick()/ this.pollutionEffects["pollutionDissipationRatio"];
-		}else if(this.cathPollutionPerTick < 0){
+			return this.getUndissipatedPollutionPerTick() / this.pollutionEffects["pollutionDissipationRatio"];
+		} else if(this.cathPollutionPerTick < 0) {
 			return 0;
-		}else{
+		} else if(this.cathPollutionPerTick == 0) {
+			return this.cathPollution;
+		} else if(this.cathPollutionPerTick > 0) {
+			return Number.POSITIVE_INFINITY;
+		} else {
 			console.log("No equilibrium found");
 			return -1;
 		}
 	},
 	setEquilibriumPollution: function(){
 		var equilibriumPollution = this.getEquilibriumPollution();
-		if(equilibriumPollution != -1){
+		if(equilibriumPollution != -1) {
 			this.cathPollution = equilibriumPollution;
 		}
 	},
 	cathPollutionFastForward: function(ticks, simplified){
-		if(simplified) {
+		if(simplified || !this.pollutionEffects["pollutionDissipationRatio"]) {
 			this.cathPollution += this.cathPollutionPerTick * ticks;
 		}
 		else {
-		/*t = time in ticks, p = pollution, UPPT — undissipated pollution per tick, pdr — pollution dissipation ratio
-		solved differential equation:
-			p(t = 0) = this.cathPollution
-			d(p)/dt = UPPT + pdr * p
-		*/
-		var pdr = - this.pollutionEffects["pollutionDissipationRatio"];
-		var expon = Math.exp(pdr * ticks);
-		var uppt = this.getUndissipatedPollutionPerTick();
-		this.cathPollution = Math.max(((this.cathPollution * pdr + uppt) * expon - uppt)/pdr, 0);
+			/*t = time in ticks, p = pollution, UPPT — undissipated pollution per tick, pdr — pollution dissipation ratio
+			solved differential equation:
+				p(t = 0) = this.cathPollution
+				d(p)/dt = UPPT + pdr * p
+			*/
+			var pdr = - this.pollutionEffects["pollutionDissipationRatio"];
+			var expon = Math.exp(pdr * ticks);
+			var uppt = this.getUndissipatedPollutionPerTick();
+			this.cathPollution = Math.max(((this.cathPollution * pdr + uppt) * expon - uppt) / pdr, 0);
 		}
 	},
+	
 	fastforward: function(daysOffset) {
 		var game = this.game;
-		
+
 		this.cacheCathPollutionPerTick();
 		this.cathPollutionFastForward(daysOffset * game.calendar.ticksPerDay);
 
@@ -2541,7 +2664,7 @@ dojo.declare("classes.ui.btn.BuildingBtnModernController", com.nuclearunicorn.ga
 		}
 		if (meta.almostLimited){
 			name = "* " + name + " *";
-		} 
+		}
 		return name;
 	},
 
