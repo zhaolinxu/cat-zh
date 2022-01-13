@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="zh_CN">
 	<script>
 		var _hmt = _hmt || [];
 		(function() {
@@ -20,7 +20,6 @@
 		<!-- I only use jquery ironically -->
 
 		<script src="lib/react.min.js"></script>
-		<!--todo: use min version -->
 
 		<!-- Local versions of libs will be hosted so our Chinese players wont be forced to use VPN -->
 		<script src="lib/jQuery.js?v=_2"></script>
@@ -42,7 +41,7 @@
 
 		<script type="text/javascript">
 			var now = Date.now();
-			$("<link />").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "res/default.css?v=2").appendTo($("head"));
+			$("<link />").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "res/default.css?v=" + 1 +  new Date().getDate()).appendTo($("head"));
 		</script>
 
 		<script>
@@ -62,8 +61,11 @@
 		</script>
 
 		<script type="text/javascript">
-			var version = "1485";
+
+			var version = "1490";
+
 			var buildRevision = 0;
+			var ksVision = 0;
 
 			var loadingProgress = 0,
 				progressMax = 0;
@@ -168,6 +170,7 @@
 
 				var def = $.getJSON("build.version.json?=" + now).then(function(json) {
 					buildRevision = json.buildRevision;
+					ksVision = json.ksVision;
 					console.log("build revison is" + buildRevision);
 					$("#versionLink").html(displayedVersion + ".r" + buildRevision);
 				});
@@ -185,7 +188,7 @@
 				def = _import("i18n", def);
 				def.then(function() {
 					console.log("Loading locale system");
-					var langPromise = i18nLang.init(buildRevision);
+					var langPromise = i18nLang.init(buildRevision + "2");
 					langPromise.done(function() {
 						loadingMessages = [
 							$I("ui.loading.msg.0"),
@@ -314,7 +317,7 @@
 
 			<div id="topBar">
 				<div style="padding-left: 10px; min-width: 0px; max-width: 400px; overflow: hidden; text-overflow: ellipsis;">
-					猫国建设者
+					<span class="gameTitle">Kittens Game </span>
 					<span style="font-size: small;">
 						by <a href="http://kittensgame.com/" class="copyright" target="_blank">bloodrizer</a>
 					</span>
@@ -330,8 +333,8 @@
 
 					<span style="font-size: small;">
 						<a href="http://kittensgame.com/beta" title="测试版本" target="_blank">&beta;</a>
-						<a href="http://kittensgame.com/web" title="国外英文官网版本" target="_blank"><b>ML</b></a>
-						<a href="https://likexia.gitee.io/cat-zh/" title="国内阳光搬运" target="_blank"><b>&Iota;</b></a>
+						<a href="http://kittensgame.com/web" title="国外英文官网版本" target="_blank"><strong>ML</strong></a>
+						<a href="https://likexia.gitee.io/cat-zh/" title="国内阳光搬运" target="_blank"><strong>&Iota;</strong></a>
 					</span>
 				</div>
 
@@ -357,7 +360,7 @@
 				</div>
 
 				<div class="links-block" style="padding-top:3px; display:inline-flex;">
-					<a id="save-link" href="#" onclick="gamePage.saveUI();">Save</a> |
+					<a id="save-link" href="#" onclick="gamePage.saveUI();"  title="本地保存在浏览器缓存里" >Save</a> |
 					<a id="options-link" href="#" onclick="$('#optionsDiv').toggle();">Options</a> |
 
 					<a id="reset-link" href="#" onclick="gamePage.reset();">Reset</a> |
@@ -371,7 +374,7 @@
 
 			<div id="loadingContainer">
 				<div class="content">
-					<span style="font-size:18px;"><img class="loader" width="16" height="16" src="res/ajax-loader.gif">&nbsp;加载中...<br></span>
+					<span style="font-size:18px;"><img class="loader" width="16" height="16" src="res/ajax-loader.gif" alt="加载中">&nbsp;加载中...<br></span>
 					<br>
 					<progress id="loadingProgressBar" value="0" max="100"></progress>
 					<div id="loadingProgressInfo">Setting up game engine...</div>
@@ -538,16 +541,16 @@
 				<select id="schemeToggle" onchange="gamePage.toggleScheme($('#schemeToggle').val())">
 				</select> &nbsp;
 				<a id="schemeRelock" href="#" onclick="gamePage.ui.relockSchemes()" style="font-size:14px;">Relock schemes</a>
-				<br><i><span id="schemeTip" style="font-size: 70%;">Schemes that you cannot select yet can be permanently unlocked by specific actions.</span></i>
+				<br><em><span id="schemeTip" style="font-size: 70%;">Schemes that you cannot select yet can be permanently unlocked by specific actions.</span></em>
 				<br>
 				<br>
 
 				<input id="workersToggle" type="checkbox" onclick="gamePage.useWorkers = $('#workersToggle')[0].checked;">
 				<label id="optionWorkers" for="workersToggle">Use web worker
-					<i>(game works correctly in background tab, may cause performance issues)
+					<em>(game works correctly in background tab, may cause performance issues)
 						<br>
 						You need to refresh the browser page for this setting to take effect.
-					</i></label>
+					</em></label>
 				<br>
 
 				<!-- ===================================== NOTE: FOR FULL I18N SUPPORT ===================================== -->
@@ -558,7 +561,7 @@
 				<br>
 
 				<input id="usePerSecondValues" type="checkbox" onclick="gamePage.opts.usePerSecondValues = $('#usePerSecondValues')[0].checked;">
-				<label id="optionUsePerSecondValues" for="usePerSecondValues">Use per second values <i>(per tick otherwise)</i></label>
+				<label id="optionUsePerSecondValues" for="usePerSecondValues">Use per second values <em>(per tick otherwise)</em></label>
 				<br>
 				<input id="usePercentageResourceValues" type="checkbox" onclick="gamePage.opts.usePercentageResourceValues = $('#usePercentageResourceValues')[0].checked;">
 				<label id="optionUsePercentageResourceValues" for="usePercentageResourceValues">Use percentage resource production values</label>
@@ -573,14 +576,14 @@
 				<label id="optionHighlightUnavailable" for="highlightUnavailable">Highlight buildings limited by storage space</label>
 				<br>
 				<input id="set-ks-enable" type="checkbox">
-				<label id="ks-label" for="set-ks-enable" style="color:red;">启用小猫珂学家</label><a href="https://petercheney.gitee.io/baike/?file=004-第三方工具/02-小猫科学家" target="_blank">&nbsp;&nbsp;[使用说明]</a>
+				<label id="ks-label" for="set-ks-enable" style="color:red;">启用小猫珂学家</label><a href="https://petercheney.gitee.io/baike/?file=004-第三方工具/02-小猫科学家" target="_blank">&nbsp;&nbsp;[使用说明书]</a>
 				<!-- [<a href="https://gitee.com/likexia/cbc-kitten-scientists" target="_blank" style="color:blue;text-decoration:none;" title="点击查看">教程</a>] -->
 				<br>
 				<input id="set-kgp-enable" type="checkbox">
 				<label id="kgp-label" for="set-kgp-enable">启用资源进度条</label>
 				<br>
 				<input id="autoSaveReset" type="checkbox" onclick="gamePage.opts['autoSaveReset'] = $('#autoSaveReset')[0].checked;">
-				<label id="optionAutoSaveReset" for="autoSaveReset">重置游戏自动备份存档<i>（需要在浏览器设置下载保存位置！）</i></label>
+				<label id="optionAutoSaveReset" for="autoSaveReset">重置游戏自动备份存档<em>（需要在浏览器设置下载保存位置！）</em></label>
 				<br>
 				<input id="hideSell" type="checkbox" onclick="gamePage.opts.hideSell = $('#hideSell')[0].checked;">
 				<label id="optionHideSell" for="hideSell">Hide 'sell' buttons</label>
@@ -589,7 +592,7 @@
 				<label id="optionHideDowngrade" for="hideDowngrade">Hide 'downgrade' buttons</label>
 				<br>
 				<input id="hideBGImage" type="checkbox" onclick="gamePage.opts.hideBGImage = $('#hideBGImage')[0].checked; gamePage.ui.updateOptions();">
-				<label id="optionHideBGImage" for="hideBGImage">Hide background image <i>(for color schemes where applicable)</i></label>
+				<label id="optionHideBGImage" for="hideBGImage">Hide background image <em>(for color schemes where applicable)</em></label>
 				<br>
 				<input id="tooltipsInRightColumn" type="checkbox" onclick="gamePage.opts.tooltipsInRightColumn = $('#tooltipsInRightColumn')[0].checked; gamePage.ui.updateOptions();">
 				<label id="optionTooltipsInRightColumn" for="tooltipsInRightColumn">Move tooltips in right column</label>
@@ -611,6 +614,9 @@
 					<input id="enableRedshift" type="checkbox" onclick="gamePage.opts.enableRedshift = $('#enableRedshift')[0].checked;">
 					<label id="optionEnableRedshift" for="enableRedshift">Enable offline progression</label>
 					<br>
+					<input id="disablePollution" type="checkbox" onclick="gamePage.opts.disablePollution = $('#disablePollution')[0].checked;">
+					<label id="optionDisablePollution" for="disablePollution">Disable pollution effects</label>
+					<br>
 					<input id="enableRedshiftGflops" type="checkbox" onclick="gamePage.opts.enableRedshiftGflops = $('#enableRedshiftGflops')[0].checked;">
 					<label id="optionEnableRedshiftGflops" for="enableRedshiftGflops">启用浮点的离线进度</label>
 					<br>
@@ -618,11 +624,11 @@
 					<label id="optionBatchSize" for="batchSize">Batch size of Ctrl-click</label>
 					<br>
 					<input id="forceLZ" type="checkbox" onclick="gamePage.opts.forceLZ = $('#forceLZ')[0].checked;">
-					<label id="optionForceLZ" for="forceLZ" style="font-size: 75%;">Always compress in-memory save, in UTF-16 <i>(experimental)</i></label>
+					<label id="optionForceLZ" for="forceLZ" style="font-size: 75%;">Always compress in-memory save, in UTF-16 <em>(experimental)</em></label>
 					<br>
 					<input id="compressSaveFile" type="checkbox" onclick="gamePage.opts.compressSaveFile = $('#compressSaveFile')[0].checked;">
-					<label id="optionCompressSaveFile" for="compressSaveFile" style="font-size: 75%;">Compress exported save file <i>(experimental)<br>
-							WARNING: it generates save files that are NOT COMPATIBLE with older versions.</i></label>
+					<label id="optionCompressSaveFile" for="compressSaveFile" style="font-size: 75%;">Compress exported save file <em>(experimental)<br>
+							WARNING: it generates save files that are NOT COMPATIBLE with older versions.</em></label>
 					<br>
 				</div>
 
@@ -653,7 +659,7 @@
 				<br>
 				<textarea id="importData" style="width: 550px; height: 220px;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
 				<br>
-				<input id="doImportButton" type="button" value="Import" onclick="gamePage.saveImport(); $('#importDiv').hide(); visibleTrue();" style="margin-top: 10px;">
+				<input id="doImportButton" type="button" value="Import" onclick="gamePage.saveImport(); $('#importDiv').hide();gamePage.nummonTab.visible = true;" style="margin-top: 10px;">
 				<input id="cancelButton" type="button" value="Cancel" onclick="$('#importDiv').hide();" style="margin-top: 10px;">
 
 			</div>
@@ -683,32 +689,30 @@
 					<span>电子邮箱:
 						<br>
 						<input type="email" id="registerEmail"></span>
-					<form>
 						<div style="display: block;">
 							<br>密码：
 							<span style="font-size: 0.8em">(6-30字符)</span>
 							<br>
 							<input type="password" id="loginPassword" placeholder="请输入密码" autocomplete="off">
 						</div>
-					</form>
 					<br>
-					<form>
 						<div style="display: block;">确认密码:
 							<br>
 							<input type="password" id="confirmPassword" placeholder="请输入密码" autocomplete="off">
 							<br>
 						</div>
-					</form>
 					<br>
 					<div class="btn modern" style="font-size:16px;" onclick="gamePage.server.register()">注册</div>
 					<div style="color:#01A9DB;">
+						<ul>
 						<li>因为官方网站注册有几率会被墙。</li>
-                        <li>这里注册可以代替官网注册账号。</li>
+						<li>这里注册可以代替官网注册账号。</li>
 						<li>网页存档可以手机存档一键同步。</li>
-                        <li>不同电脑使用云存档能一键同步。</li>
-                        <li>后续设置可能有点麻烦按需使用。</li>
+						<li>不同电脑使用云存档能一键同步。</li>
+						<li>后续设置可能有点麻烦按需使用。</li>
 						<li>国外官网上传和加载都有些延迟。</li>
-                        <li>成功或者失败游戏日志会有提示。</li>
+						<li>成功或者失败游戏日志会有提示。</li>
+						</ul>
 					</div>
 				</div>
 			</div>
@@ -723,33 +727,30 @@
 				<body>
 					<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN" target="_blank">捐赠</a> |
 					<script type="text/javascript">
-						var abc = function() {
+						var paragonWebsite = function() {
 							if (typeof gamePage === "undefined") {
-								setTimeout(function() {
-									abc();
-								}, 10000);
+								setTimeout(paragonWebsite, 10000);
 							} else {
 								var a = document.getElementsByTagName("a");
 								var b = game.prestige.getParagonStorageRatio();
 								var c = game.resPool.get('timeCrystal').value;
 								var d = game.religion.getTU("blackObelisk").val;
 								var e = localStorage['zh.ks.enable'];
-								if (b > 2.5 && c > 100000 && d > 40 && e == 'enable') {
+								if (b > 2.5 && c > 2e5 && d > 55 && e == 'enable') {
 									for (var i = a.length - 1; i > 0; i--) {
 										if (a[i].href == "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN") {
 											a[i].href = a[i].href.replace("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN", "https://lolitalibrary.com/maoguo/index.html");
 											a[i].innerHTML = a[i].innerHTML.replace('捐赠', '自动刷领导力');
+											a[i].title = "Cheney的网站需要自己导入存档哦";
 											break;
 										}
 									}
 								} else {
-									setTimeout(function() {
-										abc();
-									}, 10000);
+									setTimeout(paragonWebsite, 10000);
 								}
 							}
 						}
-						abc();
+						paragonWebsite();
 					</script>
 				</body>
 				<a href="https://www.patreon.com/bloodrizer" target="_blank">支持</a>
@@ -788,23 +789,36 @@
 				localStorage['zh.ks.enable'] = 'enable';
 				$("#ks-label").text("可爱的猫猫科学家为您服务");
 				$("#set-ks-enable").attr("checked", true);
-				document.body.appendChild(document.createElement('script')).src = 'kitten-scientists.user.js?v=6' + new Date().getDate();
+				document.body.appendChild(document.createElement('script')).src = 'kitten-scientists.user.js?v=' + new Date().getDate() + ksVision;
 			};
 			var disableKS = function() {
 				localStorage['zh.ks.enable'] = 'disable';
 				$("#ks-label").text("小猫科学家将在页面刷新后关闭");
 				$("#set-ks-enable").attr("checked", false);
 			};
-
-			if (localStorage['zh.ks.enable'] === 'enable') {
-				enableKS()
+			
+		   var ks =function() {
+				if (ksVision) {
+					if (localStorage['zh.ks.enable'] === 'enable') {
+						enableKS();
+					}
+				} else {
+					setTimeout(function() {
+						ks();
+					}, 500);
+				}
 			}
+			ks();
+
 			$("#set-ks-enable").on('change', function() {
 				if (localStorage['zh.ks.enable'] === 'enable') {
 					disableKS();
 					alert("请在保存游戏后刷新页面");
+				} else if (!localStorage['zh.ks.enable']) {
+					alert("第一次使用珂学家请点击说明书链接并参考\n珂学家设置请根据自身实际情况调整，并不能做到满足所有人");
+					enableKS();
 				} else {
-					enableKS()
+					enableKS();
 				}
 			});
 			var enableKGP = function() {
@@ -834,22 +848,13 @@
 				if (typeof gamePage === "undefined") {
 					setTimeout(function() {
 						_282d5adfdca92885cd9f210a9b60a328();
-					}, 2000);
+					}, 2500);
 				} else {
 					// NummonInit();
-					document.body.appendChild(document.createElement('script')).src = 'NummonCalc.js?v=18';
+					document.body.appendChild(document.createElement('script')).src = 'NummonCalc.js?v=' + new Date().getDate() + buildRevision;
 				}
 			};
 			_282d5adfdca92885cd9f210a9b60a328();
-
-			function visibleTrue() {
-				setTimeout(function() {
-					if (typeof gamePage != "undefined") {
-						gamePage.nummonTab.visible = true;
-						game.render();
-					}
-				}, 4000);
-			}
 		</script>
 
 	</body>

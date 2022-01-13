@@ -169,7 +169,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     isChatVisited: false,
     isCenter: false,
 
-    defaultSchemes: ["default", "dark", "grassy", "sleek", "black", "wood", "bluish", "grayish", "greenish"],
+    defaultSchemes: ["default", "dark", "grassy", "sleek", "black", "wood", "bluish", "grayish", "greenish", "tombstone", "spooky"],
     allSchemes: ["default"].concat(new classes.KGConfig().statics.schemes),
 
     dirtyComponents: [],
@@ -705,7 +705,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             var calendarSignSpan = dojo.byId("calendarSign");
             var cycle = calendar.cycles[calendar.cycle];
             if (cycle && this.game.science.get("astronomy").researched) {
-            	calendarSignSpan.style.color = calendar.cycleYearColor();
+                calendarSignSpan.style.color = calendar.cycleYearColor();
                 calendarSignSpan.innerHTML = cycle.glyph + " ";
             }
         } else {
@@ -1002,6 +1002,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#appAndroid").text($I("ui.option.app.android"));
         $("#appIOS").text($I("ui.option.app.ios"));
         $("#optionNotation").text($I("ui.option.notation"));
+        $("#optionDisablePollution").text($I("ui.option.pollution"));
     },
 
     _createFilter: function(filter, fId, filtersDiv){
@@ -1174,6 +1175,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             
             if (buildRevision > self.game.telemetry.buildRevision){
                 $("#newVersion").toggle(true);
+                self.game.msg("有新版本，可以点击右上角更新按钮。");
             }
         });
     }

@@ -1,4 +1,4 @@
-/* global 
+/* global
 	WChiral
 */
 
@@ -342,7 +342,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"unobtainiumPerTickSpace": 0.007 * (1 + game.getEffect("lunarOutpostRatio"))
 				};
 				effects["energyConsumption"] = 5;
-				
+
 				self.effects = effects;
 			},
 			lackResConvert: false,
@@ -477,6 +477,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				self.effects = {
 					"spicePerTickAutoprodSpace": 0.025
 				};
+			},
+			unlockScheme: {
+				name: "dune",
+				threshold: 10
 			}
 		}]
 	},{
@@ -800,6 +804,30 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 						(1 + game.getUnlimitedDR(yearBonus, 0.075) * 0.01) *
 						(1 + game.getEffect("umbraBoostRatio"));
 				}
+			},{
+				name: "navigationRelay",
+				label: $I("space.planet.umbra.navigationRelay.label"),
+				description: $I("space.planet.umbra.navigationRelay.desc"),
+				unlocked: false,
+				requiredTech: false,
+				priceRatio: 1.2,
+				prices: [
+					{name: "titanium", val: 50000 }, // TBD
+					{name: "concrate", val: 5000 }
+				],
+				effects: {} // TBD
+			}, {
+				name: "spaceShuttle",
+				label: $I("space.planet.umbra.spaceShuttle.label"),
+				description: $I("space.planet.umbra.spaceShuttle.desc"),
+				unlocked: false,
+				requiredTech: false,
+				priceRatio: 1.15,
+				prices: [
+					{name: "antimatter", val: 50 }, // TBD
+					{name: "eludium", val: 500 }
+				],
+				effects: {} // TBD
 			}
 		]
 	},{
@@ -1006,6 +1034,17 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			}
 		}
 
+		for (var i = this.planets.length - 1; i >= 0; i--){
+			var planet = this.planets[i];
+			if (planet.buildings){
+				for (var j = planet.buildings.length - 1; j >= 0; j--){
+					var bld = planet.buildings[j];
+					if (bld.val && bld.unlocks){
+						this.game.unlock(bld.unlocks);
+					}
+				}
+			}
+		}
 	},
 
 	update: function(){
@@ -1029,7 +1068,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				if (!bld.unlocked && planet.reached) {
 					if (typeof(bld.requiredTech) == "undefined"){
 						bld.unlocked = true;
-					} else {
+					} else if (bld.requiredTech) {
 						var isUnlocked = true;
 						for (var i = bld.requiredTech.length - 1; i >= 0; i--) {
 							var tech = this.game.science.get(bld.requiredTech[i]);
@@ -1090,7 +1129,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		if (gflopsConsume <= 0) {
 			return;
 		}
-		
+
 		this.game.resPool.addResEvent("gflops", -gflopsConsume);
 		this.game.resPool.addResEvent("hashrates", gflopsConsume);
 	},
@@ -1303,7 +1342,7 @@ dojo.declare("classes.ui.space.PlanetPanel", com.nuclearunicorn.game.ui.Panel, {
 	update: function() {
 		if (!this.planet.reached && this.planet.unlocked && this.planet.routeDays > 0) {
 			var routeSpeed = this.game.getEffect("routeSpeed") != 0 ? this.game.getEffect("routeSpeed") : 1;
-			this.title.innerHTML = this.name + " | ETA: " + this.game.toDisplayDays(Math.round(this.planet.routeDays / routeSpeed));
+			this.title.innerHTML = this.name + " | 还需: " + this.game.toDisplayDays(Math.round(this.planet.routeDays / routeSpeed));
 		} else {
 			this.title.innerHTML = this.name;
 		}
@@ -1321,7 +1360,7 @@ dojo.declare("classes.ui.space.FurthestRingPanel", [classes.ui.space.PlanetPanel
 		var wrapper = new mixin.IReactAware(WChiral, this.game);
 
 		var content = this.inherited(arguments);
-		wrapper.render(content);	
+		wrapper.render(content);
 
 		return content;
 	}

@@ -150,21 +150,31 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
         effects: {
 			"shatterCostReduction": -0.02,
 			"shatterCostIncreaseChallenge": 0,
-			"shatterVoidCost": 0
+			"shatterVoidCost": 0,
+			"temporalPressCap" : 0
         },
         calculateEffects: function(self, game){
             if (self.active) {
         	    self.effects["shatterCostReduction"] = 0;
                 self.effects["shatterCostIncreaseChallenge"] = 0.5;
                 self.effects["shatterVoidCost"] = 0.4;
+                self.effects["temporalPressCap"] = 0;
              }else{
 				self.effects["shatterCostReduction"] = -0.02;
 				self.effects["shatterCostIncreaseChallenge"] = 0;
 				self.effects["shatterVoidCost"] = 0;
+				self.effects["temporalPressCap"] = 5;
 			}
+			game.upgrade(self.upgrades); //this is a hack, might need to think of a better sollution later
 		},
 		researched: false,
-		unlocked: false
+		unlocked: false,
+		upgrades:{
+			chronoforge: ["temporalPress"]
+		},
+		unlocks: {
+			chronoforge: ["temporalPress"]
+		}
 	},{
 		name: "blackSky",
 		label: $I("challendge.blackSky.label"),
@@ -205,7 +215,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 				self.effects["weaponEfficency"] = -0.1; //after 10 completions weapons WILL be useles; no LDR >:3
                 self.effects["policyFakeBought"] = 1;
 				self.effects["embassyFakeBought"] = 1;
-				self.effects["steamworksFakeBought"] = 2;
+				self.effects["steamworksFakeBought"] = Math.floor(1.5 * self.on || 1)/ (self.on || 1);
             }else{
 				self.effects["alicornPerTickRatio"] = 0.1;
 				self.effects["tradeKnowledge"] = 1;
@@ -214,9 +224,14 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 				self.effects["embassyFakeBought"] = 0;
 				self.effects["steamworksFakeBought"] = 0;
 			}
-			game.upgrade(self.upgrades); //this is a hack. Sometime we should make challenges actually upgrade things.
+			game.upgrade(self.upgrades); //this is a hack, might need to think of a better sollution later
 		},
 		checkCompletionConditionOnReset: function(game){
+			if(game.diplomacy.baseManpowerCost > 0) { // BSK+IW precaution
+				if(!game.village.sim.hadKittenHunters && game.stats.getStatCurrent("totalTrades").val > 0){
+					game.achievements.unlockBadge("cleanPaws"); //hack
+				}
+			}
 			return game.science.getPolicy("outerSpaceTreaty").researched;
 		},
 		upgrades: {
@@ -236,7 +251,45 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			var tradepostRatioLimit = game.getLimitedDR(0.099 + tradeKnowledge * 0.0075, 0.25);
 			return (tradepost.effects["tradeRatio"] * Math.min(tradepostLimit, tradepost.val * tradepostRatioLimit));
 		}
-	}],
+	},{
+		name: "postApocalypse",
+		label: $I("challendge.postApocalypse.label"),
+		description: $I("challendge.postApocalypse.desc"),
+		effectDesc: $I("challendge.postApocalypse.effect.desc"),
+		researched: false,
+		unlocked: false,
+		flavor: $I("challendge.postApocalypse.flavor"),
+        effects: {
+			"arrivalSlowdown": 0, //additive with pollution
+			"cryochamberSupport": 1
+        },
+		calculateEffects: function(self, game){
+			if(self.active){
+				self.effects["arrivalSlowdown"] = 10;
+				self.effects["cryochamberSupport"] = 0;
+			}else{
+				self.effects["arrivalSlowdown"] = 0;
+				self.effects["cryochamberSupport"] = 1;
+			}
+		},
+		findRuins: function (self, game) {
+			
+		},
+		checkCompletionCondition: function(game){
+			return game.bld.cathPollution == 0;
+		},
+		actionOnCompletion: function(game){
+			game.bld.effectsBase["hutFakeBought"] = 0;
+			game.bld.effectsBase["logHouseFakeBought"] = 0;
+			game.bld.effectsBase["mansionFakeBought"] = 0; //in case of some laggy redshift 
+			game.bld.pollutionEffects["pollutionDissipationRatio"] = 1e-7; //putting it back to default at the end of the challenge is enough
+			//policies unlocked ONLY after winning this challenge!
+			//After the challenge is won player gets two options: make terraforming stations stronger; or get usedCryochamber ONCE.
+			//In case of taking the cryochaimber, both policies become not unlocked and extraction policy becomes NOT researched
+			game.science.getPolicy("terraformingInsight").unlocked = true; //policy which helpes to get more paragon this run
+			game.science.getPolicy("cryochamberExtraction").unlocked = true; //single use policy; gets not researched after player gets the bonus
+		}
+		}],
 
 	game: null,
 
@@ -286,6 +339,9 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		for (var i = 0; i < this.challenges.length; i++) {
 			if (this.challenges[i].researched && !this.challenges[i].on) {
 				this.challenges[i].on = 1;
+			}
+			if(this.challenges[i].unlocks && this.challenges[i].on && !this.challenges[i].active){
+				this.game.unlock(this.challenges[i].unlocks);
 			}
 		}
 		if (saveData.challenges.reserves){
@@ -351,6 +407,9 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			/*if(!this.anyChallengeActive() && !this.game.ironWill && !this.getChallenge(challenge).reserveDelay){
 				this.reserves.addReserves();
 			}*/
+			if (this.getChallenge(challenge).unlocks) {
+				this.game.unlock(this.getChallenge(challenge).unlocks);
+			}
 			this.game.calculateAllEffects();
 		}
 	},
@@ -363,22 +422,33 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 	},
 	/**
 	 * Apply challenges marked by player as pending
+	 * 
+	 * @isIronWillPending true if we try to apply pending ironWill challenge
 	 */
-	applyPending: function(){
+	applyPending: function(isIronWillPending){
 		var game = this.game;
+		var winterAndPA = (game.challenges.getChallenge("postApocalypse").pending && 
+			game.challenges.getChallenge("winterIsComing").pending &&
+			!isIronWillPending && game.time.getVSU("cryochambers").val);
+		var WPA_warning = $I("challendge.btn.confirmation_postApocalypse_winterIsComing.msg");
 		game.ui.confirm(
 			$I("challendge.btn.confirmation.title"), 
-			$I("challendge.btn.confirmation.msg"), function() 
+			((winterAndPA)? ($I("challendge.btn.confirmation.msg") + WPA_warning) :$I("challendge.btn.confirmation.msg")), function() 
 		{
 			// Reset with any benefit of chronosphere (resources, kittens, etc...)
 			// Should put resources and kittens to reserve HERE!
 			// Kittens won't be put into reserve in post apocalypcis!
 			game.challenges.onRunReset();
-			game.challenges.reserves.calculateReserves();
+			game.challenges.reserves.calculateReserves(isIronWillPending);
 			game.bld.get("chronosphere").val = 0;
 			game.bld.get("chronosphere").on = 0;
-			game.time.getVSU("cryochambers").val = 0;
-			game.time.getVSU("cryochambers").on = 0;
+			if(!game.challenges.getChallenge("postApocalypse").pending || isIronWillPending){
+				game.time.getVSU("cryochambers").val = 0;
+				game.time.getVSU("cryochambers").on = 0;
+			}else if(game.challenges.getChallenge("anarchy").pending && this.game.village.leader){
+				this.game.village.leader.isLeader = false;
+				this.game.village.leader = null;
+			}
 			game.resetAutomatic();
 		}, function() {
 		});
@@ -457,9 +527,14 @@ dojo.declare("classes.reserveMan", null,{
 		this.game.challenges.reserves.reserveKittens = 
 		this.game.challenges.reserves.reserveKittens.concat(reserveKittens);
 	},
-	calculateReserves: function(){
+	/*
+		@isIronWillPending - true if we try to apply ironWill challenge
+	*/
+	calculateReserves: function(isIronWillPending){
 		this.game.challenges.reserves.calculateReserveResources();
-		this.game.challenges.reserves.calculateReserveKittens();
+		if(!this.game.challenges.getChallenge("postApocalypse").pending || isIronWillPending){
+			this.game.challenges.reserves.calculateReserveKittens();
+		}
 	},
 	addReserves: function(){
 		for (var i in this.reserveResources){
@@ -574,7 +649,7 @@ dojo.declare("classes.ui.ChallengeBtnController", com.nuclearunicorn.game.ui.Bui
 
 	togglePending: function(model){
 		if (model.metadata.name == "ironWill") {
-			this.game.challenges.applyPending();
+			this.game.challenges.applyPending(true	/*isIronWillPending*/);
 			return;
 		}
 		model.metadata.pending = !model.metadata.pending;

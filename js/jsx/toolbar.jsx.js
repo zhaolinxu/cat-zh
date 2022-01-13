@@ -67,9 +67,9 @@ WToolbarHappiness = React.createClass({
             getTooltip: this.getTooltip,
             className: "happiness"
         },
-            $r("div", {
+            $r("div", {className:"happinessText",
                 dangerouslySetInnerHTML: {
-                    __html: "(:3)&nbsp;" + Math.floor(game.village.happiness * 100) + "%"
+                    __html: Math.floor(game.village.happiness * 100) + "%"
                 }
             })
         );
@@ -94,6 +94,9 @@ WToolbarHappiness = React.createClass({
 				if(resources[i].name == "elderBox" && this.game.resPool.get("wrappingPaper").value){
 					resHappiness -= happinessPerLuxury; // Present Boxes and Wrapping Paper do not stack.
 				}
+				if(resources[i].type == "uncommon"){
+					resHappiness += this.game.getEffect("consumableLuxuryHappiness");
+				}
 			}
 		}
 		tooltip += $I("village.happiness.rare.resources") + ": +" + this.game.getDisplayValueExt(resHappiness, false, false, 0) + "%<br>";
@@ -105,7 +108,7 @@ WToolbarHappiness = React.createClass({
 
 		if (this.game.calendar.festivalDays > 0){
 			var festivalHappinessEffect = 30 * (1+this.game.getEffect("festivalRatio"));
-			tooltip += $I("village.happiness.festival") + ": +" + this.game.getDisplayValueExt(festivalHappinessEffect, false, false, 1) + "%<br>";
+			tooltip += $I("village.happiness.festival") + ": +" + this.game.getDisplayValueExt(festivalHappinessEffect, false, false, 0) + "%<br>";
 		}
 
         var unhappiness = this.game.village.getUnhappiness() / (1 + this.game.getEffect("unhappinessRatio")),
@@ -146,9 +149,9 @@ WToolbarEnergy = React.createClass({
             getTooltip: this.getTooltip,
             className: "energy" + className
         },
-            $r("div", {
+            $r("div", {className:"energyText",
                 dangerouslySetInnerHTML: {
-                    __html: "&#9889;&nbsp;" + game.getDisplayValueExt(resPool.energyProd - resPool.energyCons) + $I("unit.watt")
+                    __html: game.getDisplayValueExt(resPool.energyProd - resPool.energyCons) + $I("unit.watt")
 				}
             })
         );
@@ -204,33 +207,37 @@ WToolbarPollution = React.createClass({
 
     render: function(){
         var game = this.props.game;
-
+        var message = this.getTooltip(true);
+        if(this.message != message){
+            this.freshMessage = this.message != "";
+            this.message = message;
+        }
         if(game.bld.cathPollution > 100000 || game.science.get("ecology").researched){
             return $r(WToolbarIconContainer, {
                 game: game,
                 getTooltip: this.getTooltip,
-                className: this.freshMessage ? "energy warning": null
+                className: "pollutionIcon " + (this.freshMessage ? "energy warning": null)
             },
-                $r("div", {}, 
-                "🏭" + (game.science.get("ecology").researched ? (" " + this.getPollutionMod()) : ""))
+                $r("div", {className:"pollutionText"},
+                (game.science.get("ecology").researched ? (this.getPollutionMod()) : "\xa0"))
             );
         }
         return null;
     },
     getTooltip: function(notUpdateFreshMessage){
-        this.game = this.props.game;    //hack
+        var game = this.props.game;
 
         var message = "";
-        var eqPol = this.game.bld.getEquilibriumPollution();
-        var eqPolLvl = this.game.bld.getPollutionLevel(eqPol);
-        var pollution = this.game.bld.cathPollution;
-        var polLvl = this.game.bld.getPollutionLevel();
-        var polLvlShow = this.game.bld.getPollutionLevel(pollution * 2);
+        var eqPol = game.bld.getEquilibriumPollution();
+        var eqPolLvl = game.bld.getPollutionLevel(eqPol);
+        var pollution = game.bld.cathPollution;
+        var polLvl = game.bld.getPollutionLevel();
+        var polLvlShow = game.bld.getPollutionLevel(pollution * 2);
         if (polLvl >= 4){
-            message += $I("pollution.level1") + "<br/>" + $I("pollution.level2") + "<br/>" + $I("pollution.level3", [this.game.getDisplayValueExt(game.villageTab.getVillageTitle(), false, false, 0)]) + "<br/>" + $I("pollution.level4");
+            message += $I("pollution.level1") + "<br/>" + $I("pollution.level2") + "<br/>" + $I("pollution.level3", [game.getDisplayValueExt(game.villageTab.getVillageTitle(), false, false, 0)]) + "<br/>" + $I("pollution.level4");
         }
-        else if (polLvlShow == 3){
-            message += $I("pollution.level1") + "<br/>" + $I("pollution.level2") + "<br/>" + $I("pollution.level3", [this.game.getDisplayValueExt(game.villageTab.getVillageTitle(), false, false, 0)]);
+        else if (polLvlShow == 3 || polLvl == 3){
+            message += $I("pollution.level1") + "<br/>" + $I("pollution.level2") + "<br/>" + $I("pollution.level3", [game.getDisplayValueExt(game.villageTab.getVillageTitle(), false, false, 0)]);
         }
         else if (polLvlShow == 2){
             message += $I("pollution.level1") + "<br/>" + $I("pollution.level2");
@@ -240,15 +247,15 @@ WToolbarPollution = React.createClass({
         } else {
             message = $I("pollution.level0");
         }
-        
-        var warnLvl = this.game.bld.getPollutionLevel(pollution * 4);
+
+        var warnLvl = game.bld.getPollutionLevel(pollution * 4);
         if (warnLvl >= 1 && warnLvl <= 4 && warnLvl > polLvlShow && warnLvl <= eqPolLvl) {
             message += "<br/>" + $I("pollution.level" + warnLvl + ".warning");
         }
         if (pollution * 1.5 <= eqPol || eqPolLvl > polLvl){
             message += "<br/>" + $I("pollution.increasing");
         }
-        else if (pollution >= 0 && this.game.bld.cathPollutionPerTick <= 0 && eqPolLvl <= polLvl){
+        else if (pollution >= 0 && game.bld.cathPollutionPerTick <= 0 && eqPolLvl < polLvl){
             message += "<br/>" + $I("pollution.cleaning");
         }
         else if (eqPolLvl == polLvl && eqPol > 0){
@@ -260,13 +267,14 @@ WToolbarPollution = React.createClass({
         if (notUpdateFreshMessage){
             return message;
         }
-        message +="<br/>二氧化碳: " + (game.science.get("ecology").researched ? 
-            this.getPollutionMod() : $I("pollution.unspecified"));    
+        message +="<br/>CO₂: " + (game.science.get("ecology").researched ?
+            this.getPollutionMod() : $I("pollution.unspecified"));
         this.freshMessage = false;
         return message;
     },
 
-    getPollutionMod(){
+    getPollutionMod: function(){
+        var game = this.props.game;
         return game.getDisplayValueExt((game.bld.cathPollution / game.bld.getPollutionLevelBase())*100) + "ppm";
     }
 });
@@ -334,17 +342,25 @@ WLoginForm = React.createClass({
         return {
             login: null,
             password: null,
-            isLoading: false,
-            setEmail:null,
+            isLoading: false
         }
     },
 
     render: function(){
         if (this.state.isLoading){
-            return $r("span", null, "加载中...");
+            return $r("span", null, "Loading...");
         }
         var game = this.props.game;
         if (game.server.userProfile){
+            //var userProfile = game.server.userProfile;
+            //return $r("div", {className: "userProfile"},[
+            //    $r("img", {src: "https://www.gravatar.com/avatar/" +
+            //        (userProfile.email ? md5(userProfile.email) : "n/a")
+            //    + "?s=15"}),
+            //    $r("a", {
+            //        href:"/ui/profile", target:"_blank"
+            //    }, userProfile.id)
+            //]);
             var userProfile = game.server.userProfile;
             return $r("div", {className: "userProfile"},[
                 $r("img", {src: "https://q2.qlogo.cn/headimg_dl?dst_uin=" +
@@ -363,13 +379,13 @@ WLoginForm = React.createClass({
             {onClick: function (e){ e.stopPropagation(); }},
             [
                 $r("div", {className: "row"}, [
-                    "邮箱:",
+                    "Email:",
                         $r("input", {
                             type: "email",
                             onChange: this.setLogin,
                             value: this.state.login
                         } ),
-                    "密码:",
+                    "Password:",
                         $r("input", {
                             type: "password",
                             onChange: this.setPassword,
@@ -380,12 +396,11 @@ WLoginForm = React.createClass({
                     $r("a", {
                         href:"#",
                         onClick: this.login
-                    }, "登录"),
+                    }, "login"),
                     $r("a", {
-                        onClick: function(e){
-                            e.stopPropagation();
-                            game.ui.showDialog("registerDiv");
-                    }}, "注册")
+                        target: "_blank",
+                        href: "http://kittensgame.com/ui/register"
+                    }, "register")
                 ])
             ]
         )
@@ -399,12 +414,6 @@ WLoginForm = React.createClass({
         this.setState({login: e.target.value});
     },
 
-    setEmail(){
-        e.stopPropagation();
-        e.nativeEvent.stopImmediatePropagation();
-
-        this.setState({login: e.target.value});
-    },
 
     setPassword(e){
         e.stopPropagation();
@@ -420,7 +429,7 @@ WLoginForm = React.createClass({
         $.ajax({
             cache: false,
             type: "POST",
-            //dataType: "JSON",
+            dataType: "JSON",
             data: {
                 email: this.state.login,
                 password: this.state.password
@@ -428,18 +437,8 @@ WLoginForm = React.createClass({
 			xhrFields: {
 				withCredentials: true
 			},
-            timeout : 10000,
 			url: this.props.game.server.getServerUrl() + "/user/login/",
-			dataType: "json",
-        }).fail(function(xhr){
-            var text = xhr.responseText;
-            if (!text) {
-                text = "请检查网络或浏览器设置";
-                console.log(xhr.status);
-            } else {
-                game.msg('注意如果尝试次数过多，账户会被锁定', "important");
-            }
-            game.msg($I(text), "important");
+			dataType: "json"
 		}).done(function(resp){
             if (resp.id){
                 self.props.game.server.setUserProfile(resp);
@@ -450,7 +449,7 @@ WLoginForm = React.createClass({
     }
 });
 
-WCloudSaves = React.createClass({
+WCloudSaveRecord = React.createClass({
 
     bytesToSize(bytes) {
         var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
@@ -458,6 +457,56 @@ WCloudSaves = React.createClass({
         var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
         return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
     },
+
+    render: function(){
+        var game = this.props.game;
+        var save = this.props.save;
+
+        var isActiveSave = (save.guid == game.telemetry.guid);
+        var guid = save.guid;
+
+        var self = this;
+
+        return $r("div", {className:"save-record"}, [
+            $r("div", {className:"save-record-cell"},
+                $r("a", { }, guid.substring(guid.length-4, guid.length)),
+                isActiveSave ? "[" + $I("ui.kgnet.save.current") + "]" : ""
+            ),
+            $r("div", {className:"save-record-cell"},
+                save.index ?
+                (save.index.calendar.year +"年" + "，" + save.index.calendar.day + " 天 ") :
+                "加载中.."
+            ),
+            $r("div", {className:"save-record-cell"},
+                new Date(save.timestamp).toLocaleDateString("zh-CN", {
+                    month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hourCycle: "h24"
+                })
+            ),
+            $r("div", {className:"save-record-cell"}, self.bytesToSize(save.size)),
+            isActiveSave && $r("a", {
+                className: "link",
+                title: "上传你当前游戏存档到官网（会覆盖旧存档）",
+                onClick: function(e){
+                    e.stopPropagation();
+                    game.ui.confirm("上传", "这会覆盖云端的存档。确定/取消", function(){
+                        game.server.pushSave();
+                    });
+                }}, $I("ui.kgnet.save.save")),
+            $r("a", {
+                className: "link",
+                title: "下载并加载云存档（你当前的存档会丢失）",
+                    onClick: function(e){
+                    e.stopPropagation();
+                    game.ui.confirm("加载", "这会覆盖本地的存档。 确定/取消", function(){
+                        game.server.loadSave(save.guid);
+                    });
+                }}, $I("ui.kgnet.save.load")),
+                
+        ]);
+    }
+})
+
+WCloudSaves = React.createClass({
 
     render: function(){
         var self = this;
@@ -489,78 +538,34 @@ WCloudSaves = React.createClass({
             //header
             saveData && $r("div", {className:"save-record header"}, [
                 $r("div", {className:"save-record-cell"}, "存档ID"),
-                $r("div", {className:"save-record-cell"}, "游戏年（不准）"),
-                $r("div", {className:"save-record-cell"}, "上次更新时间"),
+                $r("div", {className:"save-record-cell"}, "游戏年"),
+                $r("div", {className:"save-record-cell"}, "上次更新"),
                 $r("div", {className:"save-record-cell"}, "大小"),
                 $r("div", {className:"save-record-cell"}, "存档操作")
             ]),
             //body
             //TODO: externalize save record as component?
             saveData && saveData.map(function(save){
-                var isActiveSave = (save.guid == game.telemetry.guid);
-                return $r("div", {className:"save-record"}, [
-                    $r("div", {className:"save-record-cell"},
-                        isActiveSave ? "[" + $I("ui.kgnet.save.current") + "]" : ""
-                    ),
-                    $r("div", {className:"save-record-cell"},
-                        save.index ?
-                        (save.index.calendar.year +"年" + "，" + save.index.calendar.day + " 天 ") :
-                        "加载中..."
-                    ),
-                    $r("div", {className:"save-record-cell"},
-                        new Date(save.timestamp).toLocaleDateString("zh-CN", {
-                            month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hourCycle: "h24"
-                        })
-                    ),
-                    $r("div", {className:"save-record-cell"}, self.bytesToSize(save.size)),
-                    isActiveSave && $r("a", {
-                        className: "link",
-                        title: "上传你当前游戏存档到官网（会覆盖旧存档）",
-                        onClick: function(e){
-                            e.stopPropagation();
-                            game.server.pushSave();
-                        }}, $I("ui.kgnet.save.save")),
-                    $r("a", {
-                        className: "link",
-                        title: "下载并加载云存档（你当前存档会丢失）",
-                            onClick: function(e){
-                            e.stopPropagation();
-                            game.msg('从国外官网下载有延迟，请稍候', "important");
-                            game.server.loadSave(save.guid);
-                        }}, $I("ui.kgnet.save.load")),
-                ])
+                return $r(WCloudSaveRecord, {save: save, game: game});
             })),
 
             $r("div", {className:"save-record-container"}, [
                 (saveData && !hasActiveSaves) && $r("div", {className:"save-record"},[
-                    $r("a", {
-                        title: "保存该存档到国外官网（注意保存你需要保存的）",
-                        onClick: function(e){
-                            e.stopPropagation();
-                            game.server.pushSave();
-                        }
-                    }, "保存新的存档 (" + game.telemetry.guid + ")")
+                    $r("a", {onClick: function(e){
+                        e.stopPropagation();
+                        game.server.pushSave();
+                    }}, "创建新的存档 (" + game.telemetry.guid + ")")
                 ]),
                 $r("div", {className:"save-record"},[
                     $r("a", {
                         className: "link",
-                        title: "更新信存档信息。这是安全按钮不会改变任何数据。",
+                        title: "更新存档信息。这是安全按钮不会改变任何数据。",
                         onClick: function(e){
                             e.stopPropagation();
                             game.server.syncSaveData();
-                            setTimeout(function() {
-                                if (!game.server.saveData) {
-                                    game.msg('同步存档失败，请点击同步存档教程', "important");
-                                }
-                            }, 3000);
                         }
                     }, $I("ui.kgnet.sync")),
-                    !saveData && $r("a", {
-                        className: "link",
-                        target: "_blank",
-                        title: "同步存档教程",
-                        href: "https://petercheney.gitee.io/baike/?file=007-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/02-%E4%BA%91%E5%AD%98%E6%A1%A3"
-                    }, "同步存档失败的教程")
+                    $r("span", {paddingTop:"10px"}, $I("ui.kgnet.instructional"))
                 ])
             ])
         ])
@@ -577,6 +582,8 @@ WLogin = React.createClass({
     render: function(){
         var game = this.props.game;
 
+        var lastBackup = (new Date().getTime() - game.lastBackup) / (1000 * 60 * 60 * 24);
+
         return $r(WToolbarIconContainer, {
             game: game,
         },
@@ -586,15 +593,20 @@ WLogin = React.createClass({
                 },
                 [
                     $r("span", {
-                        className: "kgnet-login-link status-indicator-" + (game.server.userProfile ? "online" : "offline"),
-                        title: "国外官方云存档"
-                    }, "* " + (game.server.userProfile ? 
+                        className: "kgnet-login-link status-indicator-" + (game.server.userProfile ? "online" : "offline")
+                        + (lastBackup >= 7 ? " freshMessage" : "")
+                    }, "* " + (game.server.userProfile ?
                         $I("ui.kgnet.online") : $I("ui.kgnet.login")
                     )),
                     this.state.isExpanded && $r("div", {
                         className: "login-popup button_tooltip tooltip-block"
                     },
                         $r("div", null,
+                            $r("div", {className: "last-backup"}, [
+                                (lastBackup >= 7) && $r("span", {className: "hazard"}),
+                                "上次更新：", lastBackup.toFixed(1) + " 天前",
+                                (lastBackup >= 7) && $r("span", {className: "hazard"})
+                            ]),
                             $r(WLoginForm, {game: game}),
                             $r(WCloudSaves, {game: game})
                         )
@@ -631,7 +643,7 @@ WToolbar = React.createClass({
         var icons = [];
         icons.push(
             $r(WToolbarFPS, {game: this.state.game}),
-            $r(WToolbarPollution, {game: this.state.game}),
+            game.opts.disablePollution ? null : $r(WToolbarPollution, {game: this.state.game}),
             $r(WToolbarHappiness, {game: this.state.game}),
             $r(WToolbarEnergy, {game: this.state.game}),
             $r(WBLS, {game: this.state.game}),

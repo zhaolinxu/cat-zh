@@ -199,7 +199,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                 blastFurnace.heat -= 100 * amt;
                 //this.shatter(amt);
                 if(this.testShatter == 1) {this.shatterInGroupCycles(amt);}
-                else if(this.testShatter == 2) {this.shatterInCycles(amt);}
+                //else if(this.testShatter == 2) {this.shatterInCycles(amt);}
+                //shatterInCycles is deprecated
                 else {this.shatter(amt);}
             }
         }
@@ -261,7 +262,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                 self.heat -= 100 * amt;
                 //game.time.shatter(amt);
                 if(game.time.testShatter == 1) {game.time.shatterInGroupCycles(amt);}
-                else if(game.time.testShatter == 2) {game.time.shatterInCycles(amt);}
+                //else if(game.time.testShatter == 2) {game.time.shatterInCycles(amt);}
+                //shatterInCycles is deprecated
                 else  {game.time.shatter(amt);}
             }
         },
@@ -311,6 +313,13 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         effects: {
             "timeRatio" : 0.05
         },
+        calculateEffects: function(self, game) {
+            if(self.isAutomationEnabled === null){
+                self.isAutomationEnabled = (game.time.testShatter == 1);
+            }
+            game.time.testShatter = (self.isAutomationEnabled)? 1 : 0;
+        },
+        isAutomationEnabled: null,
         upgrades: {
             chronoforge: ["temporalImpedance"]
         },
@@ -344,6 +353,30 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             "shatterTCGain" : 0.01
         },
         unlocked: false
+    },{
+        name: "temporalPress",
+        label: $I("time.cfu.temporalPress.label"),
+        description: $I("time.cfu.temporalPress.desc"),
+        prices: [
+            { name : "timeCrystal", val: 100 },
+            { name : "void", val: 10 }
+        ],
+        priceRatio: 1.1,
+        limitBuild: 0,
+        effects: {
+            "shatterYearBoost" : 0,
+            "energyConsumption": 5
+        },
+        calculateEffects: function(self, game){
+            if (self.isAutomationEnabled == null && game.challenges.getChallenge("1000Years").on > 1) {
+                self.isAutomationEnabled = false;
+            }
+            self.effects["shatterYearBoost"] = (self.isAutomationEnabled)? 5 * game.calendar.yearsPerCycle : game.calendar.yearsPerCycle; //25 or 5 currently
+            self.limitBuild = game.getEffect("temporalPressCap");
+            self.priceRatio = Math.max(1.05, 1.1 - game.challenges.getChallenge("1000Years").on * 0.001); //first 50 completions of 1000Years make priceRatio cheaper
+        },
+        isAutomationEnabled: null,
+        unlocked: false
     }],
 
     voidspaceUpgrades: [{
@@ -365,7 +398,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 			voidSpace: ["cryochambers"]
 		},
         calculateEffects: function(self, game){
-			self.limitBuild = game.bld.get("chronosphere").on;
+			self.limitBuild = game.bld.get("chronosphere").on + game.getEffect("cryochamberSupport");
 			self.on = Math.min(self.val, self.limitBuild);
         },
         unlocked: false,
@@ -551,6 +584,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         2.4)calculates production per millenia (more accurate for paragon production bonuses)
     3)calculates Millenium production
     4)calculates flux
+    likely to be deprecated after shatterInGroupCycles is finished
     */
     shatterInCycles: function(amt){ 
         amt = amt || 1;
@@ -642,6 +676,10 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     */
     shatterInGroupCycles: function(amt){
         amt = amt || 1;
+        if (amt == 1){
+            this.shatter(1);
+            return;
+        }
         var maxYearsShattered = amt;
 
         var game = this.game;
@@ -658,6 +696,12 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         var remainingDaysInFirstYearSaved = remainingDaysInFirstYear;
         cal.day = 0;
         cal.season = 0;
+        var aiLevel = this.game.bld.get("aiCore").effects["aiLevel"];
+        var aiApocalypseLevel = 0;
+		if ((aiLevel > 14) && (this.game.science.getPolicy("transkittenism").researched != true) && amt != 1){ //if amt == 1 we just use usual onNewYear calendar function
+			aiApocalypseLevel = aiLevel - 14;
+		}
+        var aiDestructionMod = -Math.min(1, aiApocalypseLevel * 0.01);
         // Space ETA
         var remainingDays = remainingDaysInFirstYear + (amt - 1) * daysPerYear;
         for (var j in game.space.planets) {
@@ -695,12 +739,32 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
             // ShatterTC gain
             if (shatterTCGain > 0) {
+                if(yearsInCurrentCycle == 1){ //no need to do AI Apocalypse twice
+                    aiApocalypseLevel = 0;
+                }
                 // XXX Partially duplicates resources#fastforward and #enforceLimits, some nice factorization is probably possible
                 var limits = {};
                 for (var j = 0; j < game.resPool.resources.length; j++) {
                     var res = game.resPool.resources[j];
-                    limits[res.name] = Math.max(res.value, res.maxValue || Number.POSITIVE_INFINITY);
+                    var resLimit = Math.max(res.value, res.maxValue || Number.POSITIVE_INFINITY);
                     game.resPool.addRes(res, game.getResourcePerTick(res.name, true) * ticksInCurrentCycle * shatterTCGain, false, true);
+                    /*
+                    if resource can be destroyed by ai:
+                        1) and isn't overcapped, we can just limit the cap
+                        2) and doesn't have a cap, it will just decrease the number of resources by decreasing it using power function — approximation, might destroy less or more
+                        3) and (last possible option is that it) is overcapped, we can also limit the cap
+                    */
+                    if (aiApocalypseLevel && res.aiCanDestroy){
+                        console.log(res.name);
+                        if(resLimit == res.MaxValue){
+                            resLimit = Math.min(resLimit, res.value) * (1 + aiDestructionMod);
+                        }else if (!res.maxValue){
+                            game.resPool.addResEvent(res.name, -res.value * (1 - Math.pow(1 + aiDestructionMod, yearsInCurrentCycle))); //hopefully this works
+                        }else /*if (resLimit == res.value)*/{
+                            resLimit = Math.min(resLimit, res.value) * Math.pow(1 + aiDestructionMod, yearsInCurrentCycle);
+                        }
+                    }
+                    limits[res.name] = resLimit;
                 }
                 if (this.game.workshop.get("chronoEngineers").researched) {
                     this.game.workshop.craftByEngineers(ticksInCurrentCycle * shatterTCGain);
@@ -719,17 +783,22 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
             // Calendar
             cal.year += Math.min(5, maxYearsShattered);
-            cal.onNewYears(endYear == cal.year, yearsInCurrentCycle, false);
+            cal.onNewYears(endYear == cal.year, Math.min(5, maxYearsShattered), false);
             maxYearsShattered -= Math.min(5, maxYearsShattered);
             remainingDaysInFirstYear = cal.daysPerSeason * cal.seasonsPerYear;
         }
+        if(maxYearsShattered < 0){console.error("max years shattered negative " + toString(maxYearsShattered));}
         cal.year += maxYearsShattered;
-        //cal.onNewYears(endYear == cal.year, maxYearsShattered, false);
+        cal.onNewYears(endYear == cal.year, maxYearsShattered, false);
         cal.calculateMilleniumProduction(cal.getMilleniaChanged(startYear, cal.year));
         if (amt == 1) {
             game.msg($I("time.tc.shatterOne"), "", "tc");
         } else {
             game.msg($I("time.tc.shatter",[amt]), "", "tc");
+        }
+
+		if(aiApocalypseLevel){
+            this.game.msg($I("ai.apocalypse.msg", [aiApocalypseLevel]), "alert", "ai");
         }
         this.flux += amt - 1 + remainingDaysInFirstYearSaved / daysPerYear;
 
@@ -891,6 +960,10 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
         model.nextCycleLink = this._newLink(model, this.game.calendar.yearsPerCycle);
         model.previousCycleLink = this._newLink(model, this.game.calendar.yearsPerCycle * (this.game.calendar.cyclesPerEra - 1));
         model.tenErasLink = this._newLink(model, 10 * this.game.calendar.yearsPerCycle * this.game.calendar.cyclesPerEra);
+        var shatterYearBoost = this.game.getEffect("shatterYearBoost");
+        if(shatterYearBoost){
+            model.customLink = this._newLink(model, shatterYearBoost); //Creates additional custom shatter link based on the effect
+        }
         return model;
     },
 
@@ -1038,7 +1111,8 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
         this.game.time.heat += amt * factor;
         //this.game.time.shatter(amt);
         if(this.game.time.testShatter == 1) {this.game.time.shatterInGroupCycles(amt);}
-        else if(this.game.time.testShatter == 2) {this.game.time.shatterInCycles(amt);}
+        //else if(this.game.time.testShatter == 2) {this.game.time.shatterInCycles(amt);} 
+        //shatterInCycles is deprecated
         else {this.game.time.shatter(amt);}
     },
 
@@ -1056,6 +1130,9 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
         this.tenEras = this.addLink(this.model.tenErasLink);
         this.previousCycle = this.addLink(this.model.previousCycleLink);
         this.nextCycle = this.addLink(this.model.nextCycleLink);
+        if(this.model.customLink){
+            this.custom = this.addLink(this.model.customLink);
+        }
     },
 
     update: function() {
@@ -1063,7 +1140,9 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
         dojo.style(this.nextCycle.link, "display", this.model.nextCycleLink.visible ? "" : "none");
         dojo.style(this.previousCycle.link, "display", this.model.previousCycleLink.visible ? "" : "none");
         dojo.style(this.tenEras.link, "display", this.model.tenErasLink.visible ? "" : "none");
-
+        if(this.custom){
+            dojo.style(this.custom.link, "display", (this.model.customLink && this.model.customLink.visible) ? "" : "none");
+        }
         if  (this.model.tenErasLink.visible) {
             dojo.addClass(this.tenEras.link,"rightestLink");
             dojo.removeClass(this.previousCycle.link,"rightestLink");
@@ -1072,6 +1151,10 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
             dojo.removeClass(this.nextCycle.link,"rightestLink");
         } else if (this.model.nextCycleLink.visible) {
             dojo.addClass(this.nextCycle.link,"rightestLink");
+        }
+
+        if(this.model.customLink){
+            this.updateLink(this.custom, this.model.customLink); //need this to sync the changes of effect and shatter number. this might be a hack :3
         }
     }
 });
@@ -1094,7 +1177,12 @@ dojo.declare("classes.ui.time.ChronoforgeBtnController", com.nuclearunicorn.game
             return this.inherited(arguments) + " [" + this.game.getDisplayValueExt(meta.heat) + "%]";
         }
         return this.inherited(arguments);
-    }
+    },
+    handleToggleAutomationLinkClick: function(model) { //specify game.upgrade for cronoforge upgrades
+		var building = model.metadata;
+		building.isAutomationEnabled = !building.isAutomationEnabled;
+			this.game.upgrade({chronoforge: [building.name]});
+	}
 });
 
 dojo.declare("classes.ui.ChronoforgeWgt", [mixin.IChildrenAware, mixin.IGameAware], {
@@ -1278,11 +1366,11 @@ dojo.declare("classes.ui.ResetWgt", [mixin.IChildrenAware, mixin.IGameAware], {
         var karmaPointsPresent = this.game.getUnlimitedDR(this.game.karmaKittens, stripe);
         var karmaPointsAfter = this.game.getUnlimitedDR(this.game.karmaKittens + this.game._getKarmaKittens(kittens), stripe);
 		var karmaPoints = Math.floor((karmaPointsAfter - karmaPointsPresent) * 100) / 100;
-        var paragonPoints = 0;
+        
 
-        if (kittens > 70){
-			paragonPoints = (kittens - 70);
-		}
+		var _prestige = this.game.getResetPrestige();
+		var paragonPoints = _prestige.paragonPoints;
+
 
         msg += "<br>" + $I("time.reset.karma") + ": " + karmaPoints;
         msg += "<br>" + $I("time.reset.paragon") + ": " + paragonPoints;

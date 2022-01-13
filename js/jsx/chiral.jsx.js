@@ -178,6 +178,12 @@ WChiral = React.createClass({
 
     render: function(){
         var game = this.state.game;
+        var fr = game.space.getPlanet("furthestRing");
+        
+        if (!fr.reached){
+            return null;
+        }
+
         if (game.server.userProfile){
             return $r("div", null, [
                 $r("div", {className: "row"}, "一个外星机器躺在宇宙边界。"),
