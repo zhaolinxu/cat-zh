@@ -3116,7 +3116,7 @@ var run = function() {
 
             } else {
                 //fieldProd *= game.calendar.getWeatherMod({name: "catnip"});
-                fieldProd *= (game.calendar.seasons[3].modifiers.catnip - 0.05);
+                fieldProd *= (game.calendar.seasons[3].modifiers.catnip - 0.1);
             }
             var vilProd = (game.village.getResProduction().catnip) ? game.village.getResProduction().catnip * (1 + game.getEffect('catnipJobRatio')) : 0;
             var baseProd = fieldProd + vilProd;

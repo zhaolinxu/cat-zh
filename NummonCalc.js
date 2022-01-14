@@ -339,7 +339,14 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
     },
 
     getBlueprintCraft: function() {
-        return 1 + this.game.getResCraftRatio("blueprint");
+        var blueprint = this.game.getResCraftRatio("blueprint");
+        var carft = (game.getCraftRatio() != blueprint);
+        var researched = game.science.get('physics').researched;
+        if (carft || researched) {
+            return 1 + blueprint;
+        } else {
+            return this.i18n("best.none");
+        }
     },
 
     // TITANIUM :
