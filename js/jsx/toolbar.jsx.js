@@ -348,7 +348,7 @@ WLoginForm = React.createClass({
 
     render: function(){
         if (this.state.isLoading){
-            return $r("span", null, "Loading...");
+            return $r("span", null, "加载中...");
         }
         var game = this.props.game;
         if (game.server.userProfile){
@@ -566,7 +566,7 @@ WCloudSaves = React.createClass({
                             game.server.syncSaveData();
                         }
                     }, $I("ui.kgnet.sync")),
-                    $r("span", {paddingTop:"10px"}, $I("ui.kgnet.instructional"))
+                    $r("span", {paddingTop:"10px"}, (saveData) ? "" : $I("ui.kgnet.instructional"))
                 ])
             ])
         ])
