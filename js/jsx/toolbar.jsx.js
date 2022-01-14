@@ -379,13 +379,13 @@ WLoginForm = React.createClass({
             {onClick: function (e){ e.stopPropagation(); }},
             [
                 $r("div", {className: "row"}, [
-                    "Email:",
+                    "邮箱:",
                         $r("input", {
                             type: "email",
                             onChange: this.setLogin,
                             value: this.state.login
                         } ),
-                    "Password:",
+                    "密码:",
                         $r("input", {
                             type: "password",
                             onChange: this.setPassword,
@@ -396,11 +396,12 @@ WLoginForm = React.createClass({
                     $r("a", {
                         href:"#",
                         onClick: this.login
-                    }, "login"),
+                    }, "登录"),
                     $r("a", {
-                        target: "_blank",
-                        href: "http://kittensgame.com/ui/register"
-                    }, "register")
+                        onClick: function(e){
+                            e.stopPropagation();
+                            game.ui.showDialog("registerDiv");
+                    }}, "注册")
                 ])
             ]
         )
