@@ -1563,7 +1563,7 @@
     "ui.kgnet.save.save": "上传",
     "ui.kgnet.save.load": "加载",
     "ui.kgnet.sync": "同步存档信息",
-    "ui.kgnet.instructional": "<- 点击左边的链接开始，在数据加载后，点击创建存档。",
+    "ui.kgnet.instructional": "<- 点击左边的链接，获取存档数据后，就可以创建存档了。",
 
     "ui.toggle.researched": "切换已研究",
     "ui.loading.msg.0": "正在饲喂斑马",
