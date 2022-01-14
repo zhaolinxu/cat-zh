@@ -244,7 +244,7 @@ var run = function() {
         'zh': {
             'option.observe': '观测天文现象',
             'option.festival': '举办节日',
-            'option.praise': '赞美太阳',
+            'option.praise': '附加项目',
             'option.shipOverride': '强制贸易船',
             'option.autofeed': '献祭上古神',
             'option.hunt': '派出猎人',
@@ -1337,15 +1337,10 @@ var run = function() {
                     if (optionVals.timeSkip[(currentCycle + skipCycles) % cyclesPerEra] && canSkip > 0) {willSkip += canSkip;}
                 }
                 if (willSkip > 0) {
+					willSkip = Math.min(willSkip, 2500);
                     optionVals.timeSkip.adore = true;
                     var beforeSkipYear = game.calendar.year;
-                    if (willSkip < 5) {
-                        game.time.testShatter = 2;
-                        shatter.controller.doShatterAmt(shatter.model, willSkip);
-                        game.time.testShatter = 0;
-                    } else {
-                        shatter.controller.doShatterAmt(shatter.model, willSkip);
-                    }
+                    shatter.controller.doShatterAmt(shatter.model, willSkip);
                     willSkip = game.calendar.year - beforeSkipYear;
                     if (!willSkip) {return;}
                     iactivity('act.time.skip', [willSkip], 'ks-timeSkip');

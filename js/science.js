@@ -1978,12 +1978,16 @@ dojo.declare("com.nuclearunicorn.game.ui.TechButtonController", com.nuclearunico
 		var meta = model.metadata;
 		model.visible = meta.unlocked;
 
-		if (meta.name == 'metaphysics' && !this.game.space.programs[0].on && game.stats.getStat("totalResets").val < 3){
-			return model.visible = false;
-		}
-
 		if (meta.researched && this.game.science.hideResearched){
-			model.visible = false;
+			return model.visible = false;
+		}  else if (meta.name == 'metaphysics' || meta.name == 'chronophysics' || meta.name == 'cryptotheology') {
+			if (meta.name == 'metaphysics' && !game.space.programs[0].on && game.stats.getStat("totalResets").val < 3){
+				return model.visible = false;
+			} else if (meta.name == 'chronophysics' && !game.resPool.resources[31].value && !game.resPool.resources[25].value){
+				return model.visible = false;
+			} else if (meta.name == 'cryptotheology' && !game.resPool.resources[33].value){
+				return model.visible = false;
+			}
 		}
 	}
 });
