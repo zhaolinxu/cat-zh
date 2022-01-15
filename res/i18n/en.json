@@ -1593,6 +1593,8 @@
     "trade.embassy.pinned": "Pinned",
     "trade.embassy.unpinned": "Unpinned",
 
+    "turnHGOff.confirmation.msg": "Are you sure you want to turn off Holy Genocide for this and future runs?",
+
     "ui.filter.all": "All",
     "ui.filter.available": "Available",
     "ui.filter.enabled": "Enabled",

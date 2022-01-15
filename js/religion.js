@@ -978,9 +978,12 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			)
 		) *(1 + scalingRatio);
 	},
-	turnnHGOff: function(){
-		this.activeHolyGenocide = 0;
-		this.getTU("holyGenocide").on = 0;
+	turnHGOff: function(){
+		var self = this;
+		this.game.ui.confirm("", $I("turnHGOff.confirmation.msg"), function() {
+			self.activeHolyGenocide = 0;
+			self.getTU("holyGenocide").on = 0;
+		})
 	},
 	praise: function(){
 		var faith = this.game.resPool.get("faith");

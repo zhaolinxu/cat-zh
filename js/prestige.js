@@ -602,7 +602,7 @@ dojo.declare("classes.ui.PrestigePanel", com.nuclearunicorn.game.ui.Panel, {
 			name : $I("prestige.btn.turnHGOff.label"),
 			description: $I("prestige.btn.turnHGOff.desc"),
 			handler: dojo.hitch(this, function(){
-				this.game.religion.turnnHGOff();
+				this.game.religion.turnHGOff();
 			}),
 			controller: new classes.ui.turnHGOffButtonController(self.game)
 		}, self.game);
