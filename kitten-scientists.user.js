@@ -244,7 +244,7 @@ var run = function() {
         'zh': {
             'option.observe': '观测天文现象',
             'option.festival': '举办节日',
-            'option.praise': '附加项目',
+            'option.praise': '赞美太阳',
             'option.shipOverride': '强制贸易船',
             'option.autofeed': '献祭上古神',
             'option.hunt': '派出猎人',
@@ -334,7 +334,7 @@ var run = function() {
             'ui.upgrade.policies.load': '读取',
             'ui.upgrade.policies.show': '列表',
 
-            'ui.faith.addtion': '赞美功能',
+            'ui.faith.addtion': '附加项目',
             'option.faith.best.unicorn': '自动最效率独角兽建筑',
             'option.faith.best.unicorn.desc': '自动献祭独角兽，并会建造最佳独角兽建筑',
             'option.faith.transcend': '自动最佳次元超越',

@@ -893,7 +893,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		tier: 25,
 		priceRatio: 1.15,
 		effects: {
-			"maxKittensRatio": 0.01,
+			"maxKittensRatio": -0.01,
 			"simScalingRatio": 0.02,
 			"activeHG": 0
 		},

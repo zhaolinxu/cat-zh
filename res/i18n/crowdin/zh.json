@@ -786,6 +786,8 @@
     "prestige.blackCodex.desc": "解锁独角兽墓园",
     "prestige.btn.burnParagon.label": "燃烧领导力",
     "prestige.btn.burnParagon.desc": "舍弃所有的领导力",
+    "prestige.btn.turnHGOff.label":"关闭神圣灭绝",
+    "prestige.btn.turnHGOff.desc": "关闭这周目和下周目所有的神圣灭绝效果。 你需要的话须手动打开它们",
     "prestige.carnivals.label": "嘉年华",
     "prestige.carnivals.desc": "节日的持续时间可以叠加",
     "prestige.chesed.label": "卡巴拉：慈悲（Chesed）",
@@ -1552,6 +1554,9 @@
     "trade.embassy.desc": "设立大使馆，培养外交友谊。<br />一定数量增加出售资源种类。",
     "trade.embassy.pinned": "固定",
     "trade.embassy.unpinned": "取消固定",
+
+    "turnHGOff.confirmation.msg": "你确定关闭这周目和下周目的神圣灭绝效果吗?",
+
     "ui.filter.all": "全部",
     "ui.filter.available": "可建造",
     "ui.filter.enabled": "可使用",
