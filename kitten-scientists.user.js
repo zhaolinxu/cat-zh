@@ -4899,6 +4899,9 @@ var run = function() {
 
     var getCraftOption = function (name, option) {
         var iname = ucfirst(i18n('$resources.' + name + '.title'));
+        if (name == "ship") {
+            iname = ucfirst(i18n('$workshop.crafts.' + name + '.label'));
+        }
 
         var element = getOption(name, option, iname);
 
