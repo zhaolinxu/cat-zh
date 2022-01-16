@@ -348,10 +348,12 @@ dojo.declare("classes.game.Server", null, {
 		var passElem = document.getElementById("loginPassword");
 		var emailElem = document.getElementById("registerEmail");
 		var confirmPasswordElem = document.getElementById("confirmPassword");
-		if (passElem == null || emailElem == null || confirmPasswordElem == null) {error.innerHTML = "请填写完整!"; return;}
-		if (emailElem.value && emailElem.value.indexOf("@") == -1) {error.innerHTML = "邮件地址格式错误!";return;}
-		if (confirmPasswordElem.value != passElem.value) {error.innerHTML = "两次密码不一样!"; return;}
+
+		if (passElem.value == "" || emailElem.value == "" || confirmPasswordElem.value == "") {return error.innerHTML = "请填写完整!";}
+		if (emailElem.value && emailElem.value.indexOf("@") == -1) {return error.innerHTML = "邮件地址格式错误!";}
+		if (confirmPasswordElem.value != passElem.value) {return error.innerHTML = "两次密码不一样!";}
 		if (passElem.value.length <= 5) {error.innerHTML = "密码长度至少6位!"; return;}
+
 		var data = {
 			email: emailElem.value,
 			password: passElem.value

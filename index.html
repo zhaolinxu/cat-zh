@@ -642,6 +642,7 @@
 
 			<div id="exportDiv" style="display: none" class="dialog help">
 				<h1 id="exportTo">Export To:</h1>
+                <input id="exportToDropbox" type="button" onclick="gamePage.saveExportDropbox();" value="Dropbox (Beta)">
 				<input id="exportToSimpleFile" type="button" onclick="gamePage.saveToFile(false);" value="File (simple name)">
 				<input id="exportToFullFile" type="button" onclick="gamePage.saveToFile(true);" value="File (full name)">
 				<a id="download-link" target="_blank" style="display: none"></a>
@@ -656,6 +657,7 @@
 			<div id="importDiv" style="display: none" class="dialog help">
 				<div id="importWarning">Warning! Importing data will overwrite your current game data.</div>
 				<h1 id="importFromText">Text Import:</h1>
+                <input id="importFromDropbox" type="button" onclick="gamePage.saveImportDropbox();" value="Dropbox (Beta)">
 				<br>
 				<textarea id="importData" style="width: 550px; height: 220px;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
 				<br>
@@ -688,30 +690,31 @@
 					<span style="display: block;">推荐使用QQ数字邮箱<br>（可以显示QQ头像和昵称）</span>
 					<span>电子邮箱:
 						<br>
-						<input type="email" id="registerEmail"></span>
-						<div style="display: block;">
-							<br>密码：
-							<span style="font-size: 0.8em">(6-30字符)</span>
-							<br>
-							<input type="password" id="loginPassword" placeholder="请输入密码" autocomplete="off">
-						</div>
+						<input type="email" id="registerEmail" />
+					</span>
+					<form style="display: block;">
+						<br>密码：
+						<span style="font-size: 0.8em">(6-30字符)</span>
+						<br>
+						<input type="password" id="loginPassword" placeholder="请输入密码" autocomplete="off" />
+					</form>
 					<br>
-						<div style="display: block;">确认密码:
-							<br>
-							<input type="password" id="confirmPassword" placeholder="请输入密码" autocomplete="off">
-							<br>
-						</div>
+					<form style="display: block;">确认密码:
+						<br>
+						<input type="password" id="confirmPassword" placeholder="请输入密码" autocomplete="off" />
+						<br>
+					</form>
 					<br>
 					<div class="btn modern" style="font-size:16px;" onclick="gamePage.server.register()">注册</div>
 					<div style="color:#01A9DB;">
 						<ul>
-						<li>因为官方网站注册有几率会被墙。</li>
-						<li>这里注册可以代替官网注册账号。</li>
-						<li>网页存档可以手机存档一键同步。</li>
-						<li>不同电脑使用云存档能一键同步。</li>
-						<li>后续设置可能有点麻烦按需使用。</li>
-						<li>国外官网上传和加载都有些延迟。</li>
-						<li>成功或者失败游戏日志会有提示。</li>
+							<li>因为官方网站注册有几率会被墙。</li>
+							<li>这里注册可以代替官网注册账号。</li>
+							<li>网页存档可以手机存档一键同步。</li>
+							<li>不同电脑使用云存档能一键同步。</li>
+							<li>后续设置可能有点麻烦按需使用。</li>
+							<li>国外官网上传和加载都有些延迟。</li>
+							<li>成功或者失败游戏日志会有提示。</li>
 						</ul>
 					</div>
 				</div>
