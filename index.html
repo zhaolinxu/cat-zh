@@ -25,6 +25,7 @@
 		<script src="lib/jQuery.js?v=_2"></script>
 		<script src="lib/dojo.xd.js"></script>
 		<script src="lib/lz-string.js"></script>
+		<!-- 		<script src="lib/dropbox_v2.js"></script> -->
 		<script src="lib/md5.js"></script>
 
 		<!-- friends don't let friends use AMD and require.js -->
@@ -241,6 +242,8 @@
 					}
 
 					//--------------------------
+					// var dropBoxClient = new Dropbox.Dropbox({clientId: "u6lnczzgm94nwg3"}); //the starting Dropbox object
+					// game.setDropboxClient(dropBoxClient);
 
 
 					gamePage.load();
@@ -642,7 +645,7 @@
 
 			<div id="exportDiv" style="display: none" class="dialog help">
 				<h1 id="exportTo">Export To:</h1>
-                <input id="exportToDropbox" type="button" onclick="gamePage.saveExportDropbox();" value="Dropbox (Beta)">
+                <!-- <input id="exportToDropbox" type="button" onclick="gamePage.saveExportDropbox();" value="Dropbox (Beta)"> -->
 				<input id="exportToSimpleFile" type="button" onclick="gamePage.saveToFile(false);" value="File (simple name)">
 				<input id="exportToFullFile" type="button" onclick="gamePage.saveToFile(true);" value="File (full name)">
 				<a id="download-link" target="_blank" style="display: none"></a>
@@ -657,7 +660,7 @@
 			<div id="importDiv" style="display: none" class="dialog help">
 				<div id="importWarning">Warning! Importing data will overwrite your current game data.</div>
 				<h1 id="importFromText">Text Import:</h1>
-                <input id="importFromDropbox" type="button" onclick="gamePage.saveImportDropbox();" value="Dropbox (Beta)">
+                <!-- <input id="importFromDropbox" type="button" onclick="gamePage.saveImportDropbox();" value="Dropbox (Beta)"> -->
 				<br>
 				<textarea id="importData" style="width: 550px; height: 220px;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
 				<br>
