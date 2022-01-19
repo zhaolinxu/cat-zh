@@ -401,7 +401,8 @@ WLoginForm = React.createClass({
                         onClick: function(e){
                             e.stopPropagation();
                             game.ui.showDialog("registerDiv");
-                    }}, "注册")
+                    }}, "注册"),
+                    $r("span", {paddingTop:"10px"}, "存档自动存在浏览器的缓存里，不换端无需云存档")
                 ])
             ]
         )

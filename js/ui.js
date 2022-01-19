@@ -1168,6 +1168,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
     checkForUpdates: function(){
         var self = this;
+        if (self.game.ticks < 100) {return;}
         var now = Date.now();
         
         $.getJSON("build.version.json?=" + now).then(function(json){
