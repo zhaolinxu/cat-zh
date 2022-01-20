@@ -3487,7 +3487,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			name: $I("res.stack.buildings"),
 			type: "perDay",
 			//type: "fixed",
-			value: game.getEffect(res.name + "PerDay")
+			value: this.getEffect(res.name + "PerDay")
 		});
 		// TIME extra-compare with this.calcResourcePerTick
 		stack.push({
