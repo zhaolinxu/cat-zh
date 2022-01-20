@@ -3482,6 +3482,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			type: "fixed",
 			value: resConsumption
 		});
+
 		// TIME extra-compare with this.calcResourcePerTick
 		stack.push({
 			name: $I("res.stack.time"),
