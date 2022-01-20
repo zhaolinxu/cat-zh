@@ -3483,6 +3483,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			value: resConsumption
 		});
 
+		stack.push({
+			name: $I("res.stack.buildings"),
+			type: "perDay",
+			//type: "fixed",
+			value: game.getEffect(res.name + "PerDay")
+		});
 		// TIME extra-compare with this.calcResourcePerTick
 		stack.push({
 			name: $I("res.stack.time"),
@@ -3710,6 +3716,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			if (this.getResourcePerTick(resRef.name, false) != 0
 				|| this.getResourcePerTickConvertion(resRef.name) != 0
 				|| this.workshop.getEffectEngineer(resRef.name) != 0
+				|| this.getEffect(resRef.name + "PerDay") != 0
 			){
 
 				tooltip.innerHTML = this.getDetailedResMap(resRef);
@@ -3780,7 +3787,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				continue;
 			}
 
-			if (!stackElem.value || (stackElem.type != "fixed" && !hasFixed)) {
+			if (!stackElem.value || (stackElem.type != "fixed" && stackElem.type != "perDay" && !hasFixed)) {
 				continue;
 			}
 
@@ -3812,6 +3819,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			resString += "×" + this.getDisplayValueExt((stackElem.value * 100).toFixed()) + "%";
 		} else if (stackElem.type == "ratioIndent") {
 			resString = "|->" + resString + this.getDisplayValueExt((stackElem.value * 100).toFixed(), true) + "%";
+		} else if (stackElem.type == "perDay") {
+			//resString += stackElem.value;
+			//resString += "+";
+			resString += this.getDisplayValueExt((stackElem.value));
 		}
 
 		resString += "</div><br>";
