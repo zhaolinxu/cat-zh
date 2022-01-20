@@ -111,6 +111,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		transient: true,
 		visible: true,
 		color: "#5A0EDE",
+		calculateOnYear: true,
 		isRefundable: function(game) {
 			return game.resPool.energyProd >= game.resPool.energyCons;
 		}

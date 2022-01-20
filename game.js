@@ -3522,6 +3522,28 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		return stack;
 	},
 
+	getResourceOnYearStack: function(resName){
+		var stack = [];
+		var res = null;
+		for (var i in this.resPool.resources){
+			var _res = this.resPool.resources[i];
+			if (_res.name == resName){
+				res = _res;
+				break;
+			}
+		}
+
+		if (!res){
+			//console.error("Unable to fetch resource stack for resName '" + resName + "'");
+			return;
+		}
+		stack.push({
+			name: $I("res.stack.buildings"),
+			type: "perYear",
+			value: this.getEffect(res.name + "Production")
+		});
+		return stack;
+	},
 	getCMBRBonus: function() {
 		return this.isCMBREnabled ? 0.2 : 0;
 	},
@@ -3700,6 +3722,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 		return this.getEffect(resName + "PerDay");
 	},
+	getResourceOnYearProduction: function(resName){
+		if (resName == "antimatter"){
+			return game.getEffect("antimatterProduction");
+		}
+		return game.getEffect(resName + "Production"); //this might need to be changed!
+	},
 	getResourcePerTickConvertion: function(resName) {
 		return this.fixFloatPointNumber(this.getEffect(resName + "PerTickCon"));
 	},
@@ -3747,7 +3775,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			if (this.getResourcePerTick(resRef.name, false) != 0
 				|| this.getResourcePerTickConvertion(resRef.name) != 0
 				|| this.workshop.getEffectEngineer(resRef.name) != 0
-				|| this.getEffect(resRef.name + "PerDay") != 0
+				|| this.getResourcePerDay(resRef.name) != 0
+				|| this.getResourceOnYearProduction(resRef.name) != 0
 			){
 
 				tooltip.innerHTML = this.getDetailedResMap(resRef);
@@ -3781,17 +3810,28 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			var resStack = this.getResourcePerDayStack(res.name),
 				resString = this.processResourcePerTickStack(resStack, res, 0); //processResourcePerTickStack can work with perDay stack
 				resPerDay = this.getResourcePerDay(res.name);
+				if (this.opts.usePercentageResourceValues){
+					resString += "<br> " + $I("res.netGain") + ": " + this.getDisplayValueExt(resPerDay, true, true);
+				}
 			if (resPerDay < 0) {
 				var toZero = this.calendar.ticksPerDay * res.value / (-resPerDay * this.getTicksPerSecondUI());
 				resString += "<br>" + $I("res.toZero") + ": " + this.toDisplaySeconds(toZero.toFixed());
 			}
 			if(res.name == "necrocorn"){
-				var toNextNecrocorn = (1 - this.religion.corruption)/(this.religion.getCorruptionPerTick());
+				var toNextNecrocorn = (1 - this.religion.corruption)/(this.religion.getCorruptionPerTick() * 5);
 				resString += "<br>" + $I("res.toNextNecrocorn") + ": " + this.toDisplaySeconds(toNextNecrocorn.toFixed());
 			}
 			return resString;
+		}else if(res.calculateOnYear){
+			var resStack = this.getResourceOnYearStack(res.name),
+				resString = this.processResourcePerTickStack(resStack, res, 0); //processResourcePerTickStack can work with perDay stack
+				resPerYear = this.getResourceOnYearProduction(res.name);
+				if (this.opts.usePercentageResourceValues){
+					resString += "<br> " + $I("res.netGain") + ": " + this.getDisplayValueExt(resPerDay, true, true);
+				}
+			return resString;
 		}
-		var resStack =  ((res.calculatePerDay)? this.getResourcePerDayStack(res.name) : this.getResourcePerTickStack(res.name)),
+		var resStack = this.getResourcePerTickStack(res.name),
 			resString = this.processResourcePerTickStack(resStack, res, 0),
 			resPerTick = this.getResourcePerTick(res.name, true);
 
@@ -3831,7 +3871,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				continue;
 			}
 
-			if (!stackElem.value || (stackElem.type != "fixed" && stackElem.type != "perDay" && !hasFixed)) {
+			if (!stackElem.value || (stackElem.type != "fixed" && stackElem.type != "perDay" &&
+			stackElem.type != "perYear" && !hasFixed)) {
 				continue;
 			}
 
@@ -3868,6 +3909,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				resString += "+";
 			}
 			resString += this.getDisplayValueExt((stackElem.value)) + "/" + $I("res.per.day");
+		} else if(stackElem.type == "perYear"){
+			if (stackElem.value > 0){
+				resString += "+";
+			}
+			resString += this.getDisplayValueExt((stackElem.value)) + "/" + $I("res.per.year");
 		}
 
 		resString += "</div><br>";
