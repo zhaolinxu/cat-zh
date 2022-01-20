@@ -1028,6 +1028,7 @@
     "res.stack.bonusTransf": "Bonus Transferred",
     "res.stack.boost": "Boost",
     "res.stack.buildings": "Buildings",
+    "res.stack.corruptionPerDay": "Corruption",
     "res.stack.policy": "Policy",
     "res.stack.pollution": "Pollution",
     "res.stack.convCons": "Conversion Consumption",

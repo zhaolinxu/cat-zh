@@ -245,7 +245,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		type : "rare",			//todo: some special FX
 		visible: true,
 		color: "#E00000",
-		persists: false
+		persists: false,
+		calculatePerDay: true,
 	},{
 		name : "tears",
 		title: $I("resources.tears.title"),
@@ -293,6 +294,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		craftable: false,
 		visible: true,
 		color: "#5A0EDE",
+		calculatePerDay: true,
 		/*style: {
 			         animation : "neon-purple 1.5s ease-in-out infinite alternate",
 			"-webkit-animation": "neon-purple 1.5s ease-in-out infinite alternate",

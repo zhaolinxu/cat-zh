@@ -3482,18 +3482,42 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			type: "fixed",
 			value: resConsumption
 		});
-
-		stack.push({
-			name: $I("res.stack.buildings"),
-			type: "perDay",
-			value: this.getEffect(res.name + "PerDay")
-		});
 		// TIME extra-compare with this.calcResourcePerTick
 		stack.push({
 			name: $I("res.stack.time"),
 			type: "ratio",
 			value: this.timeAccelerationRatio()
 		});
+		return stack;
+	},
+
+	getResourcePerDayStack: function(resName){
+		var stack = [];
+		var res = null;
+		for (var i in this.resPool.resources){
+			var _res = this.resPool.resources[i];
+			if (_res.name == resName){
+				res = _res;
+				break;
+			}
+		}
+
+		if (!res){
+			//console.error("Unable to fetch resource stack for resName '" + resName + "'");
+			return;
+		}
+		stack.push({
+			name: $I("res.stack.buildings"),
+			type: "perDay",
+			value: this.getEffect(res.name + "PerDay")
+		});
+		if(resName == "necrocorn"){
+			stack.push({
+				name: $I("res.stack.corruptionPerDay"),
+				type: "perDay",
+				value: this.religion.getCorruptionPerTick() * this.calendar.ticksPerDay
+			});
+		}
 		return stack;
 	},
 
@@ -3668,6 +3692,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 	},
 
+	getResourcePerDay: function(resName){
+		if(resName == "necrocorn"){
+			return this.religion.pactsManager.getNecrocornDeficitConsumptionModifier() * this.getEffect(resName + "PerDay") +
+			this.religion.getCorruptionPerTick() * this.calendar.ticksPerDay;
+		}
+		return this.getEffect(resName + "PerDay");
+	},
 	getResourcePerTickConvertion: function(resName) {
 		return this.fixFloatPointNumber(this.getEffect(resName + "PerTickCon"));
 	},
@@ -3745,8 +3776,17 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	 * Returns a flat map of resource production
 	 */
 	getDetailedResMap: function(res){
-
-		var resStack = this.getResourcePerTickStack(res.name),
+		if(res.calculatePerDay){
+			var resStack = this.getResourcePerDayStack(res.name),
+				resString = this.processResourcePerTickStack(resStack, res, 0); //processResourcePerTickStack can work with perDay stack
+				resPerDay = this.getResourcePerDay(res.name);
+			if (resPerDay < 0) {
+				var toZero = this.calendar.ticksPerDay * res.value / (-resPerDay * this.getTicksPerSecondUI());
+				resString += "<br>" + $I("res.toZero") + ": " + this.toDisplaySeconds(toZero.toFixed());
+			}
+			return resString;
+		}
+		var resStack =  ((res.calculatePerDay)? this.getResourcePerDayStack(res.name) : this.getResourcePerTickStack(res.name)),
 			resString = this.processResourcePerTickStack(resStack, res, 0),
 			resPerTick = this.getResourcePerTick(res.name, true);
 
@@ -3819,8 +3859,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		} else if (stackElem.type == "ratioIndent") {
 			resString = "|->" + resString + this.getDisplayValueExt((stackElem.value * 100).toFixed(), true) + "%";
 		} else if (stackElem.type == "perDay") {
-			//resString += stackElem.value;
-			//resString += "+";
+			if (stackElem.value>0){
+				resString += "+";
+			}
 			resString += this.getDisplayValueExt((stackElem.value)) + "/" + $I("res.per.day");
 		}
 
