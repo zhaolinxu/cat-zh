@@ -3724,9 +3724,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 	getResourceOnYearProduction: function(resName){
 		if (resName == "antimatter"){
-			return game.getEffect("antimatterProduction");
+			return this.getEffect("antimatterProduction");
 		}
-		return game.getEffect(resName + "Production"); //this might need to be changed!
+		return this.getEffect(resName + "Production"); //this might need to be changed!
 	},
 	getResourcePerTickConvertion: function(resName) {
 		return this.fixFloatPointNumber(this.getEffect(resName + "PerTickCon"));
@@ -3808,7 +3808,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	getDetailedResMap: function(res){
 		if(res.calculatePerDay){
 			var resStack = this.getResourcePerDayStack(res.name),
-				resString = this.processResourcePerTickStack(resStack, res, 0); //processResourcePerTickStack can work with perDay stack
+				resString = this.processResourcePerTickStack(resStack, res, 0), //processResourcePerTickStack can work with perDay stack
 				resPerDay = this.getResourcePerDay(res.name);
 				if (this.opts.usePercentageResourceValues){
 					resString += "<br> " + $I("res.netGain") + ": " + this.getDisplayValueExt(resPerDay, true, true);
@@ -3824,10 +3824,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			return resString;
 		}else if(res.calculateOnYear){
 			var resStack = this.getResourceOnYearStack(res.name),
-				resString = this.processResourcePerTickStack(resStack, res, 0); //processResourcePerTickStack can work with perDay stack
+				resString = this.processResourcePerTickStack(resStack, res, 0), //processResourcePerTickStack can work with perDay stack
 				resPerYear = this.getResourceOnYearProduction(res.name);
 				if (this.opts.usePercentageResourceValues){
-					resString += "<br> " + $I("res.netGain") + ": " + this.getDisplayValueExt(resPerDay, true, true);
+					resString += "<br> " + $I("res.netGain") + ": " + this.getDisplayValueExt(resPerYear, true, true);
 				}
 			return resString;
 		}
