@@ -3101,6 +3101,26 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	 * Generates a stack of resource modifiers. (TODO: use it with resource per tick calculation logic)
 	 */
 	getResourcePerTickStack: function(resName, calcAutomatedEffect, season){
+		var addGlobalModToStack = function(array, game){
+			if(game.science.getPolicy("necrocracy").researched){
+				array.push({
+					name: $I("res.stack.necrocracy"),
+					type: "ratio",
+					value: game.getEffect("blsProductionBonus") * game.resPool.get("sorrow").value,
+				});
+			}
+			array.push({
+				name: $I("res.stack.policy"),
+				type: "ratio",
+				value: game.getEffect(res.name + "PolicyRatio")
+			});
+			array.push({
+				name: $I("res.stack.destruction"),
+				type: "ratio",
+				value: game.getEffect("pyramidGlobalProductionRatio")
+			});
+			return array;
+		};
 		var stack = [];
 
 		var res = null;
@@ -3144,6 +3164,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				type: "ratio",
 				value: spaceRatio - 1
 			});
+			addGlobalModToStack(perTickBaseSpaceStack, this);
 		//<----
 		stack.push(perTickBaseSpaceStack);
 
@@ -3368,6 +3389,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				type: "fixed",
 				value: this.getEffect(res.name + "PerTickAutoprodSpace")
 			});
+			addGlobalModToStack(perTickAutoprodSpaceStack, this);
 			perTickAutoprodSpaceStack.push({
 				name: $I("res.stack.spaceProdBonus"),
 				type: "ratio",
@@ -3400,6 +3422,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				type: "ratio",
 				value: spaceRatio - 1
 			});
+			addGlobalModToStack(perTickSpace, this);
 		//<----
 		stack.push(perTickSpace);
 
@@ -3418,19 +3441,23 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			value: cycleEffect
 		});
 
+		var baselineModifiers = [];
 		// +BUILDING AND SPACE PerTick
-		stack.push({
-			name: $I("res.stack.baseline"),
-			type: "fixed",
-			value: this.getEffect(res.name + "PerTick")
-		});
 
-		stack.push({
-			name: $I("res.stack.baseline"),
-			type: "ratio",
-			value: this.getEffect(res.name + "PerTickRatio")
-		});
-
+		//----->
+			baselineModifiers.push({
+				name: $I("res.stack.baseline"),
+				type: "fixed",
+				value: this.getEffect(res.name + "PerTick")
+			});
+			baselineModifiers.push({
+				name: $I("res.stack.baselineRatio"),
+				type: "ratio",
+				value: this.getEffect(res.name + "PerTickRatio")
+			});
+			addGlobalModToStack(baselineModifiers, this);
+		stack.push(baselineModifiers);
+		//<----
 		// +CRAFTING JOB PRODUCTION
 		stack.push({
 			name: $I("res.stack.engineer"),
