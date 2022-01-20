@@ -325,11 +325,11 @@ var run = function() {
             'ui.distribute': '猫力资源',
             'ui.max': 'Max: {0}',
 
-            'ui.upgrade.upgrades': '升级',
-            'ui.upgrade.techs': '科技',
-            'ui.upgrade.races': '探险队出发!',
+            'ui.upgrade.upgrades': '工坊升级',
+            'ui.upgrade.techs': '科学科技',
+            'ui.upgrade.races': '探险者出发!',
             'ui.upgrade.missions': '探索星球',
-            'ui.upgrade.buildings': '建筑',
+            'ui.upgrade.buildings': '营火建筑',
             'ui.upgrade.policies': '政策',
             'ui.upgrade.policies.load': '读取',
             'ui.upgrade.policies.show': '列表',
@@ -605,11 +605,11 @@ var run = function() {
                     // production
                     field:          {require: 'catnip',      enabled: true, max:-1, checkForReset: true, triggerForReset: -1},
                     pasture:        {require: 'catnip',      enabled: true, max:-1, stage: 0, checkForReset: true, triggerForReset: -1},
-                    solarFarm:      {require: 'titanium',    enabled: true, max:-1, stage: 1, name: 'pasture', checkForReset: true, triggerForReset: -1},
+                    solarFarm:      {require: 'titanium',    enabled: false, max:-1, stage: 1, name: 'pasture', checkForReset: true, triggerForReset: -1},
                     mine:           {require: 'wood',        enabled: true, max:-1, checkForReset: true, triggerForReset: -1},
                     lumberMill:     {require: 'minerals',    enabled: true, max:-1, checkForReset: true, triggerForReset: -1},
                     aqueduct:       {require: 'minerals',    enabled: true, max:-1, stage: 0, checkForReset: true, triggerForReset: -1},
-                    hydroPlant:     {require: 'titanium',    enabled: true, max:-1, stage: 1, name: 'aqueduct', checkForReset: true, triggerForReset: -1},
+                    hydroPlant:     {require: 'titanium',    enabled: false, max:-1, stage: 1, name: 'aqueduct', checkForReset: true, triggerForReset: -1},
                     oilWell:        {require: 'coal',        enabled: true, max:-1, checkForReset: true, triggerForReset: -1},
                     quarry:         {require: 'coal',        enabled: true, max:-1, checkForReset: true, triggerForReset: -1},
 
@@ -624,7 +624,7 @@ var run = function() {
 
                     // science
                     library:        {require: 'wood',        enabled: true, max:-1, stage: 0, checkForReset: true, triggerForReset: -1},
-                    dataCenter:     {require: false,         enabled: true, max:-1, stage: 1, name: 'library', checkForReset: true, triggerForReset: -1},
+                    dataCenter:     {require: false,         enabled: false, max:-1, stage: 1, name: 'library', checkForReset: true, triggerForReset: -1},
                     academy:        {require: 'wood',        enabled: true, max:-1, checkForReset: true, triggerForReset: -1},
                     observatory:    {require: 'iron',        enabled: true, max:-1, checkForReset: true, triggerForReset: -1},
 
@@ -1976,7 +1976,7 @@ var run = function() {
                 var aqueducts = (game.bld.getBuildingExt('aqueduct').meta.stage === 0) ? game.bld.getBuildingExt('aqueduct').meta.val : 0;
 
                 var pastureMeta = game.bld.getBuildingExt('pasture').meta;
-                if (pastureMeta.stage === 0) {
+                if (pastureMeta.stage === 0 && options.auto.build.items.solarFarm.enabled) {
                     if (pastureMeta.stages[1].stageUnlocked) {
                         if (craftManager.getPotentialCatnip(true, 0, aqueducts) > 45) {
                             var prices = pastureMeta.stages[1].prices;
@@ -1999,7 +1999,7 @@ var run = function() {
                 }
 
                 var aqueductMeta = game.bld.getBuildingExt('aqueduct').meta;
-                if (aqueductMeta.stage === 0) {
+                if (aqueductMeta.stage === 0 && options.auto.build.items.hydroPlant.enabled) {
                     if (aqueductMeta.stages[1].stageUnlocked) {
                         if (craftManager.getPotentialCatnip(true, pastures, 0) > 45) {
                             var prices = aqueductMeta.stages[1].prices;
@@ -2022,7 +2022,7 @@ var run = function() {
                 }
 
                 var libraryMeta = game.bld.getBuildingExt('library').meta;
-                if (libraryMeta.stage === 0) {
+                if (libraryMeta.stage === 0 && options.auto.build.items.dataCenter.enabled) {
                     if (libraryMeta.stages[1].stageUnlocked) {
                         var enCon = (game.workshop.get('cryocomputing').researched) ? 1 : 2;
                         if (game.challenges.isActive('energy')) {enCon *= 2 * (1 + game.getEffect("energyConsumptionIncrease"));}

@@ -590,11 +590,15 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
     },
 
     getNextTranscendTierProgress: function() {
-        return this.game.religion.faithRatio;
+		if (this.game.religion.transcendenceTier >= 354) {
+			return this.i18n("best.none");
+		} else {
+			return this.game.religion.faithRatio;
+		}
     },
 
     getBoolean: function() {
-        if (!game.religion.getRU("transcendence").on) {
+        if (!game.religion.getRU("transcendence").on || this.game.religion.transcendenceTier >= 354) {
             return this.i18n("best.none");
         }
         var tier = this.game.religion.transcendenceTier + 1;
