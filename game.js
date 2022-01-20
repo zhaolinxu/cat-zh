@@ -3785,6 +3785,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				var toZero = this.calendar.ticksPerDay * res.value / (-resPerDay * this.getTicksPerSecondUI());
 				resString += "<br>" + $I("res.toZero") + ": " + this.toDisplaySeconds(toZero.toFixed());
 			}
+			if(res.name == "necrocorn"){
+				var toNextNecrocorn = (1 - this.religion.corruption)/(this.religion.getCorruptionPerTick());
+				resString += "<br>" + $I("res.toNextNecrocorn") + ": " + this.toDisplaySeconds(toNextNecrocorn.toFixed());
+			}
 			return resString;
 		}
 		var resStack =  ((res.calculatePerDay)? this.getResourcePerDayStack(res.name) : this.getResourcePerTickStack(res.name)),
