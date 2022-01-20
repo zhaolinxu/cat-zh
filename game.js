@@ -3822,7 +3822,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		} else if (stackElem.type == "perDay") {
 			//resString += stackElem.value;
 			//resString += "+";
-			resString += this.getDisplayValueExt((stackElem.value));
+			resString += this.getDisplayValueExt((stackElem.value)) + "/" + $I("res.per.day");
 		}
 
 		resString += "</div><br>";
