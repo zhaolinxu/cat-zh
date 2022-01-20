@@ -3114,6 +3114,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				type: "ratio",
 				value: game.getEffect(res.name + "PolicyRatio")
 			});
+			array.push({
+				name: $I("res.stack.destruction"),
+				type: "ratio",
+				value: game.getEffect("pyramidGlobalProductionRatio")
+			});
 			return array;
 		};
 		var stack = [];
