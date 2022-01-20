@@ -329,7 +329,7 @@ var run = function() {
             'ui.upgrade.techs': '科学科技',
             'ui.upgrade.races': '探险者出发!',
             'ui.upgrade.missions': '探索星球',
-            'ui.upgrade.buildings': '营火建筑',
+            'ui.upgrade.buildings': '营火建筑升级',
             'ui.upgrade.policies': '政策',
             'ui.upgrade.policies.load': '读取',
             'ui.upgrade.policies.show': '列表',
@@ -605,11 +605,11 @@ var run = function() {
                     // production
                     field:          {require: 'catnip',      enabled: true, max:-1, checkForReset: true, triggerForReset: -1},
                     pasture:        {require: 'catnip',      enabled: true, max:-1, stage: 0, checkForReset: true, triggerForReset: -1},
-                    solarFarm:      {require: 'titanium',    enabled: false, max:-1, stage: 1, name: 'pasture', checkForReset: true, triggerForReset: -1},
+                    solarFarm:      {require: 'titanium',    enabled: true, max:-1, stage: 1, name: 'pasture', checkForReset: true, triggerForReset: -1},
                     mine:           {require: 'wood',        enabled: true, max:-1, checkForReset: true, triggerForReset: -1},
                     lumberMill:     {require: 'minerals',    enabled: true, max:-1, checkForReset: true, triggerForReset: -1},
                     aqueduct:       {require: 'minerals',    enabled: true, max:-1, stage: 0, checkForReset: true, triggerForReset: -1},
-                    hydroPlant:     {require: 'titanium',    enabled: false, max:-1, stage: 1, name: 'aqueduct', checkForReset: true, triggerForReset: -1},
+                    hydroPlant:     {require: 'titanium',    enabled: true, max:-1, stage: 1, name: 'aqueduct', checkForReset: true, triggerForReset: -1},
                     oilWell:        {require: 'coal',        enabled: true, max:-1, checkForReset: true, triggerForReset: -1},
                     quarry:         {require: 'coal',        enabled: true, max:-1, checkForReset: true, triggerForReset: -1},
 
@@ -617,14 +617,14 @@ var run = function() {
                     smelter:        {require: 'minerals',    enabled: true,  max:-1, checkForReset: true, triggerForReset: -1},
                     biolab:         {require: 'science',     enabled: false, max:-1, checkForReset: true, triggerForReset: -1},
                     calciner:       {require: 'titanium',    enabled: false, max:-1, checkForReset: true, triggerForReset: -1},
-                    reactor:        {require: 'titanium',    enabled: false, max:-1, checkForReset: true, triggerForReset: -1},
+                    reactor:        {require: 'titanium',    enabled: true, max:-1, checkForReset: true, triggerForReset: -1},
                     accelerator:    {require: 'titanium',    enabled: false, max:-1, checkForReset: true, triggerForReset: -1},
                     steamworks:     {require: false,         enabled: false, max:-1, checkForReset: true, triggerForReset: -1},
-                    magneto:        {require: false,         enabled: false, max:-1, checkForReset: true, triggerForReset: -1},
+                    magneto:        {require: false,         enabled: true, max:-1, checkForReset: true, triggerForReset: -1},
 
                     // science
                     library:        {require: 'wood',        enabled: true, max:-1, stage: 0, checkForReset: true, triggerForReset: -1},
-                    dataCenter:     {require: false,         enabled: false, max:-1, stage: 1, name: 'library', checkForReset: true, triggerForReset: -1},
+                    dataCenter:     {require: false,         enabled: true, max:-1, stage: 1, name: 'library', checkForReset: true, triggerForReset: -1},
                     academy:        {require: 'wood',        enabled: true, max:-1, checkForReset: true, triggerForReset: -1},
                     observatory:    {require: 'iron',        enabled: true, max:-1, checkForReset: true, triggerForReset: -1},
 
@@ -1978,9 +1978,11 @@ var run = function() {
                 var pastureMeta = game.bld.getBuildingExt('pasture').meta;
                 if (pastureMeta.stage === 0 && options.auto.build.items.solarFarm.enabled) {
                     if (pastureMeta.stages[1].stageUnlocked) {
+                        var energy = (game.resPool.energyWinterProd < game.resPool.energyCons);
+                        var broadcastTower = game.bld.getBuildingExt('amphitheatre').meta.stage == 1;
+                        var boolean = (energy || (broadcastTower && game.getResourcePerTick('titanium', true) > 25));
                         if (craftManager.getPotentialCatnip(true, 0, aqueducts) > 45) {
                             var prices = pastureMeta.stages[1].prices;
-                            var priceRatio = bulkManager.getPriceRatio(pastureMeta, true);
                             if (bulkManager.singleBuildPossible(pastureMeta, prices, 1)) {
                                 var button = buildManager.getBuildButton('pasture', 0);
                                 if(!button && !button.model && !button.model.metadata) {return game.bldTab.render();}
@@ -1999,11 +2001,10 @@ var run = function() {
                 }
 
                 var aqueductMeta = game.bld.getBuildingExt('aqueduct').meta;
-                if (aqueductMeta.stage === 0 && options.auto.build.items.hydroPlant.enabled) {
+                if (aqueductMeta.stage === 0 && options.auto.build.items.hydroPlant.enabled && pastureMeta.stage === 1) {
                     if (aqueductMeta.stages[1].stageUnlocked) {
                         if (craftManager.getPotentialCatnip(true, pastures, 0) > 45) {
                             var prices = aqueductMeta.stages[1].prices;
-                            var priceRatio = bulkManager.getPriceRatio(aqueductMeta, true);
                             if (bulkManager.singleBuildPossible(aqueductMeta, prices, 1)) {
                                 var button = buildManager.getBuildButton('aqueduct', 0);
                                 if(!button && !button.model && !button.model.metadata) {return game.bldTab.render();}
@@ -2037,7 +2038,6 @@ var run = function() {
                         if (game.resPool.get('compedium').value > scienceBldMax) {
                             if (game.resPool.energyProd >= game.resPool.energyCons + enCon * libraryMeta.val / libToDat) {
                                 var prices = libraryMeta.stages[1].prices;
-                                var priceRatio = bulkManager.getPriceRatio(libraryMeta, true);
                                 if (bulkManager.singleBuildPossible(libraryMeta, prices, 1)) {
                                     var button = buildManager.getBuildButton('library', 0);
                                     if(!button && !button.model && !button.model.metadata) {return game.bldTab.render();}
@@ -2060,7 +2060,6 @@ var run = function() {
                 if (amphitheatreMeta.stage === 0) {
                     if (amphitheatreMeta.stages[1].stageUnlocked) {
                         var prices = amphitheatreMeta.stages[1].prices;
-                        var priceRatio = bulkManager.getPriceRatio(amphitheatreMeta, true);
                         if (game.getResourcePerTick('titanium', true) > 0) {
                             if (bulkManager.singleBuildPossible(amphitheatreMeta, prices, 1)) {
                                 var button = buildManager.getBuildButton('amphitheatre', 0);
