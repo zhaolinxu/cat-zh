@@ -946,11 +946,11 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
             // title: "Necrocorns Per Second",
             val: 0,
         },
-        {
-            name: "getNecrocornTime",
-            // title: "Time Until Next Necrocorn",
-            val: 0,
-        },
+        //{
+        //    name: "getNecrocornTime",
+        //    // title: "Time Until Next Necrocorn",
+        //    val: 0,
+        //},
         {
             name: "getLeviChance",
             // title: "Chance per year of Leviathans",
