@@ -3096,31 +3096,32 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		return perTick;
 	},
-
+	addGlobalModToStack: function(array, resName){
+		var game = this;
+		console.log(game);
+		if(game.science.getPolicy("necrocracy").researched){
+			array.push({
+				name: $I("res.stack.necrocracy"),
+				type: "ratio",
+				value: game.getEffect("blsProductionBonus") * game.resPool.get("sorrow").value,
+			});
+		}
+		array.push({
+			name: $I("res.stack.policy"),
+			type: "ratio",
+			value: game.getEffect(resName + "PolicyRatio")
+		});
+		array.push({
+			name: $I("res.stack.destruction"),
+			type: "ratio",
+			value: game.getEffect("pyramidGlobalProductionRatio")
+		});
+		return array;
+	},
 	/**
 	 * Generates a stack of resource modifiers. (TODO: use it with resource per tick calculation logic)
 	 */
 	getResourcePerTickStack: function(resName, calcAutomatedEffect, season){
-		var addGlobalModToStack = function(array, game){
-			if(game.science.getPolicy("necrocracy").researched){
-				array.push({
-					name: $I("res.stack.necrocracy"),
-					type: "ratio",
-					value: game.getEffect("blsProductionBonus") * game.resPool.get("sorrow").value,
-				});
-			}
-			array.push({
-				name: $I("res.stack.policy"),
-				type: "ratio",
-				value: game.getEffect(res.name + "PolicyRatio")
-			});
-			array.push({
-				name: $I("res.stack.destruction"),
-				type: "ratio",
-				value: game.getEffect("pyramidGlobalProductionRatio")
-			});
-			return array;
-		};
 		var stack = [];
 
 		var res = null;
@@ -3164,7 +3165,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				type: "ratio",
 				value: spaceRatio - 1
 			});
-			addGlobalModToStack(perTickBaseSpaceStack, this);
+			this.addGlobalModToStack(perTickBaseSpaceStack, resName);
 		//<----
 		stack.push(perTickBaseSpaceStack);
 
@@ -3389,7 +3390,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				type: "fixed",
 				value: this.getEffect(res.name + "PerTickAutoprodSpace")
 			});
-			addGlobalModToStack(perTickAutoprodSpaceStack, this);
+			this.addGlobalModToStack(perTickAutoprodSpaceStack, resName);
 			perTickAutoprodSpaceStack.push({
 				name: $I("res.stack.spaceProdBonus"),
 				type: "ratio",
@@ -3422,7 +3423,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				type: "ratio",
 				value: spaceRatio - 1
 			});
-			addGlobalModToStack(perTickSpace, this);
+			this.addGlobalModToStack(perTickSpace, resName);
 		//<----
 		stack.push(perTickSpace);
 
@@ -3455,7 +3456,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				type: "ratio",
 				value: this.getEffect(res.name + "PerTickRatio")
 			});
-			addGlobalModToStack(baselineModifiers, this);
+			this.addGlobalModToStack(baselineModifiers, resName);
 		stack.push(baselineModifiers);
 		//<----
 		// +CRAFTING JOB PRODUCTION
