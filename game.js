@@ -3098,7 +3098,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 	addGlobalModToStack: function(array, resName){
 		var game = this;
-		console.log(game);
 		if(game.science.getPolicy("necrocracy").researched){
 			array.push({
 				name: $I("res.stack.necrocracy"),
