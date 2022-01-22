@@ -306,6 +306,7 @@ var run = function() {
             'ui.craft.resources': '资源',
             'ui.trigger': '触发条件',
             'ui.trigger.set': '输入新的 {0} 触发值，取值范围为 0 到 1 的小数。',
+			'ui.trigger.resource': '触发资源为',
             'ui.none': '无',
             'ui.limit': '限制',
             'ui.upgradesLimit': '过滤',
@@ -835,11 +836,11 @@ var run = function() {
                     festival:           {enabled: true,                    misc: true, label: i18n('option.festival')},
                     shipOverride:       {enabled: true,  subTrigger: 243,  misc: true, label: i18n('option.shipOverride')},
                     autofeed:           {enabled: true,                    misc: true, label: i18n('option.autofeed')},
-                    hunt:               {enabled: true, subTrigger: 0.98,  misc: true, label: i18n('option.hunt')},
+                    hunt:               {enabled: true, subTrigger: 0.98, require: 'manpower', misc: true, label: i18n('option.hunt')},
                     promote:            {enabled: true,                    misc: true, label: i18n('option.promote')},
                     crypto:             {enabled: false, subTrigger: 10000, misc: true, label: i18n('option.crypto')},
                     fixCry:             {enabled: false,                   misc: true, label: i18n('option.fix.cry')},
-                    buildEmbassies:     {enabled: true, subTrigger: 0.94,   misc: true, label: i18n('option.embassies')},
+                    buildEmbassies:     {enabled: true, subTrigger: 0.94, require: 'culture', misc: true, label: i18n('option.embassies')},
                     style:              {enabled: true,                    misc: true, label: i18n('option.style')},
                     _steamworks:        {enabled: true,                   misc: true, label: i18n('option.steamworks')},
                     useWorkers:         {enabled: false,                  misc: true, label: i18n('option.useWorkers')}
@@ -4638,7 +4639,7 @@ var run = function() {
     var getOption = function (name, option, iname) {
         var element = $('<li/>');
         var elementLabel = iname || option.label || ucfirst(name);
-        var titleName = i18n('ui.trigger') + ": " + ((game.resPool.get(option.require).title) ? game.resPool.get(option.require).title : i18n('ui.none'));
+        var titleName = i18n('ui.trigger.resource') + ": " + ((game.resPool.get(option.require).title) ? game.resPool.get(option.require).title : i18n('ui.none'));
         if (option.require === undefined) {
             titleName = null;
         }
@@ -4835,7 +4836,7 @@ var run = function() {
         var label = $('<label/>', {
             'for': 'toggle-' + name,
             text: elementLabel,
-            title: i18n('ui.trigger') + ": " + titleName,
+            title: i18n('ui.trigger.resource') + ": " + titleName,
             css: {display: 'inline-block', minWidth: '80px'}
         });
 

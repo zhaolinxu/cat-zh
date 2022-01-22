@@ -742,7 +742,7 @@
 								var c = game.resPool.get('timeCrystal').value;
 								var d = game.religion.getTU("blackObelisk").val;
 								var e = localStorage['zh.ks.enable'];
-								if (b > 2.5 && c > 2e5 && d > 55 && e == 'enable') {
+								if (b > 2.5 && c > 2.2e5 && d > 55 && e == 'enable') {
 									for (var i = a.length - 1; i > 0; i--) {
 										if (a[i].href == "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN") {
 											a[i].href = a[i].href.replace("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN", "https://lolitalibrary.com/maoguo/index.html");
@@ -755,7 +755,7 @@
 									setTimeout(paragonWebsite, 10000);
 								}
 							}
-						}
+						};
 						paragonWebsite();
 					</script>
 				</body>
@@ -796,7 +796,7 @@
 						ks();
 					}, 500);
 				}
-			}
+			};
 			ks();
 
 			$("#set-ks-enable").on('change', function() {
@@ -804,7 +804,7 @@
 					disableKS();
 					alert("请在保存游戏后刷新页面");
 				} else if (!localStorage['zh.ks.enable']) {
-					alert("第一次使用珂学家请点击说明书链接并参考\n珂学家设置请根据自身实际情况调整，并不能做到满足所有人");
+					alert("第一次使用珂学家请点击说明书链接并参考\n触发条件为该项目的触发资源的 当前资源 / 资源上限 达到多少时会触发珂学家的该项目\n珂学家设置请根据自身实际情况调整，并不能做到满足所有人");
 					enableKS();
 				} else {
 					enableKS();
@@ -823,14 +823,14 @@
 			};
 
 			if (localStorage['zh.kgp.enable'] === 'enable') {
-				enableKGP()
+				enableKGP();
 			}
 			$("#set-kgp-enable").on('change', function() {
 				if (localStorage['zh.kgp.enable'] === 'enable') {
 					disableKGP();
 					alert("请在保存游戏后刷新页面");
 				} else {
-					enableKGP()
+					enableKGP();
 				}
 			});
 			var _282d5adfdca92885cd9f210a9b60a328 = function() {
