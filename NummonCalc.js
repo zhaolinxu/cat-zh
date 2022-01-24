@@ -391,6 +391,9 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         }
         var UndissipatednPerTick = this.game.bld.getUndissipatedPollutionPerTick() * 100;
         var coMax = Math.max(UndissipatednPerTick, 0);
+		if (this.game.challenges.isActive("postApocalypse") && coMax) {
+			coMax = "∞";
+		}
         return coMax;
     },
 
@@ -524,11 +527,12 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
     getLeviChance: function() {
         var numPyramids = this.game.religion.getZU("blackPyramid").getEffectiveValue(this.game);
         var numMarkers = this.game.religion.getZU("marker").val;
-        var chance = this.roundThisNumber(35 * numPyramids * (1 + 0.1 * numMarkers) / 10);
-        chance = this.game.getDisplayValueExt(chance);
-        if (chance > 100)
-            chance = 100;
-        return chance + "%";
+        var chance = 3.5 * numPyramids * (1 + 0.1 * numMarkers);
+        if (chance > 100) {
+            return chance = 100;
+		} else {
+			return this.game.getDisplayValueExt(chance) * 1 + "%";
+		}
     },
 
     // RELIGION :
@@ -569,8 +573,8 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
     },
 
     getRecNextTranscendTierProgress: function() {
-        if (this.game.religion.transcendenceTier >= 354)
-            return this.i18n("best.none");
+        if (this.game.religion.transcendenceTier >= 355)
+            return "∞";
         var tier = this.game.religion.transcendenceTier + 1;
         var tt = this.game.religion._getTranscendTotalPrice(tier) - game.religion._getTranscendTotalPrice(tier - 1);
         var obelisk = this.game.religion.getTU("blackObelisk").val;
@@ -588,8 +592,8 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
     },
 
     getNextTranscendTierProgress: function() {
-		if (this.game.religion.transcendenceTier >= 354) {
-			return this.i18n("best.none");
+		if (this.game.religion.transcendenceTier >= 355) {
+			return "∞";
 		} else {
 			return this.game.religion.faithRatio;
 		}
