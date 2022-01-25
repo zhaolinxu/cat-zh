@@ -645,7 +645,7 @@
 
 			<div id="exportDiv" style="display: none" class="dialog help">
 				<h1 id="exportTo">Export To:</h1>
-                <!-- <input id="exportToDropbox" type="button" onclick="gamePage.saveExportDropbox();" value="Dropbox (Beta)"> -->
+				<!-- <input id="exportToDropbox" type="button" onclick="gamePage.saveExportDropbox();" value="Dropbox (Beta)"> -->
 				<input id="exportToSimpleFile" type="button" onclick="gamePage.saveToFile(false);" value="File (simple name)">
 				<input id="exportToFullFile" type="button" onclick="gamePage.saveToFile(true);" value="File (full name)">
 				<a id="download-link" target="_blank" style="display: none"></a>
@@ -660,7 +660,7 @@
 			<div id="importDiv" style="display: none" class="dialog help">
 				<div id="importWarning">Warning! Importing data will overwrite your current game data.</div>
 				<h1 id="importFromText">Text Import:</h1>
-                <!-- <input id="importFromDropbox" type="button" onclick="gamePage.saveImportDropbox();" value="Dropbox (Beta)"> -->
+				<!-- <input id="importFromDropbox" type="button" onclick="gamePage.saveImportDropbox();" value="Dropbox (Beta)"> -->
 				<br>
 				<textarea id="importData" style="width: 550px; height: 220px;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
 				<br>
@@ -729,36 +729,7 @@
 				<!-- <a href="http://kittensgame.tumblr.com" target="_blank">tumblr</a> | -->
 				<!-- <a href="#" onclick="$('#helpDiv').toggle();">help</a> | -->
 				<a href="#" onclick="$('#creditsDiv').toggle();">人员</a> |
-
-				<body>
-					<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN" target="_blank">捐赠</a> |
-					<script type="text/javascript">
-						var paragonWebsite = function() {
-							if (typeof gamePage === "undefined") {
-								setTimeout(paragonWebsite, 10000);
-							} else {
-								var a = document.getElementsByTagName("a");
-								var b = game.prestige.getParagonStorageRatio();
-								var c = game.resPool.get('timeCrystal').value;
-								var d = game.religion.getTU("blackObelisk").val;
-								var e = localStorage['zh.ks.enable'];
-								if (b > 2.5 && c > 2.2e5 && d > 55 && e == 'enable') {
-									for (var i = a.length - 1; i > 0; i--) {
-										if (a[i].href == "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN") {
-											a[i].href = a[i].href.replace("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN", "https://lolitalibrary.com/maoguo/index.html");
-											a[i].innerHTML = a[i].innerHTML.replace('捐赠', '自动刷领导力');
-											a[i].title = "Cheney的网站需要自己导入存档哦";
-											break;
-										}
-									}
-								} else {
-									setTimeout(paragonWebsite, 10000);
-								}
-							}
-						};
-						paragonWebsite();
-					</script>
-				</body>
+				<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN" target="_blank">捐赠</a> |
 				<a href="https://www.patreon.com/bloodrizer" target="_blank">支持</a>
 				<!--  | <a href="classic/" target="_blank">classic</a> -->
 			</div>
@@ -846,6 +817,32 @@
 			_282d5adfdca92885cd9f210a9b60a328();
 		</script>
 
+		<script type="text/javascript">
+			var paragonWebsite = function() {
+				if (typeof gamePage === "undefined") {
+					setTimeout(paragonWebsite, 10000);
+				} else {
+					var a = document.getElementsByTagName("a");
+					var b = game.prestige.getParagonStorageRatio();
+					var c = game.resPool.get('timeCrystal').value;
+					var d = game.religion.getTU("blackObelisk").val;
+					var e = localStorage['zh.ks.enable'];
+					if (b > 2.5 && c > 2.2e5 && d > 55 && e == 'enable') {
+						for (var i = a.length - 1; i > 0; i--) {
+							if (a[i].href == "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN") {
+								a[i].href = a[i].href.replace("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN", "https://lolitalibrary.com/maoguo/index.html");
+								a[i].innerHTML = a[i].innerHTML.replace('捐赠', '自动刷领导力');
+								a[i].title = "Cheney的网站需要自己导入存档哦";
+								break;
+							}
+						}
+					} else {
+						setTimeout(paragonWebsite, 10000);
+					}
+				}
+			};
+			paragonWebsite();
+		</script>
 	</body>
 
 </html>
