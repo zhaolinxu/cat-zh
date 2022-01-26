@@ -379,12 +379,12 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
             return this.i18n("best.none");
         }
         var precision = this.game.opts.forceHighPrecision ? 3 : 2;
-        var polltionPerTick = this.game.bld.cathPollutionPerTick * 5;
+        var polltionPerTick = this.game.bld.cathPollutionPerTick * this.game.getTicksPerSecondUI();
         if (this.game.bld.cathPollution == 0 || !polltionPerTick) {
             return 0;
         }
-        polltionPerTick /= 1e5;
-        polltionPerTick = polltionPerTick.toPrecision(precision).toString();
+        polltionPerTick *= 1e-5;
+        polltionPerTick = polltionPerTick.toPrecision(precision) * 1;
         var plusSign = "+ ";
         if (polltionPerTick <= 0){
         	plusSign = "";
@@ -508,7 +508,8 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
             corruptionRate = 0;
         }
         corruptionRate *= this.game.getTicksPerSecondUI();
-        corruptionRate = Math.floor(corruptionRate * 100000) / 100000;
+		var precision = this.game.opts.forceHighPrecision ? 3 : 2;
+        corruptionRate = corruptionRate.toPrecision(precision) * 1;
         if (corruptionRate == Infinity)
             return this.i18n("infinity");
         return corruptionRate + this.i18n("sec");

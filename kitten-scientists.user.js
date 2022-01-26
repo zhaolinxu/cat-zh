@@ -1587,6 +1587,7 @@ var run = function() {
                 if (game.village.sim.kittens.length > 0 && game.village.happiness > 1) {
                     catnipTick += catnipTick * Math.max(game.village.happiness * (1 + game.getEffect("hapinnessConsumptionRatio")) - 1, 0) * (1 + game.getEffect("catnipDemandWorkerRatioGlobal"));
                 }
+				catnipTick *= 1 + game.bld.pollutionEffects["catnipPollutionRatio"];
                 var solarRevolutionRatio = 1 + game.religion.getSolarRevolutionRatio() * (1 + game.bld.pollutionEffects["solarRevolutionPollution"]);
                 catnipTick = ((game.resPool.get('catnip').perTickCached + catnipTick) * (1 + solarRevolutionAdterAdore) / solarRevolutionRatio) - catnipTick;
             }
