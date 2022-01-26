@@ -1308,11 +1308,11 @@ if (this.game.resPool.get("elderBox").value == 0 && this.gamePage.resPool.get("w
             if (resp) {
                 var day = resp.day_of_year;
                 if (day >= 26 && day <= 38) {
-                    this.gamePage.resPool.get("elderBox").value++;
-                    this.gamePage.msg("新年快乐，Cheney送了你一份礼物盒", "important");
-                    if (!this.game.karmaKittens) {
-                        this.game.karmaKittens += 5;
-                        this.gamePage.msg("新年快乐，Cheney送了你一份业", "important");
+                    game.resPool.get("elderBox").value++;
+                    game.msg("新年快乐，Cheney送了你一份礼物盒", "important");
+                    if (!game.karmaKittens) {
+                        game.karmaKittens += 5;
+                        game.msg("新年快乐，Cheney送了你一份业", "important");
                     }
                 }
             }
