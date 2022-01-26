@@ -1984,9 +1984,9 @@ dojo.declare("com.nuclearunicorn.game.ui.TechButtonController", com.nuclearunico
 		}  else if (meta.name == 'metaphysics' || meta.name == 'chronophysics' || meta.name == 'cryptotheology') {
 			if (meta.name == 'metaphysics' && !game.space.programs[0].on && game.stats.getStat("totalResets").val < 3){
 				return model.visible = false;
-			} else if (meta.name == 'chronophysics' && !game.resPool.resources[31].value && !game.resPool.resources[25].value){
+			} else if (meta.name == 'chronophysics' && !game.resPool.resources[31].unlocked && !game.resPool.resources[25].unlocked){
 				return model.visible = false;
-			} else if (meta.name == 'cryptotheology' && !game.resPool.resources[33].value){
+			} else if (meta.name == 'cryptotheology' && !game.resPool.resources[33].unlocked){
 				return model.visible = false;
 			}
 		}
