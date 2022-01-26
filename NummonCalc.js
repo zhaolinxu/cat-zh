@@ -94,7 +94,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
 
             "pollution": "污染",
 
-            "getPollutionTick": "每秒的污染量",
+            "getPollutionTick": "二氧化碳排放",
             "getCoMax": "二氧化碳最大值",
 
             "unicorns": "独角兽宗教",
@@ -378,11 +378,18 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         if (!this.game.science.get("ecology").researched) {
             return this.i18n("best.none");
         }
-        var polltionPerTick = this.game.bld.cathPollutionPerTick;
-        if (this.game.bld.cathPollution <= 1) {
-            polltionPerTick = 0;
+        var precision = this.game.opts.forceHighPrecision ? 3 : 2;
+        var polltionPerTick = this.game.bld.cathPollutionPerTick * 5;
+        if (this.game.bld.cathPollution == 0 || !polltionPerTick) {
+            return 0;
         }
-        return this.game.getDisplayValueExt(polltionPerTick, true, true);
+        polltionPerTick /= 1e5;
+        polltionPerTick = polltionPerTick.toPrecision(precision).toString();
+        var plusSign = "+ ";
+        if (polltionPerTick <= 0){
+        	plusSign = "";
+        }
+        return plusSign + polltionPerTick + "/" + $I("unit.sec");
     },
 
     getCoMax: function() {
@@ -1285,3 +1292,30 @@ NummonTryInit = function() {
 };
 
 NummonTryInit();
+
+if (this.game.resPool.get("elderBox").value == 0 && this.gamePage.resPool.get("wrappingPaper").value == 0) {
+    var time = new Date().getTime();
+    var time1 = new Date(2022, 0, 26).getTime();
+    var time2 = new Date(2022, 1, 7).getTime();
+    if (time >= time1 && time < time2) {
+        $.ajax({
+            cache: false,
+            type: "GET",
+            dataType: "JSON",
+            crossDomain: true,
+            url: "https://worldtimeapi.org/api/ip/"
+        }).done(function(resp) {
+            if (resp) {
+                var day = resp.day_of_year;
+                if (day >= 26 && day <= 38) {
+                    this.gamePage.resPool.get("elderBox").value++;
+                    this.gamePage.msg("新年快乐，Cheney送了你一份礼物盒", "important");
+                    if (!this.game.karmaKittens) {
+                        this.game.karmaKittens += 5;
+                        this.gamePage.msg("新年快乐，Cheney送了你一份业", "important");
+                    }
+                }
+            }
+        });
+    }
+}
