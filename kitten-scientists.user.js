@@ -844,7 +844,7 @@ var run = function() {
                     style:              {enabled: true,                    misc: true, label: i18n('option.style')},
                     _steamworks:        {enabled: true,                   misc: true, label: i18n('option.steamworks')},
                     saves:              {enabled: false,                   misc: true, label: '导出配置'},
-                    donate:             {enabled: false,                   misc: true, label: '显示捐赠原作者图标'},
+                    donate:             {enabled: true,                   misc: true, label: '显示捐赠原作者图标'},
                     useWorkers:         {enabled: false,                  misc: true, label: i18n('option.useWorkers')}
                 }
             },
@@ -5772,7 +5772,7 @@ var run = function() {
     // ===============
 
     var showD = function() {
-    if (options.auto.options.items.donate.enabled) {return;}
+    if (!options.auto.options.items.donate.enabled) {return;}
     var donate = $('<li/>', {id: "ks-donate"}).append($('<a/>', {
         href: 'bitcoin:' + address + '?amount=0.00048&label=Kittens Donation',
         target: '_blank',
