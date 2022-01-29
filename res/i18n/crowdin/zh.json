@@ -77,7 +77,7 @@
     "btn.all.unassign": "[-全部]",
     "btn.aoff.tooltip": "自动化已禁用",
     "btn.aon.tooltip": "自动化已启用",
-    "btn.almostlimited.tooltip": "* 继续建造会失去领袖制的转化加成效果",
+    "btn.almostlimited.tooltip": "* 继续建造会减少领袖制的转化加成效果",
     "btn.pollution.tooltip": "污染源",
     "btn.build": "建造",
     "btn.challenge": "开始挑战",

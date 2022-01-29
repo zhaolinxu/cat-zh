@@ -843,7 +843,8 @@ var run = function() {
                     buildEmbassies:     {enabled: true, subTrigger: 0.94, require: 'culture', misc: true, label: i18n('option.embassies')},
                     style:              {enabled: true,                    misc: true, label: i18n('option.style')},
                     _steamworks:        {enabled: true,                   misc: true, label: i18n('option.steamworks')},
-					saves:        {enabled: false,                   misc: true, label: '导出存档'},
+                    saves:              {enabled: false,                   misc: true, label: '导出配置'},
+                    donate:             {enabled: false,                   misc: true, label: '显示捐赠原作者图标'},
                     useWorkers:         {enabled: false,                  misc: true, label: i18n('option.useWorkers')}
                 }
             },
@@ -1597,9 +1598,10 @@ var run = function() {
                 // Transcend
                 if (option.transcend.enabled && transcendenceReached) {
                     var TranscendTimes;
+                    var nextLevelCatnip = game.religion._getTranscendTotalPrice(tt + 1) - game.religion._getTranscendTotalPrice(tt);
                     if (tt > 10) {
                         TranscendTimes = 1;
-                    } else if (tt < 10 && game.calendar.season <= 1 && worship > 1e5 && game.religion.getRU('apocripha').on && catnipTick > 0) {
+                    } else if (tt < 10 && game.calendar.season != 2 && worship > 1e5 && game.religion.getRU('apocripha').on && this.catnipForReligion(nextLevelCatnip) > 0) {
                         TranscendTimes = 4;
                     } else {
                         TranscendTimes = 0;
@@ -1607,7 +1609,7 @@ var run = function() {
 
                     while (TranscendTimes) {
                         var epiphany = game.religion.faithRatio;
-                        var tt = transcendenceReached ? game.religion.transcendenceTier : 0;
+                        var tt = game.religion.transcendenceTier;
 
                         // Epiphany Recommend
                         var adoreIncreaceRatio = Math.pow((tt + 2) / (tt + 1), 2);
@@ -1660,9 +1662,9 @@ var run = function() {
                 // Adore
                 var lastFaith = option.adore.lastFaith;
                 var BooleanForLastFaith = (!lastFaith || worship > lastFaith || tt > 11);
-				var tier = (!tt || (tt&& transcendenceReached));
+				var tier = (!game.religion.transcendenceTier || tt);
                 var booleanForAdore = (solarRevolutionAdterAdore >= triggerSolarRevolution && worship >= 1e5 && BooleanForLastFaith);
-                if ((autoAdoreEnabled && game.religion.getRU('apocripha').on && booleanForAdore && catnipTick > 0) || forceStep) {
+                if ((autoAdoreEnabled && game.religion.getRU('apocripha').on && booleanForAdore && tier && this.catnipForReligion() > 0) || forceStep) {
                     if (tt < 12) {
                         option.adore.lastFaith = worship;
                     }
@@ -1797,7 +1799,7 @@ var run = function() {
                 var work = game.workshop.upgrades;
                 let noup = [];
                 if (upgrades.upgrades.limited) {
-                    noup = ["factoryOptimization","factoryRobotics","spaceEngineers","aiEngineers","chronoEngineers","steelPlants","amFission","biofuel","gmo","factoryAutomation","advancedAutomation","invisibleBlackHand"];
+                    noup = ["factoryOptimization","factoryRobotics","spaceEngineers","aiEngineers","chronoEngineers","steelPlants","amFission","biofuel","gmo","factoryAutomation","advancedAutomation","invisibleBlackHand", "pneumaticPress"];
                 }
 
                 workLoop:
@@ -1903,6 +1905,10 @@ var run = function() {
             }
 
             if (upgrades.races.enabled && game.diplomacy.hasUnlockedRaces()) {
+                if (!game.diplomacyTab.visible) {
+                    game.diplomacyTab.visible = true;
+                    return game.ui.render();
+                }
                 var maxRaces = (game.diplomacy.get('leviathans').unlocked) ? 8 : 7;
                 if (game.diplomacyTab.racePanels.length < maxRaces) {
                     var manpower = craftManager.getValueAvailable('manpower', true);
@@ -2140,8 +2146,6 @@ var run = function() {
             return refreshRequired;
         },
         craft: function () {
-            if (!game.bld.getBuildingExt('workshop').meta.on) {return;}
-
             var crafts = options.auto.craft.items;
             var manager = this.craftManager;
             var trigger = options.auto.craft.trigger;
@@ -2152,6 +2156,7 @@ var run = function() {
                 var require = !craft.require ? false : manager.getResource(craft.require);
                 var season = game.calendar.season;
                 var amount = 0;
+                if (!game.bld.getBuildingExt('workshop').meta.on && craft != "catnip") {continue;}
                 // Ensure that we have reached our cap
                 if (current && current.value > craft.max) {continue;}
                 if (!manager.singleCraftPossible(name)) {continue;}
@@ -2449,16 +2454,28 @@ var run = function() {
             }
             return refreshRequired;
         },
-		miscOptions: function () {
+		catnipForReligion: function (value) {
+            var value = value || 0;
             var catnipTick = 1;
+            var transcendenceReached = game.religion.getRU("transcendence").on;
+            var tt = transcendenceReached ? game.religion.transcendenceTier : 0;
+            if (value) {
+                tt +=1;
+            }
+            var epiphany = game.religion.faithRatio;
+            var epiphanyInc = game.religion.faith / 1000000 * (tt + 1) * (tt + 1) * 1.01;
+            var epiphanyAfterAdore = epiphany + epiphanyInc - value;
+            var worshipAfterAdore = 0.01 + game.resPool.get('faith').value * (1 + game.getUnlimitedDR(epiphanyAfterAdore, 0.1) * 0.1);
+            var solarRevolutionAdterAdore = game.getLimitedDR(game.getUnlimitedDR(worshipAfterAdore, 1000) / 100, 1000);
             if (tt < 10) {
-                catnipTick = game.village.getResConsumption()['catnip'] * (1 + game.getEffect("catnipDemandRatio")) + game.getResourcePerTickConvertion('catnip');
+                catnipTick = game.village.getResConsumption()['catnip'] * (1 + game.getEffect("catnipDemandRatio"));
                 if (game.village.sim.kittens.length > 0 && game.village.happiness > 1) {
                     catnipTick += catnipTick * Math.max(game.village.happiness * (1 + game.getEffect("hapinnessConsumptionRatio")) - 1, 0) * (1 + game.getEffect("catnipDemandWorkerRatioGlobal"));
                 }
                 var solarRevolutionRatio = 1 + game.religion.getSolarRevolutionRatio() * (1 + game.bld.pollutionEffects["solarRevolutionPollution"]);
-                catnipTick = ((game.resPool.get('catnip').perTickCached + catnipTick) * (1 + solarRevolutionAdterAdore) / solarRevolutionRatio) - catnipTick;
+                catnipTick = ((game.resPool.get('catnip').perTickCached - catnipTick) * (1 + solarRevolutionAdterAdore) / solarRevolutionRatio) + catnipTick+game.globalEffectsCached.catnipPerTickCon;
             }
+            return catnipTick;
 		},
         // ref: https://github.com/Bioniclegenius/NummonCalc/blob/112f716e2fde9956dfe520021b0400cba7b7113e/NummonCalc.js#L490
         getBestUnicornBuilding: function () {
@@ -5243,20 +5260,59 @@ var run = function() {
 
 		if (name == 'saves') {
 		    var input = element.children('input');
-		    input.unbind('change');
-		    input.on('change', function () {
-		        option.enabled = input.prop('checked');
-		        kittenStorage.items[input.attr('id')] = option.enabled;
-				console.log(1)
-		        if (option.enabled) {
-					
-					var b = LZString.compressToBase64(localStorage['cbc.kitten-scientists']);
-					console.log(toggleEngine)
-engine.stop(false);
-		           prompt(b,'2.3');
-				  engine.start(false);
-		        }
+		    input.on('click', function () {
+                var b = window.localStorage['cbc.kitten-scientists'];
+                engine.stop(false);
+                window.prompt('窗口文本为珂学家设置，请自行复制', b);
+                if (options.auto.engine.enabled) {
+                    engine.start(false);
+                }
 		    });
+            
+            var loadKS = $('<div/>', {
+                id: 'loadKS',
+                text: "导入存档",
+                css: {cursor: 'pointer',
+                    display: 'inline-block',
+                    float: 'right',
+                    paddingRight: '5px',
+                    textShadow: '3px 3px 4px gray'}
+            }).data('option', option);
+
+            loadKS.on('click', function () {
+                engine.stop(false);
+                var b = window.prompt('窗口内填入后你需要导入的珂学家配置，注意确认后会保存刷新页面', '');
+                if (options.auto.engine.enabled) {
+                    engine.start(false);
+                }
+                if (b && b.length >=10) {
+                    window.localStorage['cbc.kitten-scientists'] = b;
+                    game.save();
+                    window.location.reload();
+                }
+            });
+            
+            var ressetKS = $('<div/>', {
+                id: 'ressetKS',
+                text: "初始配置",
+                css: {cursor: 'pointer',
+                    display: 'inline-block',
+                    float: 'right',
+                    paddingRight: '5px',
+                    textShadow: '3px 3px 4px gray'}
+            }).data('option', option);
+            
+            ressetKS.on('click', function () {
+                if (confirm('确定要初始化珂学家配置吗，注意确认后会刷新页面')){
+                    engine.stop(false);
+                    delete localStorage['cbc.kitten-scientists'];
+                    game.save();
+                    window.location.reload();
+                }
+            });
+            
+            element.append(loadKS);
+            element.append(ressetKS);
 		}
 
 
@@ -5715,6 +5771,8 @@ engine.stop(false);
     // Donation Button
     // ===============
 
+    var showD = function() {
+    if (options.auto.options.items.donate.enabled) {return;}
     var donate = $('<li/>', {id: "ks-donate"}).append($('<a/>', {
         href: 'bitcoin:' + address + '?amount=0.00048&label=Kittens Donation',
         target: '_blank',
@@ -5733,7 +5791,10 @@ engine.stop(false);
     donate.css('padding', '5px');
 
     optionsListElement.append(donate);
-
+    }
+    setTimeout(function(){
+        showD();
+    },1000)
     // add the options above the game log
     right.prepend(optionsElement.append(optionsListElement));
 

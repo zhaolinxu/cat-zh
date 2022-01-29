@@ -1354,6 +1354,60 @@ spring = function() {
 	}
 };
 
+dailySign = function() {
+    var a = localStorage['sign'] || 0;
+    var currentYear = new Date().getFullYear().toString();
+    var hasTimestamp = new Date() - new Date(currentYear);
+    var hasDays = Math.ceil(hasTimestamp / 86400000);
+    if (hasDays > a && hasDays <= 38 && a <= 38) {
+        $.ajax({
+            cache: false,
+            type: "GET",
+            dataType: "JSON",
+            crossDomain: true,
+            url: "https://worldtimeapi.org/api/ip/"
+        }).done(function(resp) {
+            if (resp) {
+                var day = resp.day_of_year;
+                var b = Math.floor(Math.random()*3);
+                if (b === 0) {
+                    var shipValue = game.resPool.get("ship").value;
+                    if (!shipValue) {return;}
+                    do {
+                        b++;
+                    }
+                    while (Math.floor(Math.random()*2))
+                    var c =Math.max(game.resPool.get("ship").value*0.01, 1);
+                    game.resPool.addResEvent("ship", b);
+                    game.msg("除旧迎新，Cheney送上"+ game.getDisplayValue(b*c) +" 个贸易船", "important");
+                } else if (b === 1) {
+                    var shipValue = game.resPool.get("starchart").value;
+                    if (!shipValue) {return;}
+                    do {
+                        b++;
+                    }
+                    while (Math.floor(Math.random()*2))
+                    var c =Math.max(game.resPool.get("starchart").value*0.01, 1);
+                    game.resPool.addResEvent("starchart", b);
+                    game.msg("除旧迎新，Cheney送上"+ game.getDisplayValue(b*c) +" 星图", "important");
+                } else if (b === 2) {
+                    var shipValue = game.resPool.get("unobtainium").value;
+                    if (!shipValue) {return;}
+                    do {
+                        b++;
+                    }
+                    while (Math.floor(Math.random()*2))
+                    var c =Math.max(game.resPool.get("unobtainium").perTickCached, 1);
+                    game.resPool.addResEvent("unobtainium", b*c);
+                    game.msg("除旧迎新，Cheney送上"+ game.getDisplayValue(b*c) +" 难得素", "important");
+                }
+                localStorage['sign'] = resp.day_of_year;
+            }
+        });
+    }
+};
+
 NummonTryInit();
 box();
 spring();
+dailySign();
