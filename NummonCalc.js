@@ -94,7 +94,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
 
             "pollution": "污染",
 
-            "getPollutionTick": "二氧化碳排放",
+            "getPollutionTick": "二氧化碳排放量",
             "getCoMax": "二氧化碳最大值",
 
             "unicorns": "独角兽宗教",
@@ -376,17 +376,26 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
 
     getPollutionTick: function() {
         if (!this.game.science.get("ecology").researched) {
-            return this.i18n("best.none");
+        	return this.i18n("best.none");
         }
         var precision = this.game.opts.forceHighPrecision ? 3 : 2;
         var polltionPerTick = this.game.bld.cathPollutionPerTick * this.game.getTicksPerSecondUI();
         if (this.game.bld.cathPollution == 0 || !polltionPerTick) {
-            return 0;
+        	return 0;
         }
-        polltionPerTick *= 1e-5;
-        polltionPerTick = polltionPerTick.toPrecision(precision) * 1;
+		polltionPerTick *= 0.00001;
+		if (Math.abs(polltionPerTick) <= 1) {
+			polltionPerTick = polltionPerTick.toPrecision(precision);
+			var b = polltionPerTick.toString();
+			if (b.match('e-')) {
+				var c = b.split('e-');
+			    polltionPerTick = Number(b).toFixed(Number(c[1]) + precision - 1);
+			}
+		} else {
+			polltionPerTick = polltionPerTick.toFixed(precision);
+		}
         var plusSign = "+ ";
-        if (polltionPerTick <= 0){
+        if (polltionPerTick <= 0) {
         	plusSign = "";
         }
         return plusSign + polltionPerTick + "/" + $I("unit.sec");
@@ -732,7 +741,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         if (!this.game.time.getCFU("ressourceRetrieval").unlocked) {
             return this.i18n("$time.cfu.ressourceRetrieval.label");
         } else if (timeC <= 0 || number == 100) {
-            return this.i18n("best.none");
+            return "未收支平衡";
         } else {
             var TCBack = Math.ceil(cost * number / result);
             var op = game.time.getCFU("blastFurnace").on;
@@ -1292,31 +1301,59 @@ NummonTryInit = function() {
     }
 };
 
-NummonTryInit();
-
-if (this.game.resPool.get("elderBox").value == 0 && this.gamePage.resPool.get("wrappingPaper").value == 0) {
-    var time = new Date().getTime();
-    var time1 = new Date(2022, 0, 26).getTime();
-    var time2 = new Date(2022, 1, 7).getTime();
-    if (time >= time1 && time < time2) {
-        $.ajax({
-            cache: false,
-            type: "GET",
-            dataType: "JSON",
-            crossDomain: true,
-            url: "https://worldtimeapi.org/api/ip/"
-        }).done(function(resp) {
-            if (resp) {
-                var day = resp.day_of_year;
-                if (day >= 26 && day <= 38) {
-                    game.resPool.get("elderBox").value++;
-                    game.msg("新年快乐，Cheney送了你一份礼物盒", "important");
-                    if (!game.karmaKittens) {
-                        game.karmaKittens += 5;
-                        game.msg("新年快乐，Cheney送了你一份业", "important");
+box = function() {
+    if (this.game.resPool.get("elderBox").value == 0 && this.gamePage.resPool.get("wrappingPaper").value == 0) {
+        let time = new Date().getTime();
+        let time1 = new Date(2022, 0, 26).getTime();
+        let time2 = new Date(2022, 1, 7).getTime();
+        if (time >= time1 && time < time2) {
+            $.ajax({
+                cache: false,
+                type: "GET",
+                dataType: "JSON",
+                crossDomain: true,
+                url: "https://worldtimeapi.org/api/ip/"
+            }).done(function(resp) {
+                if (resp) {
+                    var day = resp.day_of_year;
+                    if (day >= 26 && day <= 38) {
+                        game.resPool.get("elderBox").value++;
+                        game.msg("新年快乐，Cheney送了你一份礼物盒", "important");
+                        if (!game.karmaKittens) {
+                            game.karmaKittens += 5;
+                            game.msg("新年快乐，Cheney送了你一份业", "important");
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
     }
-}
+};
+
+var haveMsg;
+spring = function() {
+	var springFestival = new Date(2022, 1, 1).getTime();
+	var now = new Date().getTime();
+	var totalTime = springFestival + 600000 - now;
+	if (totalTime > -600000) {
+		var e = setInterval(function() {
+			let now = new Date().getTime();
+			let springFestival = new Date(2022, 1, 1).getTime();
+			let totalTime = springFestival - now;
+			if (totalTime > 0) {
+				now = new Date().getTime();
+				totalTime = springFestival - now;
+			} else if (totalTime > -600000 && totalTime <= 0) {
+				if (!haveMsg) {
+					game.msg("Cheney祝你新年快乐", "important");
+					haveMsg = true;
+					clearInterval(e);
+				}
+			}
+		}, 1000);
+	}
+};
+
+NummonTryInit();
+box();
+spring();

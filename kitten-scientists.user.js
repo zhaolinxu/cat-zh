@@ -843,6 +843,7 @@ var run = function() {
                     buildEmbassies:     {enabled: true, subTrigger: 0.94, require: 'culture', misc: true, label: i18n('option.embassies')},
                     style:              {enabled: true,                    misc: true, label: i18n('option.style')},
                     _steamworks:        {enabled: true,                   misc: true, label: i18n('option.steamworks')},
+					saves:        {enabled: false,                   misc: true, label: '导出存档'},
                     useWorkers:         {enabled: false,                  misc: true, label: i18n('option.useWorkers')}
                 }
             },
@@ -1581,21 +1582,13 @@ var run = function() {
             var worshipAfterAdore = 0.01 + faith.value * (1 + game.getUnlimitedDR(epiphanyAfterAdore, 0.1) * 0.1);
             var solarRevolutionAdterAdore = game.getLimitedDR(game.getUnlimitedDR(worshipAfterAdore, 1000) / 100, maxSolarRevolution);
 
-            var catnipTick = 1;
-            if (tt < 10) {
-                catnipTick = game.village.getResConsumption()['catnip'] * (1 + game.getEffect("catnipDemandRatio")) + game.getResourcePerTickConvertion('catnip');
-                if (game.village.sim.kittens.length > 0 && game.village.happiness > 1) {
-                    catnipTick += catnipTick * Math.max(game.village.happiness * (1 + game.getEffect("hapinnessConsumptionRatio")) - 1, 0) * (1 + game.getEffect("catnipDemandWorkerRatioGlobal"));
-                }
-				catnipTick *= 1 + game.bld.pollutionEffects["catnipPollutionRatio"];
-                var solarRevolutionRatio = 1 + game.religion.getSolarRevolutionRatio() * (1 + game.bld.pollutionEffects["solarRevolutionPollution"]);
-                catnipTick = ((game.resPool.get('catnip').perTickCached + catnipTick) * (1 + solarRevolutionAdterAdore) / solarRevolutionRatio) - catnipTick;
-            }
+			// boolean
             var forceStep = false;
             var autoPraiseEnabled = option.autoPraise.enabled;
             var autoAdoreEnabled = option.adore.enabled;
             var timeSkipAdore = options.auto.timeCtrl.items.timeSkip.adore;
             var doAdoreAfterTimeSkip = (timeSkipAdore && autoPraiseEnabled && autoAdoreEnabled && game.time.getCFU("ressourceRetrieval").val > 4);
+
             // enough faith, and then TAP
             if (0.98 <= rate || doAdoreAfterTimeSkip) {
                 var worship = game.religion.faith;
@@ -1667,6 +1660,7 @@ var run = function() {
                 // Adore
                 var lastFaith = option.adore.lastFaith;
                 var BooleanForLastFaith = (!lastFaith || worship > lastFaith || tt > 11);
+				var tier = (!tt || (tt&& transcendenceReached));
                 var booleanForAdore = (solarRevolutionAdterAdore >= triggerSolarRevolution && worship >= 1e5 && BooleanForLastFaith);
                 if ((autoAdoreEnabled && game.religion.getRU('apocripha').on && booleanForAdore && catnipTick > 0) || forceStep) {
                     if (tt < 12) {
@@ -2455,6 +2449,17 @@ var run = function() {
             }
             return refreshRequired;
         },
+		miscOptions: function () {
+            var catnipTick = 1;
+            if (tt < 10) {
+                catnipTick = game.village.getResConsumption()['catnip'] * (1 + game.getEffect("catnipDemandRatio")) + game.getResourcePerTickConvertion('catnip');
+                if (game.village.sim.kittens.length > 0 && game.village.happiness > 1) {
+                    catnipTick += catnipTick * Math.max(game.village.happiness * (1 + game.getEffect("hapinnessConsumptionRatio")) - 1, 0) * (1 + game.getEffect("catnipDemandWorkerRatioGlobal"));
+                }
+                var solarRevolutionRatio = 1 + game.religion.getSolarRevolutionRatio() * (1 + game.bld.pollutionEffects["solarRevolutionPollution"]);
+                catnipTick = ((game.resPool.get('catnip').perTickCached + catnipTick) * (1 + solarRevolutionAdterAdore) / solarRevolutionRatio) - catnipTick;
+            }
+		},
         // ref: https://github.com/Bioniclegenius/NummonCalc/blob/112f716e2fde9956dfe520021b0400cba7b7113e/NummonCalc.js#L490
         getBestUnicornBuilding: function () {
             var unicornPasture = 'unicornPasture';
@@ -5235,6 +5240,24 @@ var run = function() {
                 }
             });
         }
+
+		if (name == 'saves') {
+		    var input = element.children('input');
+		    input.unbind('change');
+		    input.on('change', function () {
+		        option.enabled = input.prop('checked');
+		        kittenStorage.items[input.attr('id')] = option.enabled;
+				console.log(1)
+		        if (option.enabled) {
+					
+					var b = LZString.compressToBase64(localStorage['cbc.kitten-scientists']);
+					console.log(toggleEngine)
+engine.stop(false);
+		           prompt(b,'2.3');
+				  engine.start(false);
+		        }
+		    });
+		}
 
 
         if (option.subTrigger !== undefined) {
