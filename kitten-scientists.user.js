@@ -5263,7 +5263,7 @@ var run = function() {
 		    input.on('click', function () {
                 var b = window.localStorage['cbc.kitten-scientists'];
                 engine.stop(false);
-                window.prompt('窗口文本为珂学家设置，请自行复制', b);
+                window.prompt('窗口文本为珂学家配置，请自行复制', b);
                 if (options.auto.engine.enabled) {
                     engine.start(false);
                 }
@@ -5271,7 +5271,7 @@ var run = function() {
             
             var loadKS = $('<div/>', {
                 id: 'loadKS',
-                text: "导入存档",
+                text: "导入配置",
                 css: {cursor: 'pointer',
                     display: 'inline-block',
                     float: 'right',
@@ -5303,7 +5303,7 @@ var run = function() {
             }).data('option', option);
             
             ressetKS.on('click', function () {
-                if (confirm('确定要初始化珂学家配置吗，注意确认后会刷新页面')){
+                if (confirm('确定要初始化珂学家配置吗，注意点击确认后会刷新页面')){
                     engine.stop(false);
                     delete localStorage['cbc.kitten-scientists'];
                     game.save();
@@ -5794,7 +5794,7 @@ var run = function() {
     }
     setTimeout(function(){
         showD();
-    },1000)
+    }, 2000);
     // add the options above the game log
     right.prepend(optionsElement.append(optionsListElement));
 
