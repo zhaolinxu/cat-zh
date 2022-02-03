@@ -3593,7 +3593,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				type: "perDay",
 				value: this.religion.getCorruptionPerTick() * this.calendar.ticksPerDay
 			});
+				// TIME extra-compare
+			stack.push({
+				name: $I("res.stack.time"),
+				type: "ratio",
+				value: this.timeAccelerationRatio()
+			});
 		}
+
 		return stack;
 	},
 
@@ -3889,11 +3896,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					resString += "<br> " + $I("res.netGain") + ": " + this.getDisplayValueExt(resPerDay, true, true);
 				}
 			if (resPerDay < 0) {
-				var toZero = this.calendar.ticksPerDay * res.value / (-resPerDay * this.getTicksPerSecondUI());
+				var toZero = this.calendar.ticksPerDay * res.value / (-resPerDay * this.getTicksPerSecondUI() * (1 + this.timeAccelerationRatio()));
 				resString += "<br>" + $I("res.toZero") + ": " + this.toDisplaySeconds(toZero.toFixed());
 			}
 			if(res.name == "necrocorn"){
-				var toNextNecrocorn = (1 - this.religion.corruption)/(this.religion.getCorruptionPerTick() * 5);
+				var toNextNecrocorn = (1 - this.religion.corruption)/(this.religion.getCorruptionPerTick() * 5 * (1 + this.timeAccelerationRatio()));
 				resString += "<br>" + $I("res.toNextNecrocorn") + ": " + this.toDisplaySeconds(toNextNecrocorn.toFixed());
 			}
 			return resString;
@@ -3960,7 +3967,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 
 			resString += this.getStackElemString(stackElem, res);
-			if (stackElem.type == "fixed") {
+			if (stackElem.type == "fixed" || stackElem.type == "perDay") {
 				hasFixed = true;
 			}
 		}
