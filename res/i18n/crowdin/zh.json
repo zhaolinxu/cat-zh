@@ -1456,6 +1456,7 @@
     "time.cfu.ressourceRetrieval.desc": "燃烧时间水晶时获得一部分每年原应产出的资源",
     "time.cfu.temporalAccelerator.label": "时空加速器",
     "time.cfu.temporalAccelerator.desc": "时间通量的产量提升 5%",
+    "time.cfu.temporalAccelerator.desc2": "自动化将减少烧水晶的卡顿",
     "time.cfu.temporalBattery.label": "时间电池",
     "time.cfu.temporalBattery.desc": "时间通量的容量提升 25%",
     "time.cfu.temporalPress.label": "时间增压机",
@@ -1553,7 +1554,7 @@
     "trade.correct.bcoin": "加密货币市场出现了巨大的调整",
     "trade.embassy.label": "大使馆",
     "trade.embassy": "大使馆等级（{0}）",
-    "trade.embassy.desc": "设立大使馆，培养外交友谊。<br />一定数量增加出售资源种类。",
+    "trade.embassy.desc": "设立大使馆，增加出售资源的种类。",
     "trade.embassy.pinned": "固定",
     "trade.embassy.unpinned": "取消固定",
 

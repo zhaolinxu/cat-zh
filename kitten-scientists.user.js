@@ -2156,7 +2156,7 @@ var run = function() {
                 var require = !craft.require ? false : manager.getResource(craft.require);
                 var season = game.calendar.season;
                 var amount = 0;
-                if (!game.bld.getBuildingExt('workshop').meta.on && craft != "catnip") {continue;}
+                if (!game.bld.getBuildingExt('workshop').meta.on && craft !== "wood") {continue;}
                 // Ensure that we have reached our cap
                 if (current && current.value > craft.max) {continue;}
                 if (!manager.singleCraftPossible(name)) {continue;}
@@ -4705,7 +4705,9 @@ var run = function() {
                 }
             }
             kittenStorage.items[input.attr('id')] = option.enabled;
-            saveToKittenStorage();
+            if (name !== "saves") {
+                saveToKittenStorage();
+            }
         });
 
         element.append(input, label);
