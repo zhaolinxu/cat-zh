@@ -740,7 +740,9 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         var number = this.game.time.getCFU("ressourceRetrieval").val;
         if (!this.game.time.getCFU("ressourceRetrieval").unlocked) {
             return this.i18n("$time.cfu.ressourceRetrieval.label");
-        } else if (timeC <= 0 || number == 100) {
+        } else if (number == 100) {
+            return this.i18n("best.none");
+        } else if (timeC <= 0) {
             return "未收支平衡";
         } else {
             var TCBack = Math.ceil(cost * number / result);
@@ -1408,6 +1410,6 @@ dailySign = function() {
 };
 
 NummonTryInit();
-box();
-spring();
-dailySign();
+//box();
+//spring();
+//dailySign();

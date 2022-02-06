@@ -395,7 +395,7 @@ var run = function() {
             'filter.promote': '提拔领袖',
             'summary.promote': '提拔领袖 {0} 次',
 
-            'ui.trigger.useWorkers.alert': '珂学家将会在后台满速运行，注意这会消耗更多性能。\n电脑不好、内存≤ 8G的建议禁用\n需满足浏览器支持且游戏选项的web worker启用。\n启用后需要重新勾选启用珂学家',
+            'ui.trigger.useWorkers.alert': '珂学家将会在后台满速运行，注意这会消耗更多性能。\n电脑不好、内存≤ 8G的建议禁用\n需满足浏览器支持且游戏选项的web worker启用。\n确认后会自动重新勾选启用珂学家',
             'ui.timeCtrl': '时间操纵',
             'option.accelerate': '时间加速',
             'act.accelerate': '固有时制御，二倍速!',
@@ -994,7 +994,7 @@ var run = function() {
                     "onmessage = function(e) { setInterval(function(){postMessage('miaowu')}, '" + options.interval + "' ); }"
                 ]);
                 var blobURL = window.URL.createObjectURL(blob);
-            
+
                 this.worker = new Worker(blobURL);
                 this.worker.addEventListener('message', this.iterate.bind(this));
                 this.worker.postMessage("miaowu");
@@ -1008,12 +1008,12 @@ var run = function() {
         },
         stop: function (msg = true) {
             if (game.isWebWorkerSupported() && this.worker) {
-                this.worker.terminate();
                 if (msg) {message('后台珂学家爪巴了');}
-                return;
+                this.worker.terminate();
+                this.worker = undefined;
             }
-            if (!this.loop) {return;}
 
+            if (!this.loop) {return;}
             clearInterval(this.loop);
             this.loop = undefined;
             if (msg) {imessage('status.ks.disable');}
@@ -4039,7 +4039,9 @@ var run = function() {
 
         (function (stock, forReset) {
             stock.on('click', function () {
+                engine.stop(false);
                 var value = window.prompt(i18n('resources.stock.set', [title]));
+                engine.start(false);
                 if (value !== null) {
                     setStockValue(name, value, forReset);
                     saveToKittenStorage();
@@ -4048,7 +4050,9 @@ var run = function() {
         })(stock, forReset);
 
         consume.on('click', function () {
+            engine.stop(false);
             var value = window.prompt(i18n('resources.consume.set', [title]));
+            engine.start(false);
             if (value !== null) {
                 setConsumeRate(name, value);
                 saveToKittenStorage();
@@ -4271,8 +4275,10 @@ var run = function() {
                     if (itemName == 'adore') {
                         triggerButton.on('click', function () {
                             var value;
+                            engine.stop(false);
                             value = window.prompt(i18n('adore.trigger.set'), addi[itemName].subTrigger);
-            
+                            engine.start(false);
+
                             if (value !== null) {
                                 addi[itemName].subTrigger = parseFloat(value);
                                 kittenStorage.items[triggerButton[0].id] = addi[itemName].subTrigger;
@@ -4284,7 +4290,9 @@ var run = function() {
                     } else if (itemName == 'autoPraise') {
                         triggerButton.on('click', function () {
                             var value;
+                            engine.stop(false);
                             value = window.prompt(i18n('ui.trigger.set', [i18n('option.praise')]), addi[itemName].subTrigger);
+                            engine.start(false);
             
                             if (value !== null) {
                                 addi[itemName].subTrigger = parseFloat(value);
@@ -4495,6 +4503,7 @@ var run = function() {
 
             triggerButton.on('click', function () {
                 var value;
+                engine.stop(false);
 				if (toggleName === 'faith') {
 					value = window.prompt(i18n('ui.trigger.set', [itext + "(" + $I("resources.faith.title")+ ")"]), auto.trigger);
 				} else if (toggleName === 'trade') {
@@ -4502,6 +4511,7 @@ var run = function() {
 				} else {
 					value = window.prompt(i18n('ui.trigger.set', [itext]), auto.trigger);
 				}
+                engine.start(false);
 
                 if (value !== null) {
                     auto.trigger = parseFloat(value);
@@ -4808,8 +4818,10 @@ var run = function() {
         
             triggerButton.on('click', function () {
                 var value;
+                engine.stop(false);
                 if (name == 'missions'){value = window.prompt(i18n('ui.trigger.missions.set'), option.subTrigger);} else{value = window.prompt(i18n('ui.trigger.set'), option.subTrigger);}
-        
+                engine.start(false);
+
                 if (value !== null) {
                     option.subTrigger = parseFloat(value);
                     kittenStorage.items[triggerButton.attr('id')] = option.subTrigger;
@@ -4912,7 +4924,9 @@ var run = function() {
 
         maxButton.on('click', function () {
             var value;
+            engine.stop(false);
             value = window.prompt(i18n('ui.max.set', [option.label]), option.max);
+            engine.start(false);
 
             if (value !== null) {
                 option.max = parseInt(value);
@@ -5082,7 +5096,9 @@ var run = function() {
             }).data('option', option);
             triggerButton.on('click', function () {
                 var value;
+                engine.stop(false);
                 value = window.prompt(i18n('time.skip.trigger.set', []), option.subTrigger);
+                engine.start(false);
 
                 if (value !== null) {
                     option.subTrigger = parseFloat(value);
@@ -5104,7 +5120,9 @@ var run = function() {
             }).data('option', option);
             maximunButton.on('click', function () {
                 var value;
+                engine.stop(false);
                 value = window.prompt(i18n('ui.max.set', [i18n('option.time.skip')]), option.maximum);
+                engine.start(false);
 
                 if (value !== null) {
                     option.maximum = parseFloat(value);
@@ -5247,15 +5265,25 @@ var run = function() {
                 }
             });
         }
+
         if (name == 'useWorkers') {
             var input = element.children('input');
-            input.unbind('change');
-            input.on('change', function () {
-                option.enabled = input.prop('checked');
-                kittenStorage.items[input.attr('id')] = option.enabled;
-                saveToKittenStorage();
-                if (option.enabled) {
-                    alert(i18n('ui.trigger.useWorkers.alert'));
+            input.on('click', function () {
+                var a = confirm(i18n('ui.trigger.useWorkers.alert'));
+                if (a==true && option.enabled == false) {
+                    engine.stop();
+                    option.enabled = true;
+                    kittenStorage.items[input.attr('id')] = option.enabled;
+                    if (options.auto.engine.enabled) {
+                        engine.start();
+                    }
+                } else if (a ==true && option.enabled == true) {
+                    engine.stop();
+                    option.enabled = false;
+                    kittenStorage.items[input.attr('id')] = option.enabled;
+                    if (options.auto.engine.enabled) {
+                        engine.start();
+                    }
                 }
             });
         }
@@ -5317,6 +5345,20 @@ var run = function() {
             element.append(ressetKS);
 		}
 
+        if (name == 'donate') {
+            var input = element.children('input');
+            input.unbind('change');
+            input.on('change', function () {
+                option.enabled = input.prop('checked');
+                kittenStorage.items[input.attr('id')] = option.enabled;
+                saveToKittenStorage();
+                if (!option.enabled) {
+                    document.getElementById('ks-donate').style.display='none';
+                } else {
+                    document.getElementById('ks-donate').style.display='block';
+                }
+            });
+        }
 
         if (option.subTrigger !== undefined) {
             var triggerButton = $('<div/>', {
@@ -5332,12 +5374,16 @@ var run = function() {
 
             triggerButton.on('click', function () {
                 var value;
+                engine.stop(false);
                 if (name == 'crypto') {
                     value = window.prompt(i18n('ui.trigger.crypto.set', [option.label]), option.subTrigger);
                 } else if (name == 'shipOverride') {
                     value = window.prompt(i18n('ui.trigger.shipOverride.set', [option.label]), option.subTrigger);
                 } else {
                     value = window.prompt(i18n('ui.trigger.set', [option.label]), option.subTrigger);
+                }
+                if (options.auto.engine.enabled) {
+                    engine.start(false);
                 }
 
                 if (value !== null) {
@@ -5408,7 +5454,9 @@ var run = function() {
         (function (iname){
             maxButton.on('click', function () {
                 var value;
+                engine.stop(false);
                 value = window.prompt(i18n('ui.max.set', [iname]), option.max);
+                engine.strat(true);
 
                 if (value !== null) {
                     option.max = parseInt(value);
@@ -5774,7 +5822,6 @@ var run = function() {
     // ===============
 
     var showD = function() {
-    if (!options.auto.options.items.donate.enabled) {return;}
     var donate = $('<li/>', {id: "ks-donate"}).append($('<a/>', {
         href: 'bitcoin:' + address + '?amount=0.00048&label=Kittens Donation',
         target: '_blank',
@@ -5794,9 +5841,7 @@ var run = function() {
 
     optionsListElement.append(donate);
     }
-    setTimeout(function(){
-        showD();
-    }, 2000);
+    showD();
     // add the options above the game log
     right.prepend(optionsElement.append(optionsListElement));
 
@@ -5821,6 +5866,7 @@ var run = function() {
     // hack for style. 
     // If there are more UI options, split it to "updateUI"
     $('#toggle-style').trigger('change');
+    $('#toggle-donate').trigger('change');
 
     if (console && console.log) {console.log(kg_version + " loaded");}
     game._publish("kitten_scientists/ready", kg_version);
