@@ -5456,7 +5456,7 @@ var run = function() {
                 var value;
                 engine.stop(false);
                 value = window.prompt(i18n('ui.max.set', [iname]), option.max);
-                engine.strat(true);
+                engine.start(true);
 
                 if (value !== null) {
                     option.max = parseInt(value);
@@ -5840,7 +5840,7 @@ var run = function() {
     donate.css('padding', '5px');
 
     optionsListElement.append(donate);
-    }
+    };
     showD();
     // add the options above the game log
     right.prepend(optionsElement.append(optionsListElement));
