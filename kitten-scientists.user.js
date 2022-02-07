@@ -346,7 +346,7 @@ var run = function() {
             'act.adore': '赞美群星! 转化 {0} 虔诚为 {1} 顿悟',
             'summary.adore': '通过赞美群星积累了 {0} 顿悟',
             'filter.adore': '赞美群星',
-            'adore.trigger.set': '为自动赞美群星设定一个新触发值，取值范围为 0 到 1 的纯小数。\n\n同时满足以下条件珂学家将自动赞美群星。\n1. 赞美群星再赞美太阳后，需太阳革命加成 ≥ 触发值 * 1000%\n2. 当前信仰 / 信仰上限 ≥ 0.98(赞美太阳触发条件设置0.98配合使用)\n3. 次元超越等级低于 11，需赞美群星后的猫薄荷产量＞0。\n喵喵保护协会不允许饿死喵喵喵\n4. 次元超越等级低于12，需当前虔诚＞上次赞美群星时候的虔诚',
+            'adore.trigger.set': '为自动赞美群星设定一个新触发值，取值范围为 0 到 1 的纯小数。\n\n同时满足以下条件珂学家将自动赞美群星。\n1. 赞美群星再赞美太阳后，需太阳革命加成 ≥ 触发值 * 1000%\n2. 当前信仰 / 信仰上限 ≥ 0.98(赞美太阳触发条件设置0.98配合使用)\n3.探索月球已完成\n4. 次元超越等级低于 11，需赞美群星后的猫薄荷产量＞0。\n推荐启用该功能多放几个农民，喵喵保护协会不允许饿死喵喵喵\n5. 次元超越等级低于 12，需当前虔诚＞上次赞美群星时候的虔诚',
 
             'resources.add': '添加资源',
             'resources.clear.unused': '清除未使用',
@@ -536,7 +536,7 @@ var run = function() {
                     bestUnicornBuilding:    {enabled: true,  misc: true, label: i18n('option.faith.best.unicorn')},
                     autoPraise:             {enabled: true,  misc: true, label: i18n('option.praise'), subTrigger: 0.98},
                     // Former [Faith Reset]
-                    adore:                  {enabled: true, misc: true, label: i18n('option.faith.adore'), subTrigger: 0.17, lastFaith: false},
+                    adore:                  {enabled: true, misc: true, label: i18n('option.faith.adore'), subTrigger: 0.001, lastFaith: false},
                     transcend:              {enabled: true, misc: true, label: i18n('option.faith.transcend')},
                 },
                 // Which religious upgrades should be researched?
@@ -989,6 +989,7 @@ var run = function() {
         cacheManager: undefined,
         loop: undefined,
         start: function (msg = true) {
+			options.interval = Math.ceil (1e4 / game.getTicksPerSecondUI());
             if (game.isWebWorkerSupported() && game.useWorkers && options.auto.options.items.useWorkers.enabled) {
                 var blob = new Blob([
                     "onmessage = function(e) { setInterval(function(){postMessage('miaowu')}, '" + options.interval + "' ); }"
@@ -1275,6 +1276,10 @@ var run = function() {
                 var tf = game.resPool.get('temporalFlux');
                 if (tf.value >= Math.max(tf.maxValue * optionVals.accelerateTime.subTrigger, 1)) {
                     game.time.isAccelerated = true;
+					engine.stop();
+					if (options.auto.engine.enabled) {
+						engine.start();
+					}
                     iactivity('act.accelerate', [], 'ks-accelerate');
                     storeForSummary('accelerate', 1);
                 }
@@ -1577,7 +1582,8 @@ var run = function() {
             var worship = game.religion.faith;
             var epiphany = game.religion.faithRatio;
             var maxSolarRevolution = 10 + game.getEffect("solarRevolutionLimit");
-            var triggerSolarRevolution = maxSolarRevolution * option.adore.subTrigger;
+			var adoreTrigger = (option.adore.subTrigger == 0.001) ? Math.max(tt*tt*0.001, 0.175) : option.adore.subTrigger;
+            var triggerSolarRevolution = maxSolarRevolution * adoreTrigger;
             var epiphanyInc = worship / 1000000 * (tt + 1) * (tt + 1) * 1.01;
             var epiphanyAfterAdore = epiphany + epiphanyInc;
             var worshipAfterAdore = 0.01 + faith.value * (1 + game.getUnlimitedDR(epiphanyAfterAdore, 0.1) * 0.1);
@@ -1663,7 +1669,8 @@ var run = function() {
                 var lastFaith = option.adore.lastFaith;
                 var BooleanForLastFaith = (!lastFaith || worship > lastFaith || tt > 11);
 				var tier = (!game.religion.transcendenceTier || tt);
-                var booleanForAdore = (solarRevolutionAdterAdore >= triggerSolarRevolution && worship >= 1e5 && BooleanForLastFaith);
+				var moonBoolean = game.space.meta[0].meta[1].on;
+                var booleanForAdore = (solarRevolutionAdterAdore >= triggerSolarRevolution && worship >= 1e5 && BooleanForLastFaith && moonBoolean);
                 if ((autoAdoreEnabled && game.religion.getRU('apocripha').on && booleanForAdore && tier && this.catnipForReligion() > 0) || forceStep) {
                     if (tt < 12) {
                         option.adore.lastFaith = worship;
@@ -4041,7 +4048,9 @@ var run = function() {
             stock.on('click', function () {
                 engine.stop(false);
                 var value = window.prompt(i18n('resources.stock.set', [title]));
-                engine.start(false);
+                if (options.auto.engine.enabled) {
+                    engine.start(false);
+                }
                 if (value !== null) {
                     setStockValue(name, value, forReset);
                     saveToKittenStorage();
@@ -4052,7 +4061,9 @@ var run = function() {
         consume.on('click', function () {
             engine.stop(false);
             var value = window.prompt(i18n('resources.consume.set', [title]));
-            engine.start(false);
+            if (options.auto.engine.enabled) {
+                engine.start(false);
+            }
             if (value !== null) {
                 setConsumeRate(name, value);
                 saveToKittenStorage();
@@ -4277,7 +4288,9 @@ var run = function() {
                             var value;
                             engine.stop(false);
                             value = window.prompt(i18n('adore.trigger.set'), addi[itemName].subTrigger);
-                            engine.start(false);
+                            if (options.auto.engine.enabled) {
+                                engine.start(false);
+                            }
 
                             if (value !== null) {
                                 addi[itemName].subTrigger = parseFloat(value);
@@ -4292,7 +4305,9 @@ var run = function() {
                             var value;
                             engine.stop(false);
                             value = window.prompt(i18n('ui.trigger.set', [i18n('option.praise')]), addi[itemName].subTrigger);
-                            engine.start(false);
+                            if (options.auto.engine.enabled) {
+                                engine.start(false);
+                            }
             
                             if (value !== null) {
                                 addi[itemName].subTrigger = parseFloat(value);
@@ -4511,7 +4526,9 @@ var run = function() {
 				} else {
 					value = window.prompt(i18n('ui.trigger.set', [itext]), auto.trigger);
 				}
-                engine.start(false);
+                if (options.auto.engine.enabled) {
+                    engine.start(false);
+                }
 
                 if (value !== null) {
                     auto.trigger = parseFloat(value);
@@ -4820,7 +4837,9 @@ var run = function() {
                 var value;
                 engine.stop(false);
                 if (name == 'missions'){value = window.prompt(i18n('ui.trigger.missions.set'), option.subTrigger);} else{value = window.prompt(i18n('ui.trigger.set'), option.subTrigger);}
-                engine.start(false);
+                if (options.auto.engine.enabled) {
+                    engine.start(false);
+                }
 
                 if (value !== null) {
                     option.subTrigger = parseFloat(value);
@@ -4926,7 +4945,9 @@ var run = function() {
             var value;
             engine.stop(false);
             value = window.prompt(i18n('ui.max.set', [option.label]), option.max);
-            engine.start(false);
+            if (options.auto.engine.enabled) {
+                engine.start(false);
+            }
 
             if (value !== null) {
                 option.max = parseInt(value);
@@ -5098,7 +5119,9 @@ var run = function() {
                 var value;
                 engine.stop(false);
                 value = window.prompt(i18n('time.skip.trigger.set', []), option.subTrigger);
-                engine.start(false);
+                if (options.auto.engine.enabled) {
+                    engine.start(false);
+                }
 
                 if (value !== null) {
                     option.subTrigger = parseFloat(value);
@@ -5122,7 +5145,9 @@ var run = function() {
                 var value;
                 engine.stop(false);
                 value = window.prompt(i18n('ui.max.set', [i18n('option.time.skip')]), option.maximum);
-                engine.start(false);
+                if (options.auto.engine.enabled) {
+                    engine.start(false);
+                }
 
                 if (value !== null) {
                     option.maximum = parseFloat(value);

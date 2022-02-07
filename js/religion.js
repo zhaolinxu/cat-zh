@@ -1763,7 +1763,7 @@ dojo.declare("classes.religion.pactsManager", null, {
 	resetState: function(){
 		//console.warn(this)
 		//console.warn(this.game.religion.pactsManager)
-		console.warn(this.game.religion.pactsManager.pacts);
+		//console.warn(this.game.religion.pactsManager.pacts);
 		for(var i in this.game.religion.pactsManager.pacts){
 			this.game.religion.pactsManager.pacts[i].on = 0;
 			this.game.religion.pactsManager.pacts[i].val = 0;
