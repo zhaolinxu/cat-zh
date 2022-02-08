@@ -246,7 +246,7 @@ var run = function() {
             'option.festival': '举办节日',
             'option.praise': '赞美太阳',
             'option.shipOverride': '强制贸易船',
-            'option.autofeed': '献祭上古神',
+            'option.autofeed': '献祭死灵兽',
             'option.hunt': '派出猎人',
             'option.crypto': '黑币交易',
             'option.embassies': '建造大使馆',
@@ -326,6 +326,8 @@ var run = function() {
             'ui.distribute': '猫力资源',
             'ui.max': 'Max: {0}',
 
+            'msg.catnip': '如果寒冬猫薄荷产量低于0，小猫珂学家会停止消耗猫薄荷',
+
             'ui.upgrade.upgrades': '工坊升级',
             'ui.upgrade.techs': '科学科技',
             'ui.upgrade.races': '探险者出发!',
@@ -366,10 +368,10 @@ var run = function() {
 
             'trade.limited': '贸易获得数量大于产量时才与 {0} 贸易，次数自动限制',
             'trade.limitedTitle': '根据产量和贸易获得数量',
-            'trade.unlimited': '仅到达触发条件与贸易 {0}',
+            'trade.unlimited': '仅到达触发条件与 {0} 的 贸易',
             'trade.seasons': '季节',
-            'trade.season.enable': '启用在 {1} 与 {0} 的交易',
-            'trade.season.disable': '停止在 {1} 与 {0} 的交易',
+            'trade.season.enable': '启用在 {1} 与 {0} 的贸易',
+            'trade.season.disable': '停止在 {1} 与 {0} 的贸易',
 
             'filter.enable': '过滤 {0}',
             'filter.disable': '取消过滤 {0}',
@@ -834,7 +836,7 @@ var run = function() {
                 items: {
                     observe:            {enabled: true,                    misc: true, label: i18n('option.observe')},
                     festival:           {enabled: true,                    misc: true, label: i18n('option.festival')},
-                    shipOverride:       {enabled: true,  subTrigger: 243,  misc: true, label: i18n('option.shipOverride')},
+                    shipOverride:       {enabled: true,  subTrigger: 160,  misc: true, label: i18n('option.shipOverride')},
                     autofeed:           {enabled: true,                    misc: true, label: i18n('option.autofeed')},
                     hunt:               {enabled: true, subTrigger: 0.98, require: 'manpower', misc: true, label: i18n('option.hunt')},
                     promote:            {enabled: true,                    misc: true, label: i18n('option.promote')},
@@ -4720,6 +4722,9 @@ var run = function() {
                     imessage('status.sub.enable', [elementLabel]);
                 } else {
                     imessage('status.auto.enable', [elementLabel]);
+                    if (name === 'wood') {
+                        imessage('msg.catnip');
+                    }
                 }
             } else if ((!input.is(':checked')) && option.enabled == true) {
                 option.enabled = false;
@@ -4915,6 +4920,9 @@ var run = function() {
                     imessage('status.sub.enable', [elementLabel]);
                 } else {
                     imessage('status.auto.enable', [elementLabel]);
+                    if (name == 'field') {
+                        imessage('msg.catnip');
+                    }
                 }
             } else if ((!input.is(':checked')) && option.enabled == true) {
                 option.enabled = false;
@@ -5481,7 +5489,9 @@ var run = function() {
                 var value;
                 engine.stop(false);
                 value = window.prompt(i18n('ui.max.set', [iname]), option.max);
-                engine.start(true);
+                if (options.auto.engine.enabled) {
+                    engine.start(false);
+                }
 
                 if (value !== null) {
                     option.max = parseInt(value);
