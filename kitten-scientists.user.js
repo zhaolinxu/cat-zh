@@ -845,7 +845,7 @@ var run = function() {
                     buildEmbassies:     {enabled: true, subTrigger: 0.94, require: 'culture', misc: true, label: i18n('option.embassies')},
                     style:              {enabled: true,                    misc: true, label: i18n('option.style')},
                     _steamworks:        {enabled: true,                   misc: true, label: i18n('option.steamworks')},
-                    saves:              {enabled: false,                   misc: true, label: '导出配置'},
+                    saves:              {enabled: false,                   misc: true, label: '导出配置文件'},
                     donate:             {enabled: true,                   misc: true, label: '显示捐赠原作者图标'},
                     useWorkers:         {enabled: false,                  misc: true, label: i18n('option.useWorkers')}
                 }
@@ -5324,11 +5324,20 @@ var run = function() {
 		if (name == 'saves') {
 		    var input = element.children('input');
 		    input.on('click', function () {
-                var b = window.localStorage['cbc.kitten-scientists'];
                 engine.stop(false);
-                window.prompt('窗口文本为珂学家配置，请自行复制', b);
-                if (options.auto.engine.enabled) {
-                    engine.start(false);
+                var confirm = window.confirm("点击确认会导出珂学家的配置.txt文件")
+                if (confirm) {
+                    var $link = $("#download-link");
+                    var b = window.localStorage['cbc.kitten-scientists'];
+                    JSON.stringify(b);
+                    var blob = new Blob([b], {type: "text/plain"});
+                    $link.attr("href", window.URL.createObjectURL(blob));
+                    var filename = "小猫珂学家配置" + game.stats.getStat("totalResets").val + "周目";
+                    $link.attr("download", filename + ".txt");
+                    $link.get(0).dispatchEvent(new MouseEvent("click"));
+                    if (options.auto.engine.enabled) {
+                        engine.start(false);
+                    }
                 }
 		    });
             
