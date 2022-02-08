@@ -659,14 +659,15 @@
 
 			<div id="importDiv" style="display: none" class="dialog help">
 				<div id="importWarning">Warning! Importing data will overwrite your current game data.</div>
+				<input id="importFile" type="file" value="选择存档文件"></input>
+				<input id="doFileImportButton" type="button" value="游戏存档文件导入" onclick="readText(); $('#importDiv').hide();" style="margin-top: 10px;">
 				<h1 id="importFromText">Text Import:</h1>
 				<!-- <input id="importFromDropbox" type="button" onclick="gamePage.saveImportDropbox();" value="Dropbox (Beta)"> -->
 				<br>
 				<textarea id="importData" style="width: 550px; height: 220px;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
 				<br>
-				<input id="doImportButton" type="button" value="Import" onclick="gamePage.saveImport(); $('#importDiv').hide();gamePage.nummonTab.visible = true;" style="margin-top: 10px;">
+				<input id="doImportButton" type="button" value="Import" onclick="gamePage.saveImport(); $('#importDiv').hide();" style="margin-top: 10px;">
 				<input id="cancelButton" type="button" value="Cancel" onclick="$('#importDiv').hide();" style="margin-top: 10px;">
-
 			</div>
 
 			<div id="appDiv" style="display: none" class="dialog help">
@@ -841,6 +842,16 @@
 				}
 			};
 			paragonWebsite();
+		</script>
+		<script type="text/javascript">
+			function readText() {
+				var file = document.getElementById("importFile").files[0];
+				var reader = new FileReader();
+				reader.readAsText(file);
+				reader.onload = function(data) {
+					gamePage.saveImport(this.result);
+				}
+			}
 		</script>
 	</body>
 

@@ -2477,10 +2477,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	},
 
-	saveImport: function() {
+	saveImport: function(fileData) {
 		var game = this;
 		this.ui.confirm("", $I("save.import.confirmation.msg"), function() {
-			var data = $("#importData").val().replace(/\s/g, "");
+            if (fileData) {
+                var data = fileData.replace(/\s/g, "");
+            } else {
+                var data = $("#importData").val().replace(/\s/g, "");
+            }
 			if (data) {
 				game.saveImportDropboxText(data, function(error) {
 					$("#importDiv").hide();
@@ -2488,6 +2492,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				});
 			}
 		});
+        game.nummonTab.visible = true;
 	},
 
     saveToFile: function(withFullName) {
