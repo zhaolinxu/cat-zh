@@ -411,7 +411,7 @@ var run = function() {
             'time.skip.cycle.disable': '停止在 {0} 跳转时间并禁止跳过该周期',
             'time.skip.season.enable': '启用在 {0} 跳转时间',
             'time.skip.season.disable': '停止在 {0} 跳转时间',
-            'time.skip.trigger.set': '为跳转时间(燃烧时间水晶)设定一个新触发值，取值范围为正整数',
+            'time.skip.trigger.set': '燃烧时间水晶仅当时间水晶数量大于该触发值，取值范围为正整数',
             'summary.time.skip': '跳过 {0} 年',
             'filter.time.skip': '时间跳转',
             'option.time.reset': '重启时间线 (弃用)',
@@ -5152,7 +5152,7 @@ var run = function() {
             maximunButton.on('click', function () {
                 var value;
                 engine.stop(false);
-                value = window.prompt(i18n('ui.max.set', [i18n('option.time.skip')]), option.maximum);
+                value = window.prompt(i18n('ui.max.set', ["燃烧时间水晶每次跳转"]), option.maximum);
                 if (options.auto.engine.enabled) {
                     engine.start(false);
                 }
@@ -5325,7 +5325,7 @@ var run = function() {
 		    var input = element.children('input');
 		    input.on('click', function () {
                 engine.stop(false);
-                var confirm = window.confirm("点击确认会导出珂学家的配置.txt文件")
+                var confirm = window.confirm("点击确认会导出珂学家的配置.txt文件");
                 if (confirm) {
                     var $link = $("#download-link");
                     var b = window.localStorage['cbc.kitten-scientists'];
