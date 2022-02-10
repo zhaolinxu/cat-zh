@@ -1807,23 +1807,19 @@ var run = function() {
             if (upgrades.upgrades.enabled && gamePage.workshopTab.visible) {
                 var work = game.workshop.upgrades;
                 let noup = [];
-                var fitler;
                 if (upgrades.upgrades.limited) {
                     noup = ["factoryOptimization","factoryRobotics","spaceEngineers","aiEngineers","chronoEngineers","steelPlants","amFission","biofuel","gmo","factoryAutomation","advancedAutomation","invisibleBlackHand", "pneumaticPress"];
-                    if (game.bld.getBuildingExt('pasture').meta.on && game.bld.getBuildingExt('pasture').meta.stage === 1) {
-                        filter = ["photovoltaic", "thinFilm", "qdot"];
+                    if (!game.bld.getBuildingExt('pasture').meta.on || game.bld.getBuildingExt('pasture').meta.stage === 0) {
+                        noup = noup.concat(["photovoltaic", "thinFilm", "qdot"]);
                     }
-                    if (game.bld.getBuildingExt('aqueduct').meta.on && game.bld.getBuildingExt('aqueduct').meta.stage === 1) {
-                        filter = ["hydroPlantTurbines"];
+                    if (!game.bld.getBuildingExt('aqueduct').meta.on || game.bld.getBuildingExt('aqueduct').meta.stage === 0) {
+                        noup = noup.concat(["hydroPlantTurbines"]);
                     }
                     if (!game.bld.getBuildingExt('steamworks').meta.on) {
-                        filter = ["printingPress"];
+                        noup = noup.concat(["printingPress"]);
                     }
-                    if (game.resPool.energyWinterProd - game.resPool.energyCons - Math.max(game.bld.getBuildingExt('oilWell').meta.on, 40)>= 0) {
-                        filter = ["pumpjack"];
-                    }
-                    if (filter) {
-                        noup.concat(filter);
+                    if (game.resPool.energyWinterProd - game.resPool.energyCons - Math.max(game.bld.getBuildingExt('oilWell').meta.on, 40) <= 0) {
+                        noup = noup.concat(["pumpjack"]);
                     }
                 }
 
