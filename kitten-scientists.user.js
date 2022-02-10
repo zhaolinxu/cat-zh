@@ -637,7 +637,7 @@ var run = function() {
                     tradepost:      {require: 'gold',        enabled: true, max:-1, checkForReset: true, triggerForReset: -1},
                     chapel:         {require: 'minerals',    enabled: true, max:-1, checkForReset: true, triggerForReset: -1},
                     temple:         {require: 'gold',        enabled: true, max:-1, checkForReset: true, triggerForReset: -1},
-                    mint:           {require: false,         enabled: false,max:-1,  checkForReset: true, triggerForReset: -1},
+                    mint:           {require: 'gold',         enabled: true,max:100,  checkForReset: true, triggerForReset: -1},
                     // unicornPasture: {require: false,         enabled: true},
                     ziggurat:       {require: false,         enabled: true, max:-1, checkForReset: true, triggerForReset: -1},
                     chronosphere:   {require: 'unobtainium', enabled: true, max:-1, checkForReset: true, triggerForReset: -1},
@@ -1807,8 +1807,24 @@ var run = function() {
             if (upgrades.upgrades.enabled && gamePage.workshopTab.visible) {
                 var work = game.workshop.upgrades;
                 let noup = [];
+                var fitler;
                 if (upgrades.upgrades.limited) {
                     noup = ["factoryOptimization","factoryRobotics","spaceEngineers","aiEngineers","chronoEngineers","steelPlants","amFission","biofuel","gmo","factoryAutomation","advancedAutomation","invisibleBlackHand", "pneumaticPress"];
+                    if (game.bld.getBuildingExt('pasture').meta.on && game.bld.getBuildingExt('pasture').meta.stage === 1) {
+                        filter = ["photovoltaic", "thinFilm", "qdot"];
+                    }
+                    if (game.bld.getBuildingExt('aqueduct').meta.on && game.bld.getBuildingExt('aqueduct').meta.stage === 1) {
+                        filter = ["hydroPlantTurbines"];
+                    }
+                    if (!game.bld.getBuildingExt('steamworks').meta.on) {
+                        filter = ["printingPress"];
+                    }
+                    if (game.resPool.energyWinterProd - game.resPool.energyCons - Math.max(game.bld.getBuildingExt('oilWell').meta.on, 40)>= 0) {
+                        filter = ["pumpjack"];
+                    }
+                    if (filter) {
+                        noup.concat(filter);
+                    }
                 }
 
                 workLoop:
@@ -2113,9 +2129,18 @@ var run = function() {
                 buildManager.build("calciner", undefined, 1);
             }
 
-            for (var entry in buildList) {
-                if (buildList[entry].count > 0) {
-                    buildManager.build(buildList[entry].name || buildList[entry].id, buildList[entry].stage, buildList[entry].count);
+            if (!buildList) {return;}
+            for (var i = 0; i < buildList.length; i++) {
+                if (buildList[i].count > 0) {
+                    //当喵力上限太少过滤铸币厂
+                    if (buildList[i].id === 'mint') {
+                        if (game.resPool.get('manpower').maxValue <= 2.3e4 || !game.workshop.get('miningDrill').researched) {
+                            if (!game.challenges.isActive("pacifism")) {
+                                continue;
+                            }
+                        }
+                    }
+                    buildManager.build(buildList[i].name || buildList[i].id, buildList[i].stage, buildList[i].count);
                     refreshRequired = 1;
                 }
             }
