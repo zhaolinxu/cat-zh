@@ -81,9 +81,9 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
 
             "science": "科学",
 
-            "getCelestialPerDay": "天文事件几率",
-            "getCelestialAutoSuccess": "天文事件自动观测几率",
-            "getMaxComped": "最大加成所需概要数量",
+            "getCelestialPerDay": "天文事件每天出现的几率",
+            "getCelestialAutoSuccess": "天文事件自动观测的几率",
+            "getMaxComped": "增加科学库存的概要数量上限",
             "getBlueprintCraft": "每次工艺制作的蓝图",
 
             "titanium": "钛",
@@ -138,7 +138,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
             "others": "其他",
 
             "getBestMagnetoBuilding": "最佳磁电机/蒸汽工坊",
-            "getUraniumForThoriumReactors": "钍反应堆每秒耗铀",
+            "getUraniumForThoriumReactors": "每秒钍反应堆等效总耗铀",
             "getDarkFutureYears": "距离黑暗未来的惩罚(年)",
             "getBestRelicBuilding": "获取最佳遗物建筑",
             "getBestUnobtainiumBuilding": "难得素最佳太空建筑",
@@ -776,12 +776,13 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
 		if (!game.workshop.get("thoriumReactors").researched) {
 			return this.i18n("best.none");
 		}
-        var needed = 250 * .1875 * this.game.bld.getBuildingExt("reactor").meta.val;
-        needed /= 1 + this.game.getResCraftRatio({
-            name: "thorium"
-        });
-        needed = Math.round(needed * 1000) / 1000;
-        return needed;
+        var uraniumTick = -0.001 * (1 - game.getEffect("uraniumRatio")) * this.game.bld.getBuildingExt("reactor").meta.on;
+        var thorimTick = game.getEffect("reactorThoriumPerTick");
+        var needed = 250 * thorimTick * this.game.bld.getBuildingExt("reactor").meta.on;
+        needed /= 1 + this.game.getResCraftRatio("thorium");
+        needed += uraniumTick;
+        needed *= this.game.getTicksPerSecondUI();
+        return game.getDisplayValueExt(needed) + this.i18n("sec");
     },
 
     getBestRelicBuilding: function() {
@@ -1269,7 +1270,7 @@ NummonInit = function() {
     if (localStorage["com.nuclearunicorn.kittengame.language"] == "zh") {
         gamePage.nummonTab.tabName = "概览";
     }
-    gamePage.render();
+    gamePage.render(true);
 
     gamePage.getTab = function(name) {
         switch (name) {

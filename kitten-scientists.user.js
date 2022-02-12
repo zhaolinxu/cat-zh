@@ -306,7 +306,7 @@ var run = function() {
             'ui.craft.resources': '资源',
             'ui.trigger': '触发条件',
             'ui.trigger.set': '输入新的 {0} 触发值，取值范围为 0 到 1 的纯小数。',
-			'ui.trigger.resource': '触发资源为',
+            'ui.trigger.resource': '触发资源为',
             'ui.none': '无',
             'ui.limit': '限制',
             'ui.upgradesLimit': '过滤',
@@ -991,7 +991,7 @@ var run = function() {
         cacheManager: undefined,
         loop: undefined,
         start: function (msg = true) {
-			options.interval = Math.ceil (1e4 / game.getTicksPerSecondUI());
+            options.interval = Math.ceil (1e4 / game.getTicksPerSecondUI());
             if (game.isWebWorkerSupported() && game.useWorkers && options.auto.options.items.useWorkers.enabled) {
                 var blob = new Blob([
                     "onmessage = function(e) { setInterval(function(){postMessage('miaowu')}, '" + options.interval + "' ); }"
@@ -1023,7 +1023,7 @@ var run = function() {
         },
         iterate: async function () {
             var subOptions = options.auto.options;
-			var refresh = 0;
+            var refresh = 0;
             if (subOptions.enabled && subOptions.items.observe.enabled)                     {this.observeStars();}
             if (options.auto.upgrade.enabled)                                               {this.upgrade();}
             if (subOptions.enabled && subOptions.items.festival.enabled)                    {this.holdFestival();}
@@ -1278,10 +1278,10 @@ var run = function() {
                 var tf = game.resPool.get('temporalFlux');
                 if (tf.value >= Math.max(tf.maxValue * optionVals.accelerateTime.subTrigger, 1)) {
                     game.time.isAccelerated = true;
-					engine.stop();
-					if (options.auto.engine.enabled) {
-						engine.start();
-					}
+                    engine.stop();
+                    if (options.auto.engine.enabled) {
+                        engine.start();
+                    }
                     iactivity('act.accelerate', [], 'ks-accelerate');
                     storeForSummary('accelerate', 1);
                 }
@@ -1347,7 +1347,7 @@ var run = function() {
                     if (optionVals.timeSkip[(currentCycle + skipCycles) % cyclesPerEra] && canSkip > 0) {willSkip += canSkip;}
                 }
                 if (willSkip > 0) {
-					willSkip = Math.min(willSkip, Math.max(500 , game.getEffect("temporalPressCap") * 25));
+                    willSkip = Math.min(willSkip, Math.max(500 , game.getEffect("temporalPressCap") * 25));
                     optionVals.timeSkip.adore = true;
                     var beforeSkipYear = game.calendar.year;
                     shatter.controller.doShatterAmt(shatter.model, willSkip);
@@ -1584,14 +1584,14 @@ var run = function() {
             var worship = game.religion.faith;
             var epiphany = game.religion.faithRatio;
             var maxSolarRevolution = 10 + game.getEffect("solarRevolutionLimit");
-			var adoreTrigger = (option.adore.subTrigger == 0.001) ? Math.max(tt*tt*0.001, 0.175) : option.adore.subTrigger;
+            var adoreTrigger = (option.adore.subTrigger == 0.001) ? Math.max(tt*tt*0.001, 0.175) : option.adore.subTrigger;
             var triggerSolarRevolution = maxSolarRevolution * adoreTrigger;
             var epiphanyInc = worship / 1000000 * (tt + 1) * (tt + 1) * 1.01;
             var epiphanyAfterAdore = epiphany + epiphanyInc;
             var worshipAfterAdore = 0.01 + faith.value * (1 + game.getUnlimitedDR(epiphanyAfterAdore, 0.1) * 0.1);
             var solarRevolutionAdterAdore = game.getLimitedDR(game.getUnlimitedDR(worshipAfterAdore, 1000) / 100, maxSolarRevolution);
 
-			// boolean
+            // boolean
             var forceStep = false;
             var autoPraiseEnabled = option.autoPraise.enabled;
             var autoAdoreEnabled = option.adore.enabled;
@@ -1670,8 +1670,8 @@ var run = function() {
                 // Adore
                 var lastFaith = option.adore.lastFaith;
                 var BooleanForLastFaith = (!lastFaith || worship > lastFaith || tt > 11);
-				var tier = (!game.religion.transcendenceTier || tt);
-				var moonBoolean = game.space.meta[0].meta[1].on;
+                var tier = (!game.religion.transcendenceTier || tt);
+                var moonBoolean = game.space.meta[0].meta[1].on;
                 var booleanForAdore = (solarRevolutionAdterAdore >= triggerSolarRevolution && worship >= 1e5 && BooleanForLastFaith && moonBoolean);
                 if ((autoAdoreEnabled && game.religion.getRU('apocripha').on && booleanForAdore && tier && this.catnipForReligion() > 0) || forceStep) {
                     if (tt < 12) {
@@ -2129,13 +2129,18 @@ var run = function() {
             for (var i = 0; i < buildList.length; i++) {
                 if (buildList[i].count > 0) {
                     //当喵力上限太少过滤铸币厂
-                    if (buildList[i].id === 'mint') {
-                        if (game.resPool.get('manpower').maxValue <= 2.3e4 || !game.workshop.get('miningDrill').researched) {
-                            if (!game.challenges.isActive("pacifism")) {
-                                continue;
-                            }
+                    if (buildList[i].id === 'mint' && !game.challenges.isActive("pacifism")) {
+                        var manpower = game.resPool.get('manpower').maxValue;
+                        var mint = game.bld.getBuildingExt('mint').meta.val === 0;
+                        if (manpower <= 2.3e4) {
+                            continue;
+                        } else if (mint) {
+                            buildList[i].count = 1;
+                        } else if (!game.workshop.get("miningDrill").researched) {
+                            continue;
                         }
                     }
+
                     buildManager.build(buildList[i].name || buildList[i].id, buildList[i].stage, buildList[i].count);
                     refreshRequired = 1;
                 }
@@ -2484,7 +2489,7 @@ var run = function() {
             }
             return refreshRequired;
         },
-		catnipForReligion: function (value) {
+        catnipForReligion: function (value) {
             var value = value || 0;
             var catnipTick = 1;
             var transcendenceReached = game.religion.getRU("transcendence").on;
@@ -2506,7 +2511,7 @@ var run = function() {
                 catnipTick = ((game.resPool.get('catnip').perTickCached - catnipTick) * (1 + solarRevolutionAdterAdore) / solarRevolutionRatio) + catnipTick+game.globalEffectsCached.catnipPerTickCon;
             }
             return catnipTick;
-		},
+        },
         // ref: https://github.com/Bioniclegenius/NummonCalc/blob/112f716e2fde9956dfe520021b0400cba7b7113e/NummonCalc.js#L490
         getBestUnicornBuilding: function () {
             var unicornPasture = 'unicornPasture';
@@ -4542,13 +4547,13 @@ var run = function() {
             triggerButton.on('click', function () {
                 var value;
                 engine.stop(false);
-				if (toggleName === 'faith') {
-					value = window.prompt(i18n('ui.trigger.set', [itext + "(" + $I("resources.faith.title")+ ")"]), auto.trigger);
-				} else if (toggleName === 'trade') {
-					value = window.prompt(i18n('ui.trigger.set', [itext + "(" + $I("resources.gold.title") + ")"] ), auto.trigger);
-				} else {
-					value = window.prompt(i18n('ui.trigger.set', [itext]), auto.trigger);
-				}
+                if (toggleName === 'faith') {
+                    value = window.prompt(i18n('ui.trigger.set', [itext + "(" + $I("resources.faith.title")+ ")"]), auto.trigger);
+                } else if (toggleName === 'trade') {
+                    value = window.prompt(i18n('ui.trigger.set', [itext + "(" + $I("resources.gold.title") + ")"] ), auto.trigger);
+                } else {
+                    value = window.prompt(i18n('ui.trigger.set', [itext]), auto.trigger);
+                }
                 if (options.auto.engine.enabled) {
                     engine.start(false);
                 }
@@ -5342,9 +5347,9 @@ var run = function() {
             });
         }
 
-		if (name == 'saves') {
-		    var input = element.children('input');
-		    input.on('click', function () {
+        if (name == 'saves') {
+            var input = element.children('input');
+            input.on('click', function () {
                 engine.stop(false);
                 var confirm = window.confirm("点击确认会导出珂学家的配置.txt文件");
                 if (confirm) {
@@ -5360,7 +5365,7 @@ var run = function() {
                         engine.start(false);
                     }
                 }
-		    });
+            });
             
             var loadKS = $('<div/>', {
                 id: 'loadKS',
@@ -5406,7 +5411,7 @@ var run = function() {
             
             element.append(loadKS);
             element.append(ressetKS);
-		}
+        }
 
         if (name == 'donate') {
             var input = element.children('input');

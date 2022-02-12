@@ -2944,7 +2944,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         this.console.ui = ui;
     },
 
-	render: function(){
+	render: function(update){
         if (!this.ui){
             throw "Unable to render game state, no UI manager";
         }
@@ -2953,7 +2953,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		// Once we have rendered the page immidiately update it in order to
 		// reduce flicker
-		this.update();
+        if (!this.isPaused){
+            if (update) {
+                this.update();
+            }
+        }
 		this.calendar.update();
 	},
 
@@ -5176,8 +5180,38 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	isEldermass: function(){
-		var date = new Date();
-		return (date.getMonth() == 11 && date.getDate() >= 15  && date.getDate() <= 31);
+		var boolean = false;
+		/*var date = new Date();
+        if (date.getMonth() == 11 && date.getDate() >= 15 && date.getDate() <= 31) {
+			var LS = (localStorage["time"]) ? new Date(localStorage["time"]) : false;
+            if (LS) {
+                if (LS.getFullYear() == date.getFullYear() &&LS. getMonth() == 11 && LS.getDate() >= 15 && LS.getDate() <= 31) {
+                    boolean = true;
+                }
+            }
+			if (!LS) {
+				$.ajax({
+					cache: false,
+					type: "GET",
+					dataType: "JSON",
+					crossDomain: true,
+					url: "http://worldtimeapi.org/api/ip/"
+				}).done(function(resp) {
+					if (resp) {
+						var time = new Date(resp.datetime);
+						localStorage["time"] = time.getMonth() + 1 + " " + time.getDate() + "," + time.getFullYear();
+						if (time.getMonth() == 11 && time.getDate() >= 15 && time.getDate() <= 31) {
+							boolean = true;
+						}
+					}
+				});
+			}
+		}
+        date = null;
+        LS = null;
+        a = null;
+		*/
+		return boolean;
 	},
 	createRandomName: function(lenConst, charPool) {
 		if(!charPool) {

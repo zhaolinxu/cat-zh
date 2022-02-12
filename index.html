@@ -249,7 +249,7 @@
 					gamePage.load();
 					gamePage.updateKarma();
 
-					gamePage.render();
+					gamePage.render(true);
 					gamePage.ui.renderFilters();
 					gamePage.ui.onLoad();
 					gamePage.start();
@@ -650,6 +650,8 @@
 				<input id="exportToFullFile" type="button" onclick="gamePage.saveToFile(true);" value="File (full name)">
 				<a id="download-link" target="_blank" style="display: none"></a>
 				<br>
+				<span>注意：推荐导出txt传递，QQ和微信发送字母数字有长度限制</span>
+				<br>
 				<h1 id="exportToText">Text Export:</h1>
 				<br>
 				<textarea id="exportData" style="width: 550px; height: 220px;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
@@ -661,6 +663,8 @@
 				<div id="importWarning">Warning! Importing data will overwrite your current game data.</div>
 				<input id="importFile" type="file" value="选择存档文件"></input>
 				<input id="doFileImportButton" type="button" value="游戏存档文件导入" onclick="readText();" style="margin-top: 10px;">
+				<br>
+				<span>注意：推荐导出txt传递，QQ和微信发送字母数字有长度限制</span>
 				<h1 id="importFromText">Text Import:</h1>
 				<!-- <input id="importFromDropbox" type="button" onclick="gamePage.saveImportDropbox();" value="Dropbox (Beta)"> -->
 				<br>
