@@ -714,19 +714,20 @@ var run = function() {
                 items: {
                     // Variants denote whether these buildings fall within the Chronoforge or Void categories.
                     // Chronoforge has variant chrono.
-                    temporalBattery:     {require: false,          enabled: false, variant: 'chrono', checkForReset: true, triggerForReset: -1},
-                    blastFurnace:        {require: false,          enabled: false, variant: 'chrono', checkForReset: true, triggerForReset: -1},
-                    timeBoiler:          {require: false,          enabled: false, variant: 'chrono', checkForReset: true, triggerForReset: -1},
-                    temporalAccelerator: {require: false,          enabled: false, variant: 'chrono', checkForReset: true, triggerForReset: -1},
-                    temporalImpedance:   {require: false,          enabled: false, variant: 'chrono', checkForReset: true, triggerForReset: -1},
-                    ressourceRetrieval:  {require: false,          enabled: false, variant: 'chrono', checkForReset: true, triggerForReset: -1},
+                    temporalBattery:     {require: false,          enabled: false, max:-1, variant: 'chrono', checkForReset: true, triggerForReset: -1},
+                    blastFurnace:        {require: false,          enabled: false, max:-1, variant: 'chrono', checkForReset: true, triggerForReset: -1},
+                    timeBoiler:          {require: false,          enabled: false, max:-1, variant: 'chrono', checkForReset: true, triggerForReset: -1},
+                    temporalAccelerator: {require: false,          enabled: false, max:-1, variant: 'chrono', checkForReset: true, triggerForReset: -1},
+                    temporalImpedance:   {require: false,          enabled: false, max:-1, variant: 'chrono', checkForReset: true, triggerForReset: -1},
+                    ressourceRetrieval:  {require: false,          enabled: false, max:-1, variant: 'chrono', checkForReset: true, triggerForReset: -1},
+                    temporalPress:  {require: false,          enabled: false, max:-1, variant: 'chrono', checkForReset: true, triggerForReset: -1},
 
                     // Void Space has variant void.
-                    cryochambers:        {require: false,          enabled: false, variant: 'void', checkForReset: true, triggerForReset: -1},
-                    voidHoover:          {require: 'antimatter',   enabled: false, variant: 'void', checkForReset: true, triggerForReset: -1},
-                    voidRift:            {require: false,          enabled: false, variant: 'void', checkForReset: true, triggerForReset: -1},
-                    chronocontrol:       {require: 'temporalFlux', enabled: false, variant: 'void', checkForReset: true, triggerForReset: -1},
-                    voidResonator:       {require: false,          enabled: false, variant: 'void', checkForReset: true, triggerForReset: -1}
+                    cryochambers:        {require: false,          enabled: false, max:-1, variant: 'void', checkForReset: true, triggerForReset: -1},
+                    voidHoover:          {require: 'antimatter',   enabled: false, max:-1, variant: 'void', checkForReset: true, triggerForReset: -1},
+                    voidRift:            {require: false,          enabled: false, max:-1, variant: 'void', checkForReset: true, triggerForReset: -1},
+                    chronocontrol:       {require: 'temporalFlux', enabled: false, max:-1, variant: 'void', checkForReset: true, triggerForReset: -1},
+                    voidResonator:       {require: false,          enabled: false, max:-1, variant: 'void', checkForReset: true, triggerForReset: -1}
                 }
             },
             timeCtrl: {
@@ -1584,7 +1585,7 @@ var run = function() {
             var worship = game.religion.faith;
             var epiphany = game.religion.faithRatio;
             var maxSolarRevolution = 10 + game.getEffect("solarRevolutionLimit");
-            var adoreTrigger = (option.adore.subTrigger == 0.001) ? Math.max(tt*tt*0.001, 0.175) : option.adore.subTrigger;
+            var adoreTrigger = (option.adore.subTrigger == 0.001) ? Math.max(0.005*Math.pow(Math.E,0.615*tt), 0.375) : option.adore.subTrigger;
             var triggerSolarRevolution = maxSolarRevolution * adoreTrigger;
             var epiphanyInc = worship / 1000000 * (tt + 1) * (tt + 1) * 1.01;
             var epiphanyAfterAdore = epiphany + epiphanyInc;
@@ -1597,9 +1598,10 @@ var run = function() {
             var autoAdoreEnabled = option.adore.enabled;
             var timeSkipAdore = options.auto.timeCtrl.items.timeSkip.adore;
             var doAdoreAfterTimeSkip = (timeSkipAdore && autoPraiseEnabled && autoAdoreEnabled && game.time.getCFU("ressourceRetrieval").val > 4);
+            var PraiseSubTrigger = option.autoPraise.subTrigger;
 
             // enough faith, and then TAP
-            if (0.98 <= rate || doAdoreAfterTimeSkip) {
+            if (Math.min(0.999 , Math.max(0.98, PraiseSubTrigger)) <= rate || doAdoreAfterTimeSkip) {
                 var worship = game.religion.faith;
                 var epiphany = game.religion.faithRatio;
 
@@ -1689,7 +1691,7 @@ var run = function() {
                 }
             }
             // Praise
-            var booleanForPraise = (autoPraiseEnabled && rate >= option.autoPraise.subTrigger && faith.value && !game.challenges.isActive("atheism"));
+            var booleanForPraise = (autoPraiseEnabled && rate >= PraiseSubTrigger && faith.value && !game.challenges.isActive("atheism"));
             if (booleanForPraise || forceStep) {
                 if (!game.religion.getFaithBonus) {
                     var apocryphaBonus = game.religion.getApocryphaBonus();
@@ -2485,6 +2487,11 @@ var run = function() {
                 if (re.val && re.on == 0 && ur > 0) {
                     var reButton = buildManager.getBuildButton('reactor');
                     reButton.controller.onAll(reButton.model);
+                }
+                var timeA = game.time.getCFU("temporalAccelerator");
+                if (timeA.on && game.time.testShatter === 0){
+                    timeA.isAutomationEnabled = true;
+                    game.time.testShatter = 1;
                 }
             }
             return refreshRequired;
@@ -4451,6 +4458,9 @@ var run = function() {
                     case 'build':
                     case 'faith':
                     case 'space':
+                        list.append(getLimitedOption(itemName, auto.items[itemName]));
+                        break;
+                    case 'time':
                         list.append(getLimitedOption(itemName, auto.items[itemName]));
                         break;
                     default:
