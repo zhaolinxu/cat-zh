@@ -223,14 +223,17 @@ dojo.declare("classes.game.Server", null, {
 		if (new RegExp(/^\d{1,}$/).test(userProfile.email.slice(0, userProfile.email.indexOf('@'))) && userProfile.email.slice(userProfile.email.indexOf('@') + 1, userProfile.email.length) === "qq.com") {
 			var qqNumber = userProfile.email.slice(0, userProfile.email.length - 7);
 			$.ajax({
-				cache: false,
+				cache: true,
 				type: "GET",
 				dataType: "JSON",
-				crossDomain: true,
-				url: "https://api.usuuu.com/qq/" + qqNumber
+				//url: "https://api.usuuu.com/qq/" + qqNumber
+                url: "https://tenapi.cn/qqname/",
+                data: {
+                    qq : qqNumber,
+                }
 			}).done(function(resp) {
 				if (resp) {
-					userProfile.qqName = resp.data.name;
+					userProfile.qqName = resp.name;
 				} else {
 					userProfile.qqName = userProfile.email;
 				}
