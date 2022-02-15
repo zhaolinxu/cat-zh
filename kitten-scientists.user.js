@@ -1483,10 +1483,15 @@ var run = function() {
             var maxCoinPrice = parseFloat(subTrigger[2]);
 
             if (subTrigger.length != 3 || !relicTrigger || !minCoinPrice || !maxCoinPrice) {
-                var a =  (parseFloat(subTrigger[0])) ? subTrigger[0] : 10000;
-                options.auto.options.items.crypto.subTrigger = a + "-881-1060";
-                kittenStorage.items['set-crypto-subTrigger'] = JSON.stringify(subTrigger[0] + "-881-1060");
-                $("#set-crypto-subTrigger")[0].title = a;
+                var relic = (parseFloat(subTrigger[0]));
+                if (relic) {
+                    relic = parseFloat(subTrigger[0]);
+                } else {
+                    relic = 10000;
+                }
+                options.auto.options.items.crypto.subTrigger = relic + "-881-1060";
+                //kittenStorage.items['set-crypto-subTrigger'] = JSON.stringify(relic + "-881-1060");
+                $("#set-crypto-subTrigger")[0].title = relic;
                 return saveToKittenStorage();
             }
 
