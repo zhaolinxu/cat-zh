@@ -42,7 +42,7 @@
 
 		<script type="text/javascript">
 			var now = Date.now();
-			$("<link />").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "res/default.css?v=" + 1 +  new Date().getDate()).appendTo($("head"));
+			$("<link />").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "res/default.css?v=" + 2).appendTo($("head"));
 		</script>
 
 		<script>
@@ -753,7 +753,7 @@
 				localStorage['zh.ks.enable'] = 'enable';
 				$("#ks-label").text("可爱的猫猫科学家为您服务");
 				$("#set-ks-enable").attr("checked", true);
-				document.body.appendChild(document.createElement('script')).src = 'kitten-scientists.user.js?v=' + new Date().getDate() + ksVision;
+				document.body.appendChild(document.createElement('script')).src = 'kitten-scientists.user.js?v=' + Math.ceil(new Date().getDate() / 2) + ksVision;
 			};
 			var disableKS = function() {
 				localStorage['zh.ks.enable'] = 'disable';
@@ -815,7 +815,7 @@
 					}, 2500);
 				} else {
 					// NummonInit();
-					document.body.appendChild(document.createElement('script')).src = 'NummonCalc.js?v=' + new Date().getDate() + buildRevision;
+					document.body.appendChild(document.createElement('script')).src = 'NummonCalc.js?v=' + Math.ceil(new Date().getDate() / 2) + buildRevision;
 				}
 			};
 			_282d5adfdca92885cd9f210a9b60a328();

@@ -5369,16 +5369,16 @@ var run = function() {
                 var confirm = window.confirm("点击确认会导出珂学家的配置.txt文件");
                 if (confirm) {
                     var $link = $("#download-link");
-                    var b = window.localStorage['cbc.kitten-scientists'];
-                    JSON.stringify(b);
+                    var data = JSON.stringify(window.localStorage['cbc.kitten-scientists']);
+                    var b = game.compressLZData(data, false);
                     var blob = new Blob([b], {type: "text/plain"});
                     $link.attr("href", window.URL.createObjectURL(blob));
                     var filename = "小猫珂学家配置" + game.stats.getStat("totalResets").val + "周目";
                     $link.attr("download", filename + ".txt");
                     $link.get(0).dispatchEvent(new MouseEvent("click"));
-                    if (options.auto.engine.enabled) {
-                        engine.start(false);
-                    }
+                }
+                if (options.auto.engine.enabled) {
+                    engine.start(false);
                 }
             });
             
@@ -5399,6 +5399,9 @@ var run = function() {
                     engine.start(false);
                 }
                 if (b && b.length >=10) {
+                    if (b.charAt(0) !== "{") {
+                        b = JSON.parse(LZString.decompressFromBase64(b));
+                    } 
                     window.localStorage['cbc.kitten-scientists'] = b;
                     game.save();
                     window.location.reload();
