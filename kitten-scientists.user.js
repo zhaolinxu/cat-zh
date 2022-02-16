@@ -1002,7 +1002,7 @@ var run = function() {
                 this.worker = new Worker(blobURL);
                 this.worker.addEventListener('message', this.iterate.bind(this));
                 this.worker.postMessage("miaowu");
-                message('后台珂学家上钟了~ ＞▽＜');
+                if(msg) {message('后台珂学家上钟了~ ＞▽＜');}
             } else {
                 if (this.loop) {return;}
     
@@ -1590,7 +1590,7 @@ var run = function() {
             var worship = game.religion.faith;
             var epiphany = game.religion.faithRatio;
             var maxSolarRevolution = 10 + game.getEffect("solarRevolutionLimit");
-            var adoreTrigger = (option.adore.subTrigger == 0.001) ? Math.max(0.005*Math.pow(Math.E,0.615*tt), 0.375) : option.adore.subTrigger;
+            var adoreTrigger = (option.adore.subTrigger == 0.001) ? Math.min(0.0005*Math.pow(Math.E,0.65*tt), 0.375) : option.adore.subTrigger;
             var triggerSolarRevolution = maxSolarRevolution * adoreTrigger;
             var epiphanyInc = worship / 1000000 * (tt + 1) * (tt + 1) * 1.01;
             var epiphanyAfterAdore = epiphany + epiphanyInc;
@@ -1604,11 +1604,13 @@ var run = function() {
             var timeSkipAdore = options.auto.timeCtrl.items.timeSkip.adore;
             var doAdoreAfterTimeSkip = (timeSkipAdore && autoPraiseEnabled && autoAdoreEnabled && game.time.getCFU("ressourceRetrieval").val > 4);
             var PraiseSubTrigger = option.autoPraise.subTrigger;
+            var apocripha = game.religion.getRU('apocripha').on;
 
             // enough faith, and then TAP
             if (Math.min(0.999 , Math.max(0.98, PraiseSubTrigger)) <= rate || doAdoreAfterTimeSkip) {
                 var worship = game.religion.faith;
                 var epiphany = game.religion.faithRatio;
+                var moonBoolean = game.space.meta[0].meta[1].on;
 
                 // Transcend
                 if (option.transcend.enabled && transcendenceReached) {
@@ -1616,7 +1618,7 @@ var run = function() {
                     var nextLevelCatnip = game.religion._getTranscendTotalPrice(tt + 1) - game.religion._getTranscendTotalPrice(tt);
                     if (tt > 10) {
                         TranscendTimes = 1;
-                    } else if (tt < 10 && game.calendar.season != 2 && worship > 1e5 && game.religion.getRU('apocripha').on && this.catnipForReligion(nextLevelCatnip) > 0) {
+                    } else if (tt < 10 && moonBoolean && game.calendar.season != 2 && worship > 1e5 && apocripha && this.catnipForReligion(nextLevelCatnip) > 0) {
                         TranscendTimes = 4;
                     } else {
                         TranscendTimes = 0;
@@ -1680,7 +1682,7 @@ var run = function() {
                 var tier = (!game.religion.transcendenceTier || tt);
                 var moonBoolean = game.space.meta[0].meta[1].on;
                 var booleanForAdore = (solarRevolutionAdterAdore >= triggerSolarRevolution && worship >= 1e5 && BooleanForLastFaith && moonBoolean);
-                if ((autoAdoreEnabled && game.religion.getRU('apocripha').on && booleanForAdore && tier && this.catnipForReligion() > 0) || forceStep) {
+                if ((autoAdoreEnabled && apocripha && booleanForAdore && tier && this.catnipForReligion() > 0) || forceStep) {
                     if (tt < 12) {
                         option.adore.lastFaith = worship;
                     }
