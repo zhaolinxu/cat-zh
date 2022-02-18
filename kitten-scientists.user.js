@@ -399,10 +399,10 @@ var run = function() {
 
             'ui.trigger.useWorkers.alert': '珂学家将会在后台满速运行，注意这会消耗更多性能。\n电脑不好、内存≤ 8G的建议禁用\n需满足浏览器支持且游戏选项的web worker启用。\n确认后会自动重新勾选启用珂学家',
             'ui.timeCtrl': '时间操纵',
-            'option.accelerate': '时间加速',
+            'option.accelerate': '光阴似箭',
             'act.accelerate': '固有时制御，二倍速!',
-            'filter.accelerate': '时间加速',
-            'summary.accelerate': '加速时间 {0} 次',
+            'filter.accelerate': '光阴似箭',
+            'summary.accelerate': '珂学家加速时间 {0} 次',
             'option.time.skip': '时间跳转',
             'act.time.skip': '燃烧时间水晶, 跳过接下来的 {0} 年!',
             'ui.cycles': '周期',
@@ -445,6 +445,8 @@ var run = function() {
             'act.fix.cry': '小猫修复了 {0} 个冷冻仓',
             'summary.fix.cry': '修复了 {0} 个冷冻仓',
 
+            'summary.blackcoin.buy': '小猫出售遗物并买入 {0} 次黑币',
+            'summary.blackcoin.sell': '小猫出售黑币并买入了 {0} 次遗物',
             'summary.catnip': '呐，你的猫猫没有猫薄荷吸并强制分配 {0} 个农民',
             'summary.pumpjack': '珂学家担心电不够并关闭了 {0} 次油井自动化',
             'summary.biolab': '珂学家担心电不够并关闭了 {0} 个生物实验室',
@@ -998,7 +1000,7 @@ var run = function() {
         cacheManager: undefined,
         loop: undefined,
         start: function (msg = true) {
-            options.interval = Math.ceil (1e4 / game.getTicksPerSecondUI());
+            options.interval = Math.ceil (100 / game.getTicksPerSecondUI()) * 100;
             if (game.isWebWorkerSupported() && game.useWorkers && options.auto.options.items.useWorkers.enabled) {
                 var blob = new Blob([
                     "onmessage = function(e) { setInterval(function(){postMessage('miaowu')}, '" + options.interval + "' ); }"
@@ -1292,6 +1294,12 @@ var run = function() {
                     iactivity('act.accelerate', [], 'ks-accelerate');
                     storeForSummary('accelerate', 1);
                 }
+                if (options.interval != Math.ceil (100 / game.getTicksPerSecondUI()) * 100) {
+                    engine.stop(false);
+                    if (options.auto.engine.enabled) {
+                        engine.start(false);
+                    }
+                }
             }
 
             // Combust time crystal
@@ -1513,6 +1521,7 @@ var run = function() {
                 var currentCoin = game.resPool.get('blackcoin').value;
                 var exchangedCoin = Math.round(currentCoin - previousCoin);
                 iactivity('blackcoin.buy', [exchangedCoin]);
+                storeForSummary('blackcoin.buy', 1);
             } else if (coinPrice > maxCoinPrice && game.resPool.get('blackcoin').value > 0) {
                 // function name changed in v1.4.8.0
                 if (typeof game.diplomacy.sellEcoin === 'function') {
@@ -1525,6 +1534,7 @@ var run = function() {
                 var exchangedRelic = Math.round(currentRelic - previousRelic);
 
                 iactivity('blackcoin.sell', [exchangedRelic]);
+                storeForSummary('blackcoin.sell', 1);
             }
         },
         worship: function () {
@@ -2250,8 +2260,8 @@ var run = function() {
             if (!game.villageTab.festivalBtn.model.enabled) {game.villageTab.festivalBtn.controller.updateEnabled(game.villageTab.festivalBtn.model);}
 
             if (game.villageTab.festivalBtn.model.enabled) {
-                var beforeDays = game.calendar.festivalDays;
                 game.villageTab.festivalBtn.onClick();
+                var beforeDays = game.calendar.festivalDays;
                 storeForSummary('festival');
                 if (beforeDays > 0) {
                     iactivity('festival.extend', [], 'ks-festival');
