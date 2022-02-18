@@ -151,7 +151,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 		for (var i = 0; i < metadata.meta.length; i++){
 			var meta = metadata.meta[i];
 			if (meta.effects){
-				meta.totalEffects = {};
+				meta.totalEffectsCached = {};
 				for (var effectName in meta.effects){
 					var effect;
 					if (metadata.provider){
@@ -159,7 +159,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 					} else {
 						effect = meta.effects[effectName] || 0;
 					}
-					meta.totalEffects[effectName] = effect;
+					meta.totalEffectsCached[effectName] = effect;
 				}
 			}
 		}
@@ -215,8 +215,8 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 			//
 
 			var effect = 0;
-			if (meta.totalEffects){
-				effect = meta.totalEffects[name] || 0;
+			if (meta.totalEffectsCached){
+				effect = meta.totalEffectsCached[name] || 0;
 			}
 			totalEffect += effect;
 		}
@@ -1585,7 +1585,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 	},
 
 	getTotalEffects: function(model){
-		return model.metadata.totalEffects;
+		return model.metadata.totalEffectsCached;
 	},
 
 	getNextEffectValue: function(model, effectName) {
