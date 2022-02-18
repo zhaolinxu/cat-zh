@@ -150,17 +150,15 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	updateMetaEffectCached: function (metadata) {
 		for (var i = 0; i < metadata.meta.length; i++){
 			var meta = metadata.meta[i];
-			if (meta.effects){
-				meta.totalEffectsCached = {};
-				for (var effectName in meta.effects){
-					var effect;
-					if (metadata.provider){
-						effect = metadata.provider.getEffect(meta, effectName) || 0;
-					} else {
-						effect = meta.effects[effectName] || 0;
-					}
-					meta.totalEffectsCached[effectName] = effect;
+			meta.totalEffectsCached = {};
+			for (var effectName in this.effectsCachedExisting){
+				var effect;
+				if (metadata.provider){
+					effect = metadata.provider.getEffect(meta, effectName) || 0;
+				} else {
+					effect = meta.effects[effectName] || 0;
 				}
+				meta.totalEffectsCached[effectName] = effect;
 			}
 		}
 	},
