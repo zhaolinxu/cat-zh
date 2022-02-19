@@ -19,19 +19,43 @@
 
 		<!-- I only use jquery ironically -->
 
-		<script src="lib/react.min.js"></script>
+		<!-- <script src="lib/react.min.js"></script> -->
+		<script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-y/react/0.14.10/react.min.js"></script>
 
 		<!-- Local versions of libs will be hosted so our Chinese players wont be forced to use VPN -->
-		<script src="lib/jQuery.js?v=_2"></script>
-		<script src="lib/dojo.xd.js"></script>
-		<script src="lib/lz-string.js"></script>
-		<!-- 		<script src="lib/dropbox_v2.js"></script> -->
-		<script src="lib/md5.js"></script>
+		<!-- <script src="lib/jQuery.js?v=_2"></script> -->
+		<script src="https://cdn.staticfile.org/jquery/3.6.0/jquery.min.js"></script>
+
+		<!-- <script src="lib/dojo.xd.js"></script> -->
+		<script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-y/dojo/1.6.0/dojo.xd.js"></script>
+		<!-- <script src="lib/lz-string.js"></script> -->
+		<script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-y/lz-string/1.4.1/lz-string.js"></script>
+		<!-- <script src="lib/dropbox_v2.js"></script> -->
+		<!-- <script src="lib/md5.js"></script> -->
 
 		<!-- friends don't let friends use AMD and require.js -->
-		<script src="lib/system.js?v=_2"></script>
+		<!-- <script src="lib/system.js?v=_2"></script> -->
+		<script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/systemjs/0.21.6/system.js"></script>
+		<script>
+			if (typeof React === 'undefined') {
+				document.write(decodeURI('%3Cscript%20src=%22lib/react.min.js%22%3E%3C/script%3E'));
+			}
+			if (typeof jQuery === 'undefined') {
+					document.write(decodeURI('%3Cscript%20src=%22lib/jQuery.js%22%3E%3C/script%3E'));
+				}
+			if (typeof dojo === 'undefined') {
+				document.write(decodeURI('%3Cscript%20src=%22lib/dojo.xd.js%22%3E%3C/script%3E'));
+			}
+			if (typeof LZString === 'undefined') {
+				document.write(decodeURI('%3Cscript%20src=%22lib/lz-string.js%22%3E%3C/script%3E'));
+			}
+			if (typeof SystemJS == 'undefined') {
+				document.write(decodeURI('%3Cscript%20src=%22lib/system.js%22%3E%3C/script%3E'));
+			}
+		</script>
+		<!-- <script async src="lib/google.js"></script> -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-0QBDX221PR"></script>
 
-		<script async src="lib/google.js"></script>
 		<script>
 			window.dataLayer = window.dataLayer || [];
 			function gtag(){dataLayer.push(arguments);}
@@ -816,6 +840,9 @@
 				} else {
 					// NummonInit();
 					document.body.appendChild(document.createElement('script')).src = 'NummonCalc.js?v=' + Math.ceil(new Date().getDate() / 2) + buildRevision;
+					if (typeof google_tag_data == 'undefined') {
+						document.body.appendChild(document.createElement('script')).src =' lib/google.js';
+					}
 				}
 			};
 			_282d5adfdca92885cd9f210a9b60a328();

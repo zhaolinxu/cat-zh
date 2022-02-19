@@ -2262,7 +2262,7 @@ var run = function() {
             if (game.villageTab.festivalBtn.model.enabled) {
                 game.villageTab.festivalBtn.onClick();
                 var beforeDays = game.calendar.festivalDays;
-                storeForSummary('festival');
+                storeForSummary('festival', 1);
                 if (beforeDays > 0) {
                     iactivity('festival.extend', [], 'ks-festival');
                 } else {
@@ -2341,7 +2341,8 @@ var run = function() {
 
                 // If we have enough to trigger the check, then attempt to trade
                 var prof = tradeManager.getProfitability(name);
-                if (trade.limited && prof) {
+                var sloar = game.religion.meta[1].meta[5].on || game.challenges.isActive("atheism") || gold.value >= 450;
+                if (trade.limited && prof && sloar) {
                     trades.push(name);
                 } else if ((!require || requireTrigger <= require.value / require.maxValue) && requireTrigger <= gold.value / gold.maxValue) {
                     trades.push(name);
