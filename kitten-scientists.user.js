@@ -1853,6 +1853,10 @@ var run = function() {
                     if (game.resPool.energyWinterProd - game.resPool.energyCons - Math.max(game.bld.getBuildingExt('oilWell').meta.on, 40) <= 0) {
                         noup = noup.concat(["pumpjack"]);
                     }
+                    // 微型亚空间
+                    if (!game.workshop.meta[0].meta[125].researched) {
+                        noup = noup.concat(["eludiumReflectors", 'amBases', 'coldFusion', 'amReactors']);
+                    }
                 }
 
                 workLoop:
@@ -2246,7 +2250,7 @@ var run = function() {
 
             var craftManager = this.craftManager;
             var carftBoolean = (craftManager.getValueAvailable('manpower', true) < 1500 || craftManager.getValueAvailable('culture', true) < 5000 || craftManager.getValueAvailable('parchment', true) < 2500);
-            var managementBoolean = (game.village.getKittens() < 5 && this.game.resPool.get("zebras").value == 0);
+            var managementBoolean = (game.village.getKittens() < 5 && game.resPool.get("zebras").value == 0);
             if (carftBoolean || managementBoolean) {return;}
 
             var catpowProf = 4000 * craftManager.getTickVal(craftManager.getResource('manpower'), true) > 1500;
