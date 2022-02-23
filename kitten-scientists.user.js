@@ -448,11 +448,11 @@ var run = function() {
             'summary.blackcoin.buy': '小猫出售遗物并买入 {0} 次黑币',
             'summary.blackcoin.sell': '小猫出售黑币并买入了 {0} 次遗物',
             'summary.catnip': '呐，你的猫猫没有猫薄荷吸并强制分配 {0} 个农民',
-            'summary.pumpjack': '珂学家担心电不够并关闭了 {0} 次油井自动化',
-            'summary.biolab': '珂学家担心电不够并关闭了 {0} 个生物实验室',
+            'summary.pumpjack': '担心电不够并关闭了 {0} 次油井自动化',
+            'summary.biolab': '担心电不够并关闭了 {0} 个生物实验室',
             'summary.temporalAccelerator': '珂学家担心卡顿打开了时空加速器的自动化',
-            'summary.reactor': '珂学家往反应堆投入了铀开始发光呐',
-            'summary.steamworks': '珂学家往蒸汽工房加了煤开始排蒸汽呐',
+            'summary.reactor': '向反应堆投入了铀开始发光呐',
+            'summary.steamworks': '向蒸汽工房加了煤开始排蒸汽呐',
             'summary.festival': '举办了 {0} 次节日',
             'summary.stars': '观测了 {0} 颗流星',
             'summary.praise': '通过赞美太阳积累了 {0} 虔诚',
@@ -2245,8 +2245,9 @@ var run = function() {
             if (!game.prestige.getPerk('carnivals').researched && game.calendar.festivalDays > 0) {return;}
 
             var craftManager = this.craftManager;
-            if (craftManager.getValueAvailable('manpower', true) < 1500 || craftManager.getValueAvailable('culture', true) < 5000
-                || craftManager.getValueAvailable('parchment', true) < 2500) {return;}
+            var carftBoolean = (craftManager.getValueAvailable('manpower', true) < 1500 || craftManager.getValueAvailable('culture', true) < 5000 || craftManager.getValueAvailable('parchment', true) < 2500);
+            var managementBoolean = (game.village.getKittens() < 5 && this.game.resPool.get("zebras").value == 0);
+            if (carftBoolean || managementBoolean) {return;}
 
             var catpowProf = 4000 * craftManager.getTickVal(craftManager.getResource('manpower'), true) > 1500;
             var cultureProf = 4000 * craftManager.getTickVal(craftManager.getResource('culture'), true) > 5000;
@@ -2255,15 +2256,19 @@ var run = function() {
             if (!(catpowProf && cultureProf && (craftManager.getValueAvailable('parchment', true) >= 5000 || parchProf))) {return;}
 
             // Render the tab to make sure that the buttons actually exist in the DOM. Otherwise we can't click them.
-            if (game.villageTab.festivalBtn == null) {game.villageTab.render();}
+            if (game.villageTab.festivalBtn == null) {return game.villageTab.render();}
 
-            if (!game.villageTab.festivalBtn.model.enabled) {game.villageTab.festivalBtn.controller.updateEnabled(game.villageTab.festivalBtn.model);}
-
-            if (game.villageTab.festivalBtn.model.enabled) {
-                game.villageTab.festivalBtn.onClick();
-                var beforeDays = game.calendar.festivalDays;
+            var festivalBtnHandler = false;
+            // buyItem will check resource.
+            game.villageTab.festivalBtn.controller.buyItem(game.villageTab.festivalBtn.model, {}, function(callback) {
+                if (callback) {
+                    festivalBtnHandler = true;
+                }
+            });
+            
+            if (festivalBtnHandler) {
                 storeForSummary('festival', 1);
-                if (beforeDays > 0) {
+                if (game.calendar.festivalDays > 400) {
                     iactivity('festival.extend', [], 'ks-festival');
                 } else {
                     iactivity('festival.hold', [], 'ks-festival');
@@ -2561,7 +2566,7 @@ var run = function() {
             var epiphanyInc = game.religion.faith / 1000000 * (tt + 1) * (tt + 1) * 1.01;
             var epiphanyAfterAdore = epiphany + epiphanyInc - value;
             var worshipAfterAdore = 0.01 + game.resPool.get('faith').value * (1 + game.getUnlimitedDR(epiphanyAfterAdore, 0.1) * 0.1);
-            var solarRevolutionAdterAdore = game.getLimitedDR(game.getUnlimitedDR(worshipAfterAdore, 1000) / 100, 1000);
+            var solarRevolutionAdterAdore = game.getLimitedDR(game.getUnlimitedDR(worshipAfterAdore, 1000) / 100, 10 + game.getEffect("solarRevolutionLimit"));
             if (tt < 10) {
                 catnipTick = game.village.getResConsumption()['catnip'] * (1 + game.getEffect("catnipDemandRatio"));
                 if (game.village.sim.kittens.length > 0 && game.village.happiness > 1) {
@@ -2606,8 +2611,8 @@ var run = function() {
             var bestBuilding = '';
             var pastureAmor = game.bld.getBuildingExt('unicornPasture').meta.effects['unicornsPerTickBase'] * game.getTicksPerSecondUI();
             pastureAmor = pastureAmor * globalRatio * religionRatio * paragonRatio * faithBonus * cycle;
-            pastureButton.model.prices = pastureButton.controller.getPrices(pastureButton.model);
-            pastureAmor = pastureButton.model.prices[0].val / pastureAmor;
+            var pastureMeta = game.bld.meta[0].meta[31];
+            pastureAmor = pastureMeta.prices[0].val * Math.pow(pastureMeta.priceRatio + game.getEffect("priceRatio"), pastureMeta.on) / pastureAmor;
             if (pastureAmor < bestAmoritization) {
                 bestAmoritization = pastureAmor;
                 bestBuilding = pastureButton;
@@ -3200,7 +3205,8 @@ var run = function() {
             if ('catnip' === name) {
                 var pastures = (game.bld.getBuildingExt('pasture').meta.stage === 0) ? game.bld.getBuildingExt('pasture').meta.val : 0;
                 var aqueducts = (game.bld.getBuildingExt('aqueduct').meta.stage === 0) ? game.bld.getBuildingExt('aqueduct').meta.val : 0;
-                var resPerTick = this.getPotentialCatnip(true, pastures, aqueducts);
+                var calendar = (game.calendar.year < 4) ? false : true;
+                var resPerTick = this.getPotentialCatnip(calendar, pastures, aqueducts);
 
                 if (resPerTick < 0 && (game.calendar.season !== 0 || this.getResource(name).maxValue * trigger < this.getResource(name).value || game.getResourcePerTick("catnip", true) < 0)) {
                     stock -= resPerTick * 400 * 5;
