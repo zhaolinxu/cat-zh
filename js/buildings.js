@@ -186,6 +186,21 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
         this.setEffectsCachedExisting();
 	},
 
+	setEffectsCachedExisting: function(){
+		this.inherited(arguments);
+		//register effect names on building stages
+		for (var i = 0; i < this.buildingsData.length; i++){
+			var building = this.buildingsData[i];
+			if (building.stages){
+				for (var j = 0; j < building.stages.length; j++){
+					for (var effectName in building.stages[j].effects){
+						this.effectsCachedExisting[effectName] = 0;
+					}
+				}
+			}
+		}
+	},
+
 	buildingGroups: [{
 		name: "food",
 		title: $I("buildings.group.food"),
