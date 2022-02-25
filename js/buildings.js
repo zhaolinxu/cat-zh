@@ -2760,6 +2760,10 @@ dojo.declare("classes.ui.btn.StagingBldBtnController", classes.ui.btn.BuildingBt
 		return effects;
 	},
 
+	getTotalEffects: function(model){
+		return this.getMetadataRaw(model).totalEffectsCached;
+	},
+
 	getStageLinks: function(model){
 		var self = this;
 		var stageLinks = [];
