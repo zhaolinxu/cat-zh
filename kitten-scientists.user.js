@@ -1034,7 +1034,7 @@ var run = function() {
             var subOptions = options.auto.options;
             var refresh = 0;
             if (subOptions.enabled && subOptions.items.observe.enabled)                     {this.observeStars();}
-            if (options.auto.upgrade.enabled)                                               {this.upgrade();}
+            if (options.auto.upgrade.enabled)                                               {refresh += this.upgrade();}
             if (subOptions.enabled && subOptions.items.festival.enabled)                    {this.holdFestival();}
             if (options.auto.build.enabled)                                                 {refresh += this.build();}
             if (options.auto.space.enabled)                                                 {refresh += this.space();}
@@ -1769,10 +1769,11 @@ var run = function() {
             var buildList = bulkManager.bulk(builds, metaData, trigger);
 
             var refreshRequired = 0;
+            let count;
             for (var entry in buildList) {
                 if (buildList[entry].count > 0) {
 
-                    let count = (game.religion.meta[1].meta[5].on) ? buildList[entry].count : 1;
+                    count = (game.religion.meta[1].meta[5].on) ? buildList[entry].count : 1;
 
                     buildManager.build(buildList[entry].id, buildList[entry].variant, count);
                     refreshRequired = 1;
@@ -2028,8 +2029,6 @@ var run = function() {
                 }
             }
 
-            if (refreshRequired) {game.render();}
-
             if (upgrades.buildings.enabled) {
                 var pastures = (game.bld.getBuildingExt('pasture').meta.stage === 0) ? game.bld.getBuildingExt('pasture').meta.val : 0;
                 var aqueducts = (game.bld.getBuildingExt('aqueduct').meta.stage === 0) ? game.bld.getBuildingExt('aqueduct').meta.val : 0;
@@ -2040,20 +2039,16 @@ var run = function() {
                         var energy = (game.resPool.energyWinterProd < game.resPool.energyCons);
                         var broadcastTower = game.bld.getBuildingExt('amphitheatre').meta.stage == 1;
                         var boolean = (energy || (broadcastTower && game.getResourcePerTick('titanium', true) > 25));
-                        if (craftManager.getPotentialCatnip(true, 0, aqueducts) > 45) {
+                        if (craftManager.getPotentialCatnip(true, 0, aqueducts) > 45 && boolean) {
                             var prices = pastureMeta.stages[1].prices;
-                            if (bulkManager.singleBuildPossible(pastureMeta, prices, 1)) {
-                                var button = buildManager.getBuildButton('pasture', 0);
-                                if(!button && !button.model && !button.model.metadata) {return game.bldTab.render();}
-                                button.controller.sellInternal(button.model, 0);
-                                pastureMeta.on = 0;
-                                pastureMeta.val = 0;
+                            if (bulkManager.singleBuildPossible(pastureMeta, prices, 1 )) {
+                                buildManager.sellBuild('pasture');
                                 pastureMeta.stage = 1;
+                                game.resPool.payPrices(prices);
+                                pastureMeta.on = 1;
+                                pastureMeta.val = 1;
                                 iactivity('upgrade.building.pasture', [], 'ks-upgrade');
-                                button.model.prices = button.controller.getPrices(button.model);
-                                if(!button.model.enabled) {button.controller.updateEnabled(button.model);}
-                                button.controller.build(button.model, 1);
-                                return;
+                                return 1;
                             }
                         }
                     }
@@ -2065,17 +2060,13 @@ var run = function() {
                         if (craftManager.getPotentialCatnip(true, pastures, 0) > 45) {
                             var prices = aqueductMeta.stages[1].prices;
                             if (bulkManager.singleBuildPossible(aqueductMeta, prices, 1)) {
-                                var button = buildManager.getBuildButton('aqueduct', 0);
-                                if(!button && !button.model && !button.model.metadata) {return game.bldTab.render();}
-                                button.controller.sellInternal(button.model, 0);
-                                aqueductMeta.on = 0;
-                                aqueductMeta.val = 0;
+                                buildManager.sellBuild('aqueduct');
                                 aqueductMeta.stage = 1;
+                                game.resPool.payPrices(prices);
+                                aqueductMeta.on = 1;
+                                aqueductMeta.val = 1;
                                 iactivity('upgrade.building.aqueduct', [], 'ks-upgrade');
-                                button.model.prices = button.controller.getPrices(button.model);
-                                if(!button.model.enabled) {button.controller.updateEnabled(button.model);}
-                                button.controller.build(button.model, 1);
-                                return;
+                                return 1;
                             }
                         }
                     }
@@ -2098,17 +2089,13 @@ var run = function() {
                             if (game.resPool.energyProd >= game.resPool.energyCons + enCon * libraryMeta.val / libToDat) {
                                 var prices = libraryMeta.stages[1].prices;
                                 if (bulkManager.singleBuildPossible(libraryMeta, prices, 1)) {
-                                    var button = buildManager.getBuildButton('library', 0);
-                                    if(!button && !button.model && !button.model.metadata) {return game.bldTab.render();}
-                                    button.controller.sellInternal(button.model, 0);
-                                    libraryMeta.on = 0;
-                                    libraryMeta.val = 0;
+                                    buildManager.sellBuild('library');
                                     libraryMeta.stage = 1;
+                                    game.resPool.payPrices(prices);
+                                    libraryMeta.on = 1;
+                                    libraryMeta.val = 1;
                                     iactivity('upgrade.building.library', [], 'ks-upgrade');
-                                    button.model.prices = button.controller.getPrices(button.model);
-                                    if(!button.model.enabled) {button.controller.updateEnabled(button.model);}
-                                    button.controller.build(button.model, 1);
-                                    return;
+                                    return 1;
                                 }
                             }
                         }
@@ -2121,22 +2108,20 @@ var run = function() {
                         var prices = amphitheatreMeta.stages[1].prices;
                         if (game.getResourcePerTick('titanium', true) > 0) {
                             if (bulkManager.singleBuildPossible(amphitheatreMeta, prices, 1)) {
-                                var button = buildManager.getBuildButton('amphitheatre', 0);
-                                if(!button && !button.model && !button.model.metadata) {return game.bldTab.render();}
-                                button.controller.sellInternal(button.model, 0);
-                                amphitheatreMeta.on = 0;
-                                amphitheatreMeta.val = 0;
+                                buildManager.sellBuild('amphitheatre');
                                 amphitheatreMeta.stage = 1;
+                                game.resPool.payPrices(prices);
+                                amphitheatreMeta.on = 1;
+                                amphitheatreMeta.val = 1;
                                 iactivity('upgrade.building.amphitheatre', [], 'ks-upgrade');
-                                button.model.prices = button.controller.getPrices(button.model);
-                                if(!button.model.enabled) {button.controller.updateEnabled(button.model);}
-                                button.controller.build(button.model, 1);
-                                return;
+                                return 1;
                             }
                         }
                     }
                 }
             }
+
+            return refreshRequired;
         },
         build: function (builds) {
             var builds = builds || options.auto.build.items;
@@ -2163,6 +2148,7 @@ var run = function() {
 
             if (!buildList) {return;}
             for (var i = 0; i < buildList.length; i++) {
+                let count;
                 if (buildList[i].count > 0) {
                     //当喵力上限太少过滤铸币厂
                     if (buildList[i].id === 'mint' && !game.challenges.isActive("pacifism")) {
@@ -2177,7 +2163,7 @@ var run = function() {
                         }
                     }
 
-                    let count = (game.religion.meta[1].meta[5].on) ? buildList[i].count : 1;
+                    count = (game.religion.meta[1].meta[5].on) ? buildList[i].count : Math.ceil(buildList[i].count / 3);
 
                     buildManager.build(buildList[i].name || buildList[i].id, buildList[i].stage, count);
                     refreshRequired = 1;
@@ -2957,6 +2943,22 @@ var run = function() {
                     return buttons[i];
                 }
             }
+        },
+        sellBuild: function (name) {
+            var build = this.getBuild(name).meta;
+            var prices = build.stages[build.stage].prices;
+            for(var i = 0; i < prices.length; i++){
+                var price = prices[i];
+                var res = game.resPool.get(price.name);
+                if (res.isRefundable() && !price.isTemporary && build.val) {
+                    var currentRatio = (build.priceRatio) ? build.priceRatio : build.stages[build.stage].priceRatio;
+                    var buildRatio = currentRatio + game.getEffect("priceRatio");
+                    var sumPrices = (price.val - price.val * Math.pow(buildRatio, build.val - 1)) / (1 - buildRatio);
+                    game.resPool.addResEvent(price.name, sumPrices * 0.5);
+                }
+            }
+            build.on = 0;
+            build.val = 0;
         }
     };
 
@@ -5459,8 +5461,9 @@ var run = function() {
                 if (b && b.length >=10) {
                     if (b.charAt(0) !== "{") {
                         b = JSON.parse(LZString.decompressFromBase64(b));
-                    } 
-                    window.localStorage['cbc.kitten-scientists'] = b;
+                    }
+                    var cbcLC = window.localStorage['cbc.kitten-scientists'];
+                    cbcLC = b;
                     game.save();
                     window.location.reload();
                 }
@@ -5496,11 +5499,13 @@ var run = function() {
                 option.enabled = input.prop('checked');
                 kittenStorage.items[input.attr('id')] = option.enabled;
                 saveToKittenStorage();
+                var style = document.getElementById('ks-donate').style;
                 if (!option.enabled) {
-                    document.getElementById('ks-donate').style.display='none';
+                    style.display='none';
                 } else {
-                    document.getElementById('ks-donate').style.display='block';
+                    style.display='block';
                 }
+                style = null;
             });
         }
 
