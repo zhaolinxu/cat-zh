@@ -340,11 +340,15 @@ var run = function() {
             'ui.faith.addtion': '附加项目',
             'option.faith.best.unicorn': '自动最效率独角兽建筑',
             'option.faith.best.unicorn.desc': '自动献祭独角兽，并会建造最佳独角兽建筑',
+
             'option.faith.transcend': '自动最佳次元超越',
+            'transcend.catnip': '注意次元超越再赞美群星后猫薄荷产量不够，故取消次元超越了',
             'act.transcend': '消耗 {0} 顿悟，达到次元超越 {1}',
             'summary.transcend': '次元超越了 {0} 次',
             'filter.transcend': '次元超越',
+
             'option.faith.adore': '赞美群星',
+            'adore.catnip': '注意赞美群星后猫薄荷产量不够，故取消赞美群星了',
             'act.adore': '赞美群星! 转化 {0} 虔诚为 {1} 顿悟',
             'summary.adore': '通过赞美群星积累了 {0} 顿悟',
             'filter.adore': '赞美群星',
@@ -376,9 +380,10 @@ var run = function() {
             'filter.enable': '过滤 {0}',
             'filter.disable': '取消过滤 {0}',
 
-            'craft.limited': '根据现有数量制作部分 {0}（无视触发条件和消耗率）',
+            'craft.limited': '每2秒制作 {0} 数量自动根据工艺制作效率、资源数量',
             'craft.limitedTitle': '根据原材料和目标材料的数量',
             'craft.unlimited': '仅到达触发条件制作 {0}',
+            'craft.winterCatnip': '因寒冬猫薄荷产量低于0，故取消使用猫薄荷',
 
             'distribute.limited': '分配 {0} 受限于最大值',
             'distribute.leaderJob': '领袖工作为 {0} ',
@@ -414,6 +419,7 @@ var run = function() {
             'time.skip.trigger.set': '燃烧时间水晶仅当时间水晶数量大于该触发值，取值范围为正整数',
             'summary.time.skip': '跳过 {0} 年',
             'filter.time.skip': '时间跳转',
+
             'option.time.reset': '重启时间线 (弃用)',
             'status.reset.check.enable': '在重启时间线前检查 {0}',
             'status.reset.check.disable': '在重启时间线前不检查 {0}',
@@ -445,6 +451,8 @@ var run = function() {
             'act.fix.cry': '小猫修复了 {0} 个冷冻仓',
             'summary.fix.cry': '修复了 {0} 个冷冻仓',
 
+            'summary.resource': '自动调整资源: {0} 的消耗率',
+            'summary.moon': '停在红月周期散热 {0} 次',
             'summary.blackcoin.buy': '小猫出售遗物并买入 {0} 次黑币',
             'summary.blackcoin.sell': '小猫出售黑币并买入了 {0} 次遗物',
             'summary.catnip': '呐，你的猫猫没有猫薄荷吸并强制分配 {0} 个农民',
@@ -514,6 +522,9 @@ var run = function() {
         // The color for resources with stock counts higher than current resource max
         stockwarncolor: '#DD1E00',
 
+        //猫薄荷日志
+        catnipMsg: true,
+
         // The default consume rate.
         consume: 0.6,
 
@@ -541,6 +552,10 @@ var run = function() {
                 enabled: false,
                 // At what percentage of the storage capacity should KS build faith buildings?
                 trigger: 0,
+                // 超越猫薄荷日志
+                transcendCatnip: true,
+                // 赞美群星猫薄荷日志
+                adoreCatnip: true,
                 // Additional options
                 addition: {
                     bestUnicornBuilding:    {enabled: true,  misc: true, label: i18n('option.faith.best.unicorn')},
@@ -653,7 +668,7 @@ var run = function() {
                     brewery:        {require: false,         enabled: false,max:-1,  checkForReset: true, triggerForReset: -1},
 
                     // storage
-                    barn:           {require: 'wood',        enabled: true, max:-1, checkForReset: true, triggerForReset: -1},
+                    barn:           {require: 'wood',        enabled: true, max:15, checkForReset: true, triggerForReset: -1},
                     harbor:         {require: false,         enabled: false,max:-1,  checkForReset: true, triggerForReset: -1},
                     warehouse:      {require: false,         enabled: false,max:200, checkForReset: true, triggerForReset: -1},
             
@@ -744,7 +759,8 @@ var run = function() {
                     accelerateTime:     {enabled: true,  subTrigger: 1,     misc: true, label: i18n('option.accelerate')},
                     timeSkip:           {enabled: false, subTrigger: 5,     misc: true, label: i18n('option.time.skip'), maximum: 50,
                         0: true, 1: true, 2: true, 3: true, 4: true, 5: false, 6: true, 7: true, 8: true, 9: true,
-                        spring: true, summer: false, autumn: false, winter: false, wait: false, adore: false},
+                        spring: true, summer: false, autumn: false, winter: false, 
+                        wait: false, adore: false, craft: false},
                     reset:              {enabled: false, subTrigger: 99999, misc: true, label: i18n('option.time.reset')}
                 }
             },
@@ -865,13 +881,13 @@ var run = function() {
                 items: {
                     // dynamic priority. distribute to the job which have lowest (job.val / job.max) value.
                     // if all jobs reach the max, then distribute kittens to unlimited job.
-                    woodcutter: {enabled: true, max: 1, limited: false},
+                    woodcutter: {enabled: true, max: 30, limited: true},
                     farmer:     {enabled: true, max: 10, limited: true},
                     scholar:    {enabled: true, max: 10, limited: true},
-                    hunter:     {enabled: true, max: 1, limited: false},
-                    miner:      {enabled: true, max: 1, limited: false},
-                    priest:     {enabled: true, max: 1, limited: false},
-                    geologist:  {enabled: true, max: 1, limited: false},
+                    hunter:     {enabled: true, max: 10, limited: false},
+                    miner:      {enabled: true, max: 30, limited: true},
+                    priest:     {enabled: true, max: 3, limited: false},
+                    geologist:  {enabled: true, max: 40, limited: false},
                     engineer:   {enabled: false, max: 1, limited: false},
                     leader:     {enabled: true, leaderJob: 'farmer', leaderTrait: 'manager'},
                 }
@@ -1038,6 +1054,7 @@ var run = function() {
             if (subOptions.enabled && subOptions.items.festival.enabled)                    {this.holdFestival();}
             if (options.auto.build.enabled)                                                 {refresh += this.build();}
             if (options.auto.space.enabled)                                                 {refresh += this.space();}
+            if (options.auto.timeCtrl.enabled)                                              {this.timeCtrl();}
             if (options.auto.craft.enabled)                                                 {this.craft();}
             if (subOptions.enabled && subOptions.items.hunt.enabled)                        {this.setHunt();}
             if (options.auto.trade.enabled)                                                 {this.trade();}
@@ -1047,9 +1064,8 @@ var run = function() {
             if (subOptions.enabled && subOptions.items.autofeed.enabled)                    {this.autofeed();}
             if (subOptions.enabled && subOptions.items.promote.enabled)                     {this.promote();}
             if (options.auto.distribute.enabled)                                            {this.distribute();}
-            if (options.auto.timeCtrl.enabled)                                              {this.timeCtrl();}
             if (subOptions.enabled)                                                         {refresh += this.miscOptions();}
-            if (refresh)                                                                    {game.ui.render();}
+            if (refresh)                                                                    {game.ui.render();game.update();}
             if (options.auto.timeCtrl.enabled && options.auto.timeCtrl.items.reset.enabled) {await this.reset();}
         },
         halfInterval: async function () {
@@ -1339,8 +1355,11 @@ var run = function() {
                 var heatMin =  4 * timeSkipMaximum * factor;
                 var booleanForHeat = (game.time.heat > game.getEffect('heatMax') - Math.min(heatMin, 20 * game.time.getCFU("blastFurnace").on + 20));
                 var moonBoolean = optionVals.timeSkip[5];
-                if (moonBoolean && game.prestige.getPerk("numeromancy") && game.prestige.getPerk("numerology").researched && optionVals.timeSkip.wait === false && booleanForHeat) {
+                let prestige = (game.prestige.getPerk("numeromancy").researched && game.prestige.getPerk("numerology").researched);
+                if (moonBoolean && prestige && optionVals.timeSkip.wait === false && booleanForHeat) {
                     optionVals.timeSkip.wait = 1;
+                    iactivity('summary.moon', [1]);
+                    storeForSummary('moon', 1);
                 }
 
                 var yearsPerCycle = game.calendar.yearsPerCycle;
@@ -1363,7 +1382,12 @@ var run = function() {
                 }
                 if (willSkip > 0) {
                     willSkip = Math.min(willSkip, Math.max(500 , game.getEffect("temporalPressCap") * 25));
-                    optionVals.timeSkip.adore = true;
+
+                    if (game.time.getCFU("ressourceRetrieval").val > 0) {
+                        optionVals.timeSkip.adore = true;
+                        this.skipCtrlRes();
+                    }
+                    
                     var beforeSkipYear = game.calendar.year;
                     shatter.controller.doShatterAmt(shatter.model, willSkip);
                     willSkip = game.calendar.year - beforeSkipYear;
@@ -1618,7 +1642,7 @@ var run = function() {
             var autoPraiseEnabled = option.autoPraise.enabled;
             var autoAdoreEnabled = option.adore.enabled;
             var timeSkipAdore = options.auto.timeCtrl.items.timeSkip.adore;
-            var doAdoreAfterTimeSkip = (timeSkipAdore && autoPraiseEnabled && autoAdoreEnabled && game.time.getCFU("ressourceRetrieval").val > 4);
+            var doAdoreAfterTimeSkip = (timeSkipAdore && autoPraiseEnabled && autoAdoreEnabled);
             var PraiseSubTrigger = option.autoPraise.subTrigger;
             var apocripha = game.religion.getRU('apocripha').on;
 
@@ -1634,7 +1658,7 @@ var run = function() {
                     var nextLevelCatnip = game.religion._getTranscendTotalPrice(tt + 1) - game.religion._getTranscendTotalPrice(tt);
                     if (tt > 10) {
                         TranscendTimes = 1;
-                    } else if (tt < 10 && moonBoolean && game.calendar.season != 2 && worship > 1e5 && apocripha && this.catnipForReligion(nextLevelCatnip) > 0) {
+                    } else if (tt < 11 && moonBoolean && game.calendar.season != 2 && worship > 1e5 && apocripha && this.catnipForReligion(nextLevelCatnip) > 0) {
                         TranscendTimes = 4;
                     } else {
                         TranscendTimes = 0;
@@ -2129,9 +2153,20 @@ var run = function() {
             var craftManager = this.craftManager;
             var bulkManager = this.bulkManager;
             var trigger = options.auto.build.trigger;
+            var refreshRequired = 0;
 
             // Render the tab to make sure that the buttons actually exist in the DOM. Otherwise we can't click them.
             //buildManager.manager.render();
+
+            if (builds['amphitheatre']) {
+                var important = {
+                    amphitheatre:builds['amphitheatre'],
+                    workshop:builds['workshop'],
+                };
+                delete builds['amphitheatre'];
+                delete builds['workshop'];
+                builds = Object.assign(important, builds);
+            }
 
             var metaData = {};
             for (var name in builds) {
@@ -2141,8 +2176,8 @@ var run = function() {
 
             var buildList = bulkManager.bulk(builds, metaData, trigger, 'bonfire');
 
-            var refreshRequired = 0;
-            if (game.challenges.isActive("blackSky") && options.auto.build.items.calciner.enabled && buildManager.getBuildButton("calciner") && game.bld.getBuildingExt('calciner').meta.val == 0) {
+            var calcinerMeta = game.bld.getBuildingExt('calciner').meta;
+            if (game.challenges.isActive("blackSky") && options.auto.build.items.calciner.enabled && calcinerMeta.unlocked && !calcinerMeta.val) {
                 buildManager.build("calciner", undefined, 1);
             }
 
@@ -2208,14 +2243,15 @@ var run = function() {
             var crafts = options.auto.craft.items;
             var manager = this.craftManager;
             var trigger = options.auto.craft.trigger;
+            var craftsItem = ['beam','wood', 'slab', 'plate', 'steel', 'alloy', 'concrate', 'gear', 'scaffold', 'ship', 'tanker', 'parchment', 'manuscript', 'compedium', 'blueprint', 'kerosene', 'megalith', 'eludium', 'thorium'];
 
-            for (var name in crafts) {
+            for (var name of craftsItem) {
                 var craft = crafts[name];
                 var current = !craft.max ? false : manager.getResource(name);
                 var require = !craft.require ? false : manager.getResource(craft.require);
                 var season = game.calendar.season;
                 var amount = 0;
-                if (!game.bld.getBuildingExt('workshop').meta.on && craft !== "wood") {continue;}
+                if (!game.bld.getBuildingExt('workshop').meta.on && name !== "wood") {continue;}
                 // Ensure that we have reached our cap
                 if (current && current.value > craft.max) {continue;}
                 if (!manager.singleCraftPossible(name)) {continue;}
@@ -2544,6 +2580,25 @@ var run = function() {
             }
             return refreshRequired;
         },
+        skipCtrlRes: function () {
+            if (options.auto.timeCtrl.items.timeSkip.craft) {return;}
+            var resList = ['catnip', 'wood', 'minerals', 'coal', 'iron', 'oil', 'uranium', 'science'];
+            var name = '';
+            for (var i = 0; i < resList.length; i++) {
+                var res = game.resPool.resourceMap[resList[i]];
+                if (!options.auto.resources[res.name]) {
+                    options.auto.resources[res.name] = {};
+                    options.auto.resources[res.name].enabled = true;
+                    options.auto.resources[res.name].stock = 0;
+                    $('#toggle-list-resources').append(addNewResourceOption(res.name, res.title, false));
+                }
+                options.auto.resources[res.name].consume = 1;
+                name += res.title + '，';
+            }
+            options.auto.timeCtrl.items.timeSkip.craft = true;
+            iactivity('summary.resource', [name]);
+            storeForSummary('resource');
+        },
         catnipForReligion: function (value) {
             var value = value || 0;
             var catnipTick = 1;
@@ -2565,6 +2620,19 @@ var run = function() {
                 var solarRevolutionRatio = 1 + game.religion.getSolarRevolutionRatio() * (1 + game.bld.pollutionEffects["solarRevolutionPollution"]);
                 catnipTick = ((game.resPool.get('catnip').perTickCached - catnipTick) * (1 + solarRevolutionAdterAdore) / solarRevolutionRatio) + catnipTick+game.globalEffectsCached.catnipPerTickCon;
             }
+            if (catnipTick < 0) {
+                // 次元超越猫薄荷
+                if (value && options.auto.faith.transcendCatnip) {
+                    iactivity('transcend.catnip');
+                    options.auto.faith.transcendCatnip = false;
+                }
+                // 赞美群星猫薄荷
+                if (!value && options.auto.faith.adoreCatnip) {
+                    iactivity('adore.catnip');
+                    options.auto.faith.adoreCatnip = false;
+                }
+            }
+            
             return catnipTick;
         },
         // ref: https://github.com/Bioniclegenius/NummonCalc/blob/112f716e2fde9956dfe520021b0400cba7b7113e/NummonCalc.js#L490
@@ -3216,6 +3284,10 @@ var run = function() {
 
                 if (resPerTick < 0 && (game.calendar.season !== 0 || this.getResource(name).maxValue * trigger < this.getResource(name).value || game.getResourcePerTick("catnip", true) < 0)) {
                     stock -= resPerTick * 400 * 5;
+                    if (options.catnipMsg) {
+                        iactivity('craft.winterCatnip');
+                        options.catnipMsg = false;
+                    }
                 }
             }
 
