@@ -655,7 +655,7 @@ var run = function() {
                     observatory:    {require: 'iron',        enabled: true, max:-1, checkForReset: true, triggerForReset: -1},
 
                     // other
-                    amphitheatre:   {require: 'minerals',    enabled: true, max:-1, stage: 0, checkForReset: true, triggerForReset: -1},
+                    amphitheatre:   {require: 'minerals',    enabled: true, max:40, stage: 0, checkForReset: true, triggerForReset: -1},
                     broadcastTower: {require: 'titanium',    enabled: true, max:-1, stage: 1, name: 'amphitheatre', checkForReset: true, triggerForReset: -1},
                     tradepost:      {require: 'gold',        enabled: true, max:-1, checkForReset: true, triggerForReset: -1},
                     chapel:         {require: 'minerals',    enabled: true, max:-1, checkForReset: true, triggerForReset: -1},
@@ -2158,13 +2158,11 @@ var run = function() {
             // Render the tab to make sure that the buttons actually exist in the DOM. Otherwise we can't click them.
             //buildManager.manager.render();
 
-            if (builds['amphitheatre']) {
+            if (builds['hut']) {
                 var important = {
                     amphitheatre:builds['amphitheatre'],
                     workshop:builds['workshop'],
                 };
-                delete builds['amphitheatre'];
-                delete builds['workshop'];
                 builds = Object.assign(important, builds);
             }
 
