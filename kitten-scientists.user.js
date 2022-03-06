@@ -266,7 +266,7 @@ var run = function() {
             'filter.star': '天文现象',
             'filter.misc': '杂项',
 
-            'dispose.necrocorn': '珂学家帮你处理掉了影响效率的多余死灵兽',
+            'dispose.necrocorn': '小猫帮你处理掉了影响效率的多余死灵兽',
             'blackcoin.buy': '小猫出售遗物并买入 {0} 黑币',
             'blackcoin.sell': '小猫出售黑币并买入了 {0} 遗物',
             'act.feed': '小猫向上古神献上祭品。上古神很高兴',
@@ -280,10 +280,10 @@ var run = function() {
             'upgrade.space.mission': '小猫执行了 {0} 的任务',
             'upgrade.space': '小猫执行了 {0}',
             'upgrade.race': '小猫遇到了 {0}',
-            'upgrade.building.pasture': '牧场 升级为 太阳能发电站 !',
-            'upgrade.building.aqueduct': '水渠 升级为 水电站 !',
-            'upgrade.building.library': '图书馆 升级为 数据中心!',
-            'upgrade.building.amphitheatre': '剧场 升级为 广播塔!',
+            'upgrade.building.pasture': '卖出牧场 并升级为 太阳能发电站 !',
+            'upgrade.building.aqueduct': '卖出水渠 并升级为 水电站 !',
+            'upgrade.building.library': '卖出图书馆 并升级为 数据中心!',
+            'upgrade.building.amphitheatre': '卖出剧场 并升级为 广播塔!',
             'upgrade.upgrade': '小猫发明了 {0}',
             'upgrade.limited': '优化 {0}',
             'upgrade.unlimited': '全部 {0}',
@@ -376,7 +376,7 @@ var run = function() {
             'trade.seasons': '季节',
             'trade.season.enable': '启用在 {1} 与 {0} 的贸易',
             'trade.season.disable': '停止在 {1} 与 {0} 的贸易',
-            'trade.catnp': '因猫薄荷储量过低，与鲨鱼贸易',
+            'trade.catnip': '因猫薄荷储量过低，与鲨鱼贸易',
 
             'filter.enable': '过滤 {0}',
             'filter.disable': '取消过滤 {0}',
@@ -392,7 +392,7 @@ var run = function() {
             'distribute.unlimited': '分配 {0} 不受限',
             'distribute.makeLeader': '分配领袖',
             'act.distribute': '分配一只猫猫成为 {0}',
-            'act.distribute.catnip': '珂学家担心你的猫猫没有猫薄荷吸并强制分配到农民',
+            'act.distribute.catnip': '担心你的猫猫没有猫薄荷吸并强制分配到农民',
             'act.distributeLeader': '分配一只 {0} 猫猫领袖',
             'ui.max.set': '设置 {0} 的最大值',
             'summary.distribute': '帮助 {0} 只猫猫找到工作',
@@ -408,7 +408,7 @@ var run = function() {
             'option.accelerate': '光阴似箭',
             'act.accelerate': '固有时制御，二倍速!',
             'filter.accelerate': '光阴似箭',
-            'summary.accelerate': '珂学家加速时间 {0} 次',
+            'summary.accelerate': '小猫加速时间 {0} 次',
             'option.time.skip': '时间跳转',
             'act.time.skip': '燃烧时间水晶, 跳过接下来的 {0} 年!',
             'ui.cycles': '周期',
@@ -452,16 +452,16 @@ var run = function() {
             'act.fix.cry': '小猫修复了 {0} 个冷冻仓',
             'summary.fix.cry': '修复了 {0} 个冷冻仓',
 
-            'summary.resource': '自动调整资源: {0} 的消耗率',
-            'summary.moon': '停在红月周期散热 {0} 次',
+            'summary.resource': '小猫自动调整资源: {0} 的消耗率',
+            'summary.moon': '小猫停在红月周期散热 {0} 次',
             'summary.blackcoin.buy': '小猫出售遗物并买入 {0} 次黑币',
             'summary.blackcoin.sell': '小猫出售黑币并买入了 {0} 次遗物',
             'summary.catnip': '呐，你的猫猫没有猫薄荷吸并强制分配 {0} 个农民',
-            'summary.pumpjack': '担心电不够并关闭了 {0} 次油井自动化',
-            'summary.biolab': '担心电不够并关闭了 {0} 个生物实验室',
-            'summary.temporalAccelerator': '珂学家担心卡顿打开了时空加速器的自动化',
-            'summary.reactor': '向反应堆投入了铀开始发光呐',
-            'summary.steamworks': '向蒸汽工房加了煤开始排蒸汽呐',
+            'summary.pumpjack': '小猫担心电不够并关闭了 {0} 次油井自动化',
+            'summary.biolab': '小猫担心电不够并关闭了 {0} 个生物实验室',
+            'summary.temporalAccelerator': '小猫担心卡顿打开了时空加速器的自动化',
+            'summary.reactor': '小猫向反应堆投入了铀开始发光呐',
+            'summary.steamworks': '小猫向蒸汽工房加了煤开始排蒸汽呐',
             'summary.festival': '举办了 {0} 次节日',
             'summary.stars': '观测了 {0} 颗流星',
             'summary.praise': '通过赞美太阳积累了 {0} 虔诚',
@@ -888,7 +888,7 @@ var run = function() {
                     hunter:     {enabled: true, max: 10, limited: false},
                     miner:      {enabled: true, max: 30, limited: true},
                     priest:     {enabled: true, max: 3, limited: false},
-                    geologist:  {enabled: true, max: 40, limited: false},
+                    geologist:  {enabled: true, max: 50, limited: true},
                     engineer:   {enabled: false, max: 1, limited: false},
                     leader:     {enabled: true, leaderJob: 'farmer', leaderTrait: 'manager'},
                 }
@@ -1719,7 +1719,7 @@ var run = function() {
                 }
                 // Adore
                 var lastFaith = option.adore.lastFaith;
-                var BooleanForLastFaith = (!lastFaith || worship > lastFaith || tt > 11);
+                var BooleanForLastFaith = (!lastFaith || worship > lastFaith * 0.75 || tt > 11);
                 var tier = (!game.religion.transcendenceTier || tt);
                 var moonBoolean = game.space.meta[0].meta[1].on;
                 var booleanForAdore = (solarRevolutionAdterAdore >= triggerSolarRevolution && worship >= 1e5 && BooleanForLastFaith && moonBoolean);
@@ -1763,7 +1763,8 @@ var run = function() {
             // Render the tab to make sure that the buttons actually exist in the DOM. Otherwise we can't click them.
             //buildManager.manager.render();
 
-            if (!game.religion.meta[1].meta[5].on) {
+            var solarMeta = game.religion.meta[1].meta[5];
+            if (!solarMeta.on && game.resPool.resourceMap['faith'].value > solarMeta.faith && game.resPool.hasRes(solarMeta.prices)) {
                 buildManager.build("solarRevolution", "s", 1);
             }
 
@@ -2082,7 +2083,8 @@ var run = function() {
                 var aqueductMeta = game.bld.getBuildingExt('aqueduct').meta;
                 if (aqueductMeta.stage === 0 && options.auto.build.items.hydroPlant.enabled && pastureMeta.stage === 1) {
                     if (aqueductMeta.stages[1].stageUnlocked) {
-                        if (craftManager.getPotentialCatnip(true, pastures, 0) > 45) {
+                        var energy = (game.resPool.energyWinterProd < game.resPool.energyCons);
+                        if (craftManager.getPotentialCatnip(true, pastures, 0) > 45 && energy) {
                             var prices = aqueductMeta.stages[1].prices;
                             if (bulkManager.singleBuildPossible(aqueductMeta, prices, 1)) {
                                 buildManager.sellBuild('aqueduct');
@@ -2169,6 +2171,15 @@ var run = function() {
                     }
                 } else if (builds['steamworks'].auto) {
                     builds['steamworks'].enabled = true;
+                }
+
+                if (game.calendar.festivalDays > 0) {
+                    if (builds['brewery'].enabled) {
+                        builds['brewery'].enabled = false;
+                        builds['brewery'].auto = true;
+                    }
+                } else if (builds['brewery'].auto) {
+                    builds['brewery'].enabled = true;
                 }
 
                 var important = {
@@ -2408,8 +2419,8 @@ var run = function() {
 
             if (maxTrades < 1) {return;}
 
-            var catnipNow = game.resPool.get('catnip').value + 20 * game.getResourcePerTick("catnip", true);
-            if (catnipNow < 0) {
+            var catnipNow = game.resPool.get('catnip').value + 40 * game.getResourcePerTick("catnip", true);
+            if (catnipNow < 0 && options.auto.trade.items['sharks'].enabled) {
                 var sharks = game.diplomacy.get('sharks');
                 var catnip = tradeManager.getAverageTrade(sharks).catnip;
                 tradeManager.trade(name, Math.ceil(catnipNow / -catnip));
@@ -3503,8 +3514,10 @@ var run = function() {
                             var nextPriceCheck = (tempPool['oil'] < oilPrice * Math.pow(1.05, k + data.val));
                         } else if (cryoKarma) {
                             var nextPriceCheck = (tempPool['karma'] < karmaPrice * Math.pow(priceRatio, k + data.val));
-                        } else {
-                            var nextPriceCheck = (tempPool[prices[p].name] < prices[p].val * Math.pow(priceRatio, k + data.val));
+                        } else {                           
+                            // 检查无限
+                            let price = prices[p].val * Math.pow(priceRatio, k + data.val);
+                            var nextPriceCheck = (tempPool[prices[p].name] < price || price == Infinity);
                         }
                         if (nextPriceCheck || (data.noStackable && (k + data.val) >= 1) || (build.id === 'ressourceRetrieval' && k + data.val >= 100)
                           || (build.id === 'cryochambers' && game.bld.getBuildingExt('chronosphere').meta.val <= k + data.val)) {
