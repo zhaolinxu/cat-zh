@@ -775,7 +775,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                         }else if (!res.maxValue){
                             delta[res.name] = Math.min(delta[res.name], 0);
                             //using sum of geometrical progression:
-                            var decreaseOfDelta = -delta[res.name] * (1-(1 - Math.abs(Math.pow(aiDestructionMod, yearsInCurrentCycle))));
+                            var decreaseOfDelta = -delta[res.name] * (1 - Math.abs(Math.pow(aiDestructionMod, yearsInCurrentCycle)))/(1 + yearsInCurrentCycle);
                             game.resPool.addResEvent(res.name, decreaseOfDelta - oldVal * (1- Math.pow((1 + aiDestructionMod), yearsInCurrentCycle))); //this is no longer broken
                         }else /*if (resLimit == res.value)*/{
                             resLimit = Math.min(resLimit, res.value) * Math.pow(1 + aiDestructionMod, yearsInCurrentCycle);
