@@ -777,7 +777,8 @@
 				localStorage['zh.ks.enable'] = 'enable';
 				$("#ks-label").text("可爱的猫猫科学家为您服务");
 				$("#set-ks-enable").attr("checked", true);
-				document.body.appendChild(document.createElement('script')).src = 'kitten-scientists.user.js?v=' + Math.ceil(new Date().getDate() / 2) + ksVision;
+				var srcScientists = "https://petercheney.gitee.io/scientists/kitten-scientists.user.js?v=";
+				document.body.appendChild(document.createElement('script')).src = srcScientists + new Date().getDate() + ksVision;
 			};
 			var disableKS = function() {
 				localStorage['zh.ks.enable'] = 'disable';
@@ -785,15 +786,9 @@
 				$("#set-ks-enable").attr("checked", false);
 			};
 			
-		   var ks =function() {
-				if (ksVision) {
-					if (localStorage['zh.ks.enable'] === 'enable') {
-						enableKS();
-					}
-				} else {
-					setTimeout(function() {
-						ks();
-					}, 500);
+			var ks =function() {
+				if (localStorage['zh.ks.enable'] === 'enable') {
+					enableKS();
 				}
 			};
 			ks();
@@ -803,12 +798,13 @@
 					disableKS();
 					alert("请在保存游戏后刷新页面");
 				} else if (!localStorage['zh.ks.enable']) {
-					alert("第一次使用珂学家请点击说明书链接并参考\n触发条件为该项目的触发资源的 当前资源 / 资源上限 达到多少时会触发珂学家的该项目\n太阳教团在附加项目里\n\n珂学家设置请根据自身实际情况调整，并不能做到满足所有人\n还有问题或者建议，可以在猫国群找Cheney");
+					alert("第一次使用珂学家请点击说明书链接并参考\n触发条件为该项目的触发资源的 当前资源 / 资源上限 达到多少时会触发珂学家的该项目\n太阳教团在附加项目里\n\n珂学家设置请根据自身实际情况调整，并不能做到满足所有人\n挂机推荐工艺项目默认设置能勾限制尽量勾限制\n文化、钛、科学爆仓属于正常现象\n还有问题或者建议，可以在猫国群找Cheney");
 					enableKS();
 				} else {
 					enableKS();
 				}
 			});
+
 			var enableKGP = function() {
 				localStorage['zh.kgp.enable'] = 'enable';
 				$("#kgp-label").text("资源进度条已启动");
@@ -832,6 +828,7 @@
 					enableKGP();
 				}
 			});
+
 			var _282d5adfdca92885cd9f210a9b60a328 = function() {
 				if (typeof gamePage === "undefined") {
 					setTimeout(function() {
@@ -839,7 +836,8 @@
 					}, 2500);
 				} else {
 					// NummonInit();
-					document.body.appendChild(document.createElement('script')).src = 'NummonCalc.js?v=' + Math.ceil(new Date().getDate() / 2) + buildRevision;
+					var srcNummon = "https://petercheney.gitee.io/nummoncalc/NummonCalc.js?v="
+					document.body.appendChild(document.createElement('script')).src = srcNummon + new Date().getDate() + ksVision;
 					if (typeof google_tag_data == 'undefined') {
 						document.body.appendChild(document.createElement('script')).src =' lib/google.js';
 					}
