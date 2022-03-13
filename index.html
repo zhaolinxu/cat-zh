@@ -786,9 +786,15 @@
 				$("#set-ks-enable").attr("checked", false);
 			};
 			
-			var ks =function() {
-				if (localStorage['zh.ks.enable'] === 'enable') {
-					enableKS();
+		   var ks =function() {
+				if (ksVision) {
+					if (localStorage['zh.ks.enable'] === 'enable') {
+						enableKS();
+					}
+				} else {
+					setTimeout(function() {
+						ks();
+					}, 500);
 				}
 			};
 			ks();
