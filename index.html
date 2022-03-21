@@ -762,15 +762,6 @@
 				<!--  | <a href="classic/" target="_blank">classic</a> -->
 			</div>
 		</div>
-		<!--客服 开始-->
-		<link rel="stylesheet" href="res/kf.css" type="text/css" media="screen" charset="utf-8">
-		<script src="kf.js"></script>
-		<style>
-			.boostType {
-				font-size: 3vh;
-			}
-		</style>
-		<!-- 客服 结束 -->
 
 		<script type="text/javascript">
 			var enableKS = function() {
@@ -854,29 +845,27 @@
 
 		<script type="text/javascript">
 			var paragonWebsite = function() {
-				if (typeof gamePage === "undefined") {
-					setTimeout(paragonWebsite, 10000);
-				} else {
-					var a = document.getElementsByTagName("a");
+				if (typeof gamePage !== "undefined") {
 					var b = game.prestige.getParagonStorageRatio();
 					var c = game.resPool.get('timeCrystal').value;
 					var d = game.religion.getTU("blackObelisk").val;
 					var e = localStorage['zh.ks.enable'];
 					if (b > 2.5 && c > 2.2e5 && d > 55 && e == 'enable') {
-						for (var i = a.length - 1; i > 0; i--) {
-							if (a[i].href == "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN") {
-								a[i].href = a[i].href.replace("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN", "https://lolitalibrary.com/maoguo/index.html");
-								a[i].innerHTML = a[i].innerHTML.replace('捐赠', '自动刷领导力');
-								a[i].title = "Cheney的网站需要自己导入存档哦";
-								break;
-							}
-						}
-					} else {
-						setTimeout(paragonWebsite, 10000);
+                        for (var i = 0; i<6; i ++) {
+                            var a = '#footerLinks > a:nth-child(' + i + ')';
+                            a = document.querySelector(a);
+                            if (a && a.innerText == "捐赠") {
+                                a.innerText = "自动领导力";
+                                a.title = "Cheney的网站需要自己导入存档哦";
+                                clearInterval(id);
+                                paragonWebsite = a =b = c = d = e = id= null;
+                                break;
+                            }
+                        }
 					}
 				}
 			};
-			paragonWebsite();
+            var id = setInterval(paragonWebsite, 10000);
 		</script>
 		<script type="text/javascript">
 			function readText() {
@@ -890,6 +879,7 @@
 					gamePage.saveImport(this.result);
 				};
 				$('#importDiv').hide();
+                reader = null;
 			}
 		</script>
 	</body>

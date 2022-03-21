@@ -145,6 +145,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 			// Add effect in globalEffectsCached, in addition of other managers
 			this.game.globalEffectsCached[name] = typeof(this.game.globalEffectsCached[name]) == "number" ? this.game.globalEffectsCached[name] + effect : effect;
 		}
+		effect = effectsBase  = null;
 	},
 
 	updateMetaEffectCached: function (metadata) {
@@ -1876,7 +1877,9 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				if (building.lackResConvert) {
 					dojo.toggleClass(this.domNode, "bldlackResConvert", building.on > 0);
 				} else {
+                    var domNode = this.domNode;
 					dojo.toggleClass(this.domNode, "bldEnabled", building.on > 0);
+                    domNode = null;
 				}
 			}
 

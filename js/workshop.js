@@ -2433,7 +2433,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 					}
 				);
             }
-
+            prices = null;
             return true;
 		} else if (forceAll) {
 			//console.log("not enough resources for ", prices, ", crafting as much as possible");

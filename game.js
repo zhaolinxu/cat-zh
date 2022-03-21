@@ -1988,13 +1988,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.village.updateResourceProduction();
 		}), 10);	//every 2 seconds
 
-		this.timer.addEvent(dojo.hitch(this, function(){
-			this.updateCaches();
-		}), 5);		//once per 5 ticks
+		//this.timer.addEvent(this.updateCaches.bind(this), 5);		//once per 5 ticks
 
 		var ONE_MIN = this.ticksPerSecond * 60;
 		this.timer.addEvent(dojo.hitch(this, function(){ this.achievements.update(); }), 50);	//once per 50 ticks, we hardly need this
-		this.timer.addEvent(dojo.hitch(this, function(){ this.server.refresh(); }), ONE_MIN * 3e2);	//reload MOTD and server info every 10 minutes
+		this.timer.addEvent(dojo.hitch(this, function(){ this.server.refresh(); }), ONE_MIN * 24 * 60);	//reload MOTD and server info every 10 minutes
 		this.timer.addEvent(dojo.hitch(this, function(){ this.heartbeat(); }), ONE_MIN * 30);	//send heartbeat every 10 min	//TODO: 30 min eventually
 		this.timer.addEvent(dojo.hitch(this, function(){ this.updateWinterCatnip(); }), 25);	//same as achievements, albeit a bit more frequient
 		this.timer.addEvent(dojo.hitch(this, function(){ this.ui.checkForUpdates(); }), ONE_MIN * 180);	//check new version every 5 min
@@ -2263,7 +2261,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = saveDataString;
-		console.log("Game saved");
+		//console.log("Game saved");
 
 		this.ui.save();
 
@@ -3703,7 +3701,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 			if (this.undoChange.ttl <= 0){
 				this.undoChange = null;
-				this._publish("server/undoStateChanged");
+				//this._publish("server/undoStateChanged");
 			}
 		}
         //--------------------
@@ -4312,7 +4310,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		 * Even if the game is paused, scheduler should still be able to obtain a focus to handle cases like save/load/reset
 		 */
 		this.timer.updateScheduledEvents();
-        var fpsElement;
+        //var fpsElement;
 
 		if (this.isPaused){
 			return;
@@ -4327,7 +4325,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.ticks++;
 
 		var timestampEnd = new Date().getTime();
-		//if (this.isLocalhost) {	//always collect fps metrics
+		if (this.isLocalhost) {	//always collect fps metrics
 			this.totalUpdateTimeTicks++;
 
 			var tsDiff = timestampEnd - timestampStart;
@@ -4368,6 +4366,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				memory: memory
 			});
 		}
+        }
 	},
 
 	restartFPSCounters: function() {
@@ -4573,8 +4572,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 
 		//-------------------------- very confusing and convoluted stuff related to karma zebras ---------------
-		var bonusZebras = this._getBonusZebras();
 		if (this.resPool.get("zebras").value > 0 && this.ironWill){
+            var bonusZebras = this._getBonusZebras();
 			karmaZebras += bonusZebras;
 		}
 
@@ -4987,7 +4986,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
         this.undoChange = undoChange;
 
-		this._publish("server/undoStateChanged");
+		//this._publish("server/undoStateChanged");
         return undoChange;
     },
 
@@ -5015,7 +5014,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         }
 
         this.undoChange = null;
-		this._publish("server/undoStateChanged");
+		//this._publish("server/undoStateChanged");
     },
 
 	//-----------------------------------------------------------------
