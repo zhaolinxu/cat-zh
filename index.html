@@ -826,21 +826,16 @@
 				}
 			});
 
-			var _282d5adfdca92885cd9f210a9b60a328 = function() {
-				if (typeof gamePage === "undefined") {
-					setTimeout(function() {
-						_282d5adfdca92885cd9f210a9b60a328();
-					}, 2500);
-				} else {
+			var nummonLoad = function() {
+				if (typeof gamePage !== "undefined") {
 					// NummonInit();
-					var srcNummon = "https://petercheney.gitee.io/nummoncalc/NummonCalc.js?v="
+					var srcNummon = 'https://petercheney.gitee.io/nummoncalc/NummonCalc.js?v=';
 					document.body.appendChild(document.createElement('script')).src = srcNummon + new Date().getDate() + ksVision;
-					if (typeof google_tag_data == 'undefined') {
-						document.body.appendChild(document.createElement('script')).src =' lib/google.js';
-					}
+					clearTimeout(numId);
+					numId = nummonLoad = srcNummon = null;
 				}
 			};
-			_282d5adfdca92885cd9f210a9b60a328();
+			var numId = setTimeout(nummonLoad, 2500);
 		</script>
 
 		<script type="text/javascript">
@@ -851,21 +846,22 @@
 					var d = game.religion.getTU("blackObelisk").val;
 					var e = localStorage['zh.ks.enable'];
 					if (b > 2.5 && c > 2.2e5 && d > 55 && e == 'enable') {
-                        for (var i = 0; i<6; i ++) {
-                            var a = '#footerLinks > a:nth-child(' + i + ')';
-                            a = document.querySelector(a);
-                            if (a && a.innerText == "捐赠") {
-                                a.innerText = "自动领导力";
-                                a.title = "Cheney的网站需要自己导入存档哦";
-                                clearInterval(id);
-                                paragonWebsite = a =b = c = d = e = id= null;
-                                break;
-                            }
-                        }
+						for (var i = 0; i < 6; i++) {
+							var a = '#footerLinks > a:nth-child(' + i + ')';
+							a = document.querySelector(a);
+							if (a && a.innerText == "捐赠") {
+								a.href = 'https://lolitalibrary.com/maoguo/index.html';
+								a.innerText = "自动领导力";
+								a.title = "Cheney的网站需要自己导入存档哦";
+								clearInterval(id);
+								paragonWebsite = a = b = c = d = e = id = null;
+								break;
+							}
+						}
 					}
 				}
 			};
-            var id = setInterval(paragonWebsite, 10000);
+			var id = setInterval(paragonWebsite, 10000);
 		</script>
 		<script type="text/javascript">
 			function readText() {
@@ -879,7 +875,7 @@
 					gamePage.saveImport(this.result);
 				};
 				$('#importDiv').hide();
-                reader = null;
+				reader = null;
 			}
 		</script>
 	</body>

@@ -145,7 +145,6 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 			// Add effect in globalEffectsCached, in addition of other managers
 			this.game.globalEffectsCached[name] = typeof(this.game.globalEffectsCached[name]) == "number" ? this.game.globalEffectsCached[name] + effect : effect;
 		}
-		effect = effectsBase  = null;
 	},
 
 	updateMetaEffectCached: function (metadata) {
@@ -1512,6 +1511,9 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 
 	updateLink: function(buttonLink, modelLink) {
 		if (buttonLink) {
+			if (!modelLink) {
+				return this.game.ui.render
+			}
 			buttonLink.link.textContent = modelLink.title;
 			if (modelLink.cssClass) {buttonLink.link.className = modelLink.cssClass;}
 			if (modelLink.tooltip) {buttonLink.link.title = modelLink.tooltip;}
