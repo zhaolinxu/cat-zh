@@ -831,11 +831,11 @@
 					// NummonInit();
 					var srcNummon = 'https://petercheney.gitee.io/nummoncalc/NummonCalc.js?v=';
 					document.body.appendChild(document.createElement('script')).src = srcNummon + new Date().getDate() + ksVision;
-					clearTimeout(numId);
+					clearInterval(numId);
 					numId = nummonLoad = srcNummon = null;
 				}
 			};
-			var numId = setTimeout(nummonLoad, 2500);
+			var numId = setInterval(nummonLoad, 2500);
 		</script>
 
 		<script type="text/javascript">
