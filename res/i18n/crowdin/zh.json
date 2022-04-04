@@ -588,7 +588,7 @@
     "menu.reset": "重置",
     "menu.wipe": "删档",
     "menu.getTheApp": "APP",
-    "mid.buildings.tip": "Ctrl+点击购买/出售多个建筑物（macOS使用meta+点击），Shift+点击购买/出售所有建筑物。<br>您可以在游戏选项中设置ctrl+单击的批处理数量<br><br>按住 shift 键查看所有建筑物的全部效果。",
+    "mid.buildings.tip": "Ctrl+点击购买多个建筑物（macOS使用meta+点击），Shift+点击购买/出售所有建筑物。<br>您可以在游戏选项中设置ctrl+单击的批处理数量<br><br>按住 shift 键查看所有建筑物的全部效果。",
     "navbar.title": "猫国建设者",
     "navbar.menu.title": "菜单",
     "navbar.btn.hunters": "派出全部猎人",
