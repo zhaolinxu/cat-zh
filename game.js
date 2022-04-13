@@ -2954,11 +2954,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		// Once we have rendered the page immidiately update it in order to
 		// reduce flicker
-        if (!this.isPaused){
-            if (update) {
+        if (update) {
                 this.update();
-            }
         }
+
 		this.calendar.update();
 	},
 
