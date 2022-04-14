@@ -241,7 +241,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	observeBtn: null,
 	observeRemainingTime: 0,
 	observeClear: function(){
-		dojo.destroy(this.observeBtn);
+		if (this.observeBtn) {
+			dojo.destroy(this.observeBtn);
+		}
 		this.observeBtn = null;
 		this.observeRemainingTime = 0;
 
