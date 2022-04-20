@@ -192,36 +192,33 @@
 				console.log("Loading...");
 
 				//------ preload theme id ---------
+				var loadedTheme = [];
 				var uiData = LCstorage["com.nuclearunicorn.kittengame.ui"];
 				var uiSettings = uiData && JSON.parse(uiData);
-				var cssVision = false;
 				if (uiSettings) {
 					if (uiSettings.theme) {
 						$("body").addClass("scheme_" + uiSettings.theme);
-						cssVision = true;
+						loadedTheme.push(uiSettings.theme);
 					}
 				}
+
+				$("#schemeToggle").on('change', function () {
+					let theme = $('#schemeToggle').val();
+					if (loadedTheme.indexOf(theme) == -1) {
+						loadedTheme.push(theme);
+						loadTheme(theme);
+					}
+					gamePage.toggleScheme(theme);
+				});
 
 				var def = $.getJSON("build.version.json?=" + now).then(function(json) {
 					buildRevision = json.buildRevision;
 					ksVision = json.ksVision;
+					loadedTheme.length > 0 && loadTheme(uiSettings.theme);
 					console.log("build revison is" + buildRevision);
 					$("#versionLink").html(displayedVersion + ".r" + buildRevision);
 				});
 				def = _import("config", def);
-				def.then(function() {
-					if (cssVision) {
-						loadTheme(uiSettings.theme);
-					}
-					var schemes = new classes.KGConfig().statics.schemes;
-					for (var i = 0; i < schemes.length; ++i) {
-						//todo: skip theme if preloaded
-						if (!uiSettings || uiSettings.theme != schemes[i]){
-							loadTheme(schemes[i], buildRevision);
-						}
-					}
-				});
-
 				def = _import("i18n", def);
 				def.then(function() {
 					console.log("Loading locale system");
@@ -577,7 +574,7 @@
 				<br>
 
 				<label id="optionScheme" for="schemeToggle">Color scheme:</label>
-				<select id="schemeToggle" onchange="gamePage.toggleScheme($('#schemeToggle').val())">
+				<select id="schemeToggle">
 				</select> &nbsp;
 				<a id="schemeRelock" href="#" onclick="gamePage.ui.relockSchemes()" style="font-size:14px;">Relock schemes</a>
 				<br><em><span id="schemeTip" style="font-size: 70%;">Schemes that you cannot select yet can be permanently unlocked by specific actions.</span></em>
