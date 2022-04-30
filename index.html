@@ -1,13 +1,13 @@
 <!doctype html>
 <html lang="zh_CN">
 	<script>
-		var _hmt = _hmt || [];
-		(function() {
-			var hm = document.createElement("script");
-			hm.src = "https://hm.baidu.com/hm.js?ec6bd64244269a7cec5de39ae5bd1486";
-			var s = document.getElementsByTagName("script")[0];
-			s.parentNode.insertBefore(hm, s);
-		})();
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "https://hm.baidu.com/hm.js?5ebe572e50425975e9bb5543706f62e6";
+	  var s = document.getElementsByTagName("script")[0];
+	  s.parentNode.insertBefore(hm, s);
+	})();
 	</script>
 	<head>
 		<meta charset="utf-8">
@@ -344,11 +344,12 @@
 			$(window).resize(resetGameLogHeight);
 		</script>
 
-		<title>Kittens Game - a Dark Souls of incremental gaming</title>
+		<title>猫国建设者 - Kittens Game - 一款黑暗灵魂增量游戏</title>
 	</head>
 
 
 	<body>
+		<!--汉化零碎文本 <script src="chs/chs.js?v=3"></script> <script src="chs/chscore.js?v=3"></script> -->
 		<div id="gamePageContainer">
 
 			<div id="topBar">
@@ -370,10 +371,10 @@
 					<span style="font-size: small;">
 						<a href="http://kittensgame.com/beta" title="测试版本" target="_blank">&beta;</a>
 						<a href="http://kittensgame.com/web" title="国外英文官网版本" target="_blank"><strong>ML</strong></a>
-						<a href="https://likexia.gitee.io/cat-zh/" title="国内阳光搬运" target="_blank"><strong>&Iota;</strong></a>
+						<a href="https://petercheney.gitee.io/kitten-game-cn/" title="备用网站" target="_blank">C</a>
+						<a href="https://lolitalibrary.com/maomao/" title="备用网站" target="_blank"><strong>C</strong></a>
 					</span>
 				</div>
-
 
 				<div id="devPanel" style="display:inline-block; padding-left: 15px; font-size: 14px;">
 					<div id="devPanelFPS" onclick="gamePage.restartFPSCounters()">
@@ -639,7 +640,7 @@
 				<!-- looks like a to niche option to occupy entire setting slot -->
 				<div class="optsExtra" style="display:none;">
 					<input id="noConfirm" type="checkbox" onclick="gamePage.opts.noConfirm = $('#noConfirm')[0].checked;">
-					<label id="optionNoConfirm" for="noConfirm">Do not confirm when clearing all jobs, researching policy, upgrading buildings, or when buying or selling all (Shift-click)</label>
+					<label id="optionNoConfirm" for="noConfirm">Do not confirm when clearing all jobs, researching policy or when buying or selling all (Shift-click)</label>
 					<br>
 					<input id="IWSmelter" type="checkbox" onclick="gamePage.opts.IWSmelter = $('#IWSmelter')[0].checked;">
 					<label id="optionIWSmelter" for="IWSmelter">Smelters turn off at 95% max Iron in Iron Will mode</label>
@@ -760,9 +761,23 @@
 				</div>
 			</div>
 
+			<div id="importantGiteeDiv" style="display: none" class="dialog help">
+				<a id="registerDialogClose" href="#" class="close" style="position: absolute; top: 10px; right: 15px;">close</a>
+				<ul style = "list-style:none">
+				<li>由于Gitee官方通知，该网站可能随时被关闭。<br>原因是likexia，idlegame 网页占用了较多网络资源。请相互理解</li>
+				<li>故请做好做备份，在游戏右上角的选项中可以 导出/导入 游戏存档。</li>
+				<li>所以我暂时弄了几个备用站。（分流一下~）</li>
+				<br>Cheney的Gitee备用：<a href="https://petercheney.gitee.io/kitten-game-cn/" title="备用网站" target="_blank" style="text-transform:lowercase;">https://petercheney.gitee.io/kitten-game-cn/</a></li>
+				<br>Cheney的备用游戏(推荐~)：<a href="https://lolitalibrary.com/maomao/" title="备用网站" target="_blank" style="text-transform:lowercase;"><strong>https://lolitalibrary.com/maomao/</strong></a></li>
+				<br>Cheney的备用百科：<a href="https://lolitalibrary.com/wiki/" title="备用网站" target="_blank" style="text-transform:lowercase;"><strong>https://lolitalibrary.com/wiki/</strong></a>
+				<br>Github的备用游戏：<a href="https://cat-zh-mirror1.github.io/cat-zh/" title="备用网站" target="_blank" style="text-transform:lowercase;">https://cat-zh-mirror1.github.io/cat-zh/</a>
+				</ul>
+			</div>
+
 			<div id="footerLinks" class="links-block">
-				<a href="https://petercheney.gitee.io/baike/?file=%E9%A6%96%E9%A1%B5" target="_blank" title="猫国百科全书">百科（中文wiki）</a> |
+				<a href="https://petercheney.gitee.io/baike/?file=%E9%A6%96%E9%A1%B5" target="_blank" title="猫国百科全书">百科</a> |
 				<a class="chatLink" href="//shang.qq.com/wpa/qunwpa?idkey=2b9f0b27b1aabbce582429184ec05344fa384f59bf410f44071f42b271866338" target="_blank" title="点击加入猫薄荷同好会QQ群：499256691">Q群</a> |
+				<a href="http://g8hh.com" target="_blank" title="更多好玩的放置游戏，就来锅巴汉化">锅巴汉化</a> |
 				<!-- <a href="http://kittensgame.tumblr.com" target="_blank">tumblr</a> | -->
 				<!-- <a href="#" onclick="$('#helpDiv').toggle();">help</a> | -->
 				<a href="#" onclick="$('#creditsDiv').toggle();">人员</a> |
@@ -771,8 +786,13 @@
 				<!--  | <a href="classic/" target="_blank">classic</a> -->
 			</div>
 		</div>
+		<!--客服 开始-->
+		<link rel="stylesheet" href="chs/kf.css?v=2" type="text/css" media="screen" charset="utf-8">
+		<script src="chs/kf.js?v=3"></script>
+		<!--客服 结束-->
 
 		<script type="text/javascript">
+			//            科学家1.5.0
 			var enableKS = function() {
 				localStorage['zh.ks.enable'] = 'enable';
 				$("#ks-label").text("可爱的猫猫科学家为您服务");
@@ -839,7 +859,7 @@
 				if (typeof gamePage !== "undefined") {
 					// NummonInit();
 					var srcNummon = 'https://petercheney.gitee.io/nummoncalc/NummonCalc.js?v=';
-					document.body.appendChild(document.createElement('script')).src = srcNummon + new Date().getDate() + ksVision;
+					document.body.appendChild(document.createElement('script')).src = srcNummon + ksVision;
 					clearInterval(numId);
 					numId = nummonLoad = srcNummon = null;
 				}
@@ -859,7 +879,7 @@
 							var a = '#footerLinks > a:nth-child(' + i + ')';
 							a = document.querySelector(a);
 							if (a && a.innerText == "捐赠") {
-								a.href = 'https://lolitalibrary.com/maoguo/index.html';
+								a.href = 'https://petercheney.gitee.io/cheney/index.html';
 								a.innerText = "自动领导力";
 								a.title = "Cheney的网站需要自己导入存档哦";
 								clearInterval(id);
@@ -871,6 +891,11 @@
 				}
 			};
 			var id = setInterval(paragonWebsite, 10000);
+			//var gitee = setTimeout(() => {
+			//	if (game && game.ui) {
+			//		game.ui.showDialog("importantGiteeDiv");
+			//	}
+			//}, 5000);
 		</script>
 		<script type="text/javascript">
 			function readText() {

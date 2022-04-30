@@ -1879,9 +1879,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				if (building.lackResConvert) {
 					dojo.toggleClass(this.domNode, "bldlackResConvert", building.on > 0);
 				} else {
-                    var domNode = this.domNode;
 					dojo.toggleClass(this.domNode, "bldEnabled", building.on > 0);
-                    domNode = null;
 				}
 			}
 
