@@ -81,12 +81,12 @@ self.addEventListener('fetch', function(event) {
 			caches.match(eventRequest, {
 				ignoreSearch: buildJson || serverJson,
 			}).then(function(response, reject) {
-				//没网直接返回
-				if (!navigator.onLine) {
-					return response;
-				}
 				let useCache = true;
 				if (response) {
+					//没网直接返回
+					if (!navigator.onLine) {
+						return response;
+					}
 					if (objectURL.search) {
 						/*serverJson !== -1 , 版本号有网更新缓存*/
 						if (buildJson) {
