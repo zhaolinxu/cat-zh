@@ -348,7 +348,7 @@ WLoginForm = React.createClass({
 
     render: function(){
         if (this.state.isLoading){
-            return $r("span", null, "Loading...");
+            return $r("span", null, "加载中...");
         }
         var game = this.props.game;
         if (game.server.userProfile){
@@ -379,13 +379,13 @@ WLoginForm = React.createClass({
             {onClick: function (e){ e.stopPropagation(); }},
             [
                 $r("div", {className: "row"}, [
-                    "Email:",
+                    "邮箱:",
                         $r("input", {
                             type: "email",
                             onChange: this.setLogin,
                             value: this.state.login
                         } ),
-                    "Password:",
+                    "密码:",
                         $r("input", {
                             type: "password",
                             onChange: this.setPassword,
@@ -396,11 +396,13 @@ WLoginForm = React.createClass({
                     $r("a", {
                         href:"#",
                         onClick: this.login
-                    }, "login"),
+                    }, "登录"),
                     $r("a", {
-                        target: "_blank",
-                        href: "http://kittensgame.com/ui/register"
-                    }, "register")
+                        onClick: function(e){
+                            e.stopPropagation();
+                            game.ui.showDialog("registerDiv");
+                    }}, "注册"),
+                    $r("span", {paddingTop:"10px"}, "存档自动存在浏览器的缓存里，不换端无需云存档")
                 ])
             ]
         )
@@ -429,7 +431,7 @@ WLoginForm = React.createClass({
         $.ajax({
             cache: false,
             type: "POST",
-            dataType: "JSON",
+            // dataType: "JSON",
             data: {
                 email: this.state.login,
                 password: this.state.password
@@ -565,7 +567,7 @@ WCloudSaves = React.createClass({
                             game.server.syncSaveData();
                         }
                     }, $I("ui.kgnet.sync")),
-                    $r("span", {paddingTop:"10px"}, $I("ui.kgnet.instructional"))
+                    $r("span", {paddingTop:"10px"}, (saveData && saveData.length) ? "" : $I("ui.kgnet.instructional"))
                 ])
             ])
         ])

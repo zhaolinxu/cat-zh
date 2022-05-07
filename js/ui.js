@@ -25,7 +25,7 @@
     },
  */
 
-var $r = React.createElement;
+window.$r = React.createElement;
 dojo.declare("mixin.IReactAware", null, {
     component: null,
     container: null,
@@ -586,6 +586,10 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         React.render($r(WToolbar, {
             game: this.game
         }), document.getElementById("headerToolbar"));
+
+        container = null;
+        scrollPosition = null;
+        midColumn = null;
     },
 
     //---------------------------------------------------------------
@@ -1168,6 +1172,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
     checkForUpdates: function(){
         var self = this;
+        if (self.game.ticks < 100) {return;}
         var now = Date.now();
         
         $.getJSON("build.version.json?=" + now).then(function(json){

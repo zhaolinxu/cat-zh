@@ -1,36 +1,60 @@
 <!doctype html>
 <html lang="zh_CN">
-	<script>
-		var _hmt = _hmt || [];
-		(function() {
-			var hm = document.createElement("script");
-			hm.src = "https://hm.baidu.com/hm.js?ec6bd64244269a7cec5de39ae5bd1486";
-			var s = document.getElementsByTagName("script")[0];
-			s.parentNode.insertBefore(hm, s);
-		})();
-	</script>
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="Cache-Control" content="private, no-cache, no-store">
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+		<script>
+			if (window.location.pathname && window.location.pathname.indexOf('//') == -1) {
+				if (typeof navigator.serviceWorker !== 'undefined') {
+					navigator.serviceWorker.register('serviceWorker.js');
+				}
+			}
+		</script>
+
 		<link rel="shortcut icon" href="res/favicon.gif" type="image/x-icon">
 
 		<!-- I only use jquery ironically -->
 
-		<script src="lib/react.min.js"></script>
+		<!-- <script src="lib/react.min.js"></script> -->
+		<script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-y/react/0.14.10/react.min.js"></script>
 
 		<!-- Local versions of libs will be hosted so our Chinese players wont be forced to use VPN -->
-		<script src="lib/jQuery.js?v=_2"></script>
-		<script src="lib/dojo.xd.js"></script>
-		<script src="lib/lz-string.js"></script>
-		<script src="lib/md5.js"></script>
+		<!-- <script src="lib/jQuery.js?v=_2"></script> -->
+		<script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-y/jquery/3.6.0/jquery.min.js"></script>
+
+		<!-- <script src="lib/dojo.xd.js"></script> -->
+		<script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-y/dojo/1.6.0/dojo.xd.js"></script>
+		<!-- <script src="lib/lz-string.js"></script> -->
+		<script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-y/lz-string/1.4.1/lz-string.js"></script>
+		<!-- <script src="lib/dropbox_v2.js"></script> -->
+		<!-- <script src="lib/md5.js"></script> -->
 
 		<!-- friends don't let friends use AMD and require.js -->
-		<script src="lib/system.js?v=_2"></script>
+		<!-- <script src="lib/system.js?v=_2"></script> -->
+		<script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-y/systemjs/0.21.6/system.js"></script>
+		<script>
+			if (typeof React === 'undefined') {
+				document.write(decodeURI('%3Cscript%20src=%22lib/react.min.js%22%3E%3C/script%3E'));
+			}
+			if (typeof jQuery === 'undefined') {
+					document.write(decodeURI('%3Cscript%20src=%22lib/jQuery.js%22%3E%3C/script%3E'));
+				}
+			if (typeof dojo === 'undefined') {
+				document.write(decodeURI('%3Cscript%20src=%22lib/dojo.xd.js%22%3E%3C/script%3E'));
+			}
+			if (typeof LZString === 'undefined') {
+				document.write(decodeURI('%3Cscript%20src=%22lib/lz-string.js%22%3E%3C/script%3E'));
+			}
+			if (typeof SystemJS == 'undefined') {
+				document.write(decodeURI('%3Cscript%20src=%22lib/system.js%22%3E%3C/script%3E'));
+			}
+		</script>
+		<!-- <script async src="lib/google.js"></script> -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-0QBDX221PR"></script>
 
-		<script async src="lib/google.js"></script>
 		<script>
 			window.dataLayer = window.dataLayer || [];
 			function gtag(){dataLayer.push(arguments);}
@@ -41,7 +65,7 @@
 
 		<script type="text/javascript">
 			var now = Date.now();
-			$("<link />").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "res/default.css?v=" + 1 +  new Date().getDate()).appendTo($("head"));
+			$("<link />").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "res/default.css?v=" + 2).appendTo($("head"));
 		</script>
 
 		<script>
@@ -159,32 +183,33 @@
 				console.log("Loading...");
 
 				//------ preload theme id ---------
+				var loadedTheme = [];
 				var uiData = LCstorage["com.nuclearunicorn.kittengame.ui"];
 				var uiSettings = uiData && JSON.parse(uiData);
 				if (uiSettings) {
 					if (uiSettings.theme) {
 						$("body").addClass("scheme_" + uiSettings.theme);
-						loadTheme(uiSettings.theme);
+						loadedTheme.push(uiSettings.theme);
 					}
 				}
+
+				$("#schemeToggle").on('change', function () {
+					let theme = $('#schemeToggle').val();
+					if (loadedTheme.indexOf(theme) == -1) {
+						loadedTheme.push(theme);
+						loadTheme(theme);
+					}
+					gamePage.toggleScheme(theme);
+				});
 
 				var def = $.getJSON("build.version.json?=" + now).then(function(json) {
 					buildRevision = json.buildRevision;
 					ksVision = json.ksVision;
+					loadedTheme.length > 0 && loadTheme(uiSettings.theme);
 					console.log("build revison is" + buildRevision);
 					$("#versionLink").html(displayedVersion + ".r" + buildRevision);
 				});
 				def = _import("config", def);
-				def.then(function() {
-					var schemes = new classes.KGConfig().statics.schemes;
-					for (var i = 0; i < schemes.length; ++i) {
-						//todo: skip theme if preloaded
-						if (!uiSettings || uiSettings.theme != schemes[i]){
-							loadTheme(schemes[i], buildRevision);
-						}
-					}
-				});
-
 				def = _import("i18n", def);
 				def.then(function() {
 					console.log("Loading locale system");
@@ -241,12 +266,14 @@
 					}
 
 					//--------------------------
+					// var dropBoxClient = new Dropbox.Dropbox({clientId: "u6lnczzgm94nwg3"}); //the starting Dropbox object
+					// game.setDropboxClient(dropBoxClient);
 
 
 					gamePage.load();
 					gamePage.updateKarma();
 
-					gamePage.render();
+					gamePage.render(true);
 					gamePage.ui.renderFilters();
 					gamePage.ui.onLoad();
 					gamePage.start();
@@ -308,11 +335,12 @@
 			$(window).resize(resetGameLogHeight);
 		</script>
 
-		<title>Kittens Game - a Dark Souls of incremental gaming</title>
+		<title>猫国建设者 - Kittens Game - 一款黑暗灵魂增量游戏</title>
 	</head>
 
 
 	<body>
+		<!--汉化零碎文本 <script src="chs/chs.js?v=3"></script> <script src="chs/chscore.js?v=3"></script> -->
 		<div id="gamePageContainer">
 
 			<div id="topBar">
@@ -334,10 +362,10 @@
 					<span style="font-size: small;">
 						<a href="http://kittensgame.com/beta" title="测试版本" target="_blank">&beta;</a>
 						<a href="http://kittensgame.com/web" title="国外英文官网版本" target="_blank"><strong>ML</strong></a>
-						<a href="https://likexia.gitee.io/cat-zh/" title="国内阳光搬运" target="_blank"><strong>&Iota;</strong></a>
+						<a href="https://petercheney.gitee.io/kitten-game-cn/" title="备用网站" target="_blank">C</a>
+						<a href="https://lolitalibrary.com/maomao/" title="备用网站" target="_blank"><strong>C</strong></a>
 					</span>
 				</div>
-
 
 				<div id="devPanel" style="display:inline-block; padding-left: 15px; font-size: 14px;">
 					<div id="devPanelFPS" onclick="gamePage.restartFPSCounters()">
@@ -538,7 +566,7 @@
 				<br>
 
 				<label id="optionScheme" for="schemeToggle">Color scheme:</label>
-				<select id="schemeToggle" onchange="gamePage.toggleScheme($('#schemeToggle').val())">
+				<select id="schemeToggle">
 				</select> &nbsp;
 				<a id="schemeRelock" href="#" onclick="gamePage.ui.relockSchemes()" style="font-size:14px;">Relock schemes</a>
 				<br><em><span id="schemeTip" style="font-size: 70%;">Schemes that you cannot select yet can be permanently unlocked by specific actions.</span></em>
@@ -603,7 +631,7 @@
 				<!-- looks like a to niche option to occupy entire setting slot -->
 				<div class="optsExtra" style="display:none;">
 					<input id="noConfirm" type="checkbox" onclick="gamePage.opts.noConfirm = $('#noConfirm')[0].checked;">
-					<label id="optionNoConfirm" for="noConfirm">Do not confirm when clearing all jobs, researching policy, upgrading buildings, or when buying or selling all (Shift-click)</label>
+					<label id="optionNoConfirm" for="noConfirm">Do not confirm when clearing all jobs, researching policy or when buying or selling all (Shift-click)</label>
 					<br>
 					<input id="IWSmelter" type="checkbox" onclick="gamePage.opts.IWSmelter = $('#IWSmelter')[0].checked;">
 					<label id="optionIWSmelter" for="IWSmelter">Smelters turn off at 95% max Iron in Iron Will mode</label>
@@ -642,9 +670,12 @@
 
 			<div id="exportDiv" style="display: none" class="dialog help">
 				<h1 id="exportTo">Export To:</h1>
+				<!-- <input id="exportToDropbox" type="button" onclick="gamePage.saveExportDropbox();" value="Dropbox (Beta)"> -->
 				<input id="exportToSimpleFile" type="button" onclick="gamePage.saveToFile(false);" value="File (simple name)">
 				<input id="exportToFullFile" type="button" onclick="gamePage.saveToFile(true);" value="File (full name)">
 				<a id="download-link" target="_blank" style="display: none"></a>
+				<br>
+				<span>注意：推荐导出txt传递，QQ和微信发送字母数字有长度限制</span>
 				<br>
 				<h1 id="exportToText">Text Export:</h1>
 				<br>
@@ -655,13 +686,17 @@
 
 			<div id="importDiv" style="display: none" class="dialog help">
 				<div id="importWarning">Warning! Importing data will overwrite your current game data.</div>
+				<input id="importFile" type="file" value="选择存档文件"></input>
+				<input id="doFileImportButton" type="button" value="使用文件导入" onclick="readText();" style="margin-top: 10px;">
+				<br>
+				<span>注意：推荐导出txt传递，QQ和微信发送字母数字有长度限制</span>
 				<h1 id="importFromText">Text Import:</h1>
+				<!-- <input id="importFromDropbox" type="button" onclick="gamePage.saveImportDropbox();" value="Dropbox (Beta)"> -->
 				<br>
 				<textarea id="importData" style="width: 550px; height: 220px;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
 				<br>
-				<input id="doImportButton" type="button" value="Import" onclick="gamePage.saveImport(); $('#importDiv').hide();gamePage.nummonTab.visible = true;" style="margin-top: 10px;">
+				<input id="doImportButton" type="button" value="Import" onclick="gamePage.saveImport(); $('#importDiv').hide();" style="margin-top: 10px;">
 				<input id="cancelButton" type="button" value="Cancel" onclick="$('#importDiv').hide();" style="margin-top: 10px;">
-
 			</div>
 
 			<div id="appDiv" style="display: none" class="dialog help">
@@ -688,108 +723,73 @@
 					<span style="display: block;">推荐使用QQ数字邮箱<br>（可以显示QQ头像和昵称）</span>
 					<span>电子邮箱:
 						<br>
-						<input type="email" id="registerEmail"></span>
-						<div style="display: block;">
-							<br>密码：
-							<span style="font-size: 0.8em">(6-30字符)</span>
-							<br>
-							<input type="password" id="loginPassword" placeholder="请输入密码" autocomplete="off">
-						</div>
+						<input type="email" id="registerEmail" />
+					</span>
+					<form style="display: block;">
+						<br>密码：
+						<span style="font-size: 0.8em">(6-30字符)</span>
+						<br>
+						<input type="password" id="loginPassword" placeholder="请输入密码" autocomplete="off" />
+					</form>
 					<br>
-						<div style="display: block;">确认密码:
-							<br>
-							<input type="password" id="confirmPassword" placeholder="请输入密码" autocomplete="off">
-							<br>
-						</div>
+					<form style="display: block;">确认密码:
+						<br>
+						<input type="password" id="confirmPassword" placeholder="请输入密码" autocomplete="off" />
+						<br>
+					</form>
 					<br>
 					<div class="btn modern" style="font-size:16px;" onclick="gamePage.server.register()">注册</div>
 					<div style="color:#01A9DB;">
-						<ul>
-						<li>因为官方网站注册有几率会被墙。</li>
-						<li>这里注册可以代替官网注册账号。</li>
-						<li>网页存档可以手机存档一键同步。</li>
-						<li>不同电脑使用云存档能一键同步。</li>
-						<li>后续设置可能有点麻烦按需使用。</li>
-						<li>国外官网上传和加载都有些延迟。</li>
-						<li>成功或者失败游戏日志会有提示。</li>
+						<ul style = "list-style:none">
+							<li>因为官方网站注册有几率会被墙。</li>
+							<li>这里注册可以代替官网注册账号。</li>
+							<li>右上角选项能导入导出游戏存档。</li>
+							<li>云存档能多端一键同步游戏存档。</li>
+							<li>后续设置可能有点麻烦按需使用。</li>
+							<li>国外官网上传和加载都有些延迟。</li>
 						</ul>
 					</div>
 				</div>
 			</div>
 
+			<div id="importantGiteeDiv" style="display: none" class="dialog help">
+				<a id="registerDialogClose" href="#" class="close" style="position: absolute; top: 10px; right: 15px;">close</a>
+				<ul style = "list-style:none">
+				<li>由于Gitee官方通知，该网站可能随时被关闭。<br>原因是likexia，idlegame 网页占用了较多网络资源。请相互理解</li>
+				<li>故请做好做备份，在游戏右上角的选项中可以 导出/导入 游戏存档。</li>
+				<li>所以我暂时弄了几个备用站。（分流一下~）</li>
+				<br>Cheney的Gitee备用：<a href="https://petercheney.gitee.io/kitten-game-cn/" title="备用网站" target="_blank" style="text-transform:lowercase;">https://petercheney.gitee.io/kitten-game-cn/</a></li>
+				<br>Cheney的备用游戏(推荐~)：<a href="https://lolitalibrary.com/maomao/" title="备用网站" target="_blank" style="text-transform:lowercase;"><strong>https://lolitalibrary.com/maomao/</strong></a></li>
+				<br>Cheney的备用百科：<a href="https://lolitalibrary.com/wiki/" title="备用网站" target="_blank" style="text-transform:lowercase;"><strong>https://lolitalibrary.com/wiki/</strong></a>
+				<br>Github的备用游戏：<a href="https://cat-zh-mirror1.github.io/cat-zh/" title="备用网站" target="_blank" style="text-transform:lowercase;">https://cat-zh-mirror1.github.io/cat-zh/</a>
+				</ul>
+			</div>
+
 			<div id="footerLinks" class="links-block">
-				<a href="https://petercheney.gitee.io/baike/?file=%E9%A6%96%E9%A1%B5" target="_blank" title="猫国百科全书">百科（中文wiki）</a> |
+				<a href="https://petercheney.gitee.io/baike/?file=%E9%A6%96%E9%A1%B5" target="_blank" title="猫国百科全书">百科</a> |
 				<a class="chatLink" href="//shang.qq.com/wpa/qunwpa?idkey=2b9f0b27b1aabbce582429184ec05344fa384f59bf410f44071f42b271866338" target="_blank" title="点击加入猫薄荷同好会QQ群：499256691">Q群</a> |
+				<a href="http://g8hh.com" target="_blank" title="更多好玩的放置游戏，就来锅巴汉化">锅巴汉化</a> |
 				<!-- <a href="http://kittensgame.tumblr.com" target="_blank">tumblr</a> | -->
 				<!-- <a href="#" onclick="$('#helpDiv').toggle();">help</a> | -->
 				<a href="#" onclick="$('#creditsDiv').toggle();">人员</a> |
-
-				<body>
-					<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN" target="_blank">捐赠</a> |
-					<script type="text/javascript">
-						var paragonWebsite = function() {
-							if (typeof gamePage === "undefined") {
-								setTimeout(paragonWebsite, 10000);
-							} else {
-								var a = document.getElementsByTagName("a");
-								var b = game.prestige.getParagonStorageRatio();
-								var c = game.resPool.get('timeCrystal').value;
-								var d = game.religion.getTU("blackObelisk").val;
-								var e = localStorage['zh.ks.enable'];
-								if (b > 2.5 && c > 2e5 && d > 55 && e == 'enable') {
-									for (var i = a.length - 1; i > 0; i--) {
-										if (a[i].href == "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN") {
-											a[i].href = a[i].href.replace("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN", "https://lolitalibrary.com/maoguo/index.html");
-											a[i].innerHTML = a[i].innerHTML.replace('捐赠', '自动刷领导力');
-											a[i].title = "Cheney的网站需要自己导入存档哦";
-											break;
-										}
-									}
-								} else {
-									setTimeout(paragonWebsite, 10000);
-								}
-							}
-						}
-						paragonWebsite();
-					</script>
-				</body>
+				<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN" target="_blank">捐赠</a> |
 				<a href="https://www.patreon.com/bloodrizer" target="_blank">支持</a>
 				<!--  | <a href="classic/" target="_blank">classic</a> -->
 			</div>
 		</div>
-		<div id="changeDiv" style="display: none;" align="center" class="dialog help">
-				<a id="changeDialogClose" href="#" class="close" style="position: absolute; top: 10px; right: 15px;">close</a>
-				<div style="font-weight: bold; color:#666;">猫国建设者</div>
-				<hr>
-				<div>
-					<br>
-					<span style="display: block;">链接[<a href="https://petercheney.gitee.io/baike/" target="_blank" title="猫国百科全书">百科</a>]</span>
-					<span style="display: block;">链接[<a href="https://petercheney.gitee.io/baike/?file=004-第三方工具/02-小猫科学家" target="_blank" title="猫国百科全书">小猫珂学家说明书</a>]</span>
-					<span>如果是从likexia点说明书过来的。<br>请在likexia保存按下F5刷新一下。<i>页面可能被缓存了</i></span>
-					<br>
-					<span>链接[<a href="https://likexia.gitee.io/cat-zh/" target="_blank" title="游戏地址">最新版猫国建设者</a>]</span>
-					
-				</div>
-			</div>
 		<!--客服 开始-->
-		<link rel="stylesheet" href="res/kf.css" type="text/css" media="screen" charset="utf-8">
-		<script src="kf.js"></script>
-		<style>
-			.boostType {
-				font-size: 3vh;
-			}
-		</style>
-		<!-- 客服 结束 -->
+		<link rel="stylesheet" href="chs/kf.css?v=2" type="text/css" media="screen" charset="utf-8">
+		<script src="chs/kf.js?v=3"></script>
+		<!--客服 结束-->
 
 		<script type="text/javascript">
-		setTimeout(function() {
-						game.ui.showDialog("changeDiv");
-					}, 4000);
+			//            科学家1.5.0
 			var enableKS = function() {
 				localStorage['zh.ks.enable'] = 'enable';
 				$("#ks-label").text("可爱的猫猫科学家为您服务");
 				$("#set-ks-enable").attr("checked", true);
-				document.body.appendChild(document.createElement('script')).src = 'kitten-scientists.user.js?v=' + new Date().getDate() + ksVision;
+				var srcScientists = "https://petercheney.gitee.io/scientists/kitten-scientists.user.js?v=";
+				document.body.appendChild(document.createElement('script')).src = srcScientists + new Date().getDate() + ksVision;
 			};
 			var disableKS = function() {
 				localStorage['zh.ks.enable'] = 'disable';
@@ -797,7 +797,7 @@
 				$("#set-ks-enable").attr("checked", false);
 			};
 			
-		   var ks =function() {
+		   var ks = function() {
 				if (ksVision) {
 					if (localStorage['zh.ks.enable'] === 'enable') {
 						enableKS();
@@ -807,7 +807,7 @@
 						ks();
 					}, 500);
 				}
-			}
+			};
 			ks();
 
 			$("#set-ks-enable").on('change', function() {
@@ -815,12 +815,13 @@
 					disableKS();
 					alert("请在保存游戏后刷新页面");
 				} else if (!localStorage['zh.ks.enable']) {
-					alert("第一次使用珂学家请点击说明书链接并参考\n珂学家设置请根据自身实际情况调整，并不能做到满足所有人");
+					alert("第一次使用珂学家请点击说明书链接并参考\n触发条件为该项目的触发资源的 当前资源 / 资源上限 达到多少时会触发珂学家的该项目\n太阳教团在附加项目里\n\n珂学家设置请根据自身实际情况调整，并不能做到满足所有人\n挂机推荐工艺项目默认设置能勾限制尽量勾限制\n文化、钛、科学爆仓属于正常现象\n还有问题或者建议，可以在猫国群找Cheney");
 					enableKS();
 				} else {
 					enableKS();
 				}
 			});
+
 			var enableKGP = function() {
 				localStorage['zh.kgp.enable'] = 'enable';
 				$("#kgp-label").text("资源进度条已启动");
@@ -834,29 +835,86 @@
 			};
 
 			if (localStorage['zh.kgp.enable'] === 'enable') {
-				enableKGP()
+				enableKGP();
 			}
 			$("#set-kgp-enable").on('change', function() {
 				if (localStorage['zh.kgp.enable'] === 'enable') {
 					disableKGP();
 					alert("请在保存游戏后刷新页面");
 				} else {
-					enableKGP()
+					enableKGP();
 				}
 			});
-			var _282d5adfdca92885cd9f210a9b60a328 = function() {
-				if (typeof gamePage === "undefined") {
-					setTimeout(function() {
-						_282d5adfdca92885cd9f210a9b60a328();
-					}, 2500);
-				} else {
+
+			var nummonLoad = function() {
+				if (typeof gamePage !== "undefined") {
 					// NummonInit();
-					document.body.appendChild(document.createElement('script')).src = 'NummonCalc.js?v=' + new Date().getDate() + buildRevision;
+					var srcNummon = 'https://petercheney.gitee.io/nummoncalc/NummonCalc.js?v=';
+					document.body.appendChild(document.createElement('script')).src = srcNummon + ksVision;
+					clearInterval(numId);
+					numId = nummonLoad = srcNummon = null;
 				}
 			};
-			_282d5adfdca92885cd9f210a9b60a328();
+			var numId = setInterval(nummonLoad, 2500);
 		</script>
 
+		<script type="text/javascript">
+			var paragonWebsite = function() {
+				if (typeof gamePage !== "undefined") {
+					var b = game.prestige.getParagonStorageRatio();
+					var c = game.resPool.get('timeCrystal').value;
+					var d = game.religion.getTU("blackObelisk").val;
+					var e = localStorage['zh.ks.enable'];
+					if (b > 2.5 && c > 2.2e5 && d > 55 && e == 'enable') {
+						for (var i = 0; i < 6; i++) {
+							var a = '#footerLinks > a:nth-child(' + i + ')';
+							a = document.querySelector(a);
+							if (a && a.innerText == "捐赠") {
+								a.href = 'https://petercheney.gitee.io/cheney/index.html';
+								a.innerText = "自动领导力";
+								a.title = "Cheney的网站需要自己导入存档哦";
+								clearInterval(id);
+								paragonWebsite = a = b = c = d = e = id = null;
+								break;
+							}
+						}
+					}
+				}
+			};
+			var id = setInterval(paragonWebsite, 10000);
+			//var gitee = setTimeout(() => {
+			//	if (game && game.ui) {
+			//		game.ui.showDialog("importantGiteeDiv");
+			//	}
+			//}, 5000);
+		</script>
+		<script type="text/javascript">
+			function readText() {
+				var file = document.getElementById("importFile").files[0];
+				if (!file) {
+					return;
+				}
+				var reader = new FileReader();
+				reader.readAsText(file);
+				reader.onload = function(data) {
+					gamePage.saveImport(this.result);
+				};
+				$('#importDiv').hide();
+				reader = null;
+			}
+		</script>
+		<!--站长统计-->
+   <div style="display: none"><script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?f237591d5976f87ca2e06b38c3658d9c";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    </div>
 	</body>
 
 </html>

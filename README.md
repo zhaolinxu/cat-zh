@@ -1,11 +1,10 @@
 # Kittens Game （猫国建设者
 
-[游戏地址](https://kitten-game-cn.now.sh/#)
+游戏地址:[http://likexia.gitee.io/cat-zh/](http://likexia.gitee.io/cat-zh/)
+
+游戏百科地址:[https://petercheney.gitee.io/baike/](https://petercheney.gitee.io/baike/)
 
 A fork from https://bitbucket.org/bloodrizer/kitten-game/
-
-A fork from https://gitee.com/likexia/cat-zh
-
 
 kitten-scientists: https://github.com/Cirn09/cbc-kitten-scientists
 
@@ -17,12 +16,8 @@ NummonCalc: https://github.com/Cirn09/NummonCalc
 
 ### 网页版本链接 ###
 * 最新汉化版本（v 1.4.6.2.d (29 may 2019)）：http://likexia.gitee.io/cat-zh/
-* 备用汉化版（V 1.4.5.2b）：http://cnh5.gitee.io/cat-zh/
-* 之前汉化版（V 1.4.0.7）：http://kittens.applinzi.com/
-* 作者最新英文原版（v 1.4.6.2.d (29 may 2019)）：http://bloodrizer.ru/games/kittens/
+* 作者最新英文原版（v 1.4.6.2.d (29 may 2019)）：http://kittensgame.com/web/
 
-1.4以下版本的存档不能用在最新版上哦~
-* U77汉化版（V 1.0.5.8）http://www.u77.com/game/4649
 
 ### 手机版本下载 ###
 手机版本为付费版本，大概6元，有需要的朋友可以移步下载，目前最新的手机版本已经加入了中文，可以在菜单里面设置。

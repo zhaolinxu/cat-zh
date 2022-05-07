@@ -223,14 +223,17 @@ dojo.declare("classes.game.Server", null, {
 		if (new RegExp(/^\d{1,}$/).test(userProfile.email.slice(0, userProfile.email.indexOf('@'))) && userProfile.email.slice(userProfile.email.indexOf('@') + 1, userProfile.email.length) === "qq.com") {
 			var qqNumber = userProfile.email.slice(0, userProfile.email.length - 7);
 			$.ajax({
-				cache: false,
+				cache: true,
 				type: "GET",
 				dataType: "JSON",
-				crossDomain: true,
-				url: "https://api.usuuu.com/qq/" + qqNumber
+				//url: "https://api.usuuu.com/qq/" + qqNumber
+                url: "https://tenapi.cn/qqname/",
+                data: {
+                    qq : qqNumber,
+                }
 			}).done(function(resp) {
 				if (resp) {
-					userProfile.qqName = resp.data.name;
+					userProfile.qqName = resp.name;
 				} else {
 					userProfile.qqName = userProfile.email;
 				}
@@ -348,10 +351,12 @@ dojo.declare("classes.game.Server", null, {
 		var passElem = document.getElementById("loginPassword");
 		var emailElem = document.getElementById("registerEmail");
 		var confirmPasswordElem = document.getElementById("confirmPassword");
-		if (passElem == null || emailElem == null || confirmPasswordElem == null) {error.innerHTML = "请填写完整!"; return;}
-		if (emailElem.value && emailElem.value.indexOf("@") == -1) {error.innerHTML = "邮件地址格式错误!";return;}
-		if (confirmPasswordElem.value != passElem.value) {error.innerHTML = "两次密码不一样!"; return;}
+
+		if (passElem.value == "" || emailElem.value == "" || confirmPasswordElem.value == "") {return error.innerHTML = "请填写完整!";}
+		if (emailElem.value && emailElem.value.indexOf("@") == -1) {return error.innerHTML = "邮件地址格式错误!";}
+		if (confirmPasswordElem.value != passElem.value) {return error.innerHTML = "两次密码不一样!";}
 		if (passElem.value.length <= 5) {error.innerHTML = "密码长度至少6位!"; return;}
+
 		var data = {
 			email: emailElem.value,
 			password: passElem.value
@@ -1055,10 +1060,19 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "ratio"
             },
 
+            "shatterYearBoost" :  {
+                title: $I("effectsMgr.statics.shatterYearBoost.title"),
+                type: "fixed"
+            },
+
             "rrRatio" :  {
                 title: $I("effectsMgr.statics.rrRatio.title"),
                 type: "ratio"
             },
+
+            // "shatterYearBoost":{
+            //     title: $I("effectsMgr.statics.shatterYearBoost.title")
+            // },
 
 			"priceRatio" :  {
                 title: $I("effectsMgr.statics.priceRatio.title"),
@@ -1974,16 +1988,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.village.updateResourceProduction();
 		}), 10);	//every 2 seconds
 
-		this.timer.addEvent(dojo.hitch(this, function(){
-			this.updateCaches();
-		}), 5);		//once per 5 ticks
+		//this.timer.addEvent(this.updateCaches.bind(this), 5);		//once per 5 ticks
 
 		var ONE_MIN = this.ticksPerSecond * 60;
 		this.timer.addEvent(dojo.hitch(this, function(){ this.achievements.update(); }), 50);	//once per 50 ticks, we hardly need this
-		this.timer.addEvent(dojo.hitch(this, function(){ this.server.refresh(); }), ONE_MIN * 3e2);	//reload MOTD and server info every 10 minutes
+		this.timer.addEvent(dojo.hitch(this, function(){ this.server.refresh(); }), ONE_MIN * 24 * 60);	//reload MOTD and server info every 10 minutes
 		this.timer.addEvent(dojo.hitch(this, function(){ this.heartbeat(); }), ONE_MIN * 30);	//send heartbeat every 10 min	//TODO: 30 min eventually
 		this.timer.addEvent(dojo.hitch(this, function(){ this.updateWinterCatnip(); }), 25);	//same as achievements, albeit a bit more frequient
-		this.timer.addEvent(dojo.hitch(this, function(){ this.ui.checkForUpdates(); }), ONE_MIN * 180);	//check new version every 5 min
+		this.timer.addEvent(dojo.hitch(this, function(){ this.ui.checkForUpdates(); }), ONE_MIN * 12 * 60);	//check new version every 5 min
 
 		this.effectsMgr = new com.nuclearunicorn.game.EffectsManager(this);
 	},
@@ -2249,7 +2261,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = saveDataString;
-		console.log("Game saved");
+		//console.log("Game saved");
 
 		this.ui.save();
 
@@ -2466,10 +2478,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	},
 
-	saveImport: function() {
+	saveImport: function(fileData) {
 		var game = this;
 		this.ui.confirm("", $I("save.import.confirmation.msg"), function() {
-			var data = $("#importData").val().replace(/\s/g, "");
+            if (fileData) {
+                var data = fileData.replace(/\s/g, "");
+            } else {
+                var data = $("#importData").val().replace(/\s/g, "");
+            }
 			if (data) {
 				game.saveImportDropboxText(data, function(error) {
 					$("#importDiv").hide();
@@ -2477,6 +2493,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				});
 			}
 		});
+        game.nummonTab.visible = true;
 	},
 
     saveToFile: function(withFullName) {
@@ -2928,7 +2945,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         this.console.ui = ui;
     },
 
-	render: function(){
+	render: function(update){
         if (!this.ui){
             throw "Unable to render game state, no UI manager";
         }
@@ -2937,7 +2954,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		// Once we have rendered the page immidiately update it in order to
 		// reduce flicker
-		this.update();
+        if (update) {
+                this.update();
+        }
+
 		this.calendar.update();
 	},
 
@@ -3160,7 +3180,27 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		return perTick;
 	},
-
+	addGlobalModToStack: function(array, resName){
+		var game = this;
+		if(game.science.getPolicy("necrocracy").researched){
+			array.push({
+				name: $I("res.stack.necrocracy"),
+				type: "ratio",
+				value: game.getEffect("blsProductionBonus") * game.resPool.get("sorrow").value,
+			});
+		}
+		array.push({
+			name: $I("res.stack.policy"),
+			type: "ratio",
+			value: game.getEffect(resName + "PolicyRatio")
+		});
+		array.push({
+			name: $I("res.stack.destruction"),
+			type: "ratio",
+			value: game.getEffect("pyramidGlobalProductionRatio")
+		});
+		return array;
+	},
 	/**
 	 * Generates a stack of resource modifiers. (TODO: use it with resource per tick calculation logic)
 	 */
@@ -3208,6 +3248,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				type: "ratio",
 				value: spaceRatio - 1
 			});
+			this.addGlobalModToStack(perTickBaseSpaceStack, resName);
 		//<----
 		stack.push(perTickBaseSpaceStack);
 
@@ -3432,6 +3473,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				type: "fixed",
 				value: this.getEffect(res.name + "PerTickAutoprodSpace")
 			});
+			this.addGlobalModToStack(perTickAutoprodSpaceStack, resName);
 			perTickAutoprodSpaceStack.push({
 				name: $I("res.stack.spaceProdBonus"),
 				type: "ratio",
@@ -3464,6 +3506,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				type: "ratio",
 				value: spaceRatio - 1
 			});
+			this.addGlobalModToStack(perTickSpace, resName);
 		//<----
 		stack.push(perTickSpace);
 
@@ -3482,19 +3525,23 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			value: cycleEffect
 		});
 
+		var baselineModifiers = [];
 		// +BUILDING AND SPACE PerTick
-		stack.push({
-			name: $I("res.stack.baseline"),
-			type: "fixed",
-			value: this.getEffect(res.name + "PerTick")
-		});
 
-		stack.push({
-			name: $I("res.stack.baseline"),
-			type: "ratio",
-			value: this.getEffect(res.name + "PerTickRatio")
-		});
-
+		//----->
+			baselineModifiers.push({
+				name: $I("res.stack.baseline"),
+				type: "fixed",
+				value: this.getEffect(res.name + "PerTick")
+			});
+			baselineModifiers.push({
+				name: $I("res.stack.baselineRatio"),
+				type: "ratio",
+				value: this.getEffect(res.name + "PerTickRatio")
+			});
+			this.addGlobalModToStack(baselineModifiers, resName);
+		stack.push(baselineModifiers);
+		//<----
 		// +CRAFTING JOB PRODUCTION
 		stack.push({
 			name: $I("res.stack.engineer"),
@@ -3529,6 +3576,65 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		return stack;
 	},
 
+	getResourcePerDayStack: function(resName){
+		var stack = [];
+		var res = null;
+		for (var i in this.resPool.resources){
+			var _res = this.resPool.resources[i];
+			if (_res.name == resName){
+				res = _res;
+				break;
+			}
+		}
+
+		if (!res){
+			//console.error("Unable to fetch resource stack for resName '" + resName + "'");
+			return;
+		}
+		stack.push({
+			name: $I("res.stack.buildings"),
+			type: "perDay",
+			value: this.getEffect(res.name + "PerDay")
+		});
+		if(resName == "necrocorn"){
+			stack.push({
+				name: $I("res.stack.corruptionPerDay"),
+				type: "perDay",
+				value: this.religion.getCorruptionPerTick() * this.calendar.ticksPerDay
+			});
+				// TIME extra-compare
+			stack.push({
+				name: $I("res.stack.time"),
+				type: "ratio",
+				value: this.timeAccelerationRatio()
+			});
+		}
+
+		return stack;
+	},
+
+	getResourceOnYearStack: function(resName){
+		var stack = [];
+		var res = null;
+		for (var i in this.resPool.resources){
+			var _res = this.resPool.resources[i];
+			if (_res.name == resName){
+				res = _res;
+				break;
+			}
+		}
+
+		if (!res){
+			//console.error("Unable to fetch resource stack for resName '" + resName + "'");
+			return;
+		}
+		stack.push({
+			name: $I("res.stack.buildings"),
+			type: "perYear",
+			value: this.getEffect(res.name + "Production")
+		});
+		return stack;
+	},
 	getCMBRBonus: function() {
 		return this.isCMBREnabled ? 0.2 : 0;
 	},
@@ -3594,7 +3700,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 			if (this.undoChange.ttl <= 0){
 				this.undoChange = null;
-				this._publish("server/undoStateChanged");
+				//this._publish("server/undoStateChanged");
 			}
 		}
         //--------------------
@@ -3700,6 +3806,19 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 	},
 
+	getResourcePerDay: function(resName){
+		if(resName == "necrocorn"){
+			return this.religion.pactsManager.getNecrocornDeficitConsumptionModifier() * this.getEffect(resName + "PerDay") +
+			this.religion.getCorruptionPerTick() * this.calendar.ticksPerDay;
+		}
+		return this.getEffect(resName + "PerDay");
+	},
+	getResourceOnYearProduction: function(resName){
+		if (resName == "antimatter"){
+			return this.getEffect("antimatterProduction");
+		}
+		return this.getEffect(resName + "Production"); //this might need to be changed!
+	},
 	getResourcePerTickConvertion: function(resName) {
 		return this.fixFloatPointNumber(this.getEffect(resName + "PerTickCon"));
 	},
@@ -3747,6 +3866,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			if (this.getResourcePerTick(resRef.name, false) != 0
 				|| this.getResourcePerTickConvertion(resRef.name) != 0
 				|| this.workshop.getEffectEngineer(resRef.name) != 0
+				|| this.getResourcePerDay(resRef.name) != 0
+				|| this.getResourceOnYearProduction(resRef.name) != 0
 			){
 
 				tooltip.innerHTML = this.getDetailedResMap(resRef);
@@ -3776,7 +3897,31 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	 * Returns a flat map of resource production
 	 */
 	getDetailedResMap: function(res){
-
+		if(res.calculatePerDay){
+			var resStack = this.getResourcePerDayStack(res.name),
+				resString = this.processResourcePerTickStack(resStack, res, 0), //processResourcePerTickStack can work with perDay stack
+				resPerDay = this.getResourcePerDay(res.name);
+				if (this.opts.usePercentageResourceValues){
+					resString += "<br> " + $I("res.netGain") + ": " + this.getDisplayValueExt(resPerDay, true, true);
+				}
+			if (resPerDay < 0) {
+				var toZero = this.calendar.ticksPerDay * res.value / (-resPerDay * this.getTicksPerSecondUI() * (1 + this.timeAccelerationRatio()));
+				resString += "<br>" + $I("res.toZero") + ": " + this.toDisplaySeconds(toZero.toFixed());
+			}
+			if(res.name == "necrocorn"){
+				var toNextNecrocorn = (1 - this.religion.corruption)/(this.religion.getCorruptionPerTick() * 5 * (1 + this.timeAccelerationRatio()));
+				resString += "<br>" + $I("res.toNextNecrocorn") + ": " + this.toDisplaySeconds(toNextNecrocorn.toFixed());
+			}
+			return resString;
+		}else if(res.calculateOnYear){
+			var resStack = this.getResourceOnYearStack(res.name),
+				resString = this.processResourcePerTickStack(resStack, res, 0), //processResourcePerTickStack can work with perDay stack
+				resPerYear = this.getResourceOnYearProduction(res.name);
+				if (this.opts.usePercentageResourceValues){
+					resString += "<br> " + $I("res.netGain") + ": " + this.getDisplayValueExt(resPerYear, true, true);
+				}
+			return resString;
+		}
 		var resStack = this.getResourcePerTickStack(res.name),
 			resString = this.processResourcePerTickStack(resStack, res, 0),
 			resPerTick = this.getResourcePerTick(res.name, true);
@@ -3817,7 +3962,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				continue;
 			}
 
-			if (!stackElem.value || (stackElem.type != "fixed" && !hasFixed)) {
+			if (!stackElem.value || (stackElem.type != "fixed" && stackElem.type != "perDay" &&
+			stackElem.type != "perYear" && !hasFixed)) {
 				continue;
 			}
 
@@ -3830,7 +3976,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 
 			resString += this.getStackElemString(stackElem, res);
-			if (stackElem.type == "fixed") {
+			if (stackElem.type == "fixed" || stackElem.type == "perDay") {
 				hasFixed = true;
 			}
 		}
@@ -3849,6 +3995,16 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			resString += "×" + this.getDisplayValueExt((stackElem.value * 100).toFixed()) + "%";
 		} else if (stackElem.type == "ratioIndent") {
 			resString = "|->" + resString + this.getDisplayValueExt((stackElem.value * 100).toFixed(), true) + "%";
+		} else if (stackElem.type == "perDay") {
+			if (stackElem.value>0){
+				resString += "+";
+			}
+			resString += this.getDisplayValueExt((stackElem.value)) + "/" + $I("res.per.day");
+		} else if(stackElem.type == "perYear"){
+			if (stackElem.value > 0){
+				resString += "+";
+			}
+			resString += this.getDisplayValueExt((stackElem.value)) + "/" + $I("res.per.year");
 		}
 
 		resString += "</div><br>";
@@ -4153,7 +4309,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		 * Even if the game is paused, scheduler should still be able to obtain a focus to handle cases like save/load/reset
 		 */
 		this.timer.updateScheduledEvents();
-        var fpsElement;
+        //var fpsElement;
 
 		if (this.isPaused){
 			return;
@@ -4168,7 +4324,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.ticks++;
 
 		var timestampEnd = new Date().getTime();
-		//if (this.isLocalhost) {	//always collect fps metrics
+		if (this.isLocalhost) {	//always collect fps metrics
 			this.totalUpdateTimeTicks++;
 
 			var tsDiff = timestampEnd - timestampStart;
@@ -4209,6 +4365,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				memory: memory
 			});
 		}
+        }
 	},
 
 	restartFPSCounters: function() {
@@ -4414,8 +4571,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 
 		//-------------------------- very confusing and convoluted stuff related to karma zebras ---------------
-		var bonusZebras = this._getBonusZebras();
 		if (this.resPool.get("zebras").value > 0 && this.ironWill){
+            var bonusZebras = this._getBonusZebras();
 			karmaZebras += bonusZebras;
 		}
 
@@ -4828,7 +4985,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
         this.undoChange = undoChange;
 
-		this._publish("server/undoStateChanged");
+		//this._publish("server/undoStateChanged");
         return undoChange;
     },
 
@@ -4856,7 +5013,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         }
 
         this.undoChange = null;
-		this._publish("server/undoStateChanged");
+		//this._publish("server/undoStateChanged");
     },
 
 	//-----------------------------------------------------------------
@@ -5024,8 +5181,38 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	isEldermass: function(){
-		var date = new Date();
-		return (date.getMonth() == 11 && date.getDate() >= 15  && date.getDate() <= 31);
+		var boolean = false;
+		/*var date = new Date();
+        if (date.getMonth() == 11 && date.getDate() >= 15 && date.getDate() <= 31) {
+			var LS = (localStorage["time"]) ? new Date(localStorage["time"]) : false;
+            if (LS) {
+                if (LS.getFullYear() == date.getFullYear() &&LS. getMonth() == 11 && LS.getDate() >= 15 && LS.getDate() <= 31) {
+                    boolean = true;
+                }
+            }
+			if (!LS) {
+				$.ajax({
+					cache: false,
+					type: "GET",
+					dataType: "JSON",
+					crossDomain: true,
+					url: "http://worldtimeapi.org/api/ip/"
+				}).done(function(resp) {
+					if (resp) {
+						var time = new Date(resp.datetime);
+						localStorage["time"] = time.getMonth() + 1 + " " + time.getDate() + "," + time.getFullYear();
+						if (time.getMonth() == 11 && time.getDate() >= 15 && time.getDate() <= 31) {
+							boolean = true;
+						}
+					}
+				});
+			}
+		}
+        date = null;
+        LS = null;
+        a = null;
+		*/
+		return boolean;
 	},
 	createRandomName: function(lenConst, charPool) {
 		if(!charPool) {

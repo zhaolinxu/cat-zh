@@ -111,6 +111,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		transient: true,
 		visible: true,
 		color: "#5A0EDE",
+		calculateOnYear: true,
 		isRefundable: function(game) {
 			return game.resPool.energyProd >= game.resPool.energyCons;
 		}
@@ -245,7 +246,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		type : "rare",			//todo: some special FX
 		visible: true,
 		color: "#E00000",
-		persists: false
+		persists: false,
+		calculatePerDay: true,
 	},{
 		name : "tears",
 		title: $I("resources.tears.title"),
@@ -293,6 +295,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		craftable: false,
 		visible: true,
 		color: "#5A0EDE",
+		calculatePerDay: true,
 		/*style: {
 			         animation : "neon-purple 1.5s ease-in-out infinite alternate",
 			"-webkit-animation": "neon-purple 1.5s ease-in-out infinite alternate",
@@ -702,9 +705,11 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 			maxValue = this.addResMaxRatios(res, maxValue);
 			
-			var challengeEffect = this.game.getLimitedDR(this.addResMaxRatios(res, this.game.getEffect(res.name + "MaxChallenge")), maxValue - 1);
-			maxValue += challengeEffect;
-
+			var challengeEffect = this.game.getEffect(res.name + "MaxChallenge");
+			if(challengeEffect){
+				challengeEffect = this.game.getLimitedDR(this.addResMaxRatios(res, challengeEffect), maxValue - 1);
+				maxValue += challengeEffect;
+			}
 			if (maxValue < 0 ){
 				maxValue = 0;
 			}

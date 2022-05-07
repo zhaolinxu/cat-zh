@@ -137,7 +137,17 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			});
 		}
 	},
-
+	getCorruptionPerTick: function(){
+		if (this.game.resPool.get("alicorn").value > 0) {
+			//30% bls * 20 Radiance should yield ~ 50-75% boost rate which is laughable but we can always buff it
+			var blsBoost = 1 + Math.sqrt(this.game.resPool.get("sorrow").value * this.game.getEffect("blsCorruptionRatio"));
+			var corruptionBoost = this.game.resPool.get("necrocorn").value > 0
+				? 0.25 * (1 + this.game.getEffect("corruptionBoostRatio")) // 75% penalty
+				: 1;
+			return this.game.getEffect("corruptionRatio") * blsBoost * corruptionBoost;
+		}
+		return 0;
+	},
 	update: function(){
 		if (this.game.resPool.get("faith").value > 0 || this.game.challenges.isActive("atheism") && this.game.bld.get("ziggurat").val > 0){
 			this.game.religionTab.visible = true;
@@ -893,7 +903,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		tier: 25,
 		priceRatio: 1.15,
 		effects: {
-			"maxKittensRatio": 0.01,
+			"maxKittensRatio": -0.01,
 			"simScalingRatio": 0.02,
 			"activeHG": 0
 		},
@@ -974,9 +984,17 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 		return (1 /
 			(
-				(1 - this.game.getLimitedDR(this.game.getEffect("maxKittensRatio"), 1))
+				(1 + this.game.getLimitedDR(this.game.getEffect("maxKittensRatio"), 1))
 			)
 		) *(1 + scalingRatio);
+	},
+
+	turnHGOff: function(){
+		var self = this;
+		this.game.ui.confirm("", $I("turnHGOff.confirmation.msg"), function() {
+			self.activeHolyGenocide = 0;
+			self.getTU("holyGenocide").on = 0;
+		});
 	},
 
 	praise: function(){
@@ -1745,7 +1763,7 @@ dojo.declare("classes.religion.pactsManager", null, {
 	resetState: function(){
 		//console.warn(this)
 		//console.warn(this.game.religion.pactsManager)
-		console.warn(this.game.religion.pactsManager.pacts);
+		//console.warn(this.game.religion.pactsManager.pacts);
 		for(var i in this.game.religion.pactsManager.pacts){
 			this.game.religion.pactsManager.pacts[i].on = 0;
 			this.game.religion.pactsManager.pacts[i].val = 0;
@@ -1767,6 +1785,19 @@ dojo.declare("classes.religion.pactsManager", null, {
 			}else{
 				return "";
 			}
+	},
+	getNecrocornDeficitConsumptionModifier: function(){
+		if (this.necrocornDeficit <= 0){
+			return 1;
+		}
+		var necrocornDeficitRepaymentModifier = 1;
+		var necrocornPerDay = this.game.getEffect("necrocornPerDay");
+		necrocornDeficitRepaymentModifier = 1 + 0.15 * (1 + this.game.getEffect("deficitRecoveryRatio")/2);
+		if((this.game.resPool.get("necrocorn").value + necrocornPerDay * necrocornDeficitRepaymentModifier) < 0){
+			necrocornDeficitRepaymentModifier = Math.max((necrocornPerDay * necrocornDeficitRepaymentModifier + this.game.resPool.get("necrocorn").value)/necrocornPerDay, 0);
+			return necrocornDeficitRepaymentModifier;
+		}
+		return necrocornDeficitRepaymentModifier;
 	},
 	necrocornConsumptionDays: function(days){
 		//------------------------- necrocorns pacts -------------------------

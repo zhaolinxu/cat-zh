@@ -2223,7 +2223,10 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			prices:[
 				{name : "science", val: 75000},
 				{name: 	"compedium", val: 75}
-			]
+			],
+			upgrades:{
+				buildings: ["academy"]
+			}
 	
 		}
 	],
@@ -2433,7 +2436,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 					}
 				);
             }
-
+            prices = null;
             return true;
 		} else if (forceAll) {
 			//console.log("not enough resources for ", prices, ", crafting as much as possible");
